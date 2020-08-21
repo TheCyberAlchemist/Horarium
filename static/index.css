@@ -9,7 +9,6 @@ th,td{
 	height: 100px;
 	/*font-size: 25px;*/
 	overflow: hidden;
-	border-radius: 10px;
 	/*display: inline;*/
 }
 .draggable { 
@@ -21,4 +20,4 @@ th,td{
 	margin: 10px 10px 10px 10px;
  	background-color: yellow;
  	border-radius: 10px;
- }
+}

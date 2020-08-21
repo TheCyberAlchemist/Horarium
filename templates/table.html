@@ -1,0 +1,40 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="{%static 'index.js'%}"></script>
+
+<table style = "width:{{table_width}}px">
+	<thead>
+		<th> 
+			Time
+		</th>
+		{% for day in days %}
+			<th>
+				{{day}}
+			</th>
+		{% endfor %}
+	</thead>
+	<tbody>
+		{% for period in periods %}
+			<tr>
+				<th>
+					{{period}}
+				</th>
+				{% for day in days %}
+					<td class = "droppable">	
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<div id = "dragzone">
+{% for event in events %}
+	<div>
+		<p class = "draggable" name = "{{event.event_name}}" color = "{{event.event_color}}" event_link = "{{event.event_link}}"style = "background-color: {{event.event_color}} ;position: initial;">
+			{{event.event_name}}
+		</p>
+	</div>
+{% endfor %}
+</div>

@@ -4,9 +4,14 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script type="text/javascript" src="{%static 'index.js'%}"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
+
+</script>
 <table style = "width:{{table_width}}px">
 	<thead>
-		<th> 
+		<th>
 			Time
 		</th>
 		{% for day in days %}
@@ -18,11 +23,11 @@
 	<tbody>
 		{% for period in periods %}
 			<tr>
-				<td>
+				<th>
 					{{period}}
-				</td>
+				</th>
 				{% for day in days %}
-					<td class = "droppable">	
+					<td class = "droppable">
 					</td>
 				{% endfor %}
 			</tr>

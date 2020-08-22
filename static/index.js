@@ -35,33 +35,38 @@ $(function(){
         // });
         }
     });
+    //  $('.save').click(function(){
+    //       var myrows = [];
+    //       var headerstext = [];
+    //       var $headers = $("th");
+    //       var $rows = $("tbody tr").each(function(index) {
+    //         $cells = $(this).find("td");
+    //         myrows[index] = {};
+    //
+    //         $cells.each(function(cellindex) {
+    //           // set the header text
+    //           if(headerstext[cellindex] === undefined) {
+    //             headerstext[cellindex] = $($headers[cellindex]).text();
+    //           }
+    //           // update the row object with the header/cell combo
+    //           myrows[index][headerstext[cellindex]] = $(this).attr("name");
+    //           // myrows[index][headerstext[comboellindex]] = $(this).attr("link");
+    //         });
+    //       })
+    //       let state = json.stringify(myrows,null," ");
+    //       console.log(state);
+    //       // super($item, container);
+    //       $.ajax({
+    //           type: "post",
+    //           data: state,
+    //           url: ""
+    //       });
+    //       // alert(state);
+    // });
     $('.save').click(function(){
-        var myRows = [];
-        var headersText = [];
-        var $headers = $("th");
-        var $rows = $("tbody tr").each(function(index) {
-          $cells = $(this).find("td");
-          myRows[index] = {};
-
-          $cells.each(function(cellIndex) {
-            // Set the header text
-            if(headersText[cellIndex] === undefined) {
-              headersText[cellIndex] = $($headers[cellIndex]).text();
-            }
-            // Update the row object with the header/cell combo
-            myRows[index][headersText[cellIndex]] = $(this).attr("name");
-            // myRows[index][headersText[comboellIndex]] = $(this).attr("link");
-          });    
-        })
-        let state = JSON.stringify(myRows,null," ");
-        console.log(state);
-        // super($item, container);
-        $.ajax({
-            type: "POST",
-            data: state,
-            url: ""
-        });
-        // alert(state);
+      var table = $('table').tableToJSON(); // Convert the table into a javascript object
+      console.log(table);
+      alert(JSON.stringify(table));
     });
 });
 // $(function() {
@@ -80,4 +85,3 @@ $(function(){
 //             }
 //         }
 // });
-

@@ -24,10 +24,12 @@
 		{% for period in periods %}
 			<tr>
 				<th>
-					{{period}}
+					<p>
+						{{period}}
+					</p>
 				</th>
 				{% for day in days %}
-					<td class = "droppable">
+					<td class = "droppable" name = "NONE">
 					</td>
 				{% endfor %}
 			</tr>
@@ -37,7 +39,7 @@
 <div id = "dragzone">
 {% for event in events %}
 	<div>
-		<p class = "draggable" name = "{{event.event_name}}" color = "{{event.event_color}}" event_link = "{{event.event_link}}"style = "background-color: {{event.event_color}} ;position: initial;">
+		<p pk = "{{event.id}}" class = "draggable" name = "{{event.event_name}}" color = "{{event.event_color}}" event_link = "{{event.event_link}}"style = "background-color: {{event.event_color}} ;position: initial;">
 			{{event.event_name}}
 		</p>
 	</div>

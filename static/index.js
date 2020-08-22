@@ -49,7 +49,7 @@ $(function(){
               headersText[cellIndex] = $($headers[cellIndex]).text();
             }
             // Update the row object with the header/cell combo
-            myRows[index][headersText[cellIndex]] = $(this).attr("color");
+            myRows[index][headersText[cellIndex]] = $(this).attr("name");
             // myRows[index][headersText[comboellIndex]] = $(this).attr("link");
           });    
         })

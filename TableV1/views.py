@@ -43,8 +43,8 @@ class view_table(View):
 		if request.method == "POST" and request.is_ajax():
 			try:
 			# Parse the JSON payload
-				data = json.loads(request.body)[0]
-				print(data)
+				data = json.loads(request.body)
+				print(data[1])
 			# Loop over our list order. The id equals the question id. Update the order and save
 			# for idx,question in enumerate(data):
 			#     pq = PaperQuestion.objects.get(paper=pk, question=question['id']) 

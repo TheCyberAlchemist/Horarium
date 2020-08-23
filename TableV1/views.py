@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-from .models import event_class
+from .models import event_class,timings
 import json
+import datetime
 from django.views import View
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
@@ -19,12 +20,21 @@ class view_table(View):
 		# ds.save()
 		# aem.save()
 		# math.save()
+		# s = datetime.time(1,30,0)
+		# e = datetime.time(2,30,0)
+		# # lect1 = timings.objects.create(start_time = s,end_time = e)
+		# # print(lect1.start_time.hour,lect1.end_time.hour)
+		# # print(lect1)
+		periods = timings.objects.all().order_by('start_time')
+		# sorted_periods = periods
+		periods[0].delta()
 		events = event_class.objects.all()
 		days = ['Monday','Tuesday','Wednesday','Thursday','Friday']#,'Saturday','Sunday'
 		context = {
 			'days': days,
-			'table_width': len(days) * 200,
-			'periods' : ['9-9:50','9:50-10:40','10:40-11:30'],
+			'table_width': len(days) * 240,
+			# 'periods' : ['9-9:50','9:50-10:40','10:40-11:30'],
+			'periods' : periods,
 			'events' : events,
 		}
 		return render(self.request, self.template_name,context)

@@ -6,7 +6,7 @@ table ,th,td{
 	border: 1px solid black;
 }
 th,td{
-	height: 100px;
+	height: 120px;
 	/*font-size: 25px;*/
 	overflow: hidden;
 	/*display: inline;*/

@@ -24,8 +24,8 @@ $(function(){
             pk = select.attr("pk");
         }
     }).disableSelection();
-    // console.log("hii");
-    $( ".droppable" ).droppable({
+    const newLocal = ".droppable";
+    $( newLocal ).droppable({
         drop: function( event, ui ) {
         let obj = $( this );
         obj.html(name)
@@ -36,34 +36,7 @@ $(function(){
         // });
         }
     });
-    //  $('.save').click(function(){
-        //       var myrows = [];
-        //       var headerstext = [];
-        //       var $headers = $("th");
-        //       var $rows = $("tbody tr").each(function(index) {
-        //         $cells = $(this).find("td");
-        //         myrows[index] = {};
-        //
-        //         $cells.each(function(cellindex) {
-        //           // set the header text
-        //           if(headerstext[cellindex] === undefined) {
-        //             headerstext[cellindex] = $($headers[cellindex]).text();
-        //           }
-        //           // update the row object with the header/cell combo
-        //           myrows[index][headerstext[cellindex]] = $(this).attr("name");
-        //           // myrows[index][headerstext[comboellindex]] = $(this).attr("link");
-        //         });
-        //       })
-        //       let state = json.stringify(myrows,null," ");
-        //       console.log(state);
-        //       // super($item, container);
-        //       $.ajax({
-        //           type: "post",
-        //           data: state,
-        //           url: ""
-        //       });
-        //       // alert(state);
-    // });
+    
     let a;
     $('.save').click(function(){
       var table = $('table').tableToJSON(
@@ -95,19 +68,3 @@ $(function(){
       });
     });
 });
-// $(function() {
-//         var csrftoken = Cookies.get('csrftoken');
-
-//     function csrfSafeMethod(method) {
-//         // these HTTP methods do not require CSRF protection
-//         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-//     }
-
-//     // Ensure jQuery AJAX calls set the CSRF header to prevent security errors
-//     $.ajaxSetup({
-//         beforeSend: function(xhr, settings) {
-//             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-//                 xhr.setRequestHeader("X-CSRFToken", csrftoken);
-//             }
-//         }
-// });

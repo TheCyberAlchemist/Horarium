@@ -3,8 +3,10 @@
 {% block title %}
 Table
 {% endblock %}
-{% block content %}
+{% block css %}
 <link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
+{% endblock %}
+{% block content %}
 <table style = "width:{{table_width}}px">
 	<thead>
 		<th>

@@ -1,14 +1,10 @@
+{% extends 'base.html' %}
 {% load static %}
+{% block title %}
+Table
+{% endblock %}
+{% block content %}
 <link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="{%static 'index.js'%}"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
-<script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
-<script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
-
-</script>
 <table style = "width:{{table_width}}px">
 	<thead>
 		<th>
@@ -46,3 +42,13 @@
 {% endfor %}
 </div>
 <button class = "save">Save</button>
+{% endblock %}
+{% block scripts %}
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script type="text/javascript" src="{%static 'index.js'%}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
+{% endblock %}

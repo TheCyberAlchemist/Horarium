@@ -235,17 +235,18 @@
 	<img src="blog1.jpg" class="div1_image"></img>
 	</div>
 	<div class="div2">
-		<form method="post" formvalidate="no-validate">
-				<img src="man.png" class="avatar" id="av" onclick="avatr()"> </img>
+		<form method="post">
+		{% csrf_token %}
+			<img src="man.png" class="avatar" id="av" onclick="avatr()"> </img>
 				
-				<table class="tab">
+			<table class="tab">
 				<tr>
 				<td style="font-size:35px;color:white;padding-bottom:30px;text-align:center;font-family:Helvetica">Create Account </td>
 				</tr>
-				
-				
+
 				<tr>
-				<td><input type="text" name="name" id="name" placeholder="Name"  pattern="[A-Za-z]{2,3,4,5,6,7,8,9,10}" autocomplete="off" required></td>
+				<td>
+				<input type="text" name="name" id="name" placeholder="Name"  pattern="[A-Za-z]{2,3,4,5,6,7,8,9,10}" autocomplete="off" required></td>
 				</tr>
 				
 				<tr>
@@ -259,11 +260,6 @@
 				<tr>
 				<td><input type="password" name="cpwd" id="cpwd" placeholder="Confirm Password" required></td>
 				</tr>
-				
-				<tr>
-				<td><input type="tel" name="tel" id="tel" placeholder="Phone Number" pattern="[0-9]{10}" required></td>
-				</tr>
-				
 			</table>
 			<!--<button type="button" class="submit_but" onclick="submit()">Submit</button>-->
 			<input type="submit" class="submit_but" value="Submit" onclick="submith()"></input>

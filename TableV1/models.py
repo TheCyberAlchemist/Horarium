@@ -11,12 +11,11 @@ class event_class(models.Model):
 class timings(models.Model):
 	start_time = models.TimeField(auto_now=False, auto_now_add=False)
 	end_time = models.TimeField(auto_now=False, auto_now_add=False)
-	def delta(self):
-		# diff = dt.datetime.combine(dt.date.today(), self.end_time) - dt.datetime.combine(dt.date.today(), self.start_time)
-		diff = dt.datetime.combine(dt.date.today(), self.start_time) - dt.datetime.combine(dt.date.today(), self.end_time)
-		print(diff)
-		print(diff.total_seconds())
-		return diff
+	def delta(self): # Returns the time of the event ( always +ve for correct input and -ve for false input)
+		end_time = dt.datetime.combine(dt.date.today(), self.end_time)
+		start_time = dt.datetime.combine(dt.date.today(), self.start_time)
+		diff = end_time - start_time
+		return diff.total_seconds()
 	def __str__(self):
 		return str(self.start_time) + " - " + str(self.end_time)
 	

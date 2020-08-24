@@ -228,6 +228,7 @@
 	</div>
 	<div class="div2">
 		<form method="post" name="form1">
+		{% csrf_token %}
 				<img src="man.png" class="avatar" id="av" onclick="avatr()"> </img>
 				
 				<table class="tab">
@@ -236,17 +237,27 @@
 				</tr>
 				
 				<tr>
-				<td><input type="text" name="uname" id="uname" placeholder="Username" pattern="[a-z0-9._%+-]{2,3,4,5,6,7,8,9,10}"></td>
+				{% comment %} <input type="text" name="username" placeholder="Username..."  {% endcomment %}
+				<td><input type="text" name="username" id="uname" placeholder="Username" pattern="[a-z0-9._%+-]{2,3,4,5,6,7,8,9,10}"></td>
 				</tr>
 				
 				<tr>
-				<td><input type="password" name="lpwd" id="lpwd" placeholder="Enter Password"></td>
+				{% comment %} <input type="password" name="password" placeholder="Password..." class="form-control" > {% endcomment %}
+				<td><input type="password" name="password" id="lpwd" placeholder="Enter Password"></td>
 				</tr>
 	
 			</table>
-			<a href="automobile.html"><input type="submit" class="submit_but" value="Login" onclick="submitl()"></input></a><br>
+			{% comment %} <a href="automobile.html"> {% endcomment %}
+			<input type="submit" class="submit_but" value="Login"></input>
+			<br>
 			<font style="color:grey;font-family:algerian">Not a member?</font> <a href="nikal.html" class="a1">Sign up now</a>
 		</form>
+		<p style="color:red;font-family:algerian;font-size:20">
+			{{form.errors}}
+				{% for messsage in messages %}
+					{{messsage}}
+				{% endfor %}
+		</p>
 	</div>	
 </div>
 

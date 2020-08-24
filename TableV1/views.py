@@ -15,7 +15,6 @@ class view_table(View):
 	@method_decorator(ensure_csrf_cookie)
 	def get(self, request):
 		periods = timings.objects.all().order_by('start_time')
-		periods[0].delta()
 		events = event_class.objects.all()
 		days = ['Monday','Tuesday','Wednesday','Thursday','Friday']#,'Saturday','Sunday'
 		context = {

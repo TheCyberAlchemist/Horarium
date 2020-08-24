@@ -12,3 +12,4 @@ making front end
 selecting all the instances of the event by double or triple clicking on any cell
 selecting and editing an instance of event by right clicking
 grouping all the events by tagnames like 'lectures' and 'practicles' and making a search type of thing to see only that type of events
+assigning subjects for teachers and making timetable for teachers too

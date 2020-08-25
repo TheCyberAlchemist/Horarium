@@ -7,7 +7,10 @@ Table
 <link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
 {% endblock %}
 {% block content %}
-<p>Welcome,{{request.user}}</p>
+<p>Welcome,{{request.user}}
+<a href = "{% url 'logout' %}">logout </a>
+</p>
+
 <table style = "width:{{table_width}}px">
 	<thead>
 		<th>

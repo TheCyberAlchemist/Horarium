@@ -25,31 +25,29 @@
 	
 }
 </script>
-
-
 <style>
-.home
-{
-	transition: 0.5s;
-}
-.home:hover
-{
-	background: url("home-white.png");
-	background-size:40px;
-	opacity: 1;
-	z-index: 1;
-	background-repeat: no-repeat;
-}
-.category
-{
-	transition: 0.5s;
-	margin-right:10px;
-}
-.category:hover
-{
-	transition: 0.5s;
-	transform: rotate(90deg);
-}
+	.home
+	{
+		transition: 0.5s;
+	}
+	.home:hover
+	{
+		background: url("home-white.png");
+		background-size:40px;
+		opacity: 1;
+		z-index: 1;
+		background-repeat: no-repeat;
+	}
+	.category
+	{
+		transition: 0.5s;
+		margin-right:10px;
+	}
+	.category:hover
+	{
+		transition: 0.5s;
+		transform: rotate(90deg);
+	}
 	
 	
 	body
@@ -197,7 +195,7 @@
 	.heading{
 	padding-left:35px;
 	}
-	</style>
+</style>
 </head>
 <body>
 
@@ -245,27 +243,64 @@
 				</tr>
 
 				<tr>
-				<td>
-				<input type="text" name="name" id="name" placeholder="Name"  pattern="[A-Za-z]{2,3,4,5,6,7,8,9,10}" autocomplete="off" required></td>
+					<td>
+						<div class = "input">
+							{{form.username}}
+						</div>
+					</td>
+				{% comment %} <input type="text" name="name" id="name" placeholder="Name"  pattern="[A-Za-z]{2,3,4,5,6,7,8,9,10}" autocomplete="off" required></td> {% endcomment %}
 				</tr>
 				
 				<tr>
-				<td><input type="text" name="email" id="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required></td>
+					<td>
+						{% comment %} <input type="text" name="email" id="email" placeholder="Email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" required> {% endcomment %}
+						<div class = "input">
+							{{form.email}}
+						</div>
+					</td>
 				</tr>
 				
 				<tr>
-				<td><input type="password" name="pwd" id="pwd" placeholder="Enter Password" required></td>
+					<td>
+						{% comment %} <input type="password" name="pwd" id="pwd" placeholder="Enter Password" required> {% endcomment %}
+						<div class = "input">
+							{{form.password1}}
+						</div>
+					</td>
 				</tr>
 				
 				<tr>
-				<td><input type="password" name="cpwd" id="cpwd" placeholder="Confirm Password" required></td>
+					<td>
+						{% comment %} <input type="password" name="cpwd" id="cpwd" placeholder="Confirm Password" required> {% endcomment %}
+						<div class = "input">
+							{{form.password2}}
+						</div>
+					</td>
 				</tr>
 			</table>
 			<!--<button type="button" class="submit_but" onclick="submit()">Submit</button>-->
-			<input type="submit" class="submit_but" value="Submit" onclick="submith()"></input>
-			
+			<input type="submit" class="submit_but" value="Register"></input>
+			<br><br><br>
+			<div>
+				<font style="color:grey;font-family:algerian">Already have an account? </font><a href="{% url 'login' %}" class="ml-2">Login</a>
+			</div>
+				<font style="color:grey;font-family:algerian">
+					{{form.errors}}
+				</font>
 		<form>
-	</div>	
+	</div>
 </div>
 </body>
+	<script>
+		var form_fields = document.getElementsByTagName('input')
+		form_fields[1].placeholder='Username..';
+		form_fields[2].placeholder='Email..';
+		form_fields[3].placeholder='Enter password...';
+		form_fields[4].placeholder='Re-enter Password...';
+
+
+		for (var field in form_fields){	
+			form_fields[field].className += ' form-control'
+		}
+	</script>
 </html>

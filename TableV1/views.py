@@ -31,7 +31,6 @@ class view_table(View):
 	def post(self, request):
 		if request.method == "POST" and request.is_ajax():
 			try:
-			# Parse the JSON payload
 				data = json.loads(request.body)
 				for i in data:
 					for day in global_days:
@@ -40,15 +39,10 @@ class view_table(View):
 							# print(i[day])
 							event_obj = event_class.objects.get(pk=value['event_pk'])
 							time_obj = timings.objects.get(pk=value['time_pk'])
+							# times = timings.objects.filter(user = request.user)
+							print(request.user.id)
 							obj = event(event_obj = event_obj,time_obj = time_obj)
-							print(obj)
 							obj.save()
-
-			# Loop over our list order. The id equals the question id. Update the order and save
-			# for idx,question in enumerate(data):
-			#     pq = PaperQuestion.objects.get(paper=pk, question=question['id']) 
-			#     pq.order = idx + 1
-			#     pq.save()
 				return HttpResponse("<p>Done</p>")
 			except KeyError:
 				HttpResponseServerError("Malformed data!")
@@ -62,9 +56,7 @@ class view_table(View):
 			form = selectdays(request.POST)
 			global global_days
 			global_days = request.POST.getlist('Days')
-			print(global_days,"hii")
 			return redirect('table')
-
 		return render(request,"abc.html",{'form':form})
 
 ########### adding objects

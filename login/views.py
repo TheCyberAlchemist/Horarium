@@ -20,7 +20,7 @@ def login_page(request):
 			messages.info(request,"username or password not correct")
 	context = {
 	}
-	return render(request,'login.html',context)
+	return render(request,'login/login.html',context)
 
 
 def logout_user(request):
@@ -39,7 +39,7 @@ def register(request):
 			messages.success(request,"Account made for " + user)
 			return redirect('login')
 	context = {'form': form}
-	return render(request,'register.html',context)
+	return render(request,'login/register.html',context)
 
 def home(request):
 	context = {

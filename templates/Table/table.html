@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'Table/base.html' %}
 {% load static %}
 {% block title %}
 Table
@@ -9,6 +9,7 @@ Table
 {% block content %}
 <p>Welcome,{{request.user}}
 <a href = "{% url 'logout' %}">logout </a>
+<a href = "{% url 'day_form' %}">day select</a>
 </p>
 
 <table style = "width:{{table_width}}px">
@@ -25,7 +26,7 @@ Table
 	<tbody>
 		{% for period in periods %}
 			<tr>
-				<th>
+				<th pk = "{{period.id}}">
 					<p>
 						{{period}}
 					</p>

@@ -44,16 +44,20 @@ $(function(){
         extractor : function(cellIndex, $cell) {
             if(cellIndex == '0' ){
                 a = $cell.find('p').html().trim();
+                p = $cell.attr('pk');
                 return {
                   // name: $cell.find('span').text(),
                   time:a,
+                  time_pk:p,
                 };
             }
             else{
+                console.log(p);
                 return {
-                  name: $cell.text().trim(),
-                  pk: $cell.attr('pk'),
-                  time:a,
+                    name: $cell.text().trim(),
+                    event_pk: $cell.attr('pk'),
+                    time_pk: p,
+                    //   time:a,
                 };
             }
         }

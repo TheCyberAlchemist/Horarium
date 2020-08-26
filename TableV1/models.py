@@ -18,4 +18,10 @@ class timings(models.Model):
 		return diff.total_seconds()
 	def __str__(self):
 		return str(self.start_time) + " - " + str(self.end_time)
+
+class event(models.Model):
+	event_obj = models.ForeignKey(event_class, on_delete=models.PROTECT)
+	time_obj = models.ForeignKey(timings, on_delete=models.PROTECT)
+	def __str__(self):
+		return str(self.event_obj.event_name) + " at " + str(self.time_obj)
 	

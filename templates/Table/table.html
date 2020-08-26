@@ -32,7 +32,7 @@ Table
 					</p>
 				</th>
 				{% for day in days %}
-					<td class = "droppable" name = "NONE">
+					<td class = "droppable" name = "NONE" day = {{day}}>
 					</td>
 				{% endfor %}
 			</tr>
@@ -40,14 +40,17 @@ Table
 	</tbody>
 </table>
 <div id = "dragzone">
-{% for event in events %}
+{% for event_butt in event_butts %}
 	<div>
-		<p pk = "{{event.id}}" class = "draggable" name = "{{event.event_name}}" color = "{{event.event_color}}" event_link = "{{event.event_link}}"style = "background-color: {{event.event_color}} ;position: initial;">
-			{{event.event_name}}
+		<p pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}} ;position: initial;">
+			{{event_butt.event_name}}
 		</p>
 	</div>
 {% endfor %}
 </div>
+{% for i in range(5) %}
+	{{i}}
+{% endfor %}
 <button class = "save">Save</button>
 {% endblock %}
 {% block scripts %}

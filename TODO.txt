@@ -18,3 +18,5 @@ assigning subjects for teachers and making timetable for teachers too
 making userid compulsory in all the models .
 before getting any object we will first filter all the objects bu userid and then provide the necessery objects.
 Thus making it more secure
+
+OR make a public or private field too and ask if the table is public or private

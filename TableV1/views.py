@@ -17,12 +17,15 @@ class view_table(View):
 	global global_days
 	@method_decorator(ensure_csrf_cookie)
 	def get(self, request):
-		periods = timings.objects.all().order_by('start_time')
-		events = event_class.objects.all()
+		periods = timings.objects.filter(owner=request.user).order_by('start_time')
+		event_butts = event_class.objects.filter(owner=request.user)
+		events = event.objects.filter(owner=request.user)
+		print(events)
 		context = {
 			'days': global_days,
 			'table_width': len(global_days) * 240,
 			'periods' : periods,
+			'event_butts' : event_butts,
 			'events' : events,
 		}
 		return render(self.request, self.template_name,context)
@@ -37,11 +40,14 @@ class view_table(View):
 						value = i[day]
 						if value['name'] and value['event_pk'] and value['time_pk']:
 							# print(i[day])
-							event_obj = event_class.objects.get(pk=value['event_pk'])
-							time_obj = timings.objects.get(pk=value['time_pk'])
+							temp_obj = event_class.objects.filter(owner=request.user)
+							event_obj = temp_obj.get(pk=value['event_pk'])
+							temp_obj = timings.objects.filter(owner=request.user)
+							time_obj = temp_obj.get(pk=value['time_pk'])
 							# times = timings.objects.filter(user = request.user)
 							print(request.user.id)
-							obj = event(event_obj = event_obj,time_obj = time_obj)
+							obj = event(event_obj = event_obj,time_obj = time_obj,day=value['day'],owner=request.user)
+							print(obj)
 							obj.save()
 				return HttpResponse("<p>Done</p>")
 			except KeyError:

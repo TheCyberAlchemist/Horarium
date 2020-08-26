@@ -31,9 +31,9 @@ $(function(){
         obj.html(name)
         obj.css({"background-color":color})
         obj.attr({"name":name ,"color":color,"event_link":event_link,"pk":pk});
-        // obj.click(function() {
-        //   open(event_link);
-        // });
+        obj.click(function() {
+          open(event_link);
+        });
         }
     });
     
@@ -52,11 +52,11 @@ $(function(){
                 };
             }
             else{
-                console.log(p);
                 return {
                     name: $cell.text().trim(),
                     event_pk: $cell.attr('pk'),
                     time_pk: p,
+                    day: $cell.attr('day'),
                     //   time:a,
                 };
             }

@@ -65,6 +65,10 @@ class view_table(View):
 			return redirect('table')
 		return render(request,"abc.html",{'form':form})
 
+
+
+def view_nav(request) :
+	return render(request,'navbar.html') 
 ########### adding objects
 # dbms = event_class(event_name = 'DBMS',event_link = "",event_color = "red")
 # ds = event_class(event_name = 'DS',event_link = "",event_color = "#0f0")

@@ -1,0 +1,74 @@
+*{
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'Do Hyeon', sans-serif;
+
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+.navv{
+  margin: 0px;
+  width: 100%;
+  text-decoration: none;
+  background-color: grey;
+  min-height: 8vh;
+  position: fixed;
+  /* justify-content: center; */
+  font-size: 20px;
+
+}
+.container{
+  background-color : black;
+}
+.logo{
+
+}
+
+.logotxt{
+  clear: right;
+  float: left;
+  margin-top: 15px;
+  /* justify-content: center; */
+  font-family: good-times;
+  margin-left: 18em;
+}
+.nav_items{
+    list-style: none;
+    display: inline;
+    float: right;
+    padding: 1em;
+}
+.show_user{
+  float: left;
+}
+a{
+  text-decoration: none;
+  color: white;
+  opacity: 0.7;
+}
+
+.nav_class :hover{
+  color: blue;
+}
+
+.menu{
+  display: none;
+}
+.menu div{
+  width:25px;
+  height: 5px;
+  background-color: black;
+  margin: 5px;
+}
+@media screen and (max-width : 768px){
+  body{
+    display: none;
+  }
+}
+
+@media screen and (max-width : 1024px){
+  body{
+    font-size: 15px;
+  }
+}

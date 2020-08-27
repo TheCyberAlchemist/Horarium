@@ -1,4 +1,5 @@
 {% extends 'Table/base.html' %}
+
 {% load static %}
 {% block title %}
 Table
@@ -6,7 +7,9 @@ Table
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
 {% endblock %}
+
 {% block content %}
+
 <p>Welcome,{{request.user}}
 <a href = "{% url 'logout' %}">logout </a>
 <a href = "{% url 'day_form' %}">day select</a>
@@ -48,9 +51,6 @@ Table
 	</div>
 {% endfor %}
 </div>
-{% for i in range(5) %}
-	{{i}}
-{% endfor %}
 <button class = "save">Save</button>
 {% endblock %}
 {% block scripts %}

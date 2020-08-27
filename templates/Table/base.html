@@ -1,3 +1,4 @@
+{%extends 'navbar.html'%}
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,6 +7,10 @@
 	{% block css %} {% endblock %}
 </head>
 <body>
+
+{%block navbar%}
+{% endblock %}
+
 {% block content %}
 {% endblock %}
 {# content block for the main contents of the body #}

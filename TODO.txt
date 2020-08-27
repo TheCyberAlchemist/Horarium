@@ -4,8 +4,18 @@ restrict duplicate timings while entering starting and ending times
 ::: Yogesh :::
 
 making div in table td and embedding event divs in new table for stable layout
-making front end 
 
+glitch not working
+
+formating navbar
+
+login and register page (adding static files and formatting)
+
+making logo 
+
+media queries
+
+adding to navbar(writing code to fetch other's timetable)
 
 ::::::::::::::
 
@@ -20,3 +30,13 @@ before getting any object we will first filter all the objects bu userid and the
 Thus making it more secure
 
 OR make a public or private field too and ask if the table is public or private
+
+
+
+Storing days for a user 
+
+public private key concept (adding a field for table id to all the models and making it public and adding tow step filtering 
+i.e. filtering for if first and the filtering for user )
+ :::::::::::::::::::::: Dev ::::::::::::::::::::::
+
+removing events having same time and day and adding new one

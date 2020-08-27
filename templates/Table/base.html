@@ -1,4 +1,5 @@
 {%extends 'navbar.html'%}
+{%block navbar_starts%}
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +8,10 @@
 	{% block css %} {% endblock %}
 </head>
 <body>
+{%endblock%}
 
-{%block navbar%}
-{% endblock %}
+
+{%block navbar_ends%}
 
 {% block content %}
 {% endblock %}
@@ -19,6 +21,7 @@
 {% endblock %}
 {# script block for all the scripts of the page #}
 </html>
+{% endblock %}
 
 {# for any doubts see line 46 #}
 

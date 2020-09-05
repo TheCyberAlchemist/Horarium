@@ -31,9 +31,8 @@ $(function(){
         obj.html(name)
         obj.css({"background-color":color})
         obj.attr({"name":name ,"color":color,"event_link":event_link,"pk":pk});
-        obj.click(function() {
-          open(event_link);
-        });
+        // making cells clickable
+        // obj.click(function(){open(event_link);});
         }
     });
     

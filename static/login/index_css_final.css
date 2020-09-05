@@ -1,0 +1,303 @@
+/* VERTICAL MENU*/
+
+.vertical-menu {
+	margin-top: 0px;
+	border-top: 0.5px solid grey;
+	margin-left: 1125px;
+  width: 225px;
+  position: fixed;
+  background-color: #343a40;
+  height: 0px;
+}
+
+.vertical-menu a {
+  background-color: #343a40;
+  color: grey;
+  display: block;
+  padding: 25px;
+  font-size: 19px;
+  transition: .3s;
+  text-decoration: none;
+}
+
+.vertical-menu a:hover {
+  background-color: #505962;
+  color: #cfcfcf;
+  font-size: 17px;
+  transition: .3s;
+  text-decoration: none;
+}
+
+.vertical-menu a.active {
+  background-color: #4CAF50;
+  color: white;
+}
+
+
+/*NAVBAR*/
+.category
+{
+	transition: 0.5s;
+}
+.category:hover
+{
+	transition: 0.5s;
+	transform: rotate(90deg);
+}
+.home
+{
+	transition: 0.5s;
+	width:40px;
+	height:40px;
+}
+.home:hover
+{
+	background: url("home-white.png");
+	background-size:40px;
+	opacity: 1;
+	z-index: 1;
+	background-repeat: no-repeat;
+	
+}
+nav
+{
+	width:100%;
+	height: 60px;
+}
+
+/*BODY*/
+body
+{
+	
+	background-size: 100%;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+
+	 background-image: linear-gradient(to right bottom, #b71ee1, #8562ff, #4885ff, #009eff, #00b2ff);
+}
+
+.big-div
+{
+	margin:100px 80px 80px; /*top-right-bottom-left*/
+	border-radius: 20px;
+	height:700px;
+	width: 1200px;
+	background-color: white;
+	opacity: 0.3;
+}
+.content1
+{
+	height: 400px;
+	width: 200px;
+	border-radius: 20px;
+	background-color: #cc66ff;
+	float: left;
+  clear: right;
+}
+.content2
+{
+	height: 200px;
+	width: 400px;
+	border-radius: 20px;
+	background-color: #cc66ff;
+	margin-left: 201px;
+	clear: right;
+
+}
+.content3
+{
+	height: 400px;
+	width: 200px;
+	border-radius: 20px;
+	background-color: #cc66ff;
+	margin-left: 601px;
+}
+
+img
+{
+	
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+	width: 650px;
+	height:300px;
+	
+}
+.d
+{
+	
+	font-family:Constantia, "Lucida Bright", "DejaVu Serif", Georgia, "serif";
+	text-align: center;
+	margin-left: -100px;
+	width: 1000px;
+	padding:50px;
+	
+}
+.div_handle_m
+{
+	padding-left: 400px;
+	float: left;
+	clear: right;
+	transition: 0.5s;
+}
+.div_handle_m:hover
+{
+	transition: 0.5s;
+	opacity: 0.8;
+}
+.div_handle
+{
+	float: left;
+	clear: right;
+	margin-left:20px;
+	transition: 0.5s;
+}
+.div_handle:hover
+{
+	opacity: 0.8;
+	transition: 0.5s;
+}
+.div_c_handle
+{
+	float: left;
+	margin-right: 4px;
+	height: 20px;
+	width: 20px;
+	clear: right;
+	transition: 0.5s;
+	opacity: 1;
+}
+.div_c_handle:hover
+{
+	opacity: 0.8;
+	transition: 0.5s;
+}
+.p
+{
+
+	scroll-behavior:smooth;
+	scrollbar-width:none;
+	width:650px;
+	height:150px;
+	overflow-y:auto;
+	overflow-x: hidden;
+	font-size: 20px;
+	opacity: 1;
+}
+#i1
+{
+	margin-top:17px;
+	margin-left:891px;
+	position: fixed; 
+	width:74px;
+	height: 74px;
+	transition: 0.5s;
+}
+
+#i1:hover
+{
+	width:75px;
+	height: 75px;
+	transition: 0.5s;
+	transform: rotate(360deg);
+}
+
+#i2
+{
+	margin-top:-205px;
+	margin-left:10px;
+	position: fixed; 
+	width:80px;
+	height: 80px;
+	transition: 0.4s;
+}
+
+#i2:hover
+{
+	width:80px;
+	height: 80px;
+	transition: 0.4s;
+	transform: rotate(360deg);
+}
+#i3
+{
+	margin-top:-620px;
+	margin-left:10px;
+	position: fixed; 
+	width:80px;
+	height: 80px;
+	transition: 0.4s;
+}
+#i3:hover
+{
+	width:80px;
+	height: 80px;
+	transition: 0.4s;
+	transform: rotate(360deg);
+}
+.blogger
+{
+	height: 50px;
+	width: 50px;
+	margin-left: 0px;
+	border-radius: 30px;
+}
+
+.form1
+{
+	margin-top:0px;
+	margin-left: 0px;
+	 /*box-shadow: 10px 10px 5px grey;*/
+	width:100%;
+	background-image: linear-gradient(315deg, #2d3436 0%, #000000 74%);
+	border-radius: 0px 0px 10px 10px;
+	color:floralwhite;
+}
+.page_icons
+{
+	height: 200px;
+	width: 200px;
+	margin-left: 580px;
+	margin-top: 0px;
+
+}
+.page {
+  display: inline-block;
+	}
+
+.page a {
+  color:black;
+  float: left;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+.all_imgs
+{
+	width: 80%;
+	padding-left: 30px;
+}
+
+@media only screen and (max-width: 430px)
+{
+	nav
+	{
+	 width:100%;
+		transition: 1s;
+		height:300px;
+		margin-bottom: 0px;
+	}
+	.form1 div 
+	{
+		width: 100%;
+	}
+	.page_icons
+	{
+		width: 100%;
+	}
+	.p
+	{
+		width: 100%;
+	}
+}
+

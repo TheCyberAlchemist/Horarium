@@ -1,8 +1,10 @@
 table{
 	border-collapse: collapse;
+margin-top: 400px;
 }
 table ,th,td{
-	table-layout: fixed;
+	/* table-layout: fixed; */
+	margin-top: 400px;
 	border: 1px solid black;
 }
 th,td{
@@ -11,10 +13,10 @@ th,td{
 	overflow: hidden;
 	/*display: inline;*/
 }
-.draggable { 
+.draggable {
 	width: 140px;
-	height: 80px; 
-	padding: 10px 10px 10px 10px; 
+	height: 80px;
+	padding: 10px 10px 10px 10px;
 	float: left;
 	display: inline-flex;
 	margin: 10px 10px 10px 10px;

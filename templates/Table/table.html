@@ -5,14 +5,15 @@
 Table
 {% endblock %}
 {% block css %}
-<link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'index.css' %}">
+
 {% endblock %}
 
 {% block content %}
 
 <p>Welcome,{{request.user}}
-<a href = "{% url 'logout' %}">logout </a>
-<a href = "{% url 'day_form' %}">day select</a>
+<!-- <a href = "{% url 'logout' %}">logout </a>
+<a href = "{% url 'day_form' %}">day select</a> -->
 </p>
 
 <table style = "width:{{table_width}}px">
@@ -54,11 +55,11 @@ Table
 <button class = "save">Save</button>
 {% endblock %}
 {% block scripts %}
-<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="{%static 'index.js'%}"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
-<script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
-<script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script type="text/javascript" src="{%static 'index.js'%}"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+	<script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
+	<script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
+	<script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
 {% endblock %}

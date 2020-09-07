@@ -35,7 +35,7 @@
 }
 .nav_items{
     list-style: none;
-    display: inline;
+    /* display: inline; */
     float: right;
     padding: 1em;
 }

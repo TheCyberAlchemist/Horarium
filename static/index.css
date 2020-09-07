@@ -1,7 +1,8 @@
 table{
 	border-collapse: collapse;
 	margin-top: 10vh;
-	margin-left: 4.5em;
+	margin-right: 10px;
+	margin-left: auto;
 }
 table ,th,td{
 	table-layout: fixed;

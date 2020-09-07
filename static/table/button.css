@@ -1,0 +1,106 @@
+
+body {
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+     }
+}
+
+.glitch {
+  color: black;
+  position: relative;
+   /* margin: 70px 200px; */
+  animation: glitch 2s 1s infinite;
+}
+
+.glitch::before {
+  content: attr(data-text);
+  position: absolute;
+  left: -2px;
+  text-shadow: -5px 0 magenta;
+  background: black;
+  overflow: hidden;
+  top: 0;
+  animation: noise-1 3s linear infinite alternate-reverse, glitch 5s 5.05s infinite;
+}
+
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 2px;
+  text-shadow: -5px 0 lightgreen;
+  background: black;
+  overflow: hidden;
+  top: 0;
+  animation: noise-2 3s linear infinite alternate-reverse, glitch 3s 3s infinite;
+}
+
+@keyframes glitch {
+  1%{
+    transform: rotateX(10deg) skewX(90deg);
+  }
+  2%{
+    transform: rotateX(0deg) skewX(0deg);
+  }
+}
+
+.butcontainer{
+  clear: right;
+  float: left;
+  background-color: grey;
+  align-items: center;
+  color: white;
+  border-radius: 10px;
+}
+table{
+  font-size: 30px;
+  border-spacing: 12px;
+}
+tr,td{
+
+}
+.addRow{
+  text-align: center;
+  /* justify-content: center;
+  display: flex; */
+  padding: 13px;
+  margin: auto;
+  font-size: 25px;
+  border-radius: 15px;
+  background-color: #333537;
+  border: none;
+}
+
+.addRow:hover{
+  background-color: #0F1011;
+}
+
+.addBut{
+  text-align: center;
+  margin: auto;
+  justify-content: center;
+  display: flex;
+  font-size: 25px;
+  border-radius: 20px;
+  /* background-color: #FF0042; */
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  border: none;
+  width: 100px;
+  transition: 0.4s;
+}
+
+.addBut:hover{
+
+  transform: rotate(270deg);
+  transition: 0.5s;
+}

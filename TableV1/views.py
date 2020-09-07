@@ -23,7 +23,7 @@ class view_table(View):
 		print(events)
 		context = {
 			'days': global_days,
-			'table_width': len(global_days) * 240,
+			'table_width': len(global_days) * 200,
 			'periods' : periods,
 			'event_butts' : event_butts,
 			'events' : events,
@@ -68,7 +68,7 @@ class view_table(View):
 
 
 # def view_nav(request) :
-# 	return render(request,'navbar.html') 
+# 	return render(request,'navbar.html')
 ########### adding objects
 # dbms = event_class(event_name = 'DBMS',event_link = "",event_color = "red")
 # ds = event_class(event_name = 'DS',event_link = "",event_color = "#0f0")

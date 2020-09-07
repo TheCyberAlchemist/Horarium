@@ -1,23 +1,33 @@
 table{
 	border-collapse: collapse;
+	margin-top: 10vh;
+	margin-left: 4.5em;
 }
 table ,th,td{
 	table-layout: fixed;
 	border: 1px solid black;
 }
 th,td{
-	height: 110px;
+	height: 15vh;
 	/*font-size: 25px;*/
 	overflow: hidden;
 	/*display: inline;*/
 }
-.draggable { 
+.draggable {
 	width: 140px;
-	height: 80px; 
-	padding: 10px 10px 10px 10px; 
+	height: 80px;
+	padding: 10px 10px 10px 10px;
 	float: left;
 	display: inline-flex;
 	margin: 10px 10px 10px 10px;
  	background-color: yellow;
+	position: initial;
  	border-radius: 10px;
+}
+
+.save{
+	width: 140px;
+	height: 40px;
+	border-radius: 10px;
+	background-color: green;
 }

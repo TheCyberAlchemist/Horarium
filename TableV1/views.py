@@ -74,12 +74,8 @@ class view_table(View):
 			return redirect('add_event')
 		return render(request,"Table/add_event.html",{'form':form})
 
-<<<<<<< Updated upstream
-
 # def view_nav(request) :
 # 	return render(request,'navbar.html')
-=======
->>>>>>> Stashed changes
 ########### adding objects
 # dbms = event_class(event_name = 'DBMS',event_link = "",event_color = "red")
 # ds = event_class(event_name = 'DS',event_link = "",event_color = "#0f0")

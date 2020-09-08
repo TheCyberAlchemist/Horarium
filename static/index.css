@@ -1,10 +1,17 @@
-table{
+/* body{
+	animation: fadeInAnimation ease 1s;
+	animation-iteration-count: 1;
+	animation-fill-mode: forwards;
+} */
+.main_table{
 	border-collapse: collapse;
 	margin-top: 10vh;
 	margin-right: 10px;
 	margin-left: auto;
+	table-layout: fixed;
+	border: 1px solid black;
 }
-table ,th,td{
+.main_table th,td{
 	table-layout: fixed;
 	border: 1px solid black;
 }

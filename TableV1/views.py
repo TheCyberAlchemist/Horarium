@@ -8,7 +8,7 @@ from json import dumps
 import json
 import datetime
 from .models import event_class,timings,event
-from .forms import selectdays,add_event
+from .forms import selectdays
 ######################
 
 global_days = ['Monday','Tuesday','Wednesday','Thursday','Friday']
@@ -30,6 +30,7 @@ class view_table(View):
 			'events' : events,
 		}
 		return render(self.request, self.template_name,context)
+
 
 	def post(self, request):
 		if request.method == "POST" and request.is_ajax():
@@ -66,22 +67,10 @@ class view_table(View):
 			return redirect('table')
 		return render(request,"abc.html",{'form':form})
 
-	def add_event(request):
-		form = add_event()
-		if request.method == 'POST':
-			form = add_event(request.POST)
-			candidate = form.save(commit=False)
-			candidate.owner = request.user
-			candidate.save()
-			return redirect('add_event')
-		return render(request,"Table/add_event.html",{'form':form})
 
-<<<<<<< Updated upstream
 
 # def view_nav(request) :
 # 	return render(request,'navbar.html')
-=======
->>>>>>> Stashed changes
 ########### adding objects
 # dbms = event_class(event_name = 'DBMS',event_link = "",event_color = "red")
 # ds = event_class(event_name = 'DS',event_link = "",event_color = "#0f0")

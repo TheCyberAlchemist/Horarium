@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime as dt
-
 class event_class(models.Model):
 	event_name = models.CharField(max_length = 20)
 	event_link = models.CharField(max_length = 200, null=True,blank=True)

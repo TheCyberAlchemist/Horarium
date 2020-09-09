@@ -1,7 +1,7 @@
 $(document).ready(function() {
 
   $('.addBut').click(function(){
-    console.log("HII");
+    // console.log("HII");
     var addB = ""
     $('.tbooty').append(addB);
   });

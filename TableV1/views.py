@@ -35,6 +35,7 @@ class view_table(View):
 		if request.method == "POST" and request.is_ajax():
 			try:
 				data = json.loads(request.body)
+				print(data)
 				for i in data:
 					for day in global_days:
 						value = i[day]

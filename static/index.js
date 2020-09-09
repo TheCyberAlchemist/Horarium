@@ -41,7 +41,7 @@ $(function(){
       {
         extractor : function(cellIndex, $cell) {
             if(cellIndex == '0' ){
-                a = $cell.find('p').html().trim();
+                a = ($cell.find('p').html()).trim();
                 p = $cell.attr('pk');
                 return {
                   // name: $cell.find('span').text(),
@@ -60,8 +60,8 @@ $(function(){
             }
         }
       }); // Convert the table into a javascript object
-      console.log(table);
       let state = JSON.stringify(table);
+      console.log(state);
       // alert(state);
       $.ajax({
           type: "post",

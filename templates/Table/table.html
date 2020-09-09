@@ -11,8 +11,8 @@ Table
 {% block content %}
 
 <p>Welcome,{{request.user}}
-<!-- <a href = "{% url 'logout' %}">logout </a>
-<a href = "{% url 'day_form' %}">day select</a> -->
+<a href = "{% url 'logout' %}">logout </a>
+<a href = "{% url 'day_form' %}">day select</a>
 </p>
 
 <table style = "width:{{table_width}}px">
@@ -42,22 +42,27 @@ Table
 		{% endfor %}
 	</tbody>
 </table>
-<center><button class = "save">Save</button></center>
 <div id = "dragzone">
+<<<<<<< HEAD
 
 <!-- {% for event_butt in event_butts %}
+=======
+{% for event_butt in event_butts %}
+>>>>>>> parent of e90dab9... unwanted login removed
 	<div>
-		<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}}">
+		<p pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}} ;position: initial;">
 			{{event_butt.event_name}}
-		</div>
+		</p>
 	</div>
+<<<<<<< HEAD
 {% endfor %} -->
 
+=======
+{% endfor %}
+>>>>>>> parent of e90dab9... unwanted login removed
 </div>
-
-
+<button class = "save">Save</button>
 {% endblock %}
-
 {% block scripts %}
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

@@ -1,34 +1,29 @@
 table{
 	border-collapse: collapse;
+<<<<<<< HEAD
 	margin-top: 10vh;
 	margin-right: 10px;
 	margin-left: auto;
+=======
+>>>>>>> parent of e90dab9... unwanted login removed
 }
 table ,th,td{
 	table-layout: fixed;
 	border: 1px solid black;
 }
 th,td{
-	height: 15vh;
+	height: 110px;
 	/*font-size: 25px;*/
 	overflow: hidden;
 	/*display: inline;*/
 }
-.draggable {
+.draggable { 
 	width: 140px;
-	height: 80px;
-	padding: 10px 10px 10px 10px;
+	height: 80px; 
+	padding: 10px 10px 10px 10px; 
 	float: left;
 	display: inline-flex;
 	margin: 10px 10px 10px 10px;
  	background-color: yellow;
-	position: initial;
  	border-radius: 10px;
-}
-
-.save{
-	width: 140px;
-	height: 40px;
-	border-radius: 10px;
-	background-color: green;
 }

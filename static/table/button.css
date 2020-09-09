@@ -1,3 +1,10 @@
+
+body {
+    animation: fadeInAnimation ease 1s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+}
+
 @keyframes fadeInAnimation {
     0% {
         opacity: 0;
@@ -9,10 +16,8 @@
 
 .glitch {
   color: black;
-  border-: 1px solid black;
-  /* position: relative; */
+  position: relative;
    /* margin: 70px 200px; */
-
   animation: glitch 2s 1s infinite;
 }
 
@@ -47,11 +52,6 @@
   }
 }
 
-.main_container{
-  margin-left : 30px;
-  margin-top : 50px;
-}
-
 .butcontainer{
   clear: right;
   float: left;
@@ -60,11 +60,11 @@
   color: white;
   border-radius: 10px;
 }
-#table_but{
-  /* font-size: 30px; */
+table{
+  font-size: 30px;
   border-spacing: 12px;
-  border: 1px solid black;
-  margin-left: 30px;
+}
+tr,td{
 
 }
 .addRow{
@@ -73,7 +73,7 @@
   display: flex; */
   padding: 13px;
   margin: auto;
-  /* font-size: 25px; */
+  font-size: 25px;
   border-radius: 15px;
   background-color: #333537;
   border: none;
@@ -88,7 +88,7 @@
   margin: auto;
   justify-content: center;
   display: flex;
-    /* font-size: 25px; */
+  font-size: 25px;
   border-radius: 20px;
   /* background-color: #FF0042; */
   padding-top: 10px;

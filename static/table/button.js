@@ -2,8 +2,8 @@ $(document).ready(function() {
 
   $('.addBut').click(function(){
     console.log("HII");
-    var addB = ""
-    $('.tbooty').append(addB);
+    var addB = "<tr><td class ='addRow' draggable='true' droppable='true'>Buttonasdfgh</td></tr>"
+    $('tbody').append(addB);
   });
   $('.addRow').sortable();
   // $('#removeRow').click(function(){

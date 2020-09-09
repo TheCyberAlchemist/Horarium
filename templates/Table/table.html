@@ -1,45 +1,21 @@
 {% extends 'Table/base.html' %}
+
 {% load static %}
 {% block title %}
 Table
 {% endblock %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
-<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
-<link rel="stylesheet" href="{%static 'table/button.css'%}">
 {% endblock %}
 
 {% block content %}
 
 <p>Welcome,{{request.user}}
- <a href = "{% url 'logout' %}">logout </a>
-<!-- <a href = "{% url 'day_form' %}">day select</a> -->
+<!-- <a href = "{% url 'logout' %}">logout </a>
+<a href = "{% url 'day_form' %}">day select</a> -->
 </p>
-<div class="main_container" style="margin-left : 30px; margin-top : 50px">
-	<div class="butcontainer" draggable="true">
 
-		<table id="table_but">
-			<thead>
-			<tr>
-				<th class="glitch">Buttons</th>
-			</tr>
-			</thead>
-			<tbody class="tbooty">
-				<tr>
-					<div>
-						<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}}">
-							{{event_butt.event_name}}
-						</div>
-					</div>
-				</tr>
-			</tbody>
-		</table>
-		<!-- <button name="add" > <img src="plus1.png" class="addBut" alt="plus"> </button> -->
-		<img src="{% static 'plus1.png' %}" class="addBut" alt="plus">
-	</div>
-</div>
-<table style = "width:{{table_width}}px" class="main_table">
+<table style = "width:{{table_width}}px">
 	<thead>
 		<th>
 			Time
@@ -90,8 +66,4 @@ Table
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
-<script src="{% static 'table/button.js'%}"></script>
 {% endblock %}

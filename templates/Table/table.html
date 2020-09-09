@@ -12,33 +12,34 @@ Table
 
 {% block content %}
 
-<p>Welcome,{{request.user}}
+<p>
+ Welcome,{{request.user}}
  <a href = "{% url 'logout' %}">logout </a>
-<!-- <a href = "{% url 'day_form' %}">day select</a> -->
+ <!-- <a href = "{% url 'day_form' %}">day select</a> -->
 </p>
+
+{% comment %} button table {% endcomment %}
 <div class="main_container" style="margin-left : 30px; margin-top : 50px">
 	<div class="butcontainer" draggable="true">
-
 		<table id="table_but">
 			<thead>
-			<tr>
-				<th class="glitch">Buttons</th>
-			</tr>
 			</thead>
 			<tbody class="tbooty">
-				<tr>
-					<div>
+				{% for event_butt in event_butts %}
+					<tr><td>
 						<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}}">
 							{{event_butt.event_name}}
 						</div>
-					</div>
-				</tr>
+					</td></tr>
+				{% endfor %}
 			</tbody>
 		</table>
 		<!-- <button name="add" > <img src="plus1.png" class="addBut" alt="plus"> </button> -->
 		<img src="{% static 'plus1.png' %}" class="addBut" alt="plus">
 	</div>
 </div>
+
+{% comment %} main table {% endcomment %}
 <table style = "width:{{table_width}}px" class="main_table">
 	<thead>
 		<th>
@@ -59,39 +60,33 @@ Table
 					</p>
 				</th>
 				{% for day in days %}
-					<td class = "droppable" name = "NONE" day = {{day}}>
-					</td>
+					<td class = "droppable" name = "NONE" day = "{{day}}"></td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
 	</tbody>
 </table>
+{% for event in events %}
+	<script>
+		abc = document.getElementById("{{event.day}} {{event.time_obj.id}}");
+		console.log(abc)
+	</script>
+{% endfor %}
 <center><button class = "save">Save</button></center>
-<div id = "dragzone">
-
-<!-- {% for event_butt in event_butts %}
-	<div>
-		<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}}">
-			{{event_butt.event_name}}
-		</div>
-	</div>
-{% endfor %} -->
-
-</div>
-
 
 {% endblock %}
 
 {% block scripts %}
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script type="text/javascript" src="{%static 'index.js'%}"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script type="text/javascript" src="{%static 'index.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-
 <script src="{% static 'table/button.js'%}"></script>
+
 {% endblock %}

@@ -40,3 +40,8 @@ i.e. filtering for if first and the filtering for user )
  :::::::::::::::::::::: Dev ::::::::::::::::::::::
 
 removing events having same time and day and adding new one
+
+
+::::::::::::::::::::::::::::::::;
+
+displaying date with day on display table

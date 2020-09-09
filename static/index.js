@@ -35,7 +35,6 @@ $(function(){
         // obj.click(function(){open(event_link);});
         }
     });
-    
     let a;
     $('.save').click(function(){
       var table = $('table').tableToJSON(

@@ -11,16 +11,16 @@
 	table-layout: fixed;
 	border: 1px solid black;
 }
-.main_table th,td{
+
+.main_table th,.main_table td{
 	table-layout: fixed;
 	border: 1px solid black;
-}
-th,td{
 	height: 15vh;
 	/*font-size: 25px;*/
 	overflow: hidden;
 	/*display: inline;*/
 }
+
 .draggable {
 	width: 140px;
 	height: 80px;

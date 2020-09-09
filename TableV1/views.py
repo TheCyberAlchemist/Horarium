@@ -3,7 +3,7 @@ from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse, HttpResponse
 from django.views import View
-
+from json import dumps
 #################
 import json
 import datetime
@@ -20,7 +20,8 @@ class view_table(View):
 		periods = timings.objects.filter(owner=request.user).order_by('start_time')
 		event_butts = event_class.objects.filter(owner=request.user)
 		events = event.objects.filter(owner=request.user)
-		print(events)
+		for e in events:
+			print(e.time_obj,e.day)
 		context = {
 			'days': global_days,
 			'table_width': len(global_days) * 200,

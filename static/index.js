@@ -37,11 +37,11 @@ $(function(){
     });
     let a;
     $('.save').click(function(){
-      var table = $('table').tableToJSON(
+      var table = $('.main_table').tableToJSON(
       {
         extractor : function(cellIndex, $cell) {
             if(cellIndex == '0' ){
-                a = ($cell.find('p').html()).trim();
+                a = $cell.find('p').html().trim();
                 p = $cell.attr('pk');
                 return {
                   // name: $cell.find('span').text(),

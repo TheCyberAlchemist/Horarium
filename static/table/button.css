@@ -47,15 +47,16 @@
 }
 
 .main_container{
-  margin-left : 30px;
-  margin-top : 50px;
+  margin-left : 20px;
+  margin-top : 70px;
 }
 
 .butcontainer{
-background-image: linear-gradient(to top, #2367cf, #1284de, #2d9ee8, #54b8f0, #7ed1f6);
+ /* background-image: linear-gradient(to left top, #0b0b0d, #0e0e0f, #101011, #121212, #141414); */
+ background-color: #27293D;
+ /* border: 1px solid white; */
   clear: right;
   float: left;
-  background-color: grey;
   align-items: center;
   color: white;
   border-radius: 10px;
@@ -63,8 +64,7 @@ background-image: linear-gradient(to top, #2367cf, #1284de, #2d9ee8, #54b8f0, #7
 #table_but{
   /* font-size: 30px; */
   border-spacing: 12px;
-  /* border: 1px solid black; */
-  margin-left: 30px;
+
 
 }
 .addRow{

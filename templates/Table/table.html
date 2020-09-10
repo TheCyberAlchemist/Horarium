@@ -53,7 +53,7 @@ Table
 			</th>
 		{% endfor %}
 	</thead>
-	<tbody>
+	<tbody class="table_time">
 		{% for period in periods %}
 			<tr>
 				<th pk = "{{period.id}}">
@@ -74,6 +74,7 @@ Table
 		console.log(abc)
 	</script>
 {% endfor %}
+<br>
 <center><button class = "save">Save</button></center>
 
 {% endblock %}

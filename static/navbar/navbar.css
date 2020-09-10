@@ -12,12 +12,14 @@
   width: 100%;
   text-decoration: none;
   background-image: linear-gradient(to left top, #0b0b0d, #0e0e0f, #101011, #121212, #141414);
+  /* background-color: #9B2BD3; */
   min-height: 8vh;
   position: fixed;
   font-size: 20px;
 }
 .container{
-  background-color : black;
+  /* background-color : black; */
+
 }
 .logo{
 

@@ -4,22 +4,21 @@
 	animation-fill-mode: forwards;
 } */
 body{
-	background-image: linear-gradient(to left top, #000000, #020101, #030203, #040305, #040407);
+	/* background-image: linear-gradient(to left top, #000000, #020101, #030203, #040305, #040407); */
+	background-color: #1e1e2e;
 }
 .main_table{
 	border-collapse: collapse;
-	border-color: white;
 	margin-top: 10vh;
 	margin-right: 10px;
 	margin-left: auto;
 	table-layout: fixed;
-	border:1px solid white;
 
 }
 
 .main_table th,.main_table td{
 	table-layout: fixed;
-	border:1px solid white;
+	border: 1px solid #9B2BD3;
 	height: 15vh;
 	color: white;
 	/*font-size: 25px;*/
@@ -38,10 +37,19 @@ body{
 	position: initial;
  	border-radius: 10px;
 }
-
+.table_time{
+	font-size: 14px;
+	text-align: center;
+}
 .save{
 	width: 140px;
 	height: 40px;
+	color: white;
+	font-size: 15px;
 	border-radius: 10px;
-	background-color: green;
+	background-color: #9B2BD3;
+	border: none;
+}
+.save :hover{
+	background-color: #8D16C8;
 }

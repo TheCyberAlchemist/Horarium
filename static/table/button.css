@@ -8,8 +8,7 @@
 }
 
 .glitch {
-  color: black;
-  border-: 1px solid black;
+  /* border-: 1px solid black; */
   /* position: relative; */
    /* margin: 70px 200px; */
 
@@ -53,6 +52,7 @@
 }
 
 .butcontainer{
+background-image: linear-gradient(to top, #2367cf, #1284de, #2d9ee8, #54b8f0, #7ed1f6);
   clear: right;
   float: left;
   background-color: grey;

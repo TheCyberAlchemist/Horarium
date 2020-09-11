@@ -13,29 +13,33 @@ body{
 	margin-right: 10px;
 	margin-left: auto;
 	table-layout: fixed;
-
 }
 
 .main_table th,.main_table td{
 	table-layout: fixed;
-	border: 1px solid #9B2BD3;
-	height: 15vh;
+	border: 2.5px solid #783673;
+	height: 65px;
 	color: white;
-	/*font-size: 25px;*/
 	overflow: hidden;
+	/*font-size: 25px;*/
 	/*display: inline;*/
 }
-
+.main_table tfoot:hover{
+	background-color: #333537;
+	/* width: 1000px;;
+	transition: 1s;
+	transition-property: initial; */
+	/* transition-timing-function: ease-in; */
+}
 .draggable {
 	width: 140px;
 	height: 80px;
 	padding: 10px 10px 10px 10px;
 	float: left;
-	display: inline-flex;
 	margin: 10px 10px 10px 10px;
  	background-color: yellow;
-	position: initial;
- 	border-radius: 10px;
+	border-radius: 10px;
+	color : white;
 }
 .table_time{
 	font-size: 14px;

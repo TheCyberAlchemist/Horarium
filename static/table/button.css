@@ -54,7 +54,6 @@
 .butcontainer{
  /* background-image: linear-gradient(to left top, #0b0b0d, #0e0e0f, #101011, #121212, #141414); */
  background-color: #27293D;
- /* border: 1px solid white; */
   clear: right;
   float: left;
   align-items: center;
@@ -64,23 +63,20 @@
 #table_but{
   /* font-size: 30px; */
   border-spacing: 12px;
-
-
 }
 .addRow{
   text-align: center;
-  /* justify-content: center;
-  display: flex; */
-  padding: 13px;
+  padding:0px 40px;
   margin: auto;
-  /* font-size: 25px; */
-  border-radius: 15px;
+  border-radius: 10px;
   background-color: #333537;
   border: none;
+  justify-content: center;
+  display: flex;
 }
 
 .addRow:hover{
-  background-color: #0F1011;
+  
 }
 
 .addBut{
@@ -88,19 +84,16 @@
   margin: auto;
   justify-content: center;
   display: flex;
-    /* font-size: 25px; */
   border-radius: 20px;
-  /* background-color: #FF0042; */
   padding-top: 10px;
   padding-bottom: 10px;
   color: white;
   border: none;
   width: 100px;
-  transition: 0.4s;
+  transition: 0.7s;
 }
-
 .addBut:hover{
 
   transform: rotate(270deg);
-  transition: 0.5s;
+  transition: 1s;
 }

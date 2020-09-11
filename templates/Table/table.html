@@ -3,7 +3,9 @@
 {% block title %}
 Table
 {% endblock %}
-{% block css %}
+{% block css %}	<!--  css links  -->
+
+
 <link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
@@ -19,7 +21,8 @@ Table
  <!-- <a href = "{% url 'day_form' %}">day select</a> -->
 </p>
 
-{% comment %} button table {% endcomment %}
+
+<!--button table-->
 
 <div class="main_container">
 	<div class="butcontainer" draggable="true">
@@ -27,7 +30,7 @@ Table
 			<thead>
 			</thead>
 			<tbody class="tbooty">
-				{% for event_butt in event_butts %}
+				{% for event_butt in event_butts %} <!-- show all events button -->
 					<tr><td>
 						<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}}">
 							{{event_butt.event_name}}
@@ -41,20 +44,20 @@ Table
 	</div>
 </div>
 
-{% comment %} main table {% endcomment %}
+<!-- main timetable -->
 <table style = "width:{{table_width}}px;" class="main_table">
 	<thead>
 		<th>
 			Time
 		</th>
-		{% for day in days %}
+		{% for day in days %}	<!--for all days in database-->
 			<th>
 				{{day}}
 			</th>
 		{% endfor %}
 	</thead>
 	<tbody class="table_time">
-		{% for period in periods %}
+		{% for period in periods %} <!--for all time periods in database-->
 			<tr>
 				<th pk = "{{period.id}}">
 					<p>
@@ -62,7 +65,10 @@ Table
 					</p>
 				</th>
 				{% for day in days %}
-					<td class = "droppable" name = "NONE" day = "{{day}}" period = "{{period.id}}"></td>
+					<td class = "droppable" name = "NONE" day = "{{day}}" period = "{{period.id}}">
+						<div class = "td_div">
+						</div>
+					</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
@@ -74,17 +80,20 @@ Table
 
   </tfoot> {% endcomment %}
 </table>
-{% comment %} {% for event in events %}
+{% for event in events %}	<!--iterating over all events in database -->
 	<script>
-		abc = document.getElementsByClassName("droppable");
-		for (i = 0 ; i < abc.length ; i++){
-			day = abc[i].getAttribute("day");
-			period_id = abc[i].getAttribute("period");
-			//if(day == event.day)
-			//	console.log(day);
+		td = document.getElementsByClassName("droppable");
+		for (i = 0 ; i < td.length ; i++){
+			day = td[i].getAttribute("day");
+			period_id = td[i].getAttribute("period");
+			// if day of event and day of cell is same 
+			// and period id of event object and period id of cell is same
+			if(day == "{{event.day}}" && period_id == {{event.time_obj.id}}){
+				console.log(td[i]);
+			}
 		}
 	</script>
-{% endfor %} {% endcomment %}
+{% endfor %}
 <br>
 <center><button class = "save">Save</button></center>
 

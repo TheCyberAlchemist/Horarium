@@ -1,4 +1,5 @@
 $(function(){
+////////////// ajax setup   /////////////////////////
     var csrftoken = Cookies.get('csrftoken');
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
@@ -12,6 +13,9 @@ $(function(){
             }
         }
     });
+///////////////////////////////////////////////////////
+////////////// draggable    /////////////////////////
+
     $(".draggable").draggable({
         revert: true,
         cursor: "move",
@@ -24,43 +28,50 @@ $(function(){
             pk = select.attr("pk");
         }
     }).disableSelection();
+///////////////////////////////////////////////////////
+////////////// dropable    /////////////////////////
+
     const newLocal = ".droppable";
     $( newLocal ).droppable({
         drop: function( event, ui ) {
-        let obj = $( this );
-        obj.html(name)
-        obj.css({"background-color":color})
-        obj.attr({"name":name ,"color":color,"event_link":event_link,"pk":pk});
+        let td = $( this );
+        let div = td.find("div");   // get child div of td
+        // td.html(name)
+        // td.css({"background-color":color})
+        td.attr({"name":name ,"color":color,"event_link":event_link,"pk":pk}); //set attirbute of td 
+        div.html(name)
+        div.css({"background-color":color})
         // making cells clickable
         // obj.click(function(){open(event_link);});
         }
     });
-    let a;
+///////////////////////////////////////////////////////
+////////////// save click     /////////////////////////
     $('.save').click(function(){
-      var table = $('.main_table').tableToJSON(
+        let text;
+      var table = $('.main_table').tableToJSON(// calling tableToJSON
       {
         extractor : function(cellIndex, $cell) {
-            if(cellIndex == '0' ){
-                a = $cell.find('p').html().trim();
-                p = $cell.attr('pk');
+            if(cellIndex == '0' ){// if it is t-heading
+                text = $cell.find('p').html().trim();
+                p = $cell.attr('pk');// get attribute period primary key
                 return {
                   // name: $cell.find('span').text(),
-                  time:a,
+                  time:text,
                   time_pk:p,
                 };
             }
             else{
                 return {
                     name: $cell.text().trim(),
-                    event_pk: $cell.attr('pk'),
+                    event_pk: $cell.attr('pk'),// set attribute period primary key
                     time_pk: p,
-                    day: $cell.attr('day'),
-                    //   time:a,
+                    day: $cell.attr('day'),// set attribute day
                 };
             }
         }
       }); // Convert the table into a javascript object
-      let state = JSON.stringify(table);
+      let state = JSON.stringify(table); // final JSON to be passed through ajax
       console.log(state);
       // alert(state);
       $.ajax({

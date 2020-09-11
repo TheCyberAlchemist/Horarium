@@ -62,18 +62,29 @@ Table
 					</p>
 				</th>
 				{% for day in days %}
-					<td class = "droppable" name = "NONE" day = "{{day}}"></td>
+					<td class = "droppable" name = "NONE" day = "{{day}}" period = "{{period.id}}"></td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
 	</tbody>
+	{% comment %} <tfoot>
+    <tr>
+      <td colspan = "{{day_len}}"  ><img src="{% static 'plus1.png' %}" class="addRow" alt="plus"></td>
+    </tr>
+
+  </tfoot> {% endcomment %}
 </table>
-{% for event in events %}
+{% comment %} {% for event in events %}
 	<script>
-		abc = document.getElementById("{{event.day}} {{event.time_obj.id}}");
-		console.log(abc)
+		abc = document.getElementsByClassName("droppable");
+		for (i = 0 ; i < abc.length ; i++){
+			day = abc[i].getAttribute("day");
+			period_id = abc[i].getAttribute("period");
+			//if(day == event.day)
+			//	console.log(day);
+		}
 	</script>
-{% endfor %}
+{% endfor %} {% endcomment %}
 <br>
 <center><button class = "save">Save</button></center>
 

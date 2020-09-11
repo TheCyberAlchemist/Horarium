@@ -24,7 +24,6 @@ class view_table(View):
 			print(e.time_obj,e.day)
 		context = {
 			'days': global_days,
-			'day_len': len(global_days)+1,
 			'table_width': len(global_days) * 200,
 			'periods' : periods,
 			'event_butts' : event_butts,

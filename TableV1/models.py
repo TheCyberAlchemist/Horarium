@@ -20,11 +20,9 @@ class timings(models.Model):
 		start_time = dt.datetime.combine(dt.date.today(), self.start_time)
 		diff = end_time - start_time
 		return diff.total_seconds()
-
+		
 	def __str__(self):
-		min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
-		print(min)
-		return str(self.start_time.hour) + ":"+ min + " - " + str(self.end_time.hour) + ":"+ str(self.end_time.minute)
+		return str(self.start_time) + " - " + str(self.end_time)
 
 DAYS_OF_WEEK = (
     ('Monday', 'Monday'),

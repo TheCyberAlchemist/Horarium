@@ -7,7 +7,7 @@ from django.views import View
 import json
 import datetime
 from .models import event_class,timings,event
-from .forms import selectdays	# for selecting the days
+from .forms import selectdays,add_event	# for selecting the days
 ######################
 
 global_days = ['Monday','Tuesday','Wednesday','Thursday','Friday']
@@ -89,3 +89,13 @@ class view_table(View):
 			# changing the global days variable so when the get is called it has new days
 			return redirect('table')
 		return render(request,"Table/select_days.html",{'form':form})
+
+	def add_event(request):
+		form = add_event()
+		if request.method == 'POST':
+			form = add_event(request.POST)
+			candidate = form.save(commit=False)
+			candidate.owner = request.user
+			candidate.save()
+			return redirect('add_event')
+		return render(request,"Table/add_event.html",{'form':form})

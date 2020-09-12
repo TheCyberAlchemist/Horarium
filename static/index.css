@@ -57,3 +57,67 @@ body{
 .save :hover{
 	background-color: #8D16C8;
 }
+
+.form-container{
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0,0,0,0.7);
+	position: absolute;
+	top : 0;
+	display: none;
+	justify-content: center;
+	align-items: center;
+}
+.form-container-div{
+	height: auto;
+	width: 500px;
+	background-color: #1e1e2e;
+	border-radius: 10px;
+	text-align: center;
+	padding: 20px;
+	color: black;
+	position: relative;
+}
+.myform{
+	padding-top: 20px;
+	justify-content: center;
+	align-items: center;
+}
+
+.myform  input{
+	border-radius: 10px;
+	width: 70%;
+	display: block;
+	font-size: 15px;
+	padding: 5px;
+	margin : 15px auto;
+}
+.color-selector{
+display:inline-flex;
+padding: 5px;
+/* border: 1px solid pink; */
+width: 100%;
+}
+.color-selector div{
+	padding: 5px;
+	background-color: inherit;
+	justify-content: center;
+	text-align: center;
+	margin: 10px;
+	height: 40px;
+	width: 40px;
+	border-radius: 30px;
+}
+
+#close-form{
+	position: absolute;
+	top : 0;
+	color: grey;
+	right: 14px;
+	font-size: 40px;
+	transform: rotate(45deg);
+	cursor: pointer;
+}
+.formsave{
+
+}

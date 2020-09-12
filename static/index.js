@@ -38,7 +38,7 @@ $(function(){
         let div = td.find("div");   // get child div of td
         // td.html(name)
         // td.css({"background-color":color})
-        td.attr({"name":name ,"color":color,"event_link":event_link,"pk":pk}); //set attirbute of td 
+        td.attr({"name":name ,"color":color,"event_link":event_link,"pk":pk}); //set attirbute of td
         div.html(name)
         div.css({"background-color":color})
         // making cells clickable
@@ -81,3 +81,11 @@ $(function(){
       });
     });
 });
+
+function openform(){
+    document.getElementById('form-container').style.display = "block";
+}
+
+function closeform(){
+  document.getElementById('form-container').style.display = "none";
+}

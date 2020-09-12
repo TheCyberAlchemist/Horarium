@@ -1,5 +1,4 @@
 from django import forms
-from .models import event_class
 
 DAYS = [
     ('Monday','Monday'),
@@ -17,9 +16,3 @@ class selectdays(forms.Form):
         widget=forms.CheckboxSelectMultiple,
         choices=DAYS,
     )
-
-class add_event(forms.ModelForm):
-    class Meta: 
-        model = event_class
-        exclude = ['owner']
-        fields = "__all__"

@@ -25,7 +25,7 @@ Table
 <!--button table-->
 
 <div class="main_container">
-	<div class="butcontainer" draggable="true">
+	<div class="butcontainer">
 		<table id="table_but">
 			<thead>
 			</thead>
@@ -66,12 +66,18 @@ Table
 				</th>
 				{% for day in days %}
 					<td class = "droppable" name = "NONE" day = "{{day}}" period = "{{period.id}}">
-						<div class = "td_div">
-						</div>
+						<div class = "td_div"></div>
 					</td>
 				{% endfor %}
 			</tr>
 		{% endfor %}
+		{% comment %} <tr>
+			<th pk = "5">
+					<p>
+						
+					</p>
+				</th>
+		</tr> {% endcomment %}
 	</tbody>
 	{% comment %} <tfoot>
     <tr>
@@ -80,20 +86,27 @@ Table
 
   </tfoot> {% endcomment %}
 </table>
-{% for event in events %}	<!--iterating over all events in database -->
-	<script>
-		td = document.getElementsByClassName("droppable");
+<script>
+	td = document.getElementsByClassName("droppable");
+	{% for event in events %}	//iterating over all events in database
 		for (i = 0 ; i < td.length ; i++){
 			day = td[i].getAttribute("day");
 			period_id = td[i].getAttribute("period");
 			// if day of event and day of cell is same 
 			// and period id of event object and period id of cell is same
 			if(day == "{{event.day}}" && period_id == {{event.time_obj.id}}){
-				console.log(td[i]);
+				//console.log(td[i]);
+				//console.log("{{event.event_obj}}");
+				var div = td[i].getElementsByClassName("td_div")[0];
+				td[i].setAttribute("name","{{event.event_obj}}");
+				td[i].setAttribute("pk","{{event.event_obj.id}}");
+				div.innerHTML="{{event.event_obj}}";
+				div.style.backgroundColor = "{{event.event_obj.event_color}}";
+				break;
 			}
 		}
-	</script>
-{% endfor %}
+	{% endfor %}
+</script>
 <br>
 <center><button class = "save">Save</button></center>
 

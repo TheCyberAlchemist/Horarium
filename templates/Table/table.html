@@ -40,9 +40,33 @@ Table
 			</tbody>
 		</table>
 		<!-- <button name="add" > <img src="plus1.png" class="addBut" alt="plus"> </button> -->
-		<img src="{% static 'plus1.png' %}" class="addBut" alt="plus">
+		<img src="{% static 'plus1.png' %}" class="addBut" alt="plus" onclick="openform()">
 	</div>
 </div>
+
+<!-- POP UP FORM  -->
+
+  <div class="form-container" id="form-container-id">
+    <div class="form-container-div">
+      <div id="close-form" onclick="closeform()">+</div>
+      <form class="myform" id="myform-id">
+      <input type="text" name="Eventname" placeholder="Event Name"><br>
+      <input type="time" name="time" placeholder="Time">
+      <div class="color-selector">
+        <div style="background-color:red"></div>
+        <div style="background-color:blue"></div>
+        <div style="background-color:green"></div>
+        <div style="background-color:pink"></div>
+        <div style="background-color:cyan"></div>
+        <div style="background-color:yellow"></div>
+        <div style="background-color:orange"></div>
+      </div>
+      <input type="submit" name="save-button" value="Save">
+      </form>
+	  </div>
+  </div>
+
+  <!-- POP UP FORM ENDS -->
 
 <!-- main timetable -->
 <table style = "width:{{table_width}}px;" class="main_table">
@@ -74,7 +98,7 @@ Table
 		{% comment %} <tr>
 			<th pk = "5">
 					<p>
-						
+
 					</p>
 				</th>
 		</tr> {% endcomment %}
@@ -92,7 +116,7 @@ Table
 		for (i = 0 ; i < td.length ; i++){
 			day = td[i].getAttribute("day");
 			period_id = td[i].getAttribute("period");
-			// if day of event and day of cell is same 
+			// if day of event and day of cell is same
 			// and period id of event object and period id of cell is same
 			if(day == "{{event.day}}" && period_id == {{event.time_obj.id}}){
 				//console.log(td[i]);

@@ -25,20 +25,37 @@ $(function(){
             event_link = select.attr("event_link");
             name = select.attr("name");
             color = select.attr("color");
-            pk = select.attr("pk");
+            pk = select.attr("pk"); //  event_button pk
         }
     }).disableSelection();
 ///////////////////////////////////////////////////////
+////////////// td draggable    /////////////////////////
+$(".td_div").draggable({
+    containment: "window",
+    revert: true,
+    cursor: "move",
+    cursorAt:{top:56,left:56},
+    drag: function( event, ui ) {
+        let child = $(this)
+        let parent = child.parent();
+        name =  parent.attr("name");
+        color = child. css( "background-color" ); 
+        pk =    parent.attr("pk");
+    },
+    // helper:'clone'
+}).disableSelection();
+
+///////////////////////////////////////////////////////
 ////////////// dropable    /////////////////////////
 
-    const newLocal = ".droppable";
-    $( newLocal ).droppable({
+    const dropables = ".droppable";
+    $( dropables ).droppable({
         drop: function( event, ui ) {
-        let td = $( this );
-        let div = td.find("div");   // get child div of td
-        // td.html(name)
-        // td.css({"background-color":color})
-        td.attr({"name":name ,"color":color,"event_link":event_link,"pk":pk}); //set attirbute of td
+        let parent = $( this );
+        let div = parent.find("div");   // get child div of parent
+        // parent.html(name)
+        // parent.css({"background-color":color})
+        parent.attr({"name":name,"pk":pk}); //set attirbute of parent
         div.html(name)
         div.css({"background-color":color})
         // making cells clickable

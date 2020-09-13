@@ -16,6 +16,7 @@
   min-height: 8vh;
   position: fixed;
   font-size: 20px;
+  z-index: 100;
 }
 .container{
   /* background-color : black; */

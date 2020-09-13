@@ -83,9 +83,11 @@ $(function(){
 });
 
 function openform(){
-    document.getElementById('form-container').style.display = "block";
+    document.getElementById('form-container-id').style.display = "flex";
 }
 
 function closeform(){
-  document.getElementById('form-container').style.display = "none";
+  document.getElementById('form-container-id').style.display = "none";
+
+
 }

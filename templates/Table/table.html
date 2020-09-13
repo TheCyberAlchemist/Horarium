@@ -132,7 +132,7 @@ Table
 	{% endfor %}
 </script>
 <br>
-<center><button class = "save">Save</button></center>
+<center><button class = "save" id="save1">Save</button></center>
 
 {% endblock %}
 
@@ -145,6 +145,28 @@ Table
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript">
+document.getElementById('save1').onclick = function(){
+swal({
+title: "Are you sure?",
+text: "Do you want to save your changes?",
+icon: "warning",
+buttons: true,
+dangerMode: true,
+})
+.then((willDelete) => {
+if (willDelete) {
+  swal("", {
+    icon: "success",
+  });
+} else {
+  swal("Your imaginary file is safe!");
+}
+});
+}
+
+</script>
 {% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
 {% comment %} <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> {% endcomment %}
 {% comment %} <script src="{% static 'table/button.js'%}"></script> {% endcomment %}

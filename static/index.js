@@ -88,6 +88,4 @@ function openform(){
 
 function closeform(){
   document.getElementById('form-container-id').style.display = "none";
-
-
 }

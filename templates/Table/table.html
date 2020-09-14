@@ -17,7 +17,7 @@ Table
 
 <p>
  <!-- Welcome,{{request.user}} -->
- <a href = "{% url 'logout' %}">logout </a>
+ <a href = "{% url 'logout' %}" style="z-index : 100">logout </a>
  <!-- <a href = "{% url 'day_form' %}">day select</a> -->
 </p>
 
@@ -118,7 +118,7 @@ Table
 	{% endfor %}
 </script>
 <br>
-<center><button class = "save">Save</button></center>
+<center><button class="save">Save</button></center>
 
 {% endblock %}
 
@@ -129,6 +129,7 @@ Table
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script type="text/javascript" src="{%static 'index.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.1/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
 

@@ -39,7 +39,7 @@ $(".td_div").draggable({
         let child = $(this)
         let parent = child.parent();
         name =  parent.attr("name");
-        color = child. css( "background-color" ); 
+        color = child. css( "background-color" );
         pk =    parent.attr("pk");
     },
     // helper:'clone'
@@ -64,39 +64,7 @@ $(".td_div").draggable({
     });
 ///////////////////////////////////////////////////////
 ////////////// save click     /////////////////////////
-    $('.save').click(function(){
-        let text;
-      var table = $('.main_table').tableToJSON(// calling tableToJSON
-      {
-        extractor : function(cellIndex, $cell) {
-            if(cellIndex == '0' ){// if it is t-heading
-                text = $cell.find('p').html().trim();
-                p = $cell.attr('pk');// get attribute period primary key
-                return {
-                  // name: $cell.find('span').text(),
-                  time:text,
-                  time_pk:p,
-                };
-            }
-            else{
-                return {
-                    name: $cell.text().trim(),
-                    event_pk: $cell.attr('pk'),// set attribute period primary key
-                    time_pk: p,
-                    day: $cell.attr('day'),// set attribute day
-                };
-            }
-        }
-      }); // Convert the table into a javascript object
-      let state = JSON.stringify(table); // final JSON to be passed through ajax
-      console.log(state);
-      // alert(state);
-      $.ajax({
-          type: "post",
-          data: state,
-          url: ""
-      });
-    });
+
 });
 
 function openform(){
@@ -105,6 +73,57 @@ function openform(){
 
 function closeform(){
   document.getElementById('form-container-id').style.display = "none";
+}
 
+document.getElementsByClassName('save')[0].onclick = function(){
+  swal({
+    title: "Warning!",
+    text: "Your previous data will be overwritten.",
+    icon: "warning",
+    buttons: ["Cancel","Save"],
+  })
+  .then((willDelete) => {
+  if (willDelete) {
+    swal("", {
+      icon: "success",
+      text : "Saved"
+    });
 
+    let text;
+    var table = $('.main_table').tableToJSON(// calling tableToJSON
+    {
+      extractor : function(cellIndex, $cell) {
+          if(cellIndex == '0' ){// if it is t-heading
+              text = $cell.find('p').html().trim();
+              p = $cell.attr('pk');// get attribute period primary key
+              return {
+                // name: $cell.find('span').text(),
+                time:text,
+                time_pk:p,
+              };
+          }
+          else{
+              return {
+                  name: $cell.text().trim(),
+                  event_pk: $cell.attr('pk'),// set attribute period primary key
+                  time_pk: p,
+                  day: $cell.attr('day'),// set attribute day
+              };
+          }
+      }
+    }); // Convert the table into a javascript object
+    let state = JSON.stringify(table); // final JSON to be passed through ajax
+    console.log(state);
+    // alert(state);
+    $.ajax({
+        type: "post",
+        data: state,
+        url: ""
+    });
+
+  }
+  else {
+    swal("Your changes are not saved!");
+  }
+});
 }

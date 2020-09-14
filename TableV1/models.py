@@ -22,9 +22,9 @@ class timings(models.Model):
 		return diff.total_seconds()
 
 	def __str__(self):
-		min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
+		s_min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
 		e_min = "00" if self.end_time.minute == 0 else str(self.end_time.minute)
-		return str(self.start_time.hour) + ":"+ min + " - " + str(self.end_time.hour) + ":"+ e_min
+		return str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min
 
 DAYS_OF_WEEK = (
     ('Monday', 'Monday'),

@@ -24,10 +24,7 @@ class view_table(View):
 
 		events = event.objects.filter(owner=request.user)
 		#	Get all the exesting objects of the user
-
-		for e in events:
-			print(e.time_obj,e.day)
-
+		print(events)
 		context = {
 			'days': global_days, 					# For displaying days
 			'table_width': len(global_days) * 200,	# For the width of the table
@@ -38,12 +35,14 @@ class view_table(View):
 		}
 		return render(self.request, self.template_name,context)
 
-
 	def post(self, request):
 		if request.method == "POST" and request.is_ajax():
 			try:
 				data = json.loads(request.body)	# data is the json object returned after saving
 				# print(data)
+				old_obj = event.objects.filter(owner=request.user) # gets all the old data
+				# gets all the old data and deletes them 
+				new_objs = []
 				for i in data:
 					for day in global_days:	# for all the days in the table
 						value = i[day]		# value is the event-object
@@ -65,13 +64,17 @@ class view_table(View):
 
 								obj = event(event_obj = event_obj,time_obj = time_obj,day=value['day'],owner=request.user)
 								# made a event object succefully
-								obj.save()
+								# obj.save()
+								new_objs.append(obj);	# appends all the objects
+								saved = True
 							except:
 								print("Stop Messing Around ...")
 								# if the primary keys of any of the objects do not match
-
+				old_obj.delete() # deletes all the old data if no error is there
+				for obj in new_objs:# saves all the new data
+					obj.save()
+				# print()
 				return HttpResponse("<p>Done</p>")
-
 			except KeyError:
 				HttpResponseServerError("Malformed data!")
 				return JsonResponse({"success": True}, status=200)

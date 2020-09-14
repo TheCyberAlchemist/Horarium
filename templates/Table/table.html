@@ -17,7 +17,7 @@ Table
 
 <p>
  <!-- Welcome,{{request.user}} -->
- <a href = "{% url 'logout' %}">logout </a>
+ <a href = "{% url 'logout' %}" style="z-index : 100">logout </a>
  <!-- <a href = "{% url 'day_form' %}">day select</a> -->
 </p>
 
@@ -32,7 +32,7 @@ Table
 			<tbody class="tbooty">
 				{% for event_butt in event_butts %} <!-- show all events button -->
 					<tr><td>
-						<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" event_link = "{{event_butt.event_link}}"style = "background-color: {{event_butt.event_color}}">
+						<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" style = "background-color: {{event_butt.event_color}}">
 							{{event_butt.event_name}}
 						</div>
 					</td></tr>
@@ -40,29 +40,23 @@ Table
 			</tbody>
 		</table>
 		<!-- <button name="add" > <img src="plus1.png" class="addBut" alt="plus"> </button> -->
-		<img src="{% static 'plus1.png' %}" class="addBut" alt="plus" onclick="openform()">
+		<img src="{% static 'plus1.png' %}" class="addBut" alt="plus" onclick="location.href={% url 'add_event'%}">
 	</div>
 </div>
 
 <!-- POP UP FORM  -->
 
-  <div class="form-container" id="form-container-id">
+  <div class="form-container" id="form-container-id" href="{% url 'add_event'%}">
     <div class="form-container-div">
       <div id="close-form" onclick="closeform()">+</div>
-      <form class="myform" id="myform-id">
-      <input type="text" name="Eventname" placeholder="Event Name"><br>
-      <input type="time" name="time" placeholder="Time">
-      <div class="color-selector">
-        <div style="background-color:red"></div>
-        <div style="background-color:blue"></div>
-        <div style="background-color:green"></div>
-        <div style="background-color:pink"></div>
-        <div style="background-color:cyan"></div>
-        <div style="background-color:yellow"></div>
-        <div style="background-color:orange"></div>
-      </div>
-      <input type="submit" name="save-button" value="Save">
-      </form>
+      <form method="POST" class="myform" id="myform-id">
+			{%csrf_token%}
+			{% comment %} <input type="text" name="event_name">
+			<input type="text" name="event_link">
+			<input type="text" name="event_color">
+			<input type="submit" value="Submit"> {% endcomment %}
+			{{form}}
+		</form>
 	  </div>
   </div>
 
@@ -95,13 +89,6 @@ Table
 				{% endfor %}
 			</tr>
 		{% endfor %}
-		{% comment %} <tr>
-			<th pk = "5">
-					<p>
-
-					</p>
-				</th>
-		</tr> {% endcomment %}
 	</tbody>
 	{% comment %} <tfoot>
     <tr>
@@ -119,20 +106,19 @@ Table
 			// if day of event and day of cell is same
 			// and period id of event object and period id of cell is same
 			if(day == "{{event.day}}" && period_id == {{event.time_obj.id}}){
-				//console.log(td[i]);
-				//console.log("{{event.event_obj}}");
 				var div = td[i].getElementsByClassName("td_div")[0];
 				td[i].setAttribute("name","{{event.event_obj}}");
 				td[i].setAttribute("pk","{{event.event_obj.id}}");
 				div.innerHTML="{{event.event_obj}}";
 				div.style.backgroundColor = "{{event.event_obj.event_color}}";
+				//div.setAttribute("class","td_div abc");
 				break;
 			}
 		}
 	{% endfor %}
 </script>
 <br>
-<center><button class = "save" id="save1">Save</button></center>
+<center><button class="save">Save</button></center>
 
 {% endblock %}
 
@@ -143,32 +129,8 @@ Table
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script type="text/javascript" src="{%static 'index.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.1/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
 <script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script type="text/javascript">
-document.getElementById('save1').onclick = function(){
-swal({
-title: "Are you sure?",
-text: "Do you want to save your changes?",
-icon: "warning",
-buttons: true,
-dangerMode: true,
-})
-.then((willDelete) => {
-if (willDelete) {
-  swal("", {
-    icon: "success",
-  });
-} else {
-  swal("Your imaginary file is safe!");
-}
-});
-}
-
-</script>
-{% comment %} <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> {% endcomment %}
-{% comment %} <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script> {% endcomment %}
-{% comment %} <script src="{% static 'table/button.js'%}"></script> {% endcomment %}
 
 {% endblock %}

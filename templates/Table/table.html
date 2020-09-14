@@ -17,7 +17,7 @@ Table
 
 <p>
  <!-- Welcome,{{request.user}} -->
- <a href = "{% url 'logout' %}" style="z-index : 100">logout </a>
+ <a href = "{% url 'logout' %}" style="z-index : 101">logout </a>
  <!-- <a href = "{% url 'day_form' %}">day select</a> -->
 </p>
 
@@ -83,7 +83,7 @@ Table
 					</p>
 				</th>
 				{% for day in days %}
-					<td class = "droppable" name = "NONE" day = "{{day}}" period = "{{period.id}}">
+					<td class = "droppable" day = "{{day}}" period = "{{period.id}}">
 						<div class = "td_div"></div>
 					</td>
 				{% endfor %}
@@ -97,6 +97,14 @@ Table
 
   </tfoot> {% endcomment %}
 </table>
+<div id = "trash">
+hwewrsdfasdfsafasfasf<br>
+hwewrsdfasdfsafasfasf<br>
+hwewrsdfasdfsafasfasf<br>
+hwewrsdfasdfsafasfasf<br>
+
+</div>
+
 <script>
 	td = document.getElementsByClassName("droppable");
 	{% for event in events %}	//iterating over all events in database
@@ -107,7 +115,6 @@ Table
 			// and period id of event object and period id of cell is same
 			if(day == "{{event.day}}" && period_id == {{event.time_obj.id}}){
 				var div = td[i].getElementsByClassName("td_div")[0];
-				td[i].setAttribute("name","{{event.event_obj}}");
 				td[i].setAttribute("pk","{{event.event_obj.id}}");
 				div.innerHTML="{{event.event_obj}}";
 				div.style.backgroundColor = "{{event.event_obj.event_color}}";

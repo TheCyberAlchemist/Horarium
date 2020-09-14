@@ -26,23 +26,26 @@ $(function(){
             name = select.attr("name");
             color = select.attr("color");
             pk = select.attr("pk"); //  event_button pk
-        }
+            $( this ).css("z-index","1000");	// makes the element the highest
+		},
+		stop: function( event, ui ) {
+			$( this ).css("z-index","0");	// regularize the element
+		}
     }).disableSelection();
 ///////////////////////////////////////////////////////
 ////////////// td draggable    /////////////////////////
+// $(".td_div.td_div_draggable").html("s");
 $(".td_div").draggable({
-    containment: "window",
     revert: true,
     cursor: "move",
     cursorAt:{top:56,left:56},
     drag: function( event, ui ) {
         let child = $(this)
         let parent = child.parent();
-        name =  parent.attr("name");
-        color = child. css( "background-color" );
+        name =  child.html().trim();;
+        color = child. css( "background-color" ); 
         pk =    parent.attr("pk");
     },
-    // helper:'clone'
 }).disableSelection();
 
 ///////////////////////////////////////////////////////
@@ -50,21 +53,57 @@ $(".td_div").draggable({
 
     const dropables = ".droppable";
     $( dropables ).droppable({
+		// on hover
+		over: function( event, ui ) {
+			let td = $( this );
+			td.css({"background-color":"#7377a5"})			
+			td.parent().find('th').css({"background-color":"#7377a5"});
+			// the th of timing is selected
+			tdIndex = td.index() + 1;
+			$('.main_table tr').find('th:nth-child(' + tdIndex + ')').css({"background-color":"#7377a5"});
+			// th of day is selected
+		},
+		// on out
+		out: function( event, ui ) {
+			let td = $( this );
+			td.css({"background-color":""})
+			td.parent().find('th').css({"background-color":""});
+			// the th of timing is selected
+			let tdIndex = td.index() + 1;
+			$('.main_table tr').find('th:nth-child(' + tdIndex + ')').css({"background-color":""});
+			// th of day is selected
+		},
+
         drop: function( event, ui ) {
-        let parent = $( this );
-        let div = parent.find("div");   // get child div of parent
-        // parent.html(name)
-        // parent.css({"background-color":color})
-        parent.attr({"name":name,"pk":pk}); //set attirbute of parent
-        div.html(name)
-        div.css({"background-color":color})
-        // making cells clickable
-        // obj.click(function(){open(event_link);});
+			let td = $( this );
+			let div = td.find("div");   // get child div of td
+			td.attr({"pk":pk}); //set attirbute of parent
+			div.html(name)
+			div.css({"background-color":color})
+			td.css({"background-color":""})
+			td.parent().find('th').css({"background-color":""});
+			// the th of timing is selected
+			let tdIndex = td.index() + 1;
+			$('.main_table tr').find('th:nth-child(' + tdIndex + ')').css({"background-color":""});
+			// th of day is selected
+			// obj.click(function(){open(event_link);});
+			// making cells clickable
+		}
+		
+    });
+    $('#trash').droppable({
+        drop: function(event, ui) {
+            let dropped_obj = ui.draggable[0];
+            let class_of_obj = dropped_obj.getAttribute("class").split(' ')[0];
+            if (class_of_obj == "td_div"){
+				let parent = dropped_obj.parentElement;
+				console.log("j-");
+                parent.removeAttribute("pk");
+                dropped_obj.removeAttribute("style");
+                dropped_obj.innerHTML = "";
+            }
         }
     });
-///////////////////////////////////////////////////////
-////////////// save click     /////////////////////////
-
 });
 
 function openform(){
@@ -72,9 +111,11 @@ function openform(){
 }
 
 function closeform(){
-  document.getElementById('form-container-id').style.display = "none";
+    document.getElementById('form-container-id').style.display = "none";
 }
 
+///////////////////////////////////////////////////////
+////////////// save click     /////////////////////////
 document.getElementsByClassName('save')[0].onclick = function(){
   swal({
     title: "Warning!",

@@ -7,16 +7,27 @@
   letter-spacing: 2px;
   font-weight: bold;
 }
+input:focus {
+  outline: none;
+}
 .navv{
   margin: 0px;
   width: 100%;
   text-decoration: none;
-  background-image: linear-gradient(to left top, #0b0b0d, #0e0e0f, #101011, #121212, #141414);
+  /* background-image: linear-gradient(to left top, #0b0b0d, #0e0e0f, #101011, #121212, #141414); */
   /* background-color: #9B2BD3; */
   min-height: 8vh;
   position: fixed;
   font-size: 20px;
   z-index: 100;
+}
+.nav-container{
+  transition: 0.5s;
+}
+.nav-container :hover{
+  transition: 0.2s;
+  /* background-image: linear-gradient(to left top, #0b0b0d, #0e0e0f, #101011, #121212, #141414); */
+  background-color: black;
 }
 .container{
   /* background-color : black; */

@@ -3,7 +3,7 @@
   padding: 0px;
   box-sizing: border-box;
   font-family: 'Do Hyeon', sans-serif;
-
+  top : 0;
   letter-spacing: 2px;
   font-weight: bold;
 }
@@ -50,6 +50,7 @@ input:focus {
     float: right;
     padding: 1em;
 }
+
 .show_user{
   float: left;
 }

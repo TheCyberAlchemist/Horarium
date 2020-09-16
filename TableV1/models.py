@@ -1,10 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 import datetime as dt
-
 class event_class(models.Model):
 	event_name = models.CharField(max_length = 20)
-	event_link = models.CharField(max_length = 200)
+	event_link = models.CharField(max_length = 200, null=True,blank=True)
 	event_color = models.CharField(max_length = 50)
 	owner = models.ForeignKey(User,default=None ,on_delete = models.CASCADE)
 	def __str__(self):
@@ -21,9 +20,11 @@ class timings(models.Model):
 		start_time = dt.datetime.combine(dt.date.today(), self.start_time)
 		diff = end_time - start_time
 		return diff.total_seconds()
-		
+
 	def __str__(self):
-		return str(self.start_time) + " - " + str(self.end_time)
+		s_min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
+		e_min = "00" if self.end_time.minute == 0 else str(self.end_time.minute)
+		return str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min
 
 DAYS_OF_WEEK = (
     ('Monday', 'Monday'),

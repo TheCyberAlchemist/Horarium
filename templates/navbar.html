@@ -3,24 +3,23 @@
 {%load static%}
     <link rel="stylesheet" href="{% static 'navbar/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'navbar/textos.css'%}">
-    <script src="{% static 'navbar/navbar.js'%}" charset="utf-8"></script>
-    <link rel="stylesheet" href="{% static 'navbar/button.css'%}">
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css"
+    {% comment %} <script src="{% static 'navbar/navbar.js'%}" charset="utf-8"></script>
+    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
-    <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i' rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet"> {% endcomment %}
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet"> -->
+    <!-- <link href='https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i' rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:500,800&display=swap" rel="stylesheet"> -->
     <div>
     <nav class="navv">
       <div class="nav_items show_user">
-          <a href="#">HI, {{request.user}}</a>
+          <a href="{% url 'logout' %}">Hi, {{request.user}}</a>
       </div>
       <div class="logotxt">
         <h2><a href="#">
-          <div class="wavy glitch">
+        <div class="wavy glitch">
         <span style="--i:1">H</span>
         <span style="--i:2">O</span>
         <span style="--i:3">R</span>
@@ -44,7 +43,7 @@
         <div class="line1"></div>
         <div class="line2"></div>
         <div class="line3"></div>
-      </div>
+      </div>      
     </nav>
   </div>
 {%block navbar_ends%}

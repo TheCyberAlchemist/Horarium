@@ -1,7 +1,7 @@
 {% extends 'Table/base.html' %}
 {% load static %}
 {% block title %}
-Table
+	Table
 {% endblock %}
 {% block css %}	<!--  css links  -->
 
@@ -15,11 +15,11 @@ Table
 
 {% block content %}
 
-<p>
+{% comment %} <p>
  <!-- Welcome,{{request.user}} -->
- <a href = "{% url 'logout' %}" style="z-index : 101">logout </a>
+ {% comment %} <a href = "{% url 'logout' %}" style="z-index : 101">logout </a>
  <!-- <a href = "{% url 'day_form' %}">day select</a> -->
-</p>
+</p> {% endcomment %}
 
 
 <!--button table-->

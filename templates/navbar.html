@@ -15,7 +15,7 @@
     <div>
     <nav class="navv">
       <div class="nav_items show_user">
-          <a href="#">Hi, {{request.user}}</a>
+          <a href="{% url 'logout' %}">Hi, {{request.user}}</a>
       </div>
       <div class="logotxt">
         <h2><a href="#">
@@ -43,7 +43,7 @@
         <div class="line1"></div>
         <div class="line2"></div>
         <div class="line3"></div>
-      </div>
+      </div>      
     </nav>
   </div>
 {%block navbar_ends%}

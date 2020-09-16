@@ -3,9 +3,10 @@
   padding: 0px;
   box-sizing: border-box;
   font-family: 'Do Hyeon', sans-serif;
-
   letter-spacing: 2px;
   font-weight: bold;
+  float: none;
+  top: 0;
 }
 .navv{
   margin: 0px;

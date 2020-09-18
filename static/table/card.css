@@ -13,11 +13,11 @@
   color :white;
   display: flex;
   text-align: center;
-  /* position: relative; */
+  position: relative;
   flex-direction: column;
   width: 170px;
   height: 150px;
-  margin: -10px;
+  margin: -30px;
   padding: 0.5rem;  /* 1rem = 15px */
   border-radius: 16px;
   background-color: #17141d;

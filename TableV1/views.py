@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse, Http404
 from django.views import View
 #################
@@ -11,6 +12,7 @@ from .forms import selectdays,add_event	# for selecting the days
 ######################
 
 global_days = ['Monday','Tuesday','Wednesday','Thursday','Friday']
+@method_decorator(login_required(login_url='login'), name='dispatch')
 class view_table(View):
 	template_name = "Table/table.html"	# Main Table
 	global global_days
@@ -81,7 +83,7 @@ class view_table(View):
 			return render(self.request, self.template_name,context)
 		else:
 			return JsonResponse({"success": False}, status=400)
-
+	
 	def selectday(request):
 		# renders the form to select the days to display in the table
 		form = selectdays()

@@ -1,0 +1,28 @@
+loginV2
+institute_V1
+	Institute
+	Resource
+	Department
+	Course
+	Shift
+	Slots
+	Semester
+	Division
+	Batch
+
+faculty_V1
+	Faculty_designation
+	Faculty_details
+	Faculty_load
+	Can_teach
+
+subject_V1
+	Subject_details
+	Subject_event
+
+Table_V2
+	Events
+
+student_V1
+	Student_details
+	

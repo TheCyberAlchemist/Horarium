@@ -1,5 +1,0 @@
-https://www.mindfusion.eu/products/javascript/scheduling/samples
-different types of timetables
-
-
-one-to-one  and one-to-many relations for tables

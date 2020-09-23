@@ -1,0 +1,108 @@
+body{
+  background-color: #1e1e2e;
+  /* background: linear-gradient(#1e1e2f, #1e1e24); */
+}
+
+#db-table{
+  text-align: center;
+  justify-content: center;
+  background-color: #27293d;
+  color: white;
+  border-collapse: collapse;
+  -webkit-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  -moz-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  user-select: none;
+  width: 80%;
+  left: 10%;
+  position: relative;
+}
+
+thead tr th{
+
+  border-bottom: 1px solid #e14eca;
+  padding: 11px;
+  margin: 11px;
+  transition: .3s;
+  position: sticky;
+  font-weight: bold;
+  font-size: 18px;
+  top: 0;
+  position: sticky;
+  background-color: #1e1e2e;
+}
+tr:hover{
+  background-color: grey;
+  transition: .5s;
+
+}
+td{
+  border-bottom: 1px solid #e14eca;
+  padding: 11px;
+  margin: 11px;
+  font-size: 20px;
+}
+
+.container{
+  height: auto;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.container h1{
+  text-align: center;
+  color: white;
+}
+.search-box{
+  padding : 10px 0px;
+  justify-content: center;
+  /* text-align: right; */
+}
+
+.table-container{
+
+
+}
+#myinput{
+  position: relative;
+  font-size: 20px;
+  width: 20px;
+  height: 30px;
+  transition: 0.3s;
+  outline: none;
+  padding: 5px 0px 5px 18px;
+  background-color: #27293d;
+  border-color: #1e1e2e;
+  color: transparent;
+  border-radius: 30px;
+  background: url('search.png')l
+  -webkit-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  -moz-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+}
+#myinput:focus{
+  width: 150px;
+  transition: .3s;
+  border-radius: 0px;
+  -webkit-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  -moz-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  color: white
+}
+
+.actions{
+  display: flex;
+  justify-content: center;
+}
+.actions img{
+  height: 20px;
+  padding-right: 20px;
+  width: 20px;
+}
+
+.pen :hover{
+  user-select: all;
+  background: url('pen-h.png');
+  height: 40px;
+}

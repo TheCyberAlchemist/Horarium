@@ -34,14 +34,14 @@
   vertical-align: top;
 }
 
-/* MAKE-UP - Pure esthetics */
+/* MAKE-UP - Pure esthetics*/
 ::-webkit-scrollbar-button {
   display: none;
 }
 
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 2px;
+  height: 2px;
 }
 
 ::-webkit-scrollbar-thumb {

@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" type="text/css" href="{{static ('login_V2/admin/home.css')}}">
+<link rel="stylesheet" type="text/css" href="{{static ('login_V2/admin/try.css')}}">
 <div class="wrapper">
     <ul>
       <li class="noline">
@@ -9,12 +9,11 @@
               <label for="a" class = "not_data">Add Department</label>
             </li>
           {% for department in departments %}
-            <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
+            <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="radio" name='a'>
                 <ul>
-                  <span
-                   class="more">&hellip;</span>
+                  <span class="more">&hellip;</span>
                   <li>
-                    <label for="{{department}}.a" class = "not_data">Add Branch</label>
+                    <label for="{{department}}.a" class = "not_data">Add Course</label>
                   </li>
                   {% for key1,values1 in courses.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
                     <li><label for="{{department}}.{{value1}}">{{value1}}</label>
@@ -35,9 +34,6 @@
                           <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}">{{value3.name}}</label>
                           <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}" type="checkbox" checked ><ul>
                           <span class="more">&hellip;</span>
-                          <li>
-                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "not_data">Create table</label>
-                          </li>
                           <li>
                             <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "not_data">Add Batch</label>
                           </li>

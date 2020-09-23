@@ -46,8 +46,7 @@ class Course(models.Model):
 		verbose_name_plural = "Course"
 
 class Semester(models.Model):
-	name = models.CharField(max_length = N_len)
-	short = models.CharField(max_length = S_len)
+	short = models.CharField(max_length = 20)
 	Course_id = models.ForeignKey(Course,default=None,on_delete = models.CASCADE)
 	def __str__(self):
 		return self.short

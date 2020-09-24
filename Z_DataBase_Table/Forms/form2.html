@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>FORM 2</title>
+    <link rel="stylesheet" href="form2.css">
+    <script src="form2.js" ></script>
+    <link rel="stylesheet" href="dbtable2.css">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
+  </head>
+  <body>
+    <div class="form-container">
+      <fieldset>
+        <legend style="align:center">Form Name</legend>
+          <form class="myform">
+            <input type="text" name=""  class = "name" placeholder="First Name" />
+            <input type="text" name=""  class="name" placeholder="Last Name" />
+            <input type="text" name=""  placeholder="Email"/>
+            <div class="pswd-field"><input type="password" id="myinput1" placeholder="New Password"><img  onclick="toggle()" src="visibility.png" class="toggle" alt="eye"></div>
+            <div class="pswd-field"><input type="password" placeholder="Confirm Password"><img  onclick="toggle()" src="visibility.png" class="toggle" alt="eye"></div>
+
+            <div class="checkboxes">
+
+            <input type="checkbox" id="fruit1" name="fruit-1" value="Apple">
+             <label for="fruit1">Apple</label>
+             <input type="checkbox" id="fruit2" name="fruit-2" value="Banana" >
+             <label for="fruit2">Banana</label>
+             <input type="checkbox" id="fruit3" name="fruit-3" value="Cherry">
+             <label for="fruit3">Cherry</label>
+             <input type="checkbox" id="fruit4" name="fruit-4" value="Strawberry">
+             <label for="fruit4">Strawberry</label>
+           </div>
+
+        </form>
+    </fieldset>
+    <!-- </div> -->
+
+    <div id="other-form">
+      <form class="" method="post">
+        <input type="text" name="" value="">Hello <br>
+        <input type="text" name="" value="">Hello <br>
+        <input type="text" name="" value="">Hello <br>
+      </form>
+  </div>
+  <button type="button" name="button" onclick="showform()">Click</button>
+
+
+
+    <div class="container">
+
+      <h1>Table Name</h1>
+      <div class="table-container">
+    <div class="search-box">
+    <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+  </div>
+      <table id = "db-table">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Department Name</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Al pacino</td>
+            <td>Godfather</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>Forrest Gump</td>
+            <td>Stupid</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Intersteller</td>
+            <td>NOice</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>Martian</td>
+            <td>cricket</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Star Wars</td>
+            <td>Sports</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td>tiktok</td>
+            <td>cringy</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td>tiktok</td>
+            <td>cringy</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#">
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td>Instagram</td>
+            <td>Reels</td>
+            <td>
+              <div class="actions">
+                <img class="pen" src="pen.png" alt="pen" onclick="#">
+                <img class="cancel" src="cancel.png" alt="cancel" onclick="#" onchange="hideIcon(this)">
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+    <!-- </form> -->
+<script type="text/javascript">
+  function searchFun(){
+    let filter = document.getElementById('myinput').value.toUpperCase();
+    let myTable = document.getElementById('db-table');
+    let tr = myTable.getElementsByTagName('tr');
+
+    for (var i = 0; i < tr.length; i++) {
+      let td = tr[i].getElementsByTagName('td')[1];
+      let td2 = tr[i].getElementsByTagName('td')[2];
+        if(td || td2){
+           let textvalue = td.textContent || td.innerHTML;
+           let textvalue2 = td2.textContent || td2.innerHTML;
+            if (textvalue.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+
+            }else{
+              tr[i].style.display = "none";
+            }
+
+            if (textvalue2.toUpperCase().indexOf(filter) > -1) {
+              tr[i].style.display = "";
+
+            }else{
+              tr[i].style.display = "none";
+            }
+        }
+    }
+
+  }
+  function hideIcon(self) {
+    self.style.backgroundImage = 'none';
+}
+function showform() {
+  console.log("HII");
+  if(document.getElementById('other-form').style.display == 'block')
+    document.getElementById('other-form').style.display = 'none';
+  else {
+    document.getElementById('other-form').style.display = 'block';
+  }
+
+}
+</script>
+  </body>
+</html>

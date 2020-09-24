@@ -1,0 +1,115 @@
+*{
+  margin: 0;
+  color: white;
+  padding: 0;
+  box-sizing: border-box;
+}
+body{
+  background-color: salmon;
+}
+.form-container{
+  background-color: #1e1e2e;
+  width: 100%;
+  height: 100%;
+  padding: 20px 150px;
+}
+fieldset{
+  background-color: #1e1e2c;
+  outline: none;
+  border: 1px solid white;
+}
+legend{
+  /* background-color: red; */
+  font-size: 40px;
+}
+.myform{
+  padding: 70px 0px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  background-color: #1e1e2e;
+}
+
+.pswd-field{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+input{
+  font-size: 20px;
+  color: white;
+  width: 70%;
+  padding: 7px 10px;
+  margin: 0;
+  margin: 10px;
+  outline: none;
+  border-top-style: hidden;
+  border-right-style: hidden;
+  border-left-style: hidden;
+  /* border-bottom: #eee; */
+  background-color: #1e1e2e;
+  /* transition: 0.5s; */
+}
+.name{
+  width: 35%;
+  display: inline;
+  /* border-bottom: #eee; */
+  background-color: #1e1e2e;
+}
+/* input:hover{
+  transition: 0.1s;
+  border-width: thin;
+  border-bottom: 2px solid white;
+} */
+.toggle{
+  height: 30px;
+  width: 30px;
+}
+/* input:hover::after{
+  width: 100%;
+  transition: width .7s;
+} */
+
+
+
+
+.checkboxes input[type=checkbox] + label {
+  /* display: block; */
+  margin: 0.2em;
+  cursor: pointer;
+  padding: 0.2em;
+}
+
+.checkboxes input[type=checkbox] {
+  display: none;
+}
+
+.checkboxes input[type=checkbox] + label:before {
+  content: "\2714";
+  border: 0.1em solid #fff;
+  border-radius: 0.2em;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
+  padding-bottom: 0.3em;
+  margin-right: 0.2em;
+  /* vertical-align: bottom; */
+  color: transparent;
+  transition: .2s;
+}
+
+.checkboxes input[type=checkbox] + label:active:before {
+  transform: scale(0);
+}
+
+.checkboxes input[type=checkbox]:checked + label:before {
+  background-color: #e14eca;
+  border-color: #e14eca;
+  color: #fff;
+}
+#other-form{
+  display: none;
+}

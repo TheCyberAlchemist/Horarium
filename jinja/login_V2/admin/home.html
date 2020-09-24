@@ -14,7 +14,7 @@
                   <span
                    class="more">&hellip;</span>
                   <li>
-                    <label for="{{department}}.a" class = "not_data">Add Branch</label>
+                    <label for="{{department}}.a" class = "not_data"><a href = {{url ('show_branch' ,args=[department.id])}}>Add Branch</a></label>
                   </li>
                   {% for key1,values1 in courses.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
                     <li><label for="{{department}}.{{value1}}">{{value1}}</label>

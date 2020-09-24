@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>DB</title>
+    <link rel="stylesheet" href="{{static ('login_V2/Show/dbtable.css')}}">
+    <script src="{{static ('login_V2/Show/dbtable.js')}}" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{static ('form.css')}}">
+    <script src="{{static ('form.js')}}" charset="utf-8"></script>
+  </head>
+  <body>
+  <div class="form-container">
+      <fieldset>
+        <legend>Form Name</legend>
+        <form class="myform">
+          <input type="text" name=""  class = "name" placeholder="First Name" />
+          <input type="text" name=""  class="name" placeholder="Last Name" />
+          <input type="text" name=""  placeholder="Email"/>
+          <div class="pswd-field"><input type="password" id="myinput1" placeholder="New Password">
+          <img  onclick="toggle()" src="visibility.png" class="toggle" alt="eye"></div>
+          <div class="pswd-field"><input type="password" placeholder="Confirm Password">
+          <img  onclick="toggle()" src="visibility.png" class="toggle" alt="eye"></div>
+          <div class="checkboxes">
+            <input type="checkbox" id="fruit1" name="fruit-1" value="Apple">
+             <label for="fruit1">Apple</label>
+             <input type="checkbox" id="fruit2" name="fruit-2" value="Banana" >
+             <label for="fruit2">Banana</label>
+             <input type="checkbox" id="fruit3" name="fruit-3" value="Cherry">
+             <label for="fruit3">Cherry</label>
+             <input type="checkbox" id="fruit4" name="fruit-4" value="Strawberry">
+             <label for="fruit4">Strawberry</label>
+         </div>
+        </form>
+      </fieldset>
+    </div>
+    <button type="button" name="button" onclick="toggle_form()">Click</button>
+
+    <div class="container">
+        <h1>Branches for {{courses[0].Department_id}}</h1><br>
+        <div class="table-container">
+          <div class="search-box">
+            <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+          </div>
+          <table id = "db-table">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Sname</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for course in courses %}
+                <tr>
+                  <td>{{course.id}}</td>
+                  <td>{{course.name}}</td>
+                  <td>{{course.short}}</td>
+                  <td>
+                    <div class="actions">
+                      <img class="pen" src="{{static ('login_V2/Show/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                      <img class="cancel" src="{{static ('login_V2/Show/delete.png')}}" alt="delete" title="Delete" onclick="#" 
+                      onmouseover="hover(this,'{{static ('login_V2/Show/delete_hover.png')}}')" 
+                      onmouseout = "unhover(this,'{{static ('login_V2/Show/delete.png')}}')" 
+                      >
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+    </div>
+  </body>
+</html>

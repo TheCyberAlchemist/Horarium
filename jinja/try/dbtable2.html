@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>DB</title>
+    <link rel="stylesheet" href="{{static ('try/dbtable2.css')}}">
+    <script src="{{static ('try/dbtable2.js')}}" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Table Name</h1><br>
+      <div class="table-container">
+        <div class="search-box">
+          <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+        </div>
+        <table id = "db-table">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Branch Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for sem in sems %}
+              <tr>
+                <td>{{sem.id}}</td>
+                <td>{{sem.short}}</td>
+                <td>{{sem.Course_id}}</td>
+                <td>
+                  <div class="actions">
+                    <img class="pen" src="{{static ('try/pen.png')}}" alt="pen" onclick="#">
+                    <img class="cancel" src="{{static ('try/cancel.png')}}" alt="cancel" onclick="#">
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+  </div>
+    <!-- </form> -->
+  </body>
+</html>

@@ -20,7 +20,10 @@
       display: block;
     }*/
 }
-
+a{
+  text-decoration: none;
+  color: white;
+}
 .wrapper ul {
   position: relative;
   display: block;

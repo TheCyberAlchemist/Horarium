@@ -162,7 +162,7 @@ body .wrapper ul > li.noline:before {
 
 body .wrapper ul > li label {
   padding: 0.5em 1em;
-  border: 1px solid grey;
+  border: 1px solid salmon;
   cursor: pointer;
 }
 

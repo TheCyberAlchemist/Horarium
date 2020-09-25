@@ -1,0 +1,117 @@
+*{
+  margin: 0;
+  color: white;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.form_container{
+  background-color: #1e1e2e;
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  padding: 20px 150px;
+}
+fieldset{
+  background-color: #1e1e2c;
+  outline: none;
+  border: 1px solid #e14eca;
+  -webkit-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  -moz-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+}
+legend{
+  font-size: 40px;
+  margin: 0 auto;
+}
+.myform{
+  padding: 70px 0px;
+  /* text-align: center; */
+  justify-content: center;
+  align-items: center;
+  background-color: #1e1e2e;
+}
+
+.input_container{
+    border-bottom: 1px solid #fff;
+    width: 59%;
+    margin: 0 auto;
+}
+
+.form_input{
+  font-size: 20px;
+  color: white;
+  width: 89%;
+  padding: 7px 5px 0px 4px;
+  margin: 10px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.toggle{
+  height: 30px;
+  width: 30px;
+}
+
+i{
+  text-align: right;
+}
+#hide1,#hide3{
+  display: none;
+}
+.checkboxes input[type=checkbox] + label {
+  margin: 0.3em 0.2em;
+  cursor: pointer;
+  padding: 0.3em ;
+}
+
+.checkboxes input[type=checkbox] {
+  display: none;
+}
+
+.checkboxes input[type=checkbox] + label:before {
+  content: "\2714";
+  border: 0.1em solid #fff;
+  border-radius: 0.2em;
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  padding-left: 0.15em;
+  padding-right: 0.11em;
+  padding-bottom: 0.3em;
+  margin-right: 0.2em;
+  color: transparent;
+  transition: .2s;
+}
+
+.checkboxes input[type=checkbox] + label:active:before {
+  transform: scale(0);
+}
+
+.checkboxes input[type=checkbox]:checked + label:before {
+  background-color: #e14eca;
+  border-color: #e14eca;
+  color: #fff;
+}
+#other-form{
+  display: none;
+}
+.submit_button_container{
+  text-align: center;
+  margin: 10px auto;
+}
+.submit_button{
+  background: transparent;
+  outline: none;
+  border: 1px solid #e12eca;
+  width: 60%;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.submit_button:hover{
+  background-color: #e12eca;
+
+}

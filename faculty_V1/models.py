@@ -2,8 +2,8 @@ from django.db import models
 ################################################
 
 from institute_V1.models import Department
-from django.contrib.auth.models import User,Group
-from institute_V1.models import Shift
+from django.contrib.auth import get_user_model
+from institute_V1.models import Shift,Institute
 from subject_V1.models import Subject_details
 
 ################################################
@@ -20,12 +20,11 @@ class Faculty_designation(models.Model):
 		verbose_name_plural = "Faculty Designation"
 
 class Faculty_details(models.Model):
-	User_id = models.ForeignKey(User,on_delete=models.CASCADE)
-	name = models.CharField(max_length = N_len)
+	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
 	short = models.CharField(max_length = S_len)
-	email = models.EmailField(max_length=254)
 	Designation_id = models.ForeignKey(Faculty_designation,on_delete=models.RESTRICT)
 	Shift_id = models.ForeignKey(Shift,on_delete=models.RESTRICT)
+	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name
 	class Meta:

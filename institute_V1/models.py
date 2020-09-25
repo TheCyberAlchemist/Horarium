@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth import get_user_model
 ################################################
 N_len = 50
 S_len = 10
@@ -36,18 +36,18 @@ class Shift(models.Model):
 	class Meta:
 		verbose_name_plural = "Shift"
 
-class Course(models.Model):
+class Branch(models.Model):
 	name = models.CharField(max_length = N_len)
 	short = models.CharField(max_length = S_len)
 	Department_id = models.ForeignKey(Department,default=None,on_delete = models.CASCADE)
 	def __str__(self):
 		return self.short
 	class Meta:
-		verbose_name_plural = "Course"
+		verbose_name_plural = "Branch"
 
 class Semester(models.Model):
 	short = models.CharField(max_length = 20)
-	Course_id = models.ForeignKey(Course,default=None,on_delete = models.CASCADE)
+	Branch_id = models.ForeignKey(Branch,default=None,on_delete = models.CASCADE)
 	def __str__(self):
 		return self.short
 	class Meta:
@@ -74,7 +74,7 @@ class Batch(models.Model):
 		return self.name
 	class Meta:
 		verbose_name_plural = "Batch"
-		
+
 class Slots(models.Model):
 	name = models.CharField(max_length = S_len)
 	start_time = models.TimeField(auto_now=False, auto_now_add=False)
@@ -86,3 +86,12 @@ class Slots(models.Model):
 		return self.name + " [ " + str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min + " ]"
 	class Meta:
 		verbose_name_plural = "Slots"
+
+class Admin_details(models.Model):
+	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
+	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
+	def __str__(self):
+		return str(self.User_id)
+	class Meta:
+		verbose_name_plural = "Admin Details"
+	

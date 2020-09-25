@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 ################################################
 from django.http import HttpResponse
-from institute_V1.models import Institute,Department,Course,Semester,Division,Batch
+from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch
 ################################################
 
 
@@ -12,7 +12,7 @@ def navtree(request):
 
 	courses = {}
 	for department in departments: # for all the departments in the institute
-		temp = Course.objects.filter(Department_id=department.id)	# filter all the courses in the same department
+		temp = Branch.objects.filter(Department_id=department.id)	# filter all the courses in the same department
 		if temp:	# if temp is not null 
 			courses[department.id] = temp 	# make a key having department id
 											# and value having all the courses related to it
@@ -20,7 +20,7 @@ def navtree(request):
 	sems = {}
 	for key,values in courses.items():	# for all the key(department) and values(courses)
 		for value in values:			# for all the coure in courses
-			temp = Semester.objects.filter(Course_id=value.id)	# find all the sems related to the course
+			temp = Semester.objects.filter(Branch_id=value.id)	# find all the sems related to the course
 			if temp:	# if temp is not null 
 				sems[value.id] = temp		# make a key having course id
 											# and value having all the sems related to it
@@ -51,10 +51,10 @@ def navtree(request):
 		'batches':batches,
 	}
 	return render(request,"login_V2/admin/home.html",context)
-from django.core import serializers
+
 
 def show_branch(request,Department_id):
-	courses = Course.objects.filter(Department_id=Department_id)
+	courses = Branch.objects.filter(Department_id=Department_id)
 	print(courses)
 	context = {
 		'courses':courses,

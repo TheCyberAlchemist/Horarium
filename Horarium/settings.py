@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Table_V2',
-    # 'login',
+    'login_V2',
     'institute_V1',
     'faculty_V1',
     'student_V1',
@@ -136,4 +136,7 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
+
 STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+
+AUTH_USER_MODEL = 'login_V2.CustomUser'

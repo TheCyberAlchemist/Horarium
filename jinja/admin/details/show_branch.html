@@ -3,18 +3,18 @@
   <head>
     <meta charset="utf-8">
     <title>DB</title>
-    <link rel="stylesheet" href="{{static ('login_V2/Show/dbtable.css')}}">
-    <script src="{{static ('login_V2/Show/dbtable.js')}}" charset="utf-8"></script>
-    <link rel="stylesheet" href="{{static ('form.css')}}">
-    <script src="{{static ('form.js')}}" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <link rel="stylesheet" href="{{static ('form/form.css')}}">
+    <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
   </head>
   <body>
   <div class="form-container">
       <fieldset>
         <legend>Form Name</legend>
         <form class="myform">
-          <input type="text" name=""  class = "name" placeholder="First Name" />
-          <input type="text" name=""  class="name" placeholder="Last Name" />
+          <input type="text" name=""  class = "name form_input" placeholder="First Name" />
+          <input type="text" name=""  class="name form_input" placeholder="Last Name" />
           <input type="text" name=""  placeholder="Email"/>
           <div class="pswd-field"><input type="password" id="myinput1" placeholder="New Password">
           <img  onclick="toggle()" src="visibility.png" class="toggle" alt="eye"></div>
@@ -34,9 +34,8 @@
       </fieldset>
     </div>
     <button type="button" name="button" onclick="toggle_form()">Click</button>
-
     <div class="container">
-        <h1>Branches for {{courses[0].Department_id}}</h1><br>
+        <h1>Branches for {{department}}</h1><br>
         <div class="table-container">
           <div class="search-box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
@@ -71,5 +70,6 @@
           </table>
         </div>
     </div>
+
   </body>
 </html>

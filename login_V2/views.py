@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 ################################################
@@ -61,13 +61,16 @@ def navtree(request):
 
 def show_branch(request,Department_id):
 	institute = request.user.admin_details.Institute_id
-	if institute.id == Department.objects.get(id = Department_id):
-		print("hii")
-	courses = Branch.objects.filter(Department_id=Department_id)
-	context = {
-		'courses':courses,
-	}
-	return render(request,"admin/details/show_branch.html",context)
+	print(Department.objects.get(id = Department_id).Institute_id,institute.id)
+	if institute == Department.objects.get(id = Department_id).Institute_id:
+		courses = Branch.objects.filter(Department_id=Department_id)
+		context = {
+			'courses':courses,
+			'department': Department.objects.get(id = Department_id)
+		}
+		return render(request,"admin/details/show_branch.html",context)
+	else:
+		raise Http404
 
 
 def tried(request):

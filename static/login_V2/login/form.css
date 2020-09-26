@@ -111,7 +111,7 @@ i{
   font-size: 20px;
 }
 
-.submit_button:hover{
+.submit_button :hover{
   background-color: #e12eca;
 
 }

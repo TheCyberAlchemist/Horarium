@@ -82,16 +82,6 @@ body {
   }
 }
 
-div, ul, li {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 div:before, div:after, ul:before, ul:after, li:before, li:after {
   content: '';
   position: absolute;
@@ -103,7 +93,7 @@ div:before, div:after, ul:before, ul:after, li:before, li:after {
 body {
   color: white;
   font-family: 'Questrial', sans-serif;
-  background: #333;
+  background-color: #333;
 }
 
 body .message {
@@ -199,3 +189,19 @@ body .wrapper ul input:checked ~ ul .more {
   transition: all 0.01s;
 }
 /*# sourceMappingURL=try.css.map */
+
+
+.toggle_button{
+  position: absolute;
+  top: 90%;
+  right: 10%;
+  background: transparent;
+  outline: none;
+  color: white;
+  border: 1px solid salmon;
+  padding: 10px;
+  font-size: 20px;
+}
+.toggle_button :hover{
+  background-color: salmon;
+}

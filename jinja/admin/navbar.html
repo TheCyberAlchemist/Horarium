@@ -1,12 +1,11 @@
 {%block navbar_starts%}
 {%endblock%}
-{%load static%}
-    <link rel="stylesheet" href="{% static 'navbar/navbar.css' %}">
-    <link rel="stylesheet" href="{% static 'navbar/textos.css'%}">
+    <link rel="stylesheet" href="{{static ('navbar/navbar.css') }}">
+    <link rel="stylesheet" href="{{static ('navbar/textos.css') }}">
     <div>
     <nav class="navv">
       <div class="nav_items show_user">
-          <a href="{% url 'logout' %}">Hi, {{request.user}}</a>
+          <a href="{{url ('logout')}}">Hi, {{request.user}}</a>
       </div>
       <div class="logotxt">
         <h2><a href="#">

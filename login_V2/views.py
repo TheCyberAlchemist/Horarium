@@ -1,14 +1,21 @@
 from django.shortcuts import render,redirect
-################################################
 from django.http import HttpResponse
-from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch
+from django.contrib.auth import authenticate,login,logout
+from django.contrib import messages
 ################################################
+from .forms import UserAdminCreationForm
+from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Admin_details
+from .decorators import unauthenticated_user,get_home_page
+################################################
+
+
+def admin_home(request):
+	return render(request,'admin/homepage/home.html')
 
 
 def navtree(request):
-	institute_pk = 1
-	institute = Institute.objects.filter(pk=institute_pk)#.values_list('name', flat=True)
-	departments = Department.objects.filter(Institute_id=institute_pk)
+	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
+	departments = Department.objects.filter(Institute_id=institute.id)
 
 	courses = {}
 	for department in departments: # for all the departments in the institute
@@ -40,26 +47,27 @@ def navtree(request):
 			if temp:	# if temp is not null
 				batches[value.id] = temp		# make a key having div id
 												# and value having all the batches related to it
-	print(batches)
 
 	context = {
-		'institute':institute[0],
+		'institute':institute,
 		'departments':departments,
 		'courses':courses,
 		'sems':sems,
 		'divs':divs,
 		'batches':batches,
 	}
-	return render(request,"login_V2/admin/home.html",context)
+	return render(request,"admin/navtree.html",context)
 
 
 def show_branch(request,Department_id):
+	institute = request.user.admin_details.Institute_id
+	if institute.id == Department.objects.get(id = Department_id):
+		print("hii")
 	courses = Branch.objects.filter(Department_id=Department_id)
-	print(courses)
 	context = {
 		'courses':courses,
 	}
-	return render(request,"login_V2/admin/show_branch.html",context)
+	return render(request,"admin/details/show_branch.html",context)
 
 
 def tried(request):
@@ -69,19 +77,34 @@ def tried(request):
 	}
 	return render(request,"try/dbtable2.html",context)
 
+
+@unauthenticated_user
 def login_page(request):
-	if request.method == 'POST':
-		username = request.POST.get('username')
-		password = request.POST.get('password')
-		user = authenticate(request,username = username , password = password)
-		if user is not None:
-			login(request, user)
-			return redirect('')
-		else:
-			messages.info(request,"username or password not correct")
 	context = {
 	}
+	if request.method == 'POST':
+		email = request.POST.get('email')
+		password = request.POST.get('password')
+		user = authenticate(request,email = email , password = password)
+		if user is not None:
+			page = get_home_page(user)
+			if page:
+				login(request, user)
+				return redirect(page)
+			else:
+				message = "Something is wrong with your account.."
+				context['message'] = message
+		else:
+			print("hii")
+			message = "Email or Password is Incorrect."
+			context['message'] = message
 	return render(request,'login_V2/login/login.html',context)
+
+
+def logout_user(request):
+	logout(request)
+	return redirect('login')
+
 
 def register_page(request):
 	if request.method == 'POST':

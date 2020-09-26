@@ -86,12 +86,4 @@ class Slots(models.Model):
 		return self.name + " [ " + str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min + " ]"
 	class Meta:
 		verbose_name_plural = "Slots"
-
-class Admin_details(models.Model):
-	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE,primary_key=True)
-	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
-	def __str__(self):
-		return str(self.User_id)
-	class Meta:
-		verbose_name_plural = "Admin Details"
 	

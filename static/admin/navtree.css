@@ -1,6 +1,7 @@
 /* FUNCTIONAL - Needed for the tree diagram */
 @import url("https://fonts.googleapis.com/css?family=Questrial");
 .wrapper {
+  background-color: #333;
   position: absolute;
   top: 0;
   left: 0;
@@ -8,21 +9,11 @@
   height: 100vh;
   text-align: center;
   overflow: auto;
-  /*& [type="checkbox"], & .more {
-      display: none;
-    }
-
-    & input:checked ~ ul *{
-      display: none;
-    }
-
-    & input:checked ~ ul .more{
-      display: block;
-    }*/
+  z-index: 100;
 }
-a{
+.not_data a{
   text-decoration: none;
-  color: white;
+  color: ivory;
 }
 .wrapper ul {
   position: relative;

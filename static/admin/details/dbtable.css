@@ -41,13 +41,13 @@ body{
   margin: 11px;
   /*font-size: 16px;*/
 }
-.container{
+.table-container{
   display: grid;
   height: auto;
   width: 100%;
   text-align: center;
 }
-.container h1{
+.table-container h1{
   text-align: center;
   color: #defff2;
 }
@@ -56,10 +56,6 @@ body{
   display: grid;
   justify-content: center;
   /* text-align: right; */
-}
-
-.table-container{
-  width: 100%;
 }
 #myinput{
   position: relative;

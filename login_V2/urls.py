@@ -7,5 +7,5 @@ urlpatterns = [
     url('department/(?P<Department_id>\d+)',views.show_branch,name = 'show_branch'),
     path('',views.login_page,name ="login"),
     path('logout/',views.logout_user,name ="logout"),
-    path('register/',views.register_page,name = "register")
+    path('register/',views.register_page,name = "register"),
 ]

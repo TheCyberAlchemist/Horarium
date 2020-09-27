@@ -1,5 +1,17 @@
 /* FUNCTIONAL - Needed for the tree diagram */
 @import url("https://fonts.googleapis.com/css?family=Questrial");
+
+body {
+  color: white;
+  font-family: 'Questrial', sans-serif;
+  background-color: #333;
+  scrollbar-face-color: white;
+  scrollbar-track-color: transparent;
+}
+a{
+  outline: none;
+  border: none;
+}
 .wrapper {
   background-color: #333;
   position: absolute;
@@ -14,6 +26,10 @@
 .not_data a{
   text-decoration: none;
   color: ivory;
+}
+.data {
+  text-decoration: none;
+  background-color: salmon;
 }
 .wrapper ul {
   position: relative;
@@ -56,11 +72,6 @@
   border: 2px solid rgba(26, 26, 26, 0);
 }
 
-body {
-  scrollbar-face-color: white;
-  scrollbar-track-color: transparent;
-}
-
 @media (min-width: 480px) {
   :root {
     font-size: calc(0.75rem + ((1vw - 4.8px) * 0.5556));
@@ -73,18 +84,13 @@ body {
   }
 }
 
-div:before, div:after, ul:before, ul:after, li:before, li:after {
+.wrapper div:before, .wrapper div:after, .wrapper ul:before, .wrapper ul:after,.wrapper ul li:before, .wrapper ul li:after {
   content: '';
   position: absolute;
   display: block;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-body {
-  color: white;
-  font-family: 'Questrial', sans-serif;
-  background-color: #333;
+  box-sizing: border-box;
+  margin-top: 18px;
 }
 
 body .message {
@@ -189,10 +195,16 @@ body .wrapper ul input:checked ~ ul .more {
   background: transparent;
   outline: none;
   color: white;
-  border: 1px solid salmon;
-  padding: 10px;
+  border: none;
+  padding: 5px;
   font-size: 20px;
+  transition: .5s;
 }
-.toggle_button :hover{
+.toggle_button img{
+  height: 40px;
+  width: 50px;
+}
+.toggle_button:hover{
   background-color: salmon;
+  transition: .5s;
 }

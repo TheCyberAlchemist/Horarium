@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import Http404
 from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch
-# from login_V2.decorators import 
+from login_V2.decorators import allowed_users
 
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
@@ -48,7 +48,7 @@ def return_context(request):
 	}
 	return context
 
-
+@allowed_users(allowed_roles=['Admin'])
 def admin_home(request):
 	context = return_context(request)
 	return render(request,'admin/homepage/home.html',context)

@@ -27,14 +27,18 @@ def get_home_page(user):
 def allowed_users(allowed_roles=[]):
     def decorator(view_func):
         def wrapper_func(request,*args,**kwargs):
-            group = None
+            user_groups_set = None
             if request.user.groups.exists():
-                group = request.user.groups.all()[0].name
+                groups = request.user.groups.all()
+                user_groups_set = set()
+                for group in groups:
+                    user_groups_set.add(group.name)
 
-            if group in allowed_roles:
+            allowed_roles_set = set(allowed_roles)
+            
+            if user_groups_set & allowed_roles_set:
                 return view_func(request,*args,**kwargs)
             else:
-                print(get_home_page(request.user))
                 return redirect(get_home_page(request.user))
                 # return HttpResponse("hii")
         return wrapper_func

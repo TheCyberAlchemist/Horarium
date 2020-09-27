@@ -1,5 +1,5 @@
 {% extends 'admin/base.html' %}
-{% block title %}Branch{% endblock title %}
+{% block title %}Division{% endblock title %}
 {% block css %}
     <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
@@ -12,7 +12,7 @@
 {% block content %}
 	  <div class="form_container" id="form_container_id">
       <fieldset>
-        <legend class="not_login">Branches</legend>
+        <legend class="not_login">Add Division</legend>
         <form class="myform">
           <div class="input_container"><input type="text" name=""  class ="form_input" placeholder="Brach Name" /></div>
           <div class="input_container"><input type="text" name=""  class="form_input" placeholder="Short Name" /></div>
@@ -24,7 +24,7 @@
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
       <div class="table_container">
-        <h1>Branches for {{my_department}}</h1><br>
+        <h1>Divisions for {{my_semester}}</h1><br>
           <div class="search_box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
           </div>
@@ -33,16 +33,14 @@
               <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Sname</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-              {% for course in my_courses %}
+              {% for division in my_divisions %}
                 <tr>
-                  <td>{{course.id}}</td>
-                  <td>{{course.name}}</td>
-                  <td>{{course.short}}</td>
+                  <td>{{division.id}}</td>
+                  <td>{{division.name}}</td>
                   <td>
                     <div class="actions">
                       <img  src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">

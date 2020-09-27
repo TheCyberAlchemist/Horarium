@@ -5,10 +5,6 @@
     <link rel="stylesheet" type="text/css" href="{{static ('admin/navtree.css')}}">
     <script src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
 
-    <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 
     <div class="nav_container">
@@ -48,7 +44,7 @@
         {{institute}}
         <ul>
           <li>
-            <label for="a" class = "not_data">Department Details</label>
+            <label for="a" class = "not_data"><a href = {{url ('show_department')}}>Department Details</a></label>
           </li>
           {% for department in departments %}
             <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
@@ -58,22 +54,22 @@
                     <label for="{{department}}.a" class = "data not_data"><a href = {{url ('show_branch' ,args=[department.id])}}>Branch Details</a></label>
                   </li>
                   <li>
-                    <label for="{{department}}.a" class = "not_data"><a>Faculty</a></label>
+                    <label for="{{department}}.b" class = "not_data"><a>Faculty</a></label>
                   </li>
 
-                  {% for key1,values1 in courses.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
+                  {% for key1,values1 in branches.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
                     <li><label for="{{department}}.{{value1}}">{{value1}}</label>
                     <input id="{{department}}.{{value1}}" type="checkbox" checked><ul>
                     <span class="more">&hellip;</span>
                     <li>
-                      <label for="{{department}}.{{value1}}.a" class = "not_data">Semester Details</label>
+                      <label for="{{department}}.{{value1}}.a" class = "not_data"><a href = {{url ('show_semester' ,args=[value1.id])}}>Semester Details</a></label>
                     </li>
                       {% for key2,values2 in sems.items() %}{% if key2 == value1.id %}{% for value2 in values2 %}
                         <li><label for="{{department}}.{{value1}}.{{value2}}">{{value2}}</label>
                         <input id="{{department}}.{{value1}}.{{value2}}" type="checkbox" checked ><ul>
                         <span class="more">&hellip;</span>
                         <li>
-                          <label for="{{department}}.{{value1}}.{{value2}}.a" class = "not_data">Division Details</label>
+                          <label for="{{department}}.{{value1}}.{{value2}}.a" class = "not_data"><a href = {{url ('show_division' ,args=[value2.id])}}>Division Details</a></label>
                         </li>
                         {% for key3,values3 in divs.items() %}{% if key3 == value2.id %}{% for value3 in values3 %}
                           <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}">{{value3.name}}</label>
@@ -83,7 +79,7 @@
                             <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "not_data">Create table</label>
                           </li>
                           <li>
-                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.b" class = "not_data">Add Batch</label>
+                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.b" class = "not_data"><a href = {{url ('show_batch' ,args=[value3.id])}}>Batch Details</a></label>
                           </li>
                             {% for key4,values4 in batches.items() %}{% if key4 == value3.id %}{% for value4 in values4 %}
                               <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}">{{value4}}</label>

@@ -33,7 +33,6 @@ def login_page(request):
 				message = "Something is wrong with your account.."
 				context['message'] = message
 		else:
-			print("hii")
 			message = "Email or Password is Incorrect."
 			context['message'] = message
 	return render(request,'login_V2/login/login.html',context)

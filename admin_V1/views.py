@@ -1,6 +1,9 @@
 from django.shortcuts import render,redirect
 from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch
 from login_V2.decorators import allowed_users
+from django.contrib import messages
+from .forms import create_branch
+
 
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
@@ -47,6 +50,7 @@ def return_context(request):
 	}
 	return context
 
+
 @allowed_users(allowed_roles=['Admin'])
 def admin_home(request):
 	context = return_context(request)
@@ -64,14 +68,24 @@ def show_department(request):
 
 
 def show_branch(request,Department_id):
-	if request.method == 'POST':
-		pass
 	context = return_context(request)
 	my_department = Department.objects.get(id = Department_id)
 	if context['institute'] == my_department.Institute_id:
 		branches = Branch.objects.filter(Department_id=Department_id)
 		context['my_branches'] = branches
 		context['my_department']= my_department
+		if request.method == 'POST':
+			# print(request.POST)
+			form = create_branch(request.POST)
+			if form.is_valid():
+				candidate = form.save(commit=False)
+				candidate.Department_id = my_department
+				candidate.save()
+				return redirect('show_branch',Department_id)
+			else:
+				# messages.info(request,form.errors.as_data)
+				context['errors'] = form.errors
+				# print(form.errors.as_data)
 		return render(request,"admin/details/branch.html",context)
 	else:
 		return redirect('/')
@@ -89,6 +103,7 @@ def show_semester(request,Branch_id):
 		return render(request,"admin/details/semester.html",context)
 	else:
 		raise redirect('/')
+
 
 def show_division(request,Semester_id):
 	if request.method == 'POST':

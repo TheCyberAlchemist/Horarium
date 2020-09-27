@@ -1,10 +1,10 @@
 body{
   background-color: #1e1e2e;
 }
-#db-table table{
+#db_table table{
   font-size: 17px;
 }
-#db-table{
+#db_table{
   background-color: #556062;
   color: #defff2;
   border-collapse: collapse;
@@ -15,11 +15,11 @@ body{
   position: relative;
 }
 
-#db-table tr:nth-child(even) {
+#db_table tr:nth-child(even) {
   background-color: #464f51;
 }
 
-#db-table thead tr th{
+#db_table thead tr th{
   border-bottom: 1px solid #e14eca;
   padding: 11px;
   margin: 11px;
@@ -31,27 +31,28 @@ body{
   position: sticky;
   background-color: #1C2021;
 }
-#db-table tbody tr:hover{
+#db_table tbody tr:hover{
   background-color: #687678;
   transition: .25s;
   color:black;
 }
-#db-table td{
+#db_table td{
   padding: 11px;
   margin: 11px;
   /*font-size: 16px;*/
 }
-.table-container{
+.table_container{
   display: grid;
+  padding-top: 3em;
   height: auto;
   width: 100%;
   text-align: center;
 }
-.table-container h1{
+.table_container h1{
   text-align: center;
   color: #defff2;
 }
-.search-box{
+.search_box{
   padding : 10px 0px;
   display: grid;
   justify-content: center;

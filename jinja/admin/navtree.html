@@ -6,20 +6,20 @@
           {{institute}}
           <ul>
             <li>
-              <label for="a" class = "not_data">Add Department</label>
+              <label for="a" class = "not_data">Department Details</label>
             </li>
           {% for department in departments %}
             <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
                 <ul>
-                  <span
-                   class="more">&hellip;</span>
+                  <span class="more">&hellip;</span>
+                  <li>
+                    <label for="{{department}}.a" class = "data"><a href = {{url ('show_branch' ,args=[department.id])}}>Branch Details</a></label>
+                  </li>
                    <li>
                      <label for="{{department}}.a" class = "not_data"><a>Faculty</a></label>
                    </li>
-                  <li>
-                    <label for="{{department}}.a" class = "not_data"><a href = {{url ('show_branch' ,args=[department.id])}}>Branch Details</a></label>
-                  </li>
- 
+
+
                   {% for key1,values1 in courses.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
                     <li><label for="{{department}}.{{value1}}">{{value1}}</label>
                     <input id="{{department}}.{{value1}}" type="checkbox" checked><ul>

@@ -13,7 +13,7 @@
         <legend>Login</legend>
           <form class="myform" method="POST">
           {{ csrf_input }}
-            <div class="input_container"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i><input type="text" name="email" class="form_input" placeholder="Email"/></div>
+            <div class="input_container"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i><input type="text" name="email" class="form_input" placeholder="Email" autocomplete = "off" /></div>
             <div class="input_container"><i class="fa fa-key fa-lg" aria-hidden="true"></i><input class="form_input" name="password" id="myinput1" type="password" placeholder="Your Password" >
               <span id="eye" onclick="visibility1()">
                 <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>

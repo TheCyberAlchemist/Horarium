@@ -24,6 +24,9 @@ legend{
   font-size: 40px;
   margin: 0 auto;
 }
+.not_login{   /*For all legends which are not login/register form*/
+    margin: 0 15%;
+}
 .myform{
   padding: 70px 0px;
   /* text-align: center; */
@@ -37,7 +40,6 @@ legend{
     width: 59%;
     margin: 0 auto;
 }
-
 .form_input{
   font-size: 20px;
   color: white;
@@ -94,7 +96,7 @@ i{
   border-color: #e14eca;
   color: #fff;
 }
-#other-form{
+#other_form{
   display: none;
 }
 .submit_button_container{
@@ -111,7 +113,7 @@ i{
   font-size: 20px;
 }
 
-.submit_button :hover{
+.submit_button:hover{
   background-color: #e12eca;
 
 }

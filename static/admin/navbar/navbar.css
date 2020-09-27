@@ -10,6 +10,9 @@
 input:focus {
   outline: none;
 }
+.nav_container{
+  
+}
 .navv{
   margin: 0px;
   width: 100%;
@@ -172,7 +175,7 @@ input:focus {
 }
 
 
-a:before, a:after
+.nav_a_tags:before, .nav_a_tags:after
 {
   position: absolute;
   left: 0px;
@@ -183,20 +186,23 @@ a:before, a:after
   opacity: 0;
   transition: all 0.3s;
 }
-
-a:before
+.nav_a_tags:focus{
+  outline: none;
+  border: none;
+}
+.nav_a_tags:before
 {
   top: 0px;
   transform: translateY(10px);
 }
 
- a:after
+.nav_a_tags:after
 {
   bottom: 0px;
   transform: translateY(-10px);
 }
 
-a:hover:before, a:hover:after
+.nav_a_tags:hover:before, .nav_a_tags:hover:after
 {
   opacity: 1;
   transform: translateY(0px);

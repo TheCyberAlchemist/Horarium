@@ -14,8 +14,35 @@
       <fieldset>
         <legend class="not_login">Add Batch</legend>
         <form class="myform">
-          <div class="input_container"><input type="text" name=""  class ="form_input" placeholder="Brach Name" /></div>
-          <div class="input_container"><input type="text" name=""  class="form_input" placeholder="Short Name" /></div>
+          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="dept"><input type="text" name=""  class ="form_input" placeholder="Batch Name" /></div>
+          <div class="input_select">
+            <div class="select-box">
+    <div class="select-box__current" tabindex="1">
+      Select Batch For
+        <div class="select-box__value"><input class="select-box__input" type="radio" id="0" value="1" name="Ben" checked="checked" />
+            <p class="select-box__input-text">Cream</p>
+        </div>
+        <div class="select-box__value"><input class="select-box__input" type="radio" id="1" value="2" name="Ben" checked="checked" />
+            <p class="select-box__input-text">Cheese</p>
+        </div>
+        <div class="select-box__value"><input class="select-box__input" type="radio" id="2" value="3" name="Ben" checked="checked" />
+            <p class="select-box__input-text">Milk</p>
+        </div>
+        <div class="select-box__value"><input class="select-box__input" type="radio" id="3" value="4" name="Ben" checked="checked" />
+            <p class="select-box__input-text">Honey</p>
+        </div>
+        <div class="select-box__value"><input class="select-box__input" type="radio" id="4" value="5" name="Ben" checked="checked" />
+            <p class="select-box__input-text">Toast</p>
+        </div><img class="select-box__icon" src="http://cdn.onlinewebfonts.com/svg/img_295694.svg" alt="Arrow Icon" aria-hidden="true" /></div>
+    <ul class="select-box__list">
+        <li><label class="select-box__option" for="0" aria-hidden="aria-hidden">Cream</label></li>
+        <li><label class="select-box__option" for="1" aria-hidden="aria-hidden">Cheese</label></li>
+        <li><label class="select-box__option" for="2" aria-hidden="aria-hidden">Milk</label></li>
+        <li><label class="select-box__option" for="3" aria-hidden="aria-hidden">Honey</label></li>
+        <li><label class="select-box__option" for="4" aria-hidden="aria-hidden">Toast</label></li>
+    </ul>
+</div>
+          </div>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
           </div>
@@ -61,5 +88,4 @@
           </table>
       </div>
       </div>
-      <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</h1>
 {% endblock content %}

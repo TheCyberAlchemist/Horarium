@@ -11,7 +11,7 @@ input:focus {
   outline: none;
 }
 .nav_container{
-  
+
 }
 .navv{
   margin: 0px;
@@ -46,14 +46,6 @@ input:focus {
 
 }
 
-.logotxt{
-  clear: right;
-  float: left;
-  margin-top: 15px;
-  /* justify-content: center; */
-  font-family: sans-serif;
-  margin-left: 18em;
-}
 .nav_items{
   list-style: none;
   float: right;
@@ -96,86 +88,7 @@ input:focus {
     font-size: 15px;
   }
 }
-
-
-/*///////////////////////GLITCH//////////////////////////////*/
-
-
-@keyframes fadeInAnimation {
-    0% {
-        opacity: 0;
-    }
-    100% {
-        opacity: 1;
-     }
-}
-
-.glitch {
-  animation: glitch 2s 1s infinite;
-}
-
-.glitch::before {
-  content: attr(data-text);
-  position: absolute;
-  left: -2px;
-  text-shadow: -5px 0 magenta;
-  background: black;
-  overflow: hidden;
-  top: 0;
-  animation: noise-1 3s linear infinite alternate-reverse, glitch 5s 5.05s infinite;
-}
-
-.glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 2px;
-  text-shadow: -5px 0 lightgreen;
-  background: black;
-  overflow: hidden;
-  top: 0;
-  animation: noise-2 3s linear infinite alternate-reverse, glitch 3s 3s infinite;
-}
-
-@keyframes glitch {
-  1%{
-    transform: rotateX(10deg) skewX(90deg);
-  }
-  2%{
-    transform: rotateX(0deg) skewX(0deg);
-  }
-}
-
-
-/*/////////////////////////TEXTOS////////////////////////////*/
-.wavy{
-  box-reflect :  below -12px linear-gradient(
-  transparent, rgba(0,0,0,0.2));
-}
-.wavy span{
-  display: inline-block;
-  font-size: 30px;
-  margin-top: 0px;
-  font-weight: 900;
-  font-family: 'Do Hyeon', sans-serif;
-  text-transform: uppercase;
-  animation: animate 2s ease-in-out infinite;
-  animation-delay: calc(.15s * var(--i))
-}
-
-@keyframes animate {
-  0% {
-      transform: translateY(0px);
-  }
-  20% {
-      transform: translateY(-20px);
-  }
-  40%,100% {
-      transform: translateY(0px);
-  }
-}
-
-
-.nav_a_tags:before, .nav_a_tags:after
+.nav_items:before, .nav_items:after
 {
   position: absolute;
   left: 0px;
@@ -186,23 +99,23 @@ input:focus {
   opacity: 0;
   transition: all 0.3s;
 }
-.nav_a_tags:focus{
+.nav_items:focus{
   outline: none;
   border: none;
 }
-.nav_a_tags:before
+.nav_items:before
 {
   top: 0px;
   transform: translateY(10px);
 }
 
-.nav_a_tags:after
+.nav_items:after
 {
   bottom: 0px;
   transform: translateY(-10px);
 }
 
-.nav_a_tags:hover:before, .nav_a_tags:hover:after
+.nav_items:hover:before, .nav_items:hover:after
 {
   opacity: 1;
   transform: translateY(0px);

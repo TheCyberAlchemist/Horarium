@@ -27,4 +27,3 @@ function hover(self,link) {
 function unhover(self,link){
 	self.setAttribute("src",link);
 }
-

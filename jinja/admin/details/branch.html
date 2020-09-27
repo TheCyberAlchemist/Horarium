@@ -15,8 +15,8 @@
         <legend class="not_login">Add Branches</legend>
         <form class="myform" method = "POST">
           {{ csrf_input }}
-          <div class="input_container"><input type="text" name="name"  class ="form_input" placeholder="Brach Name" /></div>
-          <div class="input_container"><input type="text" name="short"  class="form_input" placeholder="Short Name" /></div>
+          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="name"  class ="form_input" placeholder="Brach Name" /></div>
+          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="short"  class="form_input" placeholder="Short Name" /></div>
           <div class="submit_button_container">
             <button type="submit" class="submit_button" onclick="">Submit</button>
           </div>
@@ -49,8 +49,8 @@
                   <td>{{branch.short}}</td>
                   <td>
                     <div class="actions">
-                      <img  src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                      <img  src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#"
+                      sdf<img  src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                      sdf<img  src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#"
                       onmouseover="hover(this,'{{static ('admin/details/delete_hover.png')}}')"
                       onmouseout = "unhover(this,'{{static ('admin/details/delete.png')}}')">
                     </div>

@@ -42,7 +42,7 @@ body{
   /*font-size: 16px;*/
 }
 .table_container{
-  display: grid;
+  /* display: grid; */
   padding-top: 3em;
   height: auto;
   width: 100%;

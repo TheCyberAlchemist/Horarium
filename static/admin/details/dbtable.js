@@ -1,6 +1,6 @@
 function searchFun(){
 	let filter = document.getElementById('myinput').value.toUpperCase();
-	let myTable = document.getElementById('db-table');
+	let myTable = document.getElementById('db_table');
 	let tr = myTable.getElementsByTagName('tr');
 	for (var i = 1; i < tr.length; i++) {
 		let td = tr[i].getElementsByTagName('td');
@@ -27,4 +27,3 @@ function hover(self,link) {
 function unhover(self,link){
 	self.setAttribute("src",link);
 }
-

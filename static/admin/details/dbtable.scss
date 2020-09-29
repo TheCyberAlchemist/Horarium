@@ -1,7 +1,8 @@
 $table_bg_color : #556062;
-$table_th_color : #1C2021;
-$table_th_hover_color : #684678;
-$nth_child_color : #464f51;
+$table_th_color : #141617;
+$table_tr_hover_color : transparent;
+$table_tr_color: #141617dc;
+$nth_child_color : #1b1f20dc;
 .table_container{
     /* display: grid; */
     padding-top: 3em;
@@ -31,7 +32,10 @@ $nth_child_color : #464f51;
     position: relative;
     text-align: center;
   }
-  
+  #db_table tr{
+    background-color: $table_tr_color;
+  }
+
   #db_table tr:nth-child(even) {
     background-color: $nth_child_color;
   }
@@ -52,10 +56,9 @@ $nth_child_color : #464f51;
     padding: 11px;
     margin: 11px;
     /*font-size: 16px;*/
-    background-color: #141617;
   }
   #db_table tr:hover{
-    background-color: #1f2122;
+    background-color: $table_tr_hover_color;
   }
   
   #myinput{      //for search button in dbtable

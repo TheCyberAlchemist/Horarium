@@ -37,8 +37,12 @@
   text-align: center;
 }
 
+#db_table tr {
+  background-color: #141617dc;
+}
+
 #db_table tr:nth-child(even) {
-  background-color: #464f51;
+  background-color: #1b1f20dc;
 }
 
 #db_table thead tr th {
@@ -53,18 +57,17 @@
   /*font-size: 16px;*/
   top: 0;
   position: sticky;
-  background-color: #1C2021;
+  background-color: #141617;
 }
 
 #db_table td {
   padding: 11px;
   margin: 11px;
   /*font-size: 16px;*/
-  background-color: #141617;
 }
 
 #db_table tr:hover {
-  background-color: #1f2122;
+  background-color: transparent;
 }
 
 #myinput {

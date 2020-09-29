@@ -1,33 +1,33 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <title>Login | Horarium </title>
-    <link rel="stylesheet" href="{{static ('form/form.css') }}">
-    <script src="{{static ('form/form.js') }}" ></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="form_container">
-      <fieldset>
-        <legend>Login</legend>
-          <form class="myform" method="POST">
-          {{ csrf_input }}
-            <div class="input_container"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i><input type="text" name="email" class="form_input" placeholder="Email" autocomplete = "off" /></div>
-            <div class="input_container"><i class="fa fa-key fa-lg" aria-hidden="true"></i><input class="form_input" name="password" id="myinput1" type="password" placeholder="Your Password" >
-              <span id="eye" onclick="visibility1()">
-                <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
-                <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
-              </span>
-              </div>
-           <div class="submit_button_container">
-             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
-           </div>
-        </form>
+{% extends 'admin/base.html' %}
+  {% block title %}Semester{% endblock title %}
+  {% block css %}
+  <link rel="stylesheet" href="{{static ('form/form.css') }}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  {% endblock css %}
+{% block scripts %}
+<script src="{{static ('form/form.js') }}" ></script>
+{% endblock scripts %}
+
+{% block content %}
+  <div class="whole_container">
+    <fieldset>
+      <legend>Login</legend>
+        <form class="myform" method="POST">
+        {{ csrf_input }}
+          <div class="input_container"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i><input type="email" name="email" class="form_input" placeholder="Email" autocomplete = "off" /></div>
+          <div class="input_container"><i class="fa fa-key fa-lg" aria-hidden="true"></i><input class="form_input" name="password" id="myinput1" type="password" placeholder="Your Password" >
+            <span id="eye" onclick="visibility1()">
+              <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
+              <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
+            </span>
+            </div>
+          <div class="submit_button_container">
+            <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
+          </div>
+      </form>
     </fieldset>
     {% if message %}
-		  {{message}}
+      {{message}}
     {% endif %}
-  </div>
-  </body>
-</html>
+</div>
+{% endblock content %}

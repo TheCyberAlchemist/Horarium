@@ -10,7 +10,7 @@
 {% endblock scripts %}
 
 {% block content %}
-	  <div class="form_container" id="form_container_id">
+	  <div class="whole_container" id="whole_container_id">
       <fieldset>
         <legend class="not_login">Add Batch</legend>
         <form class="myform">
@@ -59,9 +59,9 @@
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Batch Name</th>
                 <th>Batch for</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -75,12 +75,8 @@
                   <td>Lecture</td>
                   {% endif %}
                   <td>
-                    <div class="actions">
-                      <img  src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                      <img  src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#"
-                      onmouseover="hover(this,'{{static ('admin/details/delete_hover.png')}}')"
-                      onmouseout = "unhover(this,'{{static ('admin/details/delete.png')}}')">
-                    </div>
+                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#">
                   </td>
                 </tr>
               {% endfor %}

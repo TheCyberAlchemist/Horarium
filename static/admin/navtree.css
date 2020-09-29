@@ -1,35 +1,22 @@
 /* FUNCTIONAL - Needed for the tree diagram */
-@import url("https://fonts.googleapis.com/css?family=Questrial");
 
-body {
-  font-family: 'Questrial', sans-serif;
-  background-color: #333;
-  scrollbar-face-color: white;
-  scrollbar-track-color: transparent;
-  color: ivory;
-}
-a{
-  outline: none;
-  border: none;
-  text-decoration: none;
-  color: ivory;
-}
 .wrapper {
   background-color: #333;
   position: absolute;
   top: 0;
   left: 0;
+  user-select: none;
   width: 100vw;
   height: 100vh;
   text-align: center;
   overflow: auto;
   z-index: 100;
 }
-.not_data {
-
-}
 .data {
   text-decoration: none;
+  /* background-color: salmon; */
+}
+.active{
   background-color: salmon;
 }
 .wrapper ul {
@@ -190,22 +177,36 @@ body .wrapper ul input:checked ~ ul .more {
 
 
 .toggle_button{
-  position: absolute;
-  top: 90%;
-  right: 10%;
+  position: fixed;
+  top: 87%;
+  left: 50%;
   background: transparent;
   outline: none;
   color: white;
   border: none;
   padding: 5px;
   font-size: 20px;
-  transition: .5s;
+  animation: updown 2s ease infinite;
 }
 .toggle_button img{
   height: 40px;
   width: 50px;
 }
 .toggle_button:hover{
-  background-color: salmon;
+  /* background-color: salmon; */
   transition: .5s;
+}
+
+@keyframes updown {
+  0% {
+    transform: translateY(-40%);
+  }
+
+  50% {
+    transform: translateY(40%);
+  }
+
+  100% {
+    transform: translateY(-40%);
+  }
 }

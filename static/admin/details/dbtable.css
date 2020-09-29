@@ -1,29 +1,53 @@
-body{
-  background-color: #1e1e2e;
+.table_container {
+  /* display: grid; */
+  padding-top: 3em;
+  height: auto;
+  width: 100%;
+  text-align: center;
 }
-#db_table table{
-  font-size: 17px;
-}
-#db_table{
-  background-color: #556062;
+
+.table_container h1 {
+  text-align: center;
   color: #defff2;
+  font-size: 25px;
+}
+
+.search_box {
+  padding: 10px 0px;
+  display: -ms-grid;
+  display: grid;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  /* text-align: right; */
+}
+
+#db_table {
+  font-size: 17px;
+  background-color: #556062;
   border-collapse: collapse;
-  box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
-  user-select: none;
-  width: 80%;
-  left: 10%;
+  -webkit-box-shadow: -3px -1px 41px -13px black;
+          box-shadow: -3px -1px 41px -13px black;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  width: 100%;
   position: relative;
+  text-align: center;
 }
 
 #db_table tr:nth-child(even) {
   background-color: #464f51;
 }
 
-#db_table thead tr th{
+#db_table thead tr th {
   border-bottom: 1px solid #e14eca;
   padding: 11px;
   margin: 11px;
+  -webkit-transition: .3s;
   transition: .3s;
+  position: -webkit-sticky;
   position: sticky;
   font-weight: bold;
   /*font-size: 16px;*/
@@ -31,38 +55,24 @@ body{
   position: sticky;
   background-color: #1C2021;
 }
-#db_table tbody tr:hover{
-  background-color: #687678;
-  transition: .25s;
-  color:black;
-}
-#db_table td{
+
+#db_table td {
   padding: 11px;
   margin: 11px;
   /*font-size: 16px;*/
+  background-color: #141617;
 }
-.table_container{
-  /* display: grid; */
-  padding-top: 3em;
-  height: auto;
-  width: 100%;
-  text-align: center;
+
+#db_table tr:hover {
+  background-color: #1f2122;
 }
-.table_container h1{
-  text-align: center;
-  color: #defff2;
-}
-.search_box{
-  padding : 10px 0px;
-  display: grid;
-  justify-content: center;
-  /* text-align: right; */
-}
-#myinput{
+
+#myinput {
   position: relative;
   font-size: 20px;
-  width: 20px;
+  width: 30px;
   height: 30px;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
   outline: none;
   padding: 5px 0px 5px 18px;
@@ -70,26 +80,31 @@ body{
   color: transparent;
   border: none;
   border-radius: 30px;
-  -webkit-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
-  -moz-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
-  box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  -webkit-box-shadow: -3px -1px 41px -13px black;
+  box-shadow: -3px -1px 41px -13px black;
 }
-#myinput:focus{
+
+#myinput:focus {
   width: 150px;
+  -webkit-transition: .3s;
   transition: .3s;
   border-radius: 0px;
-  -webkit-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
-  -moz-box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
-  box-shadow: -3px -1px 41px -13px rgba(0,0,0,1);
+  -webkit-box-shadow: -3px -1px 41px -13px black;
+  box-shadow: -3px -1px 41px -13px black;
   color: #000;
 }
 
-.actions{
-  display: flex;
-  justify-content: center;
+.action_icons {
+  display: inline;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 0px 5px;
+  height: 25px;
+  width: 25px;
 }
-.actions img{
-  height: 20px;
-  padding-right: 20px;
-  width: 20px;
+
+.action_icons:hover {
+  opacity: 0.7;
 }
+/*# sourceMappingURL=dbtable.css.map */

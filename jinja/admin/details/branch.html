@@ -10,12 +10,13 @@
 {% endblock scripts %}
 
 {% block content %}
-	  <div class="form_container" id="form_container_id">
+	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend class="not_login">Add Branches</legend>
+        <legend class="not_login">Add Branch</legend>
         <form class="myform" method = "POST">
           {{ csrf_input }}
-          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="name"  class ="form_input" placeholder="Brach Name" /></div>
+          <div class="input_container disabled"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="name"  class ="form_input" placeholder="Department : {{my_department}}" disabled/></div>
+          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="name"  class ="form_input" placeholder="Branch Name" /></div>
           <div class="input_container"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="short"  class="form_input" placeholder="Short Name" /></div>
           <div class="submit_button_container">
             <button type="submit" class="submit_button" onclick="">Submit</button>
@@ -36,9 +37,9 @@
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Branch Name</th>
                 <th>Short</th>
-                <th>Action</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -48,12 +49,8 @@
                   <td>{{branch.name}}</td>
                   <td>{{branch.short}}</td>
                   <td>
-                    <div class="actions">
-                      sdf<img  src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                      sdf<img  src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#"
-                      onmouseover="hover(this,'{{static ('admin/details/delete_hover.png')}}')"
-                      onmouseout = "unhover(this,'{{static ('admin/details/delete.png')}}')">
-                    </div>
+                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#">
                   </td>
                 </tr>
               {% endfor %}

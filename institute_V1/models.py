@@ -15,7 +15,7 @@ class Institute(models.Model):
 class Resource(models.Model):
 	name = models.CharField(max_length = S_len)
 	block = models.CharField(max_length = S_len)
-	Institute
+	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
 
 class Department(models.Model):
 	name = models.CharField(max_length = N_len)

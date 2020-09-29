@@ -14,7 +14,9 @@
       <fieldset>
         <legend class="not_login">Add Division</legend>
         <form class="myform">
-          <div class="input_container"><input type="text" name=""  class ="form_input" placeholder="Division Name" /></div>
+          <div class="input_container">
+            <input type="text" name="name"  class ="form_input" placeholder="Division Name" />
+          </div>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
           </div>
@@ -38,7 +40,7 @@
             <tbody>
               {% for division in my_divisions %}
                 <tr>
-                  <td>{{division.id}}</td>
+                  <td>{{loop.index}}</td>
                   <td>{{division.name}}</td>
                   <td>
                       <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">

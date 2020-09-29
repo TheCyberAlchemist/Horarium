@@ -2,8 +2,8 @@ from django.shortcuts import render,redirect
 from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch
 from login_V2.decorators import allowed_users
 from django.contrib import messages
-from .forms import create_branch
-
+from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
+from django.http import HttpResponse
 
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
@@ -57,77 +57,145 @@ def admin_home(request):
 	return render(request,'admin/homepage/home.html',context)
 
 
-def show_department(request):
-	if request.method == 'POST':
-		pass
+def show_department(request,Department_id = None):
 	context = return_context(request)
-	if context['institute']:
+	if context['institute']:	# Check if the user is in the same institute as the urls
+		if Department_id:
+			edit = context['departments'].get(pk = Department_id)
+			form = create_department(instance = edit)
+			context['u_name'] = form.instance.name
+			context['u_short'] = form.instance.short
+		if request.method == 'POST':
+			if Department_id:
+				form = create_department(request.POST,instance=edit)
+			else:
+				form = create_department(request.POST)
+			if form.is_valid():
+				candidate = form.save(commit=False)
+				candidate.Institute_id = context['institute']
+				candidate.save()
+				return redirect('show_department')
+			else:
+				context['errors'] = form.errors
 		return render(request,"admin/details/department.html",context)
 	else:
 		raise redirect('/')
 
 
-def show_branch(request,Department_id):
+def show_branch(request,Department_id,Branch_id=None):
 	context = return_context(request)
 	my_department = Department.objects.get(id = Department_id)
-	if context['institute'] == my_department.Institute_id:
+	if context['institute'] == my_department.Institute_id:	# Check if the user is in the same institute as the urls
 		branches = Branch.objects.filter(Department_id=Department_id)
+		if Branch_id:	# if edit is called
+			edit = branches.get(pk=Branch_id)
+			form = create_branch(instance = edit)
+			context['u_name'] = form.instance.name
+			context['u_short'] = form.instance.short
 		context['my_branches'] = branches
 		context['my_department']= my_department
-		if request.method == 'POST':
-			# print(request.POST)
-			form = create_branch(request.POST)
+		if request.method == 'POST':	# if create is submitted
+			if Branch_id:
+				form = create_branch(request.POST,instance=edit)
+			else:
+				form = create_branch(request.POST)
 			if form.is_valid():
 				candidate = form.save(commit=False)
 				candidate.Department_id = my_department
 				candidate.save()
 				return redirect('show_branch',Department_id)
 			else:
-				# messages.info(request,form.errors.as_data)
 				context['errors'] = form.errors
-				# print(form.errors.as_data)
 		return render(request,"admin/details/branch.html",context)
 	else:
 		return redirect('/')
 
 
-def show_semester(request,Branch_id):
-	if request.method == 'POST':
-		pass
+def show_semester(request,Branch_id,Semester_id = None):
 	context = return_context(request)
 	my_branch = Branch.objects.get(id = Branch_id)
-	if context['institute'] == my_branch.Department_id.Institute_id:
+	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
 		semesters = Semester.objects.filter(Branch_id=Branch_id)
+
+		if Semester_id:	# if edit is called
+			edit = semesters.get(pk=Semester_id)
+			form = create_semester(instance = edit)
+			context['u_short'] = form.instance.short
+
 		context['my_semesters'] = semesters
 		context['my_branch'] = my_branch
+		if request.method == 'POST':	# if create is submitted
+			if Semester_id:	# if edit 
+				form = create_semester(request.POST, instance=edit) 
+			else:
+				form = create_semester(request.POST)
+			if form.is_valid():
+				candidate = form.save(commit=False)
+				candidate.Branch_id = my_branch
+				candidate.save()
+				return redirect('show_semester',Branch_id)
+			else:
+				context['errors'] = form.errors
 		return render(request,"admin/details/semester.html",context)
 	else:
 		raise redirect('/')
 
 
-def show_division(request,Semester_id):
-	if request.method == 'POST':
-		pass
+def show_division(request,Semester_id,Division_id = None):
 	context = return_context(request)
 	my_semester = Semester.objects.get(id = Semester_id)
-	if context['institute'] == my_semester.Branch_id.Department_id.Institute_id:
+	if context['institute'] == my_semester.Branch_id.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
 		divisions = Division.objects.filter(Semester_id=Semester_id)
+		if Division_id:	# if edit is called
+			edit = divisions.get(pk=Division_id)
+			form = create_division(instance = edit)
+			context['u_name'] = form.instance.name
 		context['my_divisions'] = divisions
 		context['my_semester'] = my_semester
+		if request.method == 'POST':
+			if Division_id:	# if edit 
+				form = create_division(request.POST, instance=edit) 
+			else:
+				form = create_division(request.POST)
+			if form.is_valid():
+				candidate = form.save(commit=False)
+				candidate.Semester_id = my_semester
+				# candidate.Shift_id = 
+				candidate.save()
+				return redirect('show_division',Semester_id)
+			else:
+				context['errors'] = form.errors
 		return render(request,"admin/details/division.html",context)
 	else:
 		raise redirect('/')
 
 
-def show_batch(request,Division_id):
+def show_batch(request,Division_id,Batch_id = None):
 	if request.method == 'POST':
 		pass
 	context = return_context(request)
 	my_division = Division.objects.get(id = Division_id)
 	if context['institute'] == my_division.Semester_id.Branch_id.Department_id.Institute_id:
+																		# Check if the user is in the same institute as the urls
 		batches = Batch.objects.filter(Division_id=Division_id)
+		if Batch_id:	# if edit is called
+			edit = divisions.get(pk=Batch_id)
+			form = create_branch(instance = edit)
+			context['u_name'] = form.instance.name
 		context['my_batches'] = batches
 		context['my_division'] = my_division
+		if request.method == 'POST':
+			if Batch_id:	# if edit 
+				form = create_branch(request.POST, instance=edit) 
+			else:
+				form = create_branch(request.POST)
+			if form.is_valid():
+				candidate = form.save(commit=False)
+				candidate.Division_id = my_division
+				candidate.save()
+				return redirect('show_batch',Division_id)
+			else:
+				context['errors'] = form.errors
 		return render(request,"admin/details/batch.html",context)
 	else:
 		raise redirect('/')

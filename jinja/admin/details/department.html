@@ -13,9 +13,16 @@
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
         <legend class="not_login">Add Department</legend>
-        <form class="myform">
-          <div class="input_container"> <img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="dept"> <input type="text" name=""  class ="form_input" placeholder="Department Name" /></div>
-          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="short"><input type="text" name=""  class="form_input" placeholder="Short Name" /></div>
+        <form class="myform" method = "POST">
+          {{csrf_input}}
+          <div class="input_container">
+            <img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="dept"> 
+            <input type="text" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" placeholder="Department Name" />
+          </div>
+          <div class="input_container">
+            <img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="short">
+            <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input" placeholder="Short Name" />
+          </div>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
           </div>
@@ -40,13 +47,14 @@
             <tbody>
               {% for department in departments %}
                 <tr>
-                  <td>{{department.id}}</td>
+                  <td>{{loop.index}}</td>
                   <td>{{department.name}}</td>
                   <td>{{department.short}}</td>
                   <td>
-                    <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                    <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#">
-
+                    <a href = "{{url ('update_department' ,args=[department.id])}}">
+                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" >
+                    </a>
+                    <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete">
                   </td>
                 </tr>
               {% endfor %}

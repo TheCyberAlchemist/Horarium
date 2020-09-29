@@ -10,19 +10,13 @@
 {% endblock scripts %}
 
 {% block content %}
-	  <div class="whole_container" id="whole_container_id">
+	  <div class="form_container" id="form_container_id">
       <fieldset>
-        <legend class="not_login">{% if u_name %}Update{% else %}Add{% endif %} Branch</legend>
+        <legend class="not_login">Add Branch</legend>
         <form class="myform" method = "POST">
           {{ csrf_input }}
-          <div class="input_container">
-            <img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes">
-            <input type="text" {% if u_name %}value = "{{u_name}}"{% endif %} name="name"  class ="form_input" placeholder="Branch Name" />
-          </div>
-          <div class="input_container">
-            <img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes">
-            <input type="text" {% if u_short %}value = "{{u_short}}"{% endif %} name="short"  class="form_input" placeholder="Short Name" />
-          </div>
+          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="name"  class ="form_input" placeholder="Brach Name"/></div>
+          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/vector.png')}}" alt="nodes"><input type="text" name="short"  class="form_input" placeholder="Short Name" /></div>
           <div class="submit_button_container">
             <button type="submit" class="submit_button" onclick="">Submit</button>
           </div>
@@ -42,9 +36,9 @@
             <thead>
               <tr>
                 <th>Id</th>
-                <th>Branch Name</th>
+                <th>Name</th>
                 <th>Short</th>
-                <th>Actions</th>
+                <th>Action</th>
               </tr>
             </thead>
             <tbody>
@@ -54,10 +48,10 @@
                   <td>{{branch.name}}</td>
                   <td>{{branch.short}}</td>
                   <td>
-                    <a href = {{url ('update_branch' ,args=[my_department.id,branch.id])}}>
-                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit">
-                    </a>
-                    <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete">
+                    <a href = ""><img  src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit"></a>
+                    <img  src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete"
+                    onmouseover="hover(this,'{{static ('admin/details/delete_hover.png')}}')"
+                    onmouseout = "unhover(this,'{{static ('admin/details/delete.png')}}')">
                   </td>
                 </tr>
               {% endfor %}

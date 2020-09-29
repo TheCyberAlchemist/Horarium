@@ -31,12 +31,7 @@ $form_color : #1e1e2e;
     width: 59%;
     margin: 0 auto;
   }
-  
-  .input_select {
-    width: 59%;
-    margin: 2em 0;
-  }
-  
+ 
   .input_icons {
     height: 25px;
     width: 25px;
@@ -121,15 +116,22 @@ $form_color : #1e1e2e;
     background-color: #e12eca;
   }
   
-  /* */
+  /*DROPDOWN */
+   
+  .input_select {
+    width: 60%;
+    margin : 1em 1.5em 2em;
+  }
+  
   .select-box {
     position: relative;
     display: block;
     width: 100%;
+    height : 50px;
     margin: 0 auto;
-    font-size: 18px;
+    font-size: 16px;
     /* background-color: transparent; */
-    color: #60666d;
+    color: ivory;
     -webkit-box-shadow: -3px -1px 41px -13px black;
     box-shadow: -3px -1px 41px -13px black;
   }
@@ -148,7 +150,7 @@ $form_color : #1e1e2e;
   
   @media (min-width: 1200px) {
     .select-box {
-      width: 30%;
+      width: 40%;
     }
   }
   
@@ -183,7 +185,6 @@ $form_color : #1e1e2e;
             transform: translateY(-50%);
     width: 20px;
     opacity: 0.3;
-    /* background-color: white; */
     -webkit-transition: 0.2s ease;
     transition: 0.2s ease;
   }
@@ -192,6 +193,7 @@ $form_color : #1e1e2e;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    width: 100%;
   }
   
   .select-box__input {
@@ -207,7 +209,7 @@ $form_color : #1e1e2e;
     width: 100%;
     margin: 0;
     padding: 15px;
-    background-color: black;
+    background-color: #333;
   }
   
   .select-box__list {
@@ -233,7 +235,7 @@ $form_color : #1e1e2e;
   .select-box__option {
     display: block;
     padding: 15px;
-    background-color: black;
+    background-color: #1a1a20;
     -webkit-user-select: none;
        -moz-user-select: none;
         -ms-user-select: none;

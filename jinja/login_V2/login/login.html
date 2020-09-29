@@ -3,12 +3,31 @@
   {% block css %}
   <link rel="stylesheet" href="{{static ('form/form.css') }}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
+  
   {% endblock css %}
 {% block scripts %}
 <script src="{{static ('form/form.js') }}" ></script>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
+<script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
 {% endblock scripts %}
 
 {% block content %}
+<div class="nav_container">
+  <nav class="navv" id="show_navbar">
+    <!-- <div class="nav_items show_user">
+      <a href="{{url ('login')}}">Hi, {{request.user}}</a>
+    </div> -->
+
+
+    <div class="container ">
+    <ul>
+      <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
+      <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
+    </ul>
+    </div>
+  </nav>
+</div>
   <div class="whole_container">
     <fieldset>
       <legend>Login</legend>

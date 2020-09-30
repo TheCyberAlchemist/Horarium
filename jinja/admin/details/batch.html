@@ -14,33 +14,49 @@
       <fieldset>
         <legend class="not_login">Add Batch</legend>
         <form class="myform">
-          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="dept"><input type="text" name=""  class ="form_input" placeholder="Batch Name" /></div>
-          <div class="input_select">
-            <div class="select-box">
-              <div class="select-box__current" tabindex="1">
-            
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="0" value="1" name="Ben" checked="checked" />
-                    <p class="select-box__input-text">Select Batch For</p>
-                </div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="0" value="1" name="Ben" checked="checked" />
-                    <p class="select-box__input-text">Lecture</p>
-                </div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="1" value="2" name="Ben" checked="checked" />
-                    <p class="select-box__input-text">Lab</p>
-                </div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" id="2" value="3" name="Ben" checked="checked" />
-                    <p class="select-box__input-text">Tutorial</p>
-                </div>
-                <img class="select-box__icon" src="{{static ('admin/details/down.png')}}" alt="Arrow Icon" aria-hidden="true" /></div>
+          <div class="input_container"><img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept"><input type="text" name=""  class ="form_input" placeholder="Batch Name" /></div>
 
-                <ul class="select-box__list">
-                  <li><label class="select-box__option" for="0" aria-hidden="aria-hidden">Select Batch For</label></li>
-                    <li><label class="select-box__option" for="1" aria-hidden="aria-hidden">Lab</label></li>
-                    <li><label class="select-box__option" for="2" aria-hidden="aria-hidden">Lecture</label></li>
-                    <li><label class="select-box__option" for="3" aria-hidden="aria-hidden">Tutorial</label></li>
-                </ul>
+          <div class="dropdown_container">
+
+            <div class="dropdown_select_box">
+              <div class="options_container">
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Batch_31" name="category"/>
+                  <label for="Batch_31">Batch-31</label>
+                </div>
+
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Batch_32" name="category" />
+                  <label for="Batch_32">Batch-32</label>
+                </div>
+
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Batch_33" name="category" />
+                  <label for="Batch_33">Batch-33</label>
+                </div>
+
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Batch_34" name="category" />
+                  <label for="Batch_34">Batch-34</label>
+                </div>
+
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Batch_35" name="category" />
+                  <label for="Batch_35">Batch-35</label>
+                </div>
               </div>
+
+              <div class="selected">
+                Select Batch
+                <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
+              </div>
+
+              <div class="search_box">
+                <input type="text" placeholder="Start Typing..." />
+              </div>
+            </div>
           </div>
+
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
           </div>
@@ -50,7 +66,7 @@
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
       <div class="table_container">
         <h1>Batches for {{my_division}}</h1><br>
-          <div class="search_box">
+          <div class="table_search_box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
           </div>
           <table id = "db_table">
@@ -60,6 +76,7 @@
                 <th>Batch Name</th>
                 <th>Batch for</th>
                 <th>Actions</th>
+                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -73,8 +90,14 @@
                   <td>Lecture</td>
                   {% endif %}
                   <td>
-                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                      <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" onclick="#">
+                  </td>
+                  <td>
+                    <div class="checkboxes">
+                    <input type="checkbox" id="ckx" name="ckx" value="ckx">
+                    <label for="fruit1">Apple</label>
+                  </div>
                   </td>
                 </tr>
               {% endfor %}

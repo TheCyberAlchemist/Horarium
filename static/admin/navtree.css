@@ -9,7 +9,7 @@
   width: 100vw;
   height: 100vh;
   text-align: center;
-  overflow: auto;
+  overflow-x: auto;
   z-index: 100;
 }
 .data {
@@ -33,33 +33,9 @@
 }
 
 /* MAKE-UP - Pure esthetics */
-::-webkit-scrollbar-button {
-  display: none;
+.wrapper::-webkit-scrollbar{
+  width: 0;
 }
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: white;
-  border: 1px solid white;
-  cursor: pointer;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-  width: calc(2px * 2);
-  border: 2px solid rgba(26, 26, 26, 0);
-}
-
-::-webkit-scrollbar-track-piece {
-  background: transparent;
-  width: calc(2px / 2);
-  border: 2px solid rgba(26, 26, 26, 0);
-}
-
 @media (min-width: 480px) {
   :root {
     font-size: calc(0.75rem + ((1vw - 4.8px) * 0.5556));

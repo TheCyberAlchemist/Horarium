@@ -17,34 +17,42 @@
           <div class="input_container">
             <input type="text" name="name"  class ="form_input" placeholder="Division Name" />
           </div>
-          <div class="input_select">
-            <div class="select-box">
-              <div class="select-box__current" tabindex="1">
-            
-                <div class="select-box__value"><input class="select-box__input" type="radio" name="Division" checked="checked" id="0" value="0" />
-                    <p class="select-box__input-text">Select Shift</p>
-                </div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" name="Division" checked="checked" id="1" value="1" />
-                    <p class="select-box__input-text">A</p>
-                </div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" name="Division" checked="checked" id="2" value="2" />
-                    <p class="select-box__input-text">B</p>
-                </div>
-                <div class="select-box__value"><input class="select-box__input" type="radio" name="Division" checked="checked" id="3" value="3" />
-                    <p class="select-box__input-text">C</p>
-                </div>
-                <img class="select-box__icon" src="{{static ('admin/details/down.png')}}" alt="Arrow Icon" aria-hidden="true" /></div>
 
-                <ul class="select-box__list">
-                    <li><label class="select-box__option" for="0" aria-hidden="aria-hidden">Select Division</label></li>
-                    <li><label class="select-box__option" for="1" aria-hidden="aria-hidden">A</label></li>
-                    <li><label class="select-box__option" for="2" aria-hidden="aria-hidden">B</label></li>
-                    <li><label class="select-box__option" for="3" aria-hidden="aria-hidden">C</label></li>
-                </ul>
+          <div class="dropdown_container">
+
+            <div class="dropdown_select_box">
+              <div class="options_container">
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Division_A" name="category"/>
+                  <label for="Division_A">Division A</label>
+                </div>
+
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Division_B" name="category" />
+                  <label for="Division_B">Division B</label>
+                </div>
+
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Division_C" name="category" />
+                  <label for="Division_C">Division C</label>
+                </div>
+
+                <div class="dropdown_option">
+                  <input type="radio" class="radio" id="Division_D" name="category" />
+                  <label for="Division_D">Division D</label>
+                </div>
               </div>
+
+              <div class="selected">
+                Select Division
+                <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
+              </div>
+
+              <div class="search_box">
+                <input type="text" placeholder="Start Typing..." />
+              </div>
+            </div>
           </div>
-
-
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
           </div>
@@ -54,7 +62,7 @@
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
       <div class="table_container">
         <h1>Divisions for {{my_semester}}</h1><br>
-          <div class="search_box">
+          <div class="table_search_box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
           </div>
           <table id = "db_table">
@@ -71,8 +79,8 @@
                   <td>{{loop.index}}</td>
                   <td>{{division.name}}</td>
                   <td>
-                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                      <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" onclick="#">
                   </td>
                 </tr>
               {% endfor %}

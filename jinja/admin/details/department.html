@@ -16,11 +16,11 @@
         <form class="myform" method = "POST">
           {{csrf_input}}
           <div class="input_container">
-            <img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="dept"> 
+            <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
             <input type="text" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" placeholder="Department Name" />
           </div>
           <div class="input_container">
-            <img class="input_icons" src="{{static ('admin/details/department.png')}}" alt="short">
+            <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="short">
             <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input" placeholder="Short Name" />
           </div>
           <div class="submit_button_container">
@@ -32,7 +32,7 @@
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
       <div class="table_container">
         <h1>Department for {{institute}}</h1><br>
-          <div class="search_box">
+          <div class="table_search_box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
           </div>
           <table id = "db_table">
@@ -52,9 +52,9 @@
                   <td>{{department.short}}</td>
                   <td>
                     <a href = "{{url ('update_department' ,args=[department.id])}}">
-                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" >
+                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
                     </a>
-                    <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete">
+                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete">
                   </td>
                 </tr>
               {% endfor %}

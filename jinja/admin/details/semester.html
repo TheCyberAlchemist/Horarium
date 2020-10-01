@@ -27,7 +27,7 @@
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
       <div class="table_container">
         <h1>Semesters for {{my_branch}}</h1><br>
-          <div class="search_box">
+          <div class="table_search_box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
           </div>
           <table id = "db_table">
@@ -45,9 +45,9 @@
                   <td>{{semester.short}}</td>
                   <td>
                     <a href = "{{url ('update_semester' ,args=[my_branch.id,semester.id])}}">
-                      <img class="action_icons" src="{{static ('admin/details/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
                     <a>
-                    <img class="action_icons" src="{{static ('admin/details/delete.png')}}" alt="delete" title="Delete" onclick="#">
+                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" onclick="#">
                   </td>
                 </tr>
               {% endfor %}

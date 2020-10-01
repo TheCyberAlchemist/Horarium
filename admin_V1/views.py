@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch
+from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift
 from login_V2.decorators import allowed_users
 from django.contrib import messages
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
@@ -207,6 +207,8 @@ def add_faculty(request):
 	context['user_form'] = faculty_user()
 	context['faculty_detail_form'] = faculty_details()
 	context['faculty_load_form'] = faculty_load()
+	context['shifts'] = Shift.objects.filter(Department_id=1)
+	print(context['shifts'])
 	if request.method == 'POST':
 		user_form = faculty_user(request.POST)
 		faculty_detail_form = faculty_details(request.POST)

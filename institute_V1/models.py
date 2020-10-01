@@ -32,7 +32,9 @@ class Shift(models.Model):
 	end_time = models.TimeField(auto_now=False, auto_now_add=False)
 	Department_id = models.ForeignKey(Department,default=None,on_delete = models.CASCADE)
 	def __str__(self):
-		return self.name
+		s_min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
+		e_min = "00" if self.end_time.minute == 0 else str(self.end_time.minute)
+		return self.name + " [ " + str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min + " ]"
 	class Meta:
 		verbose_name_plural = "Shift"
 

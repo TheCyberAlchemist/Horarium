@@ -61,7 +61,8 @@ def admin_home(request):
 def show_department(request,Department_id = None):
 	context = return_context(request)
 	if context['institute']:	# Check if the user is in the same institute as the urls
-		if Department_id:
+		context['form'] = create_department()
+		if Department_id:	# if edit is called
 			edit = context['departments'].get(pk = Department_id)
 			form = create_department(instance = edit)
 			context['u_name'] = form.instance.name
@@ -87,6 +88,7 @@ def show_branch(request,Department_id,Branch_id=None):
 	context = return_context(request)
 	my_department = Department.objects.get(id = Department_id)
 	if context['institute'] == my_department.Institute_id:	# Check if the user is in the same institute as the urls
+		context['form'] = create_branch()
 		branches = Branch.objects.filter(Department_id=Department_id)
 		if Branch_id:	# if edit is called
 			edit = branches.get(pk=Branch_id)
@@ -117,7 +119,7 @@ def show_semester(request,Branch_id,Semester_id = None):
 	my_branch = Branch.objects.get(id = Branch_id)
 	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
 		semesters = Semester.objects.filter(Branch_id=Branch_id)
-
+		context['form'] = create_semester()
 		if Semester_id:	# if edit is called
 			edit = semesters.get(pk=Semester_id)
 			form = create_semester(instance = edit)
@@ -147,6 +149,7 @@ def show_division(request,Semester_id,Division_id = None):
 	my_semester = Semester.objects.get(id = Semester_id)
 	if context['institute'] == my_semester.Branch_id.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
 		divisions = Division.objects.filter(Semester_id=Semester_id)
+		context['form'] = create_division()
 		if Division_id:	# if edit is called
 			edit = divisions.get(pk=Division_id)
 			form = create_division(instance = edit)
@@ -179,17 +182,18 @@ def show_batch(request,Division_id,Batch_id = None):
 	if context['institute'] == my_division.Semester_id.Branch_id.Department_id.Institute_id:
 																		# Check if the user is in the same institute as the urls
 		batches = Batch.objects.filter(Division_id=Division_id)
+		context['form'] = create_division()
 		if Batch_id:	# if edit is called
 			edit = divisions.get(pk=Batch_id)
-			form = create_branch(instance = edit)
+			form = create_batch(instance = edit)
 			context['u_name'] = form.instance.name
 		context['my_batches'] = batches
 		context['my_division'] = my_division
 		if request.method == 'POST':
 			if Batch_id:	# if edit 
-				form = create_branch(request.POST, instance=edit) 
+				form = create_batch(request.POST, instance=edit) 
 			else:
-				form = create_branch(request.POST)
+				form = create_batch(request.POST)
 			if form.is_valid():
 				candidate = form.save(commit=False)
 				candidate.Division_id = my_division
@@ -221,7 +225,7 @@ def add_faculty(request):
 			#############3
 			faculty_load_form.save(commit = False)
 		else:
-			context['errors'] = [user_form.errors,faculty_detail_form.errors]
+			context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
 			
 		
 	return render(request,"admin/faculty/faculty_details.html",context)

@@ -23,12 +23,12 @@
             <div class="dropdown_select_box">
               <div class="options_container">
                 <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Batch_31" name="category" value = "#"/>
+                  <input type="radio" class="radio" id="Batch_31" name="category" value="Batch-31"/>
                   <label for="Batch_31">Batch-31</label>
                 </div>
 
                 <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Batch_32" name="category" value = "#" />
+                  <input type="radio" class="radio" id="Batch_32" name="category" value=""/>
                   <label for="Batch_32">Batch-32</label>
                 </div>
 
@@ -54,7 +54,7 @@
               </div>
 
               <div class="search_box">
-                <input type="text" placeholder="Start Typing..." />
+                <input type="text" placeholder="Start Typing..." name = "search"/>
               </div>
             </div>
           </div>
@@ -78,7 +78,12 @@
                 <th>Batch Name</th>
                 <th>Batch for</th>
                 <th>Actions</th>
-                <th>Edit</th>
+                <th>
+                  <!-- Edit -->
+                  <div class="checkboxes">
+                    <input type="checkbox" id="ckx_all" name="ckx_all" value="ckx_all">
+                    <label for="ckx_all"></label> 
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -98,7 +103,7 @@
                   <td>
                     <div class="checkboxes">
                     <input type="checkbox" id="ckx" name="ckx" value="ckx">
-                    <label for="fruit1">Apple</label>
+                    <label for="ckx"></label>
                   </div>
                   </td>
                 </tr>

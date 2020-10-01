@@ -37,23 +37,23 @@
         {{user_form.password2}}
       </div>
       <div class="dropdown_container">
-        <div class="dropdown_select_box">
-          <div class="options_container">
-            {% for shift in shifts %}
-              <div class="dropdown_option">
-                <input type="radio" class="radio" id="Batch_31" name="category" value = "{{shift.id}}"/>
-                <label for="1">{{shift}}</label>
+            <div class="dropdown_select_box">
+              <div class="options_container">
+                <div class="dropdown_option">
+                  <input type="radio" class="no_class radio" id="Batch_35" name="category" value = "#" />
+                  <label for="Batch_35">Batch-35</label>
+                </div>
               </div>
-            {% endfor %}
-          </div>
-          <div class="selected">
-            Select Batch
-            <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
-          </div>
-          <div class="search_box">
-            <input type="text" name = 'Shift_id'placeholder="Start Typing..." />
-          </div>
-        </div>
+
+              <div class="selected">
+                Select Batch
+                <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
+              </div>
+
+              <div class="search_box">
+                <input type="text" placeholder="Start Typing..." name = "search" class = 'no_class'/>
+              </div>
+            </div>
       </div>
       <div class="submit_button_container">
         <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
@@ -68,7 +68,8 @@
   var form_fields = form.getElementsByTagName('input');
 
   for (var field in form_fields){	
-    form_fields[field].className += 'form_input';
+    if (form_fields[field].className != "no_class")
+      form_fields[field].className += ' form_input';
   }
 
   form_fields[1].placeholder='First Name';

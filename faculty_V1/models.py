@@ -31,7 +31,7 @@ class Faculty_details(models.Model):
 		verbose_name_plural = "Faculty Details"
 
 class Faculty_load(models.Model):
-	load = models.IntegerField()
+	total_load = models.PositiveIntegerField()
 	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE)
 	def __str__(self):
 		return str(self.Faculty_id) + " - " + str(self.load) + " hrs"

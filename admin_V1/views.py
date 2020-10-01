@@ -3,6 +3,7 @@ from institute_V1.models import Institute,Department,Branch,Semester,Division,Ba
 from login_V2.decorators import allowed_users
 from django.contrib import messages
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
+from .forms import faculty_user,faculty_details,faculty_load
 from django.http import HttpResponse
 
 def return_context(request):
@@ -199,3 +200,26 @@ def show_batch(request,Division_id,Batch_id = None):
 		return render(request,"admin/details/batch.html",context)
 	else:
 		raise redirect('/')
+
+
+def add_faculty(request):
+	context = return_context(request)
+	context['user_form'] = faculty_user()
+	context['faculty_detail_form'] = faculty_details()
+	context['faculty_load_form'] = faculty_load()
+	if request.method == 'POST':
+		user_form = faculty_user(request.POST)
+		faculty_detail_form = faculty_details(request.POST)
+		faculty_load_form = faculty_load(request.POST)
+		if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
+			user = user_form.save()
+			###########
+			faculty_detail_form.save(commit = False)
+			faculty_detail_form.Institute_id = context['institute']
+			#############3
+			faculty_load_form.save(commit = False)
+		else:
+			context['errors'] = [user_form.errors,faculty_detail_form.errors]
+			
+		
+	return render(request,"admin/faculty/faculty_details.html",context)

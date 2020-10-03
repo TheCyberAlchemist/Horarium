@@ -13,7 +13,7 @@ S_len = 10
 
 class Faculty_designation(models.Model):
 	designation = models.CharField(max_length = N_len)
-	Department_id = models.ForeignKey(Department,default=None,on_delete = models.CASCADE)
+	Department_id = models.ForeignKey(Department,default=None,on_delete = models.CASCADE,null=True,blank=True)
 	def __str__(self):
 		return self.designation
 	class Meta:

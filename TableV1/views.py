@@ -9,12 +9,13 @@ import json
 import datetime
 from .models import event_class,timings,event
 from .forms import selectdays,add_event	# for selecting the days
+from admin_V1.views import return_context
 ######################
 
 global_days = ['Monday','Tuesday','Wednesday','Thursday','Friday']
 @method_decorator(login_required(login_url='login'), name='dispatch')
 class view_table(View):
-	template_name = "Table/table.html"	# Main Table
+	template_name = "ED_project/table.html"	# Main Table
 	global global_days
 	@method_decorator(ensure_csrf_cookie)
 	def get(self, request):
@@ -27,14 +28,13 @@ class view_table(View):
 		events = event.objects.filter(owner=request.user)
 		#	Get all the exesting objects of the user
 		print(events)
-		context = {
-			'days': global_days, 					# For displaying days
-			'table_width': len(global_days) * 200,	# For the width of the table
-			'periods' : periods,					# All the timings
-			'event_butts' : event_butts,			# All the buttons
-			'events' : events,						# All the existing events
-			# 'day_len': len(global_days)+1,		# For the tfoot button
-		}
+		context = return_context(request)
+		context['days']= global_days 					# For displaying days
+		context['table_width']= len(global_days) * 200	# For the width of the table
+		context['periods'] = periods					# All the timings
+		context['event_butts'] = event_butts			# All the buttons
+		context['events'] = events						# All the existing events
+		# 'day_len': len(global_days)+1,		# For the tfoot button
 		return render(self.request, self.template_name,context)
 
 	def post(self, request):

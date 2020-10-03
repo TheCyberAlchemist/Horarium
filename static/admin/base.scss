@@ -7,7 +7,10 @@
 	letter-spacing: 2px;
 	font-weight: bold;
 }
-
+input::-ms-reveal,
+input::-ms-clear {
+	display: none;
+}
 input:focus {
 	outline: none;
 }

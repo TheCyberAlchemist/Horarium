@@ -13,12 +13,11 @@
         <a href="{{url ('logout')}}">Hi, {{request.user}}</a>
       </div>
 
-
       <div class="container ">
       <ul>
         <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
         <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
-        <li class="nav_items"><a class="nav_a_tags" href="#">Your Tables</a></li>
+        <li class="nav_items"><a class="nav_a_tags" href="{{url ('table')}}">Your Tables</a></li>
         <li class="nav_items" onclick="toggle();"><a class="nav_a_tags" href="#">Nav Tree</a></li>
       </ul>
       </div>

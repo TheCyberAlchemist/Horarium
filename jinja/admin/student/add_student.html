@@ -13,7 +13,7 @@
 {% block content %}
 <div class="whole_container" id="whole_container_id">
   <fieldset>
-    <legend class="not_login">Add Division</legend>
+    <legend class="not_login">Add Student</legend>
     <form class="myform" method = "POST">
       {{csrf_input}}
       <div class="input_container">
@@ -23,13 +23,7 @@
         {{user_form.last_name}}
       </div>
       <div class="input_container">
-        {{faculty_detail_form.short}}
-      </div>
-      <div class="input_container">
         {{user_form.email}}
-      </div>
-      <div class="input_container">
-        {{faculty_load_form.total_load}}
       </div>
       <div class="input_container">
         {{user_form.password1}}
@@ -45,55 +39,15 @@
           <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
         </span>
       </div>
-      <div class="dropdown_container">
-        <div class="dropdown_select_box">
-          <div class="options_container">
-            {% for designation in designations %}
-              <div class="dropdown_option">
-                <input type="radio" class="radio" id ="{{designation.id}}" name="Shift_id" value = "{{designation.id}}" />
-                <label for="{{designation.id}}">{{designation}}</label>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="selected">
-            Select Designation
-            <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
-          </div>
-
-          <div class="search_box">
-            <input type="text" placeholder="Start Typing..." class = 'no_class'/>
-          </div>
-        </div>
+      <div class="input_container">
+        {{student_detail_form.roll_no}}
       </div>
-      <div class="dropdown_container">
-        <div class="dropdown_select_box">
-          <div class="options_container">
-            {% for shift in shifts %}
-              <div class="dropdown_option">
-                <input type="radio" class="radio" id ="{{shift.id}}" name="Shift_id" value = "{{shift.id}}" />
-                <label for="{{shift.id}}">{{shift}}></label>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="selected">
-            Select Shift
-            <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
-          </div>
-
-          <div class="search_box">
-            <input type="text" placeholder="Start Typing..." class = 'no_class'/>
-          </div>
-        </div>
-      </div>
+      {{student_detail_form.Division_id}}
+      {{student_detail_form.Batch_id}}
       <div class="submit_button_container">
          <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
       </div>
-    </form>
-    {{errors}}
-  </fieldset>
-</div>
+		</form>
 
 <script>
   var form = document.getElementsByClassName('myform')[0];
@@ -106,13 +60,12 @@
 
   form_fields[1].placeholder='First Name';
   form_fields[2].placeholder='Last Name';
-  form_fields[3].placeholder='Short';
-  form_fields[4].placeholder='Email';
-  form_fields[5].placeholder='Load';
-  form_fields[6].placeholder='Enter password';
-  form_fields[6].id = 'myinput1';
-  form_fields[7].placeholder='Re-enter Password';
-  form_fields[7].id = 'myinput2';
+  form_fields[3].placeholder='Email';
+  form_fields[4].placeholder='Enter password';
+  form_fields[4].id = 'myinput1';
+  form_fields[5].placeholder='Re-enter Password';
+  form_fields[5].id = 'myinput2';
+  form_fields[6].placeholder = 'Roll. No.';
 
 </script>
-{%endblock%}
+{% endblock %}

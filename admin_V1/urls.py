@@ -15,4 +15,5 @@ urlpatterns = [
 	url(r'^batch/(?P<Division_id>\d+)/$',views.show_batch,name = 'show_batch'),
 	url(r'^batch/(?P<Division_id>\d+)/(?P<Batch_id>\d+)/$',views.show_batch,name = 'update_batch'),
 	path('faculty/',views.add_faculty,name = 'add_faculty'),
+	path('student/',views.add_student,name = 'add_student'),
 ]

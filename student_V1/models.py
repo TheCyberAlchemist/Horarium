@@ -16,6 +16,6 @@ class Student_details(models.Model):
 	Batch_id = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True)
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
 	def __str__(self):
-		return self.name
+		return self.User_id.first_name
 	class Meta:
 		verbose_name_plural = "Student Details"

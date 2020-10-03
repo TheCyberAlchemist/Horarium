@@ -3,7 +3,8 @@ from institute_V1.models import Institute,Department,Branch,Semester,Division,Ba
 from login_V2.decorators import allowed_users
 from django.contrib import messages
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
-from .forms import faculty_user,faculty_details,faculty_load
+from .forms import add_user,faculty_details,faculty_load,student_details
+from faculty_V1.models import Faculty_designation
 from django.http import HttpResponse
 
 def return_context(request):
@@ -208,24 +209,56 @@ def show_batch(request,Division_id,Batch_id = None):
 
 def add_faculty(request):
 	context = return_context(request)
-	context['user_form'] = faculty_user()
+	context['user_form'] = add_user()
 	context['faculty_detail_form'] = faculty_details()
 	context['faculty_load_form'] = faculty_load()
 	context['shifts'] = Shift.objects.filter(Department_id=1)
-	print(context['shifts'])
+	context['designations'] = Faculty_designation.objects.filter(Department_id=1) | Faculty_designation.objects.filter(Department_id=None)
 	if request.method == 'POST':
-		user_form = faculty_user(request.POST)
+		user_form = add_user(request.POST)
 		faculty_detail_form = faculty_details(request.POST)
+		print(request.POST)
+		
 		faculty_load_form = faculty_load(request.POST)
 		if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
+			# print("all done")
 			user = user_form.save()
 			###########
-			faculty_detail_form.save(commit = False)
-			faculty_detail_form.Institute_id = context['institute']
-			#############3
-			faculty_load_form.save(commit = False)
+			A = faculty_detail_form.save(commit = False)
+			A.Institute_id = context['institute']
+			A.User_id = user
+			F = A.save()
+			#############
+			B = faculty_load_form.save(commit = False)
+			B.Faculty_id = F
+			B.save()
+
+
 		else:
 			context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
 			
 		
 	return render(request,"admin/faculty/faculty_details.html",context)
+
+
+def add_student(request):
+	context = return_context(request)
+	context['user_form'] = add_user()
+	context['student_detail_form'] = student_details()
+	if request.method == "POST":
+		user_form = add_user(request.POST)
+		student_detail_form = student_details(request.POST)
+		if user_form.is_valid() and student_detail_form.is_valid():
+			user = user_form.save()
+			#########################
+			A = student_detail_form.save(commit=False)
+			A.User_id = user
+			A.Institute_id = context['institute']
+			A.save()
+
+			
+	return render(request,"admin/student/add_student.html",context)
+
+def table(request):
+	context = return_context(request)
+	return render(request,"ED_project/table.html")

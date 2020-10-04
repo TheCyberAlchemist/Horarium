@@ -45,6 +45,21 @@
   background-color: #1b1f20dc;
 }
 
+.delete_panel {
+  width: 100%;
+  background-color: green;
+  padding: 11px  0px 11px 0px;
+  margin: 11px 0px 11px 0px;
+  background-color: #141617;
+  position: relative;
+}
+
+.delete_panel a {
+  right: 1%;
+  top: 25%;
+  position: absolute;
+}
+
 #db_table thead tr th {
   border-bottom: 1px solid #e14eca;
   padding: 11px;

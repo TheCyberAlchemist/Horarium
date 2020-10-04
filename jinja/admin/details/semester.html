@@ -25,17 +25,30 @@
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+    <form class="db_form" action="">    
       <div class="table_container">
-        <h1>Semesters for {{my_branch}}</h1><br>
+        
           <div class="table_search_box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
           </div>
           <table id = "db_table">
             <thead>
               <tr>
+                <div class="delete_panel" >
+                  <h1>Semesters for {{my_branch}}</h1>          
+                  <a href=""style="display: none;" id="del" >Delete
+                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                  </a>
+                </div>
                 <th>Id</th>
                 <th>Semester</th>
-                <th>Action</th>
+                <th>Edit</th>
+                <th>
+                  <div class="checkboxes" onclick="checkAll();">
+                    <input type="checkbox"  id="parent" name="parent" value="parent">
+                    <label for="parent"></label> 
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -46,8 +59,13 @@
                   <td>
                     <a href = "{{url ('update_semester' ,args=[my_branch.id,semester.id])}}">
                       <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                    <a>
-                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" onclick="#">
+                    </a>
+                  </td>
+                  <td>
+                    <div class="checkboxes" onclick="checkSelected()">
+                      <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{semester.id}}">
+                      <label for="{{loop.index}}"></label>
+                    </div>
                   </td>
                 </tr>
               {% endfor %}

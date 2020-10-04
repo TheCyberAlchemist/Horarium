@@ -27,3 +27,45 @@ function hover(self,link) {
 function unhover(self,link){
 	self.setAttribute("src",link);
 }
+
+
+function checkAll(){
+	var parent = document.getElementById('parent');
+	
+	var input = document.getElementsByClassName('del_input');
+	var del = document.getElementById('del');
+	if(parent.checked == true){	
+
+	  for(var i=0; i<input.length;i++){
+		  if(input[i].checked == false ) {
+			input[i].checked = true; 
+		  }
+	  }  
+	}
+	if(parent.checked == false){
+	  for(var i=0; i<input.length;i++){
+		  if(input[i].checked ==true){
+			input[i].checked = false; 
+		  }
+	  }
+	}
+
+checkSelected();
+  }
+
+function checkSelected(){
+	var child = document.getElementsByName('del');
+	var del = document.getElementById('del');
+	var check = false;
+	for(var c in child){
+		if(child[c].checked == true){
+			console.log("hi");
+			del.style.display = "inline";
+			check = true;
+			break;
+		}
+	}
+	if(!check){
+		del.style.display = "none";
+	}
+}

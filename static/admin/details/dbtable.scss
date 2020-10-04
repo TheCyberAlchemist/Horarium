@@ -40,6 +40,19 @@ $nth_child_color : #1b1f20dc;
     background-color: $nth_child_color;
   }
   
+  .delete_panel{
+    width: 100%;
+    background-color:green;
+    padding: 11px  0px 11px 0px;
+    margin: 11px 0px 11px 0px;
+    background-color: $table_th_color;
+    position: relative;
+  }
+  .delete_panel a{
+    right : 1%;
+    top :25%;
+    position: absolute;
+  }
   #db_table thead tr th{
     border-bottom: 1px solid #e14eca;
     padding: 11px;

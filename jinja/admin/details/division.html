@@ -18,41 +18,6 @@
             <input type="text" name="name" class ="form_input" placeholder="Division Name" />
           </div>
 
-          <div class="dropdown_container">
-            <div class="dropdown_select_box">
-              <div class="options_container">
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Division_A" name="category" value='1' />
-                  <label for="Division_A">Division A</label>
-                </div>
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Division_B" name="category" value='2' />
-                  <label for="Division_B">Division B</label>
-                </div>
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Division_C" name="category" value='3' />
-                  <label for="Division_C">Division C</label>
-                </div>
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Division_D" name="category" value='4' />
-                  <label for="Division_D">Division D</label>
-                </div>
-              </div>
-
-              <div class="selected">
-                Select Division
-                <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
-              </div>
-
-              <div class="search_box">
-                <input type="text" placeholder="Start Typing..." />
-              </div>
-            </div>
-          </div>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
           </div>
@@ -60,17 +25,30 @@
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+    <form class="db_form" action="">    
       <div class="table_container">
-        <h1>Divisions for {{my_semester}}</h1><br>
+        
           <div class="table_search_box">
             <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
           </div>
           <table id = "db_table">
             <thead>
               <tr>
+                <div class="delete_panel" >
+                  <h1>Divisions for {{my_semester}}</h1>
+                  <a href=""style="display: none;" id="del" >Delete
+                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                  </a>
+                </div>
                 <th>Id</th>
                 <th>Division Name</th>
-                <th>Actions</th>
+                <th>Edit</th>
+                <th>
+                  <div class="checkboxes" onclick="checkAll();">
+                    <input type="checkbox"  id="parent" name="parent" value="parent">
+                    <label for="parent"></label> 
+                  </div>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -79,8 +57,13 @@
                   <td>{{loop.index}}</td>
                   <td>{{division.name}}</td>
                   <td>
-                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                      <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" onclick="#">
+                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#"
+                  </td>
+                  <td>
+                    <div class="checkboxes">
+                      <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{division.id}}">
+                      <label for="{{loop.index}}"></label>
+                    </div>
                   </td>
                 </tr>
               {% endfor %}

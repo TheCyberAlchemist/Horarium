@@ -10,6 +10,6 @@ function toggle() {
     } else {
       x.style.display = "none";
       y.style.display = "inline";
-      z.style.display = "";
+      z.style.display = "block";
     }
   }

@@ -18,46 +18,6 @@
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
             <input type="text" name=""  class ="form_input" placeholder="Batch Name" />
           </div>
-
-          <div class="dropdown_container">
-            <div class="dropdown_select_box">
-              <div class="options_container">
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Batch_31" name="category" value="Batch-31"/>
-                  <label for="Batch_31">Batch-31</label>
-                </div>
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Batch_32" name="category" value=""/>
-                  <label for="Batch_32">Batch-32</label>
-                </div>
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Batch_33" name="category" value = "#" />
-                  <label for="Batch_33">Batch-33</label>
-                </div>
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Batch_34" name="category" value = "#" />
-                  <label for="Batch_34">Batch-34</label>
-                </div>
-
-                <div class="dropdown_option">
-                  <input type="radio" class="radio" id="Batch_35" name="category" value = "#" />
-                  <label for="Batch_35">Batch-35</label>
-                </div>
-              </div>
-
-              <div class="selected">
-                Select Batch
-                <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
-              </div>
-
-              <div class="search_box">
-                <input type="text" placeholder="Start Typing..." name = "search"/>
-              </div>
-            </div>
-          </div>
   
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
@@ -66,50 +26,57 @@
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+    <form class="db_form" action="">   
       <div class="table_container">
-        <h1>Batches for {{my_division}}</h1><br>
-          <div class="table_search_box">
-            <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
-          </div>
-          <table id = "db_table">
-            <thead>
-              <tr>
-                <th>Id</th>
-                <th>Batch Name</th>
-                <th>Batch for</th>
-                <th>Actions</th>
-                <th>
-                  <!-- Edit -->
-                  <div class="checkboxes">
-                    <input type="checkbox" id="ckx_all" name="ckx_all" value="ckx_all">
-                    <label for="ckx_all"></label> 
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for batch in my_batches %}
+            <div class="table_search_box">
+              <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+            </div>
+            <table id = "db_table">
+              <thead>
+                <div class="delete_panel" >
+                  <h1>Batches for {{my_division}}</h1>
+                  <a href=""style="display: none;" id="del" >Delete
+                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                  </a>
+                </div>
                 <tr>
-                  <td>{{batch.id}}</td>
-                  <td>{{batch.name}}</td>
-                  {% if batch.batch_for == 'prac'%}
-                  <td>Practical</td>
-                  {% else %}
-                  <td>Lecture</td>
-                  {% endif %}
-                  <td>
-                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                      <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" onclick="#">
-                  </td>
-                  <td>
-                    <div class="checkboxes">
-                    <input type="checkbox" id="ckx" name="ckx" value="ckx">
-                    <label for="ckx"></label>
-                  </div>
-                  </td>
+                  <th>Id</th>
+                  <th>Batch Name</th>
+                  <th>Batch for</th>
+                  <th>Edit</th>
+                  <th>
+                    <!-- Edit -->
+                    <div class="checkboxes" onclick="checkAll();">
+                      <input type="checkbox"  id="parent" name="parent" value="parent">
+                      <label for="parent"></label> 
+                    </div>
+                  </th>
                 </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-      </div>
+              </thead>
+              <tbody>
+                {% for batch in my_batches %}
+                  <tr>
+                    <td>{{batch.id}}</td>
+                    <td>{{batch.name}}</td>
+                    {% if batch.batch_for == 'prac'%}
+                    <td>Practical</td>
+                    {% else %}
+                    <td>Lecture</td>
+                    {% endif %}
+                    <td>
+                        <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                    </td>
+                    <td>
+                      <div class="checkboxes" onclick="checkSelected()">
+                      <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{batch.id}}">
+                      <label for="{{loop.index}}"></label>
+                    </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+      </form>
     </div>
 {% endblock content %}

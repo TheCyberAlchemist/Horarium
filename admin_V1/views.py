@@ -6,14 +6,15 @@ from .forms import create_branch,create_department,create_semester,create_divisi
 from .forms import add_user,faculty_details,faculty_load,student_details
 from faculty_V1.models import Faculty_designation
 from django.http import HttpResponse
-
+import json
+from django.db import IntegrityError
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
-	departments = Department.objects.filter(Institute_id=institute.id)
+	departments = Department.objects.filter(Institute_id=institute.id).order_by('name')
 
 	branches = {}
 	for department in departments: # for all the departments in the institute
-		temp = Branch.objects.filter(Department_id=department.id)	# filter all the branches in the same department
+		temp = Branch.objects.filter(Department_id=department.id).order_by('name')	# filter all the branches in the same department
 		if temp:	# if temp is not null
 			branches[department.id] = temp 	# make a key having department id
 											# and value having all the branches related to it
@@ -21,7 +22,7 @@ def return_context(request):
 	sems = {}
 	for key,values in branches.items():	# for all the key(department) and values(branches)
 		for value in values:			# for all the coure in branches
-			temp = Semester.objects.filter(Branch_id=value.id)	# find all the sems related to the branch
+			temp = Semester.objects.filter(Branch_id=value.id).order_by('short')	# find all the sems related to the branch
 			if temp:	# if temp is not null
 				sems[value.id] = temp		# make a key having branch id
 											# and value having all the sems related to it
@@ -29,7 +30,7 @@ def return_context(request):
 	divs = {}
 	for key,values in sems.items():	# for all the key(branch) and values(sems)
 		for value in values:			# for all the sem in sems
-			temp = Division.objects.filter(Semester_id=value.id)	# find all the Divs related to the Sem
+			temp = Division.objects.filter(Semester_id=value.id).order_by('name')	# find all the Divs related to the Sem
 			if temp:	# if temp is not null
 				divs[value.id] = temp		# make a key having sem id
 											# and value having all the divs related to it
@@ -37,7 +38,7 @@ def return_context(request):
 	batches = {}
 	for key,values in divs.items():	# for all the key(sem) and values(divs)
 		for value in values:			# for all the div in divss
-			temp = Batch.objects.filter(Division_id=value.id)	# find all the Divs related to the Sem
+			temp = Batch.objects.filter(Division_id=value.id).order_by('name')	# find all the Divs related to the Sem
 			if temp:	# if temp is not null
 				batches[value.id] = temp		# make a key having div id
 												# and value having all the batches related to it
@@ -51,6 +52,13 @@ def return_context(request):
 		'batches':batches,
 	}
 	return context
+
+
+def delete_entries(qs,data):
+	for d in data:
+		print("p1")
+		qs.get(id = int(d)).delete()
+		# pass
 
 
 @allowed_users(allowed_roles=['Admin'])
@@ -69,20 +77,28 @@ def show_department(request,Department_id = None):
 			context['u_name'] = form.instance.name
 			context['u_short'] = form.instance.short
 		if request.method == 'POST':
-			if Department_id:
-				form = create_department(request.POST,instance=edit)
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(context['departments'],data)
 			else:
-				form = create_department(request.POST)
-			if form.is_valid():
-				candidate = form.save(commit=False)
-				candidate.Institute_id = context['institute']
-				candidate.save()
-				return redirect('show_department')
-			else:
-				context['errors'] = form.errors
+				if Department_id:
+					form = create_department(request.POST,instance=edit)
+				else:
+					form = create_department(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Institute_id = context['institute']
+					# candidate.save()
+					try:	# unique contraint added
+						candidate.save()
+					except IntegrityError:
+						context['errors'] = "Short and Name must be unique for Institute"
+					return redirect('show_department')
+				else:
+					context['errors'] = form.errors
 		return render(request,"admin/details/department.html",context)
 	else:
-		raise redirect('/')
+		return redirect('/')
 
 
 def show_branch(request,Department_id,Branch_id=None):
@@ -90,26 +106,32 @@ def show_branch(request,Department_id,Branch_id=None):
 	my_department = Department.objects.get(id = Department_id)
 	if context['institute'] == my_department.Institute_id:	# Check if the user is in the same institute as the urls
 		context['form'] = create_branch()
-		branches = Branch.objects.filter(Department_id=Department_id)
+		branches = Branch.objects.filter(Department_id=Department_id).order_by('name')
+		context['my_branches'] = branches
+		context['my_department']= my_department
+
 		if Branch_id:	# if edit is called
 			edit = branches.get(pk=Branch_id)
 			form = create_branch(instance = edit)
 			context['u_name'] = form.instance.name
 			context['u_short'] = form.instance.short
-		context['my_branches'] = branches
-		context['my_department']= my_department
+
 		if request.method == 'POST':	# if create is submitted
-			if Branch_id:
-				form = create_branch(request.POST,instance=edit)
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(branches,data)
 			else:
-				form = create_branch(request.POST)
-			if form.is_valid():
-				candidate = form.save(commit=False)
-				candidate.Department_id = my_department
-				candidate.save()
-				return redirect('show_branch',Department_id)
-			else:
-				context['errors'] = form.errors
+				if Branch_id:
+					form = create_branch(request.POST,instance=edit)
+				else:
+					form = create_branch(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Department_id = my_department
+					candidate.save()
+					return redirect('show_branch',Department_id)
+				else:
+					context['errors'] = form.errors
 		return render(request,"admin/details/branch.html",context)
 	else:
 		return redirect('/')
@@ -119,7 +141,7 @@ def show_semester(request,Branch_id,Semester_id = None):
 	context = return_context(request)
 	my_branch = Branch.objects.get(id = Branch_id)
 	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
-		semesters = Semester.objects.filter(Branch_id=Branch_id)
+		semesters = Semester.objects.filter(Branch_id=Branch_id).order_by('short')
 		context['form'] = create_semester()
 		if Semester_id:	# if edit is called
 			edit = semesters.get(pk=Semester_id)
@@ -129,17 +151,21 @@ def show_semester(request,Branch_id,Semester_id = None):
 		context['my_semesters'] = semesters
 		context['my_branch'] = my_branch
 		if request.method == 'POST':	# if create is submitted
-			if Semester_id:	# if edit 
-				form = create_semester(request.POST, instance=edit) 
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(semesters,data)
 			else:
-				form = create_semester(request.POST)
-			if form.is_valid():
-				candidate = form.save(commit=False)
-				candidate.Branch_id = my_branch
-				candidate.save()
-				return redirect('show_semester',Branch_id)
-			else:
-				context['errors'] = form.errors
+				if Semester_id:	# if edit 
+					form = create_semester(request.POST, instance=edit) 
+				else:
+					form = create_semester(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Branch_id = my_branch
+					candidate.save()
+					return redirect('show_semester',Branch_id)
+				else:
+					context['errors'] = form.errors
 		return render(request,"admin/details/semester.html",context)
 	else:
 		raise redirect('/')
@@ -149,7 +175,7 @@ def show_division(request,Semester_id,Division_id = None):
 	context = return_context(request)
 	my_semester = Semester.objects.get(id = Semester_id)
 	if context['institute'] == my_semester.Branch_id.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
-		divisions = Division.objects.filter(Semester_id=Semester_id)
+		divisions = Division.objects.filter(Semester_id=Semester_id).order_by('name')
 		context['form'] = create_division()
 		if Division_id:	# if edit is called
 			edit = divisions.get(pk=Division_id)
@@ -158,31 +184,33 @@ def show_division(request,Semester_id,Division_id = None):
 		context['my_divisions'] = divisions
 		context['my_semester'] = my_semester
 		if request.method == 'POST':
-			if Division_id:	# if edit 
-				form = create_division(request.POST, instance=edit) 
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(divisions,data)
 			else:
-				form = create_division(request.POST)
-			if form.is_valid():
-				candidate = form.save(commit=False)
-				candidate.Semester_id = my_semester
-				# candidate.Shift_id = 
-				candidate.save()
-				return redirect('show_division',Semester_id)
-			else:
-				context['errors'] = form.errors
+				if Division_id:	# if edit 
+					form = create_division(request.POST, instance=edit) 
+				else:
+					form = create_division(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Semester_id = my_semester
+					# candidate.Shift_id = 
+					candidate.save()
+					return redirect('show_division',Semester_id)
+				else:
+					context['errors'] = form.errors
 		return render(request,"admin/details/division.html",context)
 	else:
 		raise redirect('/')
 
 
 def show_batch(request,Division_id,Batch_id = None):
-	if request.method == 'POST':
-		pass
 	context = return_context(request)
 	my_division = Division.objects.get(id = Division_id)
 	if context['institute'] == my_division.Semester_id.Branch_id.Department_id.Institute_id:
 																		# Check if the user is in the same institute as the urls
-		batches = Batch.objects.filter(Division_id=Division_id)
+		batches = Batch.objects.filter(Division_id=Division_id).order_by('name')
 		context['form'] = create_division()
 		if Batch_id:	# if edit is called
 			edit = divisions.get(pk=Batch_id)
@@ -191,17 +219,21 @@ def show_batch(request,Division_id,Batch_id = None):
 		context['my_batches'] = batches
 		context['my_division'] = my_division
 		if request.method == 'POST':
-			if Batch_id:	# if edit 
-				form = create_batch(request.POST, instance=edit) 
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(batches,data)
 			else:
-				form = create_batch(request.POST)
-			if form.is_valid():
-				candidate = form.save(commit=False)
-				candidate.Division_id = my_division
-				candidate.save()
-				return redirect('show_batch',Division_id)
-			else:
-				context['errors'] = form.errors
+				if Batch_id:	# if edit 
+					form = create_batch(request.POST, instance=edit) 
+				else:
+					form = create_batch(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Division_id = my_division
+					candidate.save()
+					return redirect('show_batch',Division_id)
+				else:
+					context['errors'] = form.errors
 		return render(request,"admin/details/batch.html",context)
 	else:
 		raise redirect('/')
@@ -213,13 +245,14 @@ def add_faculty(request):
 	context['faculty_detail_form'] = faculty_details()
 	context['faculty_load_form'] = faculty_load()
 	context['shifts'] = Shift.objects.filter(Department_id=1)
+	pk_list = [1,None]
 	context['designations'] = Faculty_designation.objects.filter(Department_id=1) | Faculty_designation.objects.filter(Department_id=None)
+	# context['designations'] = Faculty_designation.objects.filter(Department_id__in=[None])
 	if request.method == 'POST':
 		user_form = add_user(request.POST)
 		faculty_detail_form = faculty_details(request.POST)
-		print(request.POST)
-		
 		faculty_load_form = faculty_load(request.POST)
+		print(request.POST)
 		if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
 			# print("all done")
 			user = user_form.save()
@@ -259,6 +292,10 @@ def add_student(request):
 			
 	return render(request,"admin/student/add_student.html",context)
 
+
 def table(request):
-	context = return_context(request)
-	return render(request,"ED_project/table.html")
+	if request.method == 'POST':
+		data = json.loads(request.body)	# data is the json object returned after saving
+		if data:
+			pass
+	return render(request,"admin/details/try.html")

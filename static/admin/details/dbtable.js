@@ -59,7 +59,6 @@ function checkSelected(){
 	var check = false;
 	for(var c in child){
 		if(child[c].checked == true){
-			console.log("hi");
 			del.style.display = "inline";
 			check = true;
 			break;

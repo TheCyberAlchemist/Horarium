@@ -25,6 +25,9 @@ class Department(models.Model):
 		return self.short
 	class Meta:
 		verbose_name_plural = "Department"
+		constraints = [
+            models.UniqueConstraint(fields=['short', 'Institute_id'], name='Short is Unique for Institute')
+        ]
 
 class Shift(models.Model):
 	name = models.CharField(max_length = N_len)

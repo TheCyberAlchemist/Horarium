@@ -7,6 +7,18 @@
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script>
+
+      // Strings
+      department = "a";
+
+      // Label Selector
+      Department_details = document.querySelectorAll('[for="'+department+'"]')[0];
+
+      // Activator
+      Department_details.classList.add("active");
+      
+    </script>
 {% endblock scripts %}
 
 {% block content %}
@@ -24,15 +36,13 @@
             <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input" placeholder="Short Name" />
           </div>
           <div class="submit_button_container">
-            <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
+            <button type="submit" name="button" class="submit_button">Submit</button>
           </div>
         </form>
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
-      <form class="db_form" action="">    
         <div class="table_container">
-            
               <div class="table_search_box">
                 <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
               </div>
@@ -41,8 +51,9 @@
                   <tr>
                     <div class="delete_panel" >
                       <h1>Department for {{institute}}</h1>
-                      <a href=""style="display: none;" id="del" >Delete
+                      <a style="display: none;" id="del" onclick="delete_entries()" >
                         <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                        Delete
                       </a>
                     </div>
                     <th>Id</th>
@@ -79,6 +90,5 @@
                 </tbody>
               </table>
           </div>
-        </form>
       </div>
 {% endblock content %}

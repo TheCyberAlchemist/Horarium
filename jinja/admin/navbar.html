@@ -30,7 +30,7 @@
         <label class = "not_data">{{institute}}</label>
         <ul>
           <li>
-            <label for="a" class = "data active"><a href = {{url ('show_department')}}>Department Details</a></label>
+            <label for="a" class = "data"><a href = {{url ('show_department')}}>Department Details</a></label>
           </li>
           {% for department in departments %}
             <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
@@ -62,10 +62,10 @@
                           <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}" type="checkbox" checked ><ul>
                           <span class="more">&hellip;</span>
                           <li>
-                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "not_data">Create table</label>
+                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.b" class = "not_data">Create table</label>
                           </li>
                           <li>
-                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.b" class = "data"><a href = {{url ('show_batch' ,args=[value3.id])}}>Batch Details</a></label>
+                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "data"><a href = {{url ('show_batch' ,args=[value3.id])}}>Batch Details</a></label>
                           </li>
                             {% for key4,values4 in batches.items() %}{% if key4 == value3.id %}{% for value4 in values4 %}
                               <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}">{{value4}}</label>

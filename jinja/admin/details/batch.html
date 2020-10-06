@@ -7,6 +7,40 @@
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script>
+
+      // Strings
+      department = "{{my_division.Semester_id.Branch_id.Department_id}}";
+      branch = department + ".{{my_division.Semester_id.Branch_id}}";
+      semester = branch + ".{{my_division.Semester_id}}";
+      division = semester + ".{{my_division}}";
+      batch_details = division + ".a";
+
+      // Label Selector
+      Department = document.querySelectorAll('[for="'+department+'"]')[0];
+      Branch = document.querySelectorAll('[for="'+branch+'"]')[0];
+      Semester = document.querySelectorAll('[for="'+semester+'"]')[0];
+      Division = document.querySelectorAll('[for="'+division+'"]')[0];
+      Batch_details = document.querySelectorAll('[for="'+batch_details+'"]')[0];
+
+      // Input selector
+      Department_input = document.querySelectorAll('[id="'+department+'"]')[0];
+      Branch_input = document.querySelectorAll('[id="'+branch+'"]')[0];
+      Semester_input = document.querySelectorAll('[id="'+semester+'"]')[0];
+      Division_input = document.querySelectorAll('[id="'+division+'"]')[0];
+
+      // Activator
+      Department.classList.add("active");
+      Branch.classList.add("active");
+      Semester.classList.add("active");
+      Division.classList.add("active");
+      Batch_details.classList.add("active");
+      // Unchecker
+      Department_input.checked = false;
+      Branch_input.checked = false;
+      Semester_input.checked = false;
+      Division_input.checked = false;
+    </script>
 {% endblock scripts %}
 
 {% block content %}
@@ -25,8 +59,7 @@
         </form>
       </fieldset>
 
-    <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
-    <form class="db_form" action="">   
+    <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->  
       <div class="table_container">
             <div class="table_search_box">
               <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
@@ -35,8 +68,9 @@
               <thead>
                 <div class="delete_panel" >
                   <h1>Batches for {{my_division}}</h1>
-                  <a href=""style="display: none;" id="del" >Delete
+                  <a style="display: none;" id="del" onclick="delete_entries()" >
                     <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                    Delete
                   </a>
                 </div>
                 <tr>
@@ -47,7 +81,7 @@
                   <th>
                     <!-- Edit -->
                     <div class="checkboxes" onclick="checkAll();">
-                      <input type="checkbox"  id="parent" name="parent" value="parent">
+                      <input type="checkbox" id="parent" name="parent" value="parent">
                       <label for="parent"></label> 
                     </div>
                   </th>
@@ -77,6 +111,5 @@
               </tbody>
             </table>
         </div>
-      </form>
     </div>
 {% endblock content %}

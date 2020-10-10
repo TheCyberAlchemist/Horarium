@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 ################################################
 N_len = 50
 S_len = 10
@@ -26,7 +27,8 @@ class Department(models.Model):
 	class Meta:
 		verbose_name_plural = "Department"
 		constraints = [
-            models.UniqueConstraint(fields=['short', 'Institute_id'], name='Short is Unique for Institute')
+            models.UniqueConstraint(fields=['short', 'Institute_id'], name='DepartmentShort is Unique for Institute'),
+			models.UniqueConstraint(fields=['name', 'Institute_id'], name='DepartmentName is Unique for Institute')
         ]
 
 class Shift(models.Model):
@@ -40,6 +42,9 @@ class Shift(models.Model):
 		return self.name + " [ " + str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min + " ]"
 	class Meta:
 		verbose_name_plural = "Shift"
+		constraints = [
+			models.UniqueConstraint(fields=['name', 'Department_id'], name='ShiftName is Unique for Institute')
+        ]
 
 class Branch(models.Model):
 	name = models.CharField(max_length = N_len)
@@ -49,6 +54,10 @@ class Branch(models.Model):
 		return self.short
 	class Meta:
 		verbose_name_plural = "Branch"
+		constraints = [
+			models.UniqueConstraint(fields=['name', 'Department_id'], name='BranchName is Unique for Department'),
+			models.UniqueConstraint(fields=['short', 'Department_id'], name='BranchShort is Unique for Department'),
+		]
 
 class Semester(models.Model):
 	short = models.CharField(max_length = 20)
@@ -57,6 +66,9 @@ class Semester(models.Model):
 		return self.short
 	class Meta:
 		verbose_name_plural = "Semester"
+		constraints = [
+			models.UniqueConstraint(fields=['short', 'Branch_id'], name='SemesterShort is Unique for Branch'),
+		]
 
 class Division(models.Model):
 	name = models.CharField(max_length = S_len)
@@ -66,6 +78,9 @@ class Division(models.Model):
 		return self.name + " "+ str(self.Semester_id)
 	class Meta:
 		verbose_name_plural = "Division"
+		constraints = [
+			models.UniqueConstraint(fields=['name', 'Semester_id'], name='DivisionName is Unique for Semester'),
+		]
 
 class Batch(models.Model):
 	BATCH_FOR = (
@@ -79,16 +94,28 @@ class Batch(models.Model):
 		return self.name
 	class Meta:
 		verbose_name_plural = "Batch"
+		constraints = [
+			models.UniqueConstraint(fields=['name', 'Division_id'], name='BatchName is Unique for Division'),
+		]
 
 class Slots(models.Model):
 	name = models.CharField(max_length = S_len)
 	start_time = models.TimeField(auto_now=False, auto_now_add=False)
 	end_time = models.TimeField(auto_now=False, auto_now_add=False)
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
+	is_break = models.BooleanField(default=False)
 	def __str__(self):
 		s_min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
 		e_min = "00" if self.end_time.minute == 0 else str(self.end_time.minute)
 		return self.name + " [ " + str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min + " ]"
 	class Meta:
 		verbose_name_plural = "Slots"
+		constraints = [
+			models.UniqueConstraint(fields=['name', 'Shift_id'], name='SlotName is Unique for Shift'),
+		]
+	def save(self, *args, **kwargs):
+		if self.end_time > self.start_time:
+			super(Slots, self).save(*args, **kwargs)
+		else :
+			raise BaseException("End time must be greater then start time")
 	

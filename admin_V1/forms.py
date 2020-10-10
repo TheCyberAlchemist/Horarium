@@ -58,3 +58,22 @@ class student_details(ModelForm):
 	class Meta:
 		model = Student_details
 		fields = ('roll_no','Division_id','Batch_id',)
+
+from institute_V1.models import Slots
+import datetime
+class slot(ModelForm):
+	def add(self,addend):
+
+		a = datetime.datetime(100,1,1,self.instance.start_time.hour,self.instance.start_time.minute,00)
+		b = a + datetime.timedelta(minutes=addend) # days, seconds, then other fields.
+		self.instance.start_time = b.time()
+
+		a = datetime.datetime(100,1,1,self.instance.end_time.hour,self.instance.end_time.minute,00)
+		b = a + datetime.timedelta(minutes=addend) # days, seconds, then other fields.
+		self.instance.end_time = b.time()
+
+	def duration(self):
+		return self.instance.end_time - self.instance.start_time
+	class Meta:
+		model = Slots
+		fields = ('name','start_time','end_time','is_break')

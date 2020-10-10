@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Slots2</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script type="text/javascript" src = "{{static ('jquery.js') }}"></script>
+<script type="text/javascript" src = "{{static ('try/slot2.js') }}"></script>
+<script type="text/javascript" src = "{{static ('form/form.js') }}"></script>
+<body>
+<table id="myTable">
+	<tbody></tbody>
+	  <!-- <tr><td>A</td><td>09:00</td><td>09:05</td><td>False</td><td><button type="button" class="add_here">ADD</button></td></tr><tr><td>B</td><td>09:05</td><td>09:10</td><td>True</td><td><button type="button" class="add_here">ADD</button></td></tr> -->
+</table>
+<form id = "aform" method="POST" style="display: none;">
+  {{csrf_input}}
+  <label for="id_name"> Name : </label>
+  <input type="text" name="name" maxlength="10" required="" id="id_name">
+  <label for="start_time"> Start time : </label>
+  <input type="time" name ="start_time" id="start_time">
+  <label for="end_time"> End time : </label>
+  <input type="time" name ="end_time" id = "end_time">
+  <label for="id_is_break">Is Break : </label>
+  <input type="checkbox" name="is_break" id="id_is_break">
+  <button type="button" class = "Go" >Go</button>
+  <button type="button" class = "Go_here" >Go Here</button>
+</form>
+
+<button type="button" class = "add_row">Add Row</button>
+<button type="button" onclick = 'submited()'>Add Row</button>
+</body>
+</html>

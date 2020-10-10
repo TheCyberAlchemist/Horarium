@@ -1,13 +1,16 @@
 from django.shortcuts import render,redirect
-from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift
+from django.http import HttpResponse
 from login_V2.decorators import allowed_users
 from django.contrib import messages
-from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
-from .forms import add_user,faculty_details,faculty_load,student_details
-from faculty_V1.models import Faculty_designation
-from django.http import HttpResponse
 import json
 from django.db import IntegrityError
+
+from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift
+from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
+from .forms import add_user,faculty_details,faculty_load,student_details
+from .forms import slot
+from faculty_V1.models import Faculty_designation
+
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
 	departments = Department.objects.filter(Institute_id=institute.id).order_by('name')
@@ -295,7 +298,23 @@ def add_student(request):
 
 def table(request):
 	if request.method == 'POST':
-		data = json.loads(request.body)	# data is the json object returned after saving
-		if data:
-			pass
-	return render(request,"admin/details/try.html")
+		data = json.loads(request.body)	# data is the json object returned after savings
+		# if slot_form.is_valid():
+		# print(request.POST)
+		print(data)
+		for dictonary in data:
+			slot_form = slot(dictonary)
+			print(slot_form.is_valid())
+			
+		# for i in request.POST:
+		# 	print(request.POST)
+			
+			# A = slot_form.save(commit=False)
+			# A.Shift_id = Shift.objects.get(pk = 1)
+			# A.save()
+	slot_form = slot()
+	context={
+		'form' :slot_form
+	}
+	return render(request,"try/slot2.html",context)
+

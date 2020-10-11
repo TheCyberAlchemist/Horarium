@@ -6,7 +6,39 @@
     <script src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
     <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
     <!-- <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet"> -->
+    <script>
+            
+  $(document).ready(function(){
 
+    $(".wrapper").css("height","0%");
+    $(".me").click(function(){
+      $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
+      $(".wrapper").animate({width:'100%',height:'100%'},300);
+      $(".wrapper").animate({width:'100%',height:'95%'},250);
+      $(".wrapper").animate({width:'100%',height:'100%'},200);
+      $(".wrapper").animate({width:'100%',height:'98%'},100);
+      $(".wrapper").animate({width:'100%',height:'100%'},100);
+      $(".wrapper").animate({width:'100%',height:'99%'},80);
+      $(".wrapper").animate({width:'100%',height:'100%'},70);
+      //$(".toggle_button").css({"height":"40px","width":"50px"});
+      $(".toggle_button").animate({height:'40px',width:'50px'},10);
+      $("fieldset").hide();
+      $(".table_container").hide();
+      $(".nav_container").hide();
+      //$(".nav_container").animate({width:'0%',height:'0%'},100);
+    });
+    $(".not_me").click(function(){
+      $(".toggle_button").css({"height":"0px","width":"0px"});
+      $(".wrapper").animate({width:'100%',height:'0%'});
+      $("#whole_container_id").css({"height":"100%","width":"100%","transition":".3s"});
+      $("fieldset").show();
+      $(".table_container").show();
+      $(".nav_container").show();
+      $(".nav_container").animate({width:'100%',height:'100%'},100);
+    });
+
+  });
+    </script>
     <div class="nav_container">
     <nav class="navv" id="show_navbar">
       <div class="nav_items show_user">
@@ -17,14 +49,14 @@
       <ul>
         <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
         <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
-        <li class="nav_items"><a class="nav_a_tags" href="#">Your Tables</a></li>
-        <li class="nav_items" onclick="toggle();"><a class="nav_a_tags" href="#">Nav Tree</a></li>
+        <li class="nav_items"><a class="nav_a_tags" href="{{url ('table')}}">Your Tables</a></li>
+        <li class="nav_items me" onclick=""><a class="nav_a_tags" href="#">Nav Tree</a></li>
       </ul>
       </div>
     </nav>
   </div>
 
-  <div class="wrapper scroll" id="show_tree" style="display:none;">
+  <div class="wrapper scroll" id="show_tree" style="">
     <ul>
       <li class="noline">
         <label class = "not_data">{{institute}}</label>
@@ -81,7 +113,7 @@
         </ul>
       </li>
     </ul>
-    <button type="submit" name="button" onclick="toggle();" class="toggle_button"> <img src="{{static ('admin/details/img/arrow.png')}}" alt="arrow"> </button>
+    <button type="submit" name="button" onclick="" class="toggle_button not_me"> <img src="{{static ('admin/details/img/arrow.png')}}" alt="arrow"> </button>
   </div>
 {%block navbar_ends%}
 {%endblock%}

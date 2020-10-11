@@ -7,13 +7,14 @@ $form_color : #1e1e2e;
     height: 100%;
     margin: 0 auto;
     padding: 20px 150px;
+    transition: 3s;
+
   }
-  
   .not_login {
     /*For all legends which are not login/register form */
     margin: 0 15%;
   }
-  
+   
   .myform {
     padding: 70px 0px;
     background-color: $form_color;
@@ -21,20 +22,60 @@ $form_color : #1e1e2e;
 
   .input_container {
     border-bottom: 1px solid #fff;
-    width: 59%;
-    margin: 0 auto;
+    border-width: 1px;
+    width: 60%;
+    margin: 0 auto 1.7em auto;
+    position: relative;
+    transition: .1s;
+    // background-color: red;
   }
- 
+  .short_names{
+    text-transform: uppercase;
+  }
   .input_icons {
+    position: absolute;
+    top : 1em;
     height: 25px;
     width: 25px;
   }
-  
+  .text{
+    position: absolute;
+    top : .8em;
+    left: 1.7em;
+    pointer-events: none;
+    font-size: 22px;
+    transition: .4s;
+  }
+  .form_input_label{
+    transition: transform 0.25s ease-in-out;
+  }
+
+  .form_input:focus + .form_input_label .text,
+  .form_input:valid + .form_input_label .text{
+    top:-.7em;
+    left: .5px;
+    transition: .2s;
+    color: rgb(185, 184, 184);
+  }
+  .form_input[type = "password"]:focus + .form_input_label .text,
+  .form_input[type = "password"]:valid + .form_input_label .text{
+    top:-.7em;
+    left: .5px;
+    transition: .2s;
+    color: rgb(185, 184, 184);
+  }
+
+  :required{
+    outline: none;
+    box-shadow: none;
+  }
   .form_input {
+    position: relative;
     font-size: 19px;
     width: 87%;
     padding: 7px 5px 0px 4px;
     margin: 10px;
+    padding-left: 1.4em;
     outline: none;
     border: none;
     background-color: transparent;

@@ -41,7 +41,11 @@
         <form class="myform" method = "POST">
           {{ csrf_input }}
           <div class="input_container">
-            <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input" placeholder="Semester Name" />
+            <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required/>
+            <label for="" class="form_input_label">
+              <div class="text">Semester Name</div>
+              <div class="line"></div>
+            </label>
           </div>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>

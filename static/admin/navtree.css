@@ -11,6 +11,7 @@
   text-align: center;
   overflow-x: auto;
   z-index: 100;
+  /* opacity: .5; */
 }
 .data {
   text-decoration: none;
@@ -153,7 +154,7 @@ body .wrapper ul input:checked ~ ul .more {
 
 
 .toggle_button{
-  position: fixed;
+  position: absolute;
   top: 87%;
   left: 50%;
   background: transparent;

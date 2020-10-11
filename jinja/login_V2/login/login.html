@@ -33,13 +33,25 @@
       <legend>Login</legend>
         <form class="myform" method="POST">
         {{ csrf_input }}
-          <div class="input_container"><i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i><input type="email" name="email" class="form_input" placeholder="Email" autocomplete = "off" /></div>
           <div class="input_container">
-            <i class="fa fa-key fa-lg" aria-hidden="true"></i><input class="form_input" name="password" id="myinput1" type="password" placeholder="Your Password" >
+            <i class="fa fa-envelope-o fa-lg" aria-hidden="true"></i>
+            <input type="email" name="email" class="form_input" autocomplete = "off" required/>
+            <label for="" class="form_input_label">
+              <div class="text">Email</div>
+              <div class="line"></div>
+            </label>
+          </div>
+          <div class="input_container">
+            <i class="fa fa-key fa-lg" aria-hidden="true"></i>
+            <input class="form_input" name="password" id="myinput1" type="password" required>
             <span id="eye" onclick="visibility1()">
               <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
               <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
             </span>
+                <label for="" class="form_input_label">
+                  <div class="text">Your Password</div>
+                  <div class="line"></div>
+                </label>
             </div>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>

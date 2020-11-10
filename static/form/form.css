@@ -15,14 +15,85 @@
 
 .myform {
   padding: 70px 0px;
-  background-color: #1e1e2e;
+  background-color: #222235;
+  border-radius: 10px;
+  display: none;
+}
+
+.loginform {
+  padding: 70px 0px;
+  background-color: #222235;
+  border-radius: 10px;
+}
+
+.show_form_button {
+  background: transparent;
+  outline: none;
+  border: 1px solid #e12eca;
+  margin-top: 1.3em;
+  border-radius: 5px;
+  padding: 10px 20px 10px 20px;
+  font-size: 15px;
+  margin-bottom: 1em;
+}
+
+.show_form_button:hover {
+  background-color: #e12eca;
+}
+
+.form_visibility_img_container {
+  width: 100%;
+  margin-top: -1.2em;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.form_visibility_img {
+  margin-top: 1em;
+  height: 50px;
+  width: 50px;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+
+.form_visibility_img_container p {
+  font-size: 20px;
+}
+
+.form_visibility_img:hover {
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+  -webkit-transition: .5s;
+  transition: .5s;
 }
 
 .input_container {
-  border-bottom: 1px solid #fff;
-  border-width: 1px;
-  width: 60%;
+  border-bottom: .15em solid #b9b9b9;
+  border-width: .15em;
+  width: 70%;
   margin: 0 auto 1.7em auto;
+  position: relative;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.input_container:hover {
+  border-bottom: .15em solid #ffffff;
+  -webkit-transition: .1s;
+  transition: .1s;
+}
+
+.select2_container {
+  border-width: 1px;
+  width: 100%;
+  margin: 0 auto 1.7em auto;
+  padding-left: 13em;
   position: relative;
   -webkit-transition: .1s;
   transition: .1s;
@@ -35,16 +106,20 @@
 .input_icons {
   position: absolute;
   top: 1em;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
 }
 
 .text {
   position: absolute;
-  top: .8em;
-  left: 1.7em;
+  top: 1em;
+  left: 1.9em;
   pointer-events: none;
-  font-size: 22px;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 19px;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -62,15 +137,17 @@
   left: .5px;
   -webkit-transition: .2s;
   transition: .2s;
+  font-size: 16px;
   color: #b9b8b8;
 }
 
-.form_input[type="password"]:focus + .form_input_label .text,
-.form_input[type="password"]:valid + .form_input_label .text {
+.form_input:focus + #eye + .form_input_label .text,
+.form_input:valid + #eye + .form_input_label .text {
   top: -.7em;
   left: .5px;
   -webkit-transition: .2s;
   transition: .2s;
+  font-size: 16px;
   color: #b9b8b8;
 }
 
@@ -83,10 +160,9 @@
 .form_input {
   position: relative;
   font-size: 19px;
-  width: 87%;
-  padding: 7px 5px 0px 4px;
+  width: 92%;
+  padding: 7px 5px 0px 1.4em;
   margin: 10px;
-  padding-left: 1.4em;
   outline: none;
   border: none;
   background-color: transparent;
@@ -114,14 +190,24 @@
   background: transparent;
   outline: none;
   border: 1px solid #e12eca;
-  width: 60%;
+  width: 69%;
+  border-radius: 5px;
   margin-top: 10px;
   padding: 10px;
   font-size: 20px;
 }
 
-.submit_button:hover {
+.submit_button:hover, .submit_button:focus {
   background-color: #e12eca;
+}
+
+/*////////////////ERRORS MESSAGES///////////////////*/
+.errors_container {
+  position: absolute;
+  width: 80%;
+  top: 120px;
+  padding: 10px;
+  background-color: red;
 }
 
 /*/////////////////////////DROPDOWN///////////////////////////////// */
@@ -141,8 +227,8 @@
   border: 0.1em solid #fff;
   border-radius: 0.2em;
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: .9em;
+  height: .9em;
   padding-left: 0.15em;
   padding-right: 0.11em;
   padding-bottom: 0.3em;
@@ -161,5 +247,13 @@
   background-color: #e14eca;
   border-color: #e14eca;
   color: #fff;
+}
+
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
+
+input[type="time"]::-webkit-clear-button {
+  display: none;
 }
 /*# sourceMappingURL=form.css.map */

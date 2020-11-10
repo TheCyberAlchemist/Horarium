@@ -73,13 +73,13 @@ function return_row(slot){
 	tr.appendChild(is_break);
 
 	var add_row = document.createElement('td');
-	add_row.innerHTML = '<button type="button" class="add_here">ADD</button>';
+	add_row.innerHTML = '<button type="button" class="add_here add_row">ADD</button>';
 	tr.appendChild(add_row);
 
   return tr;
 }
 function get_slot(){
-  form = $('#aform');
+  form = $('#slot_form');
   name      =  form.find("#id_name").val();
   start_time=  form.find("#start_time").val();
   end_time  =  form.find("#end_time").val();
@@ -92,15 +92,15 @@ $(document).ready (function () {
   $(document).on("click", ".add_row" , function () {   // when add row is called
     $('.Go').show();
     $('.Go_here').hide();
-    $('#aform').show();
+    $('#slot_form').show();
     console.log(slots);
     if(slots.length){		                              // if not first
       last_end_time = slots[slots.length-1].end_time;
-      $('#aform').find("#start_time").val(last_end_time);
+      $('#slot_form').find("#start_time").val(last_end_time);
     }
     else{                                             // if first input
-      $('#aform').find("#start_time").val("09:00");
-      $('#aform').find("#end_time").val("09:05");
+      $('#slot_form').find("#start_time").val("09:00");
+      $('#slot_form').find("#end_time").val("09:05");
     }
 	});
   $(document).on("click", ".Go" , function() {    // when slot form is submitted
@@ -108,13 +108,14 @@ $(document).ready (function () {
     slots.push(temp);
     form.trigger('reset');
     $("#myTable").append(return_row(temp));
-    $('#aform').css("display","none");
+    $("#myTable").show();
+    $('#slot_form').css("display","none");
   });
   let index;
   $(document).on("click", ".add_here" , function(){
     $('.Go_here').show();
     $('.Go').hide();
-    $('#aform').show();
+    $('#slot_form').show();
 		selected_tr = $(this).parentsUntil("tbody").last();
     name = selected_tr.find("td").first().html();
 		for (i = 0 ; i < slots.length; i++){
@@ -123,7 +124,7 @@ $(document).ready (function () {
         break;
       }
     }
-    $('#aform').find("#start_time").val(slots[i].end_time);
+    $('#slot_form').find("#start_time").val(slots[i].end_time);
   });
   $(document).on("click", ".Go_here" , function() {    // when slot form is submitted
     temp = get_slot();
@@ -141,7 +142,7 @@ $(document).ready (function () {
     // for (i in slots){
     //   $("#myTable").append(return_row(slots[i]));
     // }
-    $('#aform').css("display","none");
+    $('#slot_form').css("display","none");
   });
   
 });

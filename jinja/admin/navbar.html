@@ -4,6 +4,7 @@
     <link rel="stylesheet" type="text/css" href="{{static ('admin/navtree.css')}}">
     <link rel="stylesheet" type="text/css" href="{{static ('admin/base.css')}}">
     <script src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
+    <script src="{{static ('form/form.js') }}" charset="utf-8"></script>
     <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
     <!-- <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet"> -->
     <script>
@@ -29,7 +30,7 @@
     });
     $(".not_me").click(function(){
       $(".toggle_button").css({"height":"0px","width":"0px"});
-      $(".wrapper").animate({width:'100%',height:'0%'});
+      $(".wrapper").animate({width:'100%',height:'0%'},400);
       $("#whole_container_id").css({"height":"100%","width":"100%","transition":".3s"});
       $("fieldset").show();
       $(".table_container").show();
@@ -49,14 +50,14 @@
       <ul>
         <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
         <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
-        <li class="nav_items"><a class="nav_a_tags" href="{{url ('table')}}">Your Tables</a></li>
-        <li class="nav_items me" onclick=""><a class="nav_a_tags" href="#">Nav Tree</a></li>
+        <li class="nav_items"><a class="nav_a_tags" href="#">Your Tables</a></li>
+        <li class="nav_items me" onclick="scrollhere();"><a class="nav_a_tags" href="#">Nav Tree</a></li>
       </ul>
       </div>
     </nav>
   </div>
 
-  <div class="wrapper scroll" id="show_tree" style="">
+  <div class="wrapper scroll" id="show_tree" style="" >
     <ul>
       <li class="noline">
         <label class = "not_data">{{institute}}</label>
@@ -72,7 +73,10 @@
                     <label for="{{department}}.a" class = "data"><a href = {{url ('show_branch' ,args=[department.id])}}>Branch Details</a></label>
                   </li>
                   <li>
-                    <label for="{{department}}.b" class = "not_data"><a>Faculty</a></label>
+                    <label for="{{department}}.b" class = "not_data"><a href={{url ('add_faculty')}}>Faculty</a></label>
+                  </li>
+                  <li>
+                    <label for="{{department}}.c" class = "data"><a href = {{url ('try')}}>Slot Details</a></label>
                   </li>
 
                   {% for key1,values1 in branches.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
@@ -113,7 +117,7 @@
         </ul>
       </li>
     </ul>
-    <button type="submit" name="button" onclick="" class="toggle_button not_me"> <img src="{{static ('admin/details/img/arrow.png')}}" alt="arrow"> </button>
+    <button type="submit" name="button" class="toggle_button not_me"> <img src="{{static ('admin/details/img/arrow.png')}}" alt="arrow"> </button>
   </div>
 {%block navbar_ends%}
 {%endblock%}

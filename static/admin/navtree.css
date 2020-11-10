@@ -19,6 +19,7 @@
 }
 .active{
   background-color: salmon;
+  
 }
 .wrapper ul {
   position: relative;
@@ -55,7 +56,7 @@
   display: block;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  margin-top: 18px;
+  margin-top: 18px; 
 }
 
 body .message {
@@ -154,7 +155,7 @@ body .wrapper ul input:checked ~ ul .more {
 
 
 .toggle_button{
-  position: absolute;
+  position: sticky;
   top: 87%;
   left: 50%;
   background: transparent;
@@ -187,3 +188,19 @@ body .wrapper ul input:checked ~ ul .more {
     transform: translateY(-40%);
   }
 }
+::-webkit-scrollbar {
+	width: 7px;
+	height: 10px;
+}
+::-webkit-scrollbar-track {
+	// border: 1px solid #262631;
+	
+}
+::-webkit-scrollbar-thumb {
+	background-color: #515163;
+	border-radius: 3px;
+}
+:root{
+	scrollbar-color:#767692 #1f1f24 !important;
+	scrollbar-width: thin !important;
+  }

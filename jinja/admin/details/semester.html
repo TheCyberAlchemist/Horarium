@@ -7,6 +7,7 @@
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
 
       // Strings
@@ -27,6 +28,7 @@
       Department.classList.add("active");
       Branch.classList.add("active");
       Semester_details.classList.add("active");
+      Semester_details.setAttribute("id", "scrolled");
       
       // Unchecker
       Department_input.checked = false;
@@ -51,6 +53,11 @@
             <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
           </div>
         </form>
+        <div class="form_visibility_img_container">
+          <button class="show_form_button" onmouseup="form_visibility()">
+          <p id="myp">Show Form</p>
+        </button>
+        </div>
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
@@ -65,7 +72,6 @@
                   <h1>Semesters for {{my_branch}}</h1>          
                   <a style="display: none;" id="del" onclick="delete_entries()" >
                     <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
-                    Delete
                   </a>
                 </div>
                 <th>Id</th>

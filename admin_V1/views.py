@@ -94,9 +94,10 @@ def show_department(request,Department_id = None):
 					# candidate.save()
 					try:	# unique contraint added
 						candidate.save()
+						context['form'] = create_department()     				#Form Renewed
+						return redirect('show_department')                      #Page Renewed
 					except IntegrityError:
-						context['errors'] = "Short and Name must be unique for Institute"
-					return redirect('show_department')
+						context['integrityErrors'] = "Short and Name must be unique for Institute"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/department.html",context)

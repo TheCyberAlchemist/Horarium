@@ -1,0 +1,113 @@
+$font_size1 : 1.3em;
+.select2-container {
+	//whole fking container
+	box-sizing: border-box;
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	outline: none;
+	border: none;
+}
+.select2-container .select2-selection--single{
+    //width of select box
+    border-radius: 40px;
+    box-sizing: border-box;
+	cursor: pointer;
+	display: block;
+	height: 40px;
+	font-size: $font_size1;
+	user-select: none;
+	-webkit-user-select: none;
+	transition: 1s;
+}
+.select2-search input {
+    //backcolor of search
+    background-color: rgb(34, 34, 34);
+    border-radius: 10px;
+	color: white; 
+	outline: none;
+	border: none;
+	font-size: $font_size1 - .3em;
+}
+.select2-container--default .select2-search--dropdown .select2-search__field {
+	//search field border
+	border: 1px solid rgb(94, 93, 93);
+}
+
+.select2-dropdown {
+    //backcolor of options and searchbox background
+	// border: 1px solid #aaa;
+	border-radius: 4px;
+	box-sizing: border-box;
+	display: block;
+	font-size: $font_size1;
+	position: absolute;
+	background-color:#333;
+	// left: -100000px;
+	// width: 100%;
+	z-index: 1051;
+	transition: 2s;
+}
+.select2-container .select2-selection--single .select2-selection__rendered {
+	// -------------- padding and styling of selected option
+	display: block;
+	padding-left: 8px;
+    padding-right: 20px;
+    padding-top: 4px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	outline: none;
+	border: none;
+}
+.select2-container--default .select2-selection--single {
+    //backcolor of whole select box
+    background-color: #333;
+	// border: 1px solid #aaa;
+    border-radius: 4px;
+}
+//upper and lower both for select box styling
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    //selected option properties
+    color: #fff;
+	line-height: 28px;
+
+}
+
+.select2-container--default .select2-results__option--selected {
+    //selected option properties in dropdown
+	background-color: rgb(33, 191, 212);
+
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    //selection arrow container styling
+    height: 46px;
+	position: absolute;
+	top: -5px;
+	right: 3px;
+	width: 40px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+    //arrow down image styling
+	border-color: #888 transparent transparent transparent;
+	border-style: solid;
+	border-width:9px 8px 0 8px;
+	height: 0;
+	left: 50%;
+	margin-left: -4px;
+	margin-top: -2px;
+	position: absolute;
+	top: 50%;
+	width: 0;
+}
+.select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b {
+	//arrow up image styling
+	border-color: transparent transparent #888 transparent;
+	border-width: 0 8px 9px 8px;
+}
+
+#sports,#sports2,#sports3{
+	width:250px;
+	margin: 0em 0em 0em 10em;
+}

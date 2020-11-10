@@ -6,7 +6,8 @@
 {% endblock css %}
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
-    <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <!-- <script src="{{static ('form/form.js')}}" charset="utf-8"></script> -->
+    
     <script>
 
       // Strings
@@ -17,7 +18,7 @@
 
       // Activator
       Department_details.classList.add("active");
-      
+      Department_details.setAttribute("id", "scrolled");
     </script>
 {% endblock scripts %}
 
@@ -46,7 +47,22 @@
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button">Submit</button>
           </div>
+          <!-- <div class="errors_container">
+            <p>
+              {% if errors %}
+                {{errors}}
+              {% endif %}
+              {% if integrityErrors %}
+                {{integrityErrors}}
+              {% endif %}
+            </p>
+          </div> -->
         </form>
+        <div class="form_visibility_img_container">
+          <button class="show_form_button" onmouseup="form_visibility()">
+          <p id="myp">Show Form</p>
+        </button>
+        </div>
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
@@ -57,11 +73,10 @@
               <table id = "db_table">
                 <thead>
                   <tr>
-                    <div class="delete_panel" >
-                      <h1>Department for {{institute}}</h1>
+                    <div class="delete_panel">
+                      <h1 >Department for {{institute}}</h1>
                       <a style="display: none;" id="del" onclick="delete_entries()" >
                         <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
-                        Delete
                       </a>
                     </div>
                     <th>Id</th>

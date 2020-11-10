@@ -2,11 +2,14 @@
 {% block title %}Division{% endblock title %}
 {% block css %}
     <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
 {% endblock css %}
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
 
       // Strings
@@ -31,7 +34,7 @@
       Branch.classList.add("active");
       Semester.classList.add("active");
       Division_details.classList.add("active");
-
+      Division_details.setAttribute("id", "scrolled");
       // Unchecker
       Department_input.checked = false;
       Branch_input.checked = false;
@@ -51,11 +54,30 @@
               <div class="line"></div>
             </label>
           </div>
+          <div class="select2_container">
+            <select name="myselect" id="sports">
+              <option value="1">--------------</option>
+              <option value="a">a</option>
+              <option value="b">b</option>
+              <option value="c">c</option>
+            </select>
+          </div>
+        <!-- <select name="" id="sports2">
+            <option value="3">--------------</option>
+        </select>
+        <select name="" id="sports3">
+            <option value="5">--------------</option>
+        </select> -->
 
           <div class="submit_button_container">
-            <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
+            <button type="submit" name="button" class="submit_button">Submit</button>
           </div>
         </form>
+        <div class="form_visibility_img_container">
+          <button class="show_form_button" onmouseup="form_visibility()">
+          <p id="myp">Show Form</p>
+        </button>
+        </div>
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->

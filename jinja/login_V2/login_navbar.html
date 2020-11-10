@@ -1,0 +1,23 @@
+{%block login_navbar_starts%}
+{%endblock%}
+    <link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{static ('admin/base.css')}}">
+    <script src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
+    <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet"> -->
+    <div class="nav_container">
+    <nav class="navv" id="show_navbar">
+      <div class="nav_items show_user">
+       <!-- for logo -->
+      </div>
+
+      <div class="container ">
+      <ul>
+        <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
+        <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
+      </ul>
+      </div>
+    </nav>
+  </div>
+{%block login_navbar_ends%}
+{%endblock%}

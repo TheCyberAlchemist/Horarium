@@ -1,0 +1,26 @@
+{%extends 'login_V2/login_navbar.html'%}
+{%block login_navbar_starts%}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>{% block title %} {% endblock %} | Horarium</title>
+	{# title block for printing the name of the page  #}
+	{% block css %} {% endblock %}
+	<link rel="stylesheet" href="{{static ('admin/base.css')}}">
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> 
+</head>
+<body style="padding-top: 60px">
+{%endblock%}
+
+{%block login_navbar_ends%}
+{% block content %}
+
+{% endblock %}
+{# content block for the main contents of the body #}
+</body>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+{% block scripts %}
+{% endblock %}
+{# script block for all the scripts of the page #}
+</html>
+{% endblock %}

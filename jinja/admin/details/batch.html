@@ -2,10 +2,14 @@
 {% block title %}Batch{% endblock title %}
 {% block css %}
     <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
-{% endblock css %}
-{% block scripts %}
+    {% endblock css %}
+    {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
     <script>
 
@@ -30,11 +34,12 @@
       Division_input = document.querySelectorAll('[id="'+division+'"]')[0];
 
       // Activator
-      Department.classList.add("active");
+      Department.classList.add("active"); 
       Branch.classList.add("active");
       Semester.classList.add("active");
       Division.classList.add("active");
       Batch_details.classList.add("active");
+      Batch_details.setAttribute("id", "scrolled");
       // Unchecker
       Department_input.checked = false;
       Branch_input.checked = false;
@@ -50,17 +55,36 @@
         <form class="myform">
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
-            <input type="text" name=""  class ="form_input" required/>
+            <input type="text" name="batchname" class ="form_input" required/>
             <label for="" class="form_input_label">
               <div class="text">Batch Name</div>
               <div class="line"></div>
             </label>
           </div>
+          <div class="select2_container">
+            <select name="myselect" id="sports">
+              <option value="1">--------------</option>
+              <option value="a">a</option>
+              <option value="b">b</option>
+              <option value="c">c</option>
+            </select>
+          </div>
+        <!-- <select name="" id="sports2">
+            <option value="3">-------------</option>
+        </select>
+        <select name="" id="sports3">
+            <option value="5">-------------</option>
+        </select> -->
   
           <div class="submit_button_container">
-            <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
+            <button type="submit" name="button" value="submit" class="submit_button" onclick="">Submit</button>
           </div>
         </form>
+        <div class="form_visibility_img_container">
+          <button class="show_form_button" onmouseup="form_visibility()">
+          <p id="myp">Show Form</p>
+        </button>
+        </div>
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->  

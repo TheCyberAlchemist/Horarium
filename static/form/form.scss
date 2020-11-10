@@ -1,6 +1,8 @@
 $body_container_color : #1e1e2e;
-$form_color : #1e1e2e;
-
+$form_bgcolor : #222235;
+$input_font_size : 19px;
+$placeholder_font_size : 19px;
+$selected_placeholder_font_size : 16px;
 .whole_container {
     background-color: $body_container_color;
     width: 100%;
@@ -8,26 +10,82 @@ $form_color : #1e1e2e;
     margin: 0 auto;
     padding: 20px 150px;
     transition: 3s;
-
+ 
   }
   .not_login {
     /*For all legends which are not login/register form */
     margin: 0 15%;
   }
-   
   .myform {
     padding: 70px 0px;
-    background-color: $form_color;
+    background-color: $form_bgcolor;
+    border-radius: 10px;
+    display: none;
   }
-
+  .loginform {
+    padding: 70px 0px;
+    background-color: $form_bgcolor;
+    border-radius: 10px;
+  }
+  .show_form_button {
+    background: transparent;
+    outline: none;
+    border: 1px solid #e12eca;
+    // width: 69%;
+    margin-top: 1.3em;
+    border-radius: 5px;
+    padding: 10px 20px 10px 20px;
+    font-size: 15px;
+    margin-bottom: 1em;
+  }
+  .show_form_button:hover  {
+    background-color: #e12eca;
+  }
+  .form_visibility_img_container {
+    width: 100%;
+    margin-top: -1.2em;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 10px;
+    // background-color: rgb(150, 51, 51);
+    // background-color: rgb(238, 89, 89);
+  }
+  .form_visibility_img {
+    margin-top: 1em;
+    height: 50px;
+    width:50px;
+    transition: .5s;
+  }
+  .form_visibility_img_container p{
+    font-size: 20px;
+    
+  }
+  .form_visibility_img:hover{
+    transform: rotate(360deg);
+    transition: .5s;
+  }
   .input_container {
-    border-bottom: 1px solid #fff;
-    border-width: 1px;
-    width: 60%;
+    border-bottom: .15em solid #b9b9b9;
+    border-width: .15em;
+    width: 70%;
     margin: 0 auto 1.7em auto;
     position: relative;
-    transition: .1s;
+    transition: .3s;
     // background-color: red;
+  }
+  .input_container:hover {
+    border-bottom: .15em solid #ffffff;
+    transition: .1s;
+  }
+  .select2_container {
+    // border-bottom: 1px solid #fff;
+    border-width: 1px;
+    width: 100%;
+    margin: 0 auto 1.7em auto;
+    padding-left : 13em;
+    position: relative;
+    transition: .1s;
   }
   .short_names{
     text-transform: uppercase;
@@ -35,33 +93,36 @@ $form_color : #1e1e2e;
   .input_icons {
     position: absolute;
     top : 1em;
-    height: 25px;
-    width: 25px;
+    height: 30px;
+    width: 30px;
   }
   .text{
     position: absolute;
-    top : .8em;
-    left: 1.7em;
+    top : 1em;
+    left: 1.9em;
     pointer-events: none;
-    font-size: 22px;
+    user-select: none;
+    font-size: $placeholder_font_size;
     transition: .4s;
   }
   .form_input_label{
     transition: transform 0.25s ease-in-out;
-  }
+  } 
 
   .form_input:focus + .form_input_label .text,
   .form_input:valid + .form_input_label .text{
     top:-.7em;
     left: .5px;
     transition: .2s;
+    font-size: $selected_placeholder_font_size;
     color: rgb(185, 184, 184);
   }
-  .form_input[type = "password"]:focus + .form_input_label .text,
-  .form_input[type = "password"]:valid + .form_input_label .text{
+  .form_input:focus + #eye + .form_input_label .text,
+  .form_input:valid + #eye + .form_input_label .text{  //for password field
     top:-.7em;
     left: .5px;
     transition: .2s;
+    font-size: $selected_placeholder_font_size;
     color: rgb(185, 184, 184);
   }
 
@@ -71,11 +132,10 @@ $form_color : #1e1e2e;
   }
   .form_input {
     position: relative;
-    font-size: 19px;
-    width: 87%;
-    padding: 7px 5px 0px 4px;
-    margin: 10px;
-    padding-left: 1.4em;
+    font-size: $input_font_size;
+    width: 92%;
+    padding: 7px 5px 0px 1.4em;
+    margin : 10px;
     outline: none;
     border: none;
     background-color: transparent;
@@ -103,19 +163,29 @@ $form_color : #1e1e2e;
     background: transparent;
     outline: none;
     border: 1px solid #e12eca;
-    width: 60%;
+    width: 69%;
+    border-radius: 5px;
     margin-top: 10px;
     padding: 10px;
     font-size: 20px;
   }
   
-  .submit_button:hover {
+  .submit_button:hover ,.submit_button:focus {
     background-color: #e12eca;
   }
   
+    /*////////////////ERRORS MESSAGES///////////////////*/
+    .errors_container { 
+      position: absolute;
+      width: 80%;
+      top : 120px;
+      padding : 10px;
+      background-color: red;
+    }
   /*/////////////////////////DROPDOWN///////////////////////////////// */
+    //look for myselect2 and select2 for dropdown styling
 
-  
+
   /*//////////////CHECKBOX////////////////*/
   .checkboxes input[type=checkbox] {
     display: none;
@@ -132,8 +202,8 @@ $form_color : #1e1e2e;
     border: 0.1em solid #fff;
     border-radius: 0.2em;
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: .9em;
+    height: .9em;
     padding-left: 0.15em;
     padding-right: 0.11em;
     padding-bottom: 0.3em;
@@ -154,5 +224,11 @@ $form_color : #1e1e2e;
     color: #fff;
   }
   
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
+input[type="time"]::-webkit-clear-button {
+  display: none;
+}
 
   /*# sourceMappingURL=form.css.map */

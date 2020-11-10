@@ -1,3 +1,5 @@
+$fieldset_bgcolor : #222235;
+$fontfamily :  'Montserrat', sans-serif;
 * {
 	margin: 0;
 	color: white;
@@ -10,30 +12,34 @@
 input::-ms-reveal,
 input::-ms-clear {
 	display: none;
-}
+} 
 input:focus {
 	outline: none;
-}
+} 
 
 body {
-	font-family: 'Montserrat', sans-serif;
+	font-family: $fontfamily;
 	background-color: #1e1e2e;
 	scrollbar-face-color: white;
 	scrollbar-track-color: transparent;
-	color: ivory;
+	color: white;
 }
 
 a {
 	outline: none;
 	border: none;
 	text-decoration: none;
-	color: ivory;
+	color: white;
 }
 
 fieldset {
-	background-color: #1e1e2c;
+	background-color: $fieldset_bgcolor;
 	outline: none;
-	border: 1px solid #e14eca;
+	width: 90%;
+	margin: 0 auto;
+	// border: 1px solid #e14eca;
+	border:  none;
+	border-radius: 10px;
 	-webkit-box-shadow: -3px -1px 41px -13px black;
 	-moz-box-shadow: -3px -1px 41px -13px black;
 	box-shadow: -3px -1px 41px -13px black;
@@ -47,3 +53,19 @@ legend {
 i {
 	text-align: right;
 }
+::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+}
+::-webkit-scrollbar-track {
+	// border: 1px solid #262631;
+	
+}
+::-webkit-scrollbar-thumb {
+	background-color: #515163;
+	border-radius: 3px;
+}
+:root{
+	scrollbar-color:#767692 #1f1f24 !important;
+	scrollbar-width: thin !important;
+  }

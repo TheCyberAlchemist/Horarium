@@ -1,4 +1,4 @@
-$(function(){
+$(document).ready(function(){
   ////////////// ajax setup   /////////////////////////
     var csrftoken = Cookies.get('csrftoken');
     function csrfSafeMethod(method) {
@@ -13,7 +13,29 @@ $(function(){
             }
         }
     });
+
+    /*//////////////DROPDOWN//////////////*/
+
+  var list = ["Cricket","VollyBall","Football"];
+  var list2 = ["A","B","C"];
+  var list3 = ["X","Y","Z"];
+  $("#sports").select2({
+      data : list
   });
+  $("#sports2").select2({
+      data : list2
+  });
+  $("#sports3").select2({
+      data : list3
+  });
+  
+  /* ///////////TO UpperCase/////////////// */ 
+  // $('.short_names').val($('.short_names').val().toUpperCase());
+  $(".submit_button").click(function() {
+    $('.short_names').val($('.short_names').val().toUpperCase());
+  });
+// /* //////Scroll into view ///////// */
+});
 
 function visibility1(self) {
   console.log(self);
@@ -66,4 +88,16 @@ function delete_entries(){
   }
 }
 
-/*//////////////DROPDOWN//////////////*/
+function form_visibility() {
+  var form = document.getElementsByClassName("myform")[0];
+  var p = document.getElementById("myp");
+  if(form.style.display == "none"){
+    p.innerHTML = "Close Form";
+    form.style.display = "block";
+    
+  }
+  else{
+    form.style.display = "none";
+    p.innerHTML = "Show Form";
+  }
+}

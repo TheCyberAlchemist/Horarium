@@ -243,14 +243,14 @@ def show_batch(request,Division_id,Batch_id = None):
 		raise redirect('/')
 
 
-def add_faculty(request):
+def add_faculty(request,Department_id=None):
 	context = return_context(request)
 	context['user_form'] = add_user()
 	context['faculty_detail_form'] = faculty_details()
 	context['faculty_load_form'] = faculty_load()
-	context['shifts'] = Shift.objects.filter(Department_id=1)
-	pk_list = [1,None]
-	context['designations'] = Faculty_designation.objects.filter(Department_id=1) | Faculty_designation.objects.filter(Department_id=None)
+	context['shifts'] = Shift.objects.filter(Department_id=Department_id)
+	department = Department.objects.get(pk = Department_id)
+	context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 	# context['designations'] = Faculty_designation.objects.filter(Department_id__in=[None])
 	if request.method == 'POST':
 		user_form = add_user(request.POST)
@@ -269,7 +269,6 @@ def add_faculty(request):
 			B = faculty_load_form.save(commit = False)
 			B.Faculty_id = F
 			B.save()
-
 
 		else:
 			context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]

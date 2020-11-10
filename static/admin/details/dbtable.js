@@ -50,8 +50,8 @@ function checkAll(){
 	  }
 	}
 
-checkSelected();
-  }
+	checkSelected();
+}
 
 function checkSelected(){
 	var child = document.getElementsByName('del');

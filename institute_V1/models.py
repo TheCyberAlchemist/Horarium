@@ -5,6 +5,11 @@ from django.db import IntegrityError
 N_len = 50
 S_len = 10
 
+class Days(models.Model):
+	name = models.CharField(max_length = N_len)
+	def __str__(self):
+		return self.name
+
 class Institute(models.Model):
 	name = models.CharField(max_length = N_len)
 	short = models.CharField(max_length = S_len)
@@ -44,6 +49,17 @@ class Shift(models.Model):
 		verbose_name_plural = "Shift"
 		constraints = [
 			models.UniqueConstraint(fields=['name', 'Department_id'], name='ShiftName is Unique for Institute')
+        ]
+
+class Working_days(models.Model):
+	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
+	Days_id = models.ForeignKey(Days,default=None,on_delete=models.RESTRICT)
+	def __str__(self):
+		return self.Shift_id + self.Days_id
+	class Meta:
+		verbose_name_plural = "Working Days"
+		constraints = [
+			models.UniqueConstraint(fields=['Shift_id', 'Days_id'], name='Day only once for shift')
         ]
 
 class Branch(models.Model):

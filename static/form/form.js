@@ -82,7 +82,6 @@ function delete_entries(){
       data: state,
       success: function (){
         location.reload(); // reload page after success of post
-        console.log("hii");
       }
     });
   }

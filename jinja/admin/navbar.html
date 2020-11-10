@@ -50,8 +50,8 @@
       <ul>
         <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
         <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
-        <li class="nav_items"><a class="nav_a_tags" href="#">Your Tables</a></li>
-        <li class="nav_items me" onclick="scrollhere();"><a class="nav_a_tags" href="#">Nav Tree</a></li>
+        <li class="nav_items"><a class="nav_a_tags">Your Tables</a></li>
+        <li class="nav_items me" onclick=""><a class="nav_a_tags" href="#">Nav Tree</a></li>
       </ul>
       </div>
     </nav>
@@ -73,7 +73,7 @@
                     <label for="{{department}}.a" class = "data"><a href = {{url ('show_branch' ,args=[department.id])}}>Branch Details</a></label>
                   </li>
                   <li>
-                    <label for="{{department}}.b" class = "not_data"><a href={{url ('add_faculty')}}>Faculty</a></label>
+                    <label for="{{department}}.b" class = "not_data"><a href = {{url ('add_faculty' ,args=[department.id])}}>Add Faculty</a></label>
                   </li>
                   <li>
                     <label for="{{department}}.c" class = "data"><a href = {{url ('try')}}>Slot Details</a></label>

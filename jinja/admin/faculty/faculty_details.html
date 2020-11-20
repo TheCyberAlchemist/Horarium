@@ -1,5 +1,5 @@
 {% extends 'admin/base.html' %}
-{% block title %}Division{% endblock title %}
+{% block title %}Faculty{% endblock title %}
 {% block css %}
     <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
@@ -8,44 +8,105 @@
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script src="{{static ('form/pagination.js')}}" charset="utf-8"></script>
 {% endblock scripts %}
 
 {% block content %}
 <div class="whole_container" id="whole_container_id">
   <fieldset>
-    <legend class="not_login">Add Division</legend>
-    <form class="myform" method = "POST">
+    <legend>Add Faculty</legend>
+
+    <form class="myform" method = "POST" style="display: none;">
       {{csrf_input}}
-      <div class="input_container">
-        {{user_form.first_name}}
+      <div id="first_page">
+        <div class="input_container_double">
+
+          <div class="input_container_double_1">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="fname">
+            {{user_form.first_name}}
+            <label for="" class="form_input_label">
+              <div class="text">First Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+          
+          <div class="input_container_double_2">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="lname">
+            {{user_form.last_name}}
+            <label for="" class="form_input_label">
+              <div class="text">Last Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+        </div>
+        <div class="input_container">
+          <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="sname">
+          {{faculty_detail_form.short}}
+          <label for="" class="form_input_label">
+            <div class="text">Short Name</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="input_container">
+          <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
+          {{user_form.email}}
+          <label for="" class="form_input_label">
+            <div class="text">Email Id</div>
+            <div class="line"></div>
+          </label>
+        </div>
+
+        <div class="input_container_double">
+          <div class="input_container_double_1">
+            <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+            <!-- {{user_form.password1}} -->
+            <input type="password" class="form_input" name="password" id="myinput1"  required autocomplete="off">
+            <label for="" class="form_input_label">
+              <div class="text">Password</div>
+              <div class="line"></div>
+            </label>
+            <span id="eye_double" onclick="visibility1(parent)">
+              <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
+              <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
+            </span>
+          </div>
+          <div class="input_container_double_2">
+            <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+            <!-- {{user_form.password2}} -->
+            <input type="password" class="form_input" name="password" id="myinput2"  required autocomplete="off">
+            <label for="" class="form_input_label">
+              <div class="text">Confirm Password</div>
+              <div class="line"></div>
+            </label>
+            <span id="eye_double" onclick="visibility2(parent)">
+              <i class="fa fa-eye fa-lg" id="hide3" aria-hidden="true"></i>
+              <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
       </div>
-      <div class="input_container">
-        {{user_form.last_name}}
-      </div>
-      <div class="input_container">
-        {{faculty_detail_form.short}}
-      </div>
-      <div class="input_container">
-        {{user_form.email}}
-      </div>
-      <div class="input_container">
-        {{faculty_load_form.total_load}}
-      </div>
-      <div class="input_container">
-        {{user_form.password1}}
-        <span id="eye" onclick="visibility1(parent)">
-          <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
-          <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
-        </span>
-      </div>
-      <div class="input_container">
-        {{user_form.password2}}
-        <span id="eye" onclick="visibility2(parent)">
-          <i class="fa fa-eye fa-lg" id="hide3" aria-hidden="true"></i>
-          <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
-        </span>
-      </div>
-      <div class="dropdown_container">
+
+      <div id="second_page" style="display: none">        
+        <div class="input_container">
+          <img class="input_icons" src="{{static ('admin/details/img/clock.png')}}" alt="load">
+          {{faculty_load_form.total_load}}
+          <label for="" class="form_input_label">
+            <div class="text">Total Load of Faculty(in hrs)</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="radio_buttons_container">
+        <h3 style="padding-bottom: 10px;">Designation</h3>
+        {% for designation in designations %}
+          <label class="radio_container">
+            <!-- <input type="radio" class="radio" id ="{{designation.id}}" name="Shift_id" value = "{{designation.id}}" /> -->
+            <input type="radio" class="radio" id ="{{designation.id}}" name="Designation_id" value = "{{designation.id}}" />
+            <label for="{{designation.id}}">{{designation}}</label>
+            <span class="radio_checkmark"></span>
+          </label>
+          {%endfor%}
+        </div>
+      <!-- <div class="dropdown_container">
         <div class="dropdown_select_box">
           <div class="options_container">
             {% for designation in designations %}
@@ -58,15 +119,27 @@
 
           <div class="selected">
             Select Designation
-            <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
+            <img src="{{static ('admin/details/img/deown.png')}}" alt="down">
           </div>
 
           <div class="search_box">
             <input type="text" placeholder="Start Typing..." class = 'no_class'/>
           </div>
         </div>
-      </div>
-      <div class="dropdown_container">
+      </div> -->
+
+
+      <div class="radio_buttons_container">
+        <h3 style="padding-bottom: 10px;">Shift</h3>
+        {% for shift in shifts %}
+        <label class="radio_container">
+          <input type="radio" class="radio" id ="{{shift.id}}" name="Shift_id" value = "{{shift.id}}" />
+          <label for="{{shift.id}}">{{shift}}></label>
+          <span class="radio_checkmark"></span>
+        </label>
+        {% endfor %}
+
+      <!-- <div class="dropdown_container">
         <div class="dropdown_select_box">
           <div class="options_container">
             {% for shift in shifts %}
@@ -79,25 +152,92 @@
 
           <div class="selected">
             Select Shift
-            <!-- <img src="{{static ('admin/details/img/deown.png')}}" alt="down"> -->
+            <img src="{{static ('admin/details/img/deown.png')}}" alt="down">
           </div>
 
           <div class="search_box">
-            <input type="text" placeholder="Start Typing..." class = 'no_class'/>
+            <input type="text" placeholder="Start Typing..." class = 'no_class' style="color: red;"/>
           </div>
         </div>
+      </div>  -->
       </div>
       <div class="submit_button_container">
          <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
       </div>
+      
+    </div>
+    <div class="page_changer_button_container" id="page_changer_button_container">
+      <button class="page_change_button" id="page_change" onclick="pageChanger()">
+        Next Page
+      </button>
+    </div>
     </form>
-    {{errors}}
+    <div class="form_visibility_img_container">
+      <button class="show_form_button" onclick="form_visibility()">
+      <p id="myp">Show Form</p>
+      </button>
+    </div>
+    <!-- <div class="form_visibility_img_container">
+      <button class="show_form_button" onmouseup="form_visibility()">
+        <p id="myp">Show Form</p>
+      </button>
+    </div> -->
+    {% if message %}
+      <div class="errors_container">
+        <p>
+          {{message}}
+        </p>
+      </div>
+    {% endif %}
   </fieldset>
-  <div class="form_visibility_img_container">
-    <button class="show_form_button" onmouseup="form_visibility()">
-    <p id="myp">Show Form</p>
-  </button>
-  </div>
+
+  <div class="table_container">
+    <div class="table_search_box">
+      <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+    </div>
+    <table id = "db_table">
+      <thead>
+        <tr>
+          <div class="delete_panel">
+            <h1>Faculties of {{institute}}</h1>
+            <a style="display: none;" id="del" onclick="delete_entries()" >
+              <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+            </a>
+          </div>
+          <th>Id</th>
+          <th>Faculty Name</th>
+          <th>Short</th>
+          <th>Edit</th>
+          <th>
+            <div class="checkboxes" onclick="checkAll();">
+              <input type="checkbox"  id="parent" name="parent" value="parent">
+              <label for="parent"></label> 
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for department in departments %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{department.name}}</td>
+            <td>{{department.short}}</td>
+            <td>
+              <a href = "{{url ('update_department' ,args=[department.id])}}">
+                <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+              </a>
+            </td>
+            <td>
+              <div class="checkboxes" onclick="checkSelected()">
+                <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{department.id}}">
+                <label for="{{loop.index}}"></label>
+              </div>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
 </div>
 
 <script>

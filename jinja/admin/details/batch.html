@@ -51,8 +51,8 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend class="not_login">Add Batch</legend>
-        <form class="myform">
+        <legend>Add Batch</legend>
+        <form class="myform" style="display: none;">
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
             <input type="text" name="batchname" class ="form_input" required/>
@@ -81,7 +81,7 @@
           </div>
         </form>
         <div class="form_visibility_img_container">
-          <button class="show_form_button" onmouseup="form_visibility()">
+          <button class="show_form_button" onclick="form_visibility()">
           <p id="myp">Show Form</p>
         </button>
         </div>

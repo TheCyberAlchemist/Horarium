@@ -318,3 +318,5 @@ def table(request):
 	}
 	return render(request,"try/slot2.html",context)
 
+def show_shift(request) :
+	return render(request,"admin/details/shift.html")

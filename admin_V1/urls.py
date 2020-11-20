@@ -17,4 +17,5 @@ urlpatterns = [
 	url(r'^faculty/(?P<Department_id>\d+)/$',views.add_faculty,name = 'add_faculty'),
 	path('student/',views.add_student,name = 'add_student'),
 	path('try/',views.table,name = 'try'),
+	url(r'^shift',views.show_shift,name = 'show_shift'),
 ]

@@ -78,6 +78,9 @@
                   <li>
                     <label for="{{department}}.c" class = "data"><a href = {{url ('try')}}>Slot Details</a></label>
                   </li>
+                  <li>
+                    <label for="{{department}}.d" class = "data"><a href = {{url ('show_shift')}}>Shift Details</a></label>
+                  </li>
 
                   {% for key1,values1 in branches.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
                     <li><label for="{{department}}.{{value1}}">{{value1}}</label>

@@ -46,7 +46,12 @@ fieldset {
 }
 
 legend {
+	/*For all legends which are not login/register form */
+    margin: 0 15%;
 	font-size: 30px;
+}
+.login_legend {
+	//Legend of login page
 	margin: 0 auto;
 }
 
@@ -69,3 +74,15 @@ i {
 	scrollbar-color:#767692 #1f1f24 !important;
 	scrollbar-width: thin !important;
   }
+:required{
+outline: none;
+box-shadow: none;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active  {
+	-webkit-box-shadow: 0 0 0 30px #222235 inset !important;
+	-webkit-text-fill-color: white !important;
+}

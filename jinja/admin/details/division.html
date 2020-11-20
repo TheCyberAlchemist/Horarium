@@ -45,8 +45,8 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend class="not_login">Add Division</legend>
-        <form class="myform">
+        <legend>Add Division</legend>
+        <form class="myform" style="display: none;">
           <div class="input_container">
             <input type="text" name="name" class ="form_input" required/>
             <label for="" class="form_input_label">
@@ -74,9 +74,9 @@
           </div>
         </form>
         <div class="form_visibility_img_container">
-          <button class="show_form_button" onmouseup="form_visibility()">
+          <button class="show_form_button" onclick="form_visibility()">
           <p id="myp">Show Form</p>
-        </button>
+          </button>
         </div>
       </fieldset>
 

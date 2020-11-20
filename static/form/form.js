@@ -30,7 +30,9 @@ $(document).ready(function(){
   });
   
   /* ///////////TO UpperCase/////////////// */ 
+
   // $('.short_names').val($('.short_names').val().toUpperCase());
+  
   $(".submit_button").click(function() {
     $('.short_names').val($('.short_names').val().toUpperCase());
   });
@@ -61,11 +63,13 @@ function visibility2() {
   var z = document.getElementById("hide4");
 
   if (x.type === "password") {
+    console.log("Hi");
     x.type = "text";
     y.style.display = "inline";
     z.style.display = "none";
     }
   else if(x.type === "text" ){
+    console.log("ElseHi");
     x.type = "password";
     y.style.display = "none";
     z.style.display = "inline";
@@ -86,17 +90,16 @@ function delete_entries(){
     });
   }
 }
-
 function form_visibility() {
   var form = document.getElementsByClassName("myform")[0];
   var p = document.getElementById("myp");
+  var legend = document.getElementsByClassName("not_login");
   if(form.style.display == "none"){
     p.innerHTML = "Close Form";
     form.style.display = "block";
-    
   }
   else{
-    form.style.display = "none";
     p.innerHTML = "Show Form";
+    form.style.display = "none";
   }
 }

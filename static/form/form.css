@@ -8,16 +8,12 @@
   transition: 3s;
 }
 
-.not_login {
-  /*For all legends which are not login/register form */
-  margin: 0 15%;
-}
-
 .myform {
   padding: 70px 0px;
   background-color: #222235;
   border-radius: 10px;
   display: none;
+  position: relative;
 }
 
 .loginform {
@@ -43,7 +39,7 @@
 
 .form_visibility_img_container {
   width: 100%;
-  margin-top: -1.2em;
+  margin-top: -1em;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -89,6 +85,51 @@
   transition: .1s;
 }
 
+.form_input {
+  position: relative;
+  font-size: 19px;
+  width: 95%;
+  padding: 7px 5px 0px 0.4em;
+  margin: 10px 10px 10px 30px;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+.input_container_double {
+  border-width: .15em;
+  width: 70%;
+  margin: 0 auto 3.5em auto;
+  padding-bottom: 1em;
+  position: relative;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.input_container_double_1, .input_container_double_2 {
+  border-bottom: .15em solid #b9b9b9;
+  border-width: .15em;
+  width: 45%;
+  margin: 0 auto 1.7em auto;
+  position: relative;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.input_container_double_1:hover, .input_container_double_2:hover {
+  border-bottom: .15em solid #ffffff;
+}
+
+.input_container_double_1 {
+  position: absolute;
+}
+
+.input_container_double_2 {
+  position: absolute;
+  left: 55%;
+  margin-bottom: 1em;
+}
+
 .select2_container {
   border-width: 1px;
   width: 100%;
@@ -112,14 +153,14 @@
 
 .text {
   position: absolute;
-  top: 1em;
-  left: 1.9em;
+  top: 1.2em;
+  left: 2em;
   pointer-events: none;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  font-size: 19px;
+  font-size: 18px;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -129,6 +170,18 @@
   transition: -webkit-transform 0.25s ease-in-out;
   transition: transform 0.25s ease-in-out;
   transition: transform 0.25s ease-in-out, -webkit-transform 0.25s ease-in-out;
+}
+
+#eye {
+  position: absolute;
+  left: 95%;
+  top: 40%;
+}
+
+#eye_double {
+  position: absolute;
+  left: 90%;
+  top: 40%;
 }
 
 .form_input:focus + .form_input_label .text,
@@ -151,21 +204,22 @@
   color: #b9b8b8;
 }
 
-:required {
-  outline: none;
-  -webkit-box-shadow: none;
-          box-shadow: none;
+.form_input[type="time"] + .form_input_label .text,
+.form_input[type="time"] + .form_input_label .text {
+  top: -.7em;
+  left: .5px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  font-size: 16px;
+  color: #b9b8b8;
 }
 
-.form_input {
-  position: relative;
-  font-size: 19px;
-  width: 92%;
-  padding: 7px 5px 0px 1.4em;
-  margin: 10px;
-  outline: none;
-  border: none;
-  background-color: transparent;
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
+
+input[type="time"]::-webkit-clear-button {
+  display: none;
 }
 
 .toggle {
@@ -197,8 +251,23 @@
   font-size: 20px;
 }
 
-.submit_button:hover, .submit_button:focus {
+.submit_button:hover, .submit_button:focus, .page_change_button:hover, .page_change_button:focus {
   background-color: #e12eca;
+}
+
+.page_changer_button_container {
+  position: absolute;
+  top: 86%;
+  left: 83%;
+}
+
+.page_change_button {
+  background: transparent;
+  outline: none;
+  border: 1px solid #e12eca;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 18px;
 }
 
 /*////////////////ERRORS MESSAGES///////////////////*/
@@ -249,11 +318,87 @@
   color: #fff;
 }
 
-input[type="time"]::-webkit-calendar-picker-indicator {
-  background: none;
+/*//////////////////RADIO BUTTON////////////*/
+.radio_buttons_container {
+  width: 70%;
+  margin: 0 auto 1.7em auto;
+  position: relative;
+  -webkit-transition: .3s;
+  transition: .3s;
+  top: 1.7em;
 }
 
-input[type="time"]::-webkit-clear-button {
+.radio_container {
+  position: relative;
+  padding-left: 30px;
+  padding-right: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio_container input {
+  font-size: 10px;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.radio_container label {
+  font-size: 15px;
+  padding-bottom: 10px;
+  vertical-align: middle;
+}
+
+/* Create a custom radio button */
+.radio_checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 21px;
+  width: 21px;
+  background-color: #e12eca;
+  border-radius: 50%;
+}
+
+.radio_checkmark:hover {
+  opacity: .7;
+}
+
+/* On mouse-over, add a grey background color */
+.radio_container:hover input ~ .radio_checkmark {
+  background-color: #e12ecf;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio_container input:checked ~ .radio_checkmark {
+  background-color: #e12eca;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio_checkmark:after {
+  content: "";
+  position: absolute;
   display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio_container input:checked ~ .radio_checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio_container .radio_checkmark:after {
+  top: 4px;
+  left: 4.7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
 }
 /*# sourceMappingURL=form.css.map */

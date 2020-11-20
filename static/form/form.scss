@@ -1,7 +1,7 @@
 $body_container_color : #1e1e2e;
 $form_bgcolor : #222235;
 $input_font_size : 19px;
-$placeholder_font_size : 19px;
+$placeholder_font_size : 18px;
 $selected_placeholder_font_size : 16px;
 .whole_container {
     background-color: $body_container_color;
@@ -12,15 +12,12 @@ $selected_placeholder_font_size : 16px;
     transition: 3s;
  
   }
-  .not_login {
-    /*For all legends which are not login/register form */
-    margin: 0 15%;
-  }
   .myform {
     padding: 70px 0px;
     background-color: $form_bgcolor;
     border-radius: 10px;
     display: none;
+    position: relative;
   }
   .loginform {
     padding: 70px 0px;
@@ -43,7 +40,7 @@ $selected_placeholder_font_size : 16px;
   }
   .form_visibility_img_container {
     width: 100%;
-    margin-top: -1.2em;
+    margin-top: -1em;
     align-items: center;
     justify-content: center;
     text-align: center;
@@ -72,11 +69,47 @@ $selected_placeholder_font_size : 16px;
     margin: 0 auto 1.7em auto;
     position: relative;
     transition: .3s;
-    // background-color: red;
   }
   .input_container:hover {
     border-bottom: .15em solid #ffffff;
     transition: .1s;
+  }
+  .form_input {
+    position: relative;
+    font-size: $input_font_size;
+    width: 95%;
+    padding: 7px 5px 0px 0.4em;
+    margin : 10px 10px 10px 30px;
+    outline: none;
+    border: none;
+    background-color: transparent;
+  }
+  .input_container_double {
+    border-width: .15em;
+    width: 70%;
+    margin: 0 auto 3.5em auto;
+    padding-bottom: 1em;
+    position: relative;
+    transition: .3s;
+  }
+  .input_container_double_1,.input_container_double_2{
+    border-bottom: .15em solid #b9b9b9;
+    border-width: .15em;
+    width: 45%;
+    margin: 0 auto 1.7em auto;
+    position: relative;
+    transition: .3s;
+  }
+  .input_container_double_1:hover,.input_container_double_2:hover {
+    border-bottom: .15em solid #ffffff;
+  }
+  .input_container_double_1 {
+    position: absolute; 
+  }
+  .input_container_double_2{
+    position: absolute;
+    left: 55%;
+    margin-bottom: 1em;
   }
   .select2_container {
     // border-bottom: 1px solid #fff;
@@ -98,8 +131,8 @@ $selected_placeholder_font_size : 16px;
   }
   .text{
     position: absolute;
-    top : 1em;
-    left: 1.9em;
+    top : 1.2em;
+    left: 2em;
     pointer-events: none;
     user-select: none;
     font-size: $placeholder_font_size;
@@ -108,6 +141,16 @@ $selected_placeholder_font_size : 16px;
   .form_input_label{
     transition: transform 0.25s ease-in-out;
   } 
+  #eye {
+    position: absolute;
+    left: 95%;
+    top : 40%;
+  }
+  #eye_double {
+    position: absolute;
+    left: 90%;
+    top : 40%;
+  }
 
   .form_input:focus + .form_input_label .text,
   .form_input:valid + .form_input_label .text{
@@ -125,20 +168,20 @@ $selected_placeholder_font_size : 16px;
     font-size: $selected_placeholder_font_size;
     color: rgb(185, 184, 184);
   }
-
-  :required{
-    outline: none;
-    box-shadow: none;
+  
+  .form_input[type="time"]+ .form_input_label .text,
+  .form_input[type="time"]+ .form_input_label .text{
+    top : -.7em;
+    left: .5px;
+    transition: .2s;
+    font-size: $selected_placeholder_font_size;
+    color: rgb(185, 184, 184);
   }
-  .form_input {
-    position: relative;
-    font-size: $input_font_size;
-    width: 92%;
-    padding: 7px 5px 0px 1.4em;
-    margin : 10px;
-    outline: none;
-    border: none;
-    background-color: transparent;
+  input[type="time"]::-webkit-calendar-picker-indicator {
+    background: none;
+  }
+  input[type="time"]::-webkit-clear-button {
+    display: none;
   }
   
   .toggle {
@@ -170,10 +213,25 @@ $selected_placeholder_font_size : 16px;
     font-size: 20px;
   }
   
-  .submit_button:hover ,.submit_button:focus {
+  .submit_button:hover ,.submit_button:focus, .page_change_button:hover,.page_change_button:focus {
     background-color: #e12eca;
   }
   
+
+  .page_changer_button_container{
+   position: absolute;
+   top: 86%;
+   left: 83%;
+  }
+  .page_change_button {
+    background: transparent;
+    outline: none;
+    border: 1px solid #e12eca;
+    // width: 69%;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 18px;
+  }  
     /*////////////////ERRORS MESSAGES///////////////////*/
     .errors_container { 
       position: absolute;
@@ -223,12 +281,87 @@ $selected_placeholder_font_size : 16px;
     border-color: #e14eca;
     color: #fff;
   }
-  
-input[type="time"]::-webkit-calendar-picker-indicator {
-  background: none;
+
+/*//////////////////RADIO BUTTON////////////*/
+
+.radio_buttons_container{
+  width: 70%;
+  // background-color: blue;
+  margin: 0 auto 1.7em auto;
+  position: relative;
+  transition: .3s;
+  top : 1.7em;
 }
-input[type="time"]::-webkit-clear-button {
+.radio_container {
+  position: relative;
+  padding-left: 30px;
+  padding-right: 25px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.radio_container input {
+  font-size: 10px;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+.radio_container label {
+  font-size: 15px;
+  padding-bottom: 10px;
+  vertical-align: middle;
+}
+
+/* Create a custom radio button */
+.radio_checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 21px;
+  width: 21px;
+  background-color: #e12eca;
+  border-radius: 50%;
+}
+.radio_checkmark:hover {
+  opacity: .7;
+}
+
+/* On mouse-over, add a grey background color */
+.radio_container:hover input ~ .radio_checkmark {
+  background-color: #e12ecf;
+}
+
+/* When the radio button is checked, add a blue background */
+.radio_container input:checked ~ .radio_checkmark {
+  background-color: #e12eca;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.radio_checkmark:after {
+  content: "";
+  position: absolute;
   display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.radio_container input:checked ~ .radio_checkmark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.radio_container .radio_checkmark:after {
+ 	top: 4px;
+	left: 4.7px;
+	width: 12px;
+	height: 12px;
+	border-radius: 50%;
+	background: white;
 }
 
   /*# sourceMappingURL=form.css.map */

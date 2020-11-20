@@ -39,8 +39,8 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend class="not_login">{% if u_short %}Update{% else %}Add{% endif %} Semester</legend>
-        <form class="myform" method = "POST">
+        <legend>{% if u_short %}Update{% else %}Add{% endif %} Semester</legend>
+        <form class="myform" method = "POST" style="display: none;">
           {{ csrf_input }}
           <div class="input_container">
             <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required/>
@@ -54,7 +54,7 @@
           </div>
         </form>
         <div class="form_visibility_img_container">
-          <button class="show_form_button" onmouseup="form_visibility()">
+          <button class="show_form_button" onclick="form_visibility()">
           <p id="myp">Show Form</p>
         </button>
         </div>

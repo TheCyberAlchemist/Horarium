@@ -34,9 +34,9 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend class="not_login">{% if u_name %}Update{% else %}Add{% endif %} Branch</legend>
+        <legend>{% if u_name %}Update{% else %}Add{% endif %} Branch</legend>
         <!-- <button class="submit_button" onclick="form_visibility()">Show Form</button> -->
-        <form class="myform" method = "POST">
+        <form class="myform" method = "POST" style="display: none;">
           {{csrf_input}}
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/vector.png')}}" alt="nodes">
@@ -62,7 +62,7 @@
           {{errors}}
         {% endif %} -->
         <div class="form_visibility_img_container">
-          <button class="show_form_button" onmouseup="form_visibility()">
+          <button class="show_form_button" onclick="form_visibility()">
           <p id="myp">Show Form</p>
         </button>
         </div>

@@ -4,23 +4,33 @@ from login_V2.decorators import allowed_users
 from django.contrib import messages
 import json
 from django.db import IntegrityError
+from django.core import serializers
 
-from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift
+
+from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift,Working_days,Timings,Slots
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
 from .forms import add_user,faculty_details,faculty_load,student_details
-from .forms import slot
+from .forms import slot,shift
 from faculty_V1.models import Faculty_designation
 
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
 	departments = Department.objects.filter(Institute_id=institute.id).order_by('name')
 
+	shifts = {}
 	branches = {}
 	for department in departments: # for all the departments in the institute
 		temp = Branch.objects.filter(Department_id=department.id).order_by('name')	# filter all the branches in the same department
 		if temp:	# if temp is not null
+			print(temp)
 			branches[department.id] = temp 	# make a key having department id
 											# and value having all the branches related to it
+		temp_shift = Shift.objects.filter(Department_id=department.id).order_by('name')	# filter all the branches in the same department
+		if temp_shift:
+			print(temp_shift)
+			shifts[department.id] = temp_shift	# make a key having department id
+												# and value having all the shifts related to it
+				
 
 	sems = {}
 	for key,values in branches.items():	# for all the key(department) and values(branches)
@@ -50,6 +60,7 @@ def return_context(request):
 		'institute':institute,
 		'departments':departments,
 		'branches':branches,
+		'shifts':shifts,
 		'sems':sems,
 		'divs':divs,
 		'batches':batches,
@@ -91,52 +102,15 @@ def show_department(request,Department_id = None):
 				if form.is_valid():
 					candidate = form.save(commit=False)
 					candidate.Institute_id = context['institute']
-					# candidate.save()
 					try:	# unique contraint added
 						candidate.save()
-						context['form'] = create_department()     				#Form Renewed
-						return redirect('show_department')                      #Page Renewed
+						context['form'] = create_department()     			#Form Renewed
+						return redirect('show_department')                  #Page Renewed
 					except IntegrityError:
 						context['integrityErrors'] = "Short and Name must be unique for Institute"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/department.html",context)
-	else:
-		return redirect('/')
-
-
-def show_branch(request,Department_id,Branch_id=None):
-	context = return_context(request)
-	my_department = Department.objects.get(id = Department_id)
-	if context['institute'] == my_department.Institute_id:	# Check if the user is in the same institute as the urls
-		context['form'] = create_branch()
-		branches = Branch.objects.filter(Department_id=Department_id).order_by('name')
-		context['my_branches'] = branches
-		context['my_department']= my_department
-
-		if Branch_id:	# if edit is called
-			edit = branches.get(pk=Branch_id)
-			form = create_branch(instance = edit)
-			context['u_name'] = form.instance.name
-			context['u_short'] = form.instance.short
-
-		if request.method == 'POST':	# if create is submitted
-			if request.is_ajax():	# if delete is called
-				data = json.loads(request.body)
-				delete_entries(branches,data)
-			else:
-				if Branch_id:
-					form = create_branch(request.POST,instance=edit)
-				else:
-					form = create_branch(request.POST)
-				if form.is_valid():
-					candidate = form.save(commit=False)
-					candidate.Department_id = my_department
-					candidate.save()
-					return redirect('show_branch',Department_id)
-				else:
-					context['errors'] = form.errors
-		return render(request,"admin/details/branch.html",context)
 	else:
 		return redirect('/')
 
@@ -166,8 +140,12 @@ def show_semester(request,Branch_id,Semester_id = None):
 				if form.is_valid():
 					candidate = form.save(commit=False)
 					candidate.Branch_id = my_branch
-					candidate.save()
-					return redirect('show_semester',Branch_id)
+					try:	# unique contraint added
+						candidate.save()
+						context['form'] = create_semester()     				#Form Renewed
+						return redirect('show_semester',Branch_id)                      #Page Renewed
+					except IntegrityError:
+						context['integrityErrors'] = "Short must be unique for Branch"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/semester.html",context)
@@ -200,8 +178,12 @@ def show_division(request,Semester_id,Division_id = None):
 					candidate = form.save(commit=False)
 					candidate.Semester_id = my_semester
 					# candidate.Shift_id = 
-					candidate.save()
-					return redirect('show_division',Semester_id)
+					try:	# unique contraint added
+						candidate.save()
+						context['form'] = create_division()     				#Form Renewed
+						return redirect('show_division',Semester_id)                      #Page Renewed
+					except IntegrityError:
+						context['integrityErrors'] = "Division Name is Unique for Semester"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/division.html",context)
@@ -234,8 +216,12 @@ def show_batch(request,Division_id,Batch_id = None):
 				if form.is_valid():
 					candidate = form.save(commit=False)
 					candidate.Division_id = my_division
-					candidate.save()
-					return redirect('show_batch',Division_id)
+					try:	# unique contraint added
+						candidate.save()
+						context['form'] = create_batch()     				#Form Renewed
+						return redirect('show_batch',Division_id)                      #Page Renewed
+					except IntegrityError:
+						context['integrityErrors'] = "Name must be unique for Division"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/batch.html",context)
@@ -296,27 +282,126 @@ def add_student(request):
 	return render(request,"admin/student/add_student.html",context)
 
 
-def table(request):
+def show_slot(request,Shift_id=None):
+	context = return_context(request)
+	my_shift = Shift.objects.get(pk = Shift_id)
+	context["my_shift"] = my_shift
+
 	if request.method == 'POST':
 		data = json.loads(request.body)	# data is the json object returned after savings
-		# if slot_form.is_valid():
-		# print(request.POST)
-		print(data)
+		# print(data)
+		Timings.objects.all().delete()
+		check_all = True
 		for dictonary in data:
-			slot_form = slot(dictonary)
-			print(slot_form.is_valid())
-			
-		# for i in request.POST:
-		# 	print(request.POST)
-			
-			# A = slot_form.save(commit=False)
-			# A.Shift_id = Shift.objects.get(pk = 1)
-			# A.save()
-	slot_form = slot()
-	context={
-		'form' :slot_form
-	}
-	return render(request,"try/slot2.html",context)
+			# print(dictonary)
+			form = slot(dictonary)
+			if form.is_valid():
+				print(form.is_valid())
+				candidate = form.save(commit=False)
+				candidate.Shift_id = my_shift
+				candidate.save()
+			else:
+				check_all = False
+				break
+		if check_all:	# is all the data is clean
+			for day in Working_days.objects.all():
+				for time in Timings.objects.all():
+					Slots.objects.create(day=day.Days_id,Timing_id=time)
+		redirect('show_slot',Shift_id)
 
-def show_shift(request) :
-	return render(request,"admin/details/shift.html")
+	context['form'] = slot()
+	SomeModel_json = serializers.serialize("json", Timings.objects.all())
+	data = json.loads(SomeModel_json)
+	for d in data:
+		del d['pk']
+		del d['model']
+	data = json.dumps(data)
+	print(data)
+	context['old_data'] = data
+	return render(request,"admin/details/slot.html",context)
+
+
+def show_branch(request,Department_id,Branch_id=None):
+	context = return_context(request)
+	my_department = Department.objects.get(id = Department_id)
+	if context['institute'] == my_department.Institute_id:	# Check if the user is in the same institute as the urls
+		context['form'] = create_branch()
+		branches = Branch.objects.filter(Department_id=Department_id).order_by('name')
+		context['my_branches'] = branches
+		context['my_department']= my_department
+
+		if Branch_id:	# if edit is called
+			edit = branches.get(pk=Branch_id)
+			form = create_branch(instance = edit)
+
+			context['u_name'] = form.instance.name
+			context['u_short'] = form.instance.short
+
+		if request.method == 'POST':	# if create is submitted
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(branches,data)
+			else:
+				if Branch_id:
+					form = create_branch(request.POST,instance=edit)
+				else:
+					form = create_branch(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Department_id = my_department
+					candidate.save()
+					try:	# unique contraint added
+						candidate.save()
+						context['form'] = create_branch()     				#Form Renewed
+						return redirect('show_branch',Department_id)                      #Page Renewed
+					except IntegrityError:
+						context['integrityErrors'] = "Name and Short must be unique for Department"   #errors to integrityErrors
+				else:
+					context['errors'] = form.errors
+		return render(request,"admin/details/branch.html",context)
+	else:
+		return redirect('/')
+
+
+def show_shift(request,Department_id,Shift_id = None):
+	context = return_context(request)
+	my_department = Department.objects.get(id = Department_id)
+	print(context['shifts'])
+	if context['institute'] == my_department.Institute_id:	# Check if the user is in the same institute as the urls
+		context['form'] = shift()
+		context['my_department']= my_department
+		context['my_shifts'] = Shift.objects.filter(Department_id=context['my_department'].id)
+		if Shift_id:	# if edit is called
+			edit = Shift.objects.get(id=Shift_id)
+			form = shift(instance = edit)
+
+			context['u_name'] = form.instance.name
+			context['u_start_time'] = form.instance.start_time
+			context['u_end_time'] = form.instance.end_time
+			
+		if request.method == 'POST':	# if create is submitted
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(context['shifts'],data)
+			else:
+				if Shift_id:
+					form = shift(request.POST,instance=edit)
+				else:
+					form = shift(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Department_id = my_department
+					candidate.save()
+					try:	# unique contraint added
+						candidate.save()
+						context['form'] = shift()     				#Form Renewed
+						return redirect('show_shift',Department_id)                      #Page Renewed
+					except IntegrityError:
+						context['integrityErrors'] = "Shift Name must be unique for Department"   #errors to integrityErrors
+				else:
+					context['errors'] = form.errors
+			return render(request,"admin/details/shift.html",context)
+	else:
+		return redirect('/')
+
+	return render(request,"admin/details/shift.html",context)

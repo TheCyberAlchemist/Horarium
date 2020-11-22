@@ -23,7 +23,7 @@ class Faculty_designation(models.Model):
 		]
 
 class Faculty_details(models.Model):
-	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
+	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE,null=True)
 	short = models.CharField(max_length = S_len)
 	Designation_id = models.ForeignKey(Faculty_designation,on_delete=models.RESTRICT)
 	Shift_id = models.ForeignKey(Shift,on_delete=models.RESTRICT)

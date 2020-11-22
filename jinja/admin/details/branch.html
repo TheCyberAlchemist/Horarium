@@ -36,7 +36,7 @@
       <fieldset>
         <legend>{% if u_name %}Update{% else %}Add{% endif %} Branch</legend>
         <!-- <button class="submit_button" onclick="form_visibility()">Show Form</button> -->
-        <form class="myform" method = "POST" style="display: none;">
+        <form class="myform" method = "POST" {% if not u_name %}style="display: none;"{% endif %}>
           {{csrf_input}}
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/vector.png')}}" alt="nodes">

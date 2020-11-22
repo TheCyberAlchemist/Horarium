@@ -25,8 +25,8 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend>Add Department</legend>
-        <form class="myform" method = "POST" style="display: none;">
+        <legend>{% if u_name %}Update{% else %}Add{% endif %} Department</legend>
+        <form class="myform" method = "POST" {% if not u_name %}style="display: none;"{% endif %}>
           {{csrf_input}}
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">

@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from institute_V1.models import Department,Branch,Semester,Division,Batch
+from institute_V1.models import Department,Branch,Semester,Division,Batch,Shift
 from faculty_V1.models import Faculty_details,Faculty_designation,Faculty_load
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
@@ -59,8 +59,14 @@ class student_details(ModelForm):
 		model = Student_details
 		fields = ('roll_no','Division_id','Batch_id',)
 
-from institute_V1.models import Slots
+from institute_V1.models import Timings
 import datetime
+
+class shift(ModelForm):
+	class Meta:
+		model = Shift
+		fields = ('name','start_time','end_time')
+
 class slot(ModelForm):
 	def add(self,addend):
 
@@ -75,5 +81,5 @@ class slot(ModelForm):
 	def duration(self):
 		return self.instance.end_time - self.instance.start_time
 	class Meta:
-		model = Slots
+		model = Timings
 		fields = ('name','start_time','end_time','is_break')

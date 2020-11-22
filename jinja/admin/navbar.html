@@ -76,10 +76,22 @@
                     <label for="{{department}}.b" class = "not_data"><a href = {{url ('add_faculty' ,args=[department.id])}}>Add Faculty</a></label>
                   </li>
                   <li>
-                    <label for="{{department}}.c" class = "data"><a href = {{url ('try')}}>Slot Details</a></label>
+                    <label for="{{department}}.c" class = "data"><a href = {{url ('show_slot' ,args=[department.id])}}>Slot Details</a></label>
                   </li>
                   <li>
-                    <label for="{{department}}.d" class = "data"><a href = {{url ('show_shift')}}>Shift Details</a></label>
+                    <label for="{{department}}.d" class = "data">Shift Details</label>
+                    <input id="{{department}}.d" type="checkbox" checked><ul>
+                    <span class="more">&hellip;</span>
+                    <li>
+                      <label for="{{department}}.d.a" class = "data"><a href = {{url ('show_shift' ,args=[department.id])}}>Add shift</a></label>
+                    </li>
+                    {% for key1,values1 in shifts.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
+                      <li><label for="{{department}}.d.{{value1.id}}" class = "data" title = "{{value1.start_time}}-{{value1.end_time}}">
+                      <a href = {{url ('show_slot' ,args=[value1.id])}}>{{value1.name}}</a>
+                      </label></li>
+                    {% endfor %}{% endif %}{%endfor%}
+                    </ul>
+
                   </li>
 
                   {% for key1,values1 in branches.items() %}{% if key1 == department.id %}{% for value1 in values1 %}

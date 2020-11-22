@@ -48,14 +48,14 @@ class Shift(models.Model):
 	class Meta:
 		verbose_name_plural = "Shift"
 		constraints = [
-			models.UniqueConstraint(fields=['name', 'Department_id'], name='ShiftName is Unique for Institute')
+			models.UniqueConstraint(fields=['name', 'Department_id'], name='ShiftName is Unique for Department')
         ]
 
 class Working_days(models.Model):
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	Days_id = models.ForeignKey(Days,default=None,on_delete=models.RESTRICT)
 	def __str__(self):
-		return self.Shift_id + self.Days_id
+		return str(self.Shift_id) + " "+ str(self.Days_id)
 	class Meta:
 		verbose_name_plural = "Working Days"
 		constraints = [
@@ -83,7 +83,7 @@ class Semester(models.Model):
 	class Meta:
 		verbose_name_plural = "Semester"
 		constraints = [
-			models.UniqueConstraint(fields=['short', 'Branch_id'], name='SemesterShort is Unique for Branch'),
+			models.UniqueConstraint(fields=['short', 'Branch_id'], name='Semester Short is Unique for Branch'),
 		]
 
 class Division(models.Model):
@@ -95,7 +95,7 @@ class Division(models.Model):
 	class Meta:
 		verbose_name_plural = "Division"
 		constraints = [
-			models.UniqueConstraint(fields=['name', 'Semester_id'], name='DivisionName is Unique for Semester'),
+			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Division Name is Unique for Semester'),
 		]
 
 class Batch(models.Model):
@@ -114,24 +114,33 @@ class Batch(models.Model):
 			models.UniqueConstraint(fields=['name', 'Division_id'], name='BatchName is Unique for Division'),
 		]
 
-class Slots(models.Model):
-	name = models.CharField(max_length = S_len)
+class Timings(models.Model):
+	name = models.CharField(max_length = 20)
 	start_time = models.TimeField(auto_now=False, auto_now_add=False)
 	end_time = models.TimeField(auto_now=False, auto_now_add=False)
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	is_break = models.BooleanField(default=False)
-	def __str__(self):
+	def return_time(self):
 		s_min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
 		e_min = "00" if self.end_time.minute == 0 else str(self.end_time.minute)
-		return self.name + " [ " + str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min + " ]"
+		return str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min 
+	def __str__(self):
+		return self.name + " [ " + self.return_time() +" ]"
 	class Meta:
-		verbose_name_plural = "Slots"
+		verbose_name_plural = "Timings"
 		constraints = [
 			models.UniqueConstraint(fields=['name', 'Shift_id'], name='SlotName is Unique for Shift'),
 		]
 	def save(self, *args, **kwargs):
 		if self.end_time > self.start_time:
-			super(Slots, self).save(*args, **kwargs)
+			super(Timings, self).save(*args, **kwargs)
 		else :
 			raise BaseException("End time must be greater then start time")
 	
+class Slots(models.Model):
+	day = models.ForeignKey(Days,blank=False,on_delete=models.RESTRICT)
+	Timing_id = models.ForeignKey(Timings,blank=False,on_delete=models.RESTRICT)
+	def __str__(self):
+		return str(self.day) + " [ " + self.Timing_id.return_time() +" ]"
+	class Meta:
+		verbose_name_plural = "Slots"

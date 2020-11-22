@@ -3,17 +3,17 @@
 
 {% block css %}
     <link rel="stylesheet" href="{{static ('form/form.css') }}">
-    <link rel="stylesheet" href="{{static ('try/slot2.css') }}">
+    <link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
     <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
 {% endblock css %}
 
 {% block scripts %}
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <script type="text/javascript" src = "{{static ('jquery.js') }}"></script>
-  <script type="text/javascript" src = "{{static ('try/slot2.js') }}"></script>
+  <script type="text/javascript" src = "{{static ('admin/details/slot.js') }}"></script>
   <script type="text/javascript" src = "{{static ('form/form.js') }}"></script>
   <script>
-    set_shift("9:00","17:00");
+    set_shift("{{my_shift.start_time}}","{{my_shift.end_time}}","{{old_data}}");
   </script>
 {%endblock scripts%}
 
@@ -28,8 +28,8 @@
 <div class="whole_container">
   <!-- <div class="mytable_container"> -->
     <fieldset>
-      <legend>Add Slots</legend>
-    <form id = "slot_form" class="slot_form" method="POST" style="display: none;">
+      <legend class="not_login">Add Slots</legend>
+    <form id = "slot_form" class="slot_form" method="POST">
       {{csrf_input}}
       <br>
     <div class="input_container">
@@ -70,11 +70,11 @@
       </div>
     </form>
     <div class="submit_button_container">
-      <button type="button" id="add_row" onclick = 'submited()'>Add Slot</button>
+      <button type="button" id="add_row">Add Slot</button>
     </div>
   </fieldset>
       <div class="table_container">
-      <table id="myTable" class="mytable" style="display: none;">
+      <table id="myTable" class="mytable">
         <thead>
           <tr>
             <th>Slot Name</th>
@@ -90,4 +90,5 @@
       </table>
       </div>
 </div>
+<button onclick = 'submited()'> Submit</button>
   {% endblock content %}

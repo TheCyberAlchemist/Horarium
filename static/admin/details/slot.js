@@ -1,16 +1,17 @@
+// nothing must be shown on the page at first but the table if present .
+// now there must be a button that reads delete all 
+// then first form must be then shown and rest is same
+
 var shift_start_time;
 var shift_end_time;
-function set_shift(s_t,e_t){
-  shift_start_time = s_t;
-  shift_end_time = e_t;
-  console.log(shift_end_time,shift_start_time);
-}
+slots = [];
 class slot{
 	constructor(name = "",start_time = 0 ,end_time= 0,is_break=0){
 		this.name = name;
 		this.start_time = start_time;
     this.end_time = end_time;
-		this.is_break = is_break;
+    this.is_break = is_break;
+    this.shift_id;
 	}
 	duration(){
     var s_m = parseInt(this.start_time.slice(-2));
@@ -73,13 +74,34 @@ class slot{
   }
   is_valid(){
     if (greater_than(this.start_time,this.end_time) || this.start_time == this.end_time){
+      console.log("here");
       return false;
     }
     else if (greater_than(this.end_time,shift_end_time)){
+      console.log(shift_end_time);
       return false;
     }
     return true;
   }
+}
+
+function set_shift(s_t,e_t,old_data){
+  shift_start_time = s_t;
+  shift_end_time = e_t;
+  old_data = old_data.replace(/&#34;/ig,'"',);
+  json = JSON.parse(old_data);
+  // console.log(shift_end_time,shift_start_time,json);
+  for(i in json){
+    temp = new slot();
+    obj = json[i].fields;
+    temp.name = obj.name;
+    temp.start_time = obj.start_time.slice(0, -3);
+    temp.end_time = obj.end_time.slice(0, -3);
+    temp.is_break = obj.is_break;
+    slots.push(temp);
+    // console.log(temp.duration());
+  }  
+  // var json = JSON.parse();
 }
 
 function greater_than(a,b){
@@ -175,42 +197,17 @@ function check_name(name,edit){
 }
 
 $(document).ready (function () {
-  slots = []
   $("#edit").hide();
   $("#Go").hide();
   $("#Go_here").hide();
   $('#first_form').show();
-
+  for (i in slots){
+    $("#myTable").append(return_row(slots[i]));
+  }
   $(document).on("click",'#first_form_submit',function(){
     nomenclature = $("input[name='Naming']:checked").val();
     duration = $("#Duration").val()
-    var index = 0;
     $('#first_form').hide();
-    // temp_slot = new slot();
-    // temp_slot.start_time = shift_start_time;
-    // console.log(temp_slot.get_end(duration));
-    // slots.push(temp_slot);
-    // while (true){
-    //   temp_slot = new slot();
-    //   temp_slot.start_time = slots[index].end_time;
-    //   temp_slot.get_end(duration);
-    //   if (greater_than(temp_slot.end_time,shift_end_time))
-    //     break;
-    //   slots.push(temp_slot);
-    //   index += 1 ;
-    // }
-    // console.log(slots);
-    // for (i in slots){
-    //   if (nomenclature == "numbers"){
-    //     slots[i].name = (parseInt(i)+1).toString();
-    //   }else if(nomenclature == "small"){
-    //     slots[i].name = String.fromCharCode('a'.charCodeAt() + parseInt(i));
-    //   }else if(nomenclature == "capital"){
-    //     slots[i].name = String.fromCharCode('A'.charCodeAt() + parseInt(i));
-    //   }
-    //   $("#myTable").append(return_row(slots[i]));
-    // }
-    $("#myTable").show();
   });
 
   $('#slot_form').hide();
@@ -255,7 +252,6 @@ $(document).ready (function () {
     slots.push(temp);
     form.trigger('reset');
     $("#myTable").append(return_row(temp));
-    $("#myTable").show();
     $('#slot_form').hide();
     $('#Go').hide();
     get_remainder();
@@ -323,6 +319,7 @@ $(document).ready (function () {
         break;
       }
     }
+    console.log(slots[index]);
     old_duration = slots[index].duration();
     $('#slot_form').find("#id_name").val(slots[index].name);
     $('#slot_form').find("#start_time").val(slots[index].start_time);
@@ -360,6 +357,7 @@ $(document).ready (function () {
 
 
 function submited(){
+  console.log(slots);
 	$.ajax({
 		type: "post",
 		data: JSON.stringify(slots),

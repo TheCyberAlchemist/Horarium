@@ -16,12 +16,12 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend>Add Shift</legend>
-        <form class="myform" method = "POST" style="display: none;">
+        <legend>{% if u_name %}Update{% else %}Add{% endif %} Shift</legend>
+        <form class="myform" method = "POST" {% if not u_name %}style="display: none;"{% endif %}>
           {{csrf_input}}
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
-            <input type="text" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" required/>
+            <input type="text" name="name" {% if u_name %} value = "{{u_name}}"{% endif %} class ="form_input" required/>
             <label for="" class="form_input_label">
               <div class="text">Shift Name</div>
               <div class="line"></div>
@@ -31,8 +31,7 @@
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/start.png')}}" alt="start">
-              
-              <input type="time" class="form_input" name="password" required autocomplete="off">
+              <input type="time" class="form_input" name="start_time" {% if u_start_time %} value = "{{u_start_time}}"{% endif %} required autocomplete="off">
               <label for="" class="form_input_label">
                 <div class="text">Start Time</div>
                 <div class="line"></div>
@@ -40,7 +39,7 @@
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/end.png')}}" alt="end">
-              <input type="time" class="form_input" name="password" required autocomplete="off">
+              <input type="time" class="form_input" name="end_time" {% if u_end_time %} value = "{{u_end_time}}"{% endif %} required autocomplete="off">
               <label for="" class="form_input_label">
                 <div class="text">End Time</div>
                 <div class="line"></div>
@@ -62,7 +61,7 @@
             </p>
           </div> -->
         </form>
-        <div class="form_visibility_img_container" onclick="form_visibility()">
+        <div class="form_visibility_img_container" onclick="form_visibility('abc')">
           <button class="show_form_button" >
           <p id="myp">Show Form</p>
         </button>
@@ -85,7 +84,7 @@
                 <thead>
                   <tr>
                     <div class="delete_panel">
-                      <h1>Shifts for {{department}}</h1>
+                      <h1>Shifts for {{my_department}}</h1>
                       <a style="display: none;" id="del" onclick="delete_entries()" >
                         <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
                       </a>
@@ -104,20 +103,20 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for department in departments %}
+                  {% for shift in my_shifts %}
                     <tr>
                       <td>{{loop.index}}</td>
                       <td>{{shift.name}}</td>
-                      <td>{{shift.startTime}}</td>
-                      <td>{{shift.endTime}}</td>
+                      <td>{{shift.start_time}}</td>
+                      <td>{{shift.end_time}}</td>
                       <td>
-                        <a href = "{{url ('update_department' ,args=[department.id])}}">
+                        <a href = "{{url ('update_shift' ,args=[my_department.id,shift.id])}}">
                           <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
                         </a>
                       </td>
                       <td>
                         <div class="checkboxes" onclick="checkSelected()">
-                          <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{department.id}}">
+                          <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{shift.id}}">
                           <label for="{{loop.index}}"></label>
                         </div>
                       </td>

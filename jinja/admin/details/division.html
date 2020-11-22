@@ -45,8 +45,8 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend>Add Division</legend>
-        <form class="myform" style="display: none;">
+        <legend>{% if u_name %}Update{% else %}Add{% endif %} Division</legend>
+        <form class="myform" {% if not u_name %}style="display: none;"{% endif %}>
           <div class="input_container">
             <input type="text" name="name" class ="form_input" required/>
             <label for="" class="form_input_label">

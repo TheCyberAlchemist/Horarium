@@ -13,13 +13,17 @@ class Subject_details(models.Model):
 	Semester_id = models.ForeignKey(Semester,on_delete=models.RESTRICT)
 	name = models.CharField(max_length=N_len)
 	short = models.CharField(max_length=S_len)
-	lect_per_week = models.PositiveIntegerField()
-	prac_per_week = models.PositiveIntegerField()
+	lect_per_week = models.PositiveIntegerField(null= True,blank = True)
+	prac_per_week = models.PositiveIntegerField(null= True,blank = True)
 	load_per_week = models.PositiveIntegerField(default = 0)
 	color = models.CharField(max_length = 7)
 	
 	def save(self, *args, **kwargs):	# for calculating the load before saving
 		prac_batch = lect_batch = 0
+		if not self.lect_per_week:
+			self.lect_per_week = 0
+		if not self.prac_per_week:
+			self.prac_per_week = 0
 		for batch in Batch.objects.all():
 			if batch.Division_id.Semester_id == self.Semester_id:	# checking all the batches in same Sem as the subject
 				lect_batch += 1 if batch.batch_for == "lect" else 0	# total batches of lecture

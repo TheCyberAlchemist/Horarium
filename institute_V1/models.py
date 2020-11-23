@@ -22,6 +22,8 @@ class Resource(models.Model):
 	name = models.CharField(max_length = S_len)
 	block = models.CharField(max_length = S_len)
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
+	def __str__(self):
+		return self.name
 
 class Department(models.Model):
 	name = models.CharField(max_length = N_len)

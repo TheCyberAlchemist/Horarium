@@ -8,6 +8,10 @@ body{
 	user-select:none;
 	background-color: #1e1e2e;
 }
+.main_container {
+	display: grid;
+	grid-template-columns: 30% 70%;
+}
 .main_table{
 	border-collapse: collapse;
 	margin-top: 10vh;
@@ -104,4 +108,65 @@ width: 100%;
 	font-size: 40px;
 	transform: rotate(45deg);
 	cursor: pointer;
+}
+
+/*/////////////////////////Card//////////////////////////*/
+
+.card-container{
+	display: flex;
+	float: left;
+	clear: right;
+	height: 600px;
+	border-radius: 10px;
+	background-color: red;
+  }
+  .card{
+	color :white;
+	display: flex;
+	text-align: center;
+	position: relative;
+	flex-direction: column;
+	width: 170px;
+	height: 150px;
+	margin: -30px;
+	padding: 0.5rem;  /* 1rem = 15px */
+	border-radius: 16px;
+	background-color: #17141d;
+	box-shadow: -1rem 0 3rem #000;
+	transition: 0.2s;
+  }
+  
+  .card:hover{
+	/* transform: translateX(-1rem); */
+	transform: translateY(-1.5rem);
+	transition: 0.2s;
+  }
+  .card:hover ~ .card{
+	transform: translateY(0.5rem);
+  
+  }
+  
+  .card-list{
+	display: block;
+	padding: 3rem;
+	overflow-y: scroll;
+  }
+  
+  .author-name{
+	text-align: right;
+	padding: 5px 20px;
+	margin-top: 50px;
+  
+  }
+  .card-author img{
+	height: 60px;
+	width: 60px;
+  }
+::-webkit-scrollbar-thumb {
+	background-color: #515163;
+	border-radius: 3px;
+}
+::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
 }

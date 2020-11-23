@@ -22,12 +22,10 @@ def return_context(request):
 	for department in departments: # for all the departments in the institute
 		temp = Branch.objects.filter(Department_id=department.id).order_by('name')	# filter all the branches in the same department
 		if temp:	# if temp is not null
-			print(temp)
 			branches[department.id] = temp 	# make a key having department id
 											# and value having all the branches related to it
 		temp_shift = Shift.objects.filter(Department_id=department.id).order_by('name')	# filter all the branches in the same department
 		if temp_shift:
-			print(temp_shift)
 			shifts[department.id] = temp_shift	# make a key having department id
 												# and value having all the shifts related to it
 				
@@ -70,9 +68,7 @@ def return_context(request):
 
 def delete_entries(qs,data):
 	for d in data:
-		print("p1")
 		qs.get(id = int(d)).delete()
-		# pass
 
 
 @allowed_users(allowed_roles=['Admin'])
@@ -242,9 +238,7 @@ def add_faculty(request,Department_id=None):
 		user_form = add_user(request.POST)
 		faculty_detail_form = faculty_details(request.POST)
 		faculty_load_form = faculty_load(request.POST)
-		print(request.POST)
 		if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
-			# print("all done")
 			user = user_form.save()
 			###########
 			A = faculty_detail_form.save(commit = False)
@@ -289,14 +283,11 @@ def show_slot(request,Shift_id=None):
 
 	if request.method == 'POST':
 		data = json.loads(request.body)	# data is the json object returned after savings
-		# print(data)
 		Timings.objects.all().delete()
 		check_all = True
 		for dictonary in data:
-			# print(dictonary)
 			form = slot(dictonary)
 			if form.is_valid():
-				print(form.is_valid())
 				candidate = form.save(commit=False)
 				candidate.Shift_id = my_shift
 				candidate.save()
@@ -316,7 +307,6 @@ def show_slot(request,Shift_id=None):
 		del d['pk']
 		del d['model']
 	data = json.dumps(data)
-	print(data)
 	context['old_data'] = data
 	return render(request,"admin/details/slot.html",context)
 
@@ -366,7 +356,6 @@ def show_branch(request,Department_id,Branch_id=None):
 def show_shift(request,Department_id,Shift_id = None):
 	context = return_context(request)
 	my_department = Department.objects.get(id = Department_id)
-	print(context['shifts'])
 	if context['institute'] == my_department.Institute_id:	# Check if the user is in the same institute as the urls
 		context['form'] = shift()
 		context['my_department']= my_department
@@ -405,3 +394,14 @@ def show_shift(request,Department_id,Shift_id = None):
 		return redirect('/')
 
 	return render(request,"admin/details/shift.html",context)
+
+
+def show_table(request,Division_id):
+	# context = return_context(request)
+	my_division = Division.objects.get(pk = Division_id)
+	Shift_id = my_division.Shift_id
+	context = {
+		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
+		'timings' : Timings.objects.filter(Shift_id = Shift_id),		
+	}
+	return render(request,"try/table.html",context)

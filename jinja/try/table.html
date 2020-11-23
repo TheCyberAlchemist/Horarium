@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="{{static ('OLD_stuff/index.css') }}">
+<table style = "width:990px;" class="main_table">
+	<thead>
+		<th>
+			Time
+		</th>
+		{% for day in working_days %} 	<!--for all days in database-->
+      <th>
+			{{day.Days_id}}
+			</th>
+		{% endfor %}
+	</thead>
+	<tbody class="table_time">
+		{% for timing in timings %} <!--for all time periods in database-->
+			<tr>
+				<th>
+					<p>
+						{{timing}}
+					</p>
+				</th>
+				{% for day in working_days %}
+					<td class = "droppable">
+						<div class = "td_div"></div>
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

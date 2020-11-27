@@ -25,18 +25,18 @@
         <div class="input_container_double">
 
           <div class="input_container_double_1">
-            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="fname">
-            <input type="text" class="form_input" name="fname" required autocomplete="off">
-            <label for="" class="form_input_label">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
+            <input type="text" class="form_input" name="first_name" required autocomplete="off">
+            <label for="first_name" class="form_input_label">
               <div class="text">First Name</div>
               <div class="line"></div>
             </label>
           </div>
           
           <div class="input_container_double_2">
-            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="lname">
-            <input type="text" class="form_input" name="lname" required autocomplete="off">
-            <label for="" class="form_input_label">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
+            <input type="text" class="form_input" name="last_name" required autocomplete="off">
+            <label for="last_name" class="form_input_label">
               <div class="text">Last Name</div>
               <div class="line"></div>
             </label>
@@ -44,17 +44,17 @@
         </div>
         <div class="input_container_double">
         <div class="input_container_double_1">
-          <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="sname">
-          <input type="text" class="form_input" name="shortname" required autocomplete="off">
-          <label for="" class="form_input_label">
+          <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
+          <input type="text" class="form_input short_names" name="short" required autocomplete="off">
+          <label for="short" class="form_input_label">
             <div class="text">Short Name</div>
             <div class="line"></div>
           </label>
         </div>
         <div class="input_container_double_2">
           <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
-          <input type="email" class="form_input" name="fname" required autocomplete="off">
-          <label for="" class="form_input_label">
+          <input type="email" class="form_input" name="email" required autocomplete="off">
+          <label for="email" class="form_input_label">
             <div class="text">Email Id</div>
             <div class="line"></div>
           </label>
@@ -65,8 +65,8 @@
 
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-            <input type="password" class="form_input" name="password" id="myinput1"  required autocomplete="off">
-            <label for="" class="form_input_label">
+            <input type="password" class="form_input" name="password1" id="myinput1"  required autocomplete="off">
+            <label for="password1" class="form_input_label">
               <div class="text">Password</div>
               <div class="line"></div>
             </label>
@@ -77,8 +77,8 @@
           </div>
           <div class="input_container_double_2">
             <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-            <input type="password" class="form_input" name="password" id="myinput2"  required autocomplete="off">
-            <label for="" class="form_input_label">
+            <input type="password" class="form_input" name="password2" id="myinput2"  required autocomplete="off">
+            <label for="password2" class="form_input_label">
               <div class="text">Confirm Password</div>
               <div class="line"></div>
             </label>
@@ -93,8 +93,8 @@
       <div id="second_page" style="display: none">        
         <div class="input_container">
           <img class="input_icons" src="{{static ('admin/details/img/clock.png')}}" alt="load">
-          <input type="number" class="form_input" name="shortname" required autocomplete="off">
-          <label for="" class="form_input_label">
+          <input type="number" class="form_input" name="total_load" required autocomplete="off">
+          <label for="total_load" class="form_input_label">
             <div class="text">Total Load of Faculty(in hrs)</div>
             <div class="line"></div>
           </label>
@@ -102,82 +102,27 @@
 
 
       <div class="select2_container">
-        <select name="myselect" id="sports">
-          <option value="1">Select Designation of Faculty </option>
+        <select name="Designation_id" id="sports">
+          <option disabled >Select Designation</option>
           {% for designation in designations %}
-          <option value="{{designation}}">{{designation}}</option>
+            <option value="{{designation.id}}">{{designation}}</option>
           {%endfor%}
         </select>
       </div>
 
-        <div class="radio_buttons_container">
-        <h3>Designation</h3>  
-        {% for designation in designations %}
-          <label class="radio_container">
-            <!-- <input type="radio" class="radio" id ="{{designation.id}}" name="Shift_id" value = "{{designation.id}}" /> -->
-            <input type="radio" class="radio" id ="{{designation.id}}" name="Designation_id" value = "{{designation.id}}" />
-            <label for="{{designation.id}}">{{designation}}</label>
-            <span class="radio_checkmark"></span>
-          </label>
-          {%endfor%}
-        </div>
-      <!-- <div class="dropdown_container">
-        <div class="dropdown_select_box">
-          <div class="options_container">
-            {% for designation in designations %}
-              <div class="dropdown_option">
-                <input type="radio" class="radio" id ="{{designation.id}}" name="Shift_id" value = "{{designation.id}}" />
-                <label for="{{designation.id}}">{{designation}}</label>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="selected">
-            Select Designation
-            <img src="{{static ('admin/details/img/deown.png')}}" alt="down">
-          </div>
-
-          <div class="search_box">
-            <input type="text" placeholder="Start Typing..." class = 'no_class'/>
-          </div>
-        </div>
-      </div> -->
-
-
       <div class="radio_buttons_container">
         <h3 style="padding-bottom: 10px;">Shift</h3>
-        {% for shift in shifts %}
+        {% for shift in my_shifts %}
         <label class="radio_container">
           <input type="radio" class="radio" id ="{{shift.id}}" name="Shift_id" value = "{{shift.id}}" />
-          <label for="{{shift.id}}">{{shift}}></label>
+          <label for="{{shift.id}}">{{shift}}</label>
           <span class="radio_checkmark"></span>
         </label>
         {% endfor %}
 
-      <!-- <div class="dropdown_container">
-        <div class="dropdown_select_box">
-          <div class="options_container">
-            {% for shift in shifts %}
-              <div class="dropdown_option">
-                <input type="radio" class="radio" id ="{{shift.id}}" name="Shift_id" value = "{{shift.id}}" />
-                <label for="{{shift.id}}">{{shift}}></label>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="selected">
-            Select Shift
-            <img src="{{static ('admin/details/img/deown.png')}}" alt="down">
-          </div>
-
-          <div class="search_box">
-            <input type="text" placeholder="Start Typing..." class = 'no_class' style="color: red;"/>
-          </div>
-        </div>
-      </div>  -->
       </div>
       <div class="submit_button_container">
-         <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
+         <button type="submit" name="button" class="submit_button">Submit</button>
       </div>
       
     </div>
@@ -192,11 +137,6 @@
       <p id="myp">Show Form</p>
       </button>
     </div>
-    <!-- <div class="form_visibility_img_container">
-      <button class="show_form_button" onmouseup="form_visibility()">
-        <p id="myp">Show Form</p>
-      </button>
-    </div> -->
     {% if integrityErrors %}
     <div class="errors_container">
       <p>
@@ -255,24 +195,4 @@
 </div>
 </div>
 
-<script>
-  var form = document.getElementsByClassName('myform')[0];
-  var form_fields = form.getElementsByTagName('input');
-
-  for (var field in form_fields){	
-    if (form_fields[field].className != "no_class" && form_fields[field].className != "radio")
-    form_fields[field].className += ' form_input';
-  }
-
-  form_fields[1].placeholder='First Name';
-  form_fields[2].placeholder='Last Name';
-  form_fields[3].placeholder='Short';
-  form_fields[4].placeholder='Email';
-  form_fields[5].placeholder='Load';
-  form_fields[6].placeholder='Enter password';
-  form_fields[6].id = 'myinput1';
-  form_fields[7].placeholder='Re-enter Password';
-  form_fields[7].id = 'myinput2';
-
-</script>
 {%endblock%}

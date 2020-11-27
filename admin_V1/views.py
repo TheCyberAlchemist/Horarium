@@ -8,6 +8,7 @@ from django.core import serializers
 
 
 from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift,Working_days,Timings,Slots
+from subject_V1.models import Subject_details,Subject_event
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
 from .forms import add_user,faculty_details,faculty_load,student_details
 from .forms import slot,shift
@@ -230,7 +231,7 @@ def add_faculty(request,Department_id=None):
 	context['user_form'] = add_user()
 	context['faculty_detail_form'] = faculty_details()
 	context['faculty_load_form'] = faculty_load()
-	# context['shifts'] = Shift.objects.filter(Department_id=Department_id)
+	context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 	department = Department.objects.get(pk = Department_id)
 	context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 	# context['designations'] = Faculty_designation.objects.filter(Department_id__in=[None])
@@ -238,8 +239,13 @@ def add_faculty(request,Department_id=None):
 		user_form = add_user(request.POST)
 		faculty_detail_form = faculty_details(request.POST)
 		faculty_load_form = faculty_load(request.POST)
+		print(user_form.is_valid(),faculty_detail_form.is_valid(),faculty_load_form.is_valid())
+		print(user_form.errors)
 		if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
+			from django.contrib.auth.models import Group
+			group = Group.objects.get(name='Faculty')
 			user = user_form.save()
+			user.groups.add(group)
 			###########
 			A = faculty_detail_form.save(commit = False)
 			A.Institute_id = context['institute']
@@ -247,9 +253,10 @@ def add_faculty(request,Department_id=None):
 			F = A.save()
 			#############
 			B = faculty_load_form.save(commit = False)
-			B.Faculty_id = F
+			print(A)
+			B.Faculty_id = A
 			B.save()
-
+			
 		else:
 			context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
 			
@@ -280,31 +287,41 @@ def show_slot(request,Shift_id=None):
 	context = return_context(request)
 	my_shift = Shift.objects.get(pk = Shift_id)
 	context["my_shift"] = my_shift
-
+	# def candidate_is_present(c):
+	# 	for timing in Timings.objects.filter(Shift_id=Shift_id):
 	if request.method == 'POST':
 		data = json.loads(request.body)	# data is the json object returned after savings
-		Timings.objects.all().delete()
+		# Timings.objects.all().delete()
 		check_all = True
 		for dictonary in data:
-			form = slot(dictonary)
-			if form.is_valid():
-				candidate = form.save(commit=False)
-				candidate.Shift_id = my_shift
-				candidate.save()
+			# print(dictonary)
+			if dictonary["id"] :	# if already present
+				edit = Timings.objects.get(pk=int(dictonary["id"]))
+				form = slot(dictonary,instance = edit)
+				if form.is_valid():
+					form.save()
+				else:
+					check_all = False
+					break
 			else:
-				check_all = False
-				break
-		if check_all:	# is all the data is clean
-			for day in Working_days.objects.all():
-				for time in Timings.objects.all():
-					Slots.objects.create(day=day.Days_id,Timing_id=time)
-		redirect('show_slot',Shift_id)
+				form = slot(dictonary)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Shift_id = my_shift
+					candidate.save()
+					for day in Working_days.objects.filter(Shift_id=Shift_id):
+						Slots.objects.create(day=day.Days_id,Timing_id=candidate)
 
-	context['form'] = slot()
-	SomeModel_json = serializers.serialize("json", Timings.objects.all())
-	data = json.loads(SomeModel_json)
+				else:
+					check_all = False
+					break
+		# if check_all:	# is all the data is clean
+		# 		for time in Timings.objects.all():
+		return redirect('show_slot',Shift_id)
+
+	data = serializers.serialize("json", Timings.objects.filter(Shift_id = Shift_id))
+	data = json.loads(data)
 	for d in data:
-		del d['pk']
 		del d['model']
 	data = json.dumps(data)
 	context['old_data'] = data
@@ -363,7 +380,6 @@ def show_shift(request,Department_id,Shift_id = None):
 		if Shift_id:	# if edit is called
 			edit = Shift.objects.get(id=Shift_id)
 			form = shift(instance = edit)
-
 			context['u_name'] = form.instance.name
 			context['u_start_time'] = form.instance.start_time
 			context['u_end_time'] = form.instance.end_time
@@ -397,12 +413,26 @@ def show_shift(request,Department_id,Shift_id = None):
 
 
 def show_table(request,Division_id):
+	if request.method == "POST":
+		print(json.loads(request.body))
+		if request.is_ajax():
+			pass
+		redirect('show_table',Division_id)
 	# context = return_context(request)
 	my_division = Division.objects.get(pk = Division_id)
 	Shift_id = my_division.Shift_id
+	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
+	timings = Timings.objects.filter(Shift_id = Shift_id)
+	data = serializers.serialize("json", Slots.objects.filter( Timing_id__in = timings))
+	data = json.loads(data)
+	for d in data:
+		del d['model']
+	slots_json = json.dumps(data)
 	context = {
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
-		'timings' : Timings.objects.filter(Shift_id = Shift_id),		
+		'timings' : timings,
+		'slots_json' : slots_json,
+		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
 	}
 	return render(request,"try/table.html",context)
 

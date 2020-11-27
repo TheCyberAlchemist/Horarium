@@ -67,7 +67,24 @@
 </article>
 
     </section>
+<script src="{{static ('try/table.js') }}"></script>
+<script>put_data("{{slots_json}}")</script>
+<div class="card-container">
+  <div class="card-list">
+	  {% for subject_event in subject_events %}
+    <div class = "draggable" subject_event_id = "{{subject_event.id}}">
+      <article class="card">
+        <header class="card-header">
+          <h2>{{subject_event.Subject_id}}</h2>
+        </header> 
+        <div class="author-name">
+          By {{subject_event.Faculty_id}}
+        </div>
+      </article>
     </div>
+	  {% endfor %}
+  </div>
+</div>
 
 <table style = "width:990px;" class="main_table">
 	<thead>
@@ -83,17 +100,26 @@
 	<tbody class="table_time">
 		{% for timing in timings %} <!--for all time periods in database-->
 			<tr>
+			{% if timing.is_break %}
+			{% set len = working_days|length + 1 %}
+				<th colspan = "{{len}}">
+					{{timing}}
+				</th>
+			{% else %}
 				<th>
 					<p>
 						{{timing}}
 					</p>
 				</th>
 				{% for day in working_days %}
-					<td class = "droppable">
+					<td class = "droppable" timing_id = "{{timing.id}}">
 						<div class = "td_div"></div>
 					</td>
 				{% endfor %}
+			{% endif %}
 			</tr>
 		{% endfor %}
 	</tbody>
 </table>
+{{csrf_input}}
+<button onclick = "submited()">ksdJSDHkjdhadjhADH</button>

@@ -6,7 +6,8 @@ var shift_start_time;
 var shift_end_time;
 slots = [];
 class slot{
-	constructor(name = "",start_time = 0 ,end_time= 0,is_break=0){
+	constructor(id = "",name = "",start_time = 0 ,end_time= 0,is_break=0){
+    this.id = id;
 		this.name = name;
 		this.start_time = start_time;
     this.end_time = end_time;
@@ -72,13 +73,13 @@ class slot{
     this.start_time = this.get_String(s_h)+ ":"+this.get_String(s_m);
     return this.start_time;
   }
-  is_valid(){
+  is_valid(i){
     if (greater_than(this.start_time,this.end_time) || this.start_time == this.end_time){
-      console.log("here");
       return false;
-    }
-    else if (greater_than(this.end_time,shift_end_time)){
-      console.log(shift_end_time);
+    }else if (greater_than(this.end_time,shift_end_time)){
+      return false;
+    }else if(slots[i-1].end_time != this.start_time){
+      console.log(slots[i-1].end_time , this.start_time);
       return false;
     }
     return true;
@@ -90,17 +91,16 @@ function set_shift(s_t,e_t,old_data){
   shift_end_time = e_t;
   old_data = old_data.replace(/&#34;/ig,'"',);
   json = JSON.parse(old_data);
-  // console.log(shift_end_time,shift_start_time,json);
   for(i in json){
     temp = new slot();
     obj = json[i].fields;
+    temp.id = json[i].pk;
     temp.name = obj.name;
     temp.start_time = obj.start_time.slice(0, -3);
     temp.end_time = obj.end_time.slice(0, -3);
     temp.is_break = obj.is_break;
     slots.push(temp);
-    // console.log(temp.duration());
-  }  
+  }
   // var json = JSON.parse();
 }
 
@@ -152,7 +152,7 @@ function get_slot(){
   start_time=  form.find("#start_time").val();
   end_time  =  form.find("#end_time").val();
   is_break  =  form.find("#id_is_break").prop( "checked" );
-  temp = new slot(name,start_time,end_time,is_break);
+  temp = new slot("",name,start_time,end_time,is_break);
   return temp;
 }
 
@@ -206,6 +206,9 @@ $(document).ready (function () {
   }
   $(document).on("click",'#first_form_submit',function(){
     nomenclature = $("input[name='Naming']:checked").val();
+    if (!nomenclature){
+      nomenclature="numbers"
+    }
     duration = $("#Duration").val()
     $('#first_form').hide();
   });
@@ -245,7 +248,7 @@ $(document).ready (function () {
       return;
     }
     temp = get_slot();
-    if(!temp.is_valid()){
+    if(!temp.is_valid(slots.length)){
       window.alert("Invalid time given");
       return;
     }
@@ -291,7 +294,7 @@ $(document).ready (function () {
       return;
     }
     temp = get_slot();
-    if(!temp.is_valid()){
+    if(!temp.is_valid(index)){
       window.alert("Invalid time given");
       return;
     }
@@ -334,12 +337,14 @@ $(document).ready (function () {
       return;
     }
     temp = get_slot();
-    if(!temp.is_valid()){
+    if(!temp.is_valid(index)){
       window.alert("Invalid time given");
       return;
     }
+    temp.id = slots[index].id;
     slots[index] = temp;
     new_duration = temp.duration()
+    // console.log(new_duration,old_duration);
     delta = new_duration-old_duration;
     for (let i = index+1; i < slots.length; i++){
       slots[i].add(delta);
@@ -362,6 +367,7 @@ function submited(){
 		type: "post",
 		data: JSON.stringify(slots),
 		success: function (){
+      location.reload();
 		}
 	});
 }

@@ -3,7 +3,7 @@ from django.db import models
 
 from institute_V1.models import Department
 from django.contrib.auth import get_user_model
-from institute_V1.models import Shift,Institute
+from institute_V1.models import Shift,Institute,Slots
 from subject_V1.models import Subject_details
 
 ################################################
@@ -48,3 +48,11 @@ class Can_teach(models.Model):
 		return str(self.Faculty_id) + " - " + str(self.Subject_id)
 	class Meta:
 		verbose_name_plural = "Can teach"
+
+class Not_available(models.Model):
+	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE)
+	Slot_id = models.ForeignKey(Slots,on_delete=models.CASCADE)
+	def __str__(self):
+		return str(self.Faculty_id) + " - " + str(self.Slot_id)
+	class Meta:
+		verbose_name_plural = "Not Available"

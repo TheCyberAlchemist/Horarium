@@ -78,6 +78,13 @@
           <p id="myp">Show Form</p>
           </button>
         </div>
+        {% if integrityErrors %}
+          <div class="errors_container">
+            <p>
+              {{integrityErrors}}
+            </p>
+          </div>
+        {% endif %}
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->

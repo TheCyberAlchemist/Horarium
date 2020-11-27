@@ -50,29 +50,19 @@
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button">Submit</button>
           </div>
-          <!-- <div class="errors_container">
-            <p>
-              {% if errors %}
-                {{errors}}
-              {% endif %}
-              {% if integrityErrors %}
-                {{integrityErrors}}
-              {% endif %}
-            </p>
-          </div> -->
         </form>
-        <div class="form_visibility_img_container" onclick="form_visibility('abc')">
-          <button class="show_form_button" >
+        <div class="form_visibility_img_container" >
+          <button class="show_form_button" onclick="form_visibility('abc')">
           <p id="myp">Show Form</p>
         </button>
         </div>
-        {% if message %}
-          <div class="errors_container">
-            <p>
-              {{message}}
-            </p>
-          </div>
-        {% endif %}
+        {% if integrityErrors %}
+        <div class="errors_container">
+          <p>
+            {{integrityErrors}}
+          </p>
+        </div>
+      {% endif %}
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->

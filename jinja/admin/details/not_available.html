@@ -1,0 +1,54 @@
+<link rel="stylesheet" href="{{static ('OLD_stuff/index.css') }}">
+<link rel="stylesheet" href="{{static ('form/form.css')}}">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+<script src="{{static ('OLD_stuff/index.js') }}"></script>
+
+<script>
+	$(document).ready(function(){
+		$("input[type='checkbox']").click(function(){
+			if($(this).prop("checked") == true){
+				console.log("Checkbox is checked.");
+				$(".droppable").css({"backgroundColor" : "red","opacity" : ".5"});
+			}
+			else if($(this).prop("checked") == false){
+                console.log("Checkbox is unchecked.");
+				$(".droppable").css({"backgroundColor" : "transparent","opacity" : "1"});
+            }
+		});
+	});
+</script>
+<h1 style="color: white;">Not Available At </h1>
+<table style = "width:990px;" class="main_table">
+	<thead>
+		<th>
+			Time
+		</th>
+		{% for day in working_days %} 	<!--for all days in database-->
+      <th>
+			{{day.Days_id}}
+			</th>
+		{% endfor %}
+	</thead>
+	<tbody class="table_time">
+		{% for timing in timings %} <!--for all time periods in database-->
+			<tr>
+				<th>
+					<p>
+                        {{timing}}
+					</p>
+				</th>
+				{% for day in working_days %}
+					<td class = "droppable">
+						<div class = "td_div">
+                            <div class="checkboxes">
+                                <input type="checkbox" id="{{timing}}_{{day}}" name="{{timing}}_{{day}}" value="{{timing}}_{{day}}">
+                                <label for="{{timing}}_{{day}}"></label> 
+                            </div>
+                        </div>
+                    </td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>

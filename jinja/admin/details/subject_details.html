@@ -1,0 +1,147 @@
+{% extends 'admin/base.html' %}
+{% block title %}Subject Details{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+    <link rel="stylesheet" href="{{static ('form/form.css')}}">
+{% endblock css %}
+{% block scripts %}
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <!-- <script src="{{static ('form/form.js')}}" charset="utf-8"></script> -->
+{% endblock scripts %}
+
+{% block content %}
+    <div class="whole_container" id="whole_container_id">
+    <fieldset>
+    <legend>{% if u_name %}Update{% else %}Add{% endif %} Subject Details</legend>
+    <form class="myform" method = "POST" {% if not u_name %}style="display: none;"{% endif %}>
+        {{csrf_input}}
+        <div class="input_container_double">
+            <div class="input_container_double_1">
+              <img class="input_icons" src="{{static ('admin/details/img/subname.png')}}" alt="start">
+              <input type="text" class="form_input" name="sub_name" required autocomplete="off">
+              <label for="" class="form_input_label">
+                <div class="text">Subject Name</div>
+                <div class="line"></div>
+              </label>
+            </div>
+            <div class="input_container_double_2">
+              <img class="input_icons" src="{{static ('admin/details/img/subshort.png')}}" alt="end">
+              <input type="text" class="form_input" name="sub_short" required autocomplete="off">
+              <label for="" class="form_input_label">
+                <div class="text">Short Name</div>
+                <div class="line"></div>
+              </label>
+
+            </div>
+          </div>
+          <div class="input_container_double">
+            <div class="input_container_double_1">
+              <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
+              <input type="text" class="form_input" name="lect" required autocomplete="off">
+              <label for="" class="form_input_label">
+                <div class="text">Lectures per week</div>
+                <div class="line"></div>
+              </label>
+            </div>
+            <div class="input_container_double_2">
+              <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
+              <input type="text" class="form_input" name="prac" required autocomplete="off">
+              <label for="" class="form_input_label">
+                <div class="text">Practicals per week (if any)</div>
+                <div class="line"></div>
+              </label>
+            </div>
+          </div>
+          <h3>Select Colour for Subject</h3>
+          <div class="color_palette_container">
+              <div class="colors" style="background-color: aqua;"></div>
+              <div class="colors" style="background-color: brown;"></div>
+              <div class="colors" style="background-color: aquamarine;"></div>
+              <div class="colors" style="background-color: beige;"></div>
+              <div class="colors" style="background-color: chartreuse;"></div>
+              <div class="colors" style="background-color: darkblue;"></div>
+              <div class="colors" style="background-color: firebrick;"></div>
+              <div class="colors" style="background-color: aqua;"></div>
+              <div class="colors" style="background-color: gold;"></div>
+              <div class="colors" style="background-color: hotpink;"></div>
+              <div class="colors" style="background-color: gold;"></div>
+
+          </div>
+        <div class="submit_button_container">
+        <button type="submit" name="button" class="submit_button">Submit</button>
+        </div>
+        <!-- <div class="errors_container">
+        <p>
+            {% if errors %}
+            {{errors}}
+            {% endif %}
+            {% if integrityErrors %}
+            {{integrityErrors}}
+            {% endif %}
+        </p>
+        </div> -->
+    </form>
+    <div class="form_visibility_img_container" >
+        <button class="show_form_button" onclick="form_visibility()" >
+        <p id="myp">Show Form</p>
+    </button>
+    </div>
+    {% if integrityErrors %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+  {% endif %}
+    </fieldset>
+
+<!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+    <div class="table_container">
+            <div class="table_search_box">
+            <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+            </div>
+            <table id = "db_table">
+            <thead>
+                <tr>
+                <div class="delete_panel">
+                    <h1>Faculties for {{institute}}</h1>
+                    <a style="display: none;" id="del" onclick="delete_entries()" >
+                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                    </a>
+                </div>
+                <th>Id</th>
+                <th>Department Name</th>
+                <th>Short</th>
+                <th>Edit</th>
+                <th>
+                    <div class="checkboxes" onclick="checkAll();">
+                    <input type="checkbox"  id="parent" name="parent" value="parent">
+                    <label for="parent"></label> 
+                    </div>
+                </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for department in departments %}
+                <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{department.name}}</td>
+                    <td>{{department.short}}</td>
+                    <td>
+                    <a href = "{{url ('update_department' ,args=[department.id])}}">
+                        <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+                    </a>
+                    </td>
+                    <td>
+                    <div class="checkboxes" onclick="checkSelected()">
+                        <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{department.id}}">
+                        <label for="{{loop.index}}"></label>
+                    </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

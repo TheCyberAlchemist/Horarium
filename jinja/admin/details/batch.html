@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
     {% endblock css %}
     {% block scripts %}
-    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
     <script>
@@ -63,9 +63,9 @@
           </div>
           <div class="select2_container">
             <select name="myselect" id="sports">
-              <option value="1">--------------</option>
+              <option value="1">Select Batch for division </option>
               <option value="a">a</option>
-              <option value="b">b</option>
+              <option value="b">b</option> 
               <option value="c">c</option>
             </select>
           </div>
@@ -85,6 +85,13 @@
           <p id="myp">Show Form</p>
         </button>
         </div>
+        {% if integrityErrors %}
+          <div class="errors_container">
+            <p>
+              {{integrityErrors}}
+            </p>
+          </div>
+        {% endif %}
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->  

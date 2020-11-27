@@ -103,7 +103,7 @@ def show_department(request,Department_id = None):
 						context['form'] = create_department()     			#Form Renewed
 						return redirect('show_department')                  #Page Renewed
 					except IntegrityError:
-						context['integrityErrors'] = "Short and Name must be unique for Institute"   #errors to integrityErrors
+						context['integrityErrors'] = "*Short Name and Name must be unique for Institute*"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/department.html",context)
@@ -141,7 +141,7 @@ def show_semester(request,Branch_id,Semester_id = None):
 						context['form'] = create_semester()     				#Form Renewed
 						return redirect('show_semester',Branch_id)                      #Page Renewed
 					except IntegrityError:
-						context['integrityErrors'] = "Short must be unique for Branch"   #errors to integrityErrors
+						context['integrityErrors'] = "*Short must be unique for Branch*"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/semester.html",context)
@@ -179,7 +179,7 @@ def show_division(request,Semester_id,Division_id = None):
 						context['form'] = create_division()     				#Form Renewed
 						return redirect('show_division',Semester_id)                      #Page Renewed
 					except IntegrityError:
-						context['integrityErrors'] = "Division Name is Unique for Semester"   #errors to integrityErrors
+						context['integrityErrors'] = "*Division Name is Unique for Semester*"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/division.html",context)
@@ -217,7 +217,7 @@ def show_batch(request,Division_id,Batch_id = None):
 						context['form'] = create_batch()     				#Form Renewed
 						return redirect('show_batch',Division_id)                      #Page Renewed
 					except IntegrityError:
-						context['integrityErrors'] = "Name must be unique for Division"   #errors to integrityErrors
+						context['integrityErrors'] = "*Name must be unique for Division*"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/batch.html",context)
@@ -230,7 +230,7 @@ def add_faculty(request,Department_id=None):
 	context['user_form'] = add_user()
 	context['faculty_detail_form'] = faculty_details()
 	context['faculty_load_form'] = faculty_load()
-	context['shifts'] = Shift.objects.filter(Department_id=Department_id)
+	# context['shifts'] = Shift.objects.filter(Department_id=Department_id)
 	department = Department.objects.get(pk = Department_id)
 	context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 	# context['designations'] = Faculty_designation.objects.filter(Department_id__in=[None])
@@ -345,7 +345,7 @@ def show_branch(request,Department_id,Branch_id=None):
 						context['form'] = create_branch()     				#Form Renewed
 						return redirect('show_branch',Department_id)                      #Page Renewed
 					except IntegrityError:
-						context['integrityErrors'] = "Name and Short must be unique for Department"   #errors to integrityErrors
+						context['integrityErrors'] = "*Name and Short must be unique for Department*"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 		return render(request,"admin/details/branch.html",context)
@@ -386,7 +386,7 @@ def show_shift(request,Department_id,Shift_id = None):
 						context['form'] = shift()     				#Form Renewed
 						return redirect('show_shift',Department_id)                      #Page Renewed
 					except IntegrityError:
-						context['integrityErrors'] = "Shift Name must be unique for Department"   #errors to integrityErrors
+						context['integrityErrors'] = "*Shift Name must be unique for Department*"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
 			return render(request,"admin/details/shift.html",context)
@@ -405,3 +405,15 @@ def show_table(request,Division_id):
 		'timings' : Timings.objects.filter(Shift_id = Shift_id),		
 	}
 	return render(request,"try/table.html",context)
+
+def show_not_avail(request,Division_id) :
+	my_division = Division.objects.get(pk = Division_id)
+	Shift_id = my_division.Shift_id
+	context = {
+		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
+		'timings' : Timings.objects.filter(Shift_id = Shift_id),		
+	}
+	return render(request,"admin/details/not_available.html",context)
+
+def show_sub_det(request): 
+	return render(request,"admin/details/subject_details.html")

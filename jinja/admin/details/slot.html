@@ -72,6 +72,13 @@
     <div class="submit_button_container">
       <button type="button" id="add_row">Add Slot</button>
     </div>
+    {% if integrityErrors %}
+          <div class="errors_container">
+            <p>
+              {{integrityErrors}}
+            </p>
+          </div>
+        {% endif %}
   </fieldset>
       <div class="table_container">
       <table id="myTable" class="mytable">

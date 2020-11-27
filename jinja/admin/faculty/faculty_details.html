@@ -3,16 +3,19 @@
 {% block css %}
     <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 {% endblock css %}
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{{static ('form/pagination.js')}}" charset="utf-8"></script>
 {% endblock scripts %}
 
 {% block content %}
-<div class="whole_container" id="whole_container_id">
+<div class="whole_container" id="whole_container_id" >
   <fieldset>
     <legend>Add Faculty</legend>
 
@@ -23,7 +26,7 @@
 
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="fname">
-            {{user_form.first_name}}
+            <input type="text" class="form_input" name="fname" required autocomplete="off">
             <label for="" class="form_input_label">
               <div class="text">First Name</div>
               <div class="line"></div>
@@ -32,34 +35,36 @@
           
           <div class="input_container_double_2">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="lname">
-            {{user_form.last_name}}
+            <input type="text" class="form_input" name="lname" required autocomplete="off">
             <label for="" class="form_input_label">
               <div class="text">Last Name</div>
               <div class="line"></div>
             </label>
           </div>
         </div>
-        <div class="input_container">
+        <div class="input_container_double">
+        <div class="input_container_double_1">
           <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="sname">
-          {{faculty_detail_form.short}}
+          <input type="text" class="form_input" name="shortname" required autocomplete="off">
           <label for="" class="form_input_label">
             <div class="text">Short Name</div>
             <div class="line"></div>
           </label>
         </div>
-        <div class="input_container">
+        <div class="input_container_double_2">
           <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
-          {{user_form.email}}
+          <input type="email" class="form_input" name="fname" required autocomplete="off">
           <label for="" class="form_input_label">
             <div class="text">Email Id</div>
             <div class="line"></div>
           </label>
         </div>
+      </div>
 
         <div class="input_container_double">
+
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-            <!-- {{user_form.password1}} -->
             <input type="password" class="form_input" name="password" id="myinput1"  required autocomplete="off">
             <label for="" class="form_input_label">
               <div class="text">Password</div>
@@ -72,7 +77,6 @@
           </div>
           <div class="input_container_double_2">
             <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-            <!-- {{user_form.password2}} -->
             <input type="password" class="form_input" name="password" id="myinput2"  required autocomplete="off">
             <label for="" class="form_input_label">
               <div class="text">Confirm Password</div>
@@ -89,14 +93,25 @@
       <div id="second_page" style="display: none">        
         <div class="input_container">
           <img class="input_icons" src="{{static ('admin/details/img/clock.png')}}" alt="load">
-          {{faculty_load_form.total_load}}
+          <input type="number" class="form_input" name="shortname" required autocomplete="off">
           <label for="" class="form_input_label">
             <div class="text">Total Load of Faculty(in hrs)</div>
             <div class="line"></div>
           </label>
         </div>
+
+
+      <div class="select2_container">
+        <select name="myselect" id="sports">
+          <option value="1">Select Designation of Faculty </option>
+          {% for designation in designations %}
+          <option value="{{designation}}">{{designation}}</option>
+          {%endfor%}
+        </select>
+      </div>
+
         <div class="radio_buttons_container">
-        <h3 style="padding-bottom: 10px;">Designation</h3>
+        <h3>Designation</h3>  
         {% for designation in designations %}
           <label class="radio_container">
             <!-- <input type="radio" class="radio" id ="{{designation.id}}" name="Shift_id" value = "{{designation.id}}" /> -->
@@ -182,13 +197,13 @@
         <p id="myp">Show Form</p>
       </button>
     </div> -->
-    {% if message %}
-      <div class="errors_container">
-        <p>
-          {{message}}
-        </p>
-      </div>
-    {% endif %}
+    {% if integrityErrors %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+  {% endif %}
   </fieldset>
 
   <div class="table_container">

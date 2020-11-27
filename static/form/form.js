@@ -16,18 +16,18 @@ $(document).ready(function(){
 
     /*//////////////DROPDOWN//////////////*/
 
-  // var list = ["Cricket","VollyBall","Football"];
-  // var list2 = ["A","B","C"];
-  // var list3 = ["X","Y","Z"];
-  // $("#sports").select2({
-  //     data : list
-  // });
-  // $("#sports2").select2({
-  //     data : list2
-  // });
-  // $("#sports3").select2({
-  //     data : list3
-  // });
+  var list = ["Cricket","VollyBall","Football"];
+  var list2 = ["A","B","C"];
+  var list3 = ["X","Y","Z"];
+  $("#sports").select2({
+      data : list
+  });
+  $("#sports2").select2({
+      data : list2
+  });
+  $("#sports3").select2({
+      data : list3
+  });
   
   /* ///////////TO UpperCase/////////////// */ 
 

@@ -63,10 +63,10 @@
           <p id="myp">Show Form</p>
         </button>
         </div>
-        {% if message %}
+        {% if integrityErrors %}
           <div class="errors_container">
             <p>
-              {{message}}
+              {{integrityErrors}}
             </p>
           </div>
         {% endif %}

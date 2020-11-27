@@ -118,19 +118,25 @@ width: 100%;
 	clear: right;
 	height: 600px;
 	border-radius: 10px;
-	background-color: red;
+	background-color: #1e1e2e;
   }
+  .card-list{
+	display: block;
+	padding: 3rem;
+	overflow-y: scroll;
+  }
+  
   .card{
 	color :white;
 	display: flex;
-	text-align: center;
+	/* text-align: center; */
 	position: relative;
 	flex-direction: column;
 	width: 170px;
-	height: 150px;
-	margin: -30px;
+	height: 120px;
+	margin: -10px;
 	padding: 0.5rem;  /* 1rem = 15px */
-	border-radius: 16px;
+	border-radius: 0 16px 16px 16px;
 	background-color: #17141d;
 	box-shadow: -1rem 0 3rem #000;
 	transition: 0.2s;
@@ -141,22 +147,41 @@ width: 100%;
 	transform: translateY(-1.5rem);
 	transition: 0.2s;
   }
+  .lec,.prac {
+	position: absolute;
+	text-align: center;
+	height: 30px;
+	width: 50%;
+	left:0;
+	top: -.75em;
+	border-radius: 10px 10px 0 0;
+}
+.lec p, .prac p {
+	margin-top: .25em;
+	font-weight: 500;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-size: 18px;
+}
+.lec {
+	background-image: linear-gradient(to bottom, #a164ff,#17141d);
+}
+.prac {
+	background-image: linear-gradient(to bottom, #0ebcf9,#17141d);
+}
   .card:hover ~ .card{
 	transform: translateY(0.5rem);
-  
   }
-  
-  .card-list{
-	display: block;
-	padding: 3rem;
-	overflow-y: scroll;
+  .card-header h3{
+	  text-decoration: underline;
+	  font-size: 20px;
+	  margin-left: 5px;
   }
-  
   .author-name{
 	text-align: right;
-	padding: 5px 20px;
-	margin-top: 50px;
-  
+	padding: 5px 20px 5px 20px;
+	font-size: 20px;
+	margin-top: 0px;
+
   }
   .card-author img{
 	height: 60px;

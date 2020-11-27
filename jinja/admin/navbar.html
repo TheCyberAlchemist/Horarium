@@ -3,15 +3,14 @@
     <link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
     <link rel="stylesheet" type="text/css" href="{{static ('admin/navtree.css')}}">
     <link rel="stylesheet" type="text/css" href="{{static ('admin/base.css')}}">
+    <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
     <script src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
     <script src="{{static ('form/form.js') }}" charset="utf-8"></script>
-    <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
     <!-- <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet"> -->
-    <script>
-            
+    <script> 
   $(document).ready(function(){
 
-    $(".wrapper").css("height","0%");
+    $(".wrapper").animate({height:"0%",},400);
     $(".me").click(function(){
       $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
       $(".wrapper").animate({width:'100%',height:'100%'},300);
@@ -46,7 +45,7 @@
         <a href="{{url ('logout')}}">Hi, {{request.user}}</a>
       </div>
 
-      <div class="container ">
+      <div class="container">
       <ul>
         <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
         <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
@@ -57,7 +56,7 @@
     </nav>
   </div>
 
-  <div class="wrapper scroll" id="show_tree" style="" >
+  <div class="wrapper scroll" id="show_tree" >
     <ul>
       <li class="noline">
         <label class = "not_data">{{institute}}</label>
@@ -74,6 +73,9 @@
                   </li>
                   <li>
                     <label for="{{department}}.b" class = "not_data"><a href = {{url ('add_faculty' ,args=[department.id])}}>Add Faculty</a></label>
+                  </li>
+                  <li>
+                    <label for="{{department}}.c" class = "not_data"><a href = {{url ('show_sub_det')}}>Add Subject Det</a></label>
                   </li>
                   <li>
                     <label for="{{department}}.d" class = "data">Shift Details</label>

@@ -129,12 +129,34 @@
   margin-bottom: 1em;
 }
 
-.select2_container {
-  border-width: 1px;
-  width: 100%;
+.myform h3 {
   margin: 0 auto 1.7em auto;
-  padding-left: 13em;
-  position: relative;
+  width: 70%;
+}
+
+.color_palette_container {
+  margin: 0 auto 1.7em auto;
+  width: 70%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (50px)[auto-fit];
+      grid-template-columns: repeat(auto-fit, 50px);
+  -webkit-column-gap: 1.4em;
+          column-gap: 1.4em;
+}
+
+.colors {
+  height: 50px;
+  width: 50px;
+  border-radius: 7px;
+  -webkit-transition: .1s;
+  transition: .1s;
+  margin-bottom: .6em;
+}
+
+.colors:hover {
+  -webkit-transform: scale(1.07);
+          transform: scale(1.07);
   -webkit-transition: .1s;
   transition: .1s;
 }
@@ -271,11 +293,12 @@ input[type="time"]::-webkit-clear-button {
 
 /*////////////////ERRORS MESSAGES///////////////////*/
 .errors_container {
-  position: absolute;
   width: 80%;
-  top: 120px;
-  padding: 10px;
-  background-color: red;
+  padding: 10px 10px 1em 2.5em;
+}
+
+.errors_container p {
+  color: red;
 }
 
 /*/////////////////////////DROPDOWN///////////////////////////////// */
@@ -320,11 +343,18 @@ input[type="time"]::-webkit-clear-button {
 /*//////////////////RADIO BUTTON////////////*/
 .radio_buttons_container {
   width: 70%;
+  border-radius: 10px;
+  border: 1px solid salmon;
   margin: 0 auto 1.7em auto;
   position: relative;
+  padding: .5em;
   -webkit-transition: .3s;
   transition: .3s;
-  top: 1.7em;
+}
+
+.radio_buttons_container h3 {
+  margin-left: -.1em;
+  text-decoration: underline;
 }
 
 .radio_container {

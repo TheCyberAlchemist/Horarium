@@ -6,27 +6,34 @@
 
 <script>
 	$(document).ready(function(){
-		$("input[type='checkbox']").click(function(){
-			if($(this).prop("checked") == true){
-				console.log("Checkbox is checked.");
-				$(".droppable").css({"backgroundColor" : "red","opacity" : ".5"});
-			}
-			else if($(this).prop("checked") == false){
-                console.log("Checkbox is unchecked.");
-				$(".droppable").css({"backgroundColor" : "transparent","opacity" : "1"});
-            }
-		});
+		// $("input[type='checkbox']").click(function(){
+		// 	if($(this).prop("checked") == true){
+		// 		console.log("Checkbox is checked.");
+		// 		$(".droppable").css({"backgroundColor" : "red","opacity" : ".5"});
+		// 	}
+		// 	else if($(this).prop("checked") == false){
+        //         console.log("Checkbox is unchecked.");
+		// 		$(".droppable").css({"backgroundColor" : "transparent","opacity" : "1"});
+        //     }
+		// });
+		$("td").click(function(){
+			if($(this).css({"backgroundColor" : "transparent","opacity" :"1"}))
+				$(this).css({"backgroundColor" : "red","opacity" :".5"});
+			else if($(this).css({"backgroundColor" : "red","opacity" :".5"}))
+				$(this).css({"backgroundColor" : "transparent","opacity" :"1"});
+		})
 	});
 </script>
 <h1 style="color: white;">Not Available At </h1>
+
 <table style = "width:990px;" class="main_table">
 	<thead>
 		<th>
 			Time
 		</th>
 		{% for day in working_days %} 	<!--for all days in database-->
-      <th>
-			{{day.Days_id}}
+      		<th>
+				{{day.Days_id}}
 			</th>
 		{% endfor %}
 	</thead>
@@ -52,3 +59,4 @@
 		{% endfor %}
 	</tbody>
 </table>
+<a href='#'><h2 style="color: white;">Go Back to Faculty Details</h2></a> 

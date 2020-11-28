@@ -15,19 +15,8 @@ $(document).ready(function(){
     });
 
     /*//////////////DROPDOWN//////////////*/
-
-  var list = ["Cricket","VollyBall","Football"];
-  var list2 = ["A","B","C"];
-  var list3 = ["X","Y","Z"];
-  $("#sports").select2({
-      data : list
-  });
-  $("#sports2").select2({
-      data : list2
-  });
-  $("#sports3").select2({
-      data : list3
-  });
+  $("#designations").select2();
+  $("#shifts").select2();
   
   /* ///////////TO UpperCase/////////////// */ 
 
@@ -37,6 +26,7 @@ $(document).ready(function(){
     $('.short_names').val($('.short_names').val().toUpperCase());
   });
 // /* //////Scroll into view ///////// */
+
 });
 
 function visibility1(self) {
@@ -94,13 +84,16 @@ function form_visibility() {
   
   var form = document.getElementsByClassName("myform")[0];
   var p = document.getElementById("myp");
+  var pages = document.getElementsByClassName("pagination_container")[0];
 
   if(form.style.display == "none"){
     p.innerHTML = "Close Form";
     form.style.display = "block";
+    pages.style.display = "";
   }
   else{
     p.innerHTML = "Show Form";
     form.style.display = "none";
+    pages.style.display = "none";
   }
 }

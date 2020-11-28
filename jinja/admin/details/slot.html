@@ -79,6 +79,13 @@
             </p>
           </div>
         {% endif %}
+    {% if errors %}
+      <div class="errors_container">
+        <p>
+          {{errors}}
+        </p>
+      </div>
+    {% endif %}
   </fieldset>
       <div class="table_container">
       <table id="myTable" class="mytable">

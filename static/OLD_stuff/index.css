@@ -8,6 +8,9 @@ body{
 	user-select:none;
 	background-color: #1e1e2e;
 }
+td {
+	background-color: transparent;
+}
 .main_container {
 	display: grid;
 	grid-template-columns: 30% 70%;

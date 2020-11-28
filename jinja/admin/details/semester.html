@@ -37,81 +37,89 @@
 {% endblock scripts %}
 
 {% block content %}
-	  <div class="whole_container" id="whole_container_id">
-      <fieldset>
-        <legend>{% if u_short %}Update{% else %}Add{% endif %} Semester</legend>
-        <form class="myform" method = "POST" {% if not u_short %}style="display: none;"{% endif %}>
-          {{ csrf_input }}
-          <div class="input_container">
-            <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required/>
-            <label for="" class="form_input_label">
-              <div class="text">Semester Name</div>
-              <div class="line"></div>
-            </label>
-          </div>
-          <div class="submit_button_container">
-            <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
-          </div>
-        </form>
-        <div class="form_visibility_img_container">
-          <button class="show_form_button" onclick="form_visibility()">
+  <div class="whole_container" id="whole_container_id">
+    <fieldset>
+      <legend>{% if u_short %}Update{% else %}Add{% endif %} Semester</legend>
+      <form class="myform" method = "POST" {% if not u_short %}style="display: none;"{% endif %}>
+        {{ csrf_input }}
+        <div class="input_container">
+          <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required/>
+          <label for="" class="form_input_label">
+            <div class="text">Semester Name</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="submit_button_container">
+          <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
+        </div>
+      </form>
+      <div class="form_visibility_img_container">
+        <button class="show_form_button" onclick="form_visibility()">
           <p id="myp">Show Form</p>
         </button>
-        </div>
-        {% if integrityErrors %}
-          <div class="errors_container">
-            <p>
-              {{integrityErrors}}
-            </p>
-          </div>
-        {% endif %}
-      </fieldset>
-
-    <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
-      <div class="table_container">
-          <div class="table_search_box">
-            <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
-          </div>
-          <table id = "db_table">
-            <thead>
-              <tr>
-                <div class="delete_panel" >
-                  <h1>Semesters for {{my_branch}}</h1>          
-                  <a style="display: none;" id="del" onclick="delete_entries()" >
-                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
-                  </a>
-                </div>
-                <th>Id</th>
-                <th>Semester</th>
-                <th>Edit</th>
-                <th>
-                  <div class="checkboxes" onclick="checkAll();">
-                    <input type="checkbox"  id="parent" name="parent" value="parent">
-                    <label for="parent"></label> 
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for semester in my_semesters %}
-                <tr>
-                  <td>{{loop.index}}</td>
-                  <td>{{semester.short}}</td>
-                  <td>
-                    <a href = "{{url ('update_semester' ,args=[my_branch.id,semester.id])}}">
-                      <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
-                    </a>
-                  </td>
-                  <td>
-                    <div class="checkboxes" onclick="checkSelected()">
-                      <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{semester.id}}">
-                      <label for="{{loop.index}}"></label>
-                    </div>
-                  </td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
       </div>
+
+      {% if integrityErrors %}
+        <div class="errors_container">
+          <p>
+            {{integrityErrors}}
+          </p>
+        </div>
+      {% endif %}
+      {% if errors %}
+      <div class="errors_container">
+        <p>
+          {{errors}}
+        </p>
+      </div>
+      {% endif %}
+    </fieldset>
+
+  <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+    <div class="table_container">
+      <div class="table_search_box">
+        <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+      </div>
+        <table id = "db_table">
+          <thead>
+            <tr>
+              <div class="delete_panel" >
+                <h1>Semesters for {{my_branch}}</h1>          
+                <a style="display: none;" id="del" onclick="delete_entries()" >
+                  <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                </a>
+              </div>
+              <th>Id</th>
+              <th>Semester</th>
+              <th>Edit</th>
+              <th>
+                <div class="checkboxes" onclick="checkAll();">
+                  <input type="checkbox"  id="parent" name="parent" value="parent">
+                  <label for="parent"></label> 
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for semester in my_semesters %}
+              <tr>
+                <td>{{loop.index}}</td>
+                <td>{{semester.short}}</td>
+                <td>
+                  <a href = "{{url ('update_semester' ,args=[my_branch.id,semester.id])}}">
+                    <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                  </a>
+                </td>
+                <td>
+                  <div class="checkboxes" onclick="checkSelected()">
+                    <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{semester.id}}">
+                    <label for="{{loop.index}}"></label>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
     </div>
+  </div>
 {% endblock content %}

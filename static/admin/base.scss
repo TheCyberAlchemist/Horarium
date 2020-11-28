@@ -32,7 +32,7 @@ a {
 	color: white;
 }
 
-fieldset {
+.whole_container fieldset {
 	background-color: $fieldset_bgcolor;
 	outline: none;
 	width: 90%;
@@ -43,6 +43,11 @@ fieldset {
 	-webkit-box-shadow: -3px -1px 41px -13px black;
 	-moz-box-shadow: -3px -1px 41px -13px black;
 	box-shadow: -3px -1px 41px -13px black;
+}
+#third_page fieldset {
+	// background-color: rgb(31, 31, 37);
+	border: 1px solid salmon;
+	width: 40%;
 }
 
 legend {

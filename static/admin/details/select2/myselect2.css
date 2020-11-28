@@ -23,7 +23,7 @@
           box-sizing: border-box;
   cursor: pointer;
   display: block;
-  height: 35px;
+  height: 40px;
   font-size: 1em;
   -moz-user-select: none;
    -ms-user-select: none;
@@ -63,7 +63,7 @@
   display: block;
   padding-left: 8px;
   padding-right: 20px;
-  padding-top: 3px;
+  padding-top: 6px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -112,7 +112,7 @@
   border-width: 0 8px 9px 8px;
 }
 
-#sports, #sports2, #sports3 {
+#designations, #shifts {
   width: 300px;
 }
 /*# sourceMappingURL=myselect2.css.map */

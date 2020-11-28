@@ -73,6 +73,13 @@
             </p>
           </div>
         {% endif %}
+        {% if errors %}
+        <div class="errors_container">
+          <p>
+            {{errors}}
+          </p>
+        </div>
+      {% endif %}
       </fieldset>
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->

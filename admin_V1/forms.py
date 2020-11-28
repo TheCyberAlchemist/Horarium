@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from institute_V1.models import Department,Branch,Semester,Division,Batch,Shift
-from faculty_V1.models import Faculty_details,Faculty_designation,Faculty_load
+from faculty_V1.models import Faculty_details,Faculty_designation,Faculty_load,Can_teach
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 from student_V1.models import Student_details

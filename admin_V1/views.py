@@ -106,7 +106,7 @@ def show_department(request,Department_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Short Name and Name must be unique for Institute*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors
+					context['errors'] = form.errors.as_json()
 		return render(request,"admin/details/department.html",context)
 	else:
 		return redirect('/')
@@ -228,13 +228,17 @@ def show_batch(request,Division_id,Batch_id = None):
 
 def add_faculty(request,Department_id=None):
 	context = return_context(request)
+
 	context['user_form'] = add_user()
 	context['faculty_detail_form'] = faculty_details()
 	context['faculty_load_form'] = faculty_load()
+
+	context['my_sems'] = Semester.objects.filter(Branch_id=1)
+	context['subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
 	context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 	department = Department.objects.get(pk = Department_id)
 	context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
-	# context['designations'] = Faculty_designation.objects.filter(Department_id__in=[None])
+	
 	if request.method == 'POST':
 		user_form = add_user(request.POST)
 		faculty_detail_form = faculty_details(request.POST)
@@ -248,7 +252,7 @@ def add_faculty(request,Department_id=None):
 			user.groups.add(group)
 			###########
 			A = faculty_detail_form.save(commit = False)
-			A.Institute_id = context['institute']
+			A.Department_id = Department.objects.get(id = Department_id)
 			A.User_id = user
 			F = A.save()
 			#############

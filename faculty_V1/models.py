@@ -27,7 +27,7 @@ class Faculty_details(models.Model):
 	short = models.CharField(max_length = S_len)
 	Designation_id = models.ForeignKey(Faculty_designation,on_delete=models.RESTRICT)
 	Shift_id = models.ForeignKey(Shift,on_delete=models.RESTRICT)
-	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
+	Department_id = models.ForeignKey(Department,on_delete=models.CASCADE)
 	def __str__(self):
 		return self.short
 	class Meta:

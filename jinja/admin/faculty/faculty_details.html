@@ -124,7 +124,7 @@
         <div id="third_page" style="display:none">
           <fieldset>
             <legend>Can Teach</legend>
-            {%for sem in my_sems%}
+            <!-- {%for sem in my_sems%}
               <div class="checkboxes chx_heading">
                 <input type="checkbox" id="{{sem.id}}">
                 <label for="{{sem.id}}"><strong>{{sem}}</strong></label>
@@ -139,7 +139,32 @@
                   </div>
                 {% endif %}
               {% endfor %}
-            {% endfor %}
+            {% endfor %} -->
+
+              <div class="can_container">
+                <ul id="branches">
+                  {%for branch in branches%}
+                    <li>
+                      <input type="checkbox" />{{branch}}
+                      <ul id="semesters">
+                        {%for sem in my_sems %}
+                        <li>
+                          <input type="checkbox" />{{sem}}
+                          <ul id="subjects">
+                            {%for subject in subjects%}
+                              <li>
+                                <input type="checkbox" />{{sub}}
+                              </li>
+                              {%endfor%}
+                          </ul>
+                        </li>
+                        {%endfor%}
+                      </ul>
+                    </li>
+                  {%endfor%}
+                </ul>
+              </div>
+
           </fieldset>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button">Submit</button>
@@ -163,7 +188,7 @@
         <div class="numbers" id="first"> <a href="#"><h3>1</h3></a> </div>
         <div class="numbers" id="second"><a href="#"><h3>2</h3></a> </div>
         <div class="numbers" id="third"><a href="#"><h3>3</h3></a> </div>
-        <div class="numbers" id="fourth"><a href ="{{url ('show_not_avail' ,args=[1])}}"><h3>4</h3></a> </div>
+        <!-- <div class="numbers" id="fourth"><a href ="{{url ('show_not_avail' ,args=[1])}}"><h3>4</h3></a> </div> -->
       </div>
       
       {% if integrityErrors %}

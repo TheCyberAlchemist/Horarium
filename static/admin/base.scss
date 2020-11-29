@@ -17,6 +17,12 @@ input:focus {
 	outline: none;
 } 
 
+.can_container ul > li {
+    margin-left: 1em;
+}
+ul {
+	list-style-type: none;
+}
 body {
 	font-family: $fontfamily;
 	background-color: #1e1e2e;

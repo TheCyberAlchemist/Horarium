@@ -42,6 +42,7 @@
       <legend>{% if u_short %}Update{% else %}Add{% endif %} Semester</legend>
       <form class="myform" method = "POST" {% if not u_short %}style="display: none;"{% endif %}>
         {{ csrf_input }}
+        <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div class="input_container">
           <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required/>
           <label for="" class="form_input_label">

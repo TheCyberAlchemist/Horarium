@@ -17,8 +17,10 @@
         //     }
 		// });
 		$("td").click(function(){
-			if($(this).css({"backgroundColor" : "transparent","opacity" :"1"}))
+			if($(this).css({"backgroundColor" : "transparent","opacity" :"1"})){
 				$(this).css({"backgroundColor" : "red","opacity" :".5"});
+				$(this).html("Not Available");
+			}
 			else if($(this).css({"backgroundColor" : "red","opacity" :".5"}))
 				$(this).css({"backgroundColor" : "transparent","opacity" :"1"});
 		})
@@ -48,10 +50,8 @@
 				{% for day in working_days %}
 					<td class = "droppable">
 						<div class = "td_div">
-                            <div class="checkboxes">
-                                <input type="checkbox" id="{{timing}}_{{day}}" name="{{timing}}_{{day}}" value="{{timing}}_{{day}}">
-                                <label for="{{timing}}_{{day}}"></label> 
-                            </div>
+							<input type="checkbox" id="{{timing}}_{{day}}" name="{{timing}}_{{day}}" value="{{timing}}_{{day}}">
+							<label for="{{timing}}_{{day}}"></label> 
                         </div>
                     </td>
 				{% endfor %}

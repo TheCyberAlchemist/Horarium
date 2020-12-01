@@ -21,6 +21,7 @@
 
       <form class="myform" method = "POST" style="display: none;">
         {{csrf_input}}
+        <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div id="first_page">
           <div class="input_container_double">
 
@@ -65,7 +66,7 @@
 
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-              <input type="password" class="form_input" name="password1" id="myinput1"  required autocomplete="off">
+              <input type="password" class="form_input" name="password1" id="myinput1"  required autocomplete="off" >
               <label for="password1" class="form_input_label">
                 <div class="text">Password</div>
                 <div class="line"></div>
@@ -141,19 +142,34 @@
               {% endfor %}
             {% endfor %} -->
 
-              <div class="can_container">
+              <div class="can_container" >
+                <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt=""> -->
                 <ul id="branches">
+                  
                   {%for branch in branches%}
                     <li>
-                      <input type="checkbox" />{{branch}}
-                      <ul id="semesters">
+                      <div class="checkboxes">
+                        <input type="checkbox" id="id" value="id">
+                        <label for="id"><b>{{branch}}</b></label>
+                    </div>
+                      <!-- <input type="checkbox" />{{branch}} -->
+                      <ul id="semesters" class="dir">
                         {%for sem in my_sems %}
                         <li>
-                          <input type="checkbox" />{{sem}}
+                          <div class="checkboxes">
+                            <input type="checkbox" id="{{sem.id}}" value="">
+                            <label for="{{sem.id}}"><b>{{sem}}</b></label>
+                        </div>
+                          <!-- <input type="checkbox" />{{sem}} -->
+                          <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt="dept"> -->
                           <ul id="subjects">
                             {%for subject in subjects%}
                               <li>
-                                <input type="checkbox" />{{sub}}
+                                <div class="checkboxes">
+                                  <input type="checkbox" id="{{subject.id}}" value="{{subject.id}}">
+                                  <label for="{{subject.id}}"><b>{{subject}}</b></label>
+                              </div>
+                                <!-- <input type="checkbox" />{{subject}} -->
                               </li>
                               {%endfor%}
                           </ul>
@@ -198,14 +214,14 @@
           </p>
         </div>
       {% endif %}
-
+<!-- 
       {% if errors %}
         <div class="errors_container">
           <p>
             {{errors}}
           </p>
         </div>
-      {% endif %}
+      {% endif %} -->
     </fieldset>
 
     <div class="table_container">

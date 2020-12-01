@@ -106,7 +106,8 @@ def show_department(request,Department_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Short Name and Name must be unique for Institute*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors.as_json()
+					context['errors'] = form.errors.as_text()
+					print(context['errors'])
 		return render(request,"admin/details/department.html",context)
 	else:
 		return redirect('/')

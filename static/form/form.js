@@ -30,7 +30,7 @@ $(document).ready(function(){
 
 
 /**//////////// Can Teach ///////////////////
-  $('li :checkbox').on('click', function () {
+  $('.can_container li :checkbox').on('click', function () {
     var $chk = $(this);
     var $li = $chk.closest('li');
     var $ul, $parent;
@@ -49,7 +49,56 @@ $(document).ready(function(){
         $li = $chk.closest('li');
     } while ($ul.is(':not(.someclass)'));
   });
+
+/** //////////Subject Color Palette */
+  $(".colors").click(function(){
+    if($(".colors").css({"border":"none" })) {
+      $(this).css({"border":"5px solid black"});
+    }
+    // else {
+    //   $(this).css({"border":"none","borderRadius" :"7px","opacity":"1" });
+    // }
+  });
+
+  
+// carets = document.getElementsByClassName("caret");
+
+// for(var i=0; i<carets.length;i++) {
+//   carets[i].addEventListener('click',function() {
+//     li =  this.parentElement;
+//     li.querySelector('#branches').classList.toggle('.active');
+//   })
+// }
+
+
+  $(".form_input").focus(function(){
+    // console.log("hi");
+    $(this).next().find(".text").css({
+      "top":"-.7em",
+      "left": ".5px",
+      "transition": ".2s",
+      "font-size":"16px",
+      "color": "rgb(185, 184, 184)"
+      });
+  });
+  $(".form_input").blur(function(){    
+    if($(this).prop("type") != "time") {
+      if(!$(this).val()) {
+        $(this).next().find(".text").css({
+          "position": "absolute",
+          "top" :" 1.2em",
+          "left": "2em",
+          "color" : "white",
+          "pointer-events": "none",
+          "user-select": "none",
+          "font-size": "18px",
+          "transition": ".4s",
+        });
+      }
+    }
+  });
 });
+
 
 function visibility1(self) {
   console.log(self);
@@ -75,13 +124,11 @@ function visibility2() {
   var z = document.getElementById("hide4");
 
   if (x.type === "password") {
-    console.log("Hi");
     x.type = "text";
     y.style.display = "inline";
     z.style.display = "none";
     }
   else if(x.type === "text" ){
-    console.log("ElseHi");
     x.type = "password";
     y.style.display = "none";
     z.style.display = "inline";
@@ -92,7 +139,7 @@ function delete_entries(){
   var checked = $('input[name="del"]:checked').map(function(){return this.value;}).get()
   let state = JSON.stringify(checked);                
   if (checked.length){  // checkes if one or more are selected or not
-    console.log(state)
+    // console.log(state)
     $.ajax({
       type: "post",
       data: state,
@@ -102,14 +149,21 @@ function delete_entries(){
     });
   }
 }
+$(".form_hider").click(function(){
+  $(".myform").hide();
+  $(".form_visibility_img_container").show();
+  $(".pagination_container").hide();
 
+});
 function form_visibility() {
   
   var form = document.getElementsByClassName("myform")[0];
   var p = document.getElementById("myp");
   var pages = document.getElementsByClassName("pagination_container")[0];
+  var container = document.getElementsByClassName("form_visibility_img_container")[0];
   if(form.style.display == "none"){
-    p.innerHTML = "Close Form";
+    // p.innerHTML = "Close Form";
+    container.style.display = "none";
     form.style.display = "block";
     if (pages)
       pages.style.display = "";
@@ -123,14 +177,16 @@ function form_visibility() {
 }
 
 function show_error(json_error){
-  // console.log(json_error);
+  console.log(json_error);
   json = JSON.parse(json_error.replace(/&#34;/ig,'"',));
 	for (i in json){
     var input = $("[name=" + i + "]");
     console.log(input);
     // change css here 
+    $('.myform .input_container :input').val('');
   }
+
   form_visibility();
   input.focus();
-
-}
+  input[0].setCustomValidity("hi");
+  }

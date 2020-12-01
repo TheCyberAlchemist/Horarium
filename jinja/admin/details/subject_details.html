@@ -15,6 +15,7 @@
       <legend>{% if u_name %}Update{% else %}Add{% endif %} Subject Details</legend>
       <form class="myform" method = "POST" {% if not u_name %}style="display: none;"{% endif %}>
         {{csrf_input}}
+        <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/subname.png')}}" alt="start">
@@ -47,24 +48,62 @@
               <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
               <input type="text" class="form_input" name="prac" required autocomplete="off">
               <label for="" class="form_input_label">
-                <div class="text">Practicals per week (if any)</div>
+                <div class="text">Practicals per week</div>
                 <div class="line"></div>
               </label>
             </div>
           </div>
           <h3>Select Colour for Subject</h3>
           <div class="color_palette_container">
+
+            <input type="radio" name="rad" id="rad1" value="1">
+            <label for="rad1">
               <div class="colors" style="background-color: aqua;"></div>
+            </label>
+
+            <input type="radio" name="rad" id="rad2" value="2">
+            <label for="rad2">  
               <div class="colors" style="background-color: brown;"></div>
+            </label>
+            <input type="radio" name="rad" id="rad3" value="3">
+            <label for="rad3">  
               <div class="colors" style="background-color: aquamarine;"></div>
+            </label>
+            
+            <input type="radio" name="rad" id="rad4" value="4">
+            <label for="rad4">  
               <div class="colors" style="background-color: beige;"></div>
+            </label>
+
+            <input type="radio" name="rad" id="rad5" value="5">
+            <label for="rad5">
               <div class="colors" style="background-color: chartreuse;"></div>
-              <div class="colors" style="background-color: darkblue;"></div>
+            </label>
+
+            <input type="radio" name="rad" id="rad6" value="6">
+            <label for="rad6">
               <div class="colors" style="background-color: firebrick;"></div>
+            </label>
+
+            <input type="radio" name="rad" id="rad7" value="7">
+            <label for="rad7">
               <div class="colors" style="background-color: aqua;"></div>
+            </label>
+
+            <input type="radio" name="rad" id="rad8" value="8">
+            <label for="rad8">
               <div class="colors" style="background-color: gold;"></div>
+            </label>
+
+            <input type="radio" name="rad" id="rad9" value="9">
+            <label for="rad9">
               <div class="colors" style="background-color: hotpink;"></div>
+            </label>
+
+            <input type="radio" name="rad" id="rad10" value="10">
+            <label for="rad10">
               <div class="colors" style="background-color: gold;"></div>
+            </label>
 
           </div>
         <div class="submit_button_container">

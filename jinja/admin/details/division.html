@@ -47,6 +47,7 @@
     <fieldset>
       <legend>{% if u_name %}Update{% else %}Add{% endif %} Division</legend>
       <form class="myform" {% if not u_name %}style="display: none;"{% endif %}>
+        <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div class="input_container">
           <input type="text" name="name" class ="form_input" required/>
           <label for="" class="form_input_label">

@@ -41,7 +41,8 @@
       </label>
     </div>
     
-    <div class="input_container">
+    <div class="input_container_double">
+      <div class="input_container_double_1">
         <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="Start">
         <input type="time" class="form_input" name ="start_time" id="start_time">
         <label for="start_time" class="form_input_label">
@@ -49,7 +50,7 @@
           <div class="line"></div>
         </label>
       </div>
-      <div class="input_container">
+      <div class="input_container_double_2">
         <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="End">
         <input type="time" class="form_input" name ="end_time" id = "end_time">
         <label for="end_time" class="form_input_label">
@@ -57,6 +58,7 @@
           <div class="line"></div>
         </label>
       </div>
+    </div>
       <div class="input_container" style="border: none;">
         <div class="checkboxes" onclick="" id="is_break">
           Is Break : <input type="checkbox" class="" id="id_is_break" name="is_break">

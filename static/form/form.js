@@ -69,8 +69,32 @@ $(document).ready(function(){
 //     li.querySelector('#branches').classList.toggle('.active');
 //   })
 // }
-
-
+  function valid_input(){
+    var inputs = $(".form_input");
+    inputs.each(function(i,obj){
+      if($(this).val()){
+        $(this).next().find(".text").css({
+          "top":"-.7em",
+          "left": ".5px",
+          "transition": ".2s",
+          "font-size":"16px",
+          "color": "rgb(185, 184, 184)"
+        });
+      }
+    });
+    var update_div = $(".update_div");
+    update_div.next().find(".text").css({
+      "top":"-.7em",
+      "left": ".5px",
+      "transition": ".2s",
+      "font-size":"16px",
+      "color": "rgb(185, 184, 184)"
+    });
+  }
+  valid_input();
+  $(".form_input").change(function(){
+    valid_input();
+  })
   $(".form_input").focus(function(){
     // console.log("hi");
     $(this).next().find(".text").css({
@@ -81,6 +105,7 @@ $(document).ready(function(){
       "color": "rgb(185, 184, 184)"
       });
   });
+
   $(".form_input").blur(function(){    
     if($(this).prop("type") != "time") {
       if(!$(this).val()) {
@@ -176,8 +201,8 @@ function form_visibility() {
   }
 }
 
-function show_error(json_error){
-  console.log(json_error);
+function show_error(json_error){  
+  // console.log(json_error);
   json = JSON.parse(json_error.replace(/&#34;/ig,'"',));
 	for (i in json){
     var input = $("[name=" + i + "]");
@@ -187,6 +212,10 @@ function show_error(json_error){
   }
 
   form_visibility();
-  input.focus();
-  input[0].setCustomValidity("hi");
+  for (i in json){
+    input = $("[name=" + i + "]");
+    break
   }
+  input.focus()
+  // input[0].setCustomValidity('hii');
+}

@@ -287,6 +287,26 @@
   top: 40%;
 }
 
+/* .form_input:focus + .form_input_label .text,
+.form_input:valid + .form_input_label .text {
+  top: -.7em;
+  left: .5px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  font-size: 16px;
+  color: #b9b8b8;
+} */
+
+.form_input:focus + #eye + .form_input_label .text,
+.form_input:valid + #eye + .form_input_label .text {
+  top: -.7em;
+  left: .5px;
+  -webkit-transition: .2s;
+  transition: .2s;
+  font-size: 16px;
+  color: #b9b8b8;
+}
+
 .form_input[type="time"] + .form_input_label .text,
 .form_input[type="time"] + .form_input_label .text {
   top: -.7em;

@@ -38,7 +38,7 @@
           </div>
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="short">
-            <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input short_names" required/>
+            <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input short_names" required maxlength = "20"/>
             <label for="" class="form_input_label">
               <div class="text">Short Name</div>
               <div class="line"></div>

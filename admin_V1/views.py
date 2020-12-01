@@ -10,9 +10,9 @@ from django.core import serializers
 from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift,Working_days,Timings,Slots
 from subject_V1.models import Subject_details,Subject_event
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
-from .forms import add_user,faculty_details,faculty_load,student_details
+from .forms import add_user,faculty_load,faculty_details,student_details
 from .forms import slot,shift
-from faculty_V1.models import Faculty_designation
+from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load
 
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
@@ -227,44 +227,96 @@ def show_batch(request,Division_id,Batch_id = None):
 		raise redirect('/')
 
 
-def add_faculty(request,Department_id=None):
+def add_faculty(request,Department_id,Faculty_id=None):
 	context = return_context(request)
+	if context['institute']:
+		department = Department.objects.get(pk = Department_id)
 
-	context['user_form'] = add_user()
-	context['faculty_detail_form'] = faculty_details()
-	context['faculty_load_form'] = faculty_load()
+		context['my_branches'] = Branch.objects.filter(Department_id=department)
+		context['my_sems'] = Semester.objects.filter(Branch_id=1)
+		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
+		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
+		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
+		context['refresh'] = False
+		context['faculty'] = Faculty_details.objects.filter(Department_id=Department_id)
 
-	context['my_sems'] = Semester.objects.filter(Branch_id=1)
-	context['subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
-	context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
-	department = Department.objects.get(pk = Department_id)
-	context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
-	
-	if request.method == 'POST':
-		user_form = add_user(request.POST)
-		faculty_detail_form = faculty_details(request.POST)
-		faculty_load_form = faculty_load(request.POST)
-		print(user_form.is_valid(),faculty_detail_form.is_valid(),faculty_load_form.is_valid())
-		print(user_form.errors)
-		if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
-			from django.contrib.auth.models import Group
-			group = Group.objects.get(name='Faculty')
-			user = user_form.save()
-			user.groups.add(group)
-			###########
-			A = faculty_detail_form.save(commit = False)
-			A.Department_id = Department.objects.get(id = Department_id)
-			A.User_id = user
-			F = A.save()
-			#############
-			B = faculty_load_form.save(commit = False)
-			print(A)
-			B.Faculty_id = A
-			B.save()
-			
-		else:
-			context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
-			
+		if Faculty_id:	# if edit is called
+			edit = context['faculty'].get(pk = Faculty_id)
+			user_form = add_user(instance = edit.User_id)
+			faculty_detail_form = faculty_details(instance = edit)
+			faculty_load_form = faculty_load(instance=Faculty_load.objects.get(Faculty_id=edit))
+			abc = Can_teach.objects.filter(Faculty_id=edit)
+			context['update'] = [user_form.instance,
+								faculty_detail_form.instance,
+								faculty_load_form.instance,
+								list(i.Subject_id.pk for i in abc)
+							]
+			if request.method == 'POST':
+				request.POST = request.POST.copy()
+				request.POST['email'] = edit.User_id.email
+				user_form = add_user(request.POST,instance = edit.User_id)
+				faculty_detail_form = faculty_details(request.POST,instance = edit)
+				faculty_load_form = faculty_load(request.POST,instance=Faculty_load.objects.get(Faculty_id=edit))
+				print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
+				subjects = request.POST.getlist('subject')
+				can_teach = []
+				for subject in subjects:
+					try :
+						can_teach.append(Can_teach.objects.create(Faculty_id = edit,Subject_id=context['my_subjects'].get(pk = subject)))
+					except:
+						context['integrityErrors'] = "We have encountered some problem refresh the page"   #errors to integrityErrors
+						context['refresh'] = True
+						break
+				if not context['refresh']:
+					for i in can_teach:
+						i.save()
+					user_form.save()
+					faculty_detail_form.save()
+					faculty_load_form.save()
+				else :
+					pass
+				return redirect('/')
+
+		if request.method == 'POST':
+			user_form = add_user(request.POST)
+			faculty_detail_form = faculty_details(request.POST)
+			faculty_load_form = faculty_load(request.POST)
+			print(user_form.is_valid(),faculty_detail_form.is_valid(),faculty_load_form.is_valid())
+			print(user_form.errors)
+			if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
+				from django.contrib.auth.models import Group
+				group = Group.objects.get(name='Faculty')
+				user = user_form.save(commit = False)
+				user.save()
+				user.groups.add(group)
+				###########
+				A = faculty_detail_form.save(commit = False)
+				A.Department_id = Department.objects.get(id = Department_id)
+				A.User_id = user
+				A.save()
+				#############
+				B = faculty_load_form.save(commit = False)
+				B.Faculty_id = A
+				subjects = request.POST.getlist('subject')
+				can_teach = []
+				B.save()
+
+				for subject in subjects:
+					try :
+						can_teach.append(Can_teach.objects.create(Faculty_id = A,Subject_id=context['my_subjects'].get(pk = subject)))
+					except:
+						context['integrityErrors'] = "We have encountered some problem refresh the page"   #errors to integrityErrors
+						context['refresh'] = True
+						break
+				if not context['refresh']:
+					for i in can_teach:
+						i.save()
+				else:
+					user.delete()
+			else:
+				context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
+	else:
+		return redirect('/')
 		
 	return render(request,"admin/faculty/faculty_details.html",context)
 
@@ -444,10 +496,10 @@ def show_table(request,Division_id):
 def show_not_avail(request,Division_id) :
 	my_division = Division.objects.get(pk = Division_id)
 	Shift_id = my_division.Shift_id
-	context = {
-		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
-		'timings' : Timings.objects.filter(Shift_id = Shift_id),		
-	}
+	context = {}
+	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
+	context['timings'] = Timings.objects.filter(Shift_id = Shift_id)
+
 	return render(request,"admin/details/not_available.html",context)
 
 def show_sub_det(request): 

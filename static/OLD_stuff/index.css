@@ -11,7 +11,7 @@ body{
 td {
 	background-color: transparent;
 }
-.droppable .td_div input{
+.not_avail_ckb{
 	display: none;
 	background-color: red;
 	appearance: none;

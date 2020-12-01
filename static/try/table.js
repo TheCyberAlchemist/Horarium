@@ -30,7 +30,7 @@ class event_class {
 }
 
 $(document).ready (function () {
-	var csrftoken = Cookies.get('csrftoken');
+	// var csrftoken = Cookies.get('csrftoken');
     function csrfSafeMethod(method) {
         // these HTTP methods do not require CSRF protection
         return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
@@ -39,24 +39,25 @@ $(document).ready (function () {
     $.ajaxSetup({
         beforeSend: function(xhr, settings) {
             if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                // xhr.setRequestHeader("X-CSRFToken", csrftoken);
             }
         }
-    });
-	$(".draggable").draggable({
-		revert: true,
-		cursor: "move",
-		helper: "clone",
-		cursorAt:{top:56,left:56},
-		drag: function( event, ui ) {
-			subject_event_id = $(this).attr("subject_event_id");
-		},
-		stop: function( event, ui ) {
-		}
+	});
+	if($(".draggable").length){	// if draggable is present
+		$(".draggable").draggable({
+			revert: true,
+			cursor: "move",
+			helper: "clone",
+			cursorAt:{top:56,left:56},
+			drag: function( event, ui ) {
+				subject_event_id = $(this).attr("subject_event_id");
+			},
+			stop: function( event, ui ) {
+			}
 
-	}).disableSelection();
+		}).disableSelection();
 
-	$( ".droppable" ).droppable({
+		$( ".droppable" ).droppable({
 		// on hover
 		over: function( event, ui ) {
 		},
@@ -74,9 +75,55 @@ $(document).ready (function () {
 			td.css({"background-color":"red"})
 		}
 	});
+	}
+
+	function change_css(td,checkbox){
+		if(checkbox.prop("checked") == true){ // if checked 
+			td.css({"backgroundColor" : "red","opacity" : ".5"});
+		}
+		else if(checkbox.prop("checked") == false){	// not checked 
+			td.css({"backgroundColor" : "transparent","opacity" : "1"});
+		}
+	}
+
+	$(".td").click(function(){
+		var checkbox = $(this).find("input[type='checkbox']");
+		checkbox.prop("checked", !checkbox.prop("checked"));
+		change_css($(this),checkbox);
+	});
+
+	$(".day").click(function(){
+		var index = $(this)[0].cellIndex;
+		var td = $('tbody').find('td:nth-child('+(index+1)+')');
+		var input = td.find("input[type='checkbox']");
+		var checkbox = $(this).find("input[type='checkbox']");
+		checkbox.prop("checked", !checkbox.prop("checked"));
+		var value = checkbox.prop("checked")
+		input.each(function(i,obj){
+			$(this).prop("checked",value);
+		});
+		td.each(function(i,obj){
+			change_css($(this),checkbox)
+		});
+	});
+	
+	$(".time").click(function(){
+		var tr = $(this).parent();
+		var td = tr.find('td');
+		var input = td.find("input[type='checkbox']");
+		var checkbox = $(this).find("input[type='checkbox']");
+		checkbox.prop("checked", !checkbox.prop("checked"));
+		var value = checkbox.prop("checked")
+		input.each(function(i,obj){
+			$(this).prop("checked",value);
+		});
+		td.each(function(i,obj){
+			change_css($(this),checkbox)
+		});
+	});
 });
 function submited(){
-	console.log(JSON.stringify(events),1);
+	// console.log(JSON.stringify(events),1);
 	  $.ajax({
 		  type: "post",
 		  data: JSON.stringify(events),

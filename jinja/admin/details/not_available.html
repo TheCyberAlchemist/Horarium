@@ -1,31 +1,7 @@
 <link rel="stylesheet" href="{{static ('OLD_stuff/index.css') }}">
 <link rel="stylesheet" href="{{static ('form/form.css')}}">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
-<script src="{{static ('OLD_stuff/index.js') }}"></script>
-
-<script>
-	$(document).ready(function(){
-		// $("input[type='checkbox']").click(function(){
-		// 	if($(this).prop("checked") == true){
-		// 		console.log("Checkbox is checked.");
-		// 		$(".droppable").css({"backgroundColor" : "red","opacity" : ".5"});
-		// 	}
-		// 	else if($(this).prop("checked") == false){
-        //         console.log("Checkbox is unchecked.");
-		// 		$(".droppable").css({"backgroundColor" : "transparent","opacity" : "1"});
-        //     }
-		// });
-		$("td").click(function(){
-			if($(this).css({"backgroundColor" : "transparent","opacity" :"1"})){
-				$(this).css({"backgroundColor" : "red","opacity" :".5"});
-				$(this).html("Not Available");
-			}
-			else if($(this).css({"backgroundColor" : "red","opacity" :".5"}))
-				$(this).css({"backgroundColor" : "transparent","opacity" :"1"});
-		})
-	});
-</script>
+<script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+<script src="{{static ('try/table.js') }}"></script>
 <h1 style="color: white;">Not Available At </h1>
 
 <table style = "width:990px;" class="main_table">
@@ -34,27 +10,36 @@
 			Time
 		</th>
 		{% for day in working_days %} 	<!--for all days in database-->
-      		<th>
+      		<th class = "day">
 				{{day.Days_id}}
+				<input class = "not_avail_ckb" type="checkbox" id="{{day.id}}">
+				<label for="{{day.id}}"></label> 
 			</th>
 		{% endfor %}
 	</thead>
 	<tbody class="table_time">
 		{% for timing in timings %} <!--for all time periods in database-->
 			<tr>
-				<th>
+			{% if timing.is_break %}
+			{% set len = working_days|length + 1 %}
+				<th colspan = "{{len}}">
+					{{timing}}
+				</th>
+			{% else %}
+				<th class = "time">
 					<p>
                         {{timing}}
+						<input class = "not_avail_ckb" type="checkbox" id="{{timing.id}}">
+						<label for="{{timing.id}}"></label> 
 					</p>
 				</th>
 				{% for day in working_days %}
-					<td class = "droppable">
-						<div class = "td_div">
-							<input type="checkbox" id="{{timing}}_{{day}}" name="{{timing}}_{{day}}" value="{{timing}}_{{day}}">
-							<label for="{{timing}}_{{day}}"></label> 
-                        </div>
+					<td class = "td">
+						<input type="checkbox" class = "not_avail_ckb" id="{{timing}}_{{day}}" name="{{timing}}_{{day}}" value="{{timing}}_{{day}}">
+						<label for="{{timing}}_{{day}}"></label> 
                     </td>
 				{% endfor %}
+			{% endif %}
 			</tr>
 		{% endfor %}
 	</tbody>

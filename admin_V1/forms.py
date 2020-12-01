@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from institute_V1.models import Department,Branch,Semester,Division,Batch,Shift
 from faculty_V1.models import Faculty_details,Faculty_designation,Faculty_load,Can_teach
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
 from student_V1.models import Student_details
 
@@ -52,6 +53,11 @@ class add_user(UserCreationForm):
 	class Meta:
 		model = get_user_model()
 		fields = ['first_name','last_name','email','password1','password2']
+
+# class update_user_by_admin(AbstractUser):
+# 	class Meta:
+# 		# model = get_user_model()
+# 		fields = ['first_name','last_name']
 
 
 class student_details(ModelForm):

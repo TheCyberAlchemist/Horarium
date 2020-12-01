@@ -19,21 +19,20 @@ function searchFun(){
 		}
 	}
 }
-function hover(self,link) {
-	console.log(link);
-  	self.setAttribute("src",link);
-}
+// function hover(self,link) {
+// 	console.log(link);
+//   	self.setAttribute("src",link);
+// }
 
-function unhover(self,link){
-	self.setAttribute("src",link);
-}
+// function unhover(self,link){
+// 	self.setAttribute("src",link);
+// }
 
 
 function checkAll(){
 	var parent = document.getElementById('parent');
 	
 	var input = document.getElementsByClassName('del_input');
-	var del = document.getElementById('del');
 	if(parent.checked == true){	
 
 	  for(var i=0; i<input.length;i++){

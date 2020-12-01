@@ -12,14 +12,20 @@
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{{static ('form/pagination.js')}}" charset="utf-8"></script>
+    <script>
+      {% if refresh %}
+        document.getElementByClassName("myform")[0].reset();
+        location.reload();
+      {% endif %}
+    </script>
 {% endblock scripts %}
 
 {% block content %}
   <div class="whole_container" id="whole_container_id" >
     <fieldset>
-      <legend>Add Faculty</legend>
+      <legend>{% if update %}Update{% else %}Add{% endif %} Faculty</legend>
 
-      <form class="myform" method = "POST" style="display: none;">
+      <form class="myform" method = "POST" {% if not update %}style="display: none;"{% endif %}>
         {{csrf_input}}
         <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div id="first_page">
@@ -27,7 +33,7 @@
 
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
-              <input type="text" class="form_input" name="first_name" required autocomplete="off">
+              <input type="text" class="form_input" name="first_name" required autocomplete="off" {% if update %}value = {{update[0].first_name}}{% endif %}>
               <label for="first_name" class="form_input_label">
                 <div class="text">First Name</div>
                 <div class="line"></div>
@@ -36,7 +42,7 @@
             
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
-              <input type="text" class="form_input" name="last_name" required autocomplete="off">
+              <input type="text" class="form_input" name="last_name" required autocomplete="off" {% if update %}value = {{update[0].last_name}}{% endif %}>
               <label for="last_name" class="form_input_label">
                 <div class="text">Last Name</div>
                 <div class="line"></div>
@@ -46,55 +52,65 @@
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
-              <input type="text" class="form_input short_names" name="short" required autocomplete="off">
+              <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update %}value = {{update[1].short}}{% endif %}>
               <label for="short" class="form_input_label">
                 <div class="text">Short Name</div>
                 <div class="line"></div>
               </label>
             </div>
-            <div class="input_container_double_2">
-              <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
-              <input type="email" class="form_input" name="email" required autocomplete="off">
-              <label for="email" class="form_input_label">
-                <div class="text">Email Id</div>
-                <div class="line"></div>
-              </label>
-            </div>
-          </div>
+            {% if not update %}
+              <div class="input_container_double_2">
+                <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
+                <input type="email" class="form_input" name="email" required autocomplete="off" >
+                <label for="email" class="form_input_label">
+                  <div class="text">Email Id</div>
+                  <div class="line"></div>
+                </label>
+              </div>
+            {% else %}
+              <div class="input_container_double_2">
+                <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
+                <div class="update_div form_input" id = "email">{{update[0].email}}</div>
+                <label for="email" class="form_input_label">
+                  <div class="text">Email Id</div>
+                  <div class="line"></div>
+                </label>
+              </div>
+            {% endif %}
 
-          <div class="input_container_double">
-
-            <div class="input_container_double_1">
-              <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-              <input type="password" class="form_input" name="password1" id="myinput1"  required autocomplete="off" >
-              <label for="password1" class="form_input_label">
-                <div class="text">Password</div>
-                <div class="line"></div>
-              </label>
-              <span id="eye_double" onclick="visibility1(parent)">
-                <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
-                <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
-              </span>
             </div>
-            <div class="input_container_double_2">
-              <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-              <input type="password" class="form_input" name="password2" id="myinput2"  required autocomplete="off">
-              <label for="password2" class="form_input_label">
-                <div class="text">Confirm Password</div>
-                <div class="line"></div>
-              </label>
-              <span id="eye_double" onclick="visibility2(parent)">
-                <i class="fa fa-eye fa-lg" id="hide3" aria-hidden="true"></i>
-                <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
-              </span>
+            <div class="input_container_double">
+              <div class="input_container_double_1">
+                <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+                <input type="password" class="form_input" name="password1" id="myinput1"  required autocomplete="off">
+                <label for="password1" class="form_input_label">
+                  <div class="text">Password</div>
+                  <div class="line"></div>
+                </label>
+                <span id="eye_double" onclick="visibility1(parent)">
+                  <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
+                  <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div class="input_container_double_2">
+                <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+                <input type="password" class="form_input" name="password2" id="myinput2"  required autocomplete="off">
+                <label for="password2" class="form_input_label">
+                  <div class="text">Confirm Password</div>
+                  <div class="line"></div>
+                </label>
+                <span id="eye_double" onclick="visibility2(parent)">
+                  <i class="fa fa-eye fa-lg" id="hide3" aria-hidden="true"></i>
+                  <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
+                </span>
+              </div>
             </div>
-          </div>
         </div>
 
         <div id="second_page" style="display: none">        
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/clock.png')}}" alt="load">
-            <input type="number" class="form_input" name="total_load" required autocomplete="off">
+            <input type="number" class="form_input" name="total_load" required autocomplete="off" {% if update %}value = {{update[2].total_load}}{% endif %}>
             <label for="total_load" class="form_input_label">
               <div class="text">Total Load of Faculty(in hrs)</div>
               <div class="line"></div>
@@ -104,18 +120,24 @@
           <div class="select2_grid">
             <div class="select2_container">
               <select name="Designation_id" id="designations">
-                <option disabled selected>Select Designation</option>
+                <option disabled {% if not update %}selected{% endif %}>Select Designation</option>
                 {% for designation in designations %}
-                  <option value="{{designation.id}}">{{designation}}</option>
+                  <option value="{{designation.id}}"
+                    {% if update and designation.id == update[1].Designation_id%}selected{% endif %}>
+                    {{designation}}
+                  </option>
                 {%endfor%}
               </select>
             </div>
 
             <div class="select2_container">
               <select name="Shift_id" id="shifts">
-                <option disabled selected>Select Shift</option>
+                <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
                 {% for shift in my_shifts %}
-                  <option value="{{shift.id}}">{{shift}}</option>
+                  <option value="{{shift.id}}"
+                    {% if update and shift.id == update[1].Shift_id%}selected{% endif %}>
+                    {{shift}}
+                  </option>
                 {%endfor%}
               </select>
             </div>
@@ -125,56 +147,40 @@
         <div id="third_page" style="display:none">
           <fieldset>
             <legend>Can Teach</legend>
-            <!-- {%for sem in my_sems%}
-              <div class="checkboxes chx_heading">
-                <input type="checkbox" id="{{sem.id}}">
-                <label for="{{sem.id}}"><strong>{{sem}}</strong></label>
-              </div>
-              {% for subject in subjects %}
-                {% if subject.Semester_id == sem %}
-                  <div class="checkboxes_container">
-                      <div class="checkboxes">
-                          <input type="checkbox" id="{{subject.id}}" value="{{subject.id}}">
-                          <label for="{{subject.id}}"><b>{{subject}}</b></label>
-                      </div>
-                  </div>
-                {% endif %}
-              {% endfor %}
-            {% endfor %} -->
-
               <div class="can_container" >
                 <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt=""> -->
                 <ul id="branches">
                   
-                  {%for branch in branches%}
+                  {%for branch in my_branches%}
                     <li>
                       <div class="checkboxes">
-                        <input type="checkbox" id="id" value="id">
-                        <label for="id"><b>{{branch}}</b></label>
+                        <input type="checkbox" id="{{branch.id}}">
+                        <label for="{{branch.id}}"><b>{{branch}}</b></label>
                     </div>
                       <!-- <input type="checkbox" />{{branch}} -->
                       <ul id="semesters" class="dir">
-                        {%for sem in my_sems %}
+                        {%for sem in my_sems %}{% if sem.Branch_id == branch %}
                         <li>
                           <div class="checkboxes">
-                            <input type="checkbox" id="{{sem.id}}" value="">
+                            <input type="checkbox" id="{{sem.id}}">
                             <label for="{{sem.id}}"><b>{{sem}}</b></label>
                         </div>
                           <!-- <input type="checkbox" />{{sem}} -->
                           <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt="dept"> -->
                           <ul id="subjects">
-                            {%for subject in subjects%}
+                            {%for subject in my_subjects%}{% if subject.Semester_id == sem %}
                               <li>
                                 <div class="checkboxes">
-                                  <input type="checkbox" id="{{subject.id}}" value="{{subject.id}}">
-                                  <label for="{{subject.id}}"><b>{{subject}}</b></label>
+                                  <input name = "subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}"
+                                  {% if update and subject.id in update[3]%}checked{% endif %}/>>
+                                  <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
                               </div>
                                 <!-- <input type="checkbox" />{{subject}} -->
                               </li>
-                              {%endfor%}
+                              {% endif %}{%endfor%}
                           </ul>
                         </li>
-                        {%endfor%}
+                        {% endif %}{%endfor%}
                       </ul>
                     </li>
                   {%endfor%}
@@ -200,7 +206,7 @@
         </button>
       </div>
 
-      <div class="pagination_container" style="display: none;">
+      <div class="pagination_container" {% if not update %}style="display: none;"{% endif %}>
         <div class="numbers" id="first"> <a href="#"><h3>1</h3></a> </div>
         <div class="numbers" id="second"><a href="#"><h3>2</h3></a> </div>
         <div class="numbers" id="third"><a href="#"><h3>3</h3></a> </div>

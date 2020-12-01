@@ -243,10 +243,11 @@
                 <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
               </a>
             </div>
-            <th>Id</th>
-            <th>Faculty Name</th>
             <th>Short</th>
+            <th>Faculty Name</th>
+            <th>Designation</th>
             <th>Edit</th>
+            <th>Active</th>
             <th>
               <div class="checkboxes" onclick="checkAll();">
                 <input type="checkbox"  id="parent" name="parent" value="parent">
@@ -265,6 +266,11 @@
                 <a href = "{{url ('update_department' ,args=[department.id])}}">
                   <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
                 </a>
+              </td>
+              <td>
+                <div class="toggler_container">
+                  <input type="checkbox" class="toggle" checked>
+                  </div>
               </td>
               <td>
                 <div class="checkboxes" onclick="checkSelected()">

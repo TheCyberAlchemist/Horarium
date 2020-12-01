@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{{static ('form/form.css')}}">
 <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
 <script src="{{static ('try/table.js') }}"></script>
+<script>put_data("{{slots_json}}")</script>
 <h1 style="color: white;">Not Available At </h1>
 
 <table style = "width:990px;" class="main_table">
@@ -19,7 +20,7 @@
 	</thead>
 	<tbody class="table_time">
 		{% for timing in timings %} <!--for all time periods in database-->
-			<tr>
+			<tr timing_id = {{timing.id}}>
 			{% if timing.is_break %}
 			{% set len = working_days|length + 1 %}
 				<th colspan = "{{len}}">
@@ -35,8 +36,8 @@
 				</th>
 				{% for day in working_days %}
 					<td class = "td">
-						<input type="checkbox" class = "not_avail_ckb" id="{{timing}}_{{day}}" name="{{timing}}_{{day}}" value="{{timing}}_{{day}}">
-						<label for="{{timing}}_{{day}}"></label> 
+						<input type="checkbox" class = "not_avail_ckb" id="{{timing}}_{{day}}" name="not_available" value="{{timing.id}}_{{day.id}}">
+						<label for="{{timing.id}}_{{day.id}}"></label> 
                     </td>
 				{% endfor %}
 			{% endif %}
@@ -44,4 +45,7 @@
 		{% endfor %}
 	</tbody>
 </table>
+{{csrf_input}}
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<button class = "submit_not_avail"> goooooooooooooooooo</button>
 <a href="{{url ('add_faculty' , args=[1])}}"><h2 style="color: white;">Go Back to Faculty Details</h2></a> 

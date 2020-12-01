@@ -13,6 +13,8 @@ from .forms import create_branch,create_department,create_semester,create_divisi
 from .forms import add_user,faculty_load,faculty_details,student_details
 from .forms import slot,shift
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load
+from Table_V2.models import Event
+
 
 def return_context(request):
 	institute = request.user.admin_details.Institute_id #.values_list('name', flat=True)
@@ -257,7 +259,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				user_form = add_user(request.POST,instance = edit.User_id)
 				faculty_detail_form = faculty_details(request.POST,instance = edit)
 				faculty_load_form = faculty_load(request.POST,instance=Faculty_load.objects.get(Faculty_id=edit))
-				print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
+				# print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
 				subjects = request.POST.getlist('subject')
 				can_teach = []
 				for subject in subjects:
@@ -281,8 +283,8 @@ def add_faculty(request,Department_id,Faculty_id=None):
 			user_form = add_user(request.POST)
 			faculty_detail_form = faculty_details(request.POST)
 			faculty_load_form = faculty_load(request.POST)
-			print(user_form.is_valid(),faculty_detail_form.is_valid(),faculty_load_form.is_valid())
-			print(user_form.errors)
+			# print(user_form.is_valid(),faculty_detail_form.is_valid(),faculty_load_form.is_valid())
+			# print(user_form.errors)
 			if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
 				from django.contrib.auth.models import Group
 				group = Group.objects.get(name='Faculty')
@@ -340,6 +342,14 @@ def add_student(request):
 	return render(request,"admin/student/add_student.html",context)
 
 
+def get_slots(timings):
+	data = serializers.serialize("json", Slots.objects.filter( Timing_id__in = timings))
+	data = json.loads(data)
+	for d in data:
+		del d['model']
+	return json.dumps(data)
+
+
 def show_slot(request,Shift_id=None):
 	context = return_context(request)
 	my_shift = Shift.objects.get(pk = Shift_id)
@@ -375,13 +385,7 @@ def show_slot(request,Shift_id=None):
 		# if check_all:	# is all the data is clean
 		# 		for time in Timings.objects.all():
 		return redirect('show_slot',Shift_id)
-
-	data = serializers.serialize("json", Timings.objects.filter(Shift_id = Shift_id))
-	data = json.loads(data)
-	for d in data:
-		del d['model']
-	data = json.dumps(data)
-	context['old_data'] = data
+	context['old_data'] = get_slots(Timings.objects.filter(Shift_id = Shift_id))
 	return render(request,"admin/details/slot.html",context)
 
 
@@ -480,26 +484,33 @@ def show_table(request,Division_id):
 	Shift_id = my_division.Shift_id
 	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
 	timings = Timings.objects.filter(Shift_id = Shift_id)
-	data = serializers.serialize("json", Slots.objects.filter( Timing_id__in = timings))
-	data = json.loads(data)
-	for d in data:
-		del d['model']
-	slots_json = json.dumps(data)
 	context = {
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
 		'timings' : timings,
-		'slots_json' : slots_json,
+		'slots_json' : get_slots(timings),
 		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
 	}
 	return render(request,"try/table.html",context)
 
-def show_not_avail(request,Division_id) :
-	my_division = Division.objects.get(pk = Division_id)
-	Shift_id = my_division.Shift_id
+def show_not_avail(request,Faculty_id):
+	if request.method == "POST":
+		print(json.loads(request.body))
+		if request.is_ajax():
+			slot_ids = json.loads(request.body)
+			for i in slot_ids:
+				print(Slots.objects.get(pk = i))
+		redirect('show_not_avail',Faculty_id = Faculty_id)
+
+	faculty = Faculty_details.objects.get(pk = Faculty_id)
+	events = Event.objects.filter(Subject_event_id__in = Subject_event.objects.filter(Faculty_id = Faculty_id))
+		#get all the events of the faculty
+	print(events)
+	Shift_id = faculty.Shift_id
 	context = {}
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = Timings.objects.filter(Shift_id = Shift_id)
-
+	context['slots_json'] = get_slots(context['timings'])
+	
 	return render(request,"admin/details/not_available.html",context)
 
 def show_sub_det(request): 

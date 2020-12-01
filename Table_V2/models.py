@@ -13,3 +13,7 @@ class Event(models.Model):
 	Division_id = models.ForeignKey(Division,on_delete=models.CASCADE)
 	Batch_id = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True)
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE)
+	def __str__(self):
+		return str(self.Slot_id) + " - " + str(self.Subject_event_id)
+	class Meta:
+		verbose_name_plural = "Event"

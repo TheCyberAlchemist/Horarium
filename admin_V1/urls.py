@@ -21,7 +21,8 @@ urlpatterns = [
 	url(r'^batch/(?P<Division_id>\d+)/(?P<Batch_id>\d+)/$',views.show_batch,name = 'update_batch'),
 	
 	url(r'^table/(?P<Division_id>\d+)/$',views.show_table,name = 'show_table'),
-	url(r'^not_avail/(?P<Division_id>\d+)/$',views.show_not_avail,name = 'show_not_avail'),
+	url(r'^not_avail/(?P<Faculty_id>\d+)/$',views.show_not_avail,name = 'show_not_avail'),
+
 	url(r'^shift/(?P<Department_id>\d+)/$',views.show_shift,name = 'show_shift'),
 	url(r'^shift/(?P<Department_id>\d+)/(?P<Shift_id>\d+)/$',views.show_shift,name = 'update_shift'),
 	

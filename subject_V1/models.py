@@ -24,7 +24,6 @@ class Subject_details(models.Model):
 			prac_batch += 1 if batch.batch_for == "prac" else 0	# total batches of practical
 		lect_batch = 1 if lect_batch == 0 else lect_batch
 		prac_batch = 1 if prac_batch == 0 else prac_batch
-		print(lect_batch,prac_batch)
 		return prac_batch,lect_batch
 
 	def save(self, *args, **kwargs):	# for calculating the load before saving

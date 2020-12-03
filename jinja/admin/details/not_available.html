@@ -2,7 +2,10 @@
 <link rel="stylesheet" href="{{static ('form/form.css')}}">
 <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
 <script src="{{static ('try/table.js') }}"></script>
-<script>put_data("{{slots_json}}")</script>
+<script>
+		put_data("{{slots_json}}");
+		put_events("{{events}}","{{not_available}}")
+</script>
 <h1 style="color: white;">Not Available At </h1>
 
 <table style = "width:990px;" class="main_table">

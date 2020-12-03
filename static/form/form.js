@@ -15,8 +15,10 @@ $(document).ready(function(){
     });
 
     /*//////////////DROPDOWN//////////////*/
-  $("#designations").select2();
-  $("#shifts").select2();
+    if ($("#designations").length){
+      $("#designations").select2();
+      $("#shifts").select2();
+    }
   
   /* ///////////TO UpperCase/////////////// */ 
 

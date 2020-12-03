@@ -5,7 +5,15 @@ function put_data(slots_json){
 		slots.push(temp_slot);
 		// console.log(json[i].fields.Timing_id);
 	}
-	console.log(slots);
+	// console.log(slots);
+
+}
+var events_json;
+var not_available_json;
+function put_events(events,not_available){
+	events_json = JSON.parse(events.replace(/&#34;/ig,'"',));
+	not_available_json = JSON.parse(not_available.replace(/&#34;/ig,'"',));
+	console.log(events_json,not_available_json)
 }
 var slots = [];
 class slot{
@@ -19,7 +27,7 @@ class slot{
 function get_slot(td){
 	let day = td[0].cellIndex;
 	let time = td.parent().attr("timing_id");
-	console.log(day,time)
+	// console.log(day,time)
 	for (i in slots){
 		if (slots[i].day == day && slots[i].timing == time){
 			return slots[i].id;
@@ -27,9 +35,7 @@ function get_slot(td){
 	}
 }
 
-function get_cell(slot){
-	
-}
+
 
 events = [];
 class event_class {
@@ -54,6 +60,7 @@ $(document).ready (function () {
             }
         }
 	});
+	///////////////////////////// Time Table ///////////////////////
 	if($(".draggable").length){	// if draggable is present
 		$(".draggable").draggable({
 			revert: true,
@@ -86,68 +93,85 @@ $(document).ready (function () {
 		}
 	});
 	}
-
-	function change_css(){
-		$("tbody").find("input:checkbox[name=not_available]").each(function(){
-			checkbox = $(this);
-			td = $(this).parent();
-			if(checkbox.prop("checked") == true){ // if checked 
-				td.css({"backgroundColor" : "red","opacity" : ".5"});
-			}
-			else if(checkbox.prop("checked") == false){	// not checked 
-				td.css({"backgroundColor" : "transparent","opacity" : "1"});
-			}
-		});
-	}
-	change_css();
-	$(".td").click(function(){
-		var checkbox = $(this).find("input[type='checkbox']");
-		checkbox.prop("checked", !checkbox.prop("checked"));
+	///////////////////////////// Not Asvailable ///////////////////////
+	else if($(".submit_not_avail").length){
+		for(i in events_json){		// all the events are marked and disabled
+			var td = get_cell(events_json[i])
+			td.find("input[type='checkbox']").removeAttr("name");
+			td.css({"backgroundColor" : "blue","opacity" : ".5"})
+		}
+		for(i in not_available_json){	// all the not_available are checked
+			get_cell(not_available_json[i]).find("input[type='checkbox']").prop("checked", true);
+		}
+		function change_css(){			// changes the color of all when called
+			$("tbody").find("input:checkbox[name=not_available]").each(function(){
+				checkbox = $(this);
+				td = $(this).parent();
+				if(checkbox.prop("checked") == true){ // if checked 
+					td.css({"backgroundColor" : "red","opacity" : ".5"});
+				}
+				else if(checkbox.prop("checked") == false){	// not checked 
+					td.css({"backgroundColor" : "transparent","opacity" : "1"});
+				}
+			});
+		}
 		change_css();
-	});
+		function get_cell(obj){
+			// [id=choose]
+			let tr = $("[timing_id=" + String(obj['fields'].Timing_id) + "]");
+			let td = tr.find('td:nth-child('+(obj['fields'].day+1)+')')
+			console.log(td);
+			return td;
+		}
+		$(".td").click(function(){
+			var checkbox = $(this).find("input[type='checkbox']");
+			checkbox.prop("checked", !checkbox.prop("checked"));
+			change_css();
+		});
 
-	$(".day").click(function(){
-		var index = $(this)[0].cellIndex;
-		var td = $('tbody').find('td:nth-child('+(index+1)+')');
-		var input = td.find("input[type='checkbox']");
-		var checkbox = $(this).find("input[type='checkbox']");	// day checkbox
-		checkbox.prop("checked", !checkbox.prop("checked"));
-		var value = checkbox.prop("checked")
-		input.each(function(i,obj){
-			$(this).prop("checked",value);
+		$(".day").click(function(){
+			var index = $(this)[0].cellIndex;
+			var td = $('tbody').find('td:nth-child('+(index+1)+')');
+			var input = td.find("input[type='checkbox']");
+			var checkbox = $(this).find("input[type='checkbox']");	// day checkbox
+			checkbox.prop("checked", !checkbox.prop("checked"));
+			var value = checkbox.prop("checked")
+			input.each(function(i,obj){
+				$(this).prop("checked",value);
+			});
+			change_css()
 		});
-		change_css()
-	});
-	
-	$(".time").click(function(){
-		var tr = $(this).parent();
-		var td = tr.find('td');
-		var input = td.find("input[type='checkbox']");
-		var checkbox = $(this).find("input[type='checkbox']");
-		checkbox.prop("checked", !checkbox.prop("checked"));
-		var value = checkbox.prop("checked")
-		input.each(function(i,obj){
-			$(this).prop("checked",value);
+		
+		$(".time").click(function(){
+			var tr = $(this).parent();
+			var td = tr.find('td');
+			var input = td.find("input[type='checkbox']");
+			var checkbox = $(this).find("input[type='checkbox']");
+			checkbox.prop("checked", !checkbox.prop("checked"));
+			var value = checkbox.prop("checked")
+			input.each(function(i,obj){
+				$(this).prop("checked",value);
+			});
+			td.each(function(i,obj){
+			});
+			change_css();
 		});
-		td.each(function(i,obj){
-		});
-		change_css();
-	});
 
-	$(".submit_not_avail").click(function(){
-		var checked = [];
-		$("tbody").find("input:checkbox[name=not_available]:checked").each(function(){
-			parent_td = $(this).parent()
-			checked.push(get_slot(parent_td));
+		$(".submit_not_avail").click(function(){
+			var checked = [];
+			$("tbody").find("input:checkbox[name=not_available]:checked").each(function(){
+				parent_td = $(this).parent()
+				checked.push(get_slot(parent_td));
+			});
+			$.ajax({
+				type: "post",
+				data: JSON.stringify(checked),
+				success: function (){
+				}
+			});
+			// console.log(checked);
 		});
-		$.ajax({
-			type: "post",
-			data: JSON.stringify(checked),
-			success: function (){
-			}
-		});
-		// console.log(checked);
-	});
+		}
 });
 function submited(){
 	// console.log(JSON.stringify(events),1);

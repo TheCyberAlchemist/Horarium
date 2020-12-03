@@ -82,57 +82,6 @@
   transition: .1s;
 }
 
-.input_container[data-error] {
-  -webkit-animation-name: highlight;
-          animation-name: highlight;
-  -webkit-animation-duration: 3s;
-          animation-duration: 3s;
-  -webkit-animation-delay: 0;
-          animation-delay: 0;
-  -webkit-animation-iteration-count: 1;
-          animation-iteration-count: 1;
-}
-
-@-webkit-keyframes highlight {
-  0% {
-    border: 2px solid #f13e3e;
-    border-radius: 20px;
-  }
-  45% {
-    border: 2px solid #f08383;
-    border-radius: 5px;
-  }
-  100% {
-    border-radius: 0px;
-    border: none;
-  }
-}
-
-@keyframes highlight {
-  0% {
-    border: 2px solid #f13e3e;
-    border-radius: 20px;
-  }
-  45% {
-    border: 2px solid #f08383;
-    border-radius: 5px;
-  }
-  100% {
-    border-radius: 0px;
-    border: none;
-  }
-}
-
-.input_container[data-error] .form_input {
-  width: 94%;
-}
-
-.input_container[data-error]::after {
-  content: attr(data-error);
-  font-size: 15px;
-  color: #aaaaaa;
-}
-
 .input_container[data-error] .form_input_label .text:focus {
   border: none;
 }
@@ -287,26 +236,6 @@
   top: 40%;
 }
 
-/* .form_input:focus + .form_input_label .text,
-.form_input:valid + .form_input_label .text {
-  top: -.7em;
-  left: .5px;
-  -webkit-transition: .2s;
-  transition: .2s;
-  font-size: 16px;
-  color: #b9b8b8;
-} */
-
-.form_input:focus + #eye + .form_input_label .text,
-.form_input:valid + #eye + .form_input_label .text {
-  top: -.7em;
-  left: .5px;
-  -webkit-transition: .2s;
-  transition: .2s;
-  font-size: 16px;
-  color: #b9b8b8;
-}
-
 .form_input[type="time"] + .form_input_label .text,
 .form_input[type="time"] + .form_input_label .text {
   top: -.7em;
@@ -403,6 +332,20 @@ input[type="time"]::-webkit-clear-button {
 .can_container ul {
   border-left: 1px solid white;
   margin-left: 17px;
+}
+
+.can_container #branches {
+  border-left: none;
+}
+
+.can_container #branches .branch::before {
+  content: "";
+  position: absolute;
+  background-color: #fff;
+  width: 0px;
+  height: 0px;
+  top: 10px;
+  left: -20px;
 }
 
 .can_container ul li {

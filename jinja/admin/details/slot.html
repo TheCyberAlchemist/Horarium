@@ -2,63 +2,117 @@
 {% block title %}Slots{% endblock title %}
 
 {% block css %}
-    <link rel="stylesheet" href="{{static ('form/form.css') }}">
-    <link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
-    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+<link rel="stylesheet" href="{{static ('form/form.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 {% endblock css %}
 
 {% block scripts %}
-  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-  <script type="text/javascript" src = "{{static ('jquery.js') }}"></script>
-  <script type="text/javascript" src = "{{static ('admin/details/slot.js') }}"></script>
-  <script type="text/javascript" src = "{{static ('form/form.js') }}"></script>
-  <script>
-    set_shift("{{my_shift.start_time}}","{{my_shift.end_time}}","{{old_data}}");
-  </script>
+<script type="text/javascript" src="{{static ('jquery.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script type="text/javascript" src="{{static ('admin/details/slot.js') }}"></script>
+<script type="text/javascript" src="{{static ('form/form.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+  set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
+</script>
 {%endblock scripts%}
 
 {% block content %}
-<div id="first_form">
-  <input type="number" id = "Duration" style="color: black;"/>
-  <label><input value = "numbers" type="radio" name = "Naming" style="color: black;"/>[1 - 10] </label>
-  <label><input value = "small" type="radio" name = "Naming" style="color: black;"/>[a - z]</label>
-  <label><input value = "capital" type="radio" name = "Naming" style="color: black;"/>[A - Z]</label>
-  <button id = "first_form_submit">hiii</button>
+<div id="first_form" class="slot_first_form">
+  <fieldset>
+    <legend>Slot Selection</legend>
+  <div class="input_container">
+    <!-- <input class="form_input" type="number" id="Duration" /> -->
+    <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
+    <input type="text" name="batchname" class="form_input" required maxlength="50" />
+    <label for="" class="form_input_label">
+      <div class="text">Number</div>
+      <div class="line"></div>
+    </label>
 </div>
-<div class="whole_container">
+    <div class="input_container sl1">
+      <div class="slot_naming">
+        <div class="select2_container">
+          <select name="myselect" id="slot_naming">
+            <option value="1">Slot Naming Pattern </option>
+            <option value="[1-10]">[1 - 10]</option>
+            <option value="[a-z]">[a - z]</option>
+            <option value="[A-Z]">[A - Z]</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  <div class="day_selector">
+    <div class="select2_container">
+      <select name="myselect" id="day1">
+        <option value="a">Pick Starting Day </option>
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+      </select>
+    </div>
+    <div class="day_line"></div>
+    <div class="select2_container">
+      <select name="myselect" id="day2">
+        <option value="a">Pick Ending Day </option>
+        <option value="1">Monday</option>
+        <option value="2">Tuesday</option>
+        <option value="3">Wednesday</option>
+        <option value="4">Thursday</option>
+        <option value="5">Friday</option>
+        <option value="6">Saturday</option>
+      </select>
+    </div>
+  </div>
+  <button id="first_form_submit" class="show_form_button">hiii</button>
+  <div class="input_container">
+    <label><input value="numbers" type="radio" name="Naming" style="color: black;" />[1 - 10] </label>
+    <label><input value="small" type="radio" name="Naming" style="color: black;" />[a - z]</label>
+    <label><input value="capital" type="radio" name="Naming" style="color: black;" />[A - Z]</label>
+  </div>
+</fieldset>
+</div>
+<div class="whole_container" id="whole_container_id">
   <!-- <div class="mytable_container"> -->
-    <fieldset>
-      <legend class="not_login">Add Slots</legend>
-    <div id = "slot_form" class="slot_form">
+  <fieldset>
+    <legend class="not_login">Add Slots</legend>
+    <div id="slot_form" class="myform">
       {{csrf_input}}
-      <br>
-    <div class="input_container">
-      <img class="input_icons" src="{{static ('admin/details/img/calendar.png')}}" alt="Slot Name">
-      <input type="text" class="form_input" name="name" maxlength="20" required id="id_name">
-      <label for="id_name" class="form_input_label">
-        <div class="text">Slot Name</div>
-        <div class="line"></div>
-      </label>
-    </div>
-    
-    <div class="input_container_double">
-      <div class="input_container_double_1">
-        <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="Start">
-        <input type="time" class="form_input" name ="start_time" id="start_time">
-        <label for="start_time" class="form_input_label">
-          <div class="text">Start Time</div>
+      <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+      <div class="input_container">
+        <img class="input_icons" src="{{static ('admin/details/img/calendar.png')}}" alt="Slot Name">
+        <input type="text" class="form_input" name="name" maxlength="20" required id="id_name">
+        <label for="id_name" class="form_input_label">
+          <div class="text">Slot Name</div>
           <div class="line"></div>
         </label>
       </div>
-      <div class="input_container_double_2">
-        <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="End">
-        <input type="time" class="form_input" name ="end_time" id = "end_time">
-        <label for="end_time" class="form_input_label">
-          <div class="text">End Time</div>
-          <div class="line"></div>
-        </label>
+
+      <div class="input_container_double">
+        <div class="input_container_double_1">
+          <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="Start">
+          <input type="time" class="form_input" name="start_time" id="start_time">
+          <label for="start_time" class="form_input_label">
+            <div class="text">Start Time</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="input_container_double_2">
+          <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="End">
+          <input type="time" class="form_input" name="end_time" id="end_time">
+          <label for="end_time" class="form_input_label">
+            <div class="text">End Time</div>
+            <div class="line"></div>
+          </label>
+        </div>
       </div>
-    </div>
       <div class="input_container" style="border: none;">
         <div class="checkboxes" onclick="" id="is_break">
           Is Break : <input type="checkbox" class="" id="id_is_break" name="is_break">
@@ -66,45 +120,55 @@
         </div>
       </div>
       <div class="submit_button_container">
-        <button type="button" id = "Go" >Go</button>
-        <button type="button" id = "Go_here" >Go Here</button>
-        <button type="button" id = "edit" >Edit</button>
+        <button type="button" id="Go" class="show_form_button">Go</button>
+        <button type="button" id="Go_here" class="show_form_button">Go Here</button>
+        <button type="button" id="edit" class="show_form_button">Edit</button>
       </div>
     </div>
+
     <div class="submit_button_container">
-      <button type="button" id="add_row">Add Slot</button>
+      <button type="button" id="add_row" class="show_form_button">Add Slot</button>
+    </div>
+
+    <div class="form_visibility_img_container">
+      <button class="show_form_button" onclick="form_visibility()">
+        <p id="myp">Show Form</p>
+      </button>
     </div>
     {% if integrityErrors %}
-          <div class="errors_container">
-            <p>
-              {{integrityErrors}}
-            </p>
-          </div>
-        {% endif %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+    {% endif %}
     {% if errors %}
-      <div class="errors_container">
-        <p>
-          {{errors}}
-        </p>
-      </div>
+    <div class="errors_container">
+      <p>
+        {{errors}}
+      </p>
+    </div>
     {% endif %}
   </fieldset>
-      <div class="table_container">
-      <table id="myTable" class="mytable">
-        <thead>
-          <tr>
-            <th>Slot Name</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Is a Break</th>
-            <th>Edit</th>
-            <th>add next</th>
-          </tr>
-        </thead>
-        <tbody class="mytbody"></tbody>
-          <!-- <tr><td>A</td><td>09:00</td><td>09:05</td><td>False</td><td><button type="button" class="add_here">ADD</button></td></tr><tr><td>B</td><td>09:05</td><td>09:10</td><td>True</td><td><button type="button" class="add_here">ADD</button></td></tr> -->
-      </table>
-      </div>
+  <div class="table_container">
+    <table id="myTable" class="mytable">
+      <thead>
+        <tr>
+          <th>Slot Name</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Is a Break</th>
+          <th>Edit</th>
+          <th>add next</th>
+        </tr>
+      </thead>
+      <tbody class="mytbody"></tbody>
+      <!-- <tr><td>A</td><td>09:00</td><td>09:05</td><td>False</td><td><button type="button" class="add_here">ADD</button></td></tr><tr><td>B</td><td>09:05</td><td>09:10</td><td>True</td><td><button type="button" class="add_here">ADD</button></td></tr> -->
+    </table>
+  </div>
 </div>
-<button onclick = 'submited()'> Submit</button>
-  {% endblock content %}
+<div class="submit_button_container" style="display: none;">
+  <!-- <button type="submit" name="button" class="submit_button">Submit</button> -->
+  <button class="submit_button" onclick='submited()'> Submit</button>
+</div>
+{% endblock content %}

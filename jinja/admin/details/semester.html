@@ -44,7 +44,7 @@
         {{ csrf_input }}
         <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div class="input_container">
-          <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required/>
+          <input type="text" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required maxlength="20"/>
           <label for="" class="form_input_label">
             <div class="text">Semester Name</div>
             <div class="line"></div>

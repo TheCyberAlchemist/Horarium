@@ -56,18 +56,17 @@
           <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
-            <input type="text" name="batchname" class ="form_input" required pattern="[A-Za-z]{1-10}" />
+            <input type="text" name="batchname" class ="form_input" required maxlength="50" />
             <label for="" class="form_input_label">
               <div class="text">Batch Name</div>
               <div class="line"></div>
             </label>
           </div>
           <div class="select2_container">
-            <select name="myselect" id="sports">
-              <option value="1">Select Batch for division </option>
-              <option value="a">a</option>
-              <option value="b">b</option> 
-              <option value="c">c</option>
+            <select name="myselect" id="batches">
+              <option disabled selected>Select Batch Type</option>
+              <option value="prac">Practical</option> 
+              <option value="lect">Lecture</option>
             </select>
           </div>
           <div class="submit_button_container">

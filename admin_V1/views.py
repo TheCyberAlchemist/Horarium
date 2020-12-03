@@ -375,9 +375,9 @@ def show_slot(request,Shift_id=None):
 				if form.is_valid():
 					candidate = form.save(commit=False)
 					candidate.Shift_id = my_shift
-					candidate.save()
-					for day in Working_days.objects.filter(Shift_id=Shift_id):
-						Slots.objects.create(day=day.Days_id,Timing_id=candidate)
+					# candidate.save()
+					# for day in Working_days.objects.filter(Shift_id=Shift_id):
+					# 	Slots.objects.create(day=day.Days_id,Timing_id=candidate)
 
 				else:
 					check_all = False

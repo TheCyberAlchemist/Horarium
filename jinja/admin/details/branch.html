@@ -41,7 +41,7 @@
           <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/vector.png')}}" alt="nodes">
-            <input type="text" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" required />
+            <input type="text" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" required maxlength="50"/>
             <label for="" class="form_input_label">
               <div class="text">Branch Name</div>
               <div class="line"></div>
@@ -49,7 +49,7 @@
           </div>
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/vector.png')}}" alt="nodes">
-            <input type="text" {% if u_short %}value = "{{u_short}}"{% endif %} name="short"  class="form_input short_names" required/>
+            <input type="text" {% if u_short %}value = "{{u_short}}"{% endif %} name="short"  class="form_input short_names" required maxlength="10"/>
             <label for="" class="form_input_label">
               <div class="text">Short Name</div>
               <div class="line"></div>

@@ -1,86 +1,49 @@
-* {
-  padding: 0;
-  margin: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-.mytbody {
-  margin: 0 auto;
-  color: white;
-}
-
-label {
-  color: white;
-}
-
-.add_row {
-  margin: 1em auto;
-  border: 1px solid #e12eca;
-  outline: none;
-  font-size: 15px;
-  background: transparent;
-  padding: 10px;
-}
-
-.add_row:hover {
-  background-color: #e12eca;
-}
-
-.slot_form {
+.slot_first_form {
+  text-align: center;
   background-color: #222235;
+  width: 60%;
+  margin: 3em auto;
   border-radius: 10px;
+  -webkit-box-shadow: -3px -1px 41px -13px black;
+  box-shadow: -3px -1px 41px -13px black;
+  color: white;
+  padding-top: 3em;
 }
 
-.slot_input_container {
-  border-bottom: .15em solid #b9b9b9;
-  border-width: .15em;
-  margin: 0 auto 1.7em auto;
-  position: relative;
-  -webkit-transition: .3s;
-  transition: .3s;
+.slot_first_form .input_container.sl1 {
+  border-bottom: none;
 }
 
-.slot_input_container:hover {
-  border-bottom: .15em solid #ffffff;
-  -webkit-transition: .1s;
-  transition: .1s;
-}
-
-.slot_form .slot_input_container input {
-  background: transparent;
-  width: 100%;
-  font-size: 19px;
-  outline: none;
+.slot_first_form fieldset {
+  margin-top: -4em;
   border: none;
+  outline: none;
 }
 
-.slot_form_container input:focus + .form_input_label .text,
-.slot_form_container input:valid + .form_input_label .text {
-  top: -.7em;
-  left: .5px;
-  -webkit-transition: .2s;
-  transition: .2s;
-  font-size: 16px;
-  color: #b9b8b8;
+.day_selector {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (200px)[auto-fit];
+      grid-template-columns: repeat(auto-fit, 200px);
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+  padding-bottom: 1em;
+  padding-top: 1em;
 }
 
-.slot_input_container_single {
-  width: 70%;
+.day_selector .select2_container {
+  margin-left: -3em;
 }
 
-.slot_input_container_double {
-  width: 70%;
-  margin: 0 auto 2em auto;
+.day_line {
+  background-color: white;
+  height: 2px;
+  margin-top: 1em;
 }
 
-.slot_input_container_double_1 {
-  width: 30%;
-  clear: right;
-  float: left;
+.slot_first_form .slot_naming {
+  padding: 20px;
 }
-
-.slot_input_container_double_2 {
-  width: 30%;
-}
-/*# sourceMappingURL=slot2.css.map */
+/*# sourceMappingURL=slot.css.map */

@@ -14,10 +14,22 @@ $(document).ready(function(){
         }
     });
 
-    /*//////////////DROPDOWN//////////////*/
+    /*//////////////DROPDOWN - SELECT2//////////////*/
   $("#designations").select2();
   $("#shifts").select2();
   
+  if($("#day1").length) {
+    $("#day1").select2();
+  }
+  if($("#day2").length) {
+    $("#day2").select2();
+  }
+  if($("#batches").length) {
+    $("#batches").select2();
+  }
+  if($("#slot_naming").length) {
+    $("#slot_naming").select2();
+  }
   /* ///////////TO UpperCase/////////////// */ 
 
   // $('.short_names').val($('.short_names').val().toUpperCase());
@@ -96,8 +108,8 @@ $(document).ready(function(){
     valid_input();
   })
   $(".form_input").focus(function(){
-    // console.log("hi");
-    $(this).next().find(".text").css({
+    console.log($(this).next());
+    $(this).next(".form_input_label").find(".text").css({
       "top":"-.7em",
       "left": ".5px",
       "transition": ".2s",

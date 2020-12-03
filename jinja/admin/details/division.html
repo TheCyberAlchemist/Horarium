@@ -49,18 +49,20 @@
       <form class="myform" {% if not u_name %}style="display: none;"{% endif %}>
         <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div class="input_container">
-          <input type="text" name="name" class ="form_input" required/>
+          <input type="text" name="name" class ="form_input" required maxlength="50"/>
           <label for="" class="form_input_label">
             <div class="text">Division Name</div>
             <div class="line"></div>
           </label>
         </div>
         <div class="select2_container">
-          <select name="myselect" id="sports">
-            <option value="1">--------------</option>
-            <option value="a">a</option>
-            <option value="b">b</option>
-            <option value="c">c</option>
+          <select name="Shift_id" id="shifts">
+            <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
+            {% for shift in my_shifts %}
+            <option value="{{shift.id}}" {% if update and shift.id == update[1].Shift_id%}selected{% endif %}>
+              {{shift}}
+            </option>
+            {%endfor%}
           </select>
         </div>
         <div class="submit_button_container">

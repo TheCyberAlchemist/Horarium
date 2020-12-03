@@ -1,13 +1,14 @@
 {% extends 'login_V2/login_base.html' %}
-  {% block title %}Login{% endblock title %}
-  {% block css %}
-  <link rel="stylesheet" href="{{static ('form/form.css') }}">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
+{% block title %}Login{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{{static ('form/form.css') }}">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
 
-  {% endblock css %}
+{% endblock css %}
 {% block scripts %}
-<script src="{{static ('form/form.js') }}" ></script>
+<script src="{{static ('form/form.js') }}"></script>
 <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
 <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
@@ -22,50 +23,50 @@
 
 
     <div class="container ">
-    <ul>
-      <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
-      <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
-    </ul>
+      <ul>
+        <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
+        <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
+      </ul>
     </div>
   </nav>
 </div>
-  <div class="whole_container">
-    <fieldset>
-      <legend class="login_legend">Login</legend>
-        <form class="loginform" method="POST">
-        {{ csrf_input }}
-          <div class="input_container">
-            <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="mail">
-            <input type="text" type="email" name="email" class="form_input"  required autocomplete="off"/>
-            <label for="" class="form_input_label">
-              <div class="text">Email</div>
-              <div class="line"></div>
-            </label>
-          </div>
-          <div class="input_container">
-            <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
-            <input type="password" class="form_input" name="password" id="myinput1"  required autocomplete="off">
-            <span id="eye" class="eye" onclick="visibility1()">
-              <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
-              <i class="fa fa-eye-slash fa-lg " id="hide2" aria-hidden="true"></i>
-            </span>
-                <label for="" class="form_input_label">
-                  <div class="text">Password</div>
-                  <div class="line"></div>
-                </label>
-            </div>
-          <div class="submit_button_container">
-            <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
-          </div>
-          {% if message %}
-          <div class="errors_container">
-            <p>
-              {{message}}
-            </p>
-          </div>
-          {% endif %}
-        </form>
-    </fieldset>
-    
+<div class="whole_container">
+  <fieldset>
+    <legend class="login_legend">Login</legend>
+    <form class="loginform" method="POST">
+      {{ csrf_input }}
+      <div class="input_container">
+        <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="mail">
+        <input type="text" type="email" name="email" class="form_input" required autocomplete="off" />
+        <label for="" class="form_input_label">
+          <div class="text">Email</div>
+          <div class="line"></div>
+        </label>
+      </div>
+      <div class="input_container">
+        <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+        <input type="password" class="form_input" name="password" id="myinput1" required autocomplete="off" />
+        <label for="" class="form_input_label">
+          <div class="text">Password</div>
+          <div class="line"></div>
+        </label>
+        <span id="eye" class="eye" onclick="visibility1()">
+          <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
+          <i class="fa fa-eye-slash fa-lg " id="hide2" aria-hidden="true"></i>
+        </span>
+      </div>
+      <div class="submit_button_container">
+        <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
+      </div>
+      {% if message %}
+      <div class="errors_container">
+        <p>
+          {{message}}
+        </p>
+      </div>
+      {% endif %}
+    </form>
+  </fieldset>
+
 </div>
 {% endblock content %}

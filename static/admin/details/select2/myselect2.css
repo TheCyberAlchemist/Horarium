@@ -8,10 +8,9 @@
   border: none;
 }
 
-.select2_container {
+.myform .select2_container {
   border-width: 1px;
   width: 100%;
-  margin: 0 auto 1.7em auto;
   padding-left: 10em;
   -webkit-transition: .1s;
   transition: .1s;
@@ -112,7 +111,7 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #shifts {
+#designations, #shifts, #day1, #day2, #batches, #slot_naming {
   width: 300px;
 }
 /*# sourceMappingURL=myselect2.css.map */

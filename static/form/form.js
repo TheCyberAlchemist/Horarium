@@ -14,14 +14,13 @@ $(document).ready(function(){
         }
     });
 
-    /*//////////////DROPDOWN - SELECT2//////////////*/
-  $("#designations").select2();
-  $("#shifts").select2();
-  
+    /*//////////////DROPDOWN//////////////*/
+    if ($("#designations").length){
+      $("#designations").select2();
+      $("#shifts").select2();
+    }
   if($("#day1").length) {
     $("#day1").select2();
-  }
-  if($("#day2").length) {
     $("#day2").select2();
   }
   if($("#batches").length) {

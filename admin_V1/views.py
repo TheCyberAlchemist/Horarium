@@ -12,7 +12,7 @@ from subject_V1.models import Subject_details,Subject_event
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
 from .forms import add_user,faculty_load,faculty_details,student_details
 from .forms import slot,shift
-from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load
+from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
 
 
@@ -342,10 +342,12 @@ def add_student(request):
 	return render(request,"admin/student/add_student.html",context)
 
 
-def get_slots(timings):
-	data = serializers.serialize("json", Slots.objects.filter( Timing_id__in = timings))
+def get_json(qs,keep_pk=True):
+	data = serializers.serialize("json", qs)
 	data = json.loads(data)
 	for d in data:
+		if not keep_pk:
+			del d['pk']
 		del d['model']
 	return json.dumps(data)
 
@@ -354,14 +356,25 @@ def show_slot(request,Shift_id=None):
 	context = return_context(request)
 	my_shift = Shift.objects.get(pk = Shift_id)
 	context["my_shift"] = my_shift
-	# def candidate_is_present(c):
-	# 	for timing in Timings.objects.filter(Shift_id=Shift_id):
+	context['old_data'] = get_json(Timings.objects.filter(Shift_id = Shift_id))
+	context['working_days'] = Working_days.objects.filter(Shift_id=my_shift).order_by("Days_id")
 	if request.method == 'POST':
+		# print(request.body,"hii")
 		data = json.loads(request.body)	# data is the json object returned after savings
-		# Timings.objects.all().delete()
 		check_all = True
-		for dictonary in data:
-			# print(dictonary)
+		timing = data['slots'];
+		days = data['days']
+		old_days = set(context['working_days'].values_list("id",flat=True))
+		new_days = set(i for i in range(int(days[0]),int(days[1])+1))
+		to_be_deleted = old_days.difference(new_days)
+		to_be_saved = new_days.difference(old_days)
+		for i in to_be_deleted:
+			print(Working_days.objects.get(Days_id=i)," - deleted")
+		for i in to_be_saved:
+			print(Working_days.objects.create(Shift_id=my_shift,Days_id_id=i)," - added")
+
+		print(new_days,old_days)
+		for dictonary in timing:
 			if dictonary["id"] :	# if already present
 				edit = Timings.objects.get(pk=int(dictonary["id"]))
 				form = slot(dictonary,instance = edit)
@@ -375,17 +388,16 @@ def show_slot(request,Shift_id=None):
 				if form.is_valid():
 					candidate = form.save(commit=False)
 					candidate.Shift_id = my_shift
-					# candidate.save()
-					# for day in Working_days.objects.filter(Shift_id=Shift_id):
-					# 	Slots.objects.create(day=day.Days_id,Timing_id=candidate)
-
+					candidate.save()
+					for day in Working_days.objects.filter(Shift_id=Shift_id):
+						Slots.objects.create(day=day.Days_id,Timing_id=candidate)
 				else:
 					check_all = False
 					break
 		# if check_all:	# is all the data is clean
 		# 		for time in Timings.objects.all():
-		return redirect('show_slot',Shift_id)
-	context['old_data'] = get_slots(Timings.objects.filter(Shift_id = Shift_id))
+		return redirect('show_slot',Shift_id)		
+	
 	return render(request,"admin/details/slot.html",context)
 
 
@@ -487,30 +499,43 @@ def show_table(request,Division_id):
 	context = {
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
 		'timings' : timings,
-		'slots_json' : get_slots(timings),
+		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings)),
 		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
 	}
 	return render(request,"try/table.html",context)
 
 def show_not_avail(request,Faculty_id):
-	if request.method == "POST":
-		print(json.loads(request.body))
-		if request.is_ajax():
-			slot_ids = json.loads(request.body)
-			for i in slot_ids:
-				print(Slots.objects.get(pk = i))
-		redirect('show_not_avail',Faculty_id = Faculty_id)
-
+	def get_slots(qs):
+		return Slots.objects.filter(pk__in = qs.values("Slot_id"))
 	faculty = Faculty_details.objects.get(pk = Faculty_id)
 	events = Event.objects.filter(Subject_event_id__in = Subject_event.objects.filter(Faculty_id = Faculty_id))
-		#get all the events of the faculty
-	print(events)
+	not_available = Not_available.objects.filter(Faculty_id=Faculty_id)
 	Shift_id = faculty.Shift_id
 	context = {}
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = Timings.objects.filter(Shift_id = Shift_id)
-	context['slots_json'] = get_slots(context['timings'])
-	
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = context['timings']))
+	context['events'] = get_json(get_slots(events),False)
+	context['not_available'] = get_json(get_slots(not_available),False)
+
+	if request.method == "POST":
+		# print(json.loads(request.body))
+		if request.is_ajax():
+			slot_ids = json.loads(request.body)
+			old_data = set(get_slots(not_available).values_list("id",flat = True))
+			new_data = set(slot_ids)
+			to_be_deleted = old_data.difference(new_data)
+			to_be_added = new_data.difference(old_data)
+			print(to_be_added,to_be_deleted)
+			for i in to_be_deleted:
+				print("deleted - ",Not_available.objects.get(Slot_id_id = i))
+				Not_available.objects.get(Slot_id_id=i).delete()
+			for i in to_be_added:
+				Not_available.objects.create(Faculty_id_id=Faculty_id,Slot_id_id=i).save()
+				# print("added - ",Slots.objects.get(pk = i))
+		redirect('show_not_avail',Faculty_id = Faculty_id)
+
+
 	return render(request,"admin/details/not_available.html",context)
 
 def show_sub_det(request): 

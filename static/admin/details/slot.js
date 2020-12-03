@@ -362,10 +362,16 @@ $(document).ready (function () {
 
 
 function submited(){
-  console.log(slots);
+  // $(".day_div").find("input[type='checkbox']").var();
+  var data = {
+    'slots':slots,
+    'days': [1,6]
+  };
+  // data['day'] = JSON.stringify("hii");
+  console.log(JSON.stringify(data));
 	$.ajax({
 		type: "post",
-		data: JSON.stringify(slots),
+		data: JSON.stringify(data),
 		success: function (){
       location.reload();
 		}

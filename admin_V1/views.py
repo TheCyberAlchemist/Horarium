@@ -233,7 +233,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 	context = return_context(request)
 	if context['institute']:
 		department = Department.objects.get(pk = Department_id)
-
+		context['my_department'] = department
 		context['my_branches'] = Branch.objects.filter(Department_id=department)
 		context['my_sems'] = Semester.objects.filter(Branch_id=1)
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
@@ -504,10 +504,12 @@ def show_table(request,Division_id):
 	}
 	return render(request,"try/table.html",context)
 
+
 def show_not_avail(request,Faculty_id):
 	def get_slots(qs):
 		return Slots.objects.filter(pk__in = qs.values("Slot_id"))
 	faculty = Faculty_details.objects.get(pk = Faculty_id)
+	context["my_department"] = faculty.Department_id
 	events = Event.objects.filter(Subject_event_id__in = Subject_event.objects.filter(Faculty_id = Faculty_id))
 	not_available = Not_available.objects.filter(Faculty_id=Faculty_id)
 	Shift_id = faculty.Shift_id
@@ -537,6 +539,7 @@ def show_not_avail(request,Faculty_id):
 
 
 	return render(request,"admin/details/not_available.html",context)
+
 
 def show_sub_det(request): 
 	return render(request,"admin/details/subject_details.html")

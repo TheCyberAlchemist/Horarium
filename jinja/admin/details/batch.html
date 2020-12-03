@@ -12,39 +12,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
     <script>
-
-      // Strings
-      department = "{{my_division.Semester_id.Branch_id.Department_id}}";
-      branch = department + ".{{my_division.Semester_id.Branch_id}}";
-      semester = branch + ".{{my_division.Semester_id}}";
-      division = semester + ".{{my_division}}";
-      batch_details = division + ".a";
-
-      // Label Selector
-      Department = document.querySelectorAll('[for="'+department+'"]')[0];
-      Branch = document.querySelectorAll('[for="'+branch+'"]')[0];
-      Semester = document.querySelectorAll('[for="'+semester+'"]')[0];
-      Division = document.querySelectorAll('[for="'+division+'"]')[0];
-      Batch_details = document.querySelectorAll('[for="'+batch_details+'"]')[0];
-
-      // Input selector
-      Department_input = document.querySelectorAll('[id="'+department+'"]')[0];
-      Branch_input = document.querySelectorAll('[id="'+branch+'"]')[0];
-      Semester_input = document.querySelectorAll('[id="'+semester+'"]')[0];
-      Division_input = document.querySelectorAll('[id="'+division+'"]')[0];
-
-      // Activator
-      Department.classList.add("active"); 
-      Branch.classList.add("active");
-      Semester.classList.add("active");
-      Division.classList.add("active");
-      Batch_details.classList.add("active");
-      Batch_details.setAttribute("id", "scrolled");
-      // Unchecker
-      Department_input.checked = false;
-      Branch_input.checked = false;
-      Semester_input.checked = false;
-      Division_input.checked = false;
+      activate("{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.a");
     </script>
 {% endblock scripts %}
 

@@ -17,6 +17,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
   set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
+  activate("{{my_shift.Department_id}}.d.{{my_shift}}");
 </script>
 {%endblock scripts%}
 

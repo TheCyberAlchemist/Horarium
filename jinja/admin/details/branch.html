@@ -9,25 +9,7 @@
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
-
-      // Strings     
-      department = "{{my_department}}";
-      branch_details = "{{my_department}}.a";
-
-      // Label Selector      
-      Department = document.querySelectorAll('[for="'+department+'"]')[0];
-      Branch_details = document.querySelectorAll('[for="'+branch_details+'"]')[0];
-
-      // Input selector    
-      Department_input = document.querySelectorAll('[id="'+department+'"]')[0];
-
-      // Activator     
-      Department.classList.add("active");
-      Branch_details.classList.add("active");
-      
-      // Unchecker
-      Department_input.checked = false;
-      
+      activate("{{my_department}}.a");
     </script>
 {% endblock scripts %}
 

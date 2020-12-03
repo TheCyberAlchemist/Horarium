@@ -6,6 +6,9 @@
 {% endblock css %}
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <script>
+    activate("{{my_department}}.d.a");
+    </script>
 {% endblock scripts %}
 
 {% block content %}

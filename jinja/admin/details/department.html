@@ -8,17 +8,9 @@
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <!-- <script src="{{static ('form/form.js')}}" charset="utf-8"></script> -->
     <script>
-
-      // Strings
-      department = "a";
-
-      // Label Selector
-      Department_details = document.querySelectorAll('[for="'+department+'"]')[0];
-
-      // Activator
-      Department_details.classList.add("active");
-      Department_details.setAttribute("id", "scrolled");
+      activate("a");
     </script>
+
 {% endblock scripts %}
 
 {% block content %}

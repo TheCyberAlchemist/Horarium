@@ -192,10 +192,10 @@ body .wrapper ul input:checked ~ ul .more {
 	width: 7px;
 	height: 10px;
 }
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
 	// border: 1px solid #262631;
 	
-}
+} */
 ::-webkit-scrollbar-thumb {
 	background-color: #515163;
 	border-radius: 3px;

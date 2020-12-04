@@ -1,26 +1,7 @@
-// function toggle() {
-//     var x = document.getElementById("show_tree");
-//     var y = document.getElementById("show_navbar");
-//     var z = document.getElementById("whole_container_id");
-//     if (x.style.display === "none") {
-//       x.style.display = "block";
-//       y.style.display = "none";
-//       z.style.display = "none";
-//     } else {
-//       x.style.display = "none";
-//       y.style.display = "inline";
-//       z.style.display = "block";
-//     }
-//   }
 $(document).ready(function(){
   /////////////////////// Navbar Animation //////////////////////
   $(".wrapper").animate({height:"0%",},200);
-    if (l.length){
-      offset = l.offset();
-    }
-    else{
-      offset = 0;
-    }
+    offset = l.length? l.offset() : 0;
     $(".me").click(function(){
       $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
       $('.wrapper').animate({
@@ -68,7 +49,6 @@ l = 0;
 function activate(for_name){
   label = $('[for="'+for_name+'"]');
   l = label;
-  console.log(label)
   if(label.length){
     do{
       ///////// for inputs /////////      

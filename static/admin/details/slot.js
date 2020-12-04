@@ -187,7 +187,6 @@ function check_name(name,edit){
     return false;
   }
   if(!edit){
-    console.log(edit);
     for (i in slots){
       if (slots[i].name == name)
         return false;
@@ -195,7 +194,6 @@ function check_name(name,edit){
   }
   return true;
 }
-
 $(document).ready (function () {
   $("#edit").hide();
   $("#Go").hide();
@@ -205,18 +203,14 @@ $(document).ready (function () {
     $("#myTable").append(return_row(slots[i]));
   }
   $(document).on("click",'#first_form_submit',function(){
-    nomenclature = $("input[name='Naming']:checked").val();
-    if (!nomenclature){
-      nomenclature="numbers"
-    }
-    duration = $("#Duration").val()
+    nomenclature = $("[name='Naming']").val();
+    duration = $("[name='Duration']").val()
     $('#first_form').hide();
   });
 
   $('#slot_form').hide();
 
   $(document).on("click", "#add_row" , function () {   // when add row is called
-    name = 1;
     $('#Go').show();
     $('#slot_form').show();
     if(slots.length){		                              // if not first
@@ -237,6 +231,7 @@ $(document).ready (function () {
       $('#slot_form').find("#is_break").hide();
       $('#slot_form').find("#id_is_break").prop( "checked" ,false);
     }
+    valid_input();
 	});
   
   $(document).on("click", "#Go" , function() {    // when slot form is submitted
@@ -362,12 +357,10 @@ $(document).ready (function () {
 
 
 function submited(){
-  // $(".day_div").find("input[type='checkbox']").var();
   var data = {
     'slots':slots,
-    'days': [1,6]
+    'days': [$("[name='day1']").val(), $("[name='day2']").val()]
   };
-  // data['day'] = JSON.stringify("hii");
   console.log(JSON.stringify(data));
 	$.ajax({
 		type: "post",

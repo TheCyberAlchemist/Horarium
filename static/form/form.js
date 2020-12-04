@@ -107,7 +107,6 @@ $(document).ready(function(){
     valid_input();
   })
   $(".form_input").focus(function(){
-    console.log($(this).next());
     $(this).next(".form_input_label").find(".text").css({
       "top":"-.7em",
       "left": ".5px",

@@ -28,20 +28,20 @@
   <div class="input_container">
     <!-- <input class="form_input" type="number" id="Duration" /> -->
     <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
-    <input type="text" name="batchname" class="form_input" required maxlength="50" />
-    <label for="" class="form_input_label">
-      <div class="text">Number</div>
+    <input type="number" id="duration" name="Duration" class="form_input" required/>
+    <label for="duration" class="form_input_label">
+      <div class="text">Duration</div>
       <div class="line"></div>
     </label>
 </div>
     <div class="input_container sl1">
       <div class="slot_naming">
         <div class="select2_container">
-          <select name="myselect" id="slot_naming">
+          <select name="Naming" id="slot_naming">
             <option value="1">Slot Naming Pattern </option>
-            <option value="[1-10]">[1 - 10]</option>
-            <option value="[a-z]">[a - z]</option>
-            <option value="[A-Z]">[A - Z]</option>
+            <option value="numbers">[1 - 10]</option>
+            <option value="small">[a - z]</option>
+            <option value="capital">[A - Z]</option>
           </select>
         </div>
       </div>
@@ -49,7 +49,7 @@
 
   <div class="day_selector">
     <div class="select2_container">
-      <select name="myselect" id="day1">
+      <select name="day1" id="day1">
         <option value="a">Pick Starting Day </option>
         <option value="1">Monday</option>
         <option value="2">Tuesday</option>
@@ -57,11 +57,12 @@
         <option value="4">Thursday</option>
         <option value="5">Friday</option>
         <option value="6">Saturday</option>
+        <option value="7">Sunday</option>
       </select>
     </div>
     <div class="day_line"></div>
     <div class="select2_container">
-      <select name="myselect" id="day2">
+      <select name="day2" id="day2">
         <option value="a">Pick Ending Day </option>
         <option value="1">Monday</option>
         <option value="2">Tuesday</option>
@@ -69,15 +70,11 @@
         <option value="4">Thursday</option>
         <option value="5">Friday</option>
         <option value="6">Saturday</option>
+        <option value="7">Sunday</option>
       </select>
     </div>
   </div>
   <button id="first_form_submit" class="show_form_button">hiii</button>
-  <div class="input_container">
-    <label><input value="numbers" type="radio" name="Naming" style="color: black;" />[1 - 10] </label>
-    <label><input value="small" type="radio" name="Naming" style="color: black;" />[a - z]</label>
-    <label><input value="capital" type="radio" name="Naming" style="color: black;" />[A - Z]</label>
-  </div>
 </fieldset>
 </div>
 <div class="whole_container" id="whole_container_id">
@@ -168,7 +165,7 @@
     </table>
   </div>
 </div>
-<div class="submit_button_container" style="display: none;">
+<div class="submit_button_container">
   <!-- <button type="submit" name="button" class="submit_button">Submit</button> -->
   <button class="submit_button" onclick='submited()'> Submit</button>
 </div>

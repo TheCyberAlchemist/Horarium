@@ -15,13 +15,18 @@
 $(document).ready(function(){
   /////////////////////// Navbar Animation //////////////////////
   $(".wrapper").animate({height:"0%",},200);
-  offset = l.offset();
-  $(".me").click(function(){
-    $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
-    $('.wrapper').animate({
-          scrollTop: offset.top,
-          scrollLeft: offset.left/1.5,
-      }, 0);
+    if (l.length){
+      offset = l.offset();
+    }
+    else{
+      offset = 0;
+    }
+    $(".me").click(function(){
+      $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
+      $('.wrapper').animate({
+            scrollTop: offset.top,
+            scrollLeft: offset.left/1.5,
+        }, 0);
     $(".wrapper").animate({height:'100%'},300);
     $(".wrapper").animate({height:'95%'},250);
     $(".wrapper").animate({height:'100%'},200);

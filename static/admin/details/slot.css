@@ -46,4 +46,15 @@
 .slot_first_form .slot_naming {
   padding: 20px;
 }
+
+.blur_background {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  pointer-events: none;
+  opacity: .7;
+  -webkit-filter: blur(8px);
+          filter: blur(8px);
+}
 /*# sourceMappingURL=slot.css.map */

@@ -136,11 +136,11 @@ function return_row(slot){
 	tr.appendChild(is_break);
 
   var edit = document.createElement('td');
-	edit.innerHTML = '<button type="button" class="edit">Edit</button>';
+	edit.innerHTML = '<button type="button" class="other_buttons edit">Edit</button>';
   tr.appendChild(edit);
   
 	var add_row = document.createElement('td');
-	add_row.innerHTML = '<button type="button" class="add_here">ADD</button>';
+	add_row.innerHTML = '<button type="button" class="other_buttons add_here">Add</button>';
 	tr.appendChild(add_row);
 
   return tr;
@@ -206,6 +206,8 @@ $(document).ready (function () {
     nomenclature = $("[name='Naming']").val();
     duration = $("[name='Duration']").val()
     $('#first_form').hide();
+    $("#whole_container_id,.submit_button_container").removeClass("blur_background"); //from #first_form in form.js
+    $("#whole_container_id,.submit_button_container").css({"transition" : "0s"});
   });
 
   $('#slot_form').hide();

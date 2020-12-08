@@ -52,3 +52,10 @@
 //     // padding: 5px;
 //     margin-top: 1em;
 // }
+
+.blur_background {
+    user-select: none;
+    pointer-events: none;
+    opacity: .7;
+    filter: blur(8px);
+}

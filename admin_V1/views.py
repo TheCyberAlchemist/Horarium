@@ -157,12 +157,13 @@ def show_division(request,Semester_id,Division_id = None):
 	context = return_context(request)
 	my_semester = Semester.objects.get(id = Semester_id)
 	if context['institute'] == my_semester.Branch_id.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
+		context['my_shifts'] = Shift.objects.filter(Department_id=my_semester.Branch_id.Department_id)
 		divisions = Division.objects.filter(Semester_id=Semester_id).order_by('name')
 		context['form'] = create_division()
 		if Division_id:	# if edit is called
 			edit = divisions.get(pk=Division_id)
 			form = create_division(instance = edit)
-			context['u_name'] = form.instance.name
+			context['update'] = form.instance
 		context['my_divisions'] = divisions
 		context['my_semester'] = my_semester
 		if request.method == 'POST':
@@ -199,9 +200,9 @@ def show_batch(request,Division_id,Batch_id = None):
 		batches = Batch.objects.filter(Division_id=Division_id).order_by('name')
 		context['form'] = create_division()
 		if Batch_id:	# if edit is called
-			edit = divisions.get(pk=Batch_id)
+			edit = Batch.objects.get(pk=Batch_id)
 			form = create_batch(instance = edit)
-			context['u_name'] = form.instance.name
+			context['update'] = form.instance
 		context['my_batches'] = batches
 		context['my_division'] = my_division
 		if request.method == 'POST':
@@ -217,6 +218,7 @@ def show_batch(request,Division_id,Batch_id = None):
 					candidate = form.save(commit=False)
 					candidate.Division_id = my_division
 					try:	# unique contraint added
+						# print(candidate.batch_for)
 						candidate.save()
 						context['form'] = create_batch()     				#Form Renewed
 						return redirect('show_batch',Division_id)                      #Page Renewed
@@ -240,10 +242,10 @@ def add_faculty(request,Department_id,Faculty_id=None):
 		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 		context['refresh'] = False
-		context['faculty'] = Faculty_details.objects.filter(Department_id=Department_id)
+		context['my_faculty'] = Faculty_details.objects.filter(Department_id=Department_id)
 
 		if Faculty_id:	# if edit is called
-			edit = context['faculty'].get(pk = Faculty_id)
+			edit = context['my_faculty'].get(pk = Faculty_id)
 			user_form = add_user(instance = edit.User_id)
 			faculty_detail_form = faculty_details(instance = edit)
 			faculty_load_form = faculty_load(instance=Faculty_load.objects.get(Faculty_id=edit))
@@ -358,41 +360,39 @@ def show_slot(request,Shift_id=None):
 	context["my_shift"] = my_shift
 	context['old_data'] = get_json(Timings.objects.filter(Shift_id = Shift_id))
 	context['working_days'] = Working_days.objects.filter(Shift_id=my_shift).order_by("Days_id")
-
 	if request.method == 'POST':
 		data = json.loads(request.body)	# data is the json object returned after savings
 		check_all = True
 		timings = data['slots'];
 		days = data['days']
 		############# for working-day models #############
-		old_days = set(context['working_days'].values_list("id",flat=True))
+		old_days = set(context['working_days'].values_list("Days_id",flat=True))
 		new_days = set(i for i in range(int(days[0]),int(days[1])+1))
 		to_be_deleted = old_days.difference(new_days)
 		to_be_saved = new_days.difference(old_days)
 		for i in to_be_deleted:
-			print(Working_days.objects.get(Days_id=i)," - deleted")
+			Working_days.objects.get(Days_id=i).delete()
 		for i in to_be_saved:
-			print(Working_days.objects.create(Shift_id=my_shift,Days_id_id=i)," - added")
+			day = Working_days(Shift_id=my_shift,Days_id_id=i).save()
+			day = Working_days.objects.get(Shift_id=my_shift,Days_id_id=i)
+			for time in Timings.objects.filter(Shift_id=my_shift):
+				Slots(day=day,Timing_id=time).save()
 		############# for timing models #############
-		# for dictonary in timings:
-		# 	if dictonary["id"] :	# if already present
-		# 		edit = Timings.objects.get(pk=int(dictonary["id"]))
-		# 		form = timing(dictonary,instance = edit)
-		# 		if form.is_valid():
-		# 			form.save()
-		# 		else:
-		# 			break
-		# 	else:					# if new entry
-		# 		form = timing(dictonary)
-		# 		if form.is_valid():
-		# 			candidate = form.save(commit=False)
-		# 			candidate.Shift_id = my_shift
-		# 			candidate.save()
-		# 			print(candidate.instance.is_break)
-		# 			for day in Working_days.objects.filter(Shift_id=Shift_id):
-		# 				Slots.objects.create(day=day.Days_id,Timing_id=candidate)
-		# 		else:
-		# 			break
+		working_days = Working_days.objects.filter(Shift_id=Shift_id)
+		for dictonary in timings:
+			if dictonary["id"] :	# if already present
+				edit = Timings.objects.get(pk=int(dictonary["id"]))
+				form = timing(dictonary,instance = edit)
+				if form.is_valid():
+					form.save()
+			else:					# if new entry
+				form = timing(dictonary)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Shift_id = my_shift
+					candidate.save()
+					for day in working_days:
+						Slots(day=day,Timing_id=candidate).save()
 		return redirect('show_slot',Shift_id)		
 	
 	return render(request,"admin/details/slot.html",context)

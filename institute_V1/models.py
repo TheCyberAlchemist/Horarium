@@ -57,7 +57,7 @@ class Working_days(models.Model):
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	Days_id = models.ForeignKey(Days,default=None,on_delete=models.RESTRICT)
 	def __str__(self):
-		return str(self.Shift_id) + " "+ str(self.Days_id)
+		return str(self.Days_id) #+ " "+ str(self.Shift_id)
 	class Meta:
 		verbose_name_plural = "Working Days"
 		constraints = [
@@ -140,9 +140,11 @@ class Timings(models.Model):
 			raise BaseException("End time must be greater then start time")
 	
 class Slots(models.Model):
-	day = models.ForeignKey(Days,blank=False,on_delete=models.RESTRICT)
+	day = models.ForeignKey(Working_days,blank=False,on_delete=models.CASCADE)
 	Timing_id = models.ForeignKey(Timings,blank=False,on_delete=models.RESTRICT)
 	def __str__(self):
+		if self.Timing_id.is_break:
+			return "Break" + " [ " + self.Timing_id.return_time() +" ]"	
 		return str(self.day) + " [ " + self.Timing_id.return_time() +" ]"
 	class Meta:
 		verbose_name_plural = "Slots"

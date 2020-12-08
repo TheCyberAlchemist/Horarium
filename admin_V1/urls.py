@@ -30,7 +30,8 @@ urlpatterns = [
 	
 
 	url(r'^faculty/(?P<Department_id>\d+)/$',views.add_faculty,name = 'add_faculty'),
-	url(r'^faculty/(?P<Department_id>\d+)/(?P<Faculty_id>\d+)/$',views.add_faculty,name = 'udate_faculty'),
+	url(r'^faculty/(?P<Department_id>\d+)/(?P<Faculty_id>\d+)/$',views.add_faculty,name = 'update_faculty'),
+
 	path('student/',views.add_student,name = 'add_student'),
 	path('sub/',views.show_sub_det,name = 'show_sub_det'),
 

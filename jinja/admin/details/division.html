@@ -12,17 +12,19 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
       activate("{{my_semester.Branch_id.Department_id}}.{{my_semester.Branch_id}}.{{my_semester}}.a");
+      $("#shifts").select2();
     </script>
 {% endblock scripts %}
 
 {% block content %}
   <div class="whole_container" id="whole_container_id">
     <fieldset>
-      <legend>{% if u_name %}Update{% else %}Add{% endif %} Division</legend>
-      <form class="myform" {% if not u_name %}style="display: none;"{% endif %}>
+      <legend>{% if update %}Update{% else %}Add{% endif %} Division</legend>
+      <form class="myform" method = "POST"{% if not update %}style="display: none;"{% endif %}>
+        {{csrf_input}}
         <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div class="input_container">
-          <input type="text" name="name" class ="form_input" required maxlength="50"/>
+          <input type="text" name="name" class ="form_input" required maxlength="50"{% if update %}value = "{{update.name}}"{% endif %}/>
           <label for="" class="form_input_label">
             <div class="text">Division Name</div>
             <div class="line"></div>
@@ -32,9 +34,9 @@
           <select name="Shift_id" id="shifts">
             <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
             {% for shift in my_shifts %}
-            <option value="{{shift.id}}" {% if update and shift.id == update[1].Shift_id%}selected{% endif %}>
-              {{shift}}
-            </option>
+              <option value="{{shift.id}}" {% if update and shift.id == update.Shift_id%}selected{% endif %}>
+                {{shift}}
+              </option>
             {%endfor%}
           </select>
         </div>
@@ -73,11 +75,10 @@
       <table id = "db_table">
         <thead>
           <tr>
-            <div class="delete_panel" >
-              <h1>Divisions for {{my_semester}}</h1>
+            <div class="delete_panel">
+              <h1 >Division for {{my_semester}}</h1>
               <a style="display: none;" id="del" onclick="delete_entries()" >
                 <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
-                Delete
               </a>
             </div>
             <th>Id</th>
@@ -97,10 +98,12 @@
               <td>{{loop.index}}</td>
               <td>{{division.name}}</td>
               <td>
-                <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                <a href = "{{url ('update_division' ,args=[my_semester.id,division.id])}}">
+                  <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+                </a>
               </td>
               <td>
-                <div class="checkboxes">
+                <div class="checkboxes" onclick="checkSelected()">
                   <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{division.id}}">
                   <label for="{{loop.index}}"></label>
                 </div>

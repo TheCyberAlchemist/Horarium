@@ -20,21 +20,22 @@
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
         <legend>Add Batch</legend>
-        <form class="myform" {% if not u_name %}style="display: none;"{% endif %}>
+        <form class="myform" method = "POST" {% if not update %}style="display: none;"{% endif %}>
+          {{csrf_input}}
           <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
-            <input type="text" name="batchname" class ="form_input" required maxlength="50" />
+            <input type="text" name="name" class ="form_input" required maxlength="50" {% if update %} value = {{update.name}}{% endif %} />
             <label for="" class="form_input_label">
               <div class="text">Batch Name</div>
               <div class="line"></div>
             </label>
           </div>
           <div class="select2_container">
-            <select name="myselect" id="batches">
+            <select name="batch_for" id="batches">
               <option disabled selected>Select Batch Type</option>
-              <option value="prac">Practical</option> 
-              <option value="lect">Lecture</option>
+              <option value="prac" {% if update and update.batch_for == "prac"%} selected{% endif %}>Practical</option> 
+              <option value="lect" {% if update and update.batch_for == "lect"%} selected{% endif %}>Lecture</option>
             </select>
           </div>
           <div class="submit_button_container">
@@ -70,11 +71,10 @@
             <table id = "db_table">
               <thead>
                 <div class="delete_panel" >
-                  <h1>Batches for {{my_division}}</h1>
+                  <h1>Batches for {{my_division.name}}({{my_division.Semester_id}})</h1>
                   <a style="display: none;" id="del" onclick="delete_entries()" >
-                    <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
-                    Delete
-                  </a>
+                  <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                </a>
                 </div>
                 <tr>
                   <th>Id</th>
@@ -93,15 +93,17 @@
               <tbody>
                 {% for batch in my_batches %}
                   <tr>
-                    <td>{{batch.id}}</td>
+                    <td>{{loop.index}}</td>
                     <td>{{batch.name}}</td>
                     {% if batch.batch_for == 'prac'%}
-                    <td>Practical</td>
+                      <td>Practical</td>
                     {% else %}
-                    <td>Lecture</td>
+                      <td>Lecture</td>
                     {% endif %}
                     <td>
-                        <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                        <a href = "{{url ('update_batch' ,args=[my_division.id,batch.id])}}">
+                    <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                  </a>
                     </td>
                     <td>
                       <div class="checkboxes" onclick="checkSelected()">

@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
 from student_V1.models import Student_details
-
+from institute_V1.models import Timings
 
 class create_department(ModelForm):
 	class Meta:
@@ -28,7 +28,7 @@ class create_semester(ModelForm):
 class create_division(ModelForm):
 	class Meta:
 		model = Division
-		fields = ['name']
+		fields = ['name','Shift_id']
 
 
 class create_batch(ModelForm):
@@ -65,7 +65,6 @@ class student_details(ModelForm):
 		model = Student_details
 		fields = ('roll_no','Division_id','Batch_id',)
 
-from institute_V1.models import Timings
 
 class shift(ModelForm):
 	class Meta:

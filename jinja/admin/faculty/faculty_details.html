@@ -256,6 +256,7 @@
               <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete">
             </a>
           </div>
+          <th>Id</th>
           <th>Short</th>
           <th>Faculty Name</th>
           <th>Designation</th>
@@ -270,13 +271,14 @@
         </tr>
       </thead>
       <tbody>
-        {% for department in departments %}
+        {% for faculty in my_faculty %}
         <tr>
           <td>{{loop.index}}</td>
-          <td>{{department.name}}</td>
-          <td>{{department.short}}</td>
+          <td>{{faculty.short}}</td>
+          <td>{{faculty.User_id.first_name}}</td>
+          <td>{{faculty.Designation_id}}</td>
           <td>
-            <a href="{{url ('update_department' ,args=[department.id])}}">
+            <a href="{{url ('update_faculty' ,args=[my_department.id,faculty.id])}}">
               <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
             </a>
           </td>
@@ -287,7 +289,7 @@
           </td>
           <td>
             <div class="checkboxes" onclick="checkSelected()">
-              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{department.id}}">
+              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{faculty.id}}">
               <label for="{{loop.index}}"></label>
             </div>
           </td>

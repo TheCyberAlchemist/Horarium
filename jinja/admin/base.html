@@ -7,7 +7,6 @@
 	{# title block for printing the name of the page  #}
 	{% block css %} {% endblock %}
 	<link rel="stylesheet" href="{{static ('admin/base.css')}}">
-	<!-- <link rel="stylesheet" href="{{static ('admin/base.css')}}"> -->
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> 
 </head>
 <body style="padding-top: 60px">
@@ -21,8 +20,10 @@
 </body>
 <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
 <script src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> -->
+<script src="{{static ('cookie.min.js')}}"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script> -->
+<script src="{{static ('select2.js')}}"></script>
 <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
 {% block scripts %}
 {% endblock %}

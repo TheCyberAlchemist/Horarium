@@ -10,7 +10,7 @@
   height: 100vh;
   text-align: center;
   overflow-x: auto;
-  z-index: 100;
+  z-index: 200;
   /* opacity: .5; */
 }
 .data {

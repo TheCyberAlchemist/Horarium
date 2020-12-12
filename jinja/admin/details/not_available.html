@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="{{static ('OLD_stuff/index.css') }}">
 <link rel="stylesheet" href="{{static ('form/form.css')}}">
-<script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+<script type="text/javascript" src="{{static ('jquery.js') }}"></script>
 <script src="{{static ('try/table.js') }}"></script>
 <script>
 	put_data("{{slots_json}}");
@@ -9,7 +9,7 @@
 </script>
 <h1 style="color: white;">Not Available At </h1>
 
-<table style = "width:990px;" class="main_table">
+<table style = "width:75%;" class="main_table">
 	<thead>
 		<th>
 			Time
@@ -48,8 +48,14 @@
 			</tr>
 		{% endfor %}
 	</tbody>
+	<tfoot>
+		<tr>
+			<td colspan="6" style="border : none">
+				<button class = "submit_not_avail submit_button"> goooooooooooooooooo</button>
+				<a href="{{url ('add_faculty' , args=[1])}}"><h2 style="color: white;">Go Back to Faculty Details</h2></a> 
+			</td>
+		</tr>
+	</tfoot>
 </table>
 {{csrf_input}}
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<button class = "submit_not_avail"> goooooooooooooooooo</button>
-<a href="{{url ('add_faculty' , args=[1])}}"><h2 style="color: white;">Go Back to Faculty Details</h2></a> 
+<script src="{{static ('cookie.min.js')}}"></script>

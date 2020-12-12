@@ -108,10 +108,10 @@ $(document).ready (function () {
 				checkbox = $(this);
 				td = $(this).parent();
 				if(checkbox.prop("checked") == true){ // if checked 
-					td.css({"backgroundColor" : "red","opacity" : ".5"});
+					td.addClass("selected_td");
 				}
 				else if(checkbox.prop("checked") == false){	// not checked 
-					td.css({"backgroundColor" : "transparent","opacity" : "1"});
+					td.removeClass("selected_td");  //form.css
 				}
 			});
 		}
@@ -141,6 +141,17 @@ $(document).ready (function () {
 			});
 			change_css()
 		});
+		$(".day").hover(function() {  // changes css when hovered on day column
+			var index = $(this)[0].cellIndex;
+			var td = $('tbody').find('td:nth-child('+(index+1)+')');
+			td.addClass("td_color");
+		},
+		function() {
+			var index = $(this)[0].cellIndex;
+			var td = $('tbody').find('td:nth-child('+(index+1)+')');
+			td.removeClass("td_color");
+		}
+		);
 		
 		$(".time").click(function(){
 			var tr = $(this).parent();
@@ -155,6 +166,16 @@ $(document).ready (function () {
 			td.each(function(i,obj){
 			});
 			change_css();
+		});
+		$(".time").hover(function() {  // changes css when hovered on time row
+			var tr = $(this).parent();
+			var td = tr.find('td');
+			td.addClass("td_color");
+		},
+		function() {
+			var tr = $(this).parent();
+			var td = tr.find('td');
+			td.removeClass("td_color");
 		});
 
 		$(".submit_not_avail").click(function(){

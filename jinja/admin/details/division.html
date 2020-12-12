@@ -9,7 +9,6 @@
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script>
       activate("{{my_semester.Branch_id.Department_id}}.{{my_semester.Branch_id}}.{{my_semester}}.a");
       $("#shifts").select2();

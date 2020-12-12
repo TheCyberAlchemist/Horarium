@@ -13,28 +13,30 @@ td {
 }
 .not_avail_ckb{
 	display: none;
-	background-color: red;
 	appearance: none;
 }
 .main_container {
 	display: grid;
 	grid-template-columns: 30% 70%;
+	
 }
 .main_table{
 	border-collapse: collapse;
-	margin-top: 10vh;
-	margin-right: 10px;
-	margin-left: auto;
+	overflow-x: auto;
+	/* margin-top: 10vh; */
+	text-align: center;
+	margin: 0 auto;
+	/* margin-right: 10px; */
+	/* margin-left: auto; */
 	table-layout: fixed;
 }
 
 .main_table th,.main_table td{
 	table-layout: fixed;
-	border: 2.5px solid #783673;
+	border: 2.5px solid #e87a00;
 	height: 75px;
 	color: white;
 }
-
 .table_time{
 	font-size: 14px;
 	text-align: center;

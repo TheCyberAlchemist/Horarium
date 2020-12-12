@@ -244,6 +244,7 @@ $selected_placeholder_font_size : 16px;
     outline: none;
     border: 1px solid #e12eca;
     width: 69%;
+    color: white;
     border-radius: 5px;
     margin-top: 10px;
     padding: 10px;
@@ -253,7 +254,16 @@ $selected_placeholder_font_size : 16px;
   .submit_button:hover ,.submit_button:focus, .page_change_button:hover,.page_change_button:focus {
     background-color: #e12eca;
   }
-  
+  .other_buttons {
+    background: transparent;
+    outline: none;
+    border: 1px solid #e12eca;
+    color: white;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 20px;
+  }
 
   .page_changer_button_container{
    position: absolute;
@@ -517,5 +527,13 @@ $selected_placeholder_font_size : 16px;
   color: white;
   outline: none;
   border: none;
+}
+.td_color {       //table.js ('.day').hover
+  background-color: #f896eb;
+  z-index: 100;
+}
+.selected_td {  //table.js
+  background-color: red;
+  opacity: .7;
 }
   /*# sourceMappingURL=form.css.map */

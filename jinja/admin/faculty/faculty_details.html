@@ -227,20 +227,23 @@
     </div>
 
     {% if integrityErrors %}
-    <div class="errors_container">
-      <p>
-        {{integrityErrors}}
-      </p>
-    </div>
-    {% endif %}
-    <!-- 
+        <div class="errors_container">
+          <p>
+            {{integrityErrors}}
+          </p>
+        </div>
+      {% endif %}
+
       {% if errors %}
         <div class="errors_container">
           <p>
             {{errors}}
           </p>
         </div>
-      {% endif %} -->
+        <script>
+            show_error("{{errors}}")
+          </script>
+      {% endif %}
   </fieldset>
 
   <div class="table_container">

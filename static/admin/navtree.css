@@ -10,17 +10,14 @@
   height: 100vh;
   text-align: center;
   overflow-x: auto;
-  z-index: 100;
+  z-index: 200;
   /* opacity: .5; */
 }
 .data {
   text-decoration: none;
   /* background-color: salmon; */
 }
-.active{
-  border-color: #cdeeed;
-  
-}
+
 .wrapper ul {
   position: relative;
   display: block;
@@ -113,12 +110,17 @@ body .wrapper ul > li.noline:before {
   background: transparent;
 }
 
-body .wrapper ul > li label {
+body .wrapper ul > li label:not(.active){
   padding: 0.5em 1em;
   border: 1px solid salmon;
   cursor: pointer;
 }
-
+.active{
+  padding: 0.5em 1em;
+  border: 2px solid #cdeeed;
+  /* background-color:#cdeeed; */
+  cursor: pointer;
+}
 body .wrapper ul [type="checkbox"] {
   display: none;
 }
@@ -136,6 +138,7 @@ body .wrapper ul .more {
 
 body .wrapper ul input:checked ~ ul * {
   opacity: 0;
+  pointer-events: none;
   max-width: 1px;
   max-height: 1px;
   padding: 0;

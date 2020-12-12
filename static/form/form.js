@@ -61,7 +61,7 @@ $(document).ready(function () {
     } while ($ul.is(':not(.someclass)'));
   });
 
-  /** //////////Subject Color Palette */
+  /** //////////Subject Color Palette //////////////////*/
   $(".colors").click(function () {
     if ($(".colors").css({ "border": "none" })) {
       $(this).css({ "border": "5px solid black" });
@@ -71,15 +71,6 @@ $(document).ready(function () {
     // }
   });
 
-
-  // carets = document.getElementsByClassName("caret");
-
-  // for(var i=0; i<carets.length;i++) {
-  //   carets[i].addEventListener('click',function() {
-  //     li =  this.parentElement;
-  //     li.querySelector('#branches').classList.toggle('.active');
-  //   })
-  // }
   function valid_input() {
     var inputs = $(".form_input");
     inputs.each(function (i, obj) {
@@ -145,50 +136,48 @@ $(document).ready(function () {
     $("#whole_container_id,.submit_button_container").addClass("blur_background");
     //check #first_form_submit in slot.js  
   }
-
-
-  function visibility1(self) {
-    console.log(self);
-    var a = document.getElementById("myinput1");
-    var b = document.getElementById("hide1");
-    var c = document.getElementById("hide2");
-
-    if (a.type === "password") {
-      a.type = "text";
-      b.style.display = "inline";
-      c.style.display = "none";
-    }
-    else if (a.type === "text") {
-      a.type = "password";
-      b.style.display = "none";
-      c.style.display = "inline";
-    }
-  }
-
-  function visibility2() {
-    var x = document.getElementById("myinput2");
-    var y = document.getElementById("hide3");
-    var z = document.getElementById("hide4");
-
-    if (x.type === "password") {
-      x.type = "text";
-      y.style.display = "inline";
-      z.style.display = "none";
-    }
-    else if (x.type === "text") {
-      x.type = "password";
-      y.style.display = "none";
-      z.style.display = "inline";
-    }
-  }
-
   $(".form_hider").click(function () {
     $(".myform").hide();
     $(".form_visibility_img_container").show();
     $(".pagination_container").hide();
-    
   });
 });
+
+function visibility1(self) {
+  console.log(self);
+  var a = document.getElementById("myinput1");
+  var b = document.getElementById("hide1");
+  var c = document.getElementById("hide2");
+
+  if (a.type === "password") {
+    a.type = "text";
+    b.style.display = "inline";
+    c.style.display = "none";
+  }
+  else if (a.type === "text") {
+    a.type = "password";
+    b.style.display = "none";
+    c.style.display = "inline";
+  }
+}
+
+function visibility2() {
+  var x = document.getElementById("myinput2");
+  var y = document.getElementById("hide3");
+  var z = document.getElementById("hide4");
+
+  if (x.type === "password") {
+    x.type = "text";
+    y.style.display = "inline";
+    z.style.display = "none";
+  }
+  else if (x.type === "text") {
+    x.type = "password";
+    y.style.display = "none";
+    z.style.display = "inline";
+  }
+}
+
 function delete_entries() {
   var checked = $('input[name="del"]:checked').map(function () { return this.value; }).get()
   let state = JSON.stringify(checked);
@@ -204,42 +193,43 @@ function delete_entries() {
   }
 }
 
-  function form_visibility() {
 
-    var form = document.getElementsByClassName("myform")[0];
-    var p = document.getElementById("myp");
-    var pages = document.getElementsByClassName("pagination_container")[0];
-    var container = document.getElementsByClassName("form_visibility_img_container")[0];
-    if (form.style.display == "none") {
-      // p.innerHTML = "Close Form";
-      container.style.display = "none";
-      form.style.display = "block";
-      if (pages)
-        pages.style.display = "";
-    }
-    else {
-      p.innerHTML = "Show Form";
-      form.style.display = "none";
-      if (pages)
-        pages.style.display = "none";
-    }
+function form_visibility() {
+
+  var form = document.getElementsByClassName("myform")[0];
+  var p = document.getElementById("myp");
+  var pages = document.getElementsByClassName("pagination_container")[0];
+  var container = document.getElementsByClassName("form_visibility_img_container")[0];
+  if (form.style.display == "none") {
+    // p.innerHTML = "Close Form";
+    container.style.display = "none";
+    form.style.display = "block";
+    if (pages)
+      pages.style.display = "";
+  }
+  else {
+    p.innerHTML = "Show Form";
+    form.style.display = "none";
+    if (pages)
+      pages.style.display = "none";
+  }
+}
+
+function show_error(json_error) {
+  // console.log(json_error);
+  json = JSON.parse(json_error.replace(/&#34;/ig, '"',));
+  for (i in json) {
+    var input = $("[name=" + i + "]");
+    console.log(input);
+    // change css here 
+    $('.myform .input_container :input').val('');
   }
 
-  function show_error(json_error) {
-    // console.log(json_error);
-    json = JSON.parse(json_error.replace(/&#34;/ig, '"',));
-    for (i in json) {
-      var input = $("[name=" + i + "]");
-      console.log(input);
-      // change css here 
-      $('.myform .input_container :input').val('');
-    }
-
-    form_visibility();
-    for (i in json) {
-      input = $("[name=" + i + "]");
-      break
-    }
-    input.focus()
-    // input[0].setCustomValidity('hii');
+  form_visibility();
+  for (i in json) {
+    input = $("[name=" + i + "]");
+    break
   }
+  input.focus()
+  // input[0].setCustomValidity('hii');
+}

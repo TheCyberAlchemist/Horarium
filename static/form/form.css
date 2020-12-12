@@ -24,7 +24,7 @@
 .show_form_button {
   background: transparent;
   outline: none;
-  border: 1px solid #e12eca;
+  border: 1px solid #5ba2ce;
   margin-top: 1.3em;
   border-radius: 5px;
   padding: 10px 20px 10px 20px;
@@ -33,7 +33,7 @@
 }
 
 .show_form_button:hover {
-  background-color: #e12eca;
+  background-color: #5ba2ce;
 }
 
 .form_visibility_img_container {

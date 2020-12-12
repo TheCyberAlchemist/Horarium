@@ -182,26 +182,27 @@ $(document).ready(function () {
     }
   }
 
-  function delete_entries() {
-    var checked = $('input[name="del"]:checked').map(function () { return this.value; }).get()
-    let state = JSON.stringify(checked);
-    if (checked.length) {  // checkes if one or more are selected or not
-      // console.log(state)
-      $.ajax({
-        type: "post",
-        data: state,
-        success: function () {
-          location.reload(); // reload page after success of post
-        }
-      });
-    }
-  }
   $(".form_hider").click(function () {
     $(".myform").hide();
     $(".form_visibility_img_container").show();
     $(".pagination_container").hide();
-
+    
   });
+});
+function delete_entries() {
+  var checked = $('input[name="del"]:checked').map(function () { return this.value; }).get()
+  let state = JSON.stringify(checked);
+  if (checked.length) {  // checkes if one or more are selected or not
+    // console.log(state)
+    $.ajax({
+      type: "post",
+      data: state,
+      success: function () {
+        location.reload(); // reload page after success of post
+      }
+    });
+  }
+}
 
   function form_visibility() {
 
@@ -242,4 +243,3 @@ $(document).ready(function () {
     input.focus()
     // input[0].setCustomValidity('hii');
   }
-});

@@ -13,7 +13,7 @@ var not_available_json;
 function put_events(events,not_available){
 	events_json = JSON.parse(events.replace(/&#34;/ig,'"',));
 	not_available_json = JSON.parse(not_available.replace(/&#34;/ig,'"',));
-	console.log(events_json,not_available_json)
+	// console.log(events_json,not_available_json)
 }
 var slots = [];
 class slot{
@@ -34,8 +34,6 @@ function get_slot(td){
 		}
 	}
 }
-
-
 
 events = [];
 class event_class {
@@ -95,7 +93,9 @@ $(document).ready (function () {
 	}
 	///////////////////////////// Not Asvailable ///////////////////////
 	else if($(".submit_not_avail").length){
+		console.log(events_json);
 		for(i in events_json){		// all the events are marked and disabled
+			console.log(events_json[i]);
 			var td = get_cell(events_json[i])
 			td.find("input[type='checkbox']").removeAttr("name");
 			td.css({"backgroundColor" : "blue","opacity" : ".5"})
@@ -117,7 +117,7 @@ $(document).ready (function () {
 		}
 		change_css();
 		function get_cell(obj){
-			// [id=choose]
+			console.log(obj);
 			let tr = $("[timing_id=" + String(obj['fields'].Timing_id) + "]");
 			let td = tr.find('td:nth-child('+(obj['fields'].day+1)+')')
 			console.log(td);

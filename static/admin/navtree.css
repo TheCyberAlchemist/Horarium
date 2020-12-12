@@ -18,7 +18,7 @@
   /* background-color: salmon; */
 }
 .active{
-  background-color: salmon;
+  border-color: #cdeeed;
   
 }
 .wrapper ul {

@@ -344,10 +344,12 @@ def add_student(request):
 	return render(request,"admin/student/add_student.html",context)
 
 
-def get_json(qs,keep_pk=True):
+def get_json(qs,keep_pk=True,event = False):
 	data = serializers.serialize("json", qs)
 	data = json.loads(data)
 	for d in data:
+		if event:
+			d['fields']['day'] = qs.get(day = d['fields']['day']).day.Days_id_id
 		if not keep_pk:
 			del d['pk']
 		del d['model']
@@ -506,7 +508,6 @@ def show_not_avail(request,Faculty_id):
 	############# Returns slot objects for a Qs#############
 	def get_slots(qs):
 		return Slots.objects.filter(pk__in = qs.values("Slot_id"))
-
 	faculty = Faculty_details.objects.get(pk = Faculty_id)
 	context = {}
 	events = Event.objects.filter(Subject_event_id__in = Subject_event.objects.filter(Faculty_id = Faculty_id))
@@ -516,7 +517,7 @@ def show_not_avail(request,Faculty_id):
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = Timings.objects.filter(Shift_id = Shift_id)
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = context['timings']))
-	context['events'] = get_json(get_slots(events),False)
+	context['events'] = get_json(get_slots(events),False,event = True)
 	context['not_available'] = get_json(get_slots(not_available),False)
 	if request.method == "POST":
 		if request.is_ajax():

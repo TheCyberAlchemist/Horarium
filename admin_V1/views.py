@@ -349,7 +349,7 @@ def get_json(qs,keep_pk=True,event = False):
 	data = json.loads(data)
 	for d in data:
 		if event:
-			d['fields']['day'] = qs.get(day = d['fields']['day']).day.Days_id_id
+			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
 		if not keep_pk:
 			del d['pk']
 		del d['model']
@@ -516,7 +516,7 @@ def show_not_avail(request,Faculty_id):
 	context["my_department"] = faculty.Department_id
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = Timings.objects.filter(Shift_id = Shift_id)
-	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = context['timings']))
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = context['timings']),event = True)
 	context['events'] = get_json(get_slots(events),False,event = True)
 	context['not_available'] = get_json(get_slots(not_available),False)
 	if request.method == "POST":

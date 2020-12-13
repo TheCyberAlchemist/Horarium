@@ -26,14 +26,23 @@
 		{% for timing in timings %} <!--for all time periods in database-->
 			<tr timing_id = {{timing.id}}>
 			{% if timing.is_break %}
-			{% set len = working_days|length + 1 %}
+			<th class = "time">
+				<p>
+					{{timing.name}}<br>
+					[{{timing.return_time()}}]
+					<input class = "not_avail_ckb" type="checkbox" id="{{timing.id}}">
+					<label for="{{timing.id}}"></label> 
+				</p>
+			</th>
+			{% set len = working_days|length %}
 				<th colspan = "{{len}}">
-					{{timing}}
+					<h1>{{timing.name}}</h1>
 				</th>
 			{% else %}
 				<th class = "time">
 					<p>
-                        {{timing}}
+                        {{timing.name}}<br>
+					[{{timing.return_time()}}]
 						<input class = "not_avail_ckb" type="checkbox" id="{{timing.id}}">
 						<label for="{{timing.id}}"></label> 
 					</p>

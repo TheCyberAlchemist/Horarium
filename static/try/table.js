@@ -27,9 +27,10 @@ class slot{
 function get_slot(td){
 	let day = td[0].cellIndex;
 	let time = td.parent().attr("timing_id");
-	// console.log(day,time)
-	for (i in slots){
+	// console.log(slots[0],day,time);
+	for (i in slots){	
 		if (slots[i].day == day && slots[i].timing == time){
+			console.log("hello");
 			return slots[i].id;
 		}
 	}
@@ -91,7 +92,7 @@ $(document).ready (function () {
 		}
 	});
 	}
-	///////////////////////////// Not Asvailable ///////////////////////
+	///////////////////////////// Not Available ///////////////////////
 	else if($(".submit_not_avail").length){
 		console.log(events_json);
 		for(i in events_json){		// all the events are marked and disabled
@@ -128,7 +129,6 @@ $(document).ready (function () {
 			checkbox.prop("checked", !checkbox.prop("checked"));
 			change_css();
 		});
-
 		$(".day").click(function(){
 			var index = $(this)[0].cellIndex;
 			var td = $('tbody').find('td:nth-child('+(index+1)+')');
@@ -152,7 +152,6 @@ $(document).ready (function () {
 			td.removeClass("td_color");
 		}
 		);
-		
 		$(".time").click(function(){
 			var tr = $(this).parent();
 			var td = tr.find('td');
@@ -177,7 +176,6 @@ $(document).ready (function () {
 			var td = tr.find('td');
 			td.removeClass("td_color");
 		});
-
 		$(".submit_not_avail").click(function(){
 			var checked = [];
 			$("tbody").find("input:checkbox[name=not_available]:checked").each(function(){

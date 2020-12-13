@@ -78,9 +78,12 @@ class slot{
       return false;
     }else if (greater_than(this.end_time,shift_end_time)){
       return false;
-    }else if(slots[i-1].end_time != this.start_time){
-      console.log(slots[i-1].end_time , this.start_time);
-      return false;
+    }
+    if (i != 0){
+      if(slots[i-1].end_time != this.start_time){
+        console.log(slots[i-1].end_time , this.start_time);
+        return false;
+      }
     }
     return true;
   }
@@ -263,9 +266,9 @@ $(document).ready (function () {
     $('#Go_here').show();
     $('#slot_form').show();
 		selected_tr = $(this).parentsUntil("tbody").last();
-    name = selected_tr.find("td").first().html();
+    name_td = selected_tr.find("td").first().html();
 		for (i = 0 ; i < slots.length; i++){
-      if (name == slots[i].name){
+      if (name_td == slots[i].name){
         index = i;
         break;
       }
@@ -312,14 +315,14 @@ $(document).ready (function () {
     $("#edit").show();
     $('#slot_form').show();
     selected_tr = $(this).parentsUntil("tbody").last();
-    name = selected_tr.find("td").first().html();
+    name_td = selected_tr.find("td").first().html();
 		for (i = 0 ; i < slots.length; i++){
-      if (name == slots[i].name){
+      if (name_td == slots[i].name){
         index = i;
         break;
       }
     }
-    console.log(slots[index]);
+    // console.log(slots[index]);
     old_duration = slots[index].duration();
     $('#slot_form').find("#id_name").val(slots[index].name);
     $('#slot_form').find("#start_time").val(slots[index].start_time);
@@ -341,10 +344,19 @@ $(document).ready (function () {
     temp.id = slots[index].id;
     slots[index] = temp;
     new_duration = temp.duration()
-    // console.log(new_duration,old_duration);
     delta = new_duration-old_duration;
     for (let i = index+1; i < slots.length; i++){
       slots[i].add(delta);
+      console.log(slots[i].is_valid(i));
+      if (!slots[i].is_valid(i)){
+        console.log(i);
+        while (slots.length > i){
+          console.log("l");
+          slots.pop()
+        }
+        break;
+        // slots.splice(index, 1);
+      }
     }
     $("#myTable > tbody").empty();  // insert temp into the next row in place of empting the body
     for (i in slots){

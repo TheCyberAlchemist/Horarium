@@ -142,10 +142,6 @@ function return_row(slot){
 	edit.innerHTML = '<button type="button" class="other_buttons edit">Edit</button>';
   tr.appendChild(edit);
   
-	var add_row = document.createElement('td');
-	add_row.innerHTML = '<button type="button" class="other_buttons add_here">Add</button>';
-	tr.appendChild(add_row);
-
   return tr;
 }
 
@@ -321,13 +317,13 @@ $(document).ready (function () {
         index = i;
         break;
       }
-    }
-    // console.log(slots[index]);
+    }    // console.log(slots[index]);
     old_duration = slots[index].duration();
     $('#slot_form').find("#id_name").val(slots[index].name);
     $('#slot_form').find("#start_time").val(slots[index].start_time);
     $('#slot_form').find("#end_time").val(slots[index].end_time);
     $('#slot_form').find("#id_is_break").prop( "checked" ,slots[index].is_break);
+    valid_input();
   });
 
   $(document).on("click", "#edit" , function(){

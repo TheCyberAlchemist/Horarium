@@ -11,9 +11,7 @@
 
 {% block scripts %}
 <script type="text/javascript" src="{{static ('jquery.js') }}"></script>
-<script src="{{static ('cookie.min.js')}}"></script>
 <script type="text/javascript" src="{{static ('admin/details/slot.js') }}"></script>
-<script type="text/javascript" src="{{static ('form/form.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
   set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
@@ -114,7 +112,7 @@
       <div class="input_container_double">
         <div class="input_container_double_1">
           <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="Start">
-          <input type="time" class="form_input" name="start_time" id="start_time">
+          <input type="time" class="form_input" name="start_time" id="start_time" disabled>
           <label for="start_time" class="form_input_label">
             <div class="text">Start Time</div>
             <div class="line"></div>
@@ -146,11 +144,6 @@
       <button type="button" id="add_row" class="show_form_button">Add Slot</button>
     </div>
 
-    <div class="form_visibility_img_container">
-      <button class="show_form_button" onclick="form_visibility()">
-        <p id="myp">Show Form</p>
-      </button>
-    </div>
     {% if integrityErrors %}
     <div class="errors_container">
       <p>
@@ -175,7 +168,6 @@
           <th>End Time</th>
           <th>Is a Break</th>
           <th>Edit</th>
-          <th>add next</th>
         </tr>
       </thead>
       <tbody class="mytbody"></tbody>

@@ -71,28 +71,6 @@ $(document).ready(function () {
     // }
   });
 
-  function valid_input() {
-    var inputs = $(".form_input");
-    inputs.each(function (i, obj) {
-      if ($(this).val()) {
-        $(this).next().find(".text").css({
-          "top": "-.7em",
-          "left": ".5px",
-          "transition": ".2s",
-          "font-size": "16px",
-          "color": "rgb(185, 184, 184)"
-        });
-      }
-    });
-    var update_div = $(".update_div");
-    update_div.next().find(".text").css({
-      "top": "-.7em",
-      "left": ".5px",
-      "transition": ".2s",
-      "font-size": "16px",
-      "color": "rgb(185, 184, 184)"
-    });
-  }
   valid_input();
   $(".form_input").change(function () {
     valid_input();
@@ -142,7 +120,28 @@ $(document).ready(function () {
     $(".pagination_container").hide();
   });
 });
-
+function valid_input() {
+  var inputs = $(".form_input");
+  inputs.each(function (i, obj) {
+    if ($(this).val()) {
+      $(this).next().find(".text").css({
+        "top": "-.7em",
+        "left": ".5px",
+        "transition": ".2s",
+        "font-size": "16px",
+        "color": "rgb(185, 184, 184)"
+      });
+    }
+  });
+  var update_div = $(".update_div");
+  update_div.next().find(".text").css({
+    "top": "-.7em",
+    "left": ".5px",
+    "transition": ".2s",
+    "font-size": "16px",
+    "color": "rgb(185, 184, 184)"
+  });
+}
 function visibility1(self) {
   console.log(self);
   var a = document.getElementById("myinput1");

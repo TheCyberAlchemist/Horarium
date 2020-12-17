@@ -2,7 +2,7 @@ from django.db import models
 
 ################################################
 
-from institute_V1.models import Semester,Batch
+from institute_V1.models import Semester,Batch,Division
 
 ################################################
 
@@ -17,13 +17,15 @@ class Subject_details(models.Model):
 	prac_per_week = models.PositiveIntegerField(null= True,blank = True)
 	load_per_week = models.PositiveIntegerField(default = 0)
 	color = models.CharField(max_length = 7)
+
 	def get_prac_lect(self):
 		prac_batch = lect_batch = 0
+		no_of_div = len(Division.objects.filter(Semester_id=self.Semester_id))
 		for batch in Batch.objects.filter(Division_id__Semester_id = self.Semester_id):
 			lect_batch += 1 if batch.batch_for == "lect" else 0	# total batches of lecture
 			prac_batch += 1 if batch.batch_for == "prac" else 0	# total batches of practical
-		lect_batch = 1 if lect_batch == 0 else lect_batch
-		prac_batch = 1 if prac_batch == 0 else prac_batch
+		lect_batch = no_of_div if lect_batch == 0 else lect_batch
+		prac_batch = no_of_div if prac_batch == 0 else prac_batch
 		return prac_batch,lect_batch
 
 	def save(self, *args, **kwargs):	# for calculating the load before saving
@@ -41,6 +43,10 @@ class Subject_details(models.Model):
 
 	class Meta:
 		verbose_name_plural = "Subject Details"	
+		constraints = [
+            models.UniqueConstraint(fields=['short', 'Semester_id'], name='Subject Short is Unique for Semester.'),
+			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Subject Name is Unique for Semester.')
+        ]	
 
 class Subject_event(models.Model):
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)

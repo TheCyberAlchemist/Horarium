@@ -1,6 +1,7 @@
 from django.forms import ModelForm
-from institute_V1.models import Department,Branch,Semester,Division,Batch,Shift
+from institute_V1.models import Department,Branch,Semester,Division,Batch,Shift,Resource
 from faculty_V1.models import Faculty_details,Faculty_designation,Faculty_load,Can_teach
+from subject_V1.models import Subject_details,Subject_event
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
@@ -54,10 +55,21 @@ class add_user(UserCreationForm):
 		model = get_user_model()
 		fields = ['first_name','last_name','email','password1','password2']
 
+
+class add_resource(ModelForm):
+	class Meta:
+		model = Resource
+		fields = ["name","block"]
+
 # class update_user_by_admin(AbstractUser):
 # 	class Meta:
 # 		# model = get_user_model()
 # 		fields = ['first_name','last_name']
+
+class add_subject_details(ModelForm):
+	class Meta:
+		model = Subject_details
+		fields = ["name","Semester_id","short","lect_per_week", "prac_per_week", "color"]
 
 
 class student_details(ModelForm):
@@ -70,6 +82,7 @@ class shift(ModelForm):
 	class Meta:
 		model = Shift
 		fields = ('name','start_time','end_time')
+
 
 class timing(ModelForm):
 	class Meta:

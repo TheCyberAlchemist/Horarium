@@ -6,7 +6,9 @@
 {% endblock css %}
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
-    <!-- <script src="{{static ('form/form.js')}}" charset="utf-8"></script> -->
+    <script>
+      $("#semester").select2();
+    </script>
 {% endblock scripts %}
 
 {% block content %}
@@ -19,7 +21,7 @@
         <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/subname.png')}}" alt="start">
-              <input type="text" class="form_input" name="sub_name" required autocomplete="off">
+              <input type="text" class="form_input" name="name" required autocomplete="off">
               <label for="" class="form_input_label">
                 <div class="text">Subject Name</div>
                 <div class="line"></div>
@@ -27,7 +29,7 @@
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/subshort.png')}}" alt="end">
-              <input type="text" class="form_input" name="sub_short" required autocomplete="off">
+              <input type="text" class="form_input" name="short" required autocomplete="off">
               <label for="" class="form_input_label">
                 <div class="text">Short Name</div>
                 <div class="line"></div>
@@ -38,7 +40,7 @@
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
-              <input type="text" class="form_input" name="lect" required autocomplete="off">
+              <input type="text" class="form_input" name="lect_per_week" required autocomplete="off">
               <label for="" class="form_input_label">
                 <div class="text">Lectures per week</div>
                 <div class="line"></div>
@@ -46,65 +48,66 @@
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-              <input type="text" class="form_input" name="prac" required autocomplete="off">
+              <input type="text" class="form_input" name="prac_per_week" required autocomplete="off">
               <label for="" class="form_input_label">
                 <div class="text">Practicals per week</div>
                 <div class="line"></div>
               </label>
             </div>
           </div>
+            <div class="select2_container">
+              <select name="Semester_id" id="semesters">
+                <option value="a" disabled >Pick a semester </option>
+                {% for semester in my_semesters %}
+                  <option value="{{semester.id}}">{{semester}}</option>
+                {% endfor %}
+              </select>
+            </div>
           <h3>Select Colour for Subject</h3>
           <div class="color_palette_container">
-
-            <input type="radio" name="rad" id="rad1" value="1">
+            <input type="radio" name="color" id="rad1" value="#7377a5">
             <label for="rad1">
-              <div class="colors" style="background-color: aqua;"></div>
+              <div class="colors" style="background-color: #7377a5;"></div>
             </label>
 
-            <input type="radio" name="rad" id="rad2" value="2">
+            <input type="radio" name="color" id="rad2" value="#ffbf00">
             <label for="rad2">  
-              <div class="colors" style="background-color: brown;"></div>
+              <div class="colors" style="background-color: #ffbf00;"></div>
             </label>
-            <input type="radio" name="rad" id="rad3" value="3">
+            <input type="radio" name="color" id="rad3" value="#00b3b3">
             <label for="rad3">  
-              <div class="colors" style="background-color: aquamarine;"></div>
+              <div class="colors" style="background-color: #00b3b3;"></div>
             </label>
             
-            <input type="radio" name="rad" id="rad4" value="4">
+            <input type="radio" name="color" id="rad4" value="#ff8080">
             <label for="rad4">  
-              <div class="colors" style="background-color: beige;"></div>
+              <div class="colors" style="background-color: #ff8080;"></div>
             </label>
 
-            <input type="radio" name="rad" id="rad5" value="5">
+            <input type="radio" name="color" id="rad5" value="#d65c7a">
             <label for="rad5">
-              <div class="colors" style="background-color: chartreuse;"></div>
+              <div class="colors" style="background-color: #d65c7a;"></div>
             </label>
 
-            <input type="radio" name="rad" id="rad6" value="6">
+            <input type="radio" name="color" id="rad6" value="#66cc66">
             <label for="rad6">
-              <div class="colors" style="background-color: firebrick;"></div>
+              <div class="colors" style="background-color: #66cc66;"></div>
             </label>
 
-            <input type="radio" name="rad" id="rad7" value="7">
+            <input type="radio" name="color" id="rad7" value="#33cccc">
             <label for="rad7">
-              <div class="colors" style="background-color: aqua;"></div>
+              <div class="colors" style="background-color: #33cccc;"></div>
             </label>
 
-            <input type="radio" name="rad" id="rad8" value="8">
+            <input type="radio" name="color" id="rad8" value="#3333ff">
             <label for="rad8">
-              <div class="colors" style="background-color: gold;"></div>
+              <div class="colors" style="background-color: #3333ff;"></div>
             </label>
 
-            <input type="radio" name="rad" id="rad9" value="9">
+            <input type="radio" name="color" id="rad9" value="#ff3333">
             <label for="rad9">
-              <div class="colors" style="background-color: hotpink;"></div>
+              <div class="colors" style="background-color: #ff3333;"></div>
             </label>
-
-            <input type="radio" name="rad" id="rad10" value="10">
-            <label for="rad10">
-              <div class="colors" style="background-color: gold;"></div>
-            </label>
-
           </div>
         <div class="submit_button_container">
           <button type="submit" name="button" class="submit_button">Submit</button>
@@ -125,8 +128,8 @@
           </p>
         </div>
         <script>
-            show_error("{{errors}}")
-          </script>
+          show_error("{{errors}}")
+        </script>
       {% endif %}
       </form>
       <div class="form_visibility_img_container" >
@@ -159,14 +162,17 @@
         <thead>
           <tr>
             <div class="delete_panel">
-              <h1>Faculties for {{institute}}</h1>
+              <h1>Faculties for {{my_branch}}</h1>
               <a style="display: none;" id="del" onclick="delete_entries()" >
               <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
               </a>
             </div>
             <th>Id</th>
-            <th>Department Name</th>
+            <th>Subject Name</th>
             <th>Short</th>
+            <th>Semester</th>
+            <th>[Lect,Prac]</th>
+            <th>Load</th>
             <th>Edit</th>
             <th>
               <div class="checkboxes" onclick="checkAll();">
@@ -177,19 +183,22 @@
           </tr>
         </thead>
         <tbody>
-          {% for department in departments %}
+          {% for subject in my_subjects %}
             <tr>
               <td>{{loop.index}}</td>
-              <td>{{department.name}}</td>
-              <td>{{department.short}}</td>
+              <td>{{subject.name}}</td>
+              <td>{{subject.short}}</td>
+              <td>{{subject.Semester_id}}</td>
+              <td>[{{subject.lect_per_week}} , {{subject.prac_per_week}}]</td>
+              <td>{{subject.load_per_week}}</td>
               <td>
-              <a href = "{{url ('update_department' ,args=[department.id])}}">
+              <a href = "{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
                   <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
               </a>
               </td>
               <td>
               <div class="checkboxes" onclick="checkSelected()">
-                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{department.id}}">
+                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{subject.id}}">
                   <label for="{{loop.index}}"></label>
               </div>
               </td>

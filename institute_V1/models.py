@@ -19,11 +19,16 @@ class Institute(models.Model):
 		verbose_name_plural = "Institute"
 
 class Resource(models.Model):
-	name = models.CharField(max_length = S_len)
-	block = models.CharField(max_length = S_len)
+	name = models.CharField(max_length = N_len)
+	block = models.CharField(max_length = N_len)
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name
+	class Meta:
+		verbose_name_plural = "Resource"
+		constraints = [
+            models.UniqueConstraint(fields=['name', 'Institute_id'], name='Resource Name is Unique for Institute'),
+        ]
 
 class Department(models.Model):
 	name = models.CharField(max_length = N_len)

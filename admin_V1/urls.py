@@ -8,6 +8,9 @@ urlpatterns = [
 	url(r'^department/$',views.show_department,name = 'show_department'),
 	url(r'^department/(?P<Department_id>\d+)/$',views.show_department,name = 'update_department'),
 
+	url(r'^resource/$',views.show_resource,name = 'show_resource'),
+	url(r'^resource/(?P<Resource_id>\d+)/$',views.show_resource,name = 'update_resource'),
+
 	url(r'^branch/(?P<Department_id>\d+)/$',views.show_branch,name = 'show_branch'),
 	url(r'^branch/(?P<Department_id>\d+)/(?P<Branch_id>\d+)/$',views.show_branch,name = 'update_branch'),
 	
@@ -33,6 +36,9 @@ urlpatterns = [
 	url(r'^faculty/(?P<Department_id>\d+)/(?P<Faculty_id>\d+)/$',views.add_faculty,name = 'update_faculty'),
 
 	path('student/',views.add_student,name = 'add_student'),
-	path('sub/',views.show_sub_det,name = 'show_sub_det'),
+
+	url(r'^sub/(?P<Branch_id>\d+)/$',views.show_sub_det,name = 'show_sub_det'),
+	url(r'^sub/(?P<Branch_id>\d+)/(?P<Subject_id>\d+)/$',views.show_sub_det,name = 'update_sub_det'),
+	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 
 ]

@@ -7,11 +7,11 @@ from django.db import IntegrityError
 from django.core import serializers
 
 
-from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift,Working_days,Timings,Slots
+from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift,Working_days,Timings,Slots,Resource
 from subject_V1.models import Subject_details,Subject_event
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
 from .forms import add_user,faculty_load,faculty_details,student_details
-from .forms import timing,shift
+from .forms import timing,shift,add_resource,add_subject_details
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
 
@@ -505,12 +505,12 @@ def show_table(request,Division_id):
 
 
 def show_not_avail(request,Faculty_id):
+	context = return_context(request)
 	############# Returns slot objects for a Qs#############
 	def get_slots(qs):
 		return Slots.objects.filter(pk__in = qs.values("Slot_id"))
 	faculty = Faculty_details.objects.get(pk = Faculty_id)
-	context = {}
-	events = Event.objects.filter(Subject_event_id__in = Subject_event.objects.filter(Faculty_id = Faculty_id))
+	events = Event.objects.filter(Subject_event_id__Faculty_id = Faculty_id)
 	not_available = Not_available.objects.filter(Faculty_id=Faculty_id)
 	Shift_id = faculty.Shift_id
 	context["my_department"] = faculty.Department_id
@@ -538,5 +538,76 @@ def show_not_avail(request,Faculty_id):
 	return render(request,"admin/details/not_available.html",context)
 
 
-def show_sub_det(request): 
-	return render(request,"admin/details/subject_details.html")
+def show_sub_det(request,Branch_id,Subject_id = None):
+	context = return_context(request)
+	my_branch = Branch.objects.get(id = Branch_id)
+	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
+	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by('Semester_id')
+	context['my_subjects'] = my_subjects
+	context['my_branch'] = my_branch
+	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
+		context['form'] = add_subject_details()
+		if Subject_id:	# if edit is called
+			edit = my_subjects.get(pk=Subject_id)
+			form = add_subject_details(instance = edit)
+			context['update'] = form.instance
+
+		if request.method == 'POST':	# if create is submitted
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(my_subjects,data)
+			else:
+				if Subject_id:	# if edit 
+					form = add_subject_details(request.POST, instance=edit) 
+				else:
+					form = add_subject_details(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					try:	# unique contraint added
+						candidate.save()
+						print(candidate)
+						context['form'] = add_subject_details()		     				#Form Renewed
+						return redirect('show_sub_det',Branch_id)                    #Page Renewed
+					except IntegrityError:
+						context['integrityErrors'] = "Name and Short must be unique for Semester"   #errors to integrityErrors
+				else:
+					context['errors'] = form.errors
+		return render(request,"admin/details/subject_details.html",context)
+	else:
+		raise redirect('/')
+
+
+def show_resource(request,Resource_id = None):
+	context = return_context(request)
+	context['my_resources'] = Resource.objects.filter(Institute_id=context['institute'])
+	if context['institute']:	# Check if the user is in the same institute as the urls
+		context['form'] = add_resource()
+		if Resource_id:	# if edit is called
+			edit = context['my_resources'].get(pk = Resource_id)
+			form = add_resource(instance = edit)
+			context["update"] = form.instance
+		if request.method == 'POST':
+			if request.is_ajax():	# if delete is called
+				data = json.loads(request.body)
+				delete_entries(context['my_resources'],data)
+			else:
+				if Resource_id:
+					form = add_resource(request.POST,instance=edit)
+				else:
+					form = add_resource(request.POST)
+				if form.is_valid():
+					candidate = form.save(commit=False)
+					candidate.Institute_id = context['institute']
+					try:	# unique contraint added
+						candidate.save()
+						context['form'] = add_resource()     			#Form Renewed
+						return redirect('show_resource')                  #Page Renewed
+					except IntegrityError:
+						context['integrityErrors'] = "*Name must be unique for Institute*"   #errors to integrityErrors
+				else:
+					context['errors'] = form.errors.as_text()
+					print(context['errors'])
+		print(context['my_resources'])
+		return render(request,"admin/details/department.html",context)
+	else:
+		return redirect('/')

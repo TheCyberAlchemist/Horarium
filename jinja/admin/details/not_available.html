@@ -1,70 +1,84 @@
-<link rel="stylesheet" href="{{static ('OLD_stuff/index.css') }}">
+{% extends 'admin/base.html' %}
+{% block title %}Department{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{{static ('admin/details/timetable.css') }}">
 <link rel="stylesheet" href="{{static ('form/form.css')}}">
+{% endblock css %}
+{% block scripts %}
 <script type="text/javascript" src="{{static ('jquery.js') }}"></script>
 <script src="{{static ('try/table.js') }}"></script>
 <script>
 	put_data("{{slots_json}}");
-	put_events("{{events}}","{{not_available}}")
-	// activate("{{my_department}}.b")
+	put_events("{{events}}", "{{not_available}}");
+	activate("{{my_department}}.b");
 </script>
+<script src="{{static ('cookie.min.js')}}"></script>
+{% endblock scripts %}
+
+{% block content %}
 <h1 style="color: white;">Not Available At </h1>
 
-<table style = "width:75%;" class="main_table">
+<table style="width:75%;" class="main_table">
 	<thead>
 		<th>
 			Time
 		</th>
-		{% for day in working_days %} 	<!--for all days in database-->
-      		<th class = "day">
-				{{day.Days_id}}
-				<input class = "not_avail_ckb" type="checkbox" id="{{day.id}}">
-				<label for="{{day.id}}"></label> 
-			</th>
+		{% for day in working_days %}
+		<!--for all days in database-->
+		<th class="day">
+			{{day.Days_id}}
+			<input class="not_avail_ckb" type="checkbox" id="{{day.id}}">
+			<label for="{{day.id}}"></label>
+		</th>
 		{% endfor %}
 	</thead>
 	<tbody class="table_time">
-		{% for timing in timings %} <!--for all time periods in database-->
-			<tr timing_id = {{timing.id}}>
+		{% for timing in timings %}
+		<!--for all time periods in database-->
+		<tr timing_id={{timing.id}}>
 			{% if timing.is_break %}
-			<th class = "time">
+			<th class="time">
 				<p>
 					{{timing.name}}<br>
 					[{{timing.return_time()}}]
-					<input class = "not_avail_ckb" type="checkbox" id="{{timing.id}}">
-					<label for="{{timing.id}}"></label> 
+					<input class="not_avail_ckb" type="checkbox" id="{{timing.id}}">
+					<label for="{{timing.id}}"></label>
 				</p>
 			</th>
 			{% set len = working_days|length %}
-				<th colspan = "{{len}}">
-					<h1>{{timing.name}}</h1>
-				</th>
+			<th colspan="{{len}}">
+				<h1>{{timing.name}}</h1>
+			</th>
 			{% else %}
-				<th class = "time">
-					<p>
-                        {{timing.name}}<br>
+			<th class="time">
+				<p>
+					{{timing.name}}<br>
 					[{{timing.return_time()}}]
-						<input class = "not_avail_ckb" type="checkbox" id="{{timing.id}}">
-						<label for="{{timing.id}}"></label> 
-					</p>
-				</th>
-				{% for day in working_days %}
-					<td class = "td">
-						<input type="checkbox" class = "not_avail_ckb" id="{{timing}}_{{day}}" name="not_available" value="{{timing.id}}_{{day.id}}">
-						<label for="{{timing.id}}_{{day.id}}"></label> 
-                    </td>
-				{% endfor %}
+					<input class="not_avail_ckb" type="checkbox" id="{{timing.id}}">
+					<label for="{{timing.id}}"></label>
+				</p>
+			</th>
+			{% for day in working_days %}
+			<td class="td">
+				<input type="checkbox" class="not_avail_ckb" id="{{timing}}_{{day}}" name="not_available"
+					value="{{timing.id}}_{{day.id}}">
+				<label for="{{timing.id}}_{{day.id}}"></label>
+			</td>
+			{% endfor %}
 			{% endif %}
-			</tr>
+		</tr>
 		{% endfor %}
 	</tbody>
 	<tfoot>
 		<tr>
 			<td colspan="6" style="border : none">
-				<button class = "submit_not_avail submit_button"> goooooooooooooooooo</button>
-				<a href="{{url ('add_faculty' , args=[1])}}"><h2 style="color: white;">Go Back to Faculty Details</h2></a> 
+				<button class="submit_not_avail submit_button"> goooooooooooooooooo</button>
+				<a href="{{url ('add_faculty' , args=[1])}}">
+					<h2 style="color: white;">Go Back to Faculty Details</h2>
+				</a>
 			</td>
 		</tr>
 	</tfoot>
 </table>
 {{csrf_input}}
-<script src="{{static ('cookie.min.js')}}"></script>
+{% endblock content %}

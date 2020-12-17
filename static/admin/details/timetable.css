@@ -34,6 +34,7 @@ td {
 .main_table th,.main_table td{
 	table-layout: fixed;
 	border: 2.5px solid #e87a00;
+	/* border: 2.5px solid #ffab4b; */
 	height: 75px;
 	color: white;
 }
@@ -178,6 +179,19 @@ width: 100%;
 .prac {
 	background-image: linear-gradient(to bottom, #0ebcf9,#17141d);
 }
+.td_color {       /*table.js ('.day').hover*/
+	background-color: #f8ad58;
+	z-index: 100;
+  }
+  .selected_td {  /*table.js*/
+	background-color: red;
+	opacity: .7;
+  }
+
+
+  /*Card*/
+
+
   .card:hover ~ .card{
 	transform: translateY(0.5rem);
   }

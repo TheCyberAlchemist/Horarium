@@ -25,7 +25,7 @@ $selected_placeholder_font_size : 16px;
   .show_form_button {
     background: transparent;
     outline: none;
-    border: 1px solid #5ba2ce;
+    border: 1px solid #58bfff;
     // width: 69%;
     margin-top: 1.3em;
     border-radius: 5px;
@@ -34,7 +34,7 @@ $selected_placeholder_font_size : 16px;
     margin-bottom: 1em;
   }
   .show_form_button:hover  {
-    background-color: #5ba2ce;
+    background-color: #58bfff;
   }
   .form_visibility_img_container {
     width: 100%;
@@ -528,12 +528,5 @@ $selected_placeholder_font_size : 16px;
   outline: none;
   border: none;
 }
-.td_color {       //table.js ('.day').hover
-  background-color: #f896eb;
-  z-index: 100;
-}
-.selected_td {  //table.js
-  background-color: red;
-  opacity: .7;
-}
+
   /*# sourceMappingURL=form.css.map */

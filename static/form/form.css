@@ -24,7 +24,7 @@
 .show_form_button {
   background: transparent;
   outline: none;
-  border: 1px solid #5ba2ce;
+  border: 1px solid #58bfff;
   margin-top: 1.3em;
   border-radius: 5px;
   padding: 10px 20px 10px 20px;
@@ -33,7 +33,7 @@
 }
 
 .show_form_button:hover {
-  background-color: #5ba2ce;
+  background-color: #58bfff;
 }
 
 .form_visibility_img_container {
@@ -585,15 +585,5 @@ input[type="time"]::-webkit-clear-button {
   color: white;
   outline: none;
   border: none;
-}
-
-.td_color {
-  background-color: #f896eb;
-  z-index: 100;
-}
-
-.selected_td {
-  background-color: red;
-  opacity: .7;
 }
 /*# sourceMappingURL=form.css.map */

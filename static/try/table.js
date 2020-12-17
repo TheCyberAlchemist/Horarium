@@ -141,7 +141,7 @@ $(document).ready (function () {
 			});
 			change_css()
 		});
-		$(".day").hover(function() {  // changes css when hovered on day column
+		$(".day").hover(function() {  // changes css when hovered on day column  //css in timetable.css
 			var index = $(this)[0].cellIndex;
 			var td = $('tbody').find('td:nth-child('+(index+1)+')');
 			td.addClass("td_color");
@@ -152,7 +152,7 @@ $(document).ready (function () {
 			td.removeClass("td_color");
 		}
 		);
-		$(".time").click(function(){
+		$(".time").click(function(){ 
 			var tr = $(this).parent();
 			var td = tr.find('td');
 			var input = td.find("input[type='checkbox']");
@@ -166,7 +166,7 @@ $(document).ready (function () {
 			});
 			change_css();
 		});
-		$(".time").hover(function() {  // changes css when hovered on time row
+		$(".time").hover(function() {  // changes css when hovered on time row  //css in timetable.css
 			var tr = $(this).parent();
 			var td = tr.find('td');
 			td.addClass("td_color");

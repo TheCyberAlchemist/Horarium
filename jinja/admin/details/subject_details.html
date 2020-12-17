@@ -162,7 +162,7 @@
         <thead>
           <tr>
             <div class="delete_panel">
-              <h1>Faculties for {{my_branch}}</h1>
+              <h1>Subjects for {{my_branch}}</h1>
               <a style="display: none;" id="del" onclick="delete_entries()" >
               <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
               </a>
@@ -183,7 +183,16 @@
           </tr>
         </thead>
         <tbody>
+          {% set vars = { "foo":my_subjects[0].Semester_id } %}
           {% for subject in my_subjects %}
+            {% if vars.foo != subject.Semester_id %}
+            {% if vars.update({ "foo":subject.Semester_id }) %} {%endif%}
+            <tr>
+              <td colspan="8" style="text-align: center;pointer-events: none;">-------------------------------------------------------------</td>
+            </tr>
+
+            {%endif%}
+
             <tr>
               <td>{{loop.index}}</td>
               <td>{{subject.name}}</td>

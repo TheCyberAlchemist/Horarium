@@ -29,6 +29,9 @@
           <li>
             <label for="a" class = "data"><a href = {{url ('show_department')}}>Department Details</a></label>
           </li>
+          <li>
+            <label for="{{department}}.c" class = "not_data"><a href = {{url ('show_resource')}}> Resources Details</a></label>
+          </li>
           {% for department in departments %}
             <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
                 <ul>
@@ -38,9 +41,6 @@
                   </li>
                   <li>
                     <label for="{{department}}.b" class = "not_data"><a href = {{url ('add_faculty' ,args=[department.id])}}>Add Faculty</a></label>
-                  </li>
-                  <li>
-                    <label for="{{department}}.c" class = "not_data"><a href = {{url ('show_resources' ,args=[department.id])}}> Resources Details</a></label>
                   </li>
                   <li>
                     <label for="{{department}}.d" class = "data">Shift Details</label>

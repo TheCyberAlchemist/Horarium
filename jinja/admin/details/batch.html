@@ -13,6 +13,9 @@
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
     <script>
       activate("{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.a");
+      $(document).ready(function() {
+        $("#batches").select2();
+      });
     </script>
 {% endblock scripts %}
 

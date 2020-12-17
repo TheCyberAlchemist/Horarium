@@ -14,31 +14,13 @@ $(document).ready(function () {
     }
   });
 
-  /*//////////////DROPDOWN//////////////*/
-  if ($("#designations").length) {
-    $("#designations").select2();
-    $("#shifts").select2();
-  }
-  if ($("#day1").length) {
-    $("#day1").select2();
-    $("#day2").select2();
-  }
-  if ($("#batches").length) {
-    $("#batches").select2();
-  }
-  if ($("#slot_naming").length) {
-    $("#slot_naming").select2();
-  }
+ 
   /* ///////////TO UpperCase/////////////// */
-
-  // $('.short_names').val($('.short_names').val().toUpperCase());
 
   $(".submit_button").click(function () {
     if ($('.short_names').length)
       $('.short_names').val($('.short_names').val().toUpperCase());
   });
-  // /* //////Scroll into view ///////// */
-
 
   /**//////////// Can Teach ///////////////////
   $('.can_container li :checkbox').on('click', function () {

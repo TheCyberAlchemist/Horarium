@@ -540,3 +540,6 @@ def show_not_avail(request,Faculty_id):
 
 def show_sub_det(request): 
 	return render(request,"admin/details/subject_details.html")
+
+def show_resources(request):
+	return render(request,"admin/details/resources.html") 

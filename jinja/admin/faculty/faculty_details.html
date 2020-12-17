@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
 {% endblock css %}
 {% block scripts %}
 <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
@@ -20,7 +21,11 @@
   {% endif %}
 </script>
 <script>
-  activate("{{my_department}}.b")
+  activate("{{my_department}}.b");
+  $(document).ready(function() {
+  $("#designations").select2();
+    $("#shifts").select2();
+  });
 </script>
 {% endblock scripts %}
 
@@ -264,7 +269,7 @@
           <th>Faculty Name</th>
           <th>Designation</th>
           <th>Edit</th>
-          <th>Active</th>
+          <th>Availibility</th>
           <th>
             <div class="checkboxes" onclick="checkAll();">
               <input type="checkbox" id="parent" name="parent" value="parent">
@@ -286,9 +291,7 @@
             </a>
           </td>
           <td>
-            <div class="toggler_container">
-              <input type="checkbox" class="toggle" checked>
-            </div>
+            <button class="other_buttons">Check</button>
           </td>
           <td>
             <div class="checkboxes" onclick="checkSelected()">

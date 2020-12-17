@@ -275,7 +275,7 @@ input[type="time"]::-webkit-clear-button {
 .submit_button {
   background: transparent;
   outline: none;
-  border: 1px solid #e12eca;
+  border: 1px solid #58bfff;
   width: 69%;
   color: white;
   border-radius: 5px;
@@ -285,18 +285,21 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .submit_button:hover, .submit_button:focus, .page_change_button:hover, .page_change_button:focus {
-  background-color: #e12eca;
+  background-color: #58bfff;
 }
 
 .other_buttons {
   background: transparent;
   outline: none;
-  border: 1px solid #e12eca;
+  border: 1px solid #58bfff;
   color: white;
   border-radius: 5px;
-  margin-top: 10px;
   padding: 10px;
-  font-size: 20px;
+  font-size: 17px;
+}
+
+.other_buttons:hover {
+  background-color: #58bfff;
 }
 
 .page_changer_button_container {
@@ -308,7 +311,7 @@ input[type="time"]::-webkit-clear-button {
 .page_change_button {
   background: transparent;
   outline: none;
-  border: 1px solid #e12eca;
+  border: 1px solid #58bfff;
   border-radius: 5px;
   padding: 10px;
   font-size: 18px;
@@ -525,8 +528,8 @@ input[type="time"]::-webkit-clear-button {
 .select2_grid {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (500px)[auto-fit];
-      grid-template-columns: repeat(auto-fit, 500px);
+  -ms-grid-columns: (300px)[auto-fit];
+      grid-template-columns: repeat(auto-fit, 300px);
 }
 
 /*////////////////Pagination/////////////*/
@@ -550,7 +553,7 @@ input[type="time"]::-webkit-clear-button {
 
 .numbers {
   margin: 0 auto;
-  border: 1px solid #e12eca;
+  border: 1px solid #58bfff;
   height: 45px;
   width: 45px;
   border-radius: 50%;
@@ -563,7 +566,7 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .numbers:hover {
-  background-color: #e12eca;
+  background-color: #58bfff;
   -webkit-transition: .1s;
   transition: .1s;
   -webkit-transform: scale(1.3);
@@ -571,13 +574,11 @@ input[type="time"]::-webkit-clear-button {
 }
 
 .pagination_container .active {
-  background-color: #e12eca;
+  background-color: #58bfff;
 }
 
 .numbers h3 {
   text-align: center;
-  margin-top: 10px;
-  margin-left: 4px;
 }
 
 .numbers a {

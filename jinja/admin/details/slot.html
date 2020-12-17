@@ -16,6 +16,11 @@
 <script>
   set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
   activate("{{my_shift.Department_id}}.d.{{my_shift}}");
+  $(document).ready(function() {
+    $("#day1").select2();
+    $("#day2").select2();
+    $("#slot_naming").select2();
+  });
 </script>
 {%endblock scripts%}
 

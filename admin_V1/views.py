@@ -611,3 +611,7 @@ def show_resource(request,Resource_id = None):
 		return render(request,"admin/details/resources.html",context)
 	else:
 		return redirect('/')
+
+def show_subject_events(request):
+	return render(request,"admin/details/subject_events.html")
+

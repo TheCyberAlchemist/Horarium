@@ -75,6 +75,9 @@
                         <li>
                           <label for="{{department}}.{{value1}}.{{value2}}.a" class = "data"><a href = {{url ('show_division' ,args=[value2.id])}}>Division Details</a></label>
                         </li>
+                        <li>
+                          <label for="{{department}}.c" class = "not_data"><a href = {{url ('show_subject_events')}}> Event Details</a></label>
+                        </li>
                         {% for key3,values3 in divs.items() %}{% if key3 == value2.id %}{% for value3 in values3 %}
                           <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}">{{value3.name}}</label>
                           <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}" type="checkbox" checked ><ul>

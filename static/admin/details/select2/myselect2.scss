@@ -15,7 +15,7 @@ $font_size1 : 1em;
     // margin: 0 auto 1.7em auto;
     padding-left : 10em;
     // position: relative;
-    transition: .1s;
+	transition: .1s;
   }
 .select2-container .select2-selection--single{
     //width of select box
@@ -120,7 +120,10 @@ $font_size1 : 1em;
 	border-width: 0 8px 9px 8px;
 }
 
-#designations,#shifts,#day1,#day2,#batches,#slot_naming{
+#designations,#shifts,#day1,#day2,#batches,#slot_naming,#semesters{
 	width:300px;
 	// margin: 0em 0em 0em 10em;
+}
+#select_fac{
+	width: 500px;
 }

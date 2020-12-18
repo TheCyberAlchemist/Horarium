@@ -3,13 +3,17 @@
 {% block css %}
     <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 {% endblock css %}
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script>
-      $("#semester").select2();
+      $(document).ready(function() {
+        $("#semesters").select2();
+      });
     </script>
-{% endblock scripts %}
+{% endblock scripts %} 
 
 {% block content %}
   <div class="whole_container" id="whole_container_id">
@@ -57,7 +61,7 @@
           </div>
             <div class="select2_container">
               <select name="Semester_id" id="semesters">
-                <option value="a" disabled >Pick a semester </option>
+                <option value="a" disabled selected>Pick a semester </option>
                 {% for semester in my_semesters %}
                   <option value="{{semester.id}}">{{semester}}</option>
                 {% endfor %}

@@ -4,7 +4,7 @@ from django.db import models
 from institute_V1.models import Department
 from django.contrib.auth import get_user_model
 from institute_V1.models import Shift,Institute,Slots
-from subject_V1.models import Subject_details
+from subject_V1.models import Subject_details,Subject_event
 
 ################################################
 
@@ -36,6 +36,12 @@ class Faculty_details(models.Model):
 class Faculty_load(models.Model):
 	total_load = models.PositiveIntegerField()
 	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE)
+	def remaining_load(self):
+		all_events = Subject_event.objects.filter(Faculty_id=self.Faculty_id)
+		total = 0
+		for i in all_events:
+			total += i.total_load_carried()
+		return self.total_load - total
 	def __str__(self):
 		return str(self.Faculty_id) + " - " + str(self.total_load) + " hrs"
 	class Meta:

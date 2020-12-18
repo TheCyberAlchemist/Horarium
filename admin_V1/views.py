@@ -577,6 +577,23 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 		raise redirect('/')
 
 
+def show_sub_event(request,Subject_id):
+	print(Subject_details.objects.get(pk = Subject_id))
+	teachers = Faculty_details.objects.filter(pk__in = Can_teach.objects.filter(Subject_id=Subject_id).values("Faculty_id"))
+	data = serializers.serialize("json", teachers)
+	data = json.loads(data)
+	for d in data:
+		faculty = Faculty_details.objects.get(pk = d['pk'])
+
+		d['fields']['name'] = faculty.User_id.first_name +  " " + faculty.User_id.last_name
+		d['fields']['remaining_load'] = Faculty_load.objects.get(Faculty_id=faculty).remaining_load()
+
+		del d['pk'],d['model'],d['fields']['User_id'],d['fields']['Designation_id'],d['fields']['Department_id'],d['fields']['Shift_id']
+	
+	print(data)
+	return render(request,"try/abc.html")
+
+
 def show_resource(request,Resource_id = None):
 	context = return_context(request)
 	context['my_resources'] = Resource.objects.filter(Institute_id=context['institute'])

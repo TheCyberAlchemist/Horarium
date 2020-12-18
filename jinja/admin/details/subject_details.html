@@ -18,14 +18,14 @@
 {% block content %}
   <div class="whole_container" id="whole_container_id">
     <fieldset>
-      <legend>{% if u_name %}Update{% else %}Add{% endif %} Subject Details</legend>
-      <form class="myform" method = "POST" {% if not u_name %}style="display: none;"{% endif %}>
+      <legend>{% if update %}Update{% else %}Add{% endif %} Subject Details</legend>
+      <form class="myform" method = "POST" {% if not update %}style="display: none;"{% endif %}>
         {{csrf_input}}
         <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
         <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/subname.png')}}" alt="start">
-              <input type="text" class="form_input" name="name" required autocomplete="off">
+              <input type="text" class="form_input" name="name" required autocomplete="off" {% if update %}value = "{{update.name}}"{% endif %}>
               <label for="" class="form_input_label">
                 <div class="text">Subject Name</div>
                 <div class="line"></div>
@@ -33,7 +33,7 @@
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/subshort.png')}}" alt="end">
-              <input type="text" class="form_input" name="short" required autocomplete="off">
+              <input type="text" class="form_input" name="short" required autocomplete="off" {% if update %}value = "{{update.short}}"{% endif %}>
               <label for="" class="form_input_label">
                 <div class="text">Short Name</div>
                 <div class="line"></div>
@@ -44,7 +44,7 @@
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
-              <input type="text" class="form_input" name="lect_per_week" required autocomplete="off">
+              <input type="text" class="form_input" name="lect_per_week" required autocomplete="off" {% if update %}value = "{{update.lect_per_week}}"{% endif %}>
               <label for="" class="form_input_label">
                 <div class="text">Lectures per week</div>
                 <div class="line"></div>
@@ -52,7 +52,7 @@
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-              <input type="text" class="form_input" name="prac_per_week" required autocomplete="off">
+              <input type="text" class="form_input" name="prac_per_week" required autocomplete="off" {% if update %}value = "{{update.prac_per_week}}"{% endif %}>
               <label for="" class="form_input_label">
                 <div class="text">Practicals per week</div>
                 <div class="line"></div>
@@ -61,57 +61,21 @@
           </div>
             <div class="select2_container">
               <select name="Semester_id" id="semesters">
-                <option value="a" disabled selected>Pick a semester </option>
+                <option value="a" disabled  {% if not update %} selected {% endif %}>Pick a semester </option>
                 {% for semester in my_semesters %}
-                  <option value="{{semester.id}}">{{semester}}</option>
+                  <option value="{{semester.id}}" {% if update and update.Semester_id == semester_id %} selected {% endif %}>{{semester}}</option>
                 {% endfor %}
               </select>
             </div>
           <h3>Select Colour for Subject</h3>
           <div class="color_palette_container">
-            <input type="radio" name="color" id="rad1" value="#7377a5">
-            <label for="rad1">
-              <div class="colors" style="background-color: #7377a5;"></div>
+          {%set colors = ["#7377a5","#ffbf00","#00b3b3","#ff8080","#d65c7a","#66cc66","#33cccc","#3333ff","#ff3333"]%}
+          {% for c in colors %}
+            <input type="radio" name="color" id="rad{{loop.index}}" value="{{c}}" {% if update and update.color == c%}checked{% endif %}>
+            <label for="rad{{loop.index}}">
+              <div class="colors" style="background-color: {{c}};{% if update and update.color == c%}border:5px solid black{% endif %}"></div>
             </label>
-
-            <input type="radio" name="color" id="rad2" value="#ffbf00">
-            <label for="rad2">  
-              <div class="colors" style="background-color: #ffbf00;"></div>
-            </label>
-            <input type="radio" name="color" id="rad3" value="#00b3b3">
-            <label for="rad3">  
-              <div class="colors" style="background-color: #00b3b3;"></div>
-            </label>
-            
-            <input type="radio" name="color" id="rad4" value="#ff8080">
-            <label for="rad4">  
-              <div class="colors" style="background-color: #ff8080;"></div>
-            </label>
-
-            <input type="radio" name="color" id="rad5" value="#d65c7a">
-            <label for="rad5">
-              <div class="colors" style="background-color: #d65c7a;"></div>
-            </label>
-
-            <input type="radio" name="color" id="rad6" value="#66cc66">
-            <label for="rad6">
-              <div class="colors" style="background-color: #66cc66;"></div>
-            </label>
-
-            <input type="radio" name="color" id="rad7" value="#33cccc">
-            <label for="rad7">
-              <div class="colors" style="background-color: #33cccc;"></div>
-            </label>
-
-            <input type="radio" name="color" id="rad8" value="#3333ff">
-            <label for="rad8">
-              <div class="colors" style="background-color: #3333ff;"></div>
-            </label>
-
-            <input type="radio" name="color" id="rad9" value="#ff3333">
-            <label for="rad9">
-              <div class="colors" style="background-color: #ff3333;"></div>
-            </label>
+          {% endfor %}
           </div>
         <div class="submit_button_container">
           <button type="submit" name="button" class="submit_button">Submit</button>

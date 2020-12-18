@@ -54,6 +54,8 @@ class Subject_event(models.Model):
 	link = models.URLField(max_length=200, null=True, blank=True)
 	prac_carried = models.PositiveIntegerField()
 	lect_carried = models.PositiveIntegerField()
+	def total_load_carried(self):
+		return (self.prac_carried * 2) + self.lect_carried
 	def __str__(self):
 		self.Subject_id.get_prac_lect()
 		return self.Subject_id.short + " by " + str(self.Faculty_id)

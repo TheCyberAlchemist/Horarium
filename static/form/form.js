@@ -83,19 +83,6 @@ $(document).ready(function () {
       }
     }
   });
-
-  if ($("#first_form").length) {  //if there is firstform
-    $("#first_form").css({ // to make slotDetails Pop Up in center
-      "position": "absolute",
-      "top": "50%",
-      "left": "50%",
-      "transform": "translate(-50%,-50%)",
-      "opacity": "1",
-      "z-index": "100",
-    });
-    $("#whole_container_id,.submit_button_container").addClass("blur_background");
-    //check #first_form_submit in slot.js  
-  }
   $(".form_hider").click(function () {
     $(".myform").hide();
     $(".form_visibility_img_container").show();

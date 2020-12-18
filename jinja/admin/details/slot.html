@@ -95,12 +95,13 @@
       </select>
     </div>
   </div>
-  <button id="first_form_submit" class="show_form_button">hiii</button>
+  <button id="first_form_submit" class="show_form_button">Submit</button>
 </fieldset>
 </div>
 <div class="whole_container" id="whole_container_id">
+<button id="main_edit" > main edit</button>
   <!-- <div class="mytable_container"> -->
-  <fieldset>
+  <fieldset id = "add_slot_form">
     <legend class="not_login">Add Slots</legend>
     <div id="slot_form" class="myform">
       {{csrf_input}}
@@ -172,7 +173,7 @@
           <th>Start Time</th>
           <th>End Time</th>
           <th>Is a Break</th>
-          <th>Edit</th>
+          <th class = "edit_buttons">Edit</th>
         </tr>
       </thead>
       <tbody class="mytbody"></tbody>

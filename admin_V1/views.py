@@ -602,6 +602,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 	if Faculty_id:	# if edit is called
 		edit = Subject_event.objects.get(Faculty_id=Faculty_id, Subject_id = Subject_id)
 		form = add_sub_event(instance = edit)
+		form.instance.Faculty_id = edit.Faculty_id
 		context['update'] = form.instance
 	if request.method == 'POST':
 		if request.is_ajax():	# if delete is called
@@ -609,7 +610,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 			delete_entries(context["Subject_event"],data)
 		else:
 			if Faculty_id:	# if edit 
-				form = add_sub_event(request.POST, instance=edit) 
+				form = add_sub_event(request.POST, instance=edit)
 			else:
 				form = add_sub_event(request.POST)
 			if form.is_valid():

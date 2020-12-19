@@ -5,15 +5,7 @@ class faculty{
 		this.name = name;
 		this.short = short;
 		this.remaining_load = remaining_load;
-		}	
-}
-class my_subject{
-	constructor(id = "",short = "",name = "",remaining_load=0){
-		this.id = id;
-		this.name = name;
-		this.short = short;
-		this.remaining_load = remaining_load;
-		}	
+	}	
 }
 let remaining_lect = 0
 let remaining_prac = 0
@@ -21,7 +13,6 @@ function put_data(faculty_details,remaining_l,remaining_p){
 	remaining_prac = remaining_p
 	remaining_lect = remaining_l
 	faculty_details = faculty_details.replace(/&#34;/ig,'"',);
-	// my_subject = my_subject.replace(/&#34;/ig,'"',);
 	json = JSON.parse(faculty_details);
 	for(i in json){
 		obj = json[i].fields;
@@ -29,6 +20,15 @@ function put_data(faculty_details,remaining_l,remaining_p){
 		all_faculty.push(temp);
 	}
 	console.log(all_faculty);
+}
+function add_load(id,lect,prac){
+	for(i in all_faculty){
+		if (all_faculty[i].id == parseInt(id)){
+			all_faculty[i].remaining_load += parseInt(lect) + (parseInt(prac) * 2);
+		}
+	}
+	remaining_prac = parseInt(remaining_prac) + parseInt(prac);
+	remaining_lect = parseInt(remaining_lect) + parseInt(lect);
 }
 function max_prac(fac){
 	remaining_load = fac.remaining_load
@@ -90,13 +90,3 @@ $(document).ready (function () {
 		$("#max_lect").html("Max Lect "+max_lect(current_faculty));
 	});
 });
-// $(".myform").submit(function(){
-// 	console.log("hello");
-// 	$.ajax({
-// 		type: "post",
-// 		data: JSON.stringify(current_faculty),
-// 		success: function (){
-// 			// location.reload();
-// 		}
-// 	});
-// });

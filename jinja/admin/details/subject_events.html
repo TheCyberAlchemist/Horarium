@@ -14,6 +14,9 @@
         $("#select_fac").select2();
       });
       put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
+      {% if update %}
+      add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
+      {% endif %}
     </script>
 
 {% endblock scripts %}
@@ -25,14 +28,19 @@
         <form class="myform" method = "POST" {% if not update %}style="display:none"{% endif %}>
           {{csrf_input}}
           <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
-          <div class="select2_container" style="margin-bottom: 1em;">
-            <select name="Faculty_id" id="select_fac">
-              <option value="a" disabled selected>Select Faculty </option>
-              {% for faculty in my_faculty %}
-                <option value="{{faculty.id}}" {% if update and update.Faculty_id_id == faculty.id%}selected{% endif %}>{{faculty.User_id}} ({{faculty.short}})</option>
-              {% endfor %}
-            </select>
-          </div>
+            <div class="select2_container" style="margin-bottom: 1em;">
+              <select name="Faculty_id" id="select_fac" >
+                <option value="a" disabled selected>Select Faculty </option>
+                {% if not update %}
+                  {% for faculty in my_faculty %}
+                    <option value="{{faculty.id}}">{{faculty.User_id}} ({{faculty.short}})</option>
+                  {% endfor %}
+                {% else %}
+                  <option value="{{update.Faculty_id_id}}" selected >{{update.Faculty_id.User_id}} ({{update.Faculty_id.short}})</option>
+                  
+                {% endif %}
+              </select>
+            </div>
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
@@ -92,7 +100,8 @@
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
     <div class="table_container">
       <div class="table_search_box">
-        <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+        <h1>Remaining Lectures :: {{remaining_lect}}
+        Remaining Practicals :: {{remaining_prac}}</h1>
       </div>
       <table id = "db_table">
         <thead>
@@ -106,9 +115,9 @@
             <th>Id</th>
             <th>Name</th>
             <th>Short</th>
-            <th>Prac</th>
-            <th>lect</th>
-            <th>total</th>
+            <th>Practicals</th>
+            <th>Lectures</th>
+            <th>Total Hrs.</th>
             <th>Edit</th>
             <th>
               <div class="checkboxes" onclick="checkAll();">
@@ -126,7 +135,7 @@
               <td>{{event.Faculty_id.short}}</td>
               <td>{{event.prac_carried}}</td>
               <td>{{event.lect_carried}}</td>
-              <td>{{event.total_load_carried()}}</td>
+              <td>{{event.total_load_carried()}} Hrs.</td>
               <td>
                 <a href = "{{url ('update_sub_event' ,args=[my_subject.id,event.Faculty_id_id])}}">
                   <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >

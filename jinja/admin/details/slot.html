@@ -28,7 +28,7 @@
 <div id="first_form" class="slot_first_form">
   <fieldset>
     <legend>Slot Selection</legend>
-  <div class="input_container">
+  <div class="input_container" style="margin-top: 1em;">
     <!-- <input class="form_input" type="number" id="Duration" /> -->
     <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
     <input type="number" id="duration" name="Duration" class="form_input" required/>
@@ -52,7 +52,7 @@
   <div class="day_selector">
     <div class="select2_container">
       <select name="day1" id="day1">
-        <option value="a">Pick Starting Day </option>
+        <option value="a" disabled selected>Pick Starting Day </option>
         {% if working_days[0] %}
           {% set len = working_days[working_days|length -1].Days_id_id %}
           <option value="1" {% if working_days[0].Days_id_id == 1 %}selected{% endif %}>Monday</option>
@@ -75,7 +75,7 @@
     <div class="day_line"></div>
     <div class="select2_container">
       <select name="day2" id="day2">
-        <option value="a">Pick Ending Day </option>
+        <option value="a" disabled selected>Pick Ending Day </option>
         {% if working_days %}
           <option value="1" {% if len == 1 %}selected{% endif %}>Monday</option>
           <option value="2" {% if len == 2 %}selected{% endif %}>Tuesday</option>
@@ -85,13 +85,6 @@
           <option value="6" {% if len == 6 %}selected{% endif %}>Saturday</option>
           <option value="7" {% if len == 7 %}selected{% endif %}>Sunday</option>
         {%endif%}
-        <option value="1">Monday</option>
-        <option value="2">Tuesday</option>
-        <option value="3">Wednesday</option>
-        <option value="4">Thursday</option>
-        <option value="5">Friday</option>
-        <option value="6">Saturday</option>
-        <option value="7">Sunday</option>
       </select>
     </div>
   </div>
@@ -99,7 +92,9 @@
 </fieldset>
 </div>
 <div class="whole_container" id="whole_container_id">
-<button id="main_edit" > main edit</button>
+  <div style="text-align:center">
+    <button class="other_buttons" id="main_edit"> main edit</button>
+  </div>
   <!-- <div class="mytable_container"> -->
   <fieldset id = "add_slot_form">
     <legend class="not_login">Add Slots</legend>

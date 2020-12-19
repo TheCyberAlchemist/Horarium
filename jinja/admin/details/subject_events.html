@@ -8,11 +8,12 @@
 {% endblock css %}
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
-    <!-- <script src="{{static ('form/form.js')}}" charset="utf-8"></script> -->
+    <script src="{{static ('admin/details/subject/subject_event.js')}}" charset="utf-8"></script>
     <script>
       $(document).ready(function() {
         $("#select_fac").select2();
       });
+      put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
     </script>
 
 {% endblock scripts %}
@@ -20,46 +21,46 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend>{% if u_name %}Update{% else %}Add{% endif %} Subject Event</legend>
-        <form class="myform" method = "POST" {% if not u_name %}style=""{% endif %}>
+        <legend>{% if update %}Update{% else %}Add{% endif %} Subject Event</legend>
+        <form class="myform" method = "POST" {% if not update %}style="display:none"{% endif %}>
           {{csrf_input}}
           <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
           <div class="select2_container" style="margin-bottom: 1em;">
-            <select name="Semester_id" id="select_fac">
+            <select name="Faculty_id" id="select_fac">
               <option value="a" disabled selected>Select Faculty </option>
               {% for faculty in my_faculty %}
-                <option value="{{semester.id}}">{{faculty}}</option>
+                <option value="{{faculty.id}}" {% if update and update.Faculty_id_id == faculty.id%}selected{% endif %}>{{faculty.User_id}} ({{faculty.short}})</option>
               {% endfor %}
             </select>
           </div>
-
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
-              <input type="text" class="form_input" name="lect_per_week" required autocomplete="off">
-              <label for="" class="form_input_label">
-                <div class="text">Lectures taken by Faculty</div>
+              <input type="number" id = "lect" class="form_input" name="lect_carried" required autocomplete="off" {% if update%}value = {{update.lect_carried}}{% endif %}>
+              <label for="lect" class="form_input_label">
+                <div class="text">Lectures taken</div>
                 <div class="line"></div>
               </label>
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-              <input type="text" class="form_input" name="prac_per_week" required autocomplete="off">
-              <label for="" class="form_input_label">
-                <div class="text">Practicals taken by Faculty</div>
+              <input type="number" id = "prac" class="form_input" name="prac_carried" required autocomplete="off" {% if update%}value = {{update.prac_carried}}{% endif %}>
+              <label for="prac" class="form_input_label">
+                <div class="text">Practicals taken</div>
                 <div class="line"></div>
               </label>
             </div>
         </div>
         <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-          <input type="text" class="form_input" name="prac_per_week" required autocomplete="off">
+          <input type="text" class="form_input" name="link" autocomplete="off" {% if update and update.link%}value = {{update.link}}{% endif %}>
           <label for="" class="form_input_label">
             <div class="text">Meeting Link (if any)</div>
             <div class="line"></div>
           </label>
         </div>
-
+        <p id = "max_prac"></p>
+        <p id = "max_lect"></p>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button">Submit</button>
           </div>
@@ -97,14 +98,17 @@
         <thead>
           <tr>
             <div class="delete_panel">
-              <h1 >Events for {{institute}}</h1>
+              <h1 >Events for {{my_subject}}</h1>
               <a style="display: none;" id="del" onclick="delete_entries()" >
                 <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
               </a>
             </div>
             <th>Id</th>
-            <th>Department Name</th>
+            <th>Name</th>
             <th>Short</th>
+            <th>Prac</th>
+            <th>lect</th>
+            <th>total</th>
             <th>Edit</th>
             <th>
               <div class="checkboxes" onclick="checkAll();">
@@ -115,19 +119,22 @@
           </tr>
         </thead>
         <tbody>
-          {% for department in departments %}
+          {% for event in Subject_event %}
             <tr>
               <td>{{loop.index}}</td>
-              <td>{{department.name}}</td>
-              <td>{{department.short}}</td>
+              <td>{{event.Faculty_id.User_id}}</td>
+              <td>{{event.Faculty_id.short}}</td>
+              <td>{{event.prac_carried}}</td>
+              <td>{{event.lect_carried}}</td>
+              <td>{{event.total_load_carried()}}</td>
               <td>
-                <a href = "{{url ('update_department' ,args=[department.id])}}">
+                <a href = "{{url ('update_sub_event' ,args=[my_subject.id,event.Faculty_id_id])}}">
                   <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
                 </a>
               </td>
               <td>
                 <div class="checkboxes" onclick="checkSelected()">
-                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{department.id}}">
+                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{event.id}}">
                   <label for="{{loop.index}}"></label>
                 </div>
               </td>

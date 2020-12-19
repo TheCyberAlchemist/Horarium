@@ -25,16 +25,16 @@
         <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/subname.png')}}" alt="start">
-              <input type="text" class="form_input" name="name" required autocomplete="off" {% if update %}value = "{{update.name}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "name" class="form_input" name="name" required autocomplete="off" {% if update %}value = "{{update.name}}"{% endif %}>
+              <label for="name" class="form_input_label">
                 <div class="text">Subject Name</div>
                 <div class="line"></div>
               </label>
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/subshort.png')}}" alt="end">
-              <input type="text" class="form_input" name="short" required autocomplete="off" {% if update %}value = "{{update.short}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "short" class="form_input" name="short" required autocomplete="off" {% if update %}value = "{{update.short}}"{% endif %}>
+              <label for="short" class="form_input_label">
                 <div class="text">Short Name</div>
                 <div class="line"></div>
               </label>
@@ -44,16 +44,16 @@
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
-              <input type="text" class="form_input" name="lect_per_week" required autocomplete="off" {% if update %}value = "{{update.lect_per_week}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "lect"class="form_input" name="lect_per_week" required autocomplete="off" {% if update %}value = "{{update.lect_per_week}}"{% endif %}>
+              <label for="lect" class="form_input_label">
                 <div class="text">Lectures per week</div>
                 <div class="line"></div>
               </label>
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-              <input type="text" class="form_input" name="prac_per_week" required autocomplete="off" {% if update %}value = "{{update.prac_per_week}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "prac" class="form_input" name="prac_per_week" required autocomplete="off" {% if update %}value = "{{update.prac_per_week}}"{% endif %}>
+              <label for="prac" class="form_input_label">
                 <div class="text">Practicals per week</div>
                 <div class="line"></div>
               </label>

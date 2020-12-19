@@ -18,6 +18,18 @@ class Subject_details(models.Model):
 	load_per_week = models.PositiveIntegerField(default = 0)
 	color = models.CharField(max_length = 7)
 
+	def remaining_lect_prac(self):
+		p,l = self.get_prac_lect()
+		total_prac = p * self.prac_per_week
+		total_lect = l * self.lect_per_week
+		taken_lect = taken_prac = 0
+		for event in Subject_event.objects.filter(Subject_id=self):
+			taken_prac += event.prac_carried
+			taken_lect += event.lect_carried
+		remaining_prac = total_prac - taken_prac
+		remaining_lect = total_lect - taken_lect
+		return remaining_lect,remaining_prac
+		
 	def get_prac_lect(self):
 		prac_batch = lect_batch = 0
 		no_of_div = len(Division.objects.filter(Semester_id=self.Semester_id))
@@ -60,4 +72,7 @@ class Subject_event(models.Model):
 		self.Subject_id.get_prac_lect()
 		return self.Subject_id.short + " by " + str(self.Faculty_id)
 	class Meta:
-		verbose_name_plural = "Subject events"	
+		verbose_name_plural = "Subject events"
+		constraints = [
+            models.UniqueConstraint(fields=['Faculty_id', 'Subject_id'], name='Subject can have only one Unique Faculty.'),
+        ]

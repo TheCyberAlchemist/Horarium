@@ -11,7 +11,7 @@ from institute_V1.models import Institute,Department,Branch,Semester,Division,Ba
 from subject_V1.models import Subject_details,Subject_event
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
 from .forms import add_user,faculty_load,faculty_details,student_details
-from .forms import timing,shift,add_resource,add_subject_details
+from .forms import timing,shift,add_resource,add_subject_details,add_sub_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
 
@@ -485,6 +485,8 @@ def show_shift(request,Department_id,Shift_id = None):
 
 
 def show_table(request,Division_id):
+	# the remaining lect and prac for all the subjects should return 0,0
+	#  to start the timetable
 	if request.method == "POST":
 		print(json.loads(request.body))
 		if request.is_ajax():
@@ -577,21 +579,53 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 		raise redirect('/')
 
 
-def show_sub_event(request,Subject_id):
-	print(Subject_details.objects.get(pk = Subject_id))
+def show_sub_event(request,Subject_id,Faculty_id=None):
+	def return_json(teachers):
+		data = serializers.serialize("json", teachers)
+		data = json.loads(data)
+		for d in data:
+			faculty = Faculty_details.objects.get(pk = d['pk'])
+			d['fields']['id'] = d['pk']
+			d['fields']['name'] = faculty.User_id.__str__()
+			d['fields']['remaining_load'] = Faculty_load.objects.get(Faculty_id=faculty).remaining_load()
+			del d['pk'],d['model'],d['fields']['User_id'],d['fields']['Designation_id'],d['fields']['Department_id'],d['fields']['Shift_id']
+		return json.dumps(data)
+	context = return_context(request)
 	teachers = Faculty_details.objects.filter(pk__in = Can_teach.objects.filter(Subject_id=Subject_id).values("Faculty_id"))
-	data = serializers.serialize("json", teachers)
-	data = json.loads(data)
-	for d in data:
-		faculty = Faculty_details.objects.get(pk = d['pk'])
-
-		d['fields']['name'] = faculty.User_id.first_name +  " " + faculty.User_id.last_name
-		d['fields']['remaining_load'] = Faculty_load.objects.get(Faculty_id=faculty).remaining_load()
-
-		del d['pk'],d['model'],d['fields']['User_id'],d['fields']['Designation_id'],d['fields']['Department_id'],d['fields']['Shift_id']
-	
-	print(data)
-	return render(request,"try/abc.html")
+	context["Subject_event"] = Subject_event.objects.filter(Subject_id = Subject_id)
+	context["my_faculty"] = teachers.exclude(pk__in = context["Subject_event"].values("Faculty_id"))
+	my_subject = Subject_details.objects.get(pk = Subject_id)
+	context["remaining_lect"],context["remaining_prac"] = my_subject.remaining_lect_prac()
+	context["my_subject"] = my_subject
+	context['fac'] = return_json(teachers)
+	context['form'] = add_sub_event()
+	if Faculty_id:	# if edit is called
+		edit = Subject_event.objects.get(Faculty_id=Faculty_id, Subject_id = Subject_id)
+		form = add_sub_event(instance = edit)
+		form.instance.Faculty_id = edit.Faculty_id
+		context['update'] = form.instance
+	if request.method == 'POST':
+		if request.is_ajax():	# if delete is called
+			data = json.loads(request.body)
+			delete_entries(context["Subject_event"],data)
+		else:
+			if Faculty_id:	# if edit 
+				form = add_sub_event(request.POST, instance=edit)
+			else:
+				form = add_sub_event(request.POST)
+			if form.is_valid():
+				candidate = form.save(commit=False)
+				candidate.Subject_id = my_subject
+				print("it is true :: ",candidate)
+				try:	# unique contraint added
+					candidate.save()
+					context['form'] = add_sub_event()     				#Form Renewed
+					return redirect('show_sub_event',Subject_id)                      #Page Renewed
+				except IntegrityError:
+					context['integrityErrors'] = "*Subject can have only one Unique Faculty.*"   #errors to integrityErrors
+			else:
+				context['errors'] = form.errors
+	return render(request,"admin/details/subject_events.html",context)
 
 
 def show_resource(request,Resource_id = None):
@@ -629,6 +663,4 @@ def show_resource(request,Resource_id = None):
 	else:
 		return redirect('/')
 
-def show_subject_events(request):
-	return render(request,"admin/details/subject_events.html")
 

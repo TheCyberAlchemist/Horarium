@@ -72,6 +72,12 @@ class add_subject_details(ModelForm):
 		fields = ["name","Semester_id","short","lect_per_week", "prac_per_week", "color"]
 
 
+class add_sub_event(ModelForm):
+	class Meta:
+		model = Subject_event
+		fields = ["Faculty_id","lect_carried", "prac_carried","link"]
+
+
 class student_details(ModelForm):
 	class Meta:
 		model = Student_details

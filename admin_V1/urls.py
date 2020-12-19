@@ -41,7 +41,9 @@ urlpatterns = [
 	url(r'^sub/(?P<Branch_id>\d+)/(?P<Subject_id>\d+)/$',views.show_sub_det,name = 'update_sub_det'),
 
 	url(r'^sub_event/(?P<Subject_id>\d+)/$',views.show_sub_event,name = 'show_sub_event'),
+	url(r'^sub_event/(?P<Subject_id>\d+)/(?P<Faculty_id>\d+)/$',views.show_sub_event,name = 'update_sub_event'),
+
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
-	path('sube/',views.show_subject_events, name = 'show_subject_events')
+	# path('sube/',views.show_subject_events, name = 'show_subject_events')
 
 ]

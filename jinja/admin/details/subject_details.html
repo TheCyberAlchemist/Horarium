@@ -25,16 +25,16 @@
         <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/subname.png')}}" alt="start">
-              <input type="text" class="form_input" name="name" required autocomplete="off" {% if update %}value = "{{update.name}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "name" class="form_input" name="name" required autocomplete="off" {% if update %}value = "{{update.name}}"{% endif %}>
+              <label for="name" class="form_input_label">
                 <div class="text">Subject Name</div>
                 <div class="line"></div>
               </label>
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/subshort.png')}}" alt="end">
-              <input type="text" class="form_input" name="short" required autocomplete="off" {% if update %}value = "{{update.short}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "short" class="form_input" name="short" required autocomplete="off" {% if update %}value = "{{update.short}}"{% endif %}>
+              <label for="short" class="form_input_label">
                 <div class="text">Short Name</div>
                 <div class="line"></div>
               </label>
@@ -44,16 +44,16 @@
           <div class="input_container_double">
             <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
-              <input type="text" class="form_input" name="lect_per_week" required autocomplete="off" {% if update %}value = "{{update.lect_per_week}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "lect"class="form_input" name="lect_per_week" required autocomplete="off" {% if update %}value = "{{update.lect_per_week}}"{% endif %}>
+              <label for="lect" class="form_input_label">
                 <div class="text">Lectures per week</div>
                 <div class="line"></div>
               </label>
             </div>
             <div class="input_container_double_2">
               <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-              <input type="text" class="form_input" name="prac_per_week" required autocomplete="off" {% if update %}value = "{{update.prac_per_week}}"{% endif %}>
-              <label for="" class="form_input_label">
+              <input type="text" id = "prac" class="form_input" name="prac_per_week" required autocomplete="off" {% if update %}value = "{{update.prac_per_week}}"{% endif %}>
+              <label for="prac" class="form_input_label">
                 <div class="text">Practicals per week</div>
                 <div class="line"></div>
               </label>
@@ -158,28 +158,28 @@
             <tr>
               <td colspan="8" style="text-align: center;pointer-events: none;">-------------------------------------------------------------</td>
             </tr>
-
             {%endif%}
-
-            <tr>
-              <td>{{loop.index}}</td>
-              <td>{{subject.name}}</td>
-              <td>{{subject.short}}</td>
-              <td>{{subject.Semester_id}}</td>
-              <td>[{{subject.lect_per_week}} , {{subject.prac_per_week}}]</td>
-              <td>{{subject.load_per_week}}</td>
-              <td>
-              <a href = "{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
-                  <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
-              </a>
-              </td>
-              <td>
-              <div class="checkboxes" onclick="checkSelected()">
-                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{subject.id}}">
-                  <label for="{{loop.index}}"></label>
-              </div>
-              </td>
-            </tr>
+              <tr>
+                <a href="{{url ('show_sub_event' ,args=[subject.id])}}">
+                  <td>{{loop.index}}</td>
+                </a>
+                <td>{{subject.name}}</td>
+                <td>{{subject.short}}</td>
+                <td>{{subject.Semester_id}}</td>
+                <td>[{{subject.lect_per_week}} , {{subject.prac_per_week}}]</td>
+                <td>{{subject.load_per_week}} Hrs.</td>
+                <td>
+                <a href = "{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
+                    <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+                </a>
+                </td>
+                <td>
+                <div class="checkboxes" onclick="checkSelected()">
+                    <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{subject.id}}">
+                    <label for="{{loop.index}}"></label>
+                </div>
+                </td>
+              </tr>
           {% endfor %}
         </tbody>
       </table>

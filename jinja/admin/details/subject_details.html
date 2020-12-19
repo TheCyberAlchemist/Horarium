@@ -158,28 +158,28 @@
             <tr>
               <td colspan="8" style="text-align: center;pointer-events: none;">-------------------------------------------------------------</td>
             </tr>
-
             {%endif%}
-
-            <tr>
-              <td>{{loop.index}}</td>
-              <td>{{subject.name}}</td>
-              <td>{{subject.short}}</td>
-              <td>{{subject.Semester_id}}</td>
-              <td>[{{subject.lect_per_week}} , {{subject.prac_per_week}}]</td>
-              <td>{{subject.load_per_week}} Hrs.</td>
-              <td>
-              <a href = "{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
-                  <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
-              </a>
-              </td>
-              <td>
-              <div class="checkboxes" onclick="checkSelected()">
-                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{subject.id}}">
-                  <label for="{{loop.index}}"></label>
-              </div>
-              </td>
-            </tr>
+              <tr>
+                <a href="{{url ('show_sub_event' ,args=[subject.id])}}">
+                  <td>{{loop.index}}</td>
+                </a>
+                <td>{{subject.name}}</td>
+                <td>{{subject.short}}</td>
+                <td>{{subject.Semester_id}}</td>
+                <td>[{{subject.lect_per_week}} , {{subject.prac_per_week}}]</td>
+                <td>{{subject.load_per_week}} Hrs.</td>
+                <td>
+                <a href = "{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
+                    <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+                </a>
+                </td>
+                <td>
+                <div class="checkboxes" onclick="checkSelected()">
+                    <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{subject.id}}">
+                    <label for="{{loop.index}}"></label>
+                </div>
+                </td>
+              </tr>
           {% endfor %}
         </tbody>
       </table>

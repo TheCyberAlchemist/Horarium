@@ -28,7 +28,18 @@
         <form class="myform" method = "POST" {% if not update %}style="display:none"{% endif %}>
           {{csrf_input}}
           <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
-            <div class="select2_container" style="margin-bottom: 1em;">
+          {% if update %}
+          <div class="input_container">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="start">
+            <input type="text" id = "name" class="form_input" name="name" required autocomplete="off" {% if update%} value = {{update.name}} {% endif %}>
+            <label for="name" class="form_input_label">
+              <div class="text">Faculty Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+          {% endif %}
+          {%if not update %}
+            <div class="select2_container single_select2" style="margin-bottom: 1em;">
               <select name="Faculty_id" id="select_fac" >
                 <option value="a" disabled selected>Select Faculty </option>
                 {% if not update %}
@@ -41,8 +52,9 @@
                 {% endif %}
               </select>
             </div>
+            {% endif %}
           <div class="input_container_double">
-            <div class="input_container_double_1">
+            <div class="input_container_double_1" >
               <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
               <input type="number" id = "lect" class="form_input" name="lect_carried" required autocomplete="off" {% if update%}value = {{update.lect_carried}}{% endif %}>
               <label for="lect" class="form_input_label">
@@ -50,7 +62,16 @@
                 <div class="line"></div>
               </label>
             </div>
-            <div class="input_container_double_2">
+            <div class="input_container_double_2" style="border: none;">
+              <!-- <span id = "max_lect">Max</span> -->
+              <label for="lect" class="form_input_label">
+                <div class="text" id = "max_lect"></div>
+                <div class="line"></div>
+              </label>
+            </div>
+          </div>
+          <div class="input_container_double">
+            <div class="input_container_double_1">
               <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
               <input type="number" id = "prac" class="form_input" name="prac_carried" required autocomplete="off" {% if update%}value = {{update.prac_carried}}{% endif %}>
               <label for="prac" class="form_input_label">
@@ -58,7 +79,14 @@
                 <div class="line"></div>
               </label>
             </div>
-        </div>
+            <div class="input_container_double_2" style="border: none;">
+              <!-- <span id = "max_prac">Max</span> -->
+              <label for="prac" class="form_input_label">
+                <div class="text" id="max_prac"></div>
+                <div class="line"></div>
+              </label>
+            </div>              
+          </div>
         <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
           <input type="text" class="form_input" name="link" autocomplete="off" {% if update and update.link%}value = {{update.link}}{% endif %}>
@@ -67,8 +95,6 @@
             <div class="line"></div>
           </label>
         </div>
-        <p id = "max_prac"></p>
-        <p id = "max_lect"></p>
           <div class="submit_button_container">
             <button type="submit" name="button" class="submit_button">Submit</button>
           </div>
@@ -99,10 +125,8 @@
 
     <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
     <div class="table_container">
-      <div class="table_search_box">
-        <h1>Remaining Lectures :: {{remaining_lect}}
-        Remaining Practicals :: {{remaining_prac}}</h1>
-      </div>
+        <h3>Remaining Lectures : {{remaining_lect}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        Remaining Practicals : {{remaining_prac}}</h3>
       <table id = "db_table">
         <thead>
           <tr>

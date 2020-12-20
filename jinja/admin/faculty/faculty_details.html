@@ -7,7 +7,7 @@
 <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
   integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
 {% endblock css %}
 {% block scripts %}
 <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
@@ -22,8 +22,8 @@
 </script>
 <script>
   activate("{{my_department}}.b");
-  $(document).ready(function() {
-  $("#designations").select2();
+  $(document).ready(function () {
+    $("#designations").select2();
     $("#shifts").select2();
   });
 </script>
@@ -42,8 +42,8 @@
 
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
-            <input type="text" class="form_input" name="first_name" required autocomplete="off"
-              {% if update %}value={{update[0].first_name}}{% endif %}>
+            <input type="text" class="form_input" name="first_name" required autocomplete="off" {% if update
+              %}value={{update[0].first_name}}{% endif %}>
             <label for="first_name" class="form_input_label">
               <div class="text">First Name</div>
               <div class="line"></div>
@@ -52,8 +52,8 @@
 
           <div class="input_container_double_2">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
-            <input type="text" class="form_input" name="last_name" required autocomplete="off"
-              {% if update %}value={{update[0].last_name}}{% endif %}>
+            <input type="text" class="form_input" name="last_name" required autocomplete="off" {% if update
+              %}value={{update[0].last_name}}{% endif %}>
             <label for="last_name" class="form_input_label">
               <div class="text">Last Name</div>
               <div class="line"></div>
@@ -63,8 +63,8 @@
         <div class="input_container_double">
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
-            <input type="text" class="form_input short_names" name="short" required autocomplete="off"
-              {% if update %}value={{update[1].short}}{% endif %}>
+            <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update
+              %}value={{update[1].short}}{% endif %}>
             <label for="short" class="form_input_label">
               <div class="text">Short Name</div>
               <div class="line"></div>
@@ -122,38 +122,66 @@
       <div id="second_page" style="display: none">
         <div class="input_container">
           <img class="input_icons" src="{{static ('admin/details/img/clock.png')}}" alt="load">
-          <input type="number" class="form_input" name="total_load" required autocomplete="off"
-            {% if update %}value={{update[2].total_load}}{% endif %}>
+          <input type="number" class="form_input" name="total_load" required autocomplete="off" {% if update
+            %}value={{update[2].total_load}}{% endif %}>
           <label for="total_load" class="form_input_label">
             <div class="text">Total Load of Faculty(in hrs)</div>
             <div class="line"></div>
           </label>
         </div>
 
-        <div class="select2_grid">
-          <div class="select2_container">
+
+        <div class="day_selector">
+          <div class="select2_container double_select2">
             <select name="Designation_id" id="designations">
               <option disabled {% if not update %}selected{% endif %}>Select Designation</option>
               {% for designation in designations %}
-              <option value="{{designation.id}}"
-                {% if update and designation.id == update[1].Designation_id%}selected{% endif %}>
+              <option value="{{designation.id}}" {% if update and designation.id==update[1].Designation_id%}selected{%
+                endif %}>
                 {{designation}}
               </option>
               {%endfor%}
             </select>
           </div>
+          <div class="day_line" style="height: 0%;"></div>
 
-          <div class="select2_container">
+          <div class="select2_container double_select2">
             <select name="Shift_id" id="shifts">
               <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
               {% for shift in my_shifts %}
-              <option value="{{shift.id}}" {% if update and shift.id == update[1].Shift_id%}selected{% endif %}>
+              <option value="{{shift.id}}" {% if update and shift.id==update[1].Shift_id%}selected{% endif %}>
                 {{shift}}
               </option>
               {%endfor%}
             </select>
           </div>
         </div>
+
+
+
+        <!-- <div class="select2_grid">
+          <div class="select2_container" style="background-color: cyan;">
+            <select name="Designation_id" id="designations">
+              <option disabled {% if not update %}selected{% endif %}>Select Designation</option>
+              {% for designation in designations %}
+              <option value="{{designation.id}}" {% if update and designation.id==update[1].Designation_id%}selected{%
+                endif %}>
+                {{designation}}
+              </option>
+              {%endfor%}
+            </select>
+          </div>
+          <div class="select2_container" style="background-color: red;">
+            <select name="Shift_id" id="shifts">
+              <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
+              {% for shift in my_shifts %}
+              <option value="{{shift.id}}" {% if update and shift.id==update[1].Shift_id%}selected{% endif %}>
+                {{shift}}
+              </option>
+              {%endfor%}
+            </select>
+          </div>
+        </div> -->
       </div>
 
       <div id="third_page" style="display:none">
@@ -183,8 +211,8 @@
                       {%for subject in my_subjects%}{% if subject.Semester_id == sem %}
                       <li>
                         <div class="checkboxes">
-                          <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}"
-                            {% if update and subject.id in update[3]%}checked{% endif %} />
+                          <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if
+                            update and subject.id in update[3]%}checked{% endif %} />
                           <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
                         </div>
                         <!-- <input type="checkbox" />{{subject}} -->
@@ -219,36 +247,35 @@
     </div>
 
     <div class="pagination_container" {% if not update %}style="display: none;" {% endif %}>
-      <div class="numbers" id="first"> <a href="#">
+      <div class="numbers" id="first">
           <h3>1</h3>
-        </a> </div>
-      <div class="numbers" id="second"><a href="#">
-          <h3>2</h3>
-        </a> </div>
-      <div class="numbers" id="third"><a href="#">
-          <h3>3</h3>
-        </a> </div>
-      <!-- <div class="numbers" id="fourth"><a href ="{{url ('show_not_avail' ,args=[1])}}"><h3>4</h3></a> </div> -->
+      </div>
+      <div class="numbers" id="second">
+        <h3>2</h3>
+      </div>
+      <div class="numbers" id="third">
+        <h3>3</h3>
+      </div>
     </div>
 
     {% if integrityErrors %}
-        <div class="errors_container">
-          <p>
-            {{integrityErrors}}
-          </p>
-        </div>
-      {% endif %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+    {% endif %}
 
-      {% if errors %}
-        <div class="errors_container">
-          <p>
-            {{errors}}
-          </p>
-        </div>
-        <script>
-            show_error("{{errors}}")
-          </script>
-      {% endif %}
+    {% if errors %}
+    <div class="errors_container">
+      <p>
+        {{errors}}
+      </p>
+    </div>
+    <script>
+      show_error("{{errors}}")
+    </script>
+    {% endif %}
   </fieldset>
 
   <div class="table_container">
@@ -291,7 +318,7 @@
             </a>
           </td>
           <td>
-            <button class="other_buttons">Check</button>
+            <img class="action_icons" style="height : 30px;width:35px" src="{{static ('admin/details/img/in.png')}}" alt="" title="Edit">
           </td>
           <td>
             <div class="checkboxes" onclick="checkSelected()">

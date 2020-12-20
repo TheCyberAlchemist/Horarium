@@ -177,3 +177,9 @@ $table_heading_color : #222235;
   .toggler_container .toggle:checked:after {
     transform: translatex(20px);
   }
+
+  //////////////subject event page/////////////
+  .sub_event_go a{
+    padding: 3px;
+    border-bottom: 2px solid white;
+  }

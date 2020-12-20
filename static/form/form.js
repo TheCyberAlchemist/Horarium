@@ -87,9 +87,13 @@ $(document).ready(function () {
     $(".myform").hide();
     $(".form_visibility_img_container").show();
     $(".pagination_container").hide();
+    $("#add_row").show();
   });
 });
 function valid_input() {
+  $( "input:disabled" ).css(    // add the css for the disabled inputs
+    { "background-color": "white" } 
+  );
   var inputs = $(".form_input");
   inputs.each(function (i, obj) {
     if ($(this).val()) {

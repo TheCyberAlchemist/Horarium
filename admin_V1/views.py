@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from login_V2.decorators import allowed_users
+from login_V2.decorators import allowed_users,unauthenticated_user
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
 from django.db import IntegrityError
@@ -74,12 +75,15 @@ def delete_entries(qs,data):
 		qs.get(pk = d).delete()
 
 
+@login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def admin_home(request):
 	context = return_context(request)
 	return render(request,'admin/homepage/home.html',context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_department(request,Department_id = None):
 	context = return_context(request)
 	if context['institute']:	# Check if the user is in the same institute as the urls
@@ -115,6 +119,8 @@ def show_department(request,Department_id = None):
 		return redirect('/')
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_semester(request,Branch_id,Semester_id = None):
 	context = return_context(request)
 	my_branch = Branch.objects.get(id = Branch_id)
@@ -153,6 +159,8 @@ def show_semester(request,Branch_id,Semester_id = None):
 		raise redirect('/')
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_division(request,Semester_id,Division_id = None):
 	context = return_context(request)
 	my_semester = Semester.objects.get(id = Semester_id)
@@ -192,6 +200,8 @@ def show_division(request,Semester_id,Division_id = None):
 		raise redirect('/')
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_batch(request,Division_id,Batch_id = None):
 	context = return_context(request)
 	my_division = Division.objects.get(id = Division_id)
@@ -231,6 +241,8 @@ def show_batch(request,Division_id,Batch_id = None):
 		raise redirect('/')
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def add_faculty(request,Department_id,Faculty_id=None):
 	context = return_context(request)
 	if context['institute']:
@@ -325,6 +337,8 @@ def add_faculty(request,Department_id,Faculty_id=None):
 	return render(request,"admin/faculty/faculty_details.html",context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def add_student(request):
 	context = return_context(request)
 	context['user_form'] = add_user()
@@ -356,6 +370,8 @@ def get_json(qs,keep_pk=True,event = False):
 	return json.dumps(data)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_slot(request,Shift_id=None):
 	context = return_context(request)
 	my_shift = Shift.objects.get(pk = Shift_id)
@@ -400,6 +416,8 @@ def show_slot(request,Shift_id=None):
 	return render(request,"admin/details/slot.html",context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_branch(request,Department_id,Branch_id=None):
 	context = return_context(request)
 	my_department = Department.objects.get(id = Department_id)
@@ -442,6 +460,8 @@ def show_branch(request,Department_id,Branch_id=None):
 		return redirect('/')
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_shift(request,Department_id,Shift_id = None):
 	context = return_context(request)
 	my_department = Department.objects.get(id = Department_id)
@@ -484,6 +504,8 @@ def show_shift(request,Department_id,Shift_id = None):
 	return render(request,"admin/details/shift.html",context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_table(request,Division_id):
 	# the remaining lect and prac for all the subjects should return 0,0
 	#  to start the timetable
@@ -506,6 +528,8 @@ def show_table(request,Division_id):
 	return render(request,"try/table.html",context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_not_avail(request,Faculty_id):
 	context = return_context(request)
 	############# Returns slot objects for a Qs#############
@@ -542,6 +566,8 @@ def show_not_avail(request,Faculty_id):
 	return render(request,"admin/details/not_available.html",context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_sub_det(request,Branch_id,Subject_id = None):
 	context = return_context(request)
 	my_branch = Branch.objects.get(id = Branch_id)
@@ -581,6 +607,8 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 		raise redirect('/')
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_sub_event(request,Subject_id,Faculty_id=None):
 	def return_json(teachers):
 		data = serializers.serialize("json", teachers)
@@ -630,6 +658,8 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 	return render(request,"admin/details/subject_events.html",context)
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_resource(request,Resource_id = None):
 	context = return_context(request)
 	context['my_resources'] = Resource.objects.filter(Institute_id=context['institute'])

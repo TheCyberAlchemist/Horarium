@@ -3,6 +3,7 @@ from django.urls import path
 from . import views
 from django.conf.urls import url
 urlpatterns = [
+	
 	path('home/',views.admin_home,name = 'admin_home'),
 	
 	url(r'^department/$',views.show_department,name = 'show_department'),

@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from login_V2.decorators import allowed_users,unauthenticated_user
+from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
@@ -116,7 +116,7 @@ def show_department(request,Department_id = None):
 					print(context['errors'])
 		return render(request,"admin/details/department.html",context)
 	else:
-		return redirect('/')
+		return redirect(get_home_page(request.user))
 
 
 @login_required(login_url="login")
@@ -156,7 +156,7 @@ def show_semester(request,Branch_id,Semester_id = None):
 					context['errors'] = form.errors
 		return render(request,"admin/details/semester.html",context)
 	else:
-		raise redirect('/')
+		raise redirect(get_home_page(request.user))
 
 
 @login_required(login_url="login")
@@ -197,7 +197,7 @@ def show_division(request,Semester_id,Division_id = None):
 					context['errors'] = form.errors
 		return render(request,"admin/details/division.html",context)
 	else:
-		raise redirect('/')
+		raise redirect(get_home_page(request.user))
 
 
 @login_required(login_url="login")
@@ -238,7 +238,7 @@ def show_batch(request,Division_id,Batch_id = None):
 					context['errors'] = form.errors
 		return render(request,"admin/details/batch.html",context)
 	else:
-		raise redirect('/')
+		raise redirect(get_home_page(request.user))
 
 
 @login_required(login_url="login")
@@ -291,7 +291,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 					faculty_load_form.save()
 				else :
 					pass
-				return redirect('/')
+				return redirect(get_home_page(request.user))
 
 		if request.method == 'POST':
 			user_form = add_user(request.POST)
@@ -332,7 +332,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 			else:
 				context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
 	else:
-		return redirect('/')
+		return redirect(get_home_page(request.user))
 		
 	return render(request,"admin/faculty/faculty_details.html",context)
 
@@ -457,7 +457,7 @@ def show_branch(request,Department_id,Branch_id=None):
 					context['errors'] = form.errors
 		return render(request,"admin/details/branch.html",context)
 	else:
-		return redirect('/')
+		return redirect(get_home_page(request.user))
 
 
 @login_required(login_url="login")
@@ -499,7 +499,7 @@ def show_shift(request,Department_id,Shift_id = None):
 					context['errors'] = form.errors
 			return render(request,"admin/details/shift.html",context)
 	else:
-		return redirect('/')
+		return redirect(get_home_page(request.user))
 
 	return render(request,"admin/details/shift.html",context)
 
@@ -604,7 +604,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 					context['errors'] = form.errors
 		return render(request,"admin/details/subject_details.html",context)
 	else:
-		raise redirect('/')
+		raise redirect(get_home_page(request.user))
 
 
 @login_required(login_url="login")
@@ -693,6 +693,6 @@ def show_resource(request,Resource_id = None):
 		print(context['my_resources'])
 		return render(request,"admin/details/resources.html",context)
 	else:
-		return redirect('/')
+		return redirect(get_home_page(request.user))
 
 

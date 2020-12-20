@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.contrib.auth import logout
 
 ################ returns home if logged in or login if not #################
 
@@ -34,7 +35,6 @@ def allowed_users(allowed_roles=[]):
     def decorator(view_func):
         def wrapper_func(request,*args,**kwargs):
             user_groups_set = None
-            print(request.user.groups)
             if request.user.groups.exists():
                 groups = request.user.groups.all()
                 user_groups_set = set()
@@ -44,7 +44,8 @@ def allowed_users(allowed_roles=[]):
             if user_groups_set & allowed_roles_set:
                 return view_func(request,*args,**kwargs)
             else:
-                return redirect(get_home_page(request.user))
+                logout(request)
+                return redirect('login')
                 # return HttpResponse("hii")
         return wrapper_func
     return decorator

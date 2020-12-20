@@ -139,7 +139,8 @@ function return_row(slot){
 	tr.appendChild(is_break);
 
   var edit = document.createElement('td');
-  edit.innerHTML = '<button type="button" class="other_buttons edit">Edit</button>';
+  edit.innerHTML = "<img src=\'{{static (\'admin\\details\\img\\pen.png\\')}}\' alt='edit' title='edit'> ";
+
   edit.className = "edit_buttons";
   tr.appendChild(edit);
   
@@ -178,7 +179,9 @@ function get_remainder(){
   temp_slot = new slot();
   temp_slot.start_time = slots[slots.length-1].end_time;
   temp_slot.end_time = shift_end_time;
-  console.log(temp_slot.duration());
+  // console.log(temp_slot.duration());
+  let min = temp_slot.duration();
+  $("#get_remainder").html("Remaining Time :: "+parseInt(min/60) + " hr(s)\t"+(min%60) + " min(s)" );
   return temp_slot.duration();
 }
 
@@ -233,6 +236,7 @@ $(document).ready (function () {
     $("#slot_form").hide();
     $('#add_row').show();
     $(".submit_button").show();
+    get_remainder();
   });
   
 

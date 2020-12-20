@@ -111,8 +111,12 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #shifts, #day1, #day2, #batches, #slot_naming, #semesters {
+#designations, #day1, #day2, #batches, #slot_naming, #semesters {
   width: 300px;
+}
+
+#shifts {
+  width: 350px;
 }
 
 #select_fac {

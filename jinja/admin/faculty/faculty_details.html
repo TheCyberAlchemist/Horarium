@@ -26,6 +26,9 @@
     $("#designations").select2();
     $("#shifts").select2();
   });
+  {%if update %}
+    form_visibility(true);
+  {%endif%}
 </script>
 {% endblock scripts %}
 
@@ -43,7 +46,7 @@
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
             <input type="text" class="form_input" name="first_name" required autocomplete="off" {% if update
-              %}value={{update[0].first_name}}{% endif %}>
+              %}value={{update[0].first_name}} disabled="disabled" {% endif %}>
             <label for="first_name" class="form_input_label">
               <div class="text">First Name</div>
               <div class="line"></div>
@@ -53,7 +56,7 @@
           <div class="input_container_double_2">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
             <input type="text" class="form_input" name="last_name" required autocomplete="off" {% if update
-              %}value={{update[0].last_name}}{% endif %}>
+              %}value={{update[0].last_name}} disabled="disabled" {% endif %}>
             <label for="last_name" class="form_input_label">
               <div class="text">Last Name</div>
               <div class="line"></div>
@@ -64,7 +67,7 @@
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
             <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update
-              %}value={{update[1].short}}{% endif %}>
+              %}value={{update[1].short}} disabled="disabled" {% endif %}>
             <label for="short" class="form_input_label">
               <div class="text">Short Name</div>
               <div class="line"></div>
@@ -91,7 +94,7 @@
           {% endif %}
 
         </div>
-        <div class="input_container_double">
+        <div class="input_container_double" {% if update %} style="display: none;" {% endif %}>
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
             <input type="password" class="form_input" name="password1" id="myinput1" required autocomplete="off">

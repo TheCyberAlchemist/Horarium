@@ -7,13 +7,17 @@
 <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 {% endblock css %}
 {% block scripts %}
-<script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
-<script>
-  $(document).ready(function () {
-    $("#semesters").select2();
-  });
-</script>
-{% endblock scripts %}
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <script>
+      activate("{{my_branch.Department_id}}.{{my_branch}}.b");
+      $(document).ready(function() {
+        $("#semesters").select2();
+      });
+      {% if update %}
+        form_visibility(true);
+      {% endif %}
+    </script>
+{% endblock scripts %} 
 
 {% block content %}
 <div class="whole_container" id="whole_container_id">

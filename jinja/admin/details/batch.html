@@ -16,6 +16,9 @@
       $(document).ready(function() {
         $("#batches").select2();
       });
+      {% if update %}
+        form_visibility(true);
+      {% endif %}
     </script>
 {% endblock scripts %}
 

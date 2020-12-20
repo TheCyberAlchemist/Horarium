@@ -10,12 +10,14 @@
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('admin/details/subject/subject_event.js')}}" charset="utf-8"></script>
     <script>
+    activate("{{my_subject.Semester_id.Branch_id.Department_id}}.{{my_subject.Semester_id.Branch_id}}.b");
       $(document).ready(function() {
         $("#select_fac").select2();
       });
       put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
       {% if update %}
-      add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
+        add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
+        form_visibility(true);
       {% endif %}
     </script>
 

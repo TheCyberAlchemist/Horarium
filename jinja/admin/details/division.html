@@ -12,6 +12,9 @@
     <script>
       activate("{{my_semester.Branch_id.Department_id}}.{{my_semester.Branch_id}}.{{my_semester}}.a");
       $("#shifts").select2();
+      {% if update %}
+        form_visibility(true);
+      {% endif %}
     </script>
 {% endblock scripts %}
 

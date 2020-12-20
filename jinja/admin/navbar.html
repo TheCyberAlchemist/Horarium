@@ -30,7 +30,7 @@
             <label for="a" class = "data"><a href = {{url ('show_department')}}>Department Details</a></label>
           </li>
           <li>
-            <label for="{{department}}.c" class = "not_data"><a href = {{url ('show_resource')}}> Resources Details</a></label>
+            <label for="b" class = "not_data"><a href = {{url ('show_resource')}}> Resources Details</a></label>
           </li>
           {% for department in departments %}
             <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
@@ -66,7 +66,7 @@
                       <label for="{{department}}.{{value1}}.a" class = "data"><a href = {{url ('show_semester' ,args=[value1.id])}}>Semester Details</a></label>
                     </li>
                     <li>
-                      <label for="{{department}}.e" class = "not_data"><a href = {{url ('show_sub_det' ,args=[value1.id])}}> Subject Details</a></label>
+                      <label for="{{department}}.{{value1}}.b" class = "not_data"><a href = {{url ('show_sub_det' ,args=[value1.id])}}> Subject Details</a></label>
                     </li>
                       {% for key2,values2 in sems.items() %}{% if key2 == value1.id %}{% for value2 in values2 %}
                         <li><label for="{{department}}.{{value1}}.{{value2}}">{{value2}}</label>

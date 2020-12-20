@@ -9,9 +9,13 @@
 {% block scripts %}
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script>
+      activate("{{my_branch.Department_id}}.{{my_branch}}.b");
       $(document).ready(function() {
         $("#semesters").select2();
       });
+      {% if update %}
+        form_visibility(true);
+      {% endif %}
     </script>
 {% endblock scripts %} 
 

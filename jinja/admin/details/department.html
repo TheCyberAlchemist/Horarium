@@ -9,6 +9,9 @@
     <!-- <script src="{{static ('form/form.js')}}" charset="utf-8"></script> -->
     <script>
       activate("a");
+      {% if u_name %}
+        form_visibility(true);
+      {% endif %}
     </script>
 
 {% endblock scripts %}

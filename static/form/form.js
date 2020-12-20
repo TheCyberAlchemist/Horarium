@@ -162,12 +162,16 @@ function delete_entries() {
 }
 
 
-function form_visibility() {
-
+function form_visibility(update = false) {
+  
   var form = document.getElementsByClassName("myform")[0];
   var p = document.getElementById("myp");
   var pages = document.getElementsByClassName("pagination_container")[0];
   var container = document.getElementsByClassName("form_visibility_img_container")[0];
+  if (update){
+    container.style.display = "none";
+    return
+  }
   if (form.style.display == "none") {
     // p.innerHTML = "Close Form";
     container.style.display = "none";

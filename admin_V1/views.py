@@ -515,12 +515,14 @@ def show_not_avail(request,Faculty_id):
 	events = Event.objects.filter(Subject_event_id__Faculty_id = Faculty_id)
 	not_available = Not_available.objects.filter(Faculty_id=Faculty_id)
 	Shift_id = faculty.Shift_id
+	context["my_faculty"] = faculty
 	context["my_department"] = faculty.Department_id
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = Timings.objects.filter(Shift_id = Shift_id)
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = context['timings']),event = True)
 	context['events'] = get_json(get_slots(events),False,event = True)
-	context['not_available'] = get_json(get_slots(not_available),False)
+	context['not_available'] = get_json(get_slots(not_available),False,event = True)
+	print(context['not_available'])
 	if request.method == "POST":
 		if request.is_ajax():
 			############# Old data and New data Processing #############

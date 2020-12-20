@@ -19,7 +19,6 @@ function put_data(faculty_details,remaining_l,remaining_p){
 		temp = new faculty(obj.id,obj.short,obj.name,obj.remaining_load);
 		all_faculty.push(temp);
 	}
-	console.log(all_faculty);
 }
 function add_load(id,lect,prac){
 	for(i in all_faculty){

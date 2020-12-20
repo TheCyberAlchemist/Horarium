@@ -14,7 +14,7 @@ $(document).ready(function () {
     }
   });
 
- 
+
   /* ///////////TO UpperCase/////////////// */
 
   $(".submit_button").click(function () {
@@ -91,9 +91,9 @@ $(document).ready(function () {
   });
 });
 function valid_input() {
-  $( "input:disabled" ).css(    // add the css for the disabled inputs
-    { "background-color": "white" } 
-  );
+  $( "input[type=text]:disabled" ).each(function (i, obj) {
+  $(this).css({ "background-color": "white" }); // add the css for the disabled inputs
+  });
   var inputs = $(".form_input");
   inputs.each(function (i, obj) {
     if ($(this).val()) {
@@ -113,6 +113,11 @@ function valid_input() {
     "transition": ".2s",
     "font-size": "16px",
     "color": "rgb(185, 184, 184)"
+  });
+  update_div.css({
+    "top" : "6px",
+    "color" : "grey",
+    "user-select" : "none"
   });
 }
 function visibility1(self) {
@@ -167,12 +172,12 @@ function delete_entries() {
 
 
 function form_visibility(update = false) {
-  
+
   var form = document.getElementsByClassName("myform")[0];
   var p = document.getElementById("myp");
   var pages = document.getElementsByClassName("pagination_container")[0];
   var container = document.getElementsByClassName("form_visibility_img_container")[0];
-  if (update){
+  if (update) {
     container.style.display = "none";
     return
   }

@@ -26,6 +26,9 @@
     $("#designations").select2();
     $("#shifts").select2();
   });
+  {%if update %}
+    form_visibility(true);
+  {%endif%}
 </script>
 {% endblock scripts %}
 
@@ -42,8 +45,13 @@
 
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
-            <input type="text" class="form_input" name="first_name" required autocomplete="off" {% if update
-              %}value={{update[0].first_name}}{% endif %}>
+
+            {% if not update %}
+            <input type="text" class="form_input" name="first_name" required autocomplete="off">
+            {% else %} 
+            <div class="update_div form_input" id="first_name">{{update[0].first_name}}</div>
+            {% endif %}
+
             <label for="first_name" class="form_input_label">
               <div class="text">First Name</div>
               <div class="line"></div>
@@ -52,8 +60,11 @@
 
           <div class="input_container_double_2">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
-            <input type="text" class="form_input" name="last_name" required autocomplete="off" {% if update
-              %}value={{update[0].last_name}}{% endif %}>
+            {% if not update %}
+            <input type="text" class="form_input" name="last_name" required autocomplete="off">
+            {% else %} 
+            <div class="update_div form_input" id="last_name">{{update[0].last_name}}</div>
+            {% endif %}
             <label for="last_name" class="form_input_label">
               <div class="text">Last Name</div>
               <div class="line"></div>
@@ -63,35 +74,33 @@
         <div class="input_container_double">
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
-            <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update
-              %}value={{update[1].short}}{% endif %}>
+            {% if not update %}
+            <input type="text" class="form_input short_names" name="short" required autocomplete="off">
+            {% else %} 
+            <div class="update_div form_input" id="short">{{update[1].short}}</div>
+            {% endif %}
             <label for="short" class="form_input_label">
               <div class="text">Short Name</div>
               <div class="line"></div>
             </label>
           </div>
-          {% if not update %}
           <div class="input_container_double_2">
             <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
+
+            {% if not update %}
             <input type="email" class="form_input" name="email" required autocomplete="off">
+            {% else %}
+              <div class="update_div form_input" id="email">{{update[0].email}}</div>
+            {% endif %}
+
             <label for="email" class="form_input_label">
               <div class="text">Email Id</div>
               <div class="line"></div>
             </label>
           </div>
-          {% else %}
-          <div class="input_container_double_2">
-            <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
-            <div class="update_div form_input" id="email">{{update[0].email}}</div>
-            <label for="email" class="form_input_label">
-              <div class="text">Email Id</div>
-              <div class="line"></div>
-            </label>
-          </div>
-          {% endif %}
 
         </div>
-        <div class="input_container_double">
+        <div class="input_container_double" {% if update %} style="display: none;" {% endif %}>
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
             <input type="password" class="form_input" name="password1" id="myinput1" required autocomplete="off">

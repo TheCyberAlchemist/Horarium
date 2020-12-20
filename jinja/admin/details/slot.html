@@ -31,7 +31,7 @@
     <legend>Slot Selection</legend>
   <div class="input_container" style="margin-top: 1em;">
     <!-- <input class="form_input" type="number" id="Duration" /> -->
-    <img class="input_icons" src="{{static ('admin/details/img/department.png')}}" alt="dept">
+    <img class="input_icons" src="{{static ('admin/details/img/duration.png')}}" alt="dept">
     <input type="number" id="duration" name="Duration" class="form_input" required/>
     <label for="duration" class="form_input_label">
       <div class="text">Duration</div>
@@ -39,7 +39,7 @@
     </label>
 </div>
     <div class="input_container sl1">
-      <div class="slot_naming">
+      <div class="slot_naming" style="margin-bottom: -2em;">
         <div class="select2_container">
           <select name="Naming" id="slot_naming">
             <option value="1">Slot Naming Pattern </option>
@@ -51,7 +51,7 @@
       </div>
     </div>
   <div class="day_selector">
-    <div class="select2_container">
+    <div class="select2_container double_select2">
       <select name="day1" id="day1">
         <option value="a" disabled selected>Pick Starting Day </option>
         {% if working_days[0] %}
@@ -74,7 +74,7 @@
       </select>
     </div>
     <div class="day_line"></div>
-    <div class="select2_container">
+    <div class="select2_container double_select2">
       <select name="day2" id="day2">
         <option value="a" disabled selected>Pick Ending Day </option>
         {% if working_days %}
@@ -164,6 +164,11 @@
   <div class="table_container">
     <table id="myTable" class="mytable">
       <thead>
+        <tr>
+          <th colspan="5">
+            <h3 id="get_remainder"></h3>
+          </th>
+        </tr>
         <tr>
           <th>Slot Name</th>
           <th>Start Time</th>

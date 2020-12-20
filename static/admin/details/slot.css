@@ -33,8 +33,9 @@
   padding-top: 1em;
 }
 
-.day_selector .select2_container {
+.select2_container.double_select2 {
   margin-left: -3em;
+  padding-left: -10em;
 }
 
 .day_line {

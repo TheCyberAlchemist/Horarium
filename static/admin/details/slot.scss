@@ -26,9 +26,11 @@
     // align-items: center;
     text-align: center;
     padding-bottom: 1em;
-    padding-top: 1em;}
-.day_selector .select2_container {
+    padding-top: 1em;
+}
+.select2_container.double_select2 {
     margin-left: -3em;
+    padding-left: -10em;
 }
 .day_line {  
     background-color: rgb(255, 255, 255);

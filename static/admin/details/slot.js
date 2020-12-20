@@ -118,6 +118,10 @@ function greater_than(a,b){
     return 1;
   return 0;
 }
+var pen_link;
+function put_pen(link){
+  pen_link = link;
+}
 
 function return_row(slot){
   var tr = document.createElement('tr');
@@ -137,11 +141,9 @@ function return_row(slot){
 	var is_break = document.createElement('td');
 	is_break.innerHTML = slot.is_break ? "True":"False";
 	tr.appendChild(is_break);
-
   var edit = document.createElement('td');
-  edit.innerHTML = "<img src=\'{{static (\'admin\\details\\img\\pen.png\\')}}\' alt='edit' title='edit'> ";
-
-  edit.className = "edit_buttons";
+  edit.innerHTML = '<img class=\"action_icons edit_buttons\" src = ' + pen_link + ' alt=pen title=\"Edit\" ></img>';
+  edit.className = "edit";
   tr.appendChild(edit);
   
   return tr;
@@ -284,7 +286,6 @@ $(document).ready (function () {
     slots.push(temp);
     form.trigger('reset');
     $("#myTable").append(return_row(temp));
-
     $('#slot_form').hide();
     $('#Go').hide();
     $('#add_row').show();

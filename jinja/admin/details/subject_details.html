@@ -49,7 +49,7 @@
       </div>
       <div class="input_container_double">
         <div class="input_container_double_1">
-          <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
+          <img class="input_icons" src="{{static ('admin/details/img/lect.png')}}" alt="start">
           <input type="text" id="lect" class="form_input" name="lect_per_week" required autocomplete="off" {% if update
             %}value="{{update.lect_per_week}}" {% endif %}>
           <label for="lect" class="form_input_label">
@@ -58,7 +58,7 @@
           </label>
         </div>
         <div class="input_container_double_2">
-          <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
+          <img class="input_icons" src="{{static ('admin/details/img/prac.png')}}" alt="end">
           <input type="text" id="prac" class="form_input" name="prac_per_week" required autocomplete="off" {% if update
             %}value="{{update.prac_per_week}}" {% endif %}>
           <label for="prac" class="form_input_label">
@@ -67,7 +67,7 @@
           </label>
         </div>
       </div>
-      <div class="select2_container" style="margin-bottom: 1em;">
+      <div class="select2_container single_select2" style="margin-bottom: 1em;">
         <select name="Semester_id" id="semesters">
           <option value="a" disabled {% if not update %} selected {% endif %}>Pick a semester </option>
           {% for semester in my_semesters %}

@@ -91,9 +91,9 @@ $(document).ready(function () {
   });
 });
 function valid_input() {
-  $( "input:disabled" ).css(    // add the css for the disabled inputs
-    { "background-color": "white" } 
-  );
+  $( "input[type=text]:disabled" ).each(function (i, obj) {
+  $(this).css({ "background-color": "white" }); // add the css for the disabled inputs
+  });
   var inputs = $(".form_input");
   inputs.each(function (i, obj) {
     if ($(this).val()) {
@@ -113,6 +113,11 @@ function valid_input() {
     "transition": ".2s",
     "font-size": "16px",
     "color": "rgb(185, 184, 184)"
+  });
+  update_div.css({
+    "top" : "6px",
+    "color" : "grey",
+    "user-select" : "none"
   });
 }
 function visibility1(self) {

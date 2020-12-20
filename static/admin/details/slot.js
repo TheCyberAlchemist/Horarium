@@ -142,8 +142,8 @@ function return_row(slot){
 	is_break.innerHTML = slot.is_break ? "True":"False";
 	tr.appendChild(is_break);
   var edit = document.createElement('td');
-  edit.innerHTML = '<img class=\"action_icons edit_buttons\" src = ' + pen_link + ' alt=pen title=\"Edit\" ></img>';
-  edit.className = "edit";
+  edit.innerHTML = '<img class=\"action_icons edit\" src = ' + pen_link + ' alt=pen title=\"Edit\" ></img>';
+  edit.className = "edit_buttons";
   tr.appendChild(edit);
   
   return tr;
@@ -204,6 +204,7 @@ $(document).ready (function () {
   for (i in slots){
     $("#myTable").append(return_row(slots[i]));
   }
+  $("#remainder_th").hide();
   $("#edit").hide();
   $("#Go").hide();
   $("#Go_here").hide();
@@ -238,6 +239,7 @@ $(document).ready (function () {
     $("#slot_form").hide();
     $('#add_row').show();
     $(".submit_button").show();
+    $("#remainder_th").show();
     get_remainder();
   });
   

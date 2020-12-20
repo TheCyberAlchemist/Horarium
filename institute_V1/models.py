@@ -57,6 +57,11 @@ class Shift(models.Model):
 		constraints = [
 			models.UniqueConstraint(fields=['name', 'Department_id'], name='ShiftName is Unique for Department')
         ]
+	def save(self, *args, **kwargs):
+		if self.end_time > self.start_time:
+			super(Shift, self).save(*args, **kwargs)
+		else :
+			raise BaseException("End time must be greater then start time")
 
 class Working_days(models.Model):
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)

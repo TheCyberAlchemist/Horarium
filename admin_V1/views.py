@@ -254,10 +254,10 @@ def add_faculty(request,Department_id,Faculty_id=None):
 		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 		context['refresh'] = False
-		context['my_faculty'] = Faculty_details.objects.filter(Department_id=Department_id)
-
+		my_faculty = Faculty_details.objects.filter(Department_id=Department_id)
+		context['my_faculty_load'] = Faculty_load.objects.filter(Faculty_id__in=my_faculty)
 		if Faculty_id:	# if edit is called
-			edit = context['my_faculty'].get(pk = Faculty_id)
+			edit = my_faculty.get(pk = Faculty_id)
 			user_form = add_user(instance = edit.User_id)
 			faculty_detail_form = faculty_details(instance = edit)
 			faculty_load_form = faculty_load(instance=Faculty_load.objects.get(Faculty_id=edit))

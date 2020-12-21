@@ -270,10 +270,10 @@ def add_faculty(request,Department_id,Faculty_id=None):
 			if request.method == 'POST':
 				request.POST = request.POST.copy()
 				request.POST['email'] = edit.User_id.email
-				user_form = add_user(instance = edit.User_id)
+				# user_form = add_user(request.POST,instance = edit.User_id)
 				faculty_detail_form = faculty_details(request.POST,instance = edit)
 				faculty_load_form = faculty_load(request.POST,instance=Faculty_load.objects.get(Faculty_id=edit))
-				# print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
+				print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
 				subjects = request.POST.getlist('subject')
 				can_teach = []
 				for subject in subjects:
@@ -286,11 +286,12 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				if not context['refresh']:
 					for i in can_teach:
 						i.save()
+					# user_form.save()
 					faculty_detail_form.save()
 					faculty_load_form.save()
 				else :
 					pass
-				return redirect(get_home_page(request.user))
+				return redirect('add_faculty',Department_id = Department_id)
 
 		if request.method == 'POST':
 			user_form = add_user(request.POST)
@@ -445,6 +446,7 @@ def show_branch(request,Department_id,Branch_id=None):
 				if form.is_valid():
 					candidate = form.save(commit=False)
 					candidate.Department_id = my_department
+					candidate.save()
 					try:	# unique contraint added
 						candidate.save()
 						context['form'] = create_branch()     				#Form Renewed

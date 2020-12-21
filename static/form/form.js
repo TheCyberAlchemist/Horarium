@@ -91,9 +91,6 @@ $(document).ready(function () {
   });
 });
 function valid_input() {
-  $( "input[type=text]:disabled" ).each(function (i, obj) {
-  $(this).css({ "background-color": "white" }); // add the css for the disabled inputs
-  });
   var inputs = $(".form_input");
   inputs.each(function (i, obj) {
     if ($(this).val()) {

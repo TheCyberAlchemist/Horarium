@@ -74,11 +74,7 @@
         <div class="input_container_double">
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
-            {% if not update %}
-            <input type="text" class="form_input short_names" name="short" required autocomplete="off">
-            {% else %} 
-            <div class="update_div form_input" id="short">{{update[1].short}}</div>
-            {% endif %}
+            <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update %}value = {{update[1].short}}{% endif %}>
             <label for="short" class="form_input_label">
               <div class="text">Short Name</div>
               <div class="line"></div>
@@ -100,7 +96,8 @@
           </div>
 
         </div>
-        <div class="input_container_double" {% if update %} style="display: none;" {% endif %}>
+         {% if not update %}
+        <div class="input_container_double">
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
             <input type="password" class="form_input" name="password1" id="myinput1" required autocomplete="off">
@@ -126,6 +123,7 @@
             </span>
           </div>
         </div>
+        {% endif %}
       </div>
 
       <div id="second_page" style="display: none">
@@ -303,7 +301,6 @@
           <th>Id</th>
           <th>Short</th>
           <th>Faculty Name</th>
-          <th>Load</th>
           <th>Designation</th>
           <th>Edit</th>
           <th>Availibility</th>

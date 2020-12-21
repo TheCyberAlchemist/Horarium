@@ -16,7 +16,8 @@
 {% endblock scripts %}
 
 {% block content %}
-<h1 style="color: white;">{{my_faculty.User_id}} Is Not Available At</h1>
+ 
+<h2 style="color: white;text-align: center; margin-bottom:10px">{{my_faculty.User_id}} Is Not Available At</h2>
 
 <table style="width:75%;" class="main_table">
 	<thead>
@@ -72,9 +73,9 @@
 	<tfoot>
 		<tr>
 			<td colspan="6" style="border : none">
-				<button class="submit_not_avail submit_button"> goooooooooooooooooo</button>
+				<button class="submit_not_avail submit_button"> Submit</button>
 				<a href="{{url ('add_faculty' , args=[1])}}">
-					<h2 style="color: white;">Go Back to Faculty Details</h2>
+					<h2 style="color: white;margin-top:20px "> <span style="border-bottom : 2px solid white">Go Back to Faculty Details </span> </h2>
 				</a>
 			</td>
 		</tr>

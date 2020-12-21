@@ -8,7 +8,17 @@ from institute_V1.models import Semester,Batch,Division
 
 N_len = 50
 S_len = 10
-
+class Subject_manager(models.Manager):
+	def get(self, *args, **kwargs):
+		qs = super(Subject_manager, self).get( *args, **kwargs)
+		for i in qs:
+			i.set_load(False)
+		return qs
+	def filter(self, *args, **kwargs):
+		qs = super(Subject_manager, self).filter( *args, **kwargs)
+		for i in qs:
+			i.set_load(False)
+		return qs
 class Subject_details(models.Model):
 	Semester_id = models.ForeignKey(Semester,on_delete=models.RESTRICT)
 	name = models.CharField(max_length=N_len)
@@ -17,7 +27,7 @@ class Subject_details(models.Model):
 	prac_per_week = models.PositiveIntegerField(null= True,blank = True)
 	load_per_week = models.PositiveIntegerField(default = 0)
 	color = models.CharField(max_length = 7)
-
+	objects = Subject_manager()
 	def remaining_lect_prac(self):
 		p,l = self.get_prac_lect()
 		total_prac = p * self.prac_per_week
@@ -40,7 +50,7 @@ class Subject_details(models.Model):
 		prac_batch = no_of_div if prac_batch == 0 else prac_batch
 		return prac_batch,lect_batch
 
-	def save(self, *args, **kwargs):	# for calculating the load before saving
+	def set_load(self,save = False):
 		if not self.lect_per_week:
 			self.lect_per_week = 0
 		if not self.prac_per_week:
@@ -48,6 +58,12 @@ class Subject_details(models.Model):
 		prac_batch,lect_batch = self.get_prac_lect()
 			# if batch  is 0 make it 1 for the formula
 		self.load_per_week = (self.lect_per_week * lect_batch) + 2 * (self.prac_per_week * prac_batch)
+		if not save:
+			self.save()
+		# self.set(load_per_week = 1)
+
+	def save(self, *args, **kwargs):	# for calculating the load before saving
+		self.set_load(True)
 		super(Subject_details, self).save(*args, **kwargs) 
 
 	def __str__(self):

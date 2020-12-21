@@ -573,7 +573,9 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 	context = return_context(request)
 	my_branch = Branch.objects.get(id = Branch_id)
 	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
+	# print("world")
 	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by('Semester_id')
+	# print(Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by('Semester_id')[0].load_per_week," =new load")
 	context['my_subjects'] = my_subjects
 	context['my_branch'] = my_branch
 	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
@@ -596,7 +598,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 					candidate = form.save(commit=False)
 					try:	# unique contraint added
 						candidate.save()
-						print(candidate)
+						# print(candidate)
 						context['form'] = add_subject_details()		     				#Form Renewed
 						return redirect('show_sub_det',Branch_id)                    #Page Renewed
 					except IntegrityError:

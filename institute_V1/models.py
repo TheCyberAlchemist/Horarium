@@ -125,6 +125,12 @@ class Batch(models.Model):
 		constraints = [
 			models.UniqueConstraint(fields=['name', 'Division_id'], name='BatchName is Unique for Division'),
 		]
+	# def save(self, *args, **kwargs):	# Update all the subject load
+	# 	from subject_V1.models import Subject_details
+	# 	super(Batch, self).save(*args, **kwargs) 
+	# 	for i in Subject_details.objects.filter(Semester_id = self.Division_id.Semester_id):
+	# 		print(i)
+	# 		i.set_load()
 
 class Timings(models.Model):
 	name = models.CharField(max_length = 20)

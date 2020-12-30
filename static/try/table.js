@@ -42,6 +42,7 @@ class event_class {
 		this.subject_event = subject_event;
 	}
 }
+
 function get_cell(obj){
 	// console.log(obj);
 	let tr = $("[timing_id=" + String(obj['fields'].Timing_id) + "]");

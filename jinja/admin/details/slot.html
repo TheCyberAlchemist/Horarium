@@ -56,43 +56,27 @@
         <option value="a" disabled selected>Pick Starting Day </option>
         {% if working_days[0] %}
           {% set len = working_days[working_days|length -1].Days_id_id %}
-          <option value="1" {% if working_days[0].Days_id_id == 1 %}selected{% endif %}>Monday</option>
-          <option value="2" {% if working_days[0].Days_id_id == 2 %}selected{% endif %}>Tuesday</option>
-          <option value="3" {% if working_days[0].Days_id_id == 3 %}selected{% endif %}>Wednesday</option>
-          <option value="4" {% if working_days[0].Days_id_id == 4 %}selected{% endif %}>Thursday</option>
-          <option value="5" {% if working_days[0].Days_id_id == 5 %}selected{% endif %}>Friday</option>
-          <option value="6" {% if working_days[0].Days_id_id == 6 %}selected{% endif %}>Saturday</option>
-          <option value="7" {% if working_days[0].Days_id_id == 7 %}selected{% endif %}>Sunday</option>
         {% endif %}
-          <option value="1">Monday</option>
-          <option value="2">Tuesday</option>
-          <option value="3">Wednesday</option>
-          <option value="4">Thursday</option>
-          <option value="5">Friday</option>
-          <option value="6">Saturday</option>
-          <option value="7">Sunday</option>
+          <option value="1" {% if working_days and working_days[0].Days_id_id == 1 %}selected{% endif %}>Monday</option>
+          <option value="2" {% if working_days and working_days[0].Days_id_id == 2 %}selected{% endif %}>Tuesday</option>
+          <option value="3" {% if working_days and working_days[0].Days_id_id == 3 %}selected{% endif %}>Wednesday</option>
+          <option value="4" {% if working_days and working_days[0].Days_id_id == 4 %}selected{% endif %}>Thursday</option>
+          <option value="5" {% if working_days and working_days[0].Days_id_id == 5 %}selected{% endif %}>Friday</option>
+          <option value="6" {% if working_days and working_days[0].Days_id_id == 6 %}selected{% endif %}>Saturday</option>
+          <option value="7" {% if working_days and working_days[0].Days_id_id == 7 %}selected{% endif %}>Sunday</option>
       </select>
     </div>
     <div class="day_line"></div>
     <div class="select2_container double_select2">
       <select name="day2" id="day2">
         <option value="a" disabled selected>Pick Ending Day </option>
-        {% if working_days %}
-          <option value="1" {% if len == 1 %}selected{% endif %}>Monday</option>
-          <option value="2" {% if len == 2 %}selected{% endif %}>Tuesday</option>
-          <option value="3" {% if len == 3 %}selected{% endif %}>Wednesday</option>
-          <option value="4" {% if len == 4 %}selected{% endif %}>Thursday</option>
-          <option value="5" {% if len == 5 %}selected{% endif %}>Friday</option>
-          <option value="6" {% if len == 6 %}selected{% endif %}>Saturday</option>
-          <option value="7" {% if len == 7 %}selected{% endif %}>Sunday</option>
-        {%endif%}
-          <option value="1">Monday</option>
-          <option value="2">Tuesday</option>
-          <option value="3">Wednesday</option>
-          <option value="4">Thursday</option>
-          <option value="5">Friday</option>
-          <option value="6">Saturday</option>
-          <option value="7">Sunday</option>
+          <option value="1" {% if working_days and len == 1 %}selected{% endif %}>Monday</option>
+          <option value="2" {% if working_days and len == 2 %}selected{% endif %}>Tuesday</option>
+          <option value="3" {% if working_days and len == 3 %}selected{% endif %}>Wednesday</option>
+          <option value="4" {% if working_days and len == 4 %}selected{% endif %}>Thursday</option>
+          <option value="5" {% if working_days and len == 5 %}selected{% endif %}>Friday</option>
+          <option value="6" {% if working_days and len == 6 %}selected{% endif %}>Saturday</option>
+          <option value="7" {% if working_days and len == 7 %}selected{% endif %}>Sunday</option>
       </select>
     </div>
   </div>

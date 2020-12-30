@@ -11,8 +11,8 @@ S_len = 10
 class Subject_manager(models.Manager):
 	def get(self, *args, **kwargs):
 		qs = super(Subject_manager, self).get( *args, **kwargs)
-		for i in qs:
-			i.set_load(False)
+		# for i in qs:
+		qs.set_load(False)
 		return qs
 	def filter(self, *args, **kwargs):
 		qs = super(Subject_manager, self).filter( *args, **kwargs)

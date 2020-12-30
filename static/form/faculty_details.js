@@ -1,3 +1,12 @@
+let old_load,subject_events;
+function set_load(load,events){
+    old_load = load;
+    events = events.replace(/&#34;/ig,'"',);
+    subject_events= JSON.parse(events);
+    // for(i in json){
+    //     console.log(json[i]);
+    // }
+}
 $(document).ready(function(){
     $("#first").click(function(){
         $("#second_page").hide();
@@ -27,6 +36,14 @@ $(document).ready(function(){
         $("#first").removeClass("active");
     });
 
+    $(".submit_button").click(function(){
+        if(old_load > parseInt($("input[name='total_load']").val())){
+            // swal 
+            console.table(subject_events);
+        }
+        // if yes
+        // $(".myform").submit();
+    });
 });
 
 // function pageChanger() {

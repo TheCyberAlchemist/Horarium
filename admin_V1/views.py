@@ -12,7 +12,7 @@ from institute_V1.models import Institute,Department,Branch,Semester,Division,Ba
 from subject_V1.models import Subject_details,Subject_event
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
 from .forms import add_user,faculty_load,faculty_details,student_details
-from .forms import timing,shift,add_resource,add_subject_details,add_sub_event
+from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,update_sub_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
 
@@ -73,6 +73,22 @@ def return_context(request):
 def delete_entries(qs,data):
 	for d in data:
 		qs.get(pk = d).delete()
+
+
+def get_json(qs,keep_pk=True,event = False,time_table = False):
+	data = serializers.serialize("json", qs)
+	data = json.loads(data)
+	for d in data:
+		if event:
+			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
+		if not keep_pk:
+			del d['pk']
+		if time_table:
+			# faculty_id = qs.filter(Faculty_id= d['fields']['Faculty_id'])
+			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
+			# print(Not_available.objects.filter(Faculty_id=Subject_event.objects.filter(Subject_id__in=subjects)[0].Faculty_id))
+		del d['model']
+	return json.dumps(data)
 
 
 @login_required(login_url="login")
@@ -257,6 +273,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 		my_faculty = Faculty_details.objects.filter(Department_id=Department_id)
 		context['my_faculty_load'] = Faculty_load.objects.filter(Faculty_id__in=my_faculty)
 		if Faculty_id:	# if edit is called
+			context['my_subject_events'] = get_json(Subject_event.objects.filter(Faculty_id=Faculty_id),False)
 			edit = my_faculty.get(pk = Faculty_id)
 			user_form = add_user(instance = edit.User_id)
 			faculty_detail_form = faculty_details(instance = edit)
@@ -270,10 +287,10 @@ def add_faculty(request,Department_id,Faculty_id=None):
 			if request.method == 'POST':
 				request.POST = request.POST.copy()
 				request.POST['email'] = edit.User_id.email
-				# user_form = add_user(request.POST,instance = edit.User_id)
+				old_load = Faculty_load.objects.get(Faculty_id=edit).total_load
 				faculty_detail_form = faculty_details(request.POST,instance = edit)
 				faculty_load_form = faculty_load(request.POST,instance=Faculty_load.objects.get(Faculty_id=edit))
-				print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
+				# print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
 				subjects = request.POST.getlist('subject')
 				can_teach = []
 				for subject in subjects:
@@ -286,8 +303,12 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				if not context['refresh']:
 					for i in can_teach:
 						i.save()
-					# user_form.save()
 					faculty_detail_form.save()
+					if int(request.POST['total_load']) < old_load:	
+						# if the new load is less then the old load delete all the subject events 
+						# see pagination.js for js
+						for i in context['my_subject_events']:
+							i.delete()
 					faculty_load_form.save()
 				else :
 					pass
@@ -356,18 +377,6 @@ def add_student(request):
 
 			
 	return render(request,"admin/student/add_student.html",context)
-
-
-def get_json(qs,keep_pk=True,event = False):
-	data = serializers.serialize("json", qs)
-	data = json.loads(data)
-	for d in data:
-		if event:
-			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
-		if not keep_pk:
-			del d['pk']
-		del d['model']
-	return json.dumps(data)
 
 
 @login_required(login_url="login")
@@ -515,7 +524,7 @@ def show_table(request,Division_id):
 		if request.is_ajax():
 			pass
 		redirect('show_table',Division_id)
-	# context = return_context(request)
+
 	my_division = Division.objects.get(pk = Division_id)
 	Shift_id = my_division.Shift_id
 	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
@@ -523,10 +532,12 @@ def show_table(request,Division_id):
 	context = {
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
 		'timings' : timings,
-		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings)),
+		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings),event=True),
+		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True),
 		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
 	}
-	return render(request,"try/table.html",context)
+
+	return render(request,"try/abc.html",context)
 
 
 @login_required(login_url="login")
@@ -598,7 +609,6 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 					candidate = form.save(commit=False)
 					try:	# unique contraint added
 						candidate.save()
-						# print(candidate)
 						context['form'] = add_subject_details()		     				#Form Renewed
 						return redirect('show_sub_det',Branch_id)                    #Page Renewed
 					except IntegrityError:
@@ -643,7 +653,8 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 			delete_entries(context["Subject_event"],data)
 		else:
 			if Faculty_id:	# if edit 
-				form = add_sub_event(request.POST, instance=edit)
+				form = update_sub_event(request.POST, instance=edit)
+				# form.instance.Faculty_id = Faculty_details.objects.get(pk = Faculty_id)
 			else:
 				form = add_sub_event(request.POST)
 			if form.is_valid():

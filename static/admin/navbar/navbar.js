@@ -31,6 +31,7 @@ $(document).ready(function(){
     $(".table_container").show();
     $(".nav_container").show();
     $(".nav_container").animate({width:'100%',height:'100%'},100);
+    $("#add_slot_form").hide();
   });
 
   $("#show_tree label").click(function(){

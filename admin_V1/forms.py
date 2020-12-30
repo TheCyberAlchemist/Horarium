@@ -77,6 +77,10 @@ class add_sub_event(ModelForm):
 		model = Subject_event
 		fields = ["Faculty_id","lect_carried", "prac_carried","link"]
 
+class update_sub_event(ModelForm):
+	class Meta:
+		model = Subject_event
+		fields = ["lect_carried", "prac_carried","link"]
 
 class student_details(ModelForm):
 	class Meta:

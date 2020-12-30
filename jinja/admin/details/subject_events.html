@@ -15,7 +15,7 @@
       });
       put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
       {% if update %}
-      add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
+        add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
       {% endif %}
     </script>
 
@@ -48,7 +48,6 @@
                   {% endfor %}
                 {% else %}
                   <option value="{{update.Faculty_id_id}}" selected >{{update.Faculty_id.User_id}} ({{update.Faculty_id.short}})</option>
-                  
                 {% endif %}
               </select>
             </div>

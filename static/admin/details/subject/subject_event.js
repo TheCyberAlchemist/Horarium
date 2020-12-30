@@ -1,4 +1,5 @@
 all_faculty = []
+let current_faculty;
 class faculty{
 	constructor(id = "",short = "",name = "",remaining_load=0){
 		this.id = id;
@@ -23,6 +24,7 @@ function put_data(faculty_details,remaining_l,remaining_p){
 function add_load(id,lect,prac){
 	for(i in all_faculty){
 		if (all_faculty[i].id == parseInt(id)){
+			current_faculty = all_faculty[i];
 			all_faculty[i].remaining_load += parseInt(lect) + (parseInt(prac) * 2);
 		}
 	}
@@ -48,8 +50,8 @@ function max_lect(fac){
 		return (remaining_lect <= remaining_load)?remaining_lect:remaining_load
 	}
 }
+
 $(document).ready (function () {
-	current_faculty = 0;
 	/////////////////////// set current_faculty //////////////////////////////
 	$('#select_fac').change(function() {
 		$('#select_fac option').each(function() {

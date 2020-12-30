@@ -1,35 +1,38 @@
 {% extends 'admin/base.html' %}
 {% block title %}Faculty{% endblock title %}
 {% block css %}
-<link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
-<link rel="stylesheet" href="{{static ('form/form.css')}}">
-<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
-<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-  integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-<link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
+  <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+  <link rel="stylesheet" href="{{static ('form/form.css')}}">
+  <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+  <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
 {% endblock css %}
+
 {% block scripts %}
-<script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
-<script src="{{static ('form/form.js')}}" charset="utf-8"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script src="{{static ('form/pagination.js')}}" charset="utf-8"></script>
-<script>
-  {% if refresh %}
-  document.getElementByClassName("myform")[0].reset();
-  location.reload();
-  {% endif %}
-</script>
-<script>
-  activate("{{my_department}}.b");
-  $(document).ready(function () {
-    $("#designations").select2();
-    $("#shifts").select2();
-  });
-  {%if update %}
-    form_visibility(true);
-  {%endif%}
-</script>
+  <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+  <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+  <script src="{{static ('form/faculty_details.js')}}" charset="utf-8"></script>
+  <script>
+    {% if refresh %}
+    document.getElementByClassName("myform")[0].reset();
+    location.reload();
+    {% endif %}
+
+    activate("{{my_department}}.b");
+    $(document).ready(function () {
+      $("#designations").select2();
+      $("#shifts").select2();
+    });
+    {%if update %}
+      set_load("{{update[2].total_load}}","{{my_subject_events}}");
+      form_visibility(true);
+    {%endif%}
+
+
+  </script>
 {% endblock scripts %}
 
 {% block content %}
@@ -163,32 +166,6 @@
             </select>
           </div>
         </div>
-
-
-
-        <!-- <div class="select2_grid">
-          <div class="select2_container" style="background-color: cyan;">
-            <select name="Designation_id" id="designations">
-              <option disabled {% if not update %}selected{% endif %}>Select Designation</option>
-              {% for designation in designations %}
-              <option value="{{designation.id}}" {% if update and designation.id==update[1].Designation_id%}selected{%
-                endif %}>
-                {{designation}}
-              </option>
-              {%endfor%}
-            </select>
-          </div>
-          <div class="select2_container" style="background-color: red;">
-            <select name="Shift_id" id="shifts">
-              <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
-              {% for shift in my_shifts %}
-              <option value="{{shift.id}}" {% if update and shift.id==update[1].Shift_id%}selected{% endif %}>
-                {{shift}}
-              </option>
-              {%endfor%}
-            </select>
-          </div>
-        </div> -->
       </div>
 
       <div id="third_page" style="display:none">
@@ -236,7 +213,7 @@
 
         </fieldset>
         <div class="submit_button_container">
-          <button type="submit" name="button" class="submit_button">Submit</button>
+          <button type="button" name="button" class="submit_button">Submit</button>
         </div>
       </div>
 
@@ -318,7 +295,7 @@
         <tr>
           <td>{{loop.index}}</td>
           <td>{{load.Faculty_id.short}}</td>
-          <td>{{load.Faculty_id.User_id.first_name}}</td>
+          <td>{{load.Faculty_id.User_id}}</td>
           <td>{{load.Faculty_id.Designation_id}}</td>
           <td>{{load.total_load}}</td>
           <td>

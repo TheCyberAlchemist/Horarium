@@ -31,7 +31,7 @@
           {% if update %}
           <div class="input_container">
             <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="start">
-            <input type="text" id = "name" class="form_input" name="name" required autocomplete="off" {% if update%} value = {{update.name}} {% endif %}>
+            <input type="text" id = "name" class="form_input" name="name" required autocomplete="off" {% if update%} value = "{{update.Faculty_id.User_id}}" {% endif %}>
             <label for="name" class="form_input_label">
               <div class="text">Faculty Name</div>
               <div class="line"></div>

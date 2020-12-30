@@ -157,6 +157,19 @@ function delete_entries() {
   let state = JSON.stringify(checked);
   if (checked.length) {  // checkes if one or more are selected or not
     // console.log(state)
+    swal({
+      title: "Warning!",
+      text: "This Data will be deleted!\nNice\nLorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, repellendus soluta libero voluptatum eligendi quos aspernatur possimus commodi, dolores odio repellat itaque consectetur natus consequatur laboriosam quaerat fuga at laborum.\nThe following items will be deleted : \nCSE, IT, BTECH",
+      icon: "warning",
+      dangerMode : true,
+      buttons: ["Cancel","Delete"],
+    })
+    .then((willDelete) => {
+    if (willDelete) {
+      swal("", {
+        icon: "success",
+        text : "Deleted Successfully!"
+      });
     $.ajax({
       type: "post",
       data: state,
@@ -165,8 +178,12 @@ function delete_entries() {
       }
     });
   }
+  else {
+    swal("Your changes are not saved!");
+  }
 }
-
+    )}
+}
 
 function form_visibility(update = false) {
 

@@ -75,7 +75,7 @@ def delete_entries(qs,data):
 		qs.get(pk = d).delete()
 
 
-def get_json(qs,keep_pk=True,event = False,time_table = False):
+def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0):
 	data = serializers.serialize("json", qs)
 	data = json.loads(data)
 	for d in data:
@@ -84,10 +84,13 @@ def get_json(qs,keep_pk=True,event = False,time_table = False):
 		if not keep_pk:
 			del d['pk']
 		if time_table:
-			# faculty_id = qs.filter(Faculty_id= d['fields']['Faculty_id'])
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
-			# print(Not_available.objects.filter(Faculty_id=Subject_event.objects.filter(Subject_id__in=subjects)[0].Faculty_id))
+			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id=d['pk']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
 		del d['model']
+	if not time_table and my_division:		# if it is called by recursion 
+		for d in data:
+			d['fields']['Division_id'] = str(Division.objects.get(pk = d['fields']['Division_id']))
+		return data
 	return json.dumps(data)
 
 
@@ -533,7 +536,7 @@ def show_table(request,Division_id):
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
 		'timings' : timings,
 		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings),event=True),
-		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True),
+		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id),
 		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
 	}
 

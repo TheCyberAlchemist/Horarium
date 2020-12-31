@@ -5,12 +5,13 @@ function put_data(slots_json,events_json){
 		slots.push(temp_slot);
 	}
 	events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
+	// console.log(events_json);
 	for (i in events_json){
 		obj = events_json[i].fields;
-		temp_event = new subject_event(events_json[i].pk,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available)
+		temp_event = new subject_event(events_json[i].pk,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available,obj.other_events)
 		subject_events.push(temp_event);
 	}
-	// console.table(subject_events);
+	console.table(subject_events);
 }
 
 var slots = [];
@@ -24,24 +25,25 @@ class slot{
 
 subject_events = [];
 class subject_event {
-	constructor(id = 0,subject_name,prac_carried,lect_carried,faculty_id,not_available){
-		// this.slot = slot;
+	constructor(id = 0,subject_name,prac_carried,lect_carried,faculty_id,not_available,other_events){
 		this.id = id;
 		this.subject_name = subject_name;
 		this.prac_carried = prac_carried;
 		this.lect_carried = lect_carried;
 		this.faculty_id = faculty_id;
 		this.not_available = not_available;
-
+		this.other_events = other_events;		
 	}
 }
 
 
 events = [];
 class event_class {
-	constructor(slot = 0,subject_event = 0){
+	constructor(slot,subject_event,resource){
 		this.slot = slot;
 		this.subject_event = subject_event;
+		this.resource = resource;
+
 	}
 }
 
@@ -66,7 +68,7 @@ function get_cell(slot_id){
 	}
 	let tr = $("[timing_id=" + String(slot_obj.timing) + "]");
 	let td = tr.find('td:nth-child('+(slot_obj.day+1)+')')
-	console.log(td);
+	// console.log(td);
 	return td;
 }
 
@@ -93,14 +95,24 @@ $(document).ready (function () {
 		cursorAt:{top:56,left:56},
 		start: function(event, ui) {
 			subject_event_id = $(this).attr("subject_event_id");
-			faculty_not_avail_td = []
 			// get all the td in which the faculty is not_available
 			for (j in subject_events){
 				if (subject_events[j].id == subject_event_id){
+					// for all the not_available td
 					for (i in subject_events[j].not_available){
 						td = get_cell(subject_events[j].not_available[i]);
-						faculty_not_avail_td.push(td);
-						td.addClass("not_available_td");
+						if (!td.hasClass("filled")){
+							td.addClass("not_available_td");
+						}
+					}
+					// for all the other_events td
+					for (k in subject_events[j].other_events){
+						var obj = subject_events[j].other_events[k]['fields']
+						event_td = get_cell(obj.Slot_id);
+						if (!event_td.hasClass("filled")){
+							event_td.addClass("not_available_td");
+							event_td.html(obj.Division_id)
+						}
 					}
 				}
 			}
@@ -109,9 +121,15 @@ $(document).ready (function () {
 					var cellIndex = $(this).index();
 					var td_below = $(this).closest('tr').next().children().eq(cellIndex);
 					if (td_below.hasClass("not_available_td") || td_below.hasClass("filled") || td_below.hasClass("isBreak") || !td_below.length){
+						// if below is not available or filled or is break then not viable
 						$(this).addClass("not_available_td");
 					}
-					// is below is not available or filled or is break then not viable
+					else if (!td.hasClass("not_available_td")){	//	all the available
+						$(this).addClass("available_td");
+						// $(this).addClass("available_td");
+						// td_below.removeClass("not_available_td");
+						// td_below.addClass("available_td");
+					}
 				});
 			}
 		 },
@@ -119,7 +137,9 @@ $(document).ready (function () {
 		},
 		stop: function( event, ui ) {
 			$("td").each(function(){
-				$(this).removeClass("not_available_td")
+				$(this).removeClass("not_available_td");
+				$(this).removeClass("available_td");
+
 			});
 		}
 

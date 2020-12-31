@@ -6,6 +6,10 @@
 		.not_available_td{
 			background-color : red;
 		}
+		.available_td{
+			background-color : green;
+			border:10px solid black;
+		}
 		.here{
 			background-color : blue;
 		}
@@ -26,7 +30,7 @@
 		{% for subject_event in subject_events %}
 			{% if subject_event.lect_carried%}
 				<div class = "draggable" subject_event_id = "{{subject_event.id}}">
-				<article class="card">
+				<article class="card"  style = "background-color:{{subject_event.Subject_id.color}}">
 					<header class="card-header">
 					<h2>{{subject_event.Subject_id}}</h2>
 					</header> 
@@ -84,7 +88,8 @@
 				</p>
 			</th>
 			{% for day in working_days %}
-			<td class="droppable">
+			<td class="droppable">		<!-- working td for the whole table -->
+
 			</td>
 			{% endfor %}
 			{% endif %}

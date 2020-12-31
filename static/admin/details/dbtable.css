@@ -87,9 +87,8 @@
   /*font-size: 16px;*/
 }
 
-#myTable td {
-  padding: 10px;
-  margin: 11px;
+#myTable tr td {
+  padding: 15px;
 }
 
 #db_table tr:hover, #myTable tr:hover {

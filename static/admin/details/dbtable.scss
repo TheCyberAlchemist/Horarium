@@ -82,9 +82,8 @@ $table_heading_color : #222235;
     margin: 11px;
     /*font-size: 16px;*/
   }
-  #myTable td{
-    padding: 10px;
-    margin: 11px;
+  #myTable tr td{
+    padding: 15px;
   }
   #db_table tr:hover,#myTable tr:hover{
     background-color: $table_tr_hover_color;

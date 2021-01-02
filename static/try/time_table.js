@@ -161,14 +161,14 @@ $(document).ready (function () {
 					// console.log(td_below.hasClass("not_available_td"));
 					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td") || td_below.hasClass("filled") || td_below.hasClass("isBreak") || !td_below.length){
 						// if below is not available or filled or is break then not viable
-						if (!$(this).hasClass("available_td") && !$(this).hasClass("isBreak"))
+						if (!($(this).hasClass("available_td") || $(this).hasClass("isBreak")))
 							$(this).addClass("not_available_td");
 					}
 					else{	//	all the available
 						// console.log("helr");
 						$(this).addClass("available_td");
-						td_below.removeClass("not_available_td");
-						td_below.addClass("available_td");
+							td_below.removeClass("not_available_td");
+							td_below.addClass("available_td");
 					}
 				});
 			}
@@ -198,7 +198,7 @@ $(document).ready (function () {
 			if (!$( this ).hasClass("not_available_td")){ // if faculty is available at this slot
 				let td = $(this);
 				var slot = get_slot(td);
-				print(slot);
+				// print(slot);
 				// all the options are enabled and then the filled resources are disabled 
 				$("#batches").next(".select2-container").show();
 				for (i in slot.resources_filled){
@@ -207,30 +207,39 @@ $(document).ready (function () {
 				if (!ui.draggable.attr("is_prac")){
 					$("#batches").next(".select2-container").hide();
 				}
+				$("#event_form").attr("slot_id",slot.id);
+				$("#event_form").attr("is_prac",ui.draggable.attr("is_prac"));
+				$("#event_form").attr("subject_event_id",ui.draggable.attr("subject_event_id"));
 				$("#event_form").show();
-				// $("#aform").one("click", function(){
-				$("#aform").on("click", function(){
-					let batch = $("#batches").val();
-					let resource = $("#resources").val();
-					print([batch,resource,slot.id]);
-					if (resource){
-						if (ui.draggable.attr("is_prac") && batch)
-							temp_event = new event_class(slot.id,ui.draggable.attr("subject_event_id"),batch,resource);
-						else if(!ui.draggable.attr("is_prac"))
-							temp_event = new event_class(slot.id,ui.draggable.attr("subject_event_id"),null,resource);
-						else
-							return;
-						push_event(temp_event);
-						console.table(events);
-						td.addClass("filled");
-						td.css({"background-color":"red"});
-					}
-					$("#event_form").hide();
-					return;
-				});
-
 			}
 		}
+	});
+	$("#aform").on("click", function(){
+	// $("#aform").on("click", function(){
+		slot_id = $("#event_form").attr("slot_id");
+		is_prac = $("#event_form").attr("is_prac");
+		subject_event_id = $("#event_form").attr("subject_event_id");
+		td = get_cell(slot_id);
+		let batch = $("#batches").val();
+		let resource = $("#resources").val();
+		// print([batch,resource,slot.id]);
+		if (resource){
+			if (is_prac && batch)
+				temp_event = new event_class(slot_id,subject_event_id,batch,resource);
+			else if(!is_prac)
+				temp_event = new event_class(slot_id,subject_event_id,null,resource);
+			else
+				return;
+			push_event(temp_event);
+			console.table(events);
+			td.addClass("filled");
+			td.css({"background-color":"white"});
+		}
+		$("#event_form").hide();
+		return;
+	});
+	$("#cancel").one("click", function(){
+		$("#event_form").hide();
 	});
 	// lect1 = new event_class(2,7,null,1);
 	// lect2 = new event_class(2,3,null,1);

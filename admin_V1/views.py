@@ -75,19 +75,26 @@ def delete_entries(qs,data):
 		qs.get(pk = d).delete()
 
 
-def get_json(qs,keep_pk=True,event = False,time_table = False):
+def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False):
 	data = serializers.serialize("json", qs)
 	data = json.loads(data)
 	for d in data:
 		if event:
 			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
+		elif time_table_event:
+			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
+			# print(Event.objects.filter(Slot_id_id=d['pk']).values_list("id",flat=True))
+			d['fields']['resources_filled'] = list(Event.objects.filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
+		elif time_table:
+			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
+			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id=d['pk']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
 		if not keep_pk:
 			del d['pk']
-		if time_table:
-			# faculty_id = qs.filter(Faculty_id= d['fields']['Faculty_id'])
-			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
-			# print(Not_available.objects.filter(Faculty_id=Subject_event.objects.filter(Subject_id__in=subjects)[0].Faculty_id))
 		del d['model']
+	if not time_table and my_division and not time_table_event:		# if it is called by recursion 
+		for d in data:
+			d['fields']['Division_id'] = str(Division.objects.get(pk = d['fields']['Division_id']))
+		return data
 	return json.dumps(data)
 
 
@@ -532,9 +539,11 @@ def show_table(request,Division_id):
 	context = {
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
 		'timings' : timings,
-		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings),event=True),
-		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True),
+		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id),
+		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id),
 		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
+		'resources' : Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id),
+		'batches': Batch.objects.filter(Division_id=Division_id),
 	}
 
 	return render(request,"try/abc.html",context)

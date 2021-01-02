@@ -13,15 +13,15 @@
           <tr>
             <th>Time</th>
             {% for day in days %}
-            <th>
+                <th>
                 {{day.Days_id}}
-            </th>
+                </th>
             {% endfor %}
           </tr>
         </thead>
         <tbody>
-          {% for timing in timings %}
-          <!--for all time periods in database-->
+        {%set before=[]%}
+        {% for timing in timings %} <!--for all time periods in database-->
           <tr>
             {% if timing.is_break %}
               <th>
@@ -34,29 +34,60 @@
               </th>
             {% else %}
               <th>
+                  <span class="h4">
                   {{timing.name}}<br>
                   [{{timing.return_time()}}]
+                  </span>
               </th>
               {% for day in days %}
-              <td>
-                {% for event in events %}
-                  {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
-                  <div class="card p-1">
-                    <!-- <span class="text-left">Batch-31</span> -->
-                    <button class="btn mr-2 ml-2 mt-2 mb-1" style="background-color: {{event.Subject_event_id.Subject_id.color}}">
-                      {{event.Subject_event_id.Subject_id}}
-                    </button>
-                    <div class="row">
-                      <div class="col-6">
-                        <span>{{event.Resource_id}}</span>
-                      </div>
-                      <div class="col-6">
-                        <span>{{event.Subject_event_id.Faculty_id}}</span>
-                      </div>
-                    </div>
+                {% if day not in before %}
+                  {% set temp_event={'a':None} %}
+                  {% for event in events %}
+                    {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
+                      {% set _ = temp_event.update({'a':event}) %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if temp_event.a %} <!-- if there is an event-->
+                      {% if temp_event.a.Slot_id_2 %}<!-- if there is practical event-->
+                      {% set _ = before.append(day) %}
+                        <td rowspan=2>
+                          <div class="card p-1">
+                            <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                              {{temp_event.a.Subject_event_id.Subject_id}}
+                            </button>
+                            <div class="row">
+                              <div class="col-6">
+                                <span>{{temp_event.a.Resource_id}}</span>
+                              </div>
+                              <div class="col-6">
+                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      {% else %}<!-- if there is lecture event-->
+                        <td>
+                          <div class="card p-1">
+                            <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                              {{temp_event.a.Subject_event_id.Subject_id}}
+                            </button>
+                            <div class="row">
+                              <div class="col-6">
+                                <span>{{temp_event.a.Resource_id}}</span>
+                              </div>
+                              <div class="col-6">
+                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      {% endif %}
+                  {% else %}            <!-- if there is no event-->
+                    <td></td>
                   {% endif %}
-                {% endfor %}
-              </td>
+                {% else %}
+                  {% set _ = before.pop(before.index(day))%}
+                {% endif %}
               {% endfor %}
             {% endif %}
           </tr>
@@ -65,7 +96,7 @@
           {% endfor %}
           <!-- <tr>
             <td>9:00-10:00</td>
-            <td rowspan=2>
+            <td>
               <div class="card p-1">
                 <span class="text-left">Batch-31</span>
                 <button class="btn m-2" style="background-color: #7377a5">
@@ -83,8 +114,8 @@
             </td>
             <td>
               <div class="card p-1">
-                <span class="text-left">Batch-31</span>
-                <button class="btn m-2" style="background-color: #ffbf00">
+
+                <button class="btn m-2" style="background-color: #fdcb33">
                   DBMS
                 </button>
                 <div class="row">
@@ -264,7 +295,6 @@
       <div class="card" id="agenda_panel">
 
           <a class="nav-item nav-link" style="color: black;text-decoration:underline" href="#">Notifications</a>
-        <!-- </nav> -->
         <div class="container mt-3">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
           nisi praesentium placeat hic eum dolorem, sunt repellendus beatae

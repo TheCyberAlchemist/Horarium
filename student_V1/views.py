@@ -16,6 +16,6 @@ def student_home(request):
 	print(context)
 	# for i in range(5):
 	# 	a = Event(Slot_id_id=Slots.objects.filter(day__Days_id=i+1)[i].id,Division_id_id=2,Subject_event_id_id=7,Resource_id_id=1)
-	print(Event.objects.filter(Division_id=student.Division_id).values("Batch_id"))
+	# print(Event.objects.filter(Division_id=student.Division_id).values("Batch_id"))
 
 	return render(request,"Student/student_v1.html",context)

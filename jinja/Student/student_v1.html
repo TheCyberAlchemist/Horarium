@@ -5,23 +5,24 @@
 
 </style>
 
-<div class="container-fluid pt-5">
+<div class="container-fluid pt-4">
   <div class="row">
     <div class="col-lg-9 col-md-12 col-sm-12 pt-3">
       <table id="t1" class="table-responsive-sm table-responsive-md">
         <thead>
           <tr>
-            <th><h6>Time</h6></th>
+            <th>Time</th>
             {% for day in days %}
-                <th><h6>
+                <th>
                 {{day.Days_id}}
-                </h6></th>
+                </th>
             {% endfor %}
           </tr>
         </thead>
         <tbody>
+        {%set before=[]%}
         {% for timing in timings %} <!--for all time periods in database-->
-          <!--<tr>
+          <tr>
             {% if timing.is_break %}
               <th>
                 <p>
@@ -35,38 +36,100 @@
               </th>
             {% else %}
               <th>
-                <p>
+                  <span class="h4">
                   {{timing.name}}<br>
                   [{{timing.return_time()}}]
-                </p>
+                  </span>
               </th>
               {% for day in days %}
-              <td>
-                {% for event in events %}
-                  {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
-                  <div class="card p-1">
-                    <span class="text-left">Batch-31</span>
-                    <button class="btn m-2" style="background-color: {{event.Subject_event_id.Subject_id.color}}">
-                      {{event.Subject_event_id.Subject_id}}
-                    </button>
-                    <div class="row">
-                      <div class="col-6">
-                        <span>{{event.Resource_id}}</span>
-                      </div>
-                      <div class="col-6">
-                        <span>{{event.Subject_event_id.Faculty_id}}</span>
-                      </div>
-                    </div>
+                {% if day not in before %}
+                  {% set temp_event={'a':None} %}
+                  {% for event in events %}
+                    {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
+                      {% set _ = temp_event.update({'a':event}) %}
+                    {% endif %}
+                  {% endfor %}
+                  {% if temp_event.a %} <!-- if there is an event-->
+                      {% if temp_event.a.Slot_id_2 %}<!-- if there is practical event-->
+                      {% set _ = before.append(day) %}
+                        <td rowspan=2>
+                          <div class="card p-1">
+                            <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                              {{temp_event.a.Subject_event_id.Subject_id}}
+                            </button>
+                            <div class="row">
+                              <div class="col-6">
+                                <span>{{temp_event.a.Resource_id}}</span>
+                              </div>
+                              <div class="col-6">
+                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      {% else %}<!-- if there is lecture event-->
+                        <td>
+                          <div class="card p-1">
+                            <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                              {{temp_event.a.Subject_event_id.Subject_id}}
+                            </button>
+                            <div class="row">
+                              <div class="col-6">
+                                <span>{{temp_event.a.Resource_id}}</span>
+                              </div>
+                              <div class="col-6">
+                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      {% endif %}
+                  {% else %}            <!-- if there is no event-->
+                    <td></td>
                   {% endif %}
-                {% endfor %}
-              </td>
+                {% else %}
+                  {% set _ = before.pop(before.index(day))%}
+                {% endif %}
               {% endfor %}
             {% endif %}
-          </tr>-->
+          </tr>
         {% endfor %}
+        </tbody>
+        </table>
+         <table id="t1" class="table-responsive-sm table-responsive-md">
+        <thead>
+          <tr>
+              <h4>No Upcoming Lectures</h4>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <h6>Time</h6>
+            </th>
+            <th>
+              <h6>Monday</h6>
+            </th>
+            <th>
+              <h6>Tuesday</h6>
+            </th>
+            <th>
+              <h6>Wednesday</h6>
+            </th>
+            <th>
+              <h6>Thursday</h6>
+            </th>
+            <th>
+              <h6>Friday</h6>
+            </th>
+            <th>
+              <h6>Saturday</h6>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
           <tr>
             <td>9:00-10:00</td>
-            <td rowspan=2>
+            <td>
               <div class="card p-1">
                 <span class="text-left">Batch-31</span>
                 <button class="btn m-2" style="background-color: #7377a5">
@@ -84,8 +147,8 @@
             </td>
             <td>
               <div class="card p-1">
-                <span class="text-left">Batch-31</span>
-                <button class="btn m-2" style="background-color: #ffbf00">
+
+                <button class="btn m-2" style="background-color: #fdcb33">
                   DBMS
                 </button>
                 <div class="row">
@@ -263,10 +326,7 @@
     </div>
     <div class="col-lg-3 col-md-12 col-sm-12">
       <div class="card" id="agenda_panel">
-        <nav id="tabs" class="nav navbar-expand-lg nav-tabs nav-fill" data-toggle="collapse">
-          <!-- <a class="nav-item nav-link active" href="#">Agenda</a> -->
-          <a class="nav-item nav-link" href="#">Notifications</a>
-        </nav>
+        <a class="nav-item nav-link" href="#">Notifications</a>
         <div class="container mt-3">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
           nisi praesentium placeat hic eum dolorem, sunt repellendus beatae

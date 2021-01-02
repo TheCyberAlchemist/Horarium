@@ -2,13 +2,14 @@
 {% block title %}Batch{% endblock title %}
 {% block css %}
 	<link rel="stylesheet" href="{{static ('admin/details/timetable.css') }}">
+	<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 	<style>
 		.not_available_td{
 			background-color : red;
 		}
 		.available_td{
 			background-color : green;
-			border:10px solid black;
 		}
 		.here{
 			background-color : blue;
@@ -19,12 +20,35 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 	<script src="{{static ('try/time_table.js') }}"></script>
 	<script>
 		put_data("{{slots_json}}","{{subject_events_json}}");
+		$("#resources").select2();
+		$("#batches").select2();
 	</script>
 {%endblock%}
 {% block content %}
+<form id="event_form" style="display:none">
+	<div class="select2_container single_select2">
+		<select id="resources" style= "width:300px">
+			<option disabled selected>Select the room </option>
+			{% for resource in resources %}
+				<option value="{{resource.id}}">{{resource}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="select2_container single_select2">
+		<select id="batches" style= "width:300px">
+			<option disabled selected>Select the batch </option>
+			{% for batch in batches %}
+				<option value="{{batch.id}}">{{batch}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<button type="button" id="cancel">cancel</button>
+	<button type="button" id="aform">Submit</button>
+</form>
 <div class="card-container">
 	<div class="card-list">
 		{% for subject_event in subject_events %}
@@ -89,7 +113,6 @@
 			</th>
 			{% for day in working_days %}
 			<td class="droppable">		<!-- working td for the whole table -->
-
 			</td>
 			{% endfor %}
 			{% endif %}

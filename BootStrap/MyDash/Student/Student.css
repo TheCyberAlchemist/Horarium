@@ -6,33 +6,24 @@
   color: white;
 }
 
-nav {
-  z-index: 10;
-}
-
-.col-lg-3, .col-md-3, .col-sm-12 {
-  background-color: green;
-}
-
-.col-sm-12 {
-  background-color: #333;
-}
-
 .container-fluid {
-  margin-top: 1em;
   background-color: #1e1e2e;
+  padding-bottom: 7em;
+}
+
+#tabs .nav-item {
+  color: #333;
 }
 
 .card {
   color: #333;
-  margin: .5em .1em;
 }
 
 .card .container {
   border-radius: 10px;
   padding: 1em;
   background-color: #757575;
-  width: 100%;
+  width: 97%;
 }
 
 .table {
@@ -70,4 +61,19 @@ td[scope=row] {
   background-color: #1e1e2e;
   border-left: none;
 }
-/*# sourceMappingURL=index.css.map */
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #515163;
+  border-radius: 3px;
+}
+
+:root {
+  scrollbar-color: #767692 #1f1f24 !important;
+  scrollbar-width: thin !important;
+}
+/*# sourceMappingURL=Student.css.map */

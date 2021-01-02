@@ -23,7 +23,9 @@
 
     activate("{{my_department}}.b");
     $(document).ready(function () {
-      $("#designations").select2();
+      $("#designations").select2({
+        tags : true
+      });
       $("#shifts").select2();
     });
     {%if update %}

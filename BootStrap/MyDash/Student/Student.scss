@@ -4,31 +4,33 @@
     box-sizing: border-box;
     color: white;
 }
-nav {
-    z-index: 10;
+
+.container-fluid {
+    background-color: #1e1e2e;
+    // height: 100vh;
+    padding-bottom: 7em;
 }
 
 .col-lg-3, .col-md-3, .col-sm-12 {
-    background-color: green;
+    // background-color: green;
 }
 
 .col-sm-12 {
-    background-color: #333;
+    // background-color: #333;
 }
-.container-fluid {
-    margin-top: 1em;
-    background-color: #1e1e2e;
+//Agenda and notification > card
+#tabs .nav-item {
+    color : #333;
 }
 .card {
     color: #333;
-    margin: .5em .1em;
+    // margin: .5em .1em;
 }
 .card .container {
     border-radius: 10px;
     padding: 1em;
-    // margin: .3em;
     background-color: rgb(117, 117, 117);
-    width: 100%;
+    width: 97%;
 }
 .table {
     border: 1 px solid white;
@@ -62,4 +64,20 @@ td[scope=row] {
     left: 0;
     background-color: #1e1e2e;
     border-left: none;
+  }
+  ::-webkit-scrollbar {
+	width: 7px;
+	height: 7px;
+}
+::-webkit-scrollbar-track {
+	// border: 1px solid #262631;
+	
+}
+::-webkit-scrollbar-thumb {
+	background-color: #515163;
+	border-radius: 3px;
+}
+:root{
+	scrollbar-color:#767692 #1f1f24 !important;
+	scrollbar-width: thin !important;
   }

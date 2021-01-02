@@ -252,7 +252,7 @@ $(document).ready (function () {
 		$("#event_form").hide();
 		return;
 	});
-	$("#cancel").one("click", function(){
+	$("#cancel").on("click", function(){
 		$("#event_form").hide();
 	});
 	// lect1 = new event_class(2,7,null,1);

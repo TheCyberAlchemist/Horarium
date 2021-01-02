@@ -44,6 +44,7 @@ body {
 
 #t1 td {
   border: 1px solid black;
+  width: auto;
 }
 
 #t1 td:nth-of-type(1),
@@ -55,7 +56,6 @@ th:nth-of-type(1) {
   background-color: transparent;
   border: none;
   outline: none;
-  margin: 2px;
 }
 
 .btn {

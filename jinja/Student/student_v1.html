@@ -5,48 +5,45 @@
 
 </style>
 
-<div class="container-fluid pt-5">
+<div class="container-fluid pt-4">
   <div class="row">
     <div class="col-lg-9 col-md-12 col-sm-12 pt-3">
       <table id="t1" class="table-responsive-sm table-responsive-md">
         <thead>
           <tr>
-            <th><h6>Time</h6></th>
+            <th>Time</th>
             {% for day in days %}
-                <th><h6>
+            <th>
                 {{day.Days_id}}
-                </h6></th>
+            </th>
             {% endfor %}
           </tr>
         </thead>
         <tbody>
-        {% for timing in timings %} <!--for all time periods in database-->
-          <!--<tr>
+          {% for timing in timings %}
+          <!--for all time periods in database-->
+          <tr>
             {% if timing.is_break %}
               <th>
-                <p>
                   {{timing.name}}<br>
                   [{{timing.return_time()}}]
-                </p>
               </th>
               {% set len = days|length %}
               <th colspan="{{len}}" class = "isBreak">
-                <h1>{{timing.name}}</h1>
+                <span class="h4">{{timing.name}}</span>
               </th>
             {% else %}
               <th>
-                <p>
                   {{timing.name}}<br>
                   [{{timing.return_time()}}]
-                </p>
               </th>
               {% for day in days %}
               <td>
                 {% for event in events %}
                   {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
                   <div class="card p-1">
-                    <span class="text-left">Batch-31</span>
-                    <button class="btn m-2" style="background-color: {{event.Subject_event_id.Subject_id.color}}">
+                    <!-- <span class="text-left">Batch-31</span> -->
+                    <button class="btn mr-2 ml-2 mt-2 mb-1" style="background-color: {{event.Subject_event_id.Subject_id.color}}">
                       {{event.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">
@@ -62,9 +59,11 @@
               </td>
               {% endfor %}
             {% endif %}
-          </tr>-->
-        {% endfor %}
-          <tr>
+          </tr>
+
+
+          {% endfor %}
+          <!-- <tr>
             <td>9:00-10:00</td>
             <td rowspan=2>
               <div class="card p-1">
@@ -257,16 +256,15 @@
                 </div>
               </div>
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>
     <div class="col-lg-3 col-md-12 col-sm-12">
       <div class="card" id="agenda_panel">
-        <nav id="tabs" class="nav navbar-expand-lg nav-tabs nav-fill" data-toggle="collapse">
-          <!-- <a class="nav-item nav-link active" href="#">Agenda</a> -->
-          <a class="nav-item nav-link" href="#">Notifications</a>
-        </nav>
+
+          <a class="nav-item nav-link" style="color: black;text-decoration:underline" href="#">Notifications</a>
+        <!-- </nav> -->
         <div class="container mt-3">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
           nisi praesentium placeat hic eum dolorem, sunt repellendus beatae

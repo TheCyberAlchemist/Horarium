@@ -23,7 +23,7 @@ def get_home_page(user):
         elif str(user.groups.all()[0]) == 'Root':
             return 'root_home'
         elif str(user.groups.all()[0]) == 'Student':
-            return 'admin_home'
+            return 'student_home'
         elif str(user.groups.all()[0]) == 'Faculty':
             return 'admin_home'
     else:

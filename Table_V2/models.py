@@ -9,7 +9,8 @@ from subject_V1.models import Subject_event
 
 
 class Event(models.Model):
-	Slot_id = models.OneToOneField(Slots,on_delete=models.CASCADE)
+	Slot_id = models.ForeignKey(Slots,on_delete=models.CASCADE)
+	Slot_id_2 = models.ForeignKey(Slots,on_delete=models.CASCADE,null=True,blank=True)
 	Division_id = models.ForeignKey(Division,on_delete=models.CASCADE)
 	Batch_id = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True)
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE)

@@ -1,5 +1,5 @@
-{% extends 'Student/base.html' %}
-{% block title %} Student {% endblock %}
+{% extends 'Faculty/base.html' %}
+{% block title %} Faculty {% endblock %}
 {% block content %}
 <style>
 
@@ -11,62 +11,38 @@
       <table id="t1" class="table-responsive-sm table-responsive-md">
         <thead>
           <tr>
-            <th><h6>Time</h6></th>
-            {% for day in days %}
-                <th><h6>
-                {{day.Days_id}}
-                </h6></th>
-            {% endfor %}
+            <td colspan="7">
+              <h4>No Upcoming Lectures</h4>
+            </td>
+          </tr>
+          <tr>
+            <th>
+              <h6>Time</h6>
+            </th>
+            <th>
+              <h6>Monday</h6>
+            </th>
+            <th>
+              <h6>Tuesday</h6>
+            </th>
+            <th>
+              <h6>Wednesday</h6>
+            </th>
+            <th>
+              <h6>Thursday</h6>
+            </th>
+            <th>
+              <h6>Friday</h6>
+            </th>
+            <th>
+              <h6>Saturday</h6>
+            </th>
           </tr>
         </thead>
         <tbody>
-        {% for timing in timings %} <!--for all time periods in database-->
-          <!--<tr>
-            {% if timing.is_break %}
-              <th>
-                <p>
-                  {{timing.name}}<br>
-                  [{{timing.return_time()}}]
-                </p>
-              </th>
-              {% set len = days|length %}
-              <th colspan="{{len}}" class = "isBreak">
-                <h1>{{timing.name}}</h1>
-              </th>
-            {% else %}
-              <th>
-                <p>
-                  {{timing.name}}<br>
-                  [{{timing.return_time()}}]
-                </p>
-              </th>
-              {% for day in days %}
-              <td>
-                {% for event in events %}
-                  {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
-                  <div class="card p-1">
-                    <span class="text-left">Batch-31</span>
-                    <button class="btn m-2" style="background-color: {{event.Subject_event_id.Subject_id.color}}">
-                      {{event.Subject_event_id.Subject_id}}
-                    </button>
-                    <div class="row">
-                      <div class="col-6">
-                        <span>{{event.Resource_id}}</span>
-                      </div>
-                      <div class="col-6">
-                        <span>{{event.Subject_event_id.Faculty_id}}</span>
-                      </div>
-                    </div>
-                  {% endif %}
-                {% endfor %}
-              </td>
-              {% endfor %}
-            {% endif %}
-          </tr>-->
-        {% endfor %}
           <tr>
             <td>9:00-10:00</td>
-            <td rowspan=2>
+            <td>
               <div class="card p-1">
                 <span class="text-left">Batch-31</span>
                 <button class="btn m-2" style="background-color: #7377a5">
@@ -84,8 +60,8 @@
             </td>
             <td>
               <div class="card p-1">
-                <span class="text-left">Batch-31</span>
-                <button class="btn m-2" style="background-color: #ffbf00">
+
+                <button class="btn m-2" style="background-color: #fdcb33">
                   DBMS
                 </button>
                 <div class="row">
@@ -100,6 +76,7 @@
             </td>
             <td>
               <div class="card p-1">
+
                 <button class="btn m-2" style="background-color: #00b3b3">
                   AC-2
                 </button>
@@ -115,6 +92,7 @@
             </td>
             <td>
               <div class="card p-1">
+
                 <button class="btn m-2" style="background-color: #ff8080">
                   AC-3
                 </button>
@@ -146,6 +124,7 @@
             </td>
             <td>
               <div class="card p-1">
+
                 <button class="btn m-2" style="background-color: #66cc66">
                   AC-3
                 </button>
@@ -244,6 +223,7 @@
             </td>
             <td>
               <div class="card p-1">
+
                 <button class="btn m-2" style="background-color: #00b3b3">
                   AC-3
                 </button>

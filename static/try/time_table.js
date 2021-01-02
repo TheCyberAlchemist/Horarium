@@ -232,7 +232,7 @@ $(document).ready (function () {
 				return;
 			push_event(temp_event);
 			console.table(events);
-			td.addClass("filled");
+			td.addClass("filled");  //change css of selected td after dropped, abc.html
 			td.css({"background-color":"white"});
 		}
 		$("#event_form").hide();

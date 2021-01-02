@@ -36,7 +36,7 @@ class subject_event {
 		this.lect_carried = lect_carried;
 		this.faculty_id = faculty_id;
 		this.not_available = not_available;
-		this.other_events = other_events;		
+		this.other_events = other_events;
 	}
 }
 
@@ -75,7 +75,7 @@ function get_subject_event(id){
 
 function push_event(temp_event){
 	for(i in events){
-		if (events[i] == temp_event){
+		if (events[i].slot == temp_event.slot && events[i].subject_event == temp_event.subject_event){
 			console.log("duplicate");
 			return;
 		}else if (events[i].slot == temp_event.slot){
@@ -114,6 +114,20 @@ function get_cell(slot_id){
 	return td;
 }
 
+function change_td(td){
+	// td.css({"background-color":"white"});
+	subject_event = get_subject_event(subject_event_id);
+
+	card = td.children(".card");
+	// .card -> span (batch)
+	card_span = card.children("span");
+	// .card -> button(subject_name,color)
+	card_span = card.children("button");
+	// .resource_name -> (resource_name)
+
+	// .faculty_name -> (faculty_name)
+
+}
 
 $(document).ready (function () {
 	var csrftoken = Cookies.get('csrftoken');
@@ -232,8 +246,8 @@ $(document).ready (function () {
 				return;
 			push_event(temp_event);
 			console.table(events);
-			td.addClass("filled");  //change css of selected td after dropped, abc.html
-			td.css({"background-color":"white"});
+			td.addClass("filled");
+			change_td(td);
 		}
 		$("#event_form").hide();
 		return;

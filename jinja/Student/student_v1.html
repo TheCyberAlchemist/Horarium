@@ -1,11 +1,14 @@
 {% extends 'Student/base.html' %}
 {% block title %} Student {% endblock %}
+{% block scripts %}
+<script>
+  put_events({{events_json | safe}},{{break_json | safe}});
+</script>
+{% endblock %}
 {% block content %}
 
 <div class="container-fluid pt-4">
-  <div class="container text-center glow p-2 h4" id="text">
-    Up Next - AEM in 4hr 45min
-
+  <div class="container text-center p-2 h4" id="text">
   </div>
 
   <div class="row">
@@ -32,7 +35,7 @@
               [{{timing.return_time()}}]
             </th>
             {% set len = days|length %}
-            <th colspan="{{len}}" class="isBreak">
+            <th colspan="{{len}}" class="isBreak" break_id = "{{timing.id}}">
               <span class="h4">{{timing.name}}</span>
             </th>
             {% else %}
@@ -53,7 +56,7 @@
             {% if temp_event.a.Slot_id_2 %}
             <!-- if there is practical event-->
             {% set _ = before.append(day) %}
-            <td rowspan="2">
+            <td  class= "td_gone"rowspan="2" event_id = "{{temp_event.a.id}}">
               <div class="card p-1" id="prac">
                 <button class="btn mr-2 ml-2 mt-1 mb-1"
                   style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
@@ -71,7 +74,7 @@
             </td>
             {% else %}
             <!-- if there is lecture event-->
-            <td>
+            <td class = "td_gone" event_id = "{{temp_event.a.id}}">
               <div class="card p-1">
                 <button class="btn mr-2 ml-2 mt-2 mb-1"
                   style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">

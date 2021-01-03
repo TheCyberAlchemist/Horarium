@@ -1,11 +1,12 @@
-function put_data(slots_json){
+function put_data(slots_json,abc){
 	json = JSON.parse(slots_json.replace(/&#34;/ig,'"',));
 	for (i in json){
 		temp_slot = new slot(json[i].pk,json[i].fields.day,json[i].fields.Timing_id)
 		slots.push(temp_slot);
 		// console.log(json[i].fields.Timing_id);
 	}
-	// console.log(slots);
+	// slots = abc;
+	console.log(slots);
 
 }
 var events_json;

@@ -6,7 +6,9 @@
 body {
     font-family: "Montserrat", sans-serif;
 }
-
+.td_gone{
+  opacity: 0.5;
+}
 .container-fluid {
     background-color: #fff;
     // height: 100vh;
@@ -83,9 +85,9 @@ body {
     // color: white;
   }
   .glow {
-    -webkit-animation: glow .7s ease-in-out infinite alternate;
-    -moz-animation: glow .7s ease-in-out infinite alternate;
-    animation: glow .7s ease-in-out infinite alternate;
+    -webkit-animation: glow 1s ease-in-out infinite alternate;
+    -moz-animation: glow 1s ease-in-out infinite alternate;
+    animation: glow 1s ease-in-out infinite alternate;
     border-radius: 5px;
   }
   .container#text {

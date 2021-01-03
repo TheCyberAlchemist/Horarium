@@ -567,16 +567,17 @@ def show_not_avail(request,Faculty_id):
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = context['timings']),event = True)
 	context['events'] = get_json(get_slots(events),False,event = True)
 	context['not_available'] = get_json(get_slots(not_available),False,event = True)
-	print(context['not_available'])
 	if request.method == "POST":
 		if request.is_ajax():
 			############# Old data and New data Processing #############
 			slot_ids = json.loads(request.body)
 			old_data = set(get_slots(not_available).values_list("id",flat = True))
+			print(old_data)
 			new_data = set(slot_ids)
 			to_be_deleted = old_data.difference(new_data)
 			to_be_added = new_data.difference(old_data)
 			############# Add - Delete#############
+			print(to_be_deleted)
 			for i in to_be_deleted:
 				# print("deleted - ",Not_available.objects.get(Slot_id_id = i))
 				Not_available.objects.get(Slot_id_id=i).delete()

@@ -1,21 +1,56 @@
 from django.shortcuts import render
+from student_V1.models import Student_details
+from django.core import serializers
+import json
+from datetime import datetime as date
+from django.db.models import Q
+
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days
-from student_V1.models import Student_details
-# Create your views here.
+
+
+def get_events_json(qs):
+	data = serializers.serialize("json", qs)
+	data = json.loads(data)
+	for d in data:
+		this = qs.get(pk = d['pk'])
+		d["start_time"] = str(this.Slot_id.Timing_id.start_time)
+		if this.Slot_id_2:
+			d["end_time"] = str(this.Slot_id_2.Timing_id.end_time)
+			d["name"] = str(this.Subject_event_id.Subject_id) + " Practical"
+		else:
+			d["end_time"] = str(this.Slot_id.Timing_id.end_time)
+			d["name"] = str(this.Subject_event_id.Subject_id)
+		d["resource"] = str(this.Resource_id)
+		del d['model'],d['fields']
+	return json.dumps(data)
+
+def get_break_json(qs,):
+	data = serializers.serialize("json", qs)
+	data = json.loads(data)
+	for d in data:
+		this = qs.get(pk = d['pk'])
+		d["start_time"] = str(this.Timing_id.start_time)
+		d["end_time"] = str(this.Timing_id.end_time)
+		d["name"] = str(this.Timing_id.name)
+		d["pk"] = this.Timing_id.id
+		del d['model'],d['fields']
+	return json.dumps(data)
 
 def student_home(request):
 	# for i in Slots.objects.filter(day=2):
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
+	my_events = Event.objects.filter(Q(Batch_id=student.Batch_id) | Q(Batch_id=None),Division_id=student.Division_id)
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
-		'events' : Event.objects.filter(Division_id=student.Division_id),
+		'events' : my_events,
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
+		'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name="Sunday")),
+		'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name="Sunday"))
+		# 'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A"))),
+		# 'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	}
-	print(context)
-	# for i in range(5):
-	# 	a = Event(Slot_id_id=Slots.objects.filter(day__Days_id=i+1)[i].id,Division_id_id=2,Subject_event_id_id=7,Resource_id_id=1)
-	# print(Event.objects.filter(Division_id=student.Division_id).values("Batch_id"))
-
-	return render(request,"Student/student_v1.html",context)
+	# print(get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A"))))
+	# print()
+	return render(request,"student/student_v1.html",context)

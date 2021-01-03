@@ -65,6 +65,9 @@ body {
     outline: none;
     // margin: 2px;
   }
+  #prac .btn{
+    height: 90px;
+  }
   .btn {
     width: auto;
     transition: 0.2s;
@@ -73,6 +76,43 @@ body {
     opacity: 0.8;
     transition: 0.2s;
   } 
+
+  .td_active {
+    // background-color: rgb(173, 255, 255);
+    background-color: rgba(228, 228, 228, 0.815);
+    // color: white;
+  }
+  .glow {
+    -webkit-animation: glow .7s ease-in-out infinite alternate;
+    -moz-animation: glow .7s ease-in-out infinite alternate;
+    animation: glow .7s ease-in-out infinite alternate;
+    border-radius: 5px;
+  }
+  .container#hi {
+    padding-bottom: 0;
+    // background-color: red;
+  }
+  @-webkit-keyframes glow {
+    from {
+      background-color: rgb(226, 226, 226);
+    }
+    to {
+      background-color: white;
+    }
+  }
+
+  //////////////////////modal //////////////////////
+  .radio-inline {
+    padding-right: 20px;
+    user-select: none;
+  }
+  .modal_btn.btn {
+    transition: .3s;
+    border: 1px solid rgb(80, 166, 247);
+  }
+  .modal_btn:hover {
+    background-color: rgb(77, 169, 255);
+  }
 ////////////////new table css ends///////////////
 
 // .table {

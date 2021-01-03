@@ -8,6 +8,9 @@
 {% block content %}
 
 <div class="container-fluid pt-4">
+  <div class="container text-center p-2 h4" id="text">
+  </div>
+
   <div class="row">
     <div class="col-lg-9 col-md-12 col-sm-12 pt-3">
       <table id="t1" class="table-responsive-sm table-responsive-md">
@@ -15,121 +18,95 @@
           <tr>
             <th>Time</th>
             {% for day in days %}
-                <th>
-                {{day.Days_id}}
-                </th>
+            <th>
+              {{day.Days_id}}
+            </th>
             {% endfor %}
           </tr>
         </thead>
         <tbody>
-        {%set before=[]%}
-        {% for timing in timings %} <!--for all time periods in database-->
+          {%set before=[]%}
+          {% for timing in timings %}
+          <!--for all time periods in database-->
           <tr>
             {% if timing.is_break %}
-              <th>
-                <p>
-                  {{timing.name}}<br>
-                  [{{timing.return_time()}}]
-                </p>
-              </th>
-              {% set len = days|length %}
-              <th colspan="{{len}}" class = "isBreak" break_id = "{{timing.id}}">
-                <h1>{{timing.name}}</h1>
-              </th>
+            <th>
+              {{timing.name}}<br>
+              [{{timing.return_time()}}]
+            </th>
+            {% set len = days|length %}
+            <th colspan="{{len}}" class="isBreak" break_id = "{{timing.id}}">
+              <span class="h4">{{timing.name}}</span>
+            </th>
             {% else %}
-              <th>
-                  {{timing.name}}<br>
-                  [{{timing.return_time()}}]
-              </th>
-              {% for day in days %}
-                {% if day not in before %}
-                  {% set temp_event={'a':None} %}
-                  {% for event in events %}
-                    {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
-                      {% set _ = temp_event.update({'a':event}) %}
-                    {% endif %}
-                  {% endfor %}
-                  {% if temp_event.a %} <!-- if there is an event-->
-                      {% if temp_event.a.Slot_id_2 %}<!-- if there is practical event-->
-                      {% set _ = before.append(day) %}
-                        <td rowspan=2 event_id = "{{temp_event.a.id}}">
-                          <div class="card p-1">
-                            <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
-                              {{temp_event.a.Subject_event_id.Subject_id}}
-                            </button>
-                            <div class="row">
-                              <div class="col-6">
-                                <span>{{temp_event.a.Resource_id}}</span>
-                              </div>
-                              <div class="col-6">
-                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      {% else %}<!-- if there is lecture event-->
-                        <td event_id = "{{temp_event.a.id}}">
-                          <div class="card p-1">
-                            <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
-                              {{temp_event.a.Subject_event_id.Subject_id}}
-                            </button>
-                            <div class="row">
-                              <div class="col-6">
-                                <span>{{temp_event.a.Resource_id}}</span>
-                              </div>
-                              <div class="col-6">
-                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
-                              </div>
-                            </div>
-                          </div>
-                        </td>
-                      {% endif %}
-                  {% else %}            <!-- if there is no event-->
-                    <td></td>
-                  {% endif %}
-                {% else %}
-                  {% set _ = before.pop(before.index(day))%}
-                {% endif %}
-              {% endfor %}
+            <th>
+              {{timing.name}}<br>
+              [{{timing.return_time()}}]
+            </th>
+            {% for day in days %}
+            {% if day not in before %}
+            {% set temp_event={'a':None} %}
+            {% for event in events %}
+            {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
+            {% set _ = temp_event.update({'a':event}) %}
+            {% endif %}
+            {% endfor %}
+            {% if temp_event.a %}
+            <!-- if there is an event-->
+            {% if temp_event.a.Slot_id_2 %}
+            <!-- if there is practical event-->
+            {% set _ = before.append(day) %}
+            <td  class= "td_gone"rowspan="2" event_id = "{{temp_event.a.id}}">
+              <div class="card p-1" id="prac">
+                <button class="btn mr-2 ml-2 mt-1 mb-1"
+                  style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                  {{temp_event.a.Subject_event_id.Subject_id}}
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>{{temp_event.a.Resource_id}}</span>
+                  </div>
+                  <div class="col-6">
+                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            {% else %}
+            <!-- if there is lecture event-->
+            <td class = "td_gone" event_id = "{{temp_event.a.id}}">
+              <div class="card p-1">
+                <button class="btn mr-2 ml-2 mt-2 mb-1"
+                  style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                  {{temp_event.a.Subject_event_id.Subject_id}}
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>{{temp_event.a.Resource_id}}</span>
+                  </div>
+                  <div class="col-6">
+                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            {% endif %}
+            {% else %}
+            <!-- if there is no event-->
+            <td></td>
+            {% endif %}
+            {% else %}
+            {% set _ = before.pop(before.index(day))%}
+            {% endif %}
+            {% endfor %}
             {% endif %}
           </tr>
-        {% endfor %}
-        </tbody>
-        </table>
-         <table id="t1" class="table-responsive-sm table-responsive-md">
-        <thead>
-          <tr>
-              <h4>No Upcoming Lectures</h4>
-            </td>
-          </tr>
-          <tr>
-            <th>
-              <h6>Time</h6>
-            </th>
-            <th>
-              <h6>Monday</h6>
-            </th>
-            <th>
-              <h6>Tuesday</h6>
-            </th>
-            <th>
-              <h6>Wednesday</h6>
-            </th>
-            <th>
-              <h6>Thursday</h6>
-            </th>
-            <th>
-              <h6>Friday</h6>
-            </th>
-            <th>
-              <h6>Saturday</h6>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
+
+
+          {% endfor %}
           <tr>
             <td>9:00-10:00</td>
-            <td>
+            <td class="td_active">
               <div class="card p-1">
                 <span class="text-left">Batch-31</span>
                 <button class="btn m-2" style="background-color: #7377a5">
@@ -176,7 +153,7 @@
                 </div>
               </div>
             </td>
-            <td>
+            <td class="td_active">
               <div class="card p-1">
                 <button class="btn m-2" style="background-color: #ff8080">
                   AC-3
@@ -223,7 +200,7 @@
               </div>
             </td>
           </tr>
-          <tr>
+          <!--<tr>
             <td>9:00-10:00</td>
             <td>
               <div class="card p-1">
@@ -320,13 +297,14 @@
                 </div>
               </div>
             </td>
-          </tr>
+          </tr> -->
         </tbody>
       </table>
     </div>
-    <div class="col-lg-3 col-md-12 col-sm-12">
+    <div class="col-lg-3 col-md-12 col-sm-12 pt-3">
       <div class="card" id="agenda_panel">
-        <a class="nav-item nav-link" href="#">Notifications</a>
+
+        <a class="nav-item nav-link" style="color: black;text-decoration:underline" href="#">Agenda</a>
         <div class="container mt-3">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
           nisi praesentium placeat hic eum dolorem, sunt repellendus beatae
@@ -342,5 +320,73 @@
       </div>
     </div>
   </div>
+
+  <!-- Button trigger modal -->
+  <button type="button" class="btn modal_btn" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Feedback</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body text-center">
+          <div class="h4 text-center"> How was your experience for Lecture?</div>
+
+          <label class = "radio-inline" for="1">
+            <input type = "radio" id="1" value = "" name="1">&nbsp;Very Bad
+         </label>
+         <label class = "radio-inline" for="2" >
+            <input type="radio" value="" id="2" name="1">&nbsp;Bad
+         </label>
+         <label class = "radio-inline" for="3">
+            <input type = "radio" value = "" id="3" name="1">&nbsp;Average
+         </label>
+         <label class = "radio-inline" for="4">
+          <input type = "radio" id="4" value = "" name="1">&nbsp;Good
+       </label>
+       <label class = "radio-inline" for="5" >
+          <input type="radio" value="" id="5" name="1">&nbsp;Very Good
+       </label>
+       <label class = "radio-inline" for="6" >
+        <input type="radio" value="" id="6" name="1">&nbsp;Not Applicable
+     </label>
+
+       <div class="h4 text-center"> How was your experience for Practical?</div>
+       <label class = "radio-inline" for="1">
+         <input type = "radio" id="1" value = "" name="2">&nbsp;Very Bad
+      </label>
+      <label class = "radio-inline" for="2" >
+         <input type="radio" value="" id="2" name="2">&nbsp;Bad
+      </label>
+      <label class = "radio-inline" for="3">
+         <input type = "radio" value = "" id="3" name="2">&nbsp;Average
+      </label>
+      <label class = "radio-inline" for="4">
+       <input type = "radio" id="4" value = "" name="2">&nbsp;Good
+    </label>
+    <label class = "radio-inline" for="5" >
+       <input type="radio" value="" id="5" name="2">&nbsp;Very Good
+    </label>
+    <label class = "radio-inline" for="6" >
+      <input type="radio" value="" id="6" name="2">&nbsp;Not Applicable
+   </label>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+          <button type="button" class="modal_btn btn" >Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>
 {% endblock %}

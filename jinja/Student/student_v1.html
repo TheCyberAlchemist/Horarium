@@ -1,9 +1,11 @@
 {% extends 'Student/base.html' %}
 {% block title %} Student {% endblock %}
+{% block scripts %}
+<script>
+  put_events({{events_json | safe}},{{break_json | safe}});
+</script>
+{% endblock %}
 {% block content %}
-<style>
-
-</style>
 
 <div class="container-fluid pt-4">
   <div class="row">
@@ -31,15 +33,13 @@
                 </p>
               </th>
               {% set len = days|length %}
-              <th colspan="{{len}}" class = "isBreak">
+              <th colspan="{{len}}" class = "isBreak" break_id = "{{timing.id}}">
                 <h1>{{timing.name}}</h1>
               </th>
             {% else %}
               <th>
-                  <span class="h4">
                   {{timing.name}}<br>
                   [{{timing.return_time()}}]
-                  </span>
               </th>
               {% for day in days %}
                 {% if day not in before %}
@@ -52,7 +52,7 @@
                   {% if temp_event.a %} <!-- if there is an event-->
                       {% if temp_event.a.Slot_id_2 %}<!-- if there is practical event-->
                       {% set _ = before.append(day) %}
-                        <td rowspan=2>
+                        <td rowspan=2 event_id = "{{temp_event.a.id}}">
                           <div class="card p-1">
                             <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
                               {{temp_event.a.Subject_event_id.Subject_id}}
@@ -68,7 +68,7 @@
                           </div>
                         </td>
                       {% else %}<!-- if there is lecture event-->
-                        <td>
+                        <td event_id = "{{temp_event.a.id}}">
                           <div class="card p-1">
                             <button class="btn mr-2 ml-2 mt-1 mb-1" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
                               {{temp_event.a.Subject_event_id.Subject_id}}

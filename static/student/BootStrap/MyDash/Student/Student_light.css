@@ -9,6 +9,10 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
+.td_gone {
+  opacity: 0.5;
+}
+
 .container-fluid {
   background-color: #fff;
   padding-bottom: 7em;
@@ -79,8 +83,8 @@ th:nth-of-type(1) {
 }
 
 .glow {
-  -webkit-animation: glow .7s ease-in-out infinite alternate;
-  animation: glow .7s ease-in-out infinite alternate;
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
   border-radius: 5px;
 }
 

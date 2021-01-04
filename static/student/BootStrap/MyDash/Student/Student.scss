@@ -1,0 +1,170 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: "Montserrat", sans-serif;
+}
+.td_gone{
+opacity: 0.5;
+}
+.container-fluid {
+  background-color: #1e1e2e;
+  // height: 100vh;
+  padding-bottom: 7em;
+}
+
+.col-lg-3, .col-md-3, .col-sm-12 {
+  // background-color: green;
+}
+
+.col-sm-12 {
+  // background-color: #333;
+}
+//Agenda and notification > card
+#agenda_panel #tabs .nav-item {
+  color : #333;
+  text-decoration: underline;
+  // border: 1px solid black;
+
+}
+#agenda_panel{
+  color: black;
+  overflow-y: auto;
+  height: 80vh;
+  // margin: .5em .1em;
+}
+#agenda_panel .container {
+  border-radius: 10px;
+  padding: 1em;
+  width: 90%;
+  border: 1px solid grey;
+}
+///////////////////new table css//////////////
+
+#t1 {
+  text-align: center;
+  width: 100%;
+  table-layout: fixed;
+}
+#t1 th {
+  border: 1px solid white;
+  padding: 10px;
+  font-weight: bolder;
+  // background-color: grey;
+}
+#t1 td {
+  border: 1px solid white;
+  width: auto;
+}
+#t1 td:nth-of-type(1),
+th:nth-of-type(1) {
+  /*For first column of the table*/
+  background-color: grey;
+}
+#t1 .card {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  // margin: 2px;
+}
+#prac .btn{
+  height: 90px;
+}
+.btn {
+  width: auto;
+  transition: 0.2s;
+}
+.btn:hover {
+  opacity: 0.8;
+  transition: 0.2s;
+} 
+
+.td_active {
+  // background-color: rgb(173, 255, 255);
+  background-color: rgba(228, 228, 228, 0.815);
+  // color: white;
+}
+.glow {
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  -moz-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+  border-radius: 5px;
+}
+.container#text {
+  padding-bottom: 0;
+  // background-color: red;
+}
+@-webkit-keyframes glow {
+  from {
+    background-color: rgb(226, 226, 226);
+  }
+  to {
+    background-color: white;
+  }
+}
+
+//////////////////////modal //////////////////////
+.radio-inline {
+  padding-right: 20px;
+  user-select: none;
+}
+.modal_btn.btn {
+  transition: .3s;
+  border: 1px solid rgb(80, 166, 247);
+}
+.modal_btn:hover {
+  background-color: rgb(77, 169, 255);
+}
+////////////////new table css ends///////////////
+
+// .table {
+//     border: 1 px solid white;
+// }
+// .myt thead tr th{
+//     padding: 1.5em;
+//     text-align: center;
+//     border: 1px solid green;
+// }   
+// th {
+
+//     background-color: #1e1e2e;
+// }
+// .myt tbody tr td {
+//     padding: 1em;
+//     text-align: center;
+//     border: 1px solid salmon;
+// }
+// .myt {
+//     // table-layout: fixed;
+//     border: 1px solid salmon;
+//     width: 100%;
+//     // overflow: auto;
+//     position: relative;
+//     top: 0;
+//     margin: 1em auto;
+// }
+// td[scope=row] {
+//     position: -webkit-sticky;
+//     position: sticky;
+//     left: 0;
+//     background-color: #1e1e2e;
+//     border-left: none;
+//   }
+//   ::-webkit-scrollbar {
+// 	width: 7px;
+// 	height: 7px;
+// }
+::-webkit-scrollbar-track {
+// border: 1px solid #262631;
+
+}
+::-webkit-scrollbar-thumb {
+background-color: #333;
+border-radius: 3px;
+}
+:root{
+scrollbar-color:rgb(82, 82, 82) #1f1f24 !important;
+scrollbar-width: thin !important;
+}

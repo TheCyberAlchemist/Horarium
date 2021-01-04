@@ -1,146 +1,66 @@
-:root {
-  --color-white: #fff;
-  --color-black: #333;
-  --color-gray: #75787b;
-  --color-gray-light: #bbb;
-  --color-gray-disabled: #e8e8e8;
-  --color-green: #53a318;
-  --color-green-dark: #383;
-  --font-size-small: .75rem;
-  --font-size-default: .875rem;
-  --color-blue: rgb(0, 132, 255);
-}
-
-.progress_bar {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  list-style: none;
-  padding: 0;
-  margin: 0 0 1rem 0;
-}
-
-.progress_bar li {
-  -webkit-box-flex: 2;
-      -ms-flex: 2;
-          flex: 2;
-  position: relative;
-  padding: 0 0 14px 0;
-  font-size: var(--font-size-default);
-  line-height: 1.5;
-  color: var(--color-blue);
-  font-weight: 600;
-  white-space: nowrap;
-  overflow: visible;
-  min-width: 0;
-  text-align: center;
-  border-bottom: 2px solid var(--color-gray-disabled);
-}
-
-.progress_bar li:first-child,
-.progress_bar li:last-child {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-}
-
-.progress_bar li:first-child:before,
-.progress_bar li:last-child:before {
-  border: 2px solid var(--color-white);
-  bottom: -10px;
-  width: 18px;
-  height: 18px;
-}
-
-.progress_bar li:last-child {
-  text-align: right;
-}
-
-.progress_bar li:before {
-  content: "";
-  display: block;
-  width: 0px;
-  height: 0px;
-  background-color: var(--color-gray-disabled);
-  border-radius: 50%;
-  position: absolute;
-  left: calc(50% - 6px);
-  bottom: -10px;
-  z-index: 3;
-  -webkit-transition: all .2s ease-in-out;
-  transition: all .2s ease-in-out;
-}
-
-.progress_bar li:first-child:before {
-  left: 0;
-}
-
-.progress_bar li:last-child:before {
-  right: 0;
-  left: auto;
-}
-
-.progress_bar span {
-  -webkit-transition: opacity .3s ease-in-out;
-  transition: opacity .3s ease-in-out;
-}
-
-.progress_bar li:not(.is-active) span {
-  opacity: 0;
-}
-
-.progress_bar .is-complete:not(:first-child):after,
-.progress_bar .is-active:not(:first-child):after {
-  content: "";
-  display: block;
+#myProgress {
   width: 100%;
+  background-color: rgba(228, 228, 228, 0.815);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+#ct {
+  width: 1%;
+  height: 10px;
+  text-align: right;
+  top: -30px;
+  left: 18px;
   position: absolute;
-  bottom: -2px;
-  left: -50%;
-  z-index: 2;
-  border-bottom: 2px solid var(--color-blue);
+  /*background-color: red;*/
 }
 
-.progress_bar li:last-child span {
-  width: 200%;
-  display: inline-block;
+#myBar {
+  width: 1%;
+  height: 5px;
+  background-color: #0084ff;
+  border-radius: 10px;
+}
+
+#myProgress::before {
+  content: "";
   position: absolute;
-  left: -100%;
+  width: 20px;
+  height: 20px;
+  top: -7px;
+  left: -5px;
+  background-color: #0084ff;
+  border-radius: 50%;
 }
 
-.progress_bar .is-complete:last-child:after,
-.progress_bar .is-active:last-child:after {
-  width: 200%;
-  left: -100%;
+#myProgress:hover::before {
+  border: 3px solid #0084ff;
+  background-color: white;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
 }
 
-.progress_bar .is-complete:before {
-  background-color: var(--color-blue);
+#myProgress::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: -7px;
+  left: 99%;
+  background-color: #0084ff;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  border-radius: 50%;
 }
 
-.progress_bar .is-active:before,
-.progress_bar li:hover:before,
-.progress_bar .is-hovered:before {
-  background-color: var(--color-white);
-  border-color: var(--color-blue);
-}
-
-.progress_bar li:hover:before,
-.progress_bar .is-hovered:before {
-  -webkit-transform: scale(1.33);
-          transform: scale(1.33);
-}
-
-.progress_bar li:hover span,
-.progress_bar li.is-hovered span {
-  opacity: 1;
-  font-weight: 700;
-}
-
-.progress_bar:hover li:not(:hover) span {
-  opacity: 0;
+#myProgress:hover::after {
+  border: 3px solid #0084ff;
+  background-color: white;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  left: 99%;
 }
 /*# sourceMappingURL=progress_bar.css.map */

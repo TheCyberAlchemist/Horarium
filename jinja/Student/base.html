@@ -9,8 +9,8 @@
 	{# title block for printing the name of the page  #}
 	<!-- css here -->
 	{% block css %} 
-	<link rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_light.css')}}" />
-	<!-- <link rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_dark.css')}}" /> -->
+	<link id="light" rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_light.css')}}" />
+	<link id="dark" rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_dark.css')}}"  disabled=true />
     <link rel="stylesheet" href="{{static ('student//BootStrap/MyDash/static/navbar.css')}}" />
 	<link rel="stylesheet" href="{{static ('student//BootStrap/bootstrap.min.css')}}" />
 	<link rel="stylesheet" href="{{static ('student//BootStrap/MyDash/static/progress_bar.css')}}" />
@@ -30,6 +30,7 @@
 <script src="{{static ('student//BootStrap/jquery.min.js')}}"></script>
 <script src="{{static ('student//BootStrap/bootstrap.min.js')}}"></script>
 <script src="{{static ('student//student_v1//event.js')}}"></script>
+<script src="{{static ('student//BootStrap/MyDash/static/progressBar.js')}}"></script>
 {% block scripts %}
 {% endblock %}
 {# script block for all the scripts of the page #}

@@ -4,20 +4,61 @@
 </div>
 <style type="text/css">
 #myProgress {
-  width: 100%;
+  width: 95%;
   background-color: grey;
+  transition: 0.3s;
+  position: relative;
+  margin-top: 3em;
 }
 
 #ct {
   width: 1%;
   height: 10px;
   text-align: right;
+  top : -20px;
+  position: absolute;
   /*background-color: red;*/
 }
 #myBar {
   width: 1%;
   height: 10px;
-  background-color: green;
+  background-color: rgb(0, 132, 255);
+  border-radius: 10px;
+}
+#myProgress::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: -5px;
+  left: -5px;
+  background-color: red;
+  border-radius: 50%;
+}
+#myProgress:hover::before {
+  border: 3px solid red;
+  background-color: white;
+  transition: 0.1s;
+  top: -7px;
+  left: -7px;
+}
+#myProgress::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: -6px;
+  left: 99%;
+  background-color: blue;
+  transition: 0.3s;
+  border-radius: 50%;
+}
+#myProgress:hover::after {
+  border: 3px solid blue;
+  background-color: white;
+  transition: 0.1s;
+  top: -8px;
+  left: 99%;
 }
 </style>
 <script type="text/javascript">

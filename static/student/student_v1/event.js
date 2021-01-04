@@ -47,25 +47,24 @@ class event_class{
 		this.is_break = is_break;
 	}
 	ongoing(ct){	//	returns if the lecture is ongoing
+		let s = this.start.delta(ct).tis;	// start - ct
+		let e = this.end.delta(ct).tis;
 		if (!this.is_break){
-			let s = this.start.delta(ct).tis;	// start - ct
-			let e = this.end.delta(ct).tis;
 			if (s < (INTERVAL)*60  && e > 0)
 				return true;
-			return false;
 		}else{
-			let s = this.start.delta(ct).tis;	// start - ct
-			let e = this.end.delta(ct).tis;
 			if (s < 0  && e > 0)
 				return true;
-			return false;
 		}
+		return false;
 	}
 	upcoming(ct){	//	returns if the lecture starts in next 4 hrs
-		let s = this.start.delta(ct).tis;
-		let e = this.end.delta(ct).tis;
-		if (s > 0 && e > 0)
-			return true;
+		if (!this.is_break){
+			let s = this.start.delta(ct).tis;
+			let e = this.end.delta(ct).tis;
+			if (s > 0 && e > 0)
+				return true;
+		}
 		return false;
 	}
 	gone(ct){	//	returns if the lecture starts in next 4 hrs
@@ -127,11 +126,11 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 	return t[0]+" : " + t[1]+" : " + t[2];
 }
 $(document).ready (function () {
-	var sec = 0;
+	var sec = 50;
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(13,50,sec);
+		ct = new time(10,54,sec);
 		sec++;
 		for(i in events){
 			get_cell(events[i]).removeClass("td_gone");
@@ -161,19 +160,17 @@ $(document).ready (function () {
 				console.log("This lecture is :: ",get_cell(events[i]));
 				console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
 				break;
-			}else if(events[i].gone(ct)){
-				if( i == events.length-1){
-					for(var j = 0;j < i ; j++){
-						get_cell(events[j]).addClass("td_gone");
-					}
-					$("#text").removeClass("glow");
-					// console.log(events[i]);
-					clearInterval(interval);
-					$("#text").html("No upcoming lecture 😎");
-					console.log("No upcoming lecture .");
+			}else if(events[i].gone(ct) && i != events.length){
+				continue;
+			}else if (events[i].gone(ct) && i == events.length){
+				for(var j = 0;j < i ; j++){
+					get_cell(events[j]).addClass("td_gone");
 				}
-				else
-					continue
+				$("#text").removeClass("glow");
+				// console.log(events[i]);
+				clearInterval(interval);
+				$("#text").html("No upcoming lecture 😎");
+				console.log("No upcoming lecture .");
 			}
 		}
 	}

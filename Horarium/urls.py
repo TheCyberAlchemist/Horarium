@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('Admin/',include('admin_V1.urls')),
     path('student/',include('student_V1.urls')),
+    path('faculty/',include('faculty_V1.urls')),
     path('',include('login_V2.urls')),
     url(r'^favicon\.ico$',RedirectView.as_view(url='/static/site_logo.ico')),
 ]

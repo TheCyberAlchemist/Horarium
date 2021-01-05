@@ -90,8 +90,9 @@ class slot{
 }
 
 function set_shift(s_t,e_t,old_data){
-  shift_start_time = s_t;
-  shift_end_time = e_t;
+  shift_start_time = s_t.slice(0,5);
+  shift_end_time = e_t.slice(0,5);
+  console.log(e_t);
   old_data = old_data.replace(/&#34;/ig,'"',);
   json = JSON.parse(old_data);
   for(i in json){
@@ -181,8 +182,8 @@ function get_remainder(){
   temp_slot = new slot();
   temp_slot.start_time = slots[slots.length-1].end_time;
   temp_slot.end_time = shift_end_time;
-  // console.log(temp_slot.duration());
   let min = temp_slot.duration();
+  console.log(temp_slot);
   $("#get_remainder").html("Remaining Time :: "+parseInt(min/60) + " hr(s)\t"+(min%60) + " min(s)" );
   return temp_slot.duration();
 }

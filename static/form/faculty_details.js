@@ -41,8 +41,10 @@ $(document).ready(function(){
             // swal 
             console.table(subject_events);
         }
+        else{
         // if yes
-        // $(".myform").submit();
+        $(".myform").submit();
+        }
     });
 });
 

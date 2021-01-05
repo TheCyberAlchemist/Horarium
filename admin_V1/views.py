@@ -298,18 +298,16 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				faculty_detail_form = faculty_details(request.POST,instance = edit)
 				faculty_load_form = faculty_load(request.POST,instance=Faculty_load.objects.get(Faculty_id=edit))
 				# print(faculty_detail_form.is_valid(),faculty_load_form.is_valid(),user_form.is_valid())
-				subjects = request.POST.getlist('subject')
-				can_teach = []
-				for subject in subjects:
-					try :
-						can_teach.append(Can_teach.objects.create(Faculty_id = edit,Subject_id=context['my_subjects'].get(pk = subject)))
-					except:
-						context['integrityErrors'] = "We have encountered some problem refresh the page"   #errors to integrityErrors
-						context['refresh'] = True
-						break
+				old_can_teach = set(abc.values_list("Subject_id",flat = True))
+				new_can_teach = set(request.POST.getlist('subject'))
+				to_be_deleted = old_can_teach.difference(new_can_teach)
+				to_be_added = new_can_teach.difference(old_can_teach)
 				if not context['refresh']:
-					for i in can_teach:
-						i.save()
+					for i in to_be_deleted:
+						print("deleted - ",Can_teach.objects.filter(Subject_id= i))
+						Can_teach.objects.filter(Subject_id_id= i).delete()
+					for i in to_be_added:
+						Can_teach.objects.create(Faculty_id = edit,Subject_id_id=i).save()
 					faculty_detail_form.save()
 					if int(request.POST['total_load']) < old_load:	
 						# if the new load is less then the old load delete all the subject events 
@@ -572,7 +570,7 @@ def show_not_avail(request,Faculty_id):
 			############# Old data and New data Processing #############
 			slot_ids = json.loads(request.body)
 			old_data = set(get_slots(not_available).values_list("id",flat = True))
-			print(old_data)
+			# print(old_data)
 			new_data = set(slot_ids)
 			to_be_deleted = old_data.difference(new_data)
 			to_be_added = new_data.difference(old_data)
@@ -650,6 +648,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 	my_subject = Subject_details.objects.get(pk = Subject_id)
 	context["remaining_lect"],context["remaining_prac"] = my_subject.remaining_lect_prac()
 	context["my_subject"] = my_subject
+	context['my_branch'] = my_subject.Semester_id.Branch_id
 	context['fac'] = return_json(teachers)
 	context['form'] = add_sub_event()
 	if Faculty_id:	# if edit is called

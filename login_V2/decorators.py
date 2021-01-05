@@ -25,7 +25,7 @@ def get_home_page(user):
         elif str(user.groups.all()[0]) == 'Student':
             return 'student_home'
         elif str(user.groups.all()[0]) == 'Faculty':
-            return 'admin_home'
+            return 'faculty_home'
     else:
         return False
 

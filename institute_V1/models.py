@@ -149,12 +149,14 @@ class Timings(models.Model):
 		else :
 			raise BaseException("End time must be greater then start time")
 	
-class Slots(models.Model):
+class Slots(models.Model):	
 	day = models.ForeignKey(Working_days,blank=False,on_delete=models.CASCADE)
 	Timing_id = models.ForeignKey(Timings,blank=False,on_delete=models.RESTRICT)
 	def __str__(self):
 		if self.Timing_id.is_break:
 			return "Break" + " [ " + self.Timing_id.return_time() +" ]"	
 		return str(self.day) + " [ " + self.Timing_id.return_time() +" ]"
+	def get_time(self):
+		return " [ " + self.Timing_id.return_time() +" ]"
 	class Meta:
 		verbose_name_plural = "Slots"

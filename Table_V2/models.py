@@ -16,6 +16,8 @@ class Event(models.Model):
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE)
 	Resource_id = models.ForeignKey(Resource,on_delete=models.CASCADE)
 	def __str__(self):
+		if self.Slot_id_2:
+			return str(self.Slot_id) +" | " + str(self.Slot_id_2.get_time()) + " - " + str(self.Subject_event_id)	
 		return str(self.Slot_id) + " - " + str(self.Subject_event_id)
 	class Meta:
 		verbose_name_plural = "Event"

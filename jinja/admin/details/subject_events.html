@@ -13,6 +13,7 @@
       $(document).ready(function() {
         $("#select_fac").select2();
       });
+      activate("{{my_branch.Department_id}}.{{my_branch}}.b");
       put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
       {% if update %}
         add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
@@ -174,6 +175,10 @@
           {% endfor %}
         </tbody>
       </table>
+
+<a href="{{url ('show_sub_det' , args=[my_branch.id])}}">
+  <h2 style="color: white;margin-top:20px "> <span style="border-bottom : 2px solid white">Go Back to Subject Details </span> </h2>
+</a>
     </div>
   </div>
 {% endblock content %}

@@ -127,10 +127,38 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 }
 $(document).ready (function () {
 	var sec = 50;
+	var i = 0;
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(10,54,sec);
+		ct = new time(9,15,sec);
+		/////////////////// progress-bar /////////////////////////////
+		if (i == 0) {
+			i = 1;
+			var elem = document.getElementById("myBar");
+			var width = 1;
+			var elem1 = document.getElementById("ct");
+			var width1 = 1;
+			var id = setInterval(frame, 1000);
+			function frame() {
+				var d = new Date();
+				// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+				st = new time(9,0,0);
+				// ct = new time(9,45,0);
+				et = new time(16,50,0);
+				w = (ct.delta(st).tis/et.delta(st).tis)*100;
+				$("#ct").html(ct.hrs + " : " + ct.min+ " : " + ct.sec);
+				if (w >= 100) {
+					clearInterval(id);
+					i = 0;
+				} else {
+					width++;
+					elem.style.width = w + "%";
+					elem1.style.width = w + "%";
+				}
+			}
+		}
+		/////////////////// main code /////////////////////////////		
 		sec++;
 		for(i in events){
 			get_cell(events[i]).removeClass("td_gone");
@@ -177,5 +205,6 @@ $(document).ready (function () {
 	interval = setInterval(main, 1000);
 	$("#text").addClass("glow");
 	main();
+
 });
 

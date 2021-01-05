@@ -1,10 +1,10 @@
   #myProgress {
-    width: 100%;
+    width: 95%;
     background-color: rgba(228, 228, 228, 0.815);
     transition: 0.3s;
 	position: relative;
 	margin-top: 1em;
-	margin-bottom: 1em;
+  margin-bottom: 2em;
   }
   
   #ct {
@@ -16,6 +16,23 @@
     position: absolute;
     /*background-color: red;*/
   }
+  
+  #timeBar_left {
+	width: 1%;
+    height: 10px;
+    text-align: right;
+	top : 10px;
+	left: -12px;
+    position: absolute;
+}
+#timeBar_right {
+	width: 1%;
+    height: 10px;
+    text-align: right;
+	top : 10px;
+	left: 98.5%;
+    position: absolute;
+}
   #myBar {
     width: 1%;
     height: 5px;

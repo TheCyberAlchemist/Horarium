@@ -9,15 +9,31 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Your Tables <span class="sr-only">(current)</span></a
-        >
+                <a class="nav-link" href="#">Your Tables <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="#">dakgfdkghdkfjhgkjfldghajfkl</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Yogesh Rathod</a
-        >
+              <div class="dropdown show">
+                <!-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown link
+                </a> -->
+                <a class="nav-link dropdown-toggle" href="#" tabindex="-1" aria-disabled="true" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Yogesh Rathod</a>
+              
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                  
+                    <div class="container" id="theme_toggler">
+                      <label id="switch" class="switch">
+                              <input type="checkbox" onchange="toggle()" id="slider">
+                              <span class="slider round"></span>
+                          </label>
+                    </div>
+                  <!-- </a> -->
+                  <a class="dropdown-item" href="#" style="color: white;">Logout</a>
+                </div>
+              </div>
+        
       </li>
     </ul>
   </div>

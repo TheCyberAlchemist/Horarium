@@ -3,6 +3,7 @@
   margin: 0;
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  color: white;
 }
 
 body {
@@ -10,7 +11,7 @@ body {
 }
 
 .td_gone {
-  opacity: 0.5;
+  opacity: 0.7;
 }
 
 .container-fluid {
@@ -34,12 +35,14 @@ body {
   padding: 1em;
   width: 90%;
   border: 1px solid grey;
+  color: black;
 }
 
 #t1 {
   text-align: center;
   width: 100%;
   table-layout: fixed;
+  color: white;
 }
 
 #t1 th {
@@ -56,7 +59,6 @@ body {
 #t1 td:nth-of-type(1),
 th:nth-of-type(1) {
   /*For first column of the table*/
-  background-color: grey;
 }
 
 #t1 .card {
@@ -97,10 +99,12 @@ th:nth-of-type(1) {
 
 @-webkit-keyframes glow {
   from {
-    background-color: #e2e2e2;
+    background-color: #333;
+    color: white;
   }
   to {
-    background-color: white;
+    background-color: #464646;
+    color: white;
   }
 }
 

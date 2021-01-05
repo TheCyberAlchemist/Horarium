@@ -102,6 +102,7 @@ class Division(models.Model):
 	name = models.CharField(max_length = S_len)
 	Semester_id = models.ForeignKey(Semester,default=None,on_delete = models.CASCADE)
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
+	link = models.URLField(max_length=200, null=True, blank=True)
 	def __str__(self):
 		return self.name + " "+ str(self.Semester_id)
 	class Meta:
@@ -118,6 +119,7 @@ class Batch(models.Model):
 	name = models.CharField(max_length = S_len)
 	batch_for = models.CharField(max_length = 4 ,choices=BATCH_FOR)
 	Division_id = models.ForeignKey(Division,default=None,on_delete = models.CASCADE)
+	link = models.URLField(max_length=200, null=True, blank=True)
 	def __str__(self):
 		return self.name
 	class Meta:
@@ -135,7 +137,7 @@ class Timings(models.Model):
 	def return_time(self):
 		s_min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
 		e_min = "00" if self.end_time.minute == 0 else str(self.end_time.minute)
-		return str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min 
+		return str(self.start_time.hour) + ":"+ s_min + "-" + str(self.end_time.hour) + ":"+ e_min 
 	def __str__(self):
 		return self.name + " [ " + self.return_time() +" ]"
 	class Meta:

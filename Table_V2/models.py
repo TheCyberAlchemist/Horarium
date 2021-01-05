@@ -14,7 +14,7 @@ class Event(models.Model):
 	Division_id = models.ForeignKey(Division,on_delete=models.CASCADE)
 	Batch_id = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True)
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE)
-	Resource_id = models.ForeignKey(Resource,on_delete=models.CASCADE)
+	Resource_id = models.ForeignKey(Resource,on_delete=models.CASCADE,null=True,blank=True)
 	def __str__(self):
 		if self.Slot_id_2:
 			return str(self.Slot_id) +" | " + str(self.Slot_id_2.get_time()) + " - " + str(self.Subject_event_id)	

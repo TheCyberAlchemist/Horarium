@@ -15,10 +15,10 @@ def get_events_json(qs):
 	for d in data:
 		this = qs.get(pk = d['pk'])
 		d["start_time"] = str(this.Slot_id.Timing_id.start_time)
-		if this.Slot_id_2:
+		if this.Slot_id_2:  # if practical
 			d["end_time"] = str(this.Slot_id_2.Timing_id.end_time)
 			d["name"] = str(this.Subject_event_id.Subject_id) + " Practical"
-		else:
+		else:			# if lecture
 			d["end_time"] = str(this.Slot_id.Timing_id.end_time)
 			d["name"] = str(this.Subject_event_id.Subject_id)
 		d["resource"] = str(this.Resource_id)

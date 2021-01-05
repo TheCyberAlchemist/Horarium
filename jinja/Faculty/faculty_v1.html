@@ -58,6 +58,11 @@
               {{timing.name}}<br>
               [{{timing.return_time()}}]
             </th>
+            <!--  {{temp_event.a.Division_id}} -- B Sem-3
+                  {{temp_event.a.Subject_event_id.Subject_id}} -- DBMS
+                  {{temp_event.a.Batch_id}} -- Batch-31
+                  {{temp_event.a.Resource_id}} -- 301
+            -->
             {% for day in days %}
               {% if day not in before %}
                 {% set temp_event={'a':None} %}
@@ -73,16 +78,19 @@
                 {% set _ = before.append(day) %}
                 <td class= "td_gone" rowspan="2" event_id = "{{temp_event.a.id}}">
                   <div class="card p-1" id="prac">
+                    <div class="col-12 text-left">
+                      <span>{{temp_event.a.Batch_id}}</span>
+                    </div>
                     <button class="btn mr-2 ml-2 mt-1 mb-1"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">
                       <div class="col-6">
-                        <span>{{temp_event.a.Resource_id}}</span>
+                        <span>{{temp_event.a.Division_id}}</span>
                       </div>
                       <div class="col-6">
-                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                        <span>{{temp_event.a.Resource_id}}</span>
                       </div>
                     </div>
                   </div>

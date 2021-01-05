@@ -19,6 +19,8 @@ class Subject_manager(models.Manager):
 		for i in qs:
 			i.set_load(False)
 		return qs
+
+
 class Subject_details(models.Model):
 	Semester_id = models.ForeignKey(Semester,on_delete=models.RESTRICT)
 	name = models.CharField(max_length=N_len)
@@ -79,7 +81,7 @@ class Subject_details(models.Model):
 class Subject_event(models.Model):
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)
 	Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE)
-	link = models.URLField(max_length=200, null=True, blank=True)
+	# link = models.URLField(max_length=200, null=True, blank=True)
 	prac_carried = models.PositiveIntegerField()
 	lect_carried = models.PositiveIntegerField()
 	def total_load_carried(self):

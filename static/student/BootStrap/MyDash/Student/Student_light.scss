@@ -79,9 +79,11 @@ body {
   } 
 
   .td_active {
-    // background-color: rgb(173, 255, 255);
-    background-color: rgba(228, 228, 228, 0.815);
-    // color: white;
+    background-color: #bbb;
+    font-weight: 640;
+  }
+  .td_active .btn{
+    font-weight: 640;
   }
   .glow {
     -webkit-animation: glow 1s ease-in-out infinite alternate;

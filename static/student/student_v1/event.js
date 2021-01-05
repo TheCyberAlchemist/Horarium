@@ -117,6 +117,7 @@ function get_cell(e){
 		}
 	})[0];
 }
+
 function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 	if (upcoming){
 		t = lect.start.delta(ct).time
@@ -125,13 +126,14 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 	}
 	return t[0]+" : " + t[1]+" : " + t[2];
 }
+
 $(document).ready (function () {
 	var sec = 50;
 	var i = 0;
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(9,15,sec);
+		ct = new time(13,15,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (i == 0) {
 			i = 1;
@@ -171,13 +173,17 @@ $(document).ready (function () {
 				}
 				if (events[i].is_break){	// if a break is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
-					console.log("The break is :: ",get_cell(events[i]));
-					console.log( events[i].name + " ends in :: ",get_counter(events[i],ct));
+					// console.log("The break is :: ",get_cell(events[i]));
+					// console.log( events[i].name + " ends in :: ",get_counter(events[i],ct));
 
 				}else{						// if a class is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
-					console.log("This lecture is :: ",get_cell(events[i]));
-					console.log(events[i].name + " ends in :: ",get_counter(events[i],ct));
+					next = events[parseInt(i)+1];
+					if (!(next.is_break || events[i].end.delta(next.start).tis))	// if up next
+						$("#text").append("<br>Up Next - "+ next.name );
+					get_cell(events[j]).addClass("td_active");
+					// console.log("This lecture is :: ",get_cell(events[i]));
+					// console.log(events[i].name + " ends in :: ",get_counter(events[i],ct));
 				}
 				break;
 			}else if (events[i].upcoming(ct)){		// is an event is upcoming
@@ -185,8 +191,8 @@ $(document).ready (function () {
 					get_cell(events[j]).addClass("td_gone");
 				}
 				$("#text").html(events[i].name + " starts in - " + get_counter(events[i],ct,true));
-				console.log("This lecture is :: ",get_cell(events[i]));
-				console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
+				// console.log("This lecture is :: ",get_cell(events[i]));
+				// console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
 				break;
 			}else if(events[i].gone(ct) && i != events.length){
 				continue;
@@ -198,7 +204,7 @@ $(document).ready (function () {
 				// console.log(events[i]);
 				clearInterval(interval);
 				$("#text").html("No upcoming lecture 😎");
-				console.log("No upcoming lecture .");
+				// console.log("No upcoming lecture .");
 			}
 		}
 	}

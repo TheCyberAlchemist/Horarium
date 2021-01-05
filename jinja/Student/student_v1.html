@@ -3,7 +3,7 @@
 
 {% block scripts %}
 <script>
-//(function() {
+(function() {
 //  let onpageLoad = localStorage.getItem("theme") || "";
 //  let element = document.body;
 //  element.classList.add(onpageLoad);
@@ -14,8 +14,25 @@
 //  else{
 //    console.log(localStorage.getItem("theme"));
 //  }
-//
-//})();
+  let cookie = localStorage.getItem("theme") || "";
+  if (cookie === "dark"){
+    toggle();
+    $("#slider").prop("checked",true);
+  }
+})();
+function toggle() {
+    var el1 = document.getElementById("light"),
+      el2 = document.getElementById("dark");
+    if (el1.disabled) {   // if dark
+      localStorage.setItem("theme", "");
+      el1.disabled = false;
+      el2.disabled = "disabled";
+    } else {              // if light
+      el1.disabled = "disabled";
+      el2.disabled = false;
+      localStorage.setItem("theme", "dark");
+    }
+}
   put_events({{ events_json | safe}}, {{ break_json | safe}});
 </script>
 {% endblock %}
@@ -40,6 +57,8 @@
     </div>
   </div> -->
   <div class="container text-center p-2 h4" id="text">
+  </div>
+  <div class="container text-center p-2 h4" id="text2">
   </div>
   <div class="row">
     <div class="col-lg-9 col-md-12 col-sm-12 pt-3">
@@ -94,10 +113,10 @@
                     </button>
                     <div class="row">
                       <div class="col-6">
-                        <span>{{temp_event.a.Resource_id}}</span>
+                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
                       <div class="col-6">
-                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                        <span>{{temp_event.a.Resource_id}}</span>
                       </div>
                     </div>
                   </div>
@@ -112,10 +131,10 @@
                     </button>
                     <div class="row">
                       <div class="col-6">
-                        <span>{{temp_event.a.Resource_id}}</span>
+                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
                       <div class="col-6">
-                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                        <span>{{temp_event.a.Resource_id}}</span>
                       </div>
                     </div>
                   </div>

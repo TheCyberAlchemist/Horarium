@@ -105,9 +105,11 @@ function put_events(e,b){
 }
 
 function get_cell(e){
+	console.log(e);
 	pk = e.pk;
 	if (e.is_break){
 		return $("th").map(function() {
+			// console.log($(this).attr('break_id'),parseInt(pk));
 			if (parseInt($(this).attr('break_id')) == parseInt(pk)){
 				return $(this);
 			}
@@ -130,12 +132,13 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 }
 
 $(document).ready (function () {
-	var sec = 50;
+	var sec = 0;
 	var i = 0;
 	function main(){
+		sec++;
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(11,15,sec);
+		ct = new time(11,10,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (i == 0) {
 			i = 1;
@@ -163,15 +166,17 @@ $(document).ready (function () {
 			}
 		}
 		/////////////////// main code /////////////////////////////		
-		sec++;
+		// console.log(events,ct);
 		for(i in events){
+			// console.log(events[i]);
 			get_cell(events[i]).removeClass("td_gone");
 		}
 		for(i in events){
-			// console.log(events,ct);
 			if (events[i].ongoing(ct)){		// is an event is ongoing
 				for(var j = 0;j < i ; j++){
-					get_cell(events[j]).addClass("td_gone");
+					get_cell(events[j])
+					.addClass("td_gone")
+					.removeClass("active");
 				}
 				if (events[i].is_break){	// if a break is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
@@ -217,7 +222,7 @@ $(document).ready (function () {
 			}
 		}
 	}
-	interval = setInterval(main, 1000);
+	// interval = setInterval(main, 1000);
 	$("#text").addClass("glow");
 	main();
 

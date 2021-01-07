@@ -38,12 +38,13 @@ class time{
 }
 
 class event_class{
-	constructor(pk,start,end,name = null,is_break=false,open = true){
+	constructor(pk,start,end,link,name = null,is_break=false,opened = false){
 		this.pk = pk;
-		this.name = name;
 		this.start = start;
+		this.name = name;
+		this.link = link;
 		this.end = end;
-		this.open = open;
+		this.opened = opened;
 		this.is_break = is_break;
 	}
 	ongoing(ct){	//	returns if the lecture is ongoing
@@ -74,7 +75,6 @@ class event_class{
 			return true;
 		return false;
 	}
-
 	is_break(){
 		if (this.name)
 			return true
@@ -88,7 +88,8 @@ function put_events(e,b){
 		temp_start_time.time = e[i].start_time.split(":");
 		temp_end_time = new time();
 		temp_end_time.time = e[i].end_time.split(":");
-		temp_event = new event_class(e[i].pk,temp_start_time,temp_end_time,e[i].name);
+		opened = getWithExpiry("opened-"+e[i].pk);
+		temp_event = new event_class(e[i].pk,temp_start_time,temp_end_time,e[i].link,e[i].name,false,opened);
 		events.push(temp_event);
 	}
 	for (i in b){
@@ -96,10 +97,11 @@ function put_events(e,b){
 		temp_start_time.time = b[i].start_time.split(":");
 		temp_end_time = new time();
 		temp_end_time.time = b[i].end_time.split(":");
-		temp_event = new event_class(b[i].pk,temp_start_time,temp_end_time,b[i].name,true);
+		temp_event = new event_class(b[i].pk,temp_start_time,temp_end_time,null,b[i].name,true);
 		events.push(temp_event);
 	}	
 	events.sort((a,b) => (a.start.tis > b.start.tis)? 1 : -1);
+	// console.table(events);
 }
 
 function get_cell(e){
@@ -181,7 +183,14 @@ $(document).ready (function () {
 					next = events[parseInt(i)+1];
 					if (!(next.is_break || events[i].end.delta(next.start).tis))	// if up next
 						$("#text").append("<br>Up Next - "+ next.name );
-					get_cell(events[j]).addClass("td_active");
+					get_cell(events[i]).addClass("td_active");
+					if (!events[i].opened){
+						if(events[parseInt(i)-1] && events[parseInt(i)-1].link != events[i].link){
+							window.open(events[i].link, '_blank')
+							events[i].opened = true;
+							setWithExpiry("opened-"+events[i].pk,true,6*3600*1000);
+						}
+					}
 					// console.log("This lecture is :: ",get_cell(events[i]));
 					// console.log(events[i].name + " ends in :: ",get_counter(events[i],ct));
 				}
@@ -214,3 +223,35 @@ $(document).ready (function () {
 
 });
 
+function setWithExpiry(key, value, ttl) {
+	const now = new Date()
+
+	// `item` is an object which contains the original value
+	// as well as the time when it's supposed to expire
+	const item = {
+		value: value,
+		expiry: now.getTime() + ttl,
+	}
+	localStorage.setItem(key, JSON.stringify(item))
+}
+
+function getWithExpiry(key) {
+	const itemStr = localStorage.getItem(key)
+
+	// if the item doesn't exist, return null
+	if (!itemStr) {
+		return null
+	}
+
+	const item = JSON.parse(itemStr)
+	const now = new Date()
+
+	// compare the expiry time of the item with the current time
+	if (now.getTime() > item.expiry) {
+		// If the item is expired, delete the item from storage
+		// and return null
+		localStorage.removeItem(key)
+		return null
+	}
+	return item.value
+}

@@ -18,9 +18,11 @@ def get_events_json(qs):
 		if this.Slot_id_2:  # if practical
 			d["end_time"] = str(this.Slot_id_2.Timing_id.end_time)
 			d["name"] = str(this.Subject_event_id.Subject_id) + " Practical"
+			d["link"] = this.Batch_id.link
 		else:			# if lecture
 			d["end_time"] = str(this.Slot_id.Timing_id.end_time)
 			d["name"] = str(this.Subject_event_id.Subject_id)
+			d["link"] = this.Division_id.link
 		d["resource"] = str(this.Resource_id)
 		del d['model'],d['fields']
 	return json.dumps(data)

@@ -58,11 +58,7 @@
               {{timing.name}}<br>
               [{{timing.return_time()}}]
             </th>
-            <!--  {{temp_event.a.Division_id}} -- B Sem-3
-                  {{temp_event.a.Subject_event_id.Subject_id}} -- DBMS
-                  {{temp_event.a.Batch_id}} -- Batch-31
-                  {{temp_event.a.Resource_id}} -- 301
-            -->
+            
             {% for day in days %}
               {% if day not in before %}
                 {% set temp_event={'a':None} %}
@@ -82,7 +78,8 @@
                       <span>{{temp_event.a.Batch_id}}</span>
                     </div>
                     <button class="btn mr-2 ml-2 mt-1 mb-1"
-                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                    >
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">

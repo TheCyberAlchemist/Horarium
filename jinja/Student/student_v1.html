@@ -108,9 +108,12 @@ function toggle() {
                 <td class= "td_gone" rowspan="2" event_id = "{{temp_event.a.id}}">
                   <div class="card p-1" id="prac">
                     <button class="btn mr-2 ml-2 mt-1 mb-1"
-                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                      onclick = "window.open('{{temp_event.a.Batch_id.link}}', '_blank');"
+                    >
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
+                    
                     <div class="row">
                       <div class="col-6">
                         <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
@@ -126,7 +129,9 @@ function toggle() {
                 <td class = "td_gone" event_id = "{{temp_event.a.id}}">
                   <div class="card p-1">
                     <button class="btn mr-2 ml-2 mt-2 mb-1"
-                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
+                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                      onclick = "window.open('{{temp_event.a.Division_id.link}}', '_blank');"
+                    >
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">

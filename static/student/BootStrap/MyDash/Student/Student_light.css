@@ -9,21 +9,18 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-.td_gone {
-  opacity: 0.7;
-}
-
 .container-fluid {
   background-color: #fff;
 }
 
-#agenda_panel #tabs .nav-item {
+#agenda_panel .nav-item {
   color: #333;
   text-decoration: underline;
 }
 
 #agenda_panel {
   color: black;
+  overflow-y: auto;
 }
 
 #agenda_panel .container {
@@ -31,6 +28,7 @@ body {
   padding: 1em;
   width: 90%;
   border: 1px solid grey;
+  margin-bottom: 1em;
 }
 
 #t1 {
@@ -78,7 +76,7 @@ th:nth-of-type(1) {
 }
 
 .td_active {
-  background-color: #bbb;
+  background-color: #e2e2e2;
   font-weight: 640;
 }
 
@@ -131,5 +129,42 @@ th:nth-of-type(1) {
 :root {
   scrollbar-color: #525252 #1f1f24 !important;
   scrollbar-width: thin !important;
+}
+
+@media screen and (max-width: 600px) {
+  #t1 {
+    width: 100%;
+    font-size: 12px;
+  }
+  #t1 th {
+    padding: 5px 2px;
+  }
+  #lect .btn {
+    margin: 7px .5em 0 .5em;
+    padding: 5px;
+  }
+  #prac .btn {
+    height: 50px;
+    padding: 0;
+    margin: 0 .5em;
+  }
+  #t1 .btn {
+    font-size: 12px;
+  }
+  #agenda_panel {
+    font-size: 15px;
+  }
+  #agenda_panel .container {
+    border-radius: 10px;
+    padding: .7em;
+    width: 95%;
+    margin-bottom: 1em;
+    border: 1px solid grey;
+  }
+  #text, #text2 {
+    font-size: 15px;
+    -webkit-transition: 1s;
+    transition: 1s;
+  }
 }
 /*# sourceMappingURL=Student_light.css.map */

@@ -7,7 +7,7 @@ body {
     font-family: "Montserrat", sans-serif;
 }
 .td_gone{
-  opacity: 0.7;
+  // opacity: 0.7;
 }
 .container-fluid {
     background-color: #fff;
@@ -22,7 +22,7 @@ body {
     // background-color: #333;
 }
 //Agenda and notification > card
-#agenda_panel #tabs .nav-item {
+#agenda_panel .nav-item {
     color : #333;
     text-decoration: underline;
     // border: 1px solid black;
@@ -30,6 +30,7 @@ body {
 }
 #agenda_panel{
     color: black;
+    overflow-y: auto;
     // margin: .5em .1em;
 }
 #agenda_panel .container {
@@ -37,6 +38,7 @@ body {
     padding: 1em;
     width: 90%;
     border: 1px solid grey;
+    margin-bottom: 1em;
 }
 ///////////////////new table css//////////////
 
@@ -79,7 +81,7 @@ body {
   } 
 
   .td_active {
-    background-color: #bbb;
+    background-color: rgb(226, 226, 226);
     font-weight: 640;
   }
   .td_active .btn{
@@ -116,45 +118,6 @@ body {
   .modal_btn:hover {
     background-color: rgb(77, 169, 255);
   }
-////////////////new table css ends///////////////
-
-// .table {
-//     border: 1 px solid white;
-// }
-// .myt thead tr th{
-//     padding: 1.5em;
-//     text-align: center;
-//     border: 1px solid green;
-// }   
-// th {
-
-//     background-color: #1e1e2e;
-// }
-// .myt tbody tr td {
-//     padding: 1em;
-//     text-align: center;
-//     border: 1px solid salmon;
-// }
-// .myt {
-//     // table-layout: fixed;
-//     border: 1px solid salmon;
-//     width: 100%;
-//     // overflow: auto;
-//     position: relative;
-//     top: 0;
-//     margin: 1em auto;
-// }
-// td[scope=row] {
-//     position: -webkit-sticky;
-//     position: sticky;
-//     left: 0;
-//     background-color: #1e1e2e;
-//     border-left: none;
-//   }
-//   ::-webkit-scrollbar {
-// 	width: 7px;
-// 	height: 7px;
-// }
 ::-webkit-scrollbar-track {
 	// border: 1px solid #262631;
 	
@@ -166,4 +129,40 @@ body {
 :root{
 	scrollbar-color:rgb(82, 82, 82) #1f1f24 !important;
 	scrollbar-width: thin !important;
+  }
+
+  @media screen and (max-width: 600px) {
+    #t1 {
+      width: 100%;
+      font-size:12px;
+    }
+    #t1 th {
+      padding: 5px 2px;
+    }
+    #lect .btn {
+      margin: 7px .5em 0 .5em ;
+      padding: 5px;
+    }
+    #prac .btn{
+      height: 50px;
+      padding: 0;
+      margin: 0 .5em;
+    }
+    #t1 .btn {
+      font-size: 12px;
+    }
+    #agenda_panel {
+      font-size: 15px;
+    }
+    #agenda_panel .container {
+      border-radius: 10px;
+      padding: .7em;
+      width: 95%;
+      margin-bottom: 1em;
+      border: 1px solid grey;
+    }
+    #text,#text2{
+      font-size: 15px;
+      transition: 1s;
+    }
   }

@@ -34,11 +34,19 @@ function toggle() {
     }
 }
   put_events({{ events_json | safe}}, {{ break_json | safe}});
+
+  $(document).ready(function(){
+    console.log("JQuery is working");
+    AOS.init({
+        offset : 150,
+    });
+});
+
 </script>
 {% endblock %}
 {% block content %}
 <div class="container-fluid pt-4">
-  <div id="myProgress" class="container text-center">
+  <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
     <div id="ct">12:12</div>
     <div id="myBar"></div>
     <div id="timeBar_left">
@@ -56,12 +64,12 @@ function toggle() {
       4:00:00
     </div>
   </div> -->
-  <div class="container text-center p-2 h4" id="text">
+  <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500">
   </div>
-  <div class="container text-center p-2 h4" id="text2">
+  <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
   </div>
   <div class="row">
-    <div class="col-lg-9 col-md-12 col-sm-12 pt-3">
+    <div class="col-lg-9 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
       <table id="t1" class="">
         <thead>
           <tr>
@@ -106,16 +114,16 @@ function toggle() {
                 <!-- if there is practical event-->
                 {% set _ = before.append(day) %}
                 <td class= "td_gone" rowspan="2" event_id = "{{temp_event.a.id}}">
-                  <div class="card p-1" id="prac">
-                    <button class="btn mr-2 ml-2 mt-1 mb-1"
+                  <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
+                    <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Resource_id}}</span>
                       </div>
                     </div>
@@ -124,16 +132,16 @@ function toggle() {
                 {% else %}
                 <!-- if there is lecture event-->
                 <td class = "td_gone" event_id = "{{temp_event.a.id}}">
-                  <div class="card p-1">
-                    <button class="btn mr-2 ml-2 mt-2 mb-1"
+                  <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
+                    <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}">
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">
-                      <div class="col-6">
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
-                      <div class="col-6">
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Resource_id}}</span>
                       </div>
                     </div>
@@ -350,10 +358,10 @@ function toggle() {
         </tbody>
       </table>
     </div>
-    <div class="col-lg-3 col-md-12 col-sm-12 pt-3">
+    <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-left" data-aos-duration="1000">
       <div class="card" id="agenda_panel">
 
-        <a class="nav-item nav-link" style="color: black;text-decoration:underline" href="#">Agenda</a>
+        <a class="nav-item nav-link" style="text-decoration:underline" href="#">Agenda</a>
         <div class="container mt-3">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
           nisi praesentium placeat hic eum dolorem, sunt repellendus beatae

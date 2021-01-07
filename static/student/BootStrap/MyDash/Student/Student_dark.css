@@ -10,24 +10,19 @@ body {
   font-family: "Montserrat", sans-serif;
 }
 
-.td_gone {
-  opacity: 0.7;
-}
-
 .container-fluid {
   background-color: #1e1e2e;
-  padding-bottom: 7em;
 }
 
-#agenda_panel #tabs .nav-item {
-  color: #333;
+#agenda_panel .nav-item {
+  color: white;
   text-decoration: underline;
 }
 
 #agenda_panel {
-  color: black;
+  color: white;
   overflow-y: auto;
-  height: 80vh;
+  background-color: rgba(71, 71, 71, 0.815);
 }
 
 #agenda_panel .container {
@@ -35,14 +30,24 @@ body {
   padding: 1em;
   width: 90%;
   border: 1px solid grey;
-  color: black;
+  color: white;
+  margin-bottom: 1em;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+#agenda_panel .container:hover {
+  -webkit-transform: scale(1.03);
+          transform: scale(1.03);
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
 #t1 {
   text-align: center;
   width: 100%;
   table-layout: fixed;
-  color: white;
+  color: #e0e0e0;
 }
 
 #t1 th {
@@ -69,6 +74,11 @@ th:nth-of-type(1) {
 
 #prac .btn {
   height: 90px;
+  color: #e0e0e0;
+}
+
+#lect .btn {
+  color: white;
 }
 
 .btn {
@@ -78,13 +88,14 @@ th:nth-of-type(1) {
 }
 
 .btn:hover {
-  opacity: 0.8;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 
 .td_active {
-  background-color: rgba(228, 228, 228, 0.815);
+  background-color: rgba(71, 71, 71, 0.815);
 }
 
 .glow {
@@ -134,5 +145,42 @@ th:nth-of-type(1) {
 :root {
   scrollbar-color: #525252 #1f1f24 !important;
   scrollbar-width: thin !important;
+}
+
+@media screen and (max-width: 600px) {
+  #t1 {
+    width: 100%;
+    font-size: 12px;
+  }
+  #t1 th {
+    padding: 5px 2px;
+  }
+  #lect .btn {
+    margin: 7px .5em 0 .5em;
+    padding: 5px;
+  }
+  #prac .btn {
+    height: 50px;
+    padding: 0;
+    margin: 0 .5em;
+  }
+  #t1 .btn {
+    font-size: 12px;
+  }
+  #agenda_panel {
+    font-size: 15px;
+  }
+  #agenda_panel .container {
+    border-radius: 10px;
+    padding: .7em;
+    width: 95%;
+    margin-bottom: 1em;
+    border: 1px solid grey;
+  }
+  #text, #text2 {
+    font-size: 15px;
+    -webkit-transition: 1s;
+    transition: 1s;
+  }
 }
 /*# sourceMappingURL=Student_dark.css.map */

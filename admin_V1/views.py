@@ -86,8 +86,9 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 			# print(Event.objects.filter(Slot_id_id=d['pk']).values_list("id",flat=True))
 			d['fields']['resources_filled'] = list(Event.objects.filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
 		elif time_table:
+			d['fields']['Subject_id'] = str(qs.get(Subject_id=d['fields']['Subject_id']).Subject_id)
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
-			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id=d['pk']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
+			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id__Faculty_id = d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
 		if not keep_pk:
 			del d['pk']
 		del d['model']
@@ -533,6 +534,7 @@ def show_table(request,Division_id):
 	my_division = Division.objects.get(pk = Division_id)
 	Shift_id = my_division.Shift_id
 	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
+	# print(subjects)
 	timings = Timings.objects.filter(Shift_id = Shift_id)
 	context = {
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
@@ -578,7 +580,7 @@ def show_not_avail(request,Faculty_id):
 			print(to_be_deleted)
 			for i in to_be_deleted:
 				# print("deleted - ",Not_available.objects.get(Slot_id_id = i))
-				Not_available.objects.get(Slot_id_id=i).delete()
+				Not_available.objects.get(Faculty_id=Faculty_id,Slot_id_id=i).delete()
 			for i in to_be_added:
 				Not_available.objects.create(Faculty_id_id=Faculty_id,Slot_id_id=i).save()
 				# print("added - ",Slots.objects.get(pk = i))

@@ -72,7 +72,6 @@ $(document).ready(function(){
               {{timing.name}}<br>
               [{{timing.return_time()}}]
             </th>
-
             {% for day in days %}
               {% if day not in before %}
                 {% set temp_event={'a':None} %}

@@ -1,14 +1,14 @@
 function print(abc){
 	console.log(abc);
 }
+
 function put_data(slots_json,events_json){
-	json = JSON.parse(slots_json.replace(/&#34;/ig,'"',));
-	for (i in json){
-		temp_slot = new slot(json[i].pk,json[i].fields.day,json[i].fields.Timing_id,json[i].fields.resources_filled)
+	for (i in slots_json){
+		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
 		slots.push(temp_slot);
 	}
 	// console.table(slots);
-	events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
+	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
 	for (i in events_json){
 		obj = events_json[i].fields;
 		temp_event = new subject_event(events_json[i].pk,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available,obj.other_events)
@@ -43,12 +43,12 @@ class subject_event {
 
 events = [];
 class event_class {
-	constructor(slot,subject_event,batch,resource){
+	constructor(slot,subject_event,batch,resource,slot2=null){
 		this.slot = slot;
 		this.subject_event = subject_event;
 		this.batch = batch;
 		this.resource = resource;
-
+		this.slot2 = slot2;
 	}
 }
 
@@ -64,6 +64,7 @@ function get_slot(td){
 	}
 }
 
+
 function get_subject_event(id){
 	// console.log(slots[0],day,time);
 	for (j in subject_events){
@@ -73,13 +74,38 @@ function get_subject_event(id){
 	}
 }
 
+function intersects(a1,a2) {
+	// console.log(a1,a2);
+    for (j in a1){
+		if (a1[j] && a2.includes(a1[j]))
+			return true
+	}
+	return false
+}
+
+function arraysEqual(a1,a2) {
+    return JSON.stringify(a1)==JSON.stringify(a2);
+}
+
+function clear_td(td){		// refresh the td
+	console.log(td);
+	if (td.length){
+		td.html("");
+		// td.removeAttr("filled");
+	}
+	return;
+}
+
 function push_event(temp_event){
+	// console.log(events);
 	for(i in events){
-		if (events[i].slot == temp_event.slot && events[i].subject_event == temp_event.subject_event){
+		let a1 = [events[i].slot,events[i].slot2];
+		let a2 = [temp_event.slot,temp_event.slot2];
+		if ( arraysEqual(a1,a2) && events[i].subject_event == temp_event.subject_event){
 			console.log("duplicate");
 			return;
-		}else if (events[i].slot == temp_event.slot){
-			// if there is en event on the slot
+		}else if (intersects(a1,a2)){
+			// if there is overwritting 
 			b1 = events[i].batch
 			b2 = temp_event.batch
 			if (b1 == b2){
@@ -96,27 +122,45 @@ function push_event(temp_event){
 					events.splice(i,1);
 				}
 			}
+			clear_td(get_cell(a1[0]));
+			clear_td(get_cell(a1[1]));
+			// clear the old slot td
 		}
 	}
 	events.push(temp_event);
 }
 
+function get_prac_pair(td){
+	var td_below = td.closest('tr').next().children().eq(td.index());
+	var td_above = td.closest('tr').prev().children().eq(td.index());
+	if (td_below.length && !td_below.hasClass("isBreak")){
+		return [td,td_below];
+	}else if(td_above.length && !td_above.hasClass("isBreak")){
+		return [td_above,td];
+	}
+}
+
 function get_cell(slot_id){
 	let slot_obj;
+	// console.log(slot_id);
 	for (i in slots){
-		if (slots[i].id == slot_id){
+		if (String(slots[i].id) == String(slot_id)){
 			slot_obj = slots[i];
 		}
 	}
+	if (!slot_obj)
+	return false
 	let tr = $("[timing_id=" + String(slot_obj.timing) + "]");
 	let td = tr.find('td:nth-child('+(slot_obj.day+1)+')')
-	// console.log(td);
 	return td;
 }
 
-function change_td(td){
+
+function change_lect_td(td,subject_event_id){	// change lecture ondrop
 	// td.css({"background-color":"white"});
 	subject_event = get_subject_event(subject_event_id);
+	// console.log(temp_event)
+	td.html(subject_event.subject_name);
 
 	card = td.children(".card");
 	// .card -> span (batch)
@@ -128,6 +172,20 @@ function change_td(td){
 	// .faculty_name -> (faculty_name)
 
 }
+
+// Edge lect on a practical
+
+function change_prac_td(td,subject_event_id) {	// change practical ondrop
+	subject_event = get_subject_event(subject_event_id);
+	// console.log(temp_event)
+	pair = get_prac_pair(td);
+	// prac[0] uppar td
+	// prac[1] niche td
+
+	pair[0].html(subject_event.subject_name + " Prac");
+	pair[1].html(subject_event.subject_name + " Prac");
+}
+
 
 $(document).ready (function () {
 	var csrftoken = Cookies.get('csrftoken');
@@ -167,13 +225,21 @@ $(document).ready (function () {
 						event_td.addClass("not_available_td");
 						// event_td.html(obj.Division_id)
 					}
+					if (obj.Slot_id_2){			// if it is practical
+						event_td_2 = get_cell(obj.Slot_id_2);
+						if (!event_td_2.hasClass("filled")){
+							event_td_2.addClass("not_available_td");
+							// event_td.html(obj.Division_id)
+						}
+					}
 				}
 			if ($(this).attr("is_prac")){
 				$("td").each(function(){
 					var cellIndex = $(this).index();
 					var td_below = $(this).closest('tr').next().children().eq(cellIndex);
 					// console.log(td_below.hasClass("not_available_td"));
-					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td") || td_below.hasClass("filled") || td_below.hasClass("isBreak") || !td_below.length){
+					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td")|| td_below.hasClass("isBreak") || !td_below.length){ 
+						// || $(this).hasClass("filled") || td_below.hasClass("filled") 
 						// if below is not available or filled or is break then not viable
 						if (!($(this).hasClass("available_td") || $(this).hasClass("isBreak")))
 							$(this).addClass("not_available_td");
@@ -181,8 +247,8 @@ $(document).ready (function () {
 					else{	//	all the available
 						// console.log("helr");
 						$(this).addClass("available_td");
-							td_below.removeClass("not_available_td");
-							td_below.addClass("available_td");
+						td_below.addClass("available_td");
+						td_below.removeClass("not_available_td");
 					}
 				});
 			}
@@ -220,14 +286,18 @@ $(document).ready (function () {
 				}
 				if (!ui.draggable.attr("is_prac")){
 					$("#batches").next(".select2-container").hide();
+					$("#event_form").removeAttr("is_prac");
+				}
+				else{
+					$("#event_form").attr("is_prac",ui.draggable.attr("is_prac"));
 				}
 				$("#event_form").attr("slot_id",slot.id);
-				$("#event_form").attr("is_prac",ui.draggable.attr("is_prac"));
 				$("#event_form").attr("subject_event_id",ui.draggable.attr("subject_event_id"));
 				$("#event_form").show();
 			}
 		}
 	});
+	///////////////////////////// form  ///////////////////////
 	$("#aform").on("click", function(){
 	// $("#aform").on("click", function(){
 		slot_id = $("#event_form").attr("slot_id");
@@ -236,34 +306,26 @@ $(document).ready (function () {
 		td = get_cell(slot_id);
 		let batch = $("#batches").val();
 		let resource = $("#resources").val();
-		// print([batch,resource,slot.id]);
+		print(is_prac);
 		if (resource){
-			if (is_prac && batch)
-				temp_event = new event_class(slot_id,subject_event_id,batch,resource);
-			else if(!is_prac)
+			if (is_prac && batch){
+				temp_event = new event_class(slot_id,subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
+				push_event(temp_event);
+				change_prac_td(td,subject_event_id);
+			}else if(!is_prac){
 				temp_event = new event_class(slot_id,subject_event_id,null,resource);
-			else
+				push_event(temp_event);
+				change_lect_td(td,subject_event_id);
+			}else
 				return;
-			push_event(temp_event);
 			console.table(events);
 			td.addClass("filled");
-			change_td(td);
 		}
 		$("#event_form").hide();
 		return;
 	});
+	
 	$("#cancel").on("click", function(){
 		$("#event_form").hide();
 	});
-	// lect1 = new event_class(2,7,null,1);
-	// lect2 = new event_class(2,3,null,1);
-	// prac1b1 = new event_class(2,7,1,1);
-	// prac2b1 = new event_class(2,3,1,1);
-	// prac2b2 = new event_class(2,7,2,1);
-	// // console.log(prac1b1.batch);
-	// push_event(lect1);
-	// push_event(new event_class(4,7,1,1));
-	// push_event(prac1b1);
-	// // push_event(new event_class(4,7,1,1));
-	// console.table(events);
 });

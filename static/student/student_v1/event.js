@@ -135,7 +135,7 @@ $(document).ready (function () {
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(13,15,sec);
+		ct = new time(11,15,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (i == 0) {
 			i = 1;

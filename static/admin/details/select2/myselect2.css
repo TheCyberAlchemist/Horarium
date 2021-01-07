@@ -11,7 +11,7 @@
 .myform .select2_container.single_select2 {
   border-width: 1px;
   width: 100%;
-  padding-left: 10em;
+  text-align: center;
   -webkit-transition: .1s;
   transition: .1s;
 }

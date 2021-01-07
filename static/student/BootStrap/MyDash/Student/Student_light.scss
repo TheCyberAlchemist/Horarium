@@ -39,6 +39,11 @@ body {
     width: 90%;
     border: 1px solid grey;
     margin-bottom: 1em;
+    transition: .3s;
+}
+#agenda_panel .container:hover {
+  transform: scale(1.03);
+  transition: .3s;
 }
 ///////////////////new table css//////////////
 
@@ -52,7 +57,7 @@ body {
     padding: 10px;
     font-weight: bolder;
     // background-color: grey;
-  }
+  } 
   #t1 td {
     border: 1px solid black;
     width: auto;
@@ -76,7 +81,8 @@ body {
     transition: 0.2s;
   }
   .btn:hover {
-    opacity: 0.8;
+    // opacity: 0.8;
+    transform: scale(1.1);
     transition: 0.2s;
   } 
 
@@ -134,14 +140,14 @@ body {
   @media screen and (max-width: 600px) {
     #t1 {
       width: 100%;
-      font-size:12px;
+      font-size:10px;
     }
     #t1 th {
       padding: 5px 2px;
     }
     #lect .btn {
       margin: 7px .5em 0 .5em ;
-      padding: 5px;
+      padding: 5px 2px;
     }
     #prac .btn{
       height: 50px;
@@ -152,7 +158,7 @@ body {
       font-size: 12px;
     }
     #agenda_panel {
-      font-size: 15px;
+      font-size: 12px;
     }
     #agenda_panel .container {
       border-radius: 10px;

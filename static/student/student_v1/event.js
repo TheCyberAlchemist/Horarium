@@ -135,10 +135,10 @@ $(document).ready (function () {
 	var sec = 0;
 	var i = 0;
 	function main(){
-		sec++;
+		// sec++;
 		var d = new Date();
-		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(11,10,sec);
+		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		// ct = new time(11,10,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (i == 0) {
 			i = 1;
@@ -150,9 +150,9 @@ $(document).ready (function () {
 			function frame() {
 				var d = new Date();
 				// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-				st = new time(9,0,0);
+				st = new time(9,15,0);
 				// ct = new time(9,45,0);
-				et = new time(16,50,0);
+				et = new time(17,00,0);
 				w = (ct.delta(st).tis/et.delta(st).tis)*100;
 				$("#ct").html(ct.hrs + " : " + ct.min+ " : " + ct.sec);
 				if (w >= 100) {
@@ -222,7 +222,7 @@ $(document).ready (function () {
 			}
 		}
 	}
-	// interval = setInterval(main, 1000);
+	interval = setInterval(main, 1000);
 	$("#text").addClass("glow");
 	main();
 

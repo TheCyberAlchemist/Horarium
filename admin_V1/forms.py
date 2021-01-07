@@ -29,13 +29,13 @@ class create_semester(ModelForm):
 class create_division(ModelForm):
 	class Meta:
 		model = Division
-		fields = ['name','Shift_id']
+		fields = ['name','Shift_id','link']
 
 
 class create_batch(ModelForm):
 	class Meta:
 		model = Batch
-		fields = ['name','batch_for']
+		fields = ['name','batch_for','link']
 
 
 class faculty_details(ModelForm):

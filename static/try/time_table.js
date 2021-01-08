@@ -43,12 +43,12 @@ class subject_event {
 
 events = [];
 class event_class {
-	constructor(slot,subject_event,batch,resource,slot2=null){
-		this.slot = slot;
-		this.subject_event = subject_event;
-		this.batch = batch;
-		this.resource = resource;
-		this.slot2 = slot2;
+	constructor(Slot_id,Subject_event_id,Batch_id,Resource_id,Slot_id_2=null){
+		this.Slot_id = Slot_id;
+		this.Subject_event_id = Subject_event_id;
+		this.Batch_id = Batch_id;
+		this.Resource_id = Resource_id;
+		this.Slot_id_2 = Slot_id_2;
 	}
 }
 
@@ -99,15 +99,15 @@ function clear_td(td){		// refresh the td
 function push_event(temp_event){
 	// console.log(events);
 	for(i in events){
-		let a1 = [events[i].slot,events[i].slot2];
-		let a2 = [temp_event.slot,temp_event.slot2];
-		if ( arraysEqual(a1,a2) && events[i].subject_event == temp_event.subject_event){
+		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
+		let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
+		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id){
 			console.log("duplicate");
 			return;
 		}else if (intersects(a1,a2)){
 			// if there is overwritting 
-			b1 = events[i].batch
-			b2 = temp_event.batch
+			b1 = events[i].Batch_id
+			b2 = temp_event.Batch_id
 			if (b1 == b2){
 				// if lect-lect or prac(b1)-prac(b1)
 				console.log("lect-lect or prac(b1)-prac(b1)");
@@ -329,3 +329,13 @@ $(document).ready (function () {
 		$("#event_form").hide();
 	});
 });
+
+function submited(){
+	// console.log("JSON.stringify(events),1)");
+	  $.ajax({
+		  type: "post",
+		  data: JSON.stringify(events),
+		  success: function (){
+		}
+	});
+}

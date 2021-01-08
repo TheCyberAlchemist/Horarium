@@ -105,7 +105,7 @@ function put_events(e,b){
 }
 
 function get_cell(e){
-	console.log(e);
+	// console.log(e);
 	pk = e.pk;
 	if (e.is_break){
 		return $("th").map(function() {
@@ -176,7 +176,7 @@ $(document).ready (function () {
 				for(var j = 0;j < i ; j++){
 					get_cell(events[j])
 					.addClass("td_gone")
-					.removeClass("active");
+					.removeClass("td_active");
 				}
 				if (events[i].is_break){	// if a break is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
@@ -186,11 +186,11 @@ $(document).ready (function () {
 				}else{						// if a class is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
 					next = events[parseInt(i)+1];
-					if (!(next.is_break || events[i].end.delta(next.start).tis))	// if up next
+					if (next && !(next.is_break || events[i].end.delta(next.start).tis))	// if up next
 						$("#text").append("<br>Up Next - "+ next.name );
 					get_cell(events[i]).addClass("td_active");
 					if (!events[i].opened){
-						if(events[parseInt(i)-1] && events[parseInt(i)-1].link != events[i].link){
+						if(parseInt(i) == 0 || (parseInt(i) != 0 && (events[parseInt(i)-1].link != events[i].link || (events[parseInt(i)-1].link == events[i].link && !(events[parseInt(i)-1].opened)) ))){
 							window.open(events[i].link, '_blank')
 							events[i].opened = true;
 							setWithExpiry("opened-"+events[i].pk,true,6*3600*1000);

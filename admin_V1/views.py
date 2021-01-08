@@ -13,6 +13,7 @@ from subject_V1.models import Subject_details,Subject_event
 from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
 from .forms import add_user,faculty_load,faculty_details,student_details
 from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,update_sub_event
+from .forms import add_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
 
@@ -526,9 +527,24 @@ def show_table(request,Division_id):
 	# the remaining lect and prac for all the subjects should return 0,0
 	#  to start the timetable
 	if request.method == "POST":
-		print(json.loads(request.body))
+		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
+		json_events = json.loads(request.body)
+		new_events = set()
+		old_events = set()
+		for l in json_events:
+			new_events.add(tuple(map(str, l.values())))
+		for i in old_events_qs:
+			old_events.add(tuple(map(str, i)))
+		to_be_added = new_events.difference(old_events)
+		to_be_deleted = old_events.difference(new_events)
+		print(to_be_added,to_be_deleted)
 		if request.is_ajax():
-			pass
+			for event in json_events:
+				form = add_event(event)
+				# print(form.is_valid())
+				# candidate = form.save(commit=False)
+				# candidate.Division_id = Division_id
+				
 		redirect('show_table',Division_id)
 
 	my_division = Division.objects.get(pk = Division_id)

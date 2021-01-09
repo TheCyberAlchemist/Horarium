@@ -193,7 +193,7 @@ $(document).ready (function () {
 			});
 			// console.log(checked);
 		});
-		}
+	}
 });
 function submited(){
 	console.log("JSON.stringify(events),1)");
@@ -203,4 +203,4 @@ function submited(){
 		  success: function (){
 		}
 	  });
-  }
+}

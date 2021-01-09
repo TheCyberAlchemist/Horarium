@@ -560,6 +560,7 @@ def show_table(request,Division_id):
 		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
 		'resources' : Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id),
 		'batches': Batch.objects.filter(Division_id=Division_id),
+		'batches_json': get_json(Batch.objects.filter(Division_id=Division_id)),
 	}
 
 	return render(request,"try/abc.html",context)

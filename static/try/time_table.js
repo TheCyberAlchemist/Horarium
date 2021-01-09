@@ -1,8 +1,9 @@
 function print(abc){
 	console.log(abc);
 }
-
-function put_data(slots_json,events_json){
+batches = []
+function put_data(slots_json,events_json,batches_json){
+	batches = batches_json;
 	for (i in slots_json){
 		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
 		slots.push(temp_slot);
@@ -54,10 +55,11 @@ class event_class {
 
 
 function get_slot(td){
-	let day = td[0].cellIndex;
+	let day = td.index();
 	let time = td.parent().attr("timing_id");
 	// console.log(slots[0],day,time);
-	for (i in slots){	
+	for (i in slots){
+		// print(slots[i].day);
 		if (slots[i].day == day && slots[i].timing == time){
 			return slots[i];
 		}
@@ -88,7 +90,7 @@ function arraysEqual(a1,a2) {
 }
 
 function clear_td(td){		// refresh the td
-	console.log(td);
+	// console.log(td);
 	if (td.length){
 		td.html("");
 		// td.removeAttr("filled");
@@ -97,11 +99,10 @@ function clear_td(td){		// refresh the td
 }
 
 function push_event(temp_event){
-	// console.log(events);
-	for(i in events){
+	for(var i = events.length - 1;i >= 0 ;i--){
 		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
 		let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
-		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id){
+		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id && events[i].Batch_id == temp_event.Batch_id){
 			console.log("duplicate");
 			return;
 		}else if (intersects(a1,a2)){
@@ -118,7 +119,7 @@ function push_event(temp_event){
 					console.log("prac(b1)-prac(b2)");
 				}else{
 					// if lect-prac or prac-lect
-					console.log("lect-prac or prac-lect");
+					console.log("prac-lect or lect-prac");
 					events.splice(i,1);
 				}
 			}
@@ -157,6 +158,8 @@ function get_cell(slot_id){
 
 
 function change_lect_td(td,subject_event_id){	// change lecture ondrop
+	// td.hide();
+	// console.log(get_slot(td));
 	// td.css({"background-color":"white"});
 	subject_event = get_subject_event(subject_event_id);
 	// console.log(temp_event)
@@ -170,20 +173,17 @@ function change_lect_td(td,subject_event_id){	// change lecture ondrop
 	// .resource_name -> (resource_name)
 
 	// .faculty_name -> (faculty_name)
-
+	td.addClass("filled");
 }
 
-// Edge lect on a practical
 
-function change_prac_td(td,subject_event_id) {	// change practical ondrop
+function change_to_prac_td(td,subject_event_id) {	// change practical ondrop
 	subject_event = get_subject_event(subject_event_id);
-	// console.log(temp_event)
 	pair = get_prac_pair(td);
-	// prac[0] uppar td
-	// prac[1] niche td
-
+	pair[0].addClass("abc");
 	pair[0].html(subject_event.subject_name + " Prac");
 	pair[1].html(subject_event.subject_name + " Prac");
+	td.addClass("filled");
 }
 
 
@@ -210,34 +210,33 @@ $(document).ready (function () {
 		start: function(event, ui) {
 			// get all the td in which the faculty is not_available
 			let subject_event = get_subject_event($(this).attr("subject_event_id"));
-				// for all the not_available td
-				for (i in subject_event.not_available){
-					td = get_cell(subject_event.not_available[i]);
-					if (!td.hasClass("filled")){
-						td.addClass("not_available_td");
-					}
+			// for all the not_available td add not_available
+			for (i in subject_event.not_available){
+				td = get_cell(subject_event.not_available[i]);
+				if (!td.hasClass("filled")){
+					td.addClass("not_available_td");
 				}
-				// for all the other_events td
-				for (k in subject_event.other_events){
-					var obj = subject_event.other_events[k]['fields']
-					event_td = get_cell(obj.Slot_id);
-					if (!event_td.hasClass("filled")){
-						event_td.addClass("not_available_td");
+			}
+			// for all the other_events td add not_available
+			for (k in subject_event.other_events){
+				var obj = subject_event.other_events[k]['fields']
+				event_td = get_cell(obj.Slot_id);
+				if (!event_td.hasClass("filled")){
+					event_td.addClass("not_available_td");
+					// event_td.html(obj.Division_id)
+				}
+				if (obj.Slot_id_2){			// if it is practical
+					event_td_2 = get_cell(obj.Slot_id_2);
+					if (!event_td_2.hasClass("filled")){
+						event_td_2.addClass("not_available_td");
 						// event_td.html(obj.Division_id)
 					}
-					if (obj.Slot_id_2){			// if it is practical
-						event_td_2 = get_cell(obj.Slot_id_2);
-						if (!event_td_2.hasClass("filled")){
-							event_td_2.addClass("not_available_td");
-							// event_td.html(obj.Division_id)
-						}
-					}
 				}
+			}
 			if ($(this).attr("is_prac")){
 				$("td").each(function(){
 					var cellIndex = $(this).index();
 					var td_below = $(this).closest('tr').next().children().eq(cellIndex);
-					// console.log(td_below.hasClass("not_available_td"));
 					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td")|| td_below.hasClass("isBreak") || !td_below.length){ 
 						// || $(this).hasClass("filled") || td_below.hasClass("filled") 
 						// if below is not available or filled or is break then not viable
@@ -259,7 +258,6 @@ $(document).ready (function () {
 			$("td").each(function(){
 				$(this).removeClass("not_available_td");
 				$(this).removeClass("available_td");
-
 			});
 		}
 
@@ -275,12 +273,14 @@ $(document).ready (function () {
 		},
 		// on drop 
 		drop: function( event, ui ) {
-			if (!$( this ).hasClass("not_available_td")){ // if faculty is available at this slot
+			if (!$( this ).hasClass("not_available_td")){
+			// if faculty is available at this slot
 				let td = $(this);
 				var slot = get_slot(td);
-				// print(slot);
+				$("#resources option").prop('disabled', false);
 				// all the options are enabled and then the filled resources are disabled 
 				$("#batches").next(".select2-container").show();
+				$("#resources option[value=-1]").prop('disabled', 'disabled');
 				for (i in slot.resources_filled){
 					$("#resources option[value='"+String(slot.resources_filled[i])+"']").prop('disabled', 'disabled');
 				}
@@ -306,12 +306,12 @@ $(document).ready (function () {
 		td = get_cell(slot_id);
 		let batch = $("#batches").val();
 		let resource = $("#resources").val();
-		print(is_prac);
+		// console.log(batch,resource);
 		if (resource){
 			if (is_prac && batch){
 				temp_event = new event_class(slot_id,subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
 				push_event(temp_event);
-				change_prac_td(td,subject_event_id);
+				change_to_prac_td(td,subject_event_id);
 			}else if(!is_prac){
 				temp_event = new event_class(slot_id,subject_event_id,null,resource);
 				push_event(temp_event);
@@ -319,7 +319,8 @@ $(document).ready (function () {
 			}else
 				return;
 			console.table(events);
-			td.addClass("filled");
+		}else{
+			return;
 		}
 		$("#event_form").hide();
 		return;

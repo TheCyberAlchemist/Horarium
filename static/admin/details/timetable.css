@@ -224,8 +224,7 @@ width: 100%;
 }
 .tt_grid .event_btn {
 	padding: 10px;
-	margin-top:5px;
-	margin-bottom: 5px;
+	margin: 5px auto;
 	font-size: 15px;
 	background-color: #e12eca;
 	border: none;
@@ -248,9 +247,8 @@ width: 100%;
 }
 
 .event_form {
-	position: absolute;
-	background-color: red;
-	/* padding: 1em;  */
+	/* background-color: red; */
+	padding: 1em; 
 }
 .event_form button {
 	padding: 5px;

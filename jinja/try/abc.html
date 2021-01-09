@@ -30,7 +30,26 @@
 {%endblock%}
 {% block content %}
 
-
+<form id="event_form" style="display:none" class="event_form">
+	<div class="select2_container single_select2">
+		<select id="resources">
+			<option disabled selected>Select the room </option>
+			{% for resource in resources %}
+				<option value="{{resource.id}}">{{resource}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<div class="select2_container single_select2">
+		<select id="batches">
+			<option disabled selected>Select the batch </option>
+			{% for batch in batches %}
+				<option value="{{batch.id}}">{{batch}}</option>
+			{% endfor %}
+		</select>
+	</div>
+	<button type="button" id="cancel">cancel</button>
+	<button type="button" id="aform">Submit</button>
+</form>
 <div class="card-container">
 	<div class="card-list">
 		{% for subject_event in subject_events %}
@@ -99,43 +118,21 @@
 				{% for day in working_days %}
 				<td class="droppable">		<!-- working td for the whole table -->
 					<!-- add html of td from student.html -->
-					<form id="event_form" style="display:none" class="event_form">
-						<div class="select2_container single_select2">
-							<select id="resources">
-								<option disabled selected>Select the room </option>
-								{% for resource in resources %}
-									<option value="{{resource.id}}">{{resource}}</option>
-								{% endfor %}
-							</select>
+					<div class="tt_grid">
+						<div class="grid_heading">Batch-31</div>
+						<div class="event_btn">DBMS</div>
+						<div class="grid_footer">
+							<div class="faculty_name">2</div>
+							<div class="resource_name">3</div>
 						</div>
-						<div class="select2_container single_select2">
-							<select id="batches">
-								<option disabled selected>Select the batch </option>
-								{% for batch in batches %}
-									<option value="{{batch.id}}">{{batch}}</option>
-								{% endfor %}
-							</select>
-						</div>
-						<button type="button" id="cancel">cancel</button>
-						<button type="button" id="aform">Submit</button>
-					</form>
+					</div>
 				</td>
 				{% endfor %}
 			{% endif %}
 			<td>
 				<div class="tt_grid">
 					<div class="grid_heading"></div>
-					<button class="event_btn">DBMS</button>
-					<div class="grid_footer">
-						<div class="faculty_name">sd</div>
-						<div class="resource_name">305</div>
-					</div>
-				</div>
-			</td>
-			<td>
-				<div class="tt_grid">
-					<div class="grid_heading"></div>
-					<button class="event_btn">DBMS</button>
+					<div class="event_btn">DBMS</div>
 					<div class="grid_footer">
 						<div class="faculty_name">sd</div>
 						<div class="resource_name">305</div>
@@ -148,17 +145,17 @@
 			<td></td>
 			<td class="gridder">
 				<div class="batch1">
-					<button>hello</button><br>
+					<button class="event_btn">hello</button><br>
 					<span>gmbdss</span>
 					<span>305</span>
 				</div>
 				<div class="batch1">
-					<button>hi</button><br>
+					<button class="event_btn">hi</button><br>
 					<span>url</span>
 					<span>df</span>
 				</div>
 				<div class="batch1">
-					<button>hi</button><br>
+					<button class="event_btn">hi</button><br>
 					<span>url</span>
 					<span>df</span>
 				</div>

@@ -162,7 +162,7 @@ function change_lect_td(td,subject_event_id){	// change lecture ondrop
 	// console.log(temp_event)
 	td.html(subject_event.subject_name);
 
-	card = td.children("tt_grid");
+	card = td.children(".tt_grid");
 	// .card -> span (batch)
 	card_heading = card.children(".grid_heading");
 	// .card -> button(subject_name,color)

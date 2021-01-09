@@ -1,6 +1,6 @@
 function print(abc){
 	console.log(abc);
-}
+} 
 
 function put_data(slots_json,events_json){
 	for (i in slots_json){
@@ -162,14 +162,15 @@ function change_lect_td(td,subject_event_id){	// change lecture ondrop
 	// console.log(temp_event)
 	td.html(subject_event.subject_name);
 
-	card = td.children(".card");
+	card = td.children("tt_grid");
 	// .card -> span (batch)
-	card_span = card.children("span");
+	card_heading = card.children(".grid_heading");
 	// .card -> button(subject_name,color)
-	card_span = card.children("button");
+	card_button = card.children(".event_btn");
 	// .resource_name -> (resource_name)
-
+	card_resource = card.children(".resource_name");
 	// .faculty_name -> (faculty_name)
+	card_faculty = card.children(".faculty_name");
 
 }
 
@@ -206,6 +207,8 @@ $(document).ready (function () {
 		revert: true,
 		cursor: "move",
 		helper: "clone",
+		// containment: $('body'),
+		appendTo : "body",
 		cursorAt:{top:56,left:56},
 		start: function(event, ui) {
 			// get all the td in which the faculty is not_available

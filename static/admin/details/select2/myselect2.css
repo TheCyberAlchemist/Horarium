@@ -111,7 +111,7 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #day1, #day2, #batches, #slot_naming, #semesters {
+#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources {
   width: 300px;
 }
 

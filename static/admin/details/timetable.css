@@ -1,13 +1,3 @@
-/* body{
-	animation: fadeInAnimation ease 1s;
-	animation-iteration-count: 1;
-	animation-fill-mode: forwards;
-} */
-/* body{
-	background-image: linear-gradient(to left top, #000000, #020101, #030203, #040305, #040407);
-	user-select:none;
-	background-color: #1e1e2e;
-} */
 td {
 	background-color: transparent;
 }
@@ -17,7 +7,7 @@ td {
 }
 .main_container {
 	display: grid;
-	grid-template-columns: 30% 70%;
+	grid-template-columns: 30% 80%;
 	
 }
 .main_table{
@@ -25,7 +15,7 @@ td {
 	overflow-x: auto;
 	/* margin-top: 10vh; */
 	text-align: center;
-	margin: 0 auto;
+	margin: 1em 1em 1em auto;
 	/* margin-right: 10px; */
 	/* margin-left: auto; */
 	table-layout: fixed;
@@ -33,10 +23,13 @@ td {
 
 .main_table th,.main_table td{
 	table-layout: fixed;
-	border: 2.5px solid #e87a00;
-	/* border: 2.5px solid #ffab4b; */
-	height: 75px;
+	/* border: 2.5px solid #e87a00; */
+	border: 2.5px solid #fff;
+	height: 55px;
 	color: white;
+}
+.main_table td {
+	position: relative;
 }
 .table_time{
 	font-size: 14px;
@@ -129,14 +122,17 @@ width: 100%;
 	clear: right;
 	height: 600px;
 	border-radius: 10px;
-	background-color: #1e1e2e;
+	background-color: red;
   }
   .card-list{
 	display: block;
 	padding: 3rem;
 	overflow-y: scroll;
+	position: fixed !important; 
+	top : 50%;
+	transform: translateY(-50%);
+	left : 20px;
   }
-  
   .card{
 	color :white;
 	display: flex;
@@ -218,4 +214,70 @@ width: 100%;
 ::-webkit-scrollbar {
 	width: 7px;
 	height: 7px;
+}
+
+.tt_grid {
+	padding: 5px;
+}
+.tt_grid .grid_heading {
+	text-align: left;
+}
+.tt_grid .event_btn {
+	padding: 10px;
+	margin-top:5px;
+	margin-bottom: 5px;
+	font-size: 15px;
+	background-color: #e12eca;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	width: 80%;
+}
+.tt_grid .event_btn:hover {
+	opacity: .8;
+}
+.tt_grid .grid_footer {
+	display: grid;
+	grid-template-columns: 50% 50%;
+}
+.tt_grid .grid_footer .faculty_name {
+	text-align: left;
+}
+.tt_grid .grid_footer .resource_name {
+	text-align: right;
+}
+
+.event_form {
+	position: absolute;
+	background-color: red;
+	/* padding: 1em;  */
+}
+.event_form button {
+	padding: 5px;
+	background-color: transparent;
+	border : 1px solid blue;
+	color: white;
+}
+.gridder {
+    display: grid;
+    grid-template-columns: 33% 33% 33%;
+}
+.batch1 {
+    border-right: 2px solid black;
+    border-bottom: 2px solid black;
+    /* padding-left: 10px;
+    padding-right: 10px; */
+}
+.lect {
+    padding: 0;
+}
+.batch1:last-child {
+     /* padding-right:10px ; */
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 2px solid black;
+}
+.batch1:first-child {
+     /* padding-left: 10px; */
 }

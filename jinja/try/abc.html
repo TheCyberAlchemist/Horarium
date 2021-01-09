@@ -62,58 +62,30 @@
 					<div class="author-name">
 					By {{subject_event.Faculty_id}}
 					</div>
-				</article>
-				</div>
-			{% endif %}
-			{% if subject_event.prac_carried%}
-				<div class = "draggable" subject_event_id = "{{subject_event.id}}" is_prac="true">
-				<article class="card">
-					<header class="card-header">
-					<h2>{{subject_event.Subject_id}} prac</h2>
-					</header> 
-					<div class="author-name">
-					By {{subject_event.Faculty_id}}
+				{% endif %}
+				{% if subject_event.prac_carried%}
+					<div class = "draggable" subject_event_id = "{{subject_event.id}}" is_prac="true">
+					<article class="card">
+						<header class="card-header">
+						<h2>{{subject_event.Subject_id}} prac</h2>
+						</header> 
+						<div class="author-name">
+						By {{subject_event.Faculty_id}}
+						</div>
+					</article>
 					</div>
-				</article>
-				</div>
-			{% endif %}
-		{% endfor %}
+				{% endif %}
+			{% endfor %}
+		</div>
 	</div>
-</div>
-<table style = "width:990px;" class="main_table">
-	<thead>
-		<th>
-			Time
-		</th>
-		{% for day in working_days %} 	<!--for all days in database-->
-      		<th>
-				{{day.Days_id}}
+	<table style = "width:990px;" class="main_table">
+		<thead>
+			<th colspan="{{batch_number}}">
+				Time
 			</th>
-		{% endfor %}
-		<th>
-			my
-		</th>
-	</thead>
-	<tbody class="table_time">
-		{% for timing in timings %} <!--for all time periods in database-->
-			<tr timing_id={{timing.id}}>
-			{% if timing.is_break %}
-				<th class="time">
-					<p>
-						{{timing.name}}<br>
-						[{{timing.return_time()}}]
-					</p>
-				</th>
-				{% set len = working_days|length %}
-				<th colspan="{{len}}" class = "isBreak">
-					<h2>{{timing.name}}</h2>
-				</th>
-			{% else %}
-				<th class="time">
-					<p>
-						{{timing.name}}<br>
-						[{{timing.return_time()}}]
-					</p>
+			{% for day in working_days %} 	<!--for all days in database-->
+				<th colspan="{{batch_number}}">
+					{{day.Days_id}}
 				</th>
 				{% for day in working_days %}
 				<td class="droppable">		<!-- working td for the whole table -->
@@ -174,4 +146,4 @@
 {{csrf_input}}
 <button onclick = "submited()">ksdJSDHkjdhadjhADH</button>
 
-{%endblock%}
+	{%endblock%}

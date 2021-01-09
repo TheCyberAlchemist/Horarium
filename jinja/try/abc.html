@@ -1,32 +1,39 @@
 {% extends 'admin/base.html' %}
 {% block title %}Batch{% endblock title %}
 {% block css %}
-	<link rel="stylesheet" href="{{static ('admin/details/timetable.css') }}">
-	<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
-    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
-	<style>
-		.not_available_td{
-			background-color : red;
-		}
-		.available_td{
-			background-color : green;
-		}
-		.here{
-			background-color : blue;
-		}
-	</style>
+<link rel="stylesheet" href="{{static ('admin/details/timetable.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+
+<style>
+	.not_available_td {
+		background-color: red;
+	}
+
+	.available_td {
+		background-color: green;
+	}
+
+	.here {
+		background-color: blue;
+	}
+</style>
 {%endblock%}
 {% block scripts %}
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-	<script src="{{static ('try/time_table.js') }}"></script>
-	<script>
-		put_data({{slots_json|safe}},{{subject_events_json|safe}});
-		$("#resources").select2();
-		$("#batches").select2();
-	</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+	integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+	integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+	crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="{{static ('try/time_table.js') }}"></script>
+<script>
+	put_data({{ slots_json| safe}}, {{ subject_events_json| safe}});
+	$("#resources").select2();
+	$("#batches").select2();
+</script>
 {%endblock%}
 {% block content %}
 
@@ -35,7 +42,7 @@
 		<select id="resources">
 			<option disabled selected>Select the room </option>
 			{% for resource in resources %}
-				<option value="{{resource.id}}">{{resource}}</option>
+			<option value="{{resource.id}}">{{resource}}</option>
 			{% endfor %}
 		</select>
 	</div>
@@ -43,7 +50,7 @@
 		<select id="batches">
 			<option disabled selected>Select the batch </option>
 			{% for batch in batches %}
-				<option value="{{batch.id}}">{{batch}}</option>
+			<option value="{{batch.id}}">{{batch}}</option>
 			{% endfor %}
 		</select>
 	</div>
@@ -54,41 +61,69 @@
 	<div class="card-list">
 		{% for subject_event in subject_events %}
 			{% if subject_event.lect_carried%}
-				<div class = "draggable" subject_event_id = "{{subject_event.id}}">
-				<article class="card"  style = "background-color:{{subject_event.Subject_id.color}}">
+			<div class="draggable" subject_event_id="{{subject_event.id}}">
+				<article class="card" style="background-color:{{subject_event.Subject_id.color}}">
 					<header class="card-header">
-					<h2>{{subject_event.Subject_id}}</h2>
-					</header> 
+						<h2>{{subject_event.Subject_id}}</h2>
+					</header>
 					<div class="author-name">
-					By {{subject_event.Faculty_id}}
+						By {{subject_event.Faculty_id}}
 					</div>
-				{% endif %}
-				{% if subject_event.prac_carried%}
-					<div class = "draggable" subject_event_id = "{{subject_event.id}}" is_prac="true">
+				</article>
+			</div>
+			{% endif %}
+			{% if subject_event.prac_carried%}
+				<div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
 					<article class="card">
 						<header class="card-header">
-						<h2>{{subject_event.Subject_id}} prac</h2>
-						</header> 
+							<h2>{{subject_event.Subject_id}} prac</h2>
+						</header>
 						<div class="author-name">
-						By {{subject_event.Faculty_id}}
+							By {{subject_event.Faculty_id}}
 						</div>
 					</article>
-					</div>
-				{% endif %}
-			{% endfor %}
+				</div>
+			{% endif %}
+		{% endfor %}
 		</div>
 	</div>
-	<table style = "width:990px;" class="main_table">
+	<table style="width:1000px;" class="main_table">
 		<thead>
 			<th colspan="{{batch_number}}">
 				Time
 			</th>
-			{% for day in working_days %} 	<!--for all days in database-->
-				<th colspan="{{batch_number}}">
-					{{day.Days_id}}
+			{% for day in working_days %}
+			<!--for all days in database-->
+			<th colspan="{{batch_number}}">
+				{{day.Days_id}}
+			</th>
+			{% endfor %}
+		</thead>
+		<tbody class="table_time">
+			{% for timing in timings %}
+			<!--for all time periods in database-->
+			<tr timing_id={{timing.id}}>
+				{% if timing.is_break %}
+				<th class="time" colspan="{{batch_number}}">
+					<p>
+						{{timing.name}}<br>
+						[{{timing.return_time()}}]
+					</p>
+				</th>
+				{% set len = working_days|length %}
+				<th colspan="{{len}}" class="isBreak">
+					<h1>{{timing.name}}</h1>
+				</th>
+				{% else %}
+				<th class="time" colspan="{{batch_number}}">
+					<p>
+						{{timing.name}}<br>
+						[{{timing.return_time()}}]
+					</p>
 				</th>
 				{% for day in working_days %}
-				<td class="droppable">		<!-- working td for the whole table -->
+				<td class="droppable">
+					<!-- working td for the whole table -->
 					<!-- add html of td from student.html -->
 					<div class="tt_grid">
 						<div class="grid_heading">Batch-31</div>
@@ -100,50 +135,48 @@
 					</div>
 				</td>
 				{% endfor %}
-			{% endif %}
-			<td>
-				<div class="tt_grid">
-					<div class="grid_heading"></div>
-					<div class="event_btn">DBMS</div>
-					<div class="grid_footer">
-						<div class="faculty_name">sd</div>
-						<div class="resource_name">305</div>
+				{% endif %}
+				<td>
+					<div class="tt_grid">
+						<div class="grid_heading"></div>
+						<div class="event_btn">DBMS</div>
+						<div class="grid_footer">
+							<div class="faculty_name">sd</div>
+							<div class="resource_name">305</div>
+						</div>
 					</div>
-				</div>
-			</td>
+				</td>
 			</tr>
-		{% endfor %}
-		<tr>
-			<td></td>
-			<td class="gridder">
-				<div class="batch1">
-					<button class="event_btn">hello</button><br>
-					<span>gmbdss</span>
-					<span>305</span>
-				</div>
-				<div class="batch1">
-					<button class="event_btn">hi</button><br>
-					<span>url</span>
-					<span>df</span>
-				</div>
-				<div class="batch1">
-					<button class="event_btn">hi</button><br>
-					<span>url</span>
-					<span>df</span>
-				</div>
-			</td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-
-
-		</tr>
-
-	</tbody>
-</table>
-{{csrf_input}}
-<button onclick = "submited()">ksdJSDHkjdhadjhADH</button>
+			{% endfor %}
+			<tr>
+				<td></td>
+				<td class="gridder">
+					<div class="batch1">
+						<button class="event_btn">hello</button><br>
+						<span>gmbdss</span>
+						<span>305</span>
+					</div>
+					<div class="batch1">
+						<button class="event_btn">hi</button><br>
+						<span>url</span>
+						<span>df</span>
+					</div>
+					<div class="batch1">
+						<button class="event_btn">hi</button><br>
+						<span>url</span>
+						<span>df</span>
+					</div>
+				</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+			
+		</tbody>
+	</table>
+	{{csrf_input}}
+	<button onclick="submited()">ksdJSDHkjdhadjhADH</button>
 
 	{%endblock%}

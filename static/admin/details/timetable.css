@@ -25,7 +25,7 @@ td {
 	table-layout: fixed;
 	/* border: 2.5px solid #e87a00; */
 	border: 2.5px solid #fff;
-	height: 55px;
+	/* height: 55px; */
 	color: white;
 }
 .main_table td {
@@ -122,7 +122,6 @@ width: 100%;
 	clear: right;
 	height: 600px;
 	border-radius: 10px;
-	background-color: red;
   }
   .card-list{
 	display: block;
@@ -222,7 +221,7 @@ width: 100%;
 .tt_grid .grid_heading {
 	text-align: left;
 }
-.tt_grid .event_btn {
+.event_btn {
 	padding: 10px;
 	margin: 5px auto;
 	font-size: 15px;
@@ -232,7 +231,7 @@ width: 100%;
 	border-radius: 5px;
 	width: 80%;
 }
-.tt_grid .event_btn:hover {
+.event_btn:hover {
 	opacity: .8;
 }
 .tt_grid .grid_footer {
@@ -258,23 +257,28 @@ width: 100%;
 }
 .gridder {
     display: grid;
-    grid-template-columns: 33% 33% 33%;
+	grid-template-columns: 33% 33% 33%;
+	height: 80px;
 }
 .batch1 {
-    border-right: 2px solid black;
-    border-bottom: 2px solid black;
+    border-right: 2px solid white;
+    /* border-bottom: 2px solid white; */
     /* padding-left: 10px;
-    padding-right: 10px; */
+	padding-right: 10px; */
+	font-size: 10px;
 }
 .lect {
     padding: 0;
+}
+.batch1 .event_btn {
+	font-size: x-small;
+	padding: 5px 0;
 }
 .batch1:last-child {
      /* padding-right:10px ; */
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    border-bottom: 2px solid black;
 }
 .batch1:first-child {
      /* padding-left: 10px; */

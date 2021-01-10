@@ -1,6 +1,6 @@
 /* FUNCTIONAL - Needed for the tree diagram */
 
-.wrapper {
+.navtree_wrapper {
   background-color: #333;
   position: absolute;
   top: 0;
@@ -18,7 +18,7 @@
   /* background-color: salmon; */
 }
 
-.wrapper ul {
+.navtree_wrapper ul {
   position: relative;
   display: block;
   margin: 0 auto;
@@ -26,13 +26,13 @@
   list-style: none;
 }
 
-.wrapper ul li {
+.navtree_wrapper ul li {
   display: inline-block;
   vertical-align: top;
 }
 
 /* MAKE-UP - Pure esthetics */
-.wrapper::-webkit-scrollbar{
+.navtree_wrapper::-webkit-scrollbar{
   width: 0;
 }
 @media (min-width: 480px) {
@@ -47,7 +47,7 @@
   }
 }
 
-.wrapper div:before, .wrapper div:after, .wrapper ul:before, .wrapper ul:after,.wrapper ul li:before, .wrapper ul li:after {
+.navtree_wrapper div:before, .navtree_wrapper div:after, .navtree_wrapper ul:before, .navtree_wrapper ul:after,.navtree_wrapper ul li:before, .navtree_wrapper ul li:after {
   content: '';
   position: absolute;
   display: block;
@@ -76,7 +76,7 @@ body .message a:hover {
   border-width: 3px;
 }
 
-body .wrapper ul > li {
+body .navtree_wrapper ul > li {
   margin: 1em 0;
   padding: 1em;
   line-height: 1.5em;
@@ -84,7 +84,7 @@ body .wrapper ul > li {
   transition: all 0.5s ease;
 }
 
-body .wrapper ul > li:before {
+body .navtree_wrapper ul > li:before {
   top: 0;
   left: 0;
   width: 100%;
@@ -92,25 +92,25 @@ body .wrapper ul > li:before {
   background: grey;
 }
 
-body .wrapper ul > li:first-of-type:before {
+body .navtree_wrapper ul > li:first-of-type:before {
   left: 50%;
   width: 50%;
 }
 
-body .wrapper ul > li:last-of-type:before {
+body .navtree_wrapper ul > li:last-of-type:before {
   width: 50%;
 }
 
-body .wrapper ul > li:only-of-type:before {
+body .navtree_wrapper ul > li:only-of-type:before {
   width: 10%;
   left: 45%;
 }
 
-body .wrapper ul > li.noline:before {
+body .navtree_wrapper ul > li.noline:before {
   background: transparent;
 }
 
-body .wrapper ul > li label:not(.active){
+body .navtree_wrapper ul > li label:not(.active){
   padding: 0.5em 1em;
   border: 1px solid salmon;
   cursor: pointer;
@@ -121,11 +121,11 @@ body .wrapper ul > li label:not(.active){
   /* background-color:#cdeeed; */
   cursor: pointer;
 }
-body .wrapper ul [type="checkbox"] {
+body .navtree_wrapper ul [type="checkbox"] {
   display: none;
 }
 
-body .wrapper ul .more {
+body .navtree_wrapper ul .more {
   opacity: 0;
   display: block;
   width: 0;
@@ -136,7 +136,7 @@ body .wrapper ul .more {
   transition: all 0.25s ease;
 }
 
-body .wrapper ul input:checked ~ ul * {
+body .navtree_wrapper ul input:checked ~ ul * {
   opacity: 0;
   pointer-events: none;
   max-width: 1px;
@@ -144,7 +144,7 @@ body .wrapper ul input:checked ~ ul * {
   padding: 0;
 }
 
-body .wrapper ul input:checked ~ ul .more {
+body .navtree_wrapper ul input:checked ~ ul .more {
   opacity: 1;
   width: 100%;
   height: 100%;

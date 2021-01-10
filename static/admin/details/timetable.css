@@ -1,3 +1,8 @@
+.nav_a_tags:hover, .data a:hover, .not_data a:hover { 
+	/* for navtree */
+	text-decoration: none;
+	color: white;
+}
 td {
 	background-color: transparent;
 }
@@ -25,8 +30,9 @@ td {
 	table-layout: fixed;
 	/* border: 2.5px solid #e87a00; */
 	border: 2.5px solid #fff;
-	/* height: 55px; */
+	height: 80px;
 	color: white;
+	text-align: center;
 }
 .main_table td {
 	position: relative;
@@ -257,7 +263,7 @@ width: 100%;
 .gridder {
     display: grid;
 	grid-template-columns: 33% 33% 33%;
-	height: 80px;
+	/* height: 80px; */
 }
 .batch1 {
     border-right: 2px solid white;
@@ -282,3 +288,9 @@ width: 100%;
 .batch1:first-child {
      /* padding-left: 10px; */
 }
+
+
+
+
+
+

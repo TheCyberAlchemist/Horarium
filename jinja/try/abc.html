@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{static ('admin/details/timetable.css') }}">
 <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <style>
 	.not_available_td {
 		background-color: red;
@@ -33,6 +33,11 @@
 	put_data({{ slots_json| safe}}, {{ subject_events_json| safe}});
 	$("#resources").select2();
 	$("#batches").select2();
+	$("#accordion").accordion({
+		animate: {
+			duration: 200
+		}
+		});
 </script>
 {%endblock%}
 {% block content %}
@@ -57,8 +62,9 @@
 	<button type="button" id="cancel">cancel</button>
 	<button type="button" id="aform">Submit</button>
 </form>
-<div class="card-container">
+<div class="card-container" >
 	<div class="card-list">
+
 		{% for subject_event in subject_events %}
 			{% if subject_event.lect_carried%}
 			<div class="draggable" subject_event_id="{{subject_event.id}}">
@@ -86,6 +92,7 @@
 			{% endif %}
 		{% endfor %}
 		</div>
+
 	</div>
 	<table style="width:1000px;" class="main_table">
 		<thead>
@@ -111,8 +118,8 @@
 					</p>
 				</th>
 				{% set len = working_days|length %}
-				<th colspan="{{len}}" class="isBreak">
-					<h1>{{timing.name}}</h1>
+				<th colspan="{{len}}" class="isBreak text-center">
+					<h3>{{timing.name}}</h3>
 				</th>
 				{% else %}
 				<th class="time" colspan="{{batch_number}}">
@@ -147,7 +154,7 @@
 						<span>305</span>
 					</div>
 					<div class="batch1">
-						<button class="event_btn">hi</button><br>
+						<button class="event_btn">DBMS-1</button><br>
 						<span>url</span>
 						<span>df</span>
 					</div>

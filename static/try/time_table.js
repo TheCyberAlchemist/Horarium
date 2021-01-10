@@ -187,6 +187,8 @@ function change_to_prac_td(td,subject_event_id) {	// change practical ondrop
 	pair[0].addClass("abc");
 	pair[0].html(subject_event.subject_name + " Prac");
 	pair[1].html(subject_event.subject_name + " Prac");
+	// // .card -> span (batch)
+	// card_batch_name = card.children(".grid_heading");
 	td.addClass("filled");
 }
 

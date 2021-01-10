@@ -1,100 +1,99 @@
 {% extends 'admin/base.html' %}
 {% block title %}Batch{% endblock title %}
 {% block css %}
-<link rel="stylesheet" type="text/css" href={{static ('admin/details/timetable.css') }}>
-<link rel="stylesheet" type="text/css" href={{static ('admin/time_table/grid_table.css') }}>
+<link rel="stylesheet" type="text/css" href="{{static ('admin/details/timetable.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('admin/time_table/grid_table.css') }}">
 <link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 <style>
-	.not_available_td {
-		background-color: red;
-	}
+    .not_available_td {
+        background-color: red;
+    }
 
-	.available_td {
-		background-color: green;
-	}
+    .available_td {
+        background-color: green;
+    }
 
-	.here {
-		background-color: blue;
-	}
+    .here {
+        background-color: blue;
+    }
 </style>
 {%endblock%}
 {% block scripts %}
 <script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-	integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-	crossorigin="anonymous"></script>
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
-	integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
-	crossorigin="anonymous"></script>
+    integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+    crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="{{static ('try/time_table.js') }}"></script>
 <script>
-	put_data({{ slots_json| safe}}, {{ subject_events_json| safe}});
-	$("#resources").select2();
-	$("#batches").select2();
+    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}});
+    $("#resources").select2();
+    $("#batches").select2();
 
 </script>
 {%endblock%}
 {% block content %}
 
 <form id="event_form" style="display:none" class="event_form">
-	<div class="select2_container single_select2">
-		<select id="resources">
-			<option disabled selected value = -1>Select the room </option>
-			{% for resource in resources %}
-			<option value="{{resource.id}}">{{resource}}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<div class="select2_container single_select2">
-		<select id="batches">
-			<option disabled selected>Select the batch </option>
-			{% for batch in batches %}
-			<option value="{{batch.id}}">{{batch}}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<button type="button" id="cancel">cancel</button>
-	<button type="button" id="aform">Submit</button>
+    <div class="select2_container single_select2">
+        <select id="resources">
+            <option disabled selected value=-1>Select the room </option>
+            {% for resource in resources %}
+            <option value="{{resource.id}}">{{resource}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="select2_container single_select2">
+        <select id="batches">
+            <option disabled selected>Select the batch </option>
+            {% for batch in batches %}
+                <option value="{{batch.id}}">{{batch}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="button" id="cancel">cancel</button>
+    <button type="button" id="aform">Submit</button>
 </form>
-	<div class="card-container" >
-		<div class="card-list">
-
-		{% for subject_event in subject_events %}
-			{% if subject_event.lect_carried%}
-			<div class="draggable" subject_event_id="{{subject_event.id}}">
-				<article class="card" style="background-color:{{subject_event.Subject_id.color}}">
-					<header class="card-header">
-						<h2>{{subject_event.Subject_id}}</h2>
-					</header>
-					<div class="author-name">
-						By {{subject_event.Faculty_id}}
-					</div>
-				</article>
-			</div>
-			{% endif %}
-			{% if subject_event.prac_carried%}
-				<div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
-					<article class="card">
-						<header class="card-header">
-							<h2>{{subject_event.Subject_id}} prac</h2>
-						</header>
-						<div class="author-name">
-							By {{subject_event.Faculty_id}}
-						</div>
-					</article>
-				</div>
-			{% endif %}
-		{% endfor %}
-		</div>
-
-	</div>
-	<div class="container my_container my_table_new">
+<div class="table_and_card">
+    <div class="card-container">
+        <div class="card-list">
+            {% for subject_event in subject_events %}
+                {% if subject_event.lect_carried%}
+                    <div class="draggable" subject_event_id="{{subject_event.id}}">
+                        <article class="card" style="background-color:{{subject_event.Subject_id.color}}">
+                            <header class="card-header">
+                                <h2>{{subject_event.Subject_id}}</h2>
+                            </header>
+                            <div class="author-name">
+                                By {{subject_event.Faculty_id}}
+                            </div>
+                        </article>
+                    </div>
+                {% endif %}
+                {% if subject_event.prac_carried%}
+                    <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
+                        <article class="card">
+                            <header class="card-header">
+                                <h2>{{subject_event.Subject_id}} prac</h2>
+                            </header>
+                            <div class="author-name">
+                                By {{subject_event.Faculty_id}}
+                            </div>
+                        </article>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container my_container my_table_new">
         <div class="row my_row row_header">
-            <div class="col my_col">Time</div>
+            <div class="col my_col align-middle">Time</div>
             <div class="col my_col">Monday</div>
             <div class="col my_col">Tuesday</div>
             <div class="col my_col">Wednesday</div>
@@ -103,14 +102,14 @@
             <div class="col my_col">Saturday</div>
         </div>
         <div class="row my_row">
-            <div class="col my_col lect">9:00</div>
+            <div class="col my_col lect"">9:00</div>
             <div class="col my_col lect"></div>
             <div class="col my_col prac prac_above">
                 <div class="container text-center">
                     <div class="row text-center">
-                        <div class="col-4" style="margin-left: -6px;">
+                        <div class="col-4">
                             <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                                <div class="col p-0 prac_texts batch_name pl-3">Batch 31</div>
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -118,9 +117,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4" >
+                        <div class="col-4">
                             <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                                <div class="col p-0 prac_texts batch_name pl-3">Batch 31</div>
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -128,9 +127,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4" >
+                        <div class="col-4">
                             <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                                <div class="col p-0 prac_texts batch_name pl-3">Batch 31</div>
                             </div>
                             <div class="row">
                                 <div class="col">
@@ -154,20 +153,20 @@
                     <div class="row">
                         <div class="col-4 batch_contents">
                             <div class="row">
-                                <div class="col-12 p-0 prac_texts faculty_name">URT</div>
-                                <div class="col-12 p-0 prac_texts resource_name">GG</div>
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
                             </div>
                         </div>
                         <div class="col-4 batch_contents">
                             <div class="row">
-                                <div class="col-12 p-0 prac_texts faculty_name">URT</div>
-                                <div class="col-12 p-0 prac_texts resource_name">GG</div>
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
                             </div>
                         </div>
                         <div class="col-4 batch_contents">
                             <div class="row">
-                                <div class="col-12 p-0 prac_texts faculty_name">URT</div>
-                                <div class="col-12 p-0 prac_texts resource_name">GG</div>
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
                             </div>
                         </div>
                     </div>
@@ -187,8 +186,8 @@
             </div>
         </div>
     </div>
-	
-	{{csrf_input}}
-	<button onclick="submited()">ksdJSDHkjdhadjhADH</button>
+</div>
+{{csrf_input}}
+<button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button>
 
-	{%endblock%}
+{%endblock%}

@@ -5,12 +5,18 @@
           box-sizing: border-box;
 }
 
+.table_and_card {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 20% 80%;
+      grid-template-columns: 20% 80%;
+}
+
 .my_container {
   margin-top: 1em;
 }
 
 .my_col {
-  padding: 0;
   text-align: center;
 }
 
@@ -22,7 +28,8 @@
 }
 
 .my_row.row_header .my_col {
-  border: 1px solid black;
+  border: 1px solid white;
+  padding-top: 10px;
 }
 
 .my_row.row_header .my_col {
@@ -31,7 +38,7 @@
 }
 
 .my_col.lect {
-  border: 1px solid black;
+  border: 1px solid white;
   height: 90px;
 }
 
@@ -40,20 +47,26 @@
 }
 
 .my_col.prac.prac_above {
+  border-top: 1px solid white;
+  border-right: 1px solid white;
+  border-left: 1px solid white;
   border-bottom: none;
 }
 
 .my_col.prac.prac_below {
-  border-bottom: 1px solid black;
+  border: 1px solid white;
+  border-top: none;
 }
 
 .prac_texts {
-  font-size: x-small;
+  font-size: 10px;
 }
 
 .btn-sm {
   font-size: small;
   height: 110px;
+  position: inherit !important;
+  z-index: -1;
 }
 
 .btn {
@@ -61,6 +74,14 @@
 }
 
 .col-4.batch_contents {
-  margin-top: 2.5em;
+  margin-top: 3em;
+}
+
+.col-4:first-child {
+  margin-left: -20px;
+}
+
+.col-4 {
+  margin-right: 5px;
 }
 /*# sourceMappingURL=grid_table.css.map */

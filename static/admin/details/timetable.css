@@ -10,11 +10,6 @@ td {
 	display: none;
 	appearance: none;
 }
-.main_container {
-	display: grid;
-	grid-template-columns: 30% 80%;
-	
-}
 .main_table{
 	border-collapse: collapse;
 	overflow-x: auto;
@@ -131,7 +126,7 @@ width: 100%;
   }
   .card-list{
 	display: block;
-	padding: 3rem;
+	padding: 2rem 2rem 3rem 2rem;
 	overflow-y: scroll;
 	position: fixed !important; 
 	top : 50%;

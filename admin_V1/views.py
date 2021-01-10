@@ -87,6 +87,8 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 			# print(Event.objects.filter(Slot_id_id=d['pk']).values_list("id",flat=True))
 			d['fields']['resources_filled'] = list(Event.objects.filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
 		elif time_table:
+			d['fields']['Subject_color'] = qs.get(Subject_id=d['fields']['Subject_id']).Subject_id.color
+			d['fields']['Faculty_name'] = str(qs.get(pk = d['pk']).Faculty_id)
 			d['fields']['Subject_id'] = str(qs.get(Subject_id=d['fields']['Subject_id']).Subject_id)
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
 			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id__Faculty_id = d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)

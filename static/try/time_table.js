@@ -11,10 +11,11 @@ function put_data(slots_json,events_json){
 	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
 	for (i in events_json){
 		obj = events_json[i].fields;
-		temp_event = new subject_event(events_json[i].pk,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available,obj.other_events)
+		temp_event = new subject_event(events_json[i].pk,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
+			,obj.other_events,obj.Subject_color,obj.Faculty_name)
 		subject_events.push(temp_event);
 	}
-	// console.table(subject_events);
+	console.table(subject_events);
 }
 
 var slots = [];
@@ -29,7 +30,8 @@ class slot{
 
 subject_events = [];
 class subject_event {
-	constructor(id = 0,subject_name,prac_carried,lect_carried,faculty_id,not_available,other_events){
+	constructor(id = 0,subject_name,prac_carried,lect_carried,faculty_id,not_available
+		,other_events,color,faculty_name){
 		this.id = id;
 		this.subject_name = subject_name;
 		this.prac_carried = prac_carried;
@@ -37,6 +39,8 @@ class subject_event {
 		this.faculty_id = faculty_id;
 		this.not_available = not_available;
 		this.other_events = other_events;
+		this.color = color;
+		this.faculty_name = faculty_name
 	}
 }
 
@@ -64,7 +68,6 @@ function get_slot(td){
 		}
 	}
 }
-
 
 function get_subject_event(id){
 	// console.log(slots[0],day,time);
@@ -156,24 +159,24 @@ function get_cell(slot_id){
 }
 
 
-function change_lect_td(td,subject_event_id){	// change lecture ondrop
-	// td.hide();
-	// console.log(get_slot(td));
-	// td.css({"background-color":"white"});
-	subject_event = get_subject_event(subject_event_id);
-	// console.log(temp_event)
-	td.html(subject_event.subject_name);
+function change_lect_td(td,subject_event_id,resource){	// change lecture ondrop
 
-	card = td.children(".tt_grid");
-	// .card -> span (batch)
-	card_heading = card.children(".grid_heading");
+	let subject_event = get_subject_event(subject_event_id);
+	// td.html(subject_event.subject_name);
+
+	let card = td.children(".tt_grid");
 	// .card -> button(subject_name,color)
-	card_button = card.children(".event_btn");
+	let card_button = card.children(".event_btn");
+	card_button.html(subject_event.subject_name);
+	card_button.css("background-color",subject_event.color);
+
 	// .resource_name -> (resource_name)
-	card_resource = card.children(".resource_name");
+	let card_resource = card.find(".resource_name");
+	card_resource.html(resource);
 	// .faculty_name -> (faculty_name)
+	let card_faculty = card.find(".faculty_name");
+	card_faculty.html(subject_event.faculty_name);
 	td.addClass("filled");
-	card_faculty = card.children(".faculty_name");
 
 }
 
@@ -309,7 +312,7 @@ $(document).ready (function () {
 		td = get_cell(slot_id);
 		let batch = $("#batches").val();
 		let resource = $("#resources").val();
-		// console.log(batch,resource);
+		let resource_name = $("#resources").find(':selected').html();
 		if (resource){
 			if (is_prac && batch){
 				temp_event = new event_class(slot_id,subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
@@ -318,7 +321,7 @@ $(document).ready (function () {
 			}else if(!is_prac){
 				temp_event = new event_class(slot_id,subject_event_id,null,resource);
 				push_event(temp_event);
-				change_lect_td(td,subject_event_id);
+				change_lect_td(td,subject_event_id,resource_name);
 			}else
 				return;
 			console.table(events);

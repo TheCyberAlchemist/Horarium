@@ -159,27 +159,6 @@ width: 100%;
 	transform: translateY(-1.5rem);
 	transition: 0.2s;
   }
-  .lec,.prac {
-	position: absolute;
-	text-align: center;
-	height: 30px;
-	width: 50%;
-	left:0;
-	top: -.75em;
-	border-radius: 10px 10px 0 0;
-}
-.lec p, .prac p {
-	margin-top: .25em;
-	font-weight: 500;
-	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-	font-size: 18px;
-}
-.lec {
-	background-image: linear-gradient(to bottom, #a164ff,#17141d);
-}
-.prac {
-	background-image: linear-gradient(to bottom, #0ebcf9,#17141d);
-}
 .td_color {       /*table.js ('.day').hover*/
 	background-color: #f8ad58;
 	z-index: 100;

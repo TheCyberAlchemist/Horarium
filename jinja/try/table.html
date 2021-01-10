@@ -1,125 +1,194 @@
-<link rel="stylesheet" href="{{static ('admin/details/timetable.css') }}">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA==" crossorigin="anonymous"></script>
+{% extends 'admin/base.html' %}
+{% block title %}Batch{% endblock title %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href={{static ('admin/details/timetable.css') }}>
+<link rel="stylesheet" type="text/css" href={{static ('admin/time_table/grid_table.css') }}>
+<link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+<style>
+	.not_available_td {
+		background-color: red;
+	}
+
+	.available_td {
+		background-color: green;
+	}
+
+	.here {
+		background-color: blue;
+	}
+</style>
+{%endblock%}
+{% block scripts %}
+<script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+	integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+	integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+	crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="{{static ('OLD_stuff/index.js') }}"></script>
-<div class="card-container">
-    <section class="card-list">
-	  
-		<article class="card">
-			<div class="lec"><p>Practical</p></div>
-			<header class="card-header">
-				<h3>DBMS</h3>
-			</header> 
-			<div class="author-name">
-				Author : URT
-			</div>
-		  </article>
-	
-	  <article class="card card_for_lec">
-		<div class="prac"><p>Lecture</p></div>
-			<header class="card-header">
-				<h3>DS</h3>
-			</header>
-			<div class="author-name">
-				Author : US
-			</div>
-	  </article>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="{{static ('try/time_table.js') }}"></script>
+<script>
+	put_data({{ slots_json| safe}}, {{ subject_events_json| safe}});
+	$("#resources").select2();
+	$("#batches").select2();
 
-      <article class="card">
-		<div class="lec"><p>Practical</p></div>
-		<header class="card-header">
-			<h3>DBMS</h3>
-		</header> 
-		<div class="author-name">
-			Author : URT
-		</div>
-	  </article>
+</script>
+{%endblock%}
+{% block content %}
 
-  <article class="card card_for_lec">
-	<div class="prac"><p>Lecture</p></div>
-		<header class="card-header">
-			<h3>DS</h3>
-		</header>
-		<div class="author-name">
-			Author US
-		</div>
-  </article>
-	  
-  <article class="card">
-	<div class="lec"><p>Practical</p></div>
-	<header class="card-header">
-		<h3>DBMS</h3>
-	</header> 
-	<div class="author-name">
-		Author URT
+<form id="event_form" style="display:none" class="event_form">
+	<div class="select2_container single_select2">
+		<select id="resources">
+			<option disabled selected value = -1>Select the room </option>
+			{% for resource in resources %}
+			<option value="{{resource.id}}">{{resource}}</option>
+			{% endfor %}
+		</select>
 	</div>
-  </article>
-
-<article class="card card_for_lec">
-<div class="prac"><p>Lecture</p></div>
-	<header class="card-header">
-		<h3>DS</h3>
-	</header>
-	<div class="author-name">
-		Author US
+	<div class="select2_container single_select2">
+		<select id="batches">
+			<option disabled selected>Select the batch </option>
+			{% for batch in batches %}
+			<option value="{{batch.id}}">{{batch}}</option>
+			{% endfor %}
+		</select>
 	</div>
-</article>
+	<button type="button" id="cancel">cancel</button>
+	<button type="button" id="aform">Submit</button>
+</form>
+	<div class="card-container" >
+		<div class="card-list">
 
-    </section>
-<script src="{{static ('try/table.js') }}"></script>
-<script>put_data("{{slots_json}}")</script>
-<div class="card-container">
-  <div class="card-list">
-	  {% for subject_event in subject_events %}
-    <div class = "draggable" subject_event_id = "{{subject_event.id}}">
-      <article class="card">
-        <header class="card-header">
-          <h2>{{subject_event.Subject_id}}</h2>
-        </header> 
-        <div class="author-name">
-          By {{subject_event.Faculty_id}}
-        </div>
-      </article>
-    </div>
-	  {% endfor %}
-  </div>
-</div>
-
-<table style = "width:990px;" class="main_table">
-	<thead>
-		<th>
-			Time
-		</th>
-		{% for day in working_days %} 	<!--for all days in database-->
-      		<th>
-				{{day.Days_id}}
-			</th>
-		{% endfor %}
-	</thead>
-	<tbody class="table_time">
-		{% for timing in timings %} <!--for all time periods in database-->
-			<tr>
-			{% if timing.is_break %}
-			{% set len = working_days|length + 1 %}
-				<th colspan = "{{len}}">
-					{{timing}}
-				</th>
-			{% else %}
-				<th>
-					<p>
-						{{timing}}
-					</p>
-				</th>
-				{% for day in working_days %}
-					<td class = "droppable" timing_id = "{{timing.id}}">
-						<div class = "td_div"></div>
-					</td>
-				{% endfor %}
+		{% for subject_event in subject_events %}
+			{% if subject_event.lect_carried%}
+			<div class="draggable" subject_event_id="{{subject_event.id}}">
+				<article class="card" style="background-color:{{subject_event.Subject_id.color}}">
+					<header class="card-header">
+						<h2>{{subject_event.Subject_id}}</h2>
+					</header>
+					<div class="author-name">
+						By {{subject_event.Faculty_id}}
+					</div>
+				</article>
+			</div>
 			{% endif %}
-			</tr>
+			{% if subject_event.prac_carried%}
+				<div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
+					<article class="card">
+						<header class="card-header">
+							<h2>{{subject_event.Subject_id}} prac</h2>
+						</header>
+						<div class="author-name">
+							By {{subject_event.Faculty_id}}
+						</div>
+					</article>
+				</div>
+			{% endif %}
 		{% endfor %}
-	</tbody>
-</table>
-{{csrf_input}}
-<button onclick = "submited()">ksdJSDHkjdhadjhADH</button>
+		</div>
+
+	</div>
+	<div class="container my_container my_table_new">
+        <div class="row my_row row_header">
+            <div class="col my_col">Time</div>
+            <div class="col my_col">Monday</div>
+            <div class="col my_col">Tuesday</div>
+            <div class="col my_col">Wednesday</div>
+            <div class="col my_col">Thursday</div>
+            <div class="col my_col">Friday</div>
+            <div class="col my_col">Saturday</div>
+        </div>
+        <div class="row my_row">
+            <div class="col my_col lect">9:00</div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col prac prac_above">
+                <div class="container text-center">
+                    <div class="row text-center">
+                        <div class="col-4" style="margin-left: -6px;">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4" >
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol prac_texts event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4" >
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect"></div>
+        </div>
+        <div class="row my_row">
+            <div class="col my_col lect">10:00</div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col prac prac_below">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect">
+                <div class="row p-2">
+                    <div class="col-12">
+                        <button class="btn btn-primary mt-1">Hello</button>
+                    </div>
+                    <div class="col-6 text-left">URT</div>
+                    <div class="col-6 text-right">305</div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	{{csrf_input}}
+	<button onclick="submited()">ksdJSDHkjdhadjhADH</button>
+
+	{%endblock%}

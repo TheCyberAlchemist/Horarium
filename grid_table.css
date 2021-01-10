@@ -1,0 +1,66 @@
+* {
+  padding: 0;
+  margin: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.my_container {
+  margin-top: 1em;
+}
+
+.my_col {
+  padding: 0;
+  text-align: center;
+}
+
+.prac_mycol {
+  -webkit-writing-mode: vertical-rl;
+      -ms-writing-mode: tb-rl;
+          writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+.my_row.row_header .my_col {
+  border: 1px solid black;
+}
+
+.my_row.row_header .my_col {
+  font-weight: bold;
+  height: 50px;
+}
+
+.my_col.lect {
+  border: 1px solid black;
+  height: 90px;
+}
+
+.my_col.prac {
+  height: 90px;
+}
+
+.my_col.prac.prac_above {
+  border-bottom: none;
+}
+
+.my_col.prac.prac_below {
+  border-bottom: 1px solid black;
+}
+
+.prac_texts {
+  font-size: x-small;
+}
+
+.btn-sm {
+  font-size: small;
+  height: 110px;
+}
+
+.btn {
+  width: 90%;
+}
+
+.col-4.batch_contents {
+  margin-top: 2.5em;
+}
+/*# sourceMappingURL=grid_table.css.map */

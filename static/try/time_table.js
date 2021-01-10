@@ -165,15 +165,13 @@ function change_lect_td(td,subject_event_id){	// change lecture ondrop
 	td.html(subject_event.subject_name);
 
 	card = td.children(".tt_grid");
-	// .card -> span (batch)
-	card_heading = card.children(".grid_heading");
 	// .card -> button(subject_name,color)
 	card_button = card.children(".event_btn");
 	// .resource_name -> (resource_name)
 	card_resource = card.children(".resource_name");
 	// .faculty_name -> (faculty_name)
-	td.addClass("filled");
 	card_faculty = card.children(".faculty_name");
+	td.addClass("filled");
 
 }
 
@@ -184,6 +182,8 @@ function change_to_prac_td(td,subject_event_id) {	// change practical ondrop
 	pair[0].addClass("abc");
 	pair[0].html(subject_event.subject_name + " Prac");
 	pair[1].html(subject_event.subject_name + " Prac");
+	// // .card -> span (batch)
+	// card_batch_name = card.children(".grid_heading");
 	td.addClass("filled");
 }
 

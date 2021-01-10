@@ -559,13 +559,13 @@ def show_table(request,Division_id):
 		'timings' : timings,
 		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id),
 		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id),
-		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects),
+		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id"),
 		'resources' : Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id),
 		'batches': Batch.objects.filter(Division_id=Division_id),
 		'batches_json': get_json(Batch.objects.filter(Division_id=Division_id)),
 	}
 
-	return render(request,"try/table.html",context)
+	return render(request,"try/abc.html",context)
 
 
 @login_required(login_url="login")

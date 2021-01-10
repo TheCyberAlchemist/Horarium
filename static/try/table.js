@@ -52,6 +52,8 @@ function get_cell(obj){
 	return td;
 }
 
+
+
 $(document).ready (function () {
 	var csrftoken = Cookies.get('csrftoken');
     function csrfSafeMethod(method) {
@@ -195,6 +197,7 @@ $(document).ready (function () {
 		});
 	}
 });
+
 function submited(){
 	console.log("JSON.stringify(events),1)");
 	  $.ajax({

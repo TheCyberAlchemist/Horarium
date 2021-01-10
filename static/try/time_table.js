@@ -15,7 +15,7 @@ function put_data(slots_json,events_json){
 			,obj.other_events,obj.Subject_color,obj.Faculty_name)
 		subject_events.push(temp_event);
 	}
-	console.table(subject_events);
+	// console.table(subject_events);
 }
 
 var slots = [];
@@ -56,6 +56,13 @@ class event_class {
 	}
 }
 
+function event_counter(event){
+	let subject_event = get_subject_event(event.Subject_event_id);
+	let event_arr = events.filter(e => e.Subject_event_id==event.Subject_event_id);
+	let is_prac = Boolean(event.Slot_id_2);
+	let count = event_arr.filter(e => Boolean(e.Slot_id_2) == is_prac).length;
+	return count;
+}
 
 function get_slot(td){
 	let day = td.index();
@@ -101,12 +108,19 @@ function clear_td(td){		// refresh the td
 }
 
 function push_event(temp_event){
+	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
+	let subject_event = get_subject_event(temp_event.Subject_event_id);
+	let is_prac = Boolean(a2[1]);
+	if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
+		return false;
+	}else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
+		return false;
+	} 
 	for(var i = events.length - 1;i >= 0 ;i--){
 		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
-		let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
 		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id && events[i].Batch_id == temp_event.Batch_id){
 			console.log("duplicate");
-			return;
+			return true;
 		}else if (intersects(a1,a2)){
 			// if there is overwritting 
 			b1 = events[i].Batch_id
@@ -131,6 +145,12 @@ function push_event(temp_event){
 		}
 	}
 	events.push(temp_event);
+	if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
+		// get card and disable it
+	}else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
+		// get card and disable it	
+	}
+	return true;
 }
 
 function get_prac_pair(td){
@@ -191,6 +211,7 @@ function change_to_prac_td(td,subject_event_id) {	// change practical ondrop
 	// card_batch_name = card.children(".grid_heading");
 	td.addClass("filled");
 }
+
 
 
 $(document).ready (function () {
@@ -318,12 +339,12 @@ $(document).ready (function () {
 		if (resource){
 			if (is_prac && batch){
 				temp_event = new event_class(slot_id,subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
-				push_event(temp_event);
-				change_to_prac_td(td,subject_event_id);
+				if (push_event(temp_event))
+					change_to_prac_td(td,subject_event_id);
 			}else if(!is_prac){
 				temp_event = new event_class(slot_id,subject_event_id,null,resource);
-				push_event(temp_event);
-				change_lect_td(td,subject_event_id,resource_name);
+				if (push_event(temp_event))
+					change_lect_td(td,subject_event_id,resource_name);
 			}else
 				return;
 			console.table(events);

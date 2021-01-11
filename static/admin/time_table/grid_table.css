@@ -18,6 +18,8 @@
 
 .my_col {
   text-align: center;
+  border: 1px solid white;
+  height: 90px;
 }
 
 .prac_mycol {
@@ -28,7 +30,6 @@
 }
 
 .my_row.row_header .my_col {
-  border: 1px solid white;
   padding-top: 10px;
 }
 
@@ -37,9 +38,13 @@
   height: 50px;
 }
 
-.my_col.lect {
-  border: 1px solid white;
-  height: 90px;
+.my_col.isBreak {
+  border-right: none;
+  border-left: none;
+}
+
+.break_last {
+  border-right: 1px solid white;
 }
 
 .my_col.prac {
@@ -47,14 +52,10 @@
 }
 
 .my_col.prac.prac_above {
-  border-top: 1px solid white;
-  border-right: 1px solid white;
-  border-left: 1px solid white;
   border-bottom: none;
 }
 
 .my_col.prac.prac_below {
-  border: 1px solid white;
   border-top: none;
 }
 

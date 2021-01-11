@@ -564,8 +564,8 @@ def show_table(request,Division_id):
 		'batches': Batch.objects.filter(Division_id=Division_id),
 		'batches_json': get_json(Batch.objects.filter(Division_id=Division_id)),
 	}
-
-	return render(request,"try/abc.html",context)
+	print(get_json(Batch.objects.filter(Division_id=Division_id)))
+	return render(request,"try/table.html",context)
 
 
 @login_required(login_url="login")

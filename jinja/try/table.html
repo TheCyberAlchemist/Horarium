@@ -30,9 +30,9 @@
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script src="{{static ('try/time_table.js') }}"></script>
+<script src="{{static ('try/time_table2.js') }}"></script>
 <script>
-    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}});
+    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{batches_json|safe}});
     $("#resources").select2();
     $("#batches").select2();
 
@@ -94,60 +94,75 @@
     <div class="container my_container my_table_new">
         <div class="row my_row row_header">
             <div class="col my_col align-middle">Time</div>
-            <div class="col my_col">Monday</div>
-            <div class="col my_col">Tuesday</div>
-            <div class="col my_col">Wednesday</div>
-            <div class="col my_col">Thursday</div>
-            <div class="col my_col">Friday</div>
-            <div class="col my_col">Saturday</div>
+            {% for day in working_days %}
+                <div class="col my_col">{{day.Days_id}}</div>
+            {%endfor%}
         </div>
+        {% for timing in timings %}
+        <div class="row my_row" timing_id={{timing.id}}>
+            <div class="col my_col lect">
+                <p>
+                    {{timing.name}}<br>
+                    [{{timing.return_time()}}]
+                </p>
+            </div>
+            {% if timing.is_break %}
+                {% set len = working_days|length %}
+                {% for day in working_days %}
+                <div class="col my_col isBreak">
+                    {%if loop.index==1%}
+                        <div>
+                            {{timing.name}}
+                        </div>
+                    {% endif %}
+                </div>
+                {% endfor %}
+            {% else %}
+                {% for day in working_days %}
+                    <div class="col my_col lect droppable"></div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {%endfor%}
+
         <div class="row my_row">
-            <div class="col my_col lect"">9:00</div>
-            <div class="col my_col lect"></div>
+            <div class="col my_col lect">10:00</div>
             <div class="col my_col prac prac_above">
                 <div class="container text-center">
                     <div class="row text-center">
                         <div class="col-4">
                             <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-3">Batch 31</div>
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-3">Batch 31</div>
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <button class="btn-sm btn-primary prac_mycol prac_texts event_name">DBMS</button>
+                                <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
                                 </div>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-3">Batch 31</div>
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col my_col lect"></div>
-            <div class="col my_col lect"></div>
-            <div class="col my_col lect"></div>
-            <div class="col my_col lect"></div>
-        </div>
-        <div class="row my_row">
-            <div class="col my_col lect">10:00</div>
-            <div class="col my_col lect"></div>
+            </div>                                
             <div class="col my_col prac prac_below">
                 <div class="container text-center">
                     <div class="row">

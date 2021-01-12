@@ -5,6 +5,14 @@
           box-sizing: border-box;
 }
 
+#event_form {
+  background-color: inherit;
+  border: 2px solid blue;
+  display: none;
+  position: absolute;
+  z-index: 1;
+}
+
 .table_and_card {
   display: -ms-grid;
   display: grid;
@@ -47,6 +55,10 @@
   border-right: 1px solid white;
 }
 
+.break_first {
+  border-left: 1px solid white;
+}
+
 .my_col.prac {
   height: 90px;
 }
@@ -74,15 +86,15 @@
   width: 90%;
 }
 
-.col-4.batch_contents {
+.batch_contents {
   margin-top: 3em;
 }
 
-.col-4:first-child {
+.batch_contents:first-child {
   margin-left: -20px;
 }
 
-.col-4 {
+.batch_contents {
   margin-right: 5px;
 }
 /*# sourceMappingURL=grid_table.css.map */

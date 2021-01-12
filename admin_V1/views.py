@@ -553,6 +553,7 @@ def show_table(request,Division_id):
 	Shift_id = my_division.Shift_id
 	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
 	# print(subjects)
+	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
 	timings = Timings.objects.filter(Shift_id = Shift_id)
 	context = {
 		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
@@ -561,8 +562,8 @@ def show_table(request,Division_id):
 		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id),
 		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id"),
 		'resources' : Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id),
-		'batches': Batch.objects.filter(Division_id=Division_id),
-		'batches_json': get_json(Batch.objects.filter(Division_id=Division_id)),
+		'batches': my_batches,
+		'batches_json': get_json(my_batches),
 	}
 	print(get_json(Batch.objects.filter(Division_id=Division_id)))
 	return render(request,"try/table.html",context)
@@ -614,8 +615,8 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 	my_branch = Branch.objects.get(id = Branch_id)
 	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
 	# print("world")
-	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by('Semester_id')
-	# print(Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by('Semester_id')[0].load_per_week," =new load")
+	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by('Semester_id.short')
+	print(my_subjects)
 	context['my_subjects'] = my_subjects
 	context['my_branch'] = my_branch
 	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
@@ -666,6 +667,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 	teachers = Faculty_details.objects.filter(pk__in = Can_teach.objects.filter(Subject_id=Subject_id).values("Faculty_id"))
 	context["Subject_event"] = Subject_event.objects.filter(Subject_id = Subject_id)
 	context["my_faculty"] = teachers.exclude(pk__in = context["Subject_event"].values("Faculty_id"))
+	# print(teachers)
 	my_subject = Subject_details.objects.get(pk = Subject_id)
 	context["remaining_lect"],context["remaining_prac"] = my_subject.remaining_lect_prac()
 	context["my_subject"] = my_subject

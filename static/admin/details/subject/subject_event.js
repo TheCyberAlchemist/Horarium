@@ -53,6 +53,14 @@ function max_lect(fac){
 
 $(document).ready (function () {
 	/////////////////////// set current_faculty //////////////////////////////
+	if ($("#name").val()){
+		console.log(all_faculty);
+		for(i in all_faculty){
+			if (all_faculty[i].id == parseInt($("#name").val())){
+				current_faculty = all_faculty[i];
+			}
+		}
+	}
 	$('#select_fac').change(function() {
 		$('#select_fac option').each(function() {
 			if($(this).is(':selected')){
@@ -71,6 +79,7 @@ $(document).ready (function () {
 				if (all_faculty[i].id == parseInt($(this).val())){
 					current_faculty = all_faculty[i];
 	}}}});
+
 	///////////////////////////////////////////////////////////////////////////
 	$('#lect').change(function() {
 		prac = max_prac(current_faculty)

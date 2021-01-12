@@ -55,4 +55,4 @@ def student_home(request):
 	}
 	# print(get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A"))))
 	print("hello")
-	return render(request,"admin/homepage/home.html",context)
+	return render(request,"student/student_v1.html",context)

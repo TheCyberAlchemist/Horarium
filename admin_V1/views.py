@@ -615,8 +615,8 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 	my_branch = Branch.objects.get(id = Branch_id)
 	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
 	# print("world")
-	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by('Semester_id.short')
-	print(my_subjects)
+	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters'])
+	# print(my_subjects)
 	context['my_subjects'] = my_subjects
 	context['my_branch'] = my_branch
 	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls

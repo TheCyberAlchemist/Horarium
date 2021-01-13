@@ -40,7 +40,7 @@
 {%endblock%}
 {% block content %}
 
-<form id="event_form" style="display:none" class="event_form">
+<form id="event_form" class="event_form">
     <div class="select2_container single_select2">
         <select id="resources">
             <option disabled selected value=-1>Select the room </option>
@@ -124,7 +124,6 @@
             {% endif %}
         </div>
         {%endfor%}
-
         <div class="row my_row">
             <div class="col my_col lect">10:00</div>
             <div class="col my_col prac prac_above">
@@ -188,9 +187,8 @@
                 </div>
             </div>
             <div class="col my_col lect"></div>
-            <div class="col my_col lect"></div>
-            <div class="col my_col lect"></div>
-            <div class="col my_col lect">
+            <div class="col my_col lect try_button"></div>
+            <div class="col my_col prac">
                 <div class="row p-2">
                     <div class="col-12">
                         <button class="btn btn-primary mt-1">Hello</button>
@@ -204,5 +202,11 @@
 </div>
 {{csrf_input}}
 <button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button>
-
+<div class='context-menu' style="display:none; position: absolute;">
+<ul>
+    <li><span class='Gainsboro'></span>&nbsp;<span class='Gainsboro'>Gainsboro </span></li>
+    <li><span class='Orange'></span>&nbsp;<span>Orange</span></li>
+    <li><span class='Plum'></span>&nbsp;<span>Plum</span></li>
+</ul>
+</div>
 {%endblock%}

@@ -1,6 +1,18 @@
 function print(abc){
 	console.log(abc);
-} 
+}
+
+
+function get_prac_pair(td){
+	var td_below = td.closest('.my_row').next().children().eq(td.index());
+	var td_above = td.closest('.my_row').prev().children().eq(td.index());
+	if (td_below.length && !td_below.hasClass("isBreak")){
+		return [td,td_below];
+	}else if(td_above.length && !td_above.hasClass("isBreak")){
+		return [td_above,td];
+	}
+}
+
 
 var batches = [];
 function put_data(slots_json,events_json,batches){
@@ -19,6 +31,7 @@ function put_data(slots_json,events_json,batches){
 	this.batches=batches;
 	// console.table(subject_events);
 }
+
 
 var slots = [];
 class slot{
@@ -58,6 +71,60 @@ class event_class {
 	}
 }
 
+
+function push_event(temp_event){
+	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
+	let subject_event = get_subject_event(temp_event.Subject_event_id);
+	let is_prac = Boolean(a2[1]);
+	if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
+		console.log("max_filled");
+		return false;
+	}else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
+		console.log("max_filled");
+		return false;
+	} 
+	for(var i = events.length - 1;i >= 0 ;i--){
+		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
+		console.log(a1,a2)
+		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id && 0){
+			console.log("duplicate");
+			return false;
+		}else if (intersects(a1,a2)){
+			// if there is overwritting 
+			b1 = events[i].Batch_id
+			b2 = temp_event.Batch_id
+			if (b1 == b2){
+				// if lect-lect or prac(b1)-prac(b1)
+				console.log("lect-lect or prac(b1)-prac(b1)");
+				events.splice(i,1);
+				clear_td(get_cell(a1[0]));
+				clear_td(get_cell(a1[1]));
+			}else{
+				if (b1 && b2){
+					// if both not null prac(b1)-prac(b2)
+					console.log("prac(b1)-prac(b2)");
+				}else{
+					// if lect-prac or prac-lect
+					console.log("prac-lect or lect-prac");
+					events.splice(i,1);
+					clear_td(get_cell(a1[0]));
+					clear_td(get_cell(a1[1]));
+				}
+			}
+			
+			// clear the old slot td
+		}
+	}
+	events.push(temp_event);
+	if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
+		// get card and disable it
+	}else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
+		// get card and disable it	
+	}
+	return true;
+}
+
+
 function event_counter(event){
 	let subject_event = get_subject_event(event.Subject_event_id);
 	let event_arr = events.filter(e => e.Subject_event_id==event.Subject_event_id);
@@ -65,6 +132,7 @@ function event_counter(event){
 	let count = event_arr.filter(e => Boolean(e.Slot_id_2) == is_prac).length;
 	return count;
 }
+
 
 function get_slot(td){
 	let day = td.index();
@@ -78,6 +146,7 @@ function get_slot(td){
 	}
 }
 
+
 function get_subject_event(id){
 	// console.log(slots[0],day,time);
 	for (j in subject_events){
@@ -86,6 +155,7 @@ function get_subject_event(id){
 		}
 	}
 }
+
 
 function intersects(a1,a2) {
 	// console.log(a1,a2);
@@ -96,9 +166,11 @@ function intersects(a1,a2) {
 	return false
 }
 
+
 function arraysEqual(a1,a2) {
     return JSON.stringify(a1)==JSON.stringify(a2);
 }
+
 
 function clear_td(td){		// refresh the td
 	// console.log(td);
@@ -109,61 +181,6 @@ function clear_td(td){		// refresh the td
 	return;
 }
 
-function push_event(temp_event){
-	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
-	let subject_event = get_subject_event(temp_event.Subject_event_id);
-	let is_prac = Boolean(a2[1]);
-	if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
-		return false;
-	}else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
-		return false;
-	} 
-	for(var i = events.length - 1;i >= 0 ;i--){
-		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
-		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id && events[i].Batch_id == temp_event.Batch_id){
-			console.log("duplicate");
-			return true;
-		}else if (intersects(a1,a2)){
-			// if there is overwritting 
-			b1 = events[i].Batch_id
-			b2 = temp_event.Batch_id
-			if (b1 == b2){
-				// if lect-lect or prac(b1)-prac(b1)
-				console.log("lect-lect or prac(b1)-prac(b1)");
-				events.splice(i,1);
-			}else{
-				if (b1 && b2){
-					// if both not null prac(b1)-prac(b2)
-					console.log("prac(b1)-prac(b2)");
-				}else{
-					// if lect-prac or prac-lect
-					console.log("prac-lect or lect-prac");
-					events.splice(i,1);
-				}
-			}
-			clear_td(get_cell(a1[0]));
-			clear_td(get_cell(a1[1]));
-			// clear the old slot td
-		}
-	}
-	events.push(temp_event);
-	if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
-		// get card and disable it
-	}else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
-		// get card and disable it	
-	}
-	return true;
-}
-
-function get_prac_pair(td){
-	var td_below = td.closest('.my_row').next().children().eq(td.index());
-	var td_above = td.closest('.my_row').prev().children().eq(td.index());
-	if (td_below.length && !td_below.hasClass("isBreak")){
-		return [td,td_below];
-	}else if(td_above.length && !td_above.hasClass("isBreak")){
-		return [td_above,td];
-	}
-}
 
 function get_cell(slot_id){
 	let slot_obj;
@@ -202,43 +219,64 @@ function change_lect_td(td,subject_event_id,resource){	// change lecture ondrop
 }
 
 
-function change_to_prac_td(td,subject_event_id) {	// change practical ondrop
-	subject_event = get_subject_event(subject_event_id);
+function change_to_prac_td(td) {	// change td to prac td
 	pair = get_prac_pair(td);
-	if (!pair[0].html()){
-		/////////////////////////////// pair [0] - prac_above ////////////////////////////
-		pair[0].removeClass("lect");
-		pair[0].addClass("prac prac_above");
-		colspan = (12/batches.length);
-		let string = `<div class="container text-center"><div class="row text-center">`;
-		for (i in batches){
-			string += `
-			<div class="col-`+ colspan+`"batch_for=`+batches[i].pk+`>
-				<div class="row">
-					<div class="col p-0 prac_texts batch_name pl-3">`+ batches[i].fields.name +`</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<button class="btn-sm prac_mycol event_name"></button>
-					</div>
+	/////////////////////////////// pair [0] - prac_above ////////////////////////////
+	pair[0].removeClass("lect");
+	pair[0].addClass("prac prac_above");
+	colspan = (12/batches.length);
+	let string = `<div class="container text-center"><div class="row text-center">`;
+	for (i in batches){
+		string += `
+		<div class="col-`+ colspan+`"batch_for=`+batches[i].pk+`>
+			<div class="row">
+				<div class="col p-0 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
+			</div>
+			<div class="row">
+				<div class="col">
+					<button class="btn-sm prac_mycol event_name border-0"></button>
 				</div>
 			</div>
-			`;
-		}
-		string += `</div></div>`
-		pair[0].html(string);
-		print(pair[0].find("[batch_for="+batches[].pk+"]"));
-		/////////////////////////////// pair [0] - prac_above ////////////////////////////
-
-		// pair[1].html(subject_event.subject_name + " Prac");
-		// // .card -> span (batch)
-		// card_batch_name = card.children(".grid_heading");
-		pair[0].addClass("filled");
-		pair[1].addClass("filled");
-	}else{	// if it is droped again
+		</div>
+		`;
 	}
+	string += `</div></div>`
+	pair[0].html(string);
+	// print(pair[0].find("[batch_for="+batches[].pk+"]"));
+	/////////////////////////////// pair [0] - prac_above ////////////////////////////
+	pair[1].removeClass("lect");
+	pair[1].addClass("prac prac_below");
+	string = `<div class="container text-center"><div class="row">`
+	for (i in batches){
+		string +=
+		`<div class="col-`+ colspan+` batch_contents " batch_for=`+batches[i].pk+`>
+			<div class="row">
+				<div class="col-12 p-0 pl-`+ colspan+` prac_texts faculty_name"></div>
+				<div class="col-12 p-0 pl-`+ colspan+` prac_texts resource_name"></div>
+			</div>
+		</div>`
+	}
+	string += `</div></div>`;
+	pair[1].html(string);
+	pair[0].addClass("filled");
+	pair[1].addClass("filled");
 }
 
+function put_prac(td,subject_event_id,batch,resource){
+	subject_event = get_subject_event(subject_event_id);
+	pair = get_prac_pair(td);
+	div_above = pair[0].find("[batch_for="+batch+"]");
+	div_below = pair[1].find("[batch_for="+batch+"]");
+	button = div_above.find(".event_name");
+	faculty_div = div_below.find(".faculty_name");
+	resource_div = div_below.find(".resource_name");
+	
+	button.html(subject_event.subject_name);
+	button.css("background-color",subject_event.color);
+
+	faculty_div.html(subject_event.faculty_name);
+	resource_div.html(resource);
+}
 
 
 $(document).ready (function () {
@@ -259,6 +297,25 @@ $(document).ready (function () {
 		$(this).last().addClass("break_last");
 	});
 	///////////////////////////// Time Table ///////////////////////
+	// $(".droppable").bind('contextmenu', function (e) {
+	// 	var top = e.pageY+5;
+	// 	var left = e.pageX;
+	// 	let rect = $(this)[0].getBoundingClientRect();
+	// 	// Show contextmenu
+	// 	$(".context-menu").toggle(100).css({
+	// 	 top: top + "px",
+	// 	 left: left + "px"
+	// 	});
+	// 	$(".Gainsboro").attr("slot_id",get_slot($(this)).id);
+	// 	// console.log(e);
+	// 	// console.log($(this)[0].getBoundingClientRect());
+	// 	// disable default context menu
+	// 	return false;
+	// });
+	// $(".Gainsboro").click(function(){
+	// 	console.log($(this).attr("slot_id"));
+	// })
+
 	$(".draggable").draggable({
 		revert: true,
 		cursor: "move",
@@ -296,7 +353,7 @@ $(document).ready (function () {
 				$(".droppable").each(function(){
 					var cellIndex = $(this).index();
 					var td_below = $(this).closest('.my_row').next().children().eq(cellIndex);
-					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td")|| td_below.hasClass("isBreak") || !td_below.length || $(this).hasClass("filled") || td_below.hasClass("filled")){ 
+					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td")|| td_below.hasClass("isBreak") || !td_below.length || (($(this).hasClass("filled") || td_below.hasClass("filled")) && !$(this).hasClass("prac"))){ 
 						// if below is not available or filled or is break then not viable
 						if (!($(this).hasClass("available_td") || $(this).hasClass("isBreak")))
 							$(this).addClass("not_available_td");
@@ -357,7 +414,16 @@ $(document).ready (function () {
 				}
 				$("#event_form").attr("slot_id",slot.id);
 				$("#event_form").attr("subject_event_id",ui.draggable.attr("subject_event_id"));
-				$("#event_form").show();
+				// $("#event_form").show();
+				var top = event.pageY+5;
+				var left = event.pageX;
+
+				// console.log(td[0].getBoundingClientRect());
+				// Show contextmenu
+				$("#event_form").toggle(100).css({
+					top: top + "px",
+					left: left + "px"
+				});
 			}
 		}
 	});
@@ -373,9 +439,13 @@ $(document).ready (function () {
 		let resource_name = $("#resources").find(':selected').html();
 		if (resource){
 			if (is_prac && batch){
-				temp_event = new event_class(slot_id,subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
-				if (push_event(temp_event))
-				change_to_prac_td(td,subject_event_id);
+				temp_event = new event_class(String(get_slot(get_prac_pair(td)[0]).id),subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
+				if (push_event(temp_event)){
+					if (!td.html()){
+						change_to_prac_td(td,subject_event_id);
+					}
+					put_prac(td,subject_event_id,batch,resource_name);
+				}
 			}else if(!is_prac){
 				temp_event = new event_class(slot_id,subject_event_id,null,resource);
 				if (push_event(temp_event))
@@ -394,6 +464,7 @@ $(document).ready (function () {
 		$("#event_form").hide();
 	});
 });
+
 
 function submited(){
 	// console.log("JSON.stringify(events),1)");

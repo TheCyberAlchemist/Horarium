@@ -3,6 +3,15 @@
     margin: 0;
     box-sizing: border-box;
 }
+#event_form{
+    background-color: inherit;
+    border: 2px solid blue;
+    display:none;
+    position: absolute;
+    z-index:1;
+}
+
+
 .table_and_card {
     display: grid;
     grid-template-columns: 20% 80%;
@@ -38,6 +47,9 @@
 .break_last{
     border-right: 1px solid white;
 }
+.break_first{
+    border-left: 1px solid white;
+}
 .my_col.prac {
     height: 90px;
 }
@@ -55,7 +67,7 @@
     font-size: 10px;
     // margin-top: 10px;
 }
-.btn-sm {
+.btn-sm { 
     font-size: small;
     height: 110px;
     position: inherit !important ;
@@ -64,12 +76,12 @@
 .btn {
     width: 90%;
 }
-.col-4.batch_contents {
+.batch_contents {
     margin-top: 3em;
 }
-.col-4:first-child {
+.batch_contents:first-child {
     margin-left: -20px;
 }
-.col-4 {
+.batch_contents {
     margin-right: 5px;
 }

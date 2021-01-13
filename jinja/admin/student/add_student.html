@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="{{static ('form/form.css')}}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 {% endblock css %}
-{% block scripts %}
+{% block scripts %} 
     <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
     <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
 {% endblock scripts %}
@@ -13,15 +13,16 @@
 {% block content %}
 <div class="whole_container" id="whole_container_id">
   <fieldset>
-    <legend class="not_login">Add Student</legend>
-    <form class="myform" method = "POST">
+    <legend>{% if update %}Update{% else %}Add{% endif %} Student</legend>
+    <form class="myform" method = "POST" {% if not update %}style="display:none"{% endif %}>
       {{csrf_input}}
-      <div class="input_container">
+      <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+      <!-- <div class="input_container">
         {{user_form.first_name}}
       </div>
       <div class="input_container">
         {{user_form.last_name}}
-      </div>
+      </div> 
       <div class="input_container">
         {{user_form.email}}
       </div>
@@ -43,12 +44,144 @@
         {{student_detail_form.roll_no}}
       </div>
       {{student_detail_form.Division_id}}
-      {{student_detail_form.Batch_id}}
+      {{student_detail_form.Batch_id}} -->
+
+      <div class="input_container_double">
+        <div class="input_container_double_1">
+          <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
+          <input type="text" class="form_input" name="first_name" required autocomplete="off">
+          <label for="first_name" class="form_input_label">
+            <div class="text">First Name</div>
+            <div class="line"></div>
+          </label>
+        </div>
+
+        <div class="input_container_double_2">
+          <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
+          <input type="text" class="form_input" name="last_name" required autocomplete="off">
+          <label for="last_name" class="form_input_label">
+            <div class="text">Last Name</div>
+            <div class="line"></div>
+          </label>
+        </div>
+      </div>
+      <div class="input_container">
+        <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
+        <input type="email" class="form_input" name="email" required autocomplete="off">
+        <label for="email" class="form_input_label">
+          <div class="text">Email Id</div>
+          <div class="line"></div>
+        </label>
+      </div>
+      <div class="input_container_double">
+        <div class="input_container_double_1">
+          <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+          <input type="password" class="form_input" name="password1" id="myinput1" required autocomplete="off">
+          <label for="password1" class="form_input_label">
+            <div class="text">Password</div>
+            <div class="line"></div>
+          </label>
+          <span id="eye_double" onclick="visibility1(parent)">
+            <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
+            <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
+          </span>
+        </div>
+        <div class="input_container_double_2">
+          <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+          <input type="password" class="form_input" name="password2" id="myinput2" required autocomplete="off">
+          <label for="password2" class="form_input_label">
+            <div class="text">Confirm Password</div>
+            <div class="line"></div>
+          </label>
+          <span id="eye_double" onclick="visibility2(parent)">
+            <i class="fa fa-eye fa-lg" id="hide3" aria-hidden="true"></i>
+            <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
       <div class="submit_button_container">
          <button type="submit" name="button" class="submit_button" onclick="">Submit</button>
       </div>
-		</form>
+    </form>
+    <div class="form_visibility_img_container">
+      <button class="show_form_button" onclick="form_visibility()">
+        <p id="myp">Show Form</p>
+      </button>
+    </div>
+    {% if integrityErrors %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+  {% endif %}
+  {% if errors %}
+  <div class="errors_container">
+    <p>
+      {{errors}}
+    </p>
+  </div>
+  <script>
+      show_error("{{errors}}")
+  </script>
+{% endif %}
+</fieldset>
 
+    <div class="table_container">
+      <div class="table_search_box">
+        <input type="text" id="myinput" name="" placeholder="Search..." onkeyup="searchFun()">
+      </div>
+      <table id="db_table">
+        <thead>
+          <tr>
+            <div class="delete_panel">
+              <h1>Students of ??? or {{institute}}</h1>
+              <a style="display: none;" id="del" onclick="delete_entries()">
+                <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete">
+              </a>
+            </div>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Semester</th>
+            <th>Division</th>
+            <th>Edit</th>
+            <th>
+              <div class="checkboxes" onclick="checkAll();">
+                <input type="checkbox" id="parent" name="parent" value="parent">
+                <label for="parent"></label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for load in my_faculty_load %}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{load.Faculty_id.short}}</td>
+            <td>{{load.Faculty_id.User_id}}</td>
+            <td>{{load.Faculty_id.Designation_id}}</td>
+            <td>{{load.total_load}}</td>
+            <td>
+              <a href="{{url ('update_faculty' ,args=[my_department.id,load.Faculty_id.id])}}">
+                <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+              </a>
+            </td>
+            <td>
+            <a href="{{url ('show_not_avail' ,args=[load.Faculty_id.id])}}">
+              <img class="action_icons" style="height : 30px;width:35px" src="{{static ('admin/details/img/in.png')}}" alt="" title="Edit">
+            </a>
+            </td>
+            <td>
+              <div class="checkboxes" onclick="checkSelected()">
+                <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{load.Faculty_id.id}}">
+                <label for="{{loop.index}}"></label>
+              </div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 <script>
   var form = document.getElementsByClassName('myform')[0];
   var form_fields = form.getElementsByTagName('input');

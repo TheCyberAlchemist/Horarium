@@ -25,7 +25,7 @@
 {% block content %}
 	  <div class="whole_container" id="whole_container_id">
       <fieldset>
-        <legend>Add Batch</legend>
+        <legend>{% if update %}Update{% else %}Add{% endif %} Batch</legend>
         <form class="myform" method = "POST" {% if not update %}style="display: none;"{% endif %}>
           {{csrf_input}}
           <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">

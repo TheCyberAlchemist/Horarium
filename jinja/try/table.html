@@ -32,7 +32,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="{{static ('try/time_table2.js') }}"></script>
 <script>
-    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{batches_json|safe}});
+    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{batches_json|safe}},{{events_json|safe}});
     $("#resources").select2();
     $("#batches").select2();
 
@@ -204,9 +204,7 @@
 <button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button>
 <div class='context-menu' style="display:none; position: absolute;">
 <ul>
-    <li><span class='Gainsboro'></span>&nbsp;<span class='Gainsboro'>Gainsboro </span></li>
-    <li><span class='Orange'></span>&nbsp;<span>Orange</span></li>
-    <li><span class='Plum'></span>&nbsp;<span>Plum</span></li>
+    <li><span class='clear_td'></span>&nbsp;<span class='clear_td'>Clear</span></li>
 </ul>
 </div>
 {%endblock%}

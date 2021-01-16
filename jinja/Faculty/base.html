@@ -9,11 +9,14 @@
 	{# title block for printing the name of the page  #}
 	<!-- css here -->
 	{% block css %} 
-	<link rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_light.css')}}" />
-	<!-- <link rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_dark.css')}}" /> -->
+	<link id="light" rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_light.css')}}" />
+	<link id="dark" rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_dark.css')}}"  disabled=true />
     <link rel="stylesheet" href="{{static ('student//BootStrap/MyDash/static/navbar.css')}}" />
-    <link rel="stylesheet" href="{{static ('student//BootStrap/bootstrap.min.css')}}" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap')}}" rel="stylesheet"/>
+	<link rel="stylesheet" href="{{static ('student//BootStrap/bootstrap.min.css')}}" />
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link rel="stylesheet" href="{{static ('student//BootStrap/MyDash/static/progress_bar.css')}}" />
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="{{static ('student//AOS/aos.css')}}" /> -->
 	{% endblock %}
 </head>
 <body>
@@ -28,39 +31,10 @@
 <!-- scripts here -->
 {% block scripts %}
 	<script src="{{static ('student//BootStrap/jquery.min.js')}}"></script>
-    <script src="{{static ('student//BootStrap/bootstrap.min.js')}}"></script>
+	<script src="{{static ('student//BootStrap/bootstrap.min.js')}}"></script>
+	<script src="{{static ('student//AOS/aos.js')}}"></script>
+	<script src="{{static ('student//BootStrap/MyDash/static/navbar.js')}}"></script>	
 {% endblock %}
 {# script block for all the scripts of the page #}
 </html>
 {% endblock %}
-
-{# for any doubts see line 46 #}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{# go fuck yourself bitch #}

@@ -15,21 +15,46 @@ function get_prac_pair(td){
 
 
 var batches = [];
-function put_data(slots_json,events_json,batches){
+function put_data(slots_json,sub_events_json,batches,old_events_json){
 	for (i in slots_json){
 		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
 		slots.push(temp_slot);
 	}
 	// console.table(slots);
 	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
-	for (i in events_json){
-		obj = events_json[i].fields;
-		temp_event = new subject_event(events_json[i].pk,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
+	for (i in sub_events_json){
+		obj = sub_events_json[i].fields;
+		temp_sub_event = new subject_event(sub_events_json[i].pk,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
 			,obj.other_events,obj.Subject_color,obj.Faculty_name)
-		subject_events.push(temp_event);
+		subject_events.push(temp_sub_event);
 	}
 	this.batches=batches;
-	// console.table(subject_events);
+	for(i in old_events_json){
+		obj = old_events_json[i];
+		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2);
+		td = get_cell(obj.Slot_id);
+		let resource = "";
+		$("#resources option").each(function(){
+			if ($(this).val() == obj.Resource_id){
+				resource = $(this).html();
+			}
+		});
+		if (temp_event.Slot_id_2){	// if it is a practical
+			if (push_event(temp_event)){
+				if (!td.html()){
+					change_to_prac_td(td,obj.Subject_event_id);
+				}
+				put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
+			}
+		}else{
+			if (push_event(temp_event)){
+				// console.log(td);
+				change_lect_td(td,obj.Subject_event_id,resource);
+			}
+		}
+	}
+
+	console.table(batches);
 }
 
 
@@ -65,9 +90,9 @@ class event_class {
 	constructor(Slot_id,Subject_event_id,Batch_id,Resource_id,Slot_id_2=null){
 		this.Slot_id = Slot_id;
 		this.Subject_event_id = Subject_event_id;
-		this.Batch_id = Batch_id;
-		this.Resource_id = Resource_id;
-		this.Slot_id_2 = Slot_id_2;
+		this.Batch_id = Batch_id?Batch_id:null;
+		this.Resource_id = Resource_id?Resource_id:null;
+		this.Slot_id_2 = Slot_id_2?Slot_id_2:null;
 	}
 }
 
@@ -85,7 +110,7 @@ function push_event(temp_event){
 	} 
 	for(var i = events.length - 1;i >= 0 ;i--){
 		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
-		console.log(a1,a2)
+		// console.log(a1,a2)
 		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id && 0){
 			console.log("duplicate");
 			return false;
@@ -176,9 +201,23 @@ function clear_td(td){		// refresh the td
 	// console.log(td);
 	if (td.length){
 		td.html("");
-		td.removeAttr("filled");
+		td.removeClass("filled");
+		td.removeClass("prac");
+		td.removeClass("prac_above");
+		td.removeClass("prac_below");
+		td.removeClass("prac_below");
+		td.addClass("lect");
 	}
 	return;
+}
+
+function get_event_index_by_slot(slot){
+	for(i in events){
+		if(events[i].Slot_id == slot || events[i].Slot_id_2 == slot){
+			return i;
+		}
+	}
+	return false;
 }
 
 
@@ -193,7 +232,8 @@ function get_cell(slot_id){
 	if (!slot_obj)
 		return false
 	let tr = $("[timing_id=" + String(slot_obj.timing) + "]");
-	let td = tr.find('div:nth-child('+(slot_obj.day+1)+')')
+	let td = tr.find('.my_col:nth-child('+(slot_obj.day+1)+')')
+	// print(td);
 	return td;
 }
 
@@ -226,6 +266,7 @@ function change_to_prac_td(td) {	// change td to prac td
 	pair[0].addClass("prac prac_above");
 	colspan = (12/batches.length);
 	let string = `<div class="container text-center"><div class="row text-center">`;
+	// console.log(batches);
 	for (i in batches){
 		string += `
 		<div class="col-`+ colspan+`"batch_for=`+batches[i].pk+`>
@@ -297,24 +338,42 @@ $(document).ready (function () {
 		$(this).last().addClass("break_last");
 	});
 	///////////////////////////// Time Table ///////////////////////
-	// $(".droppable").bind('contextmenu', function (e) {
-	// 	var top = e.pageY+5;
-	// 	var left = e.pageX;
-	// 	let rect = $(this)[0].getBoundingClientRect();
-	// 	// Show contextmenu
-	// 	$(".context-menu").toggle(100).css({
-	// 	 top: top + "px",
-	// 	 left: left + "px"
-	// 	});
-	// 	$(".Gainsboro").attr("slot_id",get_slot($(this)).id);
-	// 	// console.log(e);
-	// 	// console.log($(this)[0].getBoundingClientRect());
-	// 	// disable default context menu
-	// 	return false;
-	// });
-	// $(".Gainsboro").click(function(){
-	// 	console.log($(this).attr("slot_id"));
-	// })
+	$(".droppable").bind('contextmenu', function (e) {
+		// Show contextmenu
+		// let rect = $(this)[0].getBoundingClientRect();
+		var left,top = e.pageY+5;
+		if (e.pageX+$(".context-menu").width() >= screen.width){
+			left = e.pageX - $(".context-menu").width();
+		}else{
+			left = e.pageX;
+		}
+		$(".context-menu").toggle(100).css({
+		 top: top + "px",
+		 left: left + "px"
+		});
+		$(".clear_td").attr("slot_id",get_slot($(this)).id);
+
+		$(this).addClass("right_click_selected"); // 
+
+		return false;
+	});
+	$(document).bind('contextmenu click',function(){
+		$(".context-menu").hide();
+		$(".right_click_selected").removeClass("right_click_selected");
+		$("#txt_id").val("");
+	});
+	
+	$('.context-menu').bind('contextmenu',function(){
+		return false;
+	});
+	$(".clear_td").click(function(){
+		let i = get_event_index_by_slot($(this).attr("slot_id"));
+		if (i){
+			clear_td(get_cell(events[i].Slot_id));
+			clear_td(get_cell(events[i].Slot_id_2));
+			events.splice(i,1);
+		}
+	})
 
 	$(".draggable").draggable({
 		revert: true,
@@ -329,7 +388,8 @@ $(document).ready (function () {
 			// for all the not_available td add not_available
 			for (i in subject_event.not_available){
 				td = get_cell(subject_event.not_available[i]);
-				if (!td.hasClass("filled")){
+				// console.log(subject_event.not_available[i]);
+				if (td.length && !td.hasClass("filled")){
 					td.addClass("not_available_td");
 				}
 			}
@@ -415,8 +475,13 @@ $(document).ready (function () {
 				$("#event_form").attr("slot_id",slot.id);
 				$("#event_form").attr("subject_event_id",ui.draggable.attr("subject_event_id"));
 				// $("#event_form").show();
-				var top = event.pageY+5;
-				var left = event.pageX;
+				let rect = $(this)[0].getBoundingClientRect();
+				var left,top = event.pageY+5;
+				if (rect.right+100 >= screen.width){
+					left = rect.left - $("#event_form").width();
+				}else{
+					left = rect.right - 10;
+				}
 
 				// console.log(td[0].getBoundingClientRect());
 				// Show contextmenu

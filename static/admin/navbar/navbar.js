@@ -20,6 +20,10 @@ $(document).ready(function(){
     $("fieldset").hide();
     $(".table_container").hide();
     $(".nav_container").hide();
+    if($(".table_and_card")) {
+      console.log("table&card hide");
+      $(".table_and_card").hide();
+    }
       //$(".nav_container").animate({width:'0%',height:'0%'},100);
   });
   
@@ -32,6 +36,10 @@ $(document).ready(function(){
     $(".nav_container").show();
     $(".nav_container").animate({width:'100%',height:'100%'},100);
     $("#add_slot_form").hide();
+    if($(".table_and_card")) {
+      console.log("table&card show");
+      $(".table_and_card").show();
+    }
   });
 
   $("#show_tree label").click(function(){

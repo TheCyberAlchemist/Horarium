@@ -123,34 +123,39 @@ width: 100%;
 	clear: right;
 	height: 600px;
 	border-radius: 10px;
-  }
-  .card-list{
+}
+.card-list{
 	display: block;
 	padding: 2rem 2rem 3rem 2rem;
-	overflow-y: scroll;
 	position: fixed !important; 
 	top : 50%;
+	height: 500px;
+	overflow-y: scroll;
 	transform: translateY(-50%);
 	left : 20px;
   }
-  .card{
+  #accordion > .card {
+	  background-color: transparent;
+	  outline: none;
+	  border: none;
+  }
+  .item.card-header {
+	padding: 0;  
+	border-bottom: none;
+  }
+  .card.s{
 	color :white;
 	display: flex;
-	/* text-align: center; */
 	position: relative;
 	flex-direction: column;
-	width: 170px;
-	height: 120px;
-	margin: -10px;
+	width: 150px;
+	height: 110px;
 	padding: 0.5rem;  /* 1rem = 15px */
-	border-radius: 0 16px 16px 16px;
-	background-color: #17141d;
 	box-shadow: -1rem 0 3rem #000;
 	transition: 0.2s;
   }
   
-  .card:hover{
-	/* transform: translateX(-1rem); */
+  .card.s:hover{
 	transform: translateY(-1.5rem);
 	transition: 0.2s;
   }
@@ -224,15 +229,32 @@ width: 100%;
 	text-align: right;
 }
 
-.event_form {
-	/* background-color: red; */
+#event_form{
+    background-color: #393957;
+	/* border: 2px solid #595997; */
+	border-radius: 5px;
+    display:none;
+    position: absolute;
+    z-index:1;
 	padding: 1em; 
+	box-shadow: 0px 1px 26px 0px rgba(0,0,17,0.62);
+-webkit-box-shadow: 0px 1px 26px 0px rgba(0,0,17,0.62);
+-moz-box-shadow: 0px 1px 26px 0px rgba(0,0,17,0.62);
 }
 .event_form button {
-	padding: 5px;
+	padding: 7px;
 	background-color: transparent;
-	border : 1px solid blue;
+	background-color: #1e1e2e;
+	border-radius: 8px;
 	color: white;
+	outline: none;
+	border : 1px solid #2d2d42;
+	transition: .3s;
+}
+.event_form button:hover {
+	border : 1px solid #1e1e2e;
+	background-color: #000;
+	transition: .3s;
 }
 .gridder {
     display: grid;
@@ -263,8 +285,26 @@ width: 100%;
      /* padding-left: 10px; */
 }
 
-
-
-
-
-
+.clear_td {
+	background-color: white;
+	padding: 6px 70px;
+	border-radius: 5px;
+	color: #000;
+	position: relative;
+}
+.clear_td:hover {
+	background-color: rgb(201, 201, 201);
+}
+.clear_td:first-of-type {
+	border-radius: 5px 5px 0 0 ;
+}
+.clear_td:last-of-type {
+	border-radius: 0 0 5px 5px;
+}
+.input_icons {
+	position: absolute;
+	top : 5px;
+	left:70%;
+	height: 30px;
+    width: 30px;
+}

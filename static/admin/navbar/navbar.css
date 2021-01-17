@@ -1,6 +1,4 @@
-.nav_container{
 
-}
 .navv{
   margin: 0px;
   width: 100%;
@@ -24,10 +22,6 @@
   /* background-image: linear-gradient(to left top, #0b0b0d, #0e0e0f, #101011, #121212, #141414); */
   background-color: black;
 }
-.container{
-  /* background-color : black; */
-
-}
 .logo{
 
 }
@@ -41,8 +35,17 @@
 .nav_items :hover{
   cursor: default;
 }
+
 .show_user{
   float: left;
+}
+.show_user a {
+  text-decoration: none;
+  outline: none;
+  border: none;
+}
+.show_user a:hover {
+  color : white;
 }
 .nav_class :hover{
   /* color: blue; */

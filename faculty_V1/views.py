@@ -55,3 +55,6 @@ def faculty_home(request):
 	# print(get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A"))))
 	print(context["events"])
 	return render(request,"Faculty/faculty_v1.html",context)
+
+def faculty_feedback(request) :
+	return render(request,"Faculty/feedback.html")

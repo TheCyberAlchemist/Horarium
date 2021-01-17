@@ -1,108 +1,128 @@
 {%block navbar_starts%}
 {%endblock%}
-    <link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{static ('admin/navtree.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{static ('admin/base.css')}}">
-    <!-- <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet"> -->
+<link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('admin/navtree.css')}}">
+<link rel="stylesheet" type="text/css" href="{{static ('admin/base.css')}}">
+<!-- <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet"> -->
 
-    <div class="nav_container">
-    <nav class="navv" id="show_navbar">
-      <div class="nav_items show_user">
-        <a href="{{url ('logout')}}">Hi, {{request.user}}</a>
-      </div>
+<div class="nav_container">
+  <nav class="navv" id="show_navbar">
+    <div class="nav_items show_user">
+      <a href="{{url ('logout')}}">Hi, {{request.user}}</a>
+    </div>
 
-      <div class="container">
+    <div>
       <ul>
         <li class="nav_items"><a class="nav_a_tags" href="#">Contact Us</a></li>
         <li class="nav_items"><a class="nav_a_tags" href="#">About Us</a></li>
         <li class="nav_items"><a class="nav_a_tags">Your Tables</a></li>
         <li class="nav_items me"><a class="nav_a_tags">Nav Tree</a></li>
       </ul>
-      </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
+</div>
 
-  <div class="navtree_wrapper scroll" id="show_tree" >
-    <ul>
-      <li class="noline">
-        <label class = "not_data institute">{{institute}}</label>
-        <ul>
-          <li>
-            <label for="a" class = "data"><a href = {{url ('show_department')}}>Department Details</a></label>
-          </li>
-          <li>
-            <label for="b" class = "not_data"><a href = {{url ('show_resource')}}> Resources Details</a></label>
-          </li>
-          {% for department in departments %}
-            <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
-                <ul>
-                  <span class="more">&hellip;</span>
-                  <li>
-                    <label for="{{department}}.a" class = "data"><a href = {{url ('show_branch' ,args=[department.id])}}>Branch Details</a></label>
-                  </li>
-                  <li>
-                    <label for="{{department}}.b" class = "not_data"><a href = {{url ('add_faculty' ,args=[department.id])}}>Add Faculty</a></label>
-                  </li>
-                  <li>
-                    <label for="{{department}}.d" class = "data">Shift Details</label>
-                    <input id="{{department}}.d" type="checkbox" checked><ul>
+<div class="navtree_wrapper scroll" id="show_tree">
+  <ul>
+    <li class="noline">
+      <label class="not_data institute">{{institute}}</label>
+      <ul>
+        <li>
+          <label for="a" class="data"><a href={{url ('show_department')}}>Department Details</a></label>
+        </li>
+        <li>
+          <label for="b" class="not_data"><a href={{url ('show_resource')}}> Resources Details</a></label>
+        </li>
+        {% for department in departments %}
+        <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
+          <ul>
+            <span class="more">&hellip;</span>
+            <li>
+              <label for="{{department}}.a" class="data"><a href={{url ('show_branch' ,args=[department.id])}}>Branch
+                  Details</a></label>
+            </li>
+            <li>
+              <label for="{{department}}.b" class="not_data"><a href={{url ('add_faculty' ,args=[department.id])}}>Add
+                  Faculty</a></label>
+            </li>
+            <li>
+              <label for="{{department}}.d" class="data">Shift Details</label>
+              <input id="{{department}}.d" type="checkbox" checked>
+              <ul>
+                <span class="more">&hellip;</span>
+                <li>
+                  <label for="{{department}}.d.a" class="data"><a href={{url ('show_shift' ,args=[department.id])}}>Add
+                      shift</a></label>
+                </li>
+                {% for key1,values1 in shifts.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
+                <li><label for="{{department}}.d.{{value1}}" class="data"
+                    title="{{value1.start_time}}-{{value1.end_time}}">
+                    <a href={{url ('show_slot' ,args=[value1.id])}}>{{value1.name}}</a>
+                  </label></li>
+                {% endfor %}{% endif %}{%endfor%}
+              </ul>
+
+            </li>
+
+            {% for key1,values1 in branches.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
+            <li><label for="{{department}}.{{value1}}">{{value1}}</label>
+              <input id="{{department}}.{{value1}}" type="checkbox" checked>
+              <ul>
+                <span class="more">&hellip;</span>
+                <li>
+                  <label for="{{department}}.{{value1}}.a" class="data"><a href={{url ('show_semester'
+                      ,args=[value1.id])}}>Semester Details</a></label>
+                </li>
+                <li>
+                  <label for="{{department}}.{{value1}}.b" class="not_data"><a href={{url ('show_sub_det'
+                      ,args=[value1.id])}}> Subject Details</a></label>
+                </li>
+                {% for key2,values2 in sems.items() %}{% if key2 == value1.id %}{% for value2 in values2 %}
+                <li><label for="{{department}}.{{value1}}.{{value2}}">{{value2}}</label>
+                  <input id="{{department}}.{{value1}}.{{value2}}" type="checkbox" checked>
+                  <ul>
                     <span class="more">&hellip;</span>
                     <li>
-                      <label for="{{department}}.d.a" class = "data"><a href = {{url ('show_shift' ,args=[department.id])}}>Add shift</a></label>
+                      <label for="{{department}}.{{value1}}.{{value2}}.a" class="data"><a href={{url ('show_division'
+                          ,args=[value2.id])}}>Division Details</a></label>
                     </li>
-                    {% for key1,values1 in shifts.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
-                      <li><label for="{{department}}.d.{{value1}}" class = "data" title = "{{value1.start_time}}-{{value1.end_time}}">
-                      <a href = {{url ('show_slot' ,args=[value1.id])}}>{{value1.name}}</a>
-                      </label></li>
-                    {% endfor %}{% endif %}{%endfor%}
-                    </ul>
 
-                  </li>
-
-                  {% for key1,values1 in branches.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
-                    <li><label for="{{department}}.{{value1}}">{{value1}}</label>
-                    <input id="{{department}}.{{value1}}" type="checkbox" checked><ul>
-                    <span class="more">&hellip;</span>
-                    <li>
-                      <label for="{{department}}.{{value1}}.a" class = "data"><a href = {{url ('show_semester' ,args=[value1.id])}}>Semester Details</a></label>
-                    </li>
-                    <li>
-                      <label for="{{department}}.{{value1}}.b" class = "not_data"><a href = {{url ('show_sub_det' ,args=[value1.id])}}> Subject Details</a></label>
-                    </li>
-                      {% for key2,values2 in sems.items() %}{% if key2 == value1.id %}{% for value2 in values2 %}
-                        <li><label for="{{department}}.{{value1}}.{{value2}}">{{value2}}</label>
-                        <input id="{{department}}.{{value1}}.{{value2}}" type="checkbox" checked ><ul>
+                    {% for key3,values3 in divs.items() %}{% if key3 == value2.id %}{% for value3 in values3 %}
+                    <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}">{{value3.name}}</label>
+                      <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}" type="checkbox" checked>
+                      <ul>
                         <span class="more">&hellip;</span>
                         <li>
-                          <label for="{{department}}.{{value1}}.{{value2}}.a" class = "data"><a href = {{url ('show_division' ,args=[value2.id])}}>Division Details</a></label>
+                          <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.b" class="not_data">Create
+                            table</label>
                         </li>
-                        
-                        {% for key3,values3 in divs.items() %}{% if key3 == value2.id %}{% for value3 in values3 %}
-                          <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}">{{value3.name}}</label>
-                          <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}" type="checkbox" checked ><ul>
-                          <span class="more">&hellip;</span>
-                          <li>
-                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.b" class = "not_data">Create table</label>
-                          </li>
-                          <li>
-                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "data"><a href = {{url ('show_batch' ,args=[value3.id])}}>Batch Details</a></label>
-                          </li>
-                            {% for key4,values4 in batches.items() %}{% if key4 == value3.id %}{% for value4 in values4 %}
-                              <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}">{{value4}}</label>
-                              <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}" type="checkbox" checked ><ul>
-                              <span class="more">&hellip;</span>
-                            </ul></li>{% endfor %}{% endif %}{% endfor %}
-                        </ul></li>{% endfor %}{% endif %}{% endfor %}
-                      </ul></li>{% endfor %}{% endif %}{% endfor %}
-                    </ul></li>{% endfor %}{% endif %}{% endfor %}
-                </ul>
-            </li>
-          {% endfor %}
-        </ul>
-      </li>
-    </ul>
-    <button type="submit" name="button" class="toggle_button not_me"> <img src="{{static ('admin/details/img/arrow.png')}}" alt="arrow"> </button>
-  </div>
-  
+                        <li>
+                          <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class="data"><a href={{url
+                              ('show_batch' ,args=[value3.id])}}>Batch Details</a></label>
+                        </li>
+                        {% for key4,values4 in batches.items() %}{% if key4 == value3.id %}{% for value4 in values4 %}
+                        <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}">{{value4}}</label>
+                          <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}" type="checkbox"
+                            checked>
+                          <ul>
+                            <span class="more">&hellip;</span>
+                          </ul>
+                        </li>{% endfor %}{% endif %}{% endfor %}
+                      </ul>
+                    </li>{% endfor %}{% endif %}{% endfor %}
+                  </ul>
+                </li>{% endfor %}{% endif %}{% endfor %}
+              </ul>
+            </li>{% endfor %}{% endif %}{% endfor %}
+          </ul>
+        </li>
+        {% endfor %}
+      </ul>
+    </li>
+  </ul>
+  <button type="submit" name="button" class="toggle_button not_me"> <img
+      src="{{static ('admin/details/img/arrow.png')}}" alt="arrow"> </button>
+</div>
+
 {%block navbar_ends%}
 {%endblock%}

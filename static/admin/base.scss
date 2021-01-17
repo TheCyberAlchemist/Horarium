@@ -43,6 +43,9 @@ a {
 	text-decoration: none;
 	color: white;
 }
+a:hover {
+	color : white;
+}
 
 .whole_container fieldset {
 	background-color: $fieldset_bgcolor;

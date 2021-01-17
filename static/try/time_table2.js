@@ -201,15 +201,18 @@ function clear_td(td){		// refresh the td
 	// console.log(td);
 	if (td.length){
 		td.html("");
+		if(td.hasClass("prac")){
+			td.removeClass("prac");
+			td.removeClass("prac_above");
+			td.removeClass("prac_below");
+			td.removeClass("prac_below");
+		}
 		td.removeClass("filled");
-		td.removeClass("prac");
-		td.removeClass("prac_above");
-		td.removeClass("prac_below");
-		td.removeClass("prac_below");
 		td.addClass("lect");
 	}
 	return;
 }
+
 
 function get_event_index_by_slot(slot){
 	for(i in events){
@@ -284,7 +287,7 @@ function change_to_prac_td(td) {	// change td to prac td
 	string += `</div></div>`
 	pair[0].html(string);
 	// print(pair[0].find("[batch_for="+batches[].pk+"]"));
-	/////////////////////////////// pair [0] - prac_above ////////////////////////////
+	/////////////////////////////// pair [1] - prac_below ////////////////////////////
 	pair[1].removeClass("lect");
 	pair[1].addClass("prac prac_below");
 	string = `<div class="container text-center"><div class="row">`
@@ -302,6 +305,7 @@ function change_to_prac_td(td) {	// change td to prac td
 	pair[0].addClass("filled");
 	pair[1].addClass("filled");
 }
+
 
 function put_prac(td,subject_event_id,batch,resource){
 	subject_event = get_subject_event(subject_event_id);
@@ -352,7 +356,6 @@ $(document).ready (function () {
 		 left: left + "px"
 		});
 		$(".clear_td").attr("slot_id",get_slot($(this)).id);
-
 		$(this).addClass("right_click_selected"); // 
 
 		return false;
@@ -367,11 +370,17 @@ $(document).ready (function () {
 		return false;
 	});
 	$(".clear_td").click(function(){
-		let i = get_event_index_by_slot($(this).attr("slot_id"));
-		if (i){
-			clear_td(get_cell(events[i].Slot_id));
-			clear_td(get_cell(events[i].Slot_id_2));
-			events.splice(i,1);
+		slot_id = $(this).attr("slot_id")
+		if (get_cell(slot_id).hasClass("prac")){
+			
+		}else{
+			let i = get_event_index_by_slot(slot_id);
+			if (i){
+				clear_td(get_cell(events[i].Slot_id));
+				// clear_td(get_cell(events[i].Slot_id_2));
+				events.splice(i,1);
+			}
+			console.table(events);
 		}
 	})
 

@@ -8,6 +8,39 @@
 {% endblock css %}
 
 {% block scripts %}
+<script>
+function visibility1() {
+  var a = document.getElementById("myinput1");
+  var b = document.getElementById("hide1");
+  var c = document.getElementById("hide2");
+  if (a.type === "password") {
+    a.type = "text";
+    b.style.display = "inline";
+    c.style.display = "none";
+  }
+  else if (a.type === "text") {
+    a.type = "password";
+    b.style.display = "none";
+    c.style.display = "inline";
+  }
+}
+function visibility2() {
+  var x = document.getElementById("myinput2");
+  var y = document.getElementById("hide3");
+  var z = document.getElementById("hide4");
+
+  if (x.type === "password") {
+    x.type = "text";
+    y.style.display = "inline";
+    z.style.display = "none";
+  }
+  else if (x.type === "text") {
+    x.type = "password";
+    y.style.display = "none";
+    z.style.display = "inline";
+  }
+}
+</script>
   <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
   <script src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
   <script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
@@ -40,7 +73,11 @@
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password"name="password" placeholder="Password" required autocomplete="off" />
+            <input id = "myinput1"type="password"name="password" placeholder="Password" required autocomplete="off" />
+            <span id="eye" class="eye" onclick="visibility1()" style="position: absolute;left: 90%;top: 10%;">
+              <i class="fa fa-eye fa-lg"  style="display:none;" id="hide1" aria-hidden="true"></i>
+              <i class="fa fa-eye-slash fa-lg "id="hide2" aria-hidden="true"></i>
+            </span>
           </div>
           <input type="submit" value="Login" class="login_btn solid" />
         </form>
@@ -56,7 +93,11 @@
           </div>
           <div class="input-field">
             <i class="fas fa-lock"></i>
-            <input type="password" placeholder="Password" />
+            <input id = "myinput2" type="password" placeholder="Password" />
+            <span id="eye" class="eye" style="position: absolute;left: 90%;top: 10%;" onclick="visibility2()">
+              <i class="fa fa-eye fa-lg" style="display:none;" id="hide3" aria-hidden="true"></i>
+              <i class="fa fa-eye-slash fa-lg " id="hide4" aria-hidden="true"></i>
+            </span>
           </div>
           <input type="submit" class="login_btn" value="Sign up" />
         </form>

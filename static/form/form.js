@@ -118,7 +118,6 @@ function valid_input() {
   });
 }
 function visibility1(self) {
-  console.log(self);
   var a = document.getElementById("myinput1");
   var b = document.getElementById("hide1");
   var c = document.getElementById("hide2");

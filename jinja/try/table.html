@@ -52,7 +52,7 @@
     <div class="select2_container single_select2" style="margin-top: 1em;">
         <select id="batches">
             <option disabled selected>Select the batch </option>
-            {% for batch in batches %}
+            {% for batch in my_batches %}
             <option value="{{batch.id}}">{{batch}}</option>
             {% endfor %}
         </select>
@@ -67,102 +67,44 @@
     <div class="card-container">
         <div class="card-list">
             <div id="accordion">
-                {% for subject_event in subject_events %}
-                {% if subject_event.lect_carried%}
-                <div class="card">
-                    <div class="card-header item" id="item1">
-                        <h3>
-                            <button class="btn btn-primary collapsed w-100" data-toggle="collapse" data-target="#collapseOne"
-                                aria-expanded="false" aria-controls="collapseOne">
-                                DBMS
-                            </button>
-                        </h3>
-                    </div>
-                    <div id="collapseOne" class="collapse" aria-labelledby="item1" data-parent="#accordion">
-                        <div class="draggable" subject_event_id="{{subject_event.id}}">
-                            <div class="card s mt-3 mb-3 ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
-                                <div class="card-body p-0">
-                                    <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
-                                    <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
+                {% for subject in my_subjects %}
+                    <div class="card">
+                        <div class="card-header item" id="{{subject.id}}">
+                            <h3><button class="btn btn-primary collapsed w-100" data-toggle="collapse" data-target="#a{{loop.index}}"
+                                aria-expanded="false" aria-controls="a{{loop.index}}">
+                                {{subject}}
+                            </button></h3>
+                        </div>
+                        {%set a = loop.index%}
+                        {%for subject_event in my_subjects[subject]%}
+                            {% if subject_event.lect_carried%}
+                                <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                    <div class="draggable" subject_event_id="{{subject_event.id}}">
+                                        <div class="card s mt-3 mb-3 ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
+                                            <div class="card-body p-0">
+                                                <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
+                                                <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header item" id="item2">
-                        <h3>
-                            <button class="btn btn-primary collapsed w-100" data-toggle="collapse" data-target="#collapseTwo"
-                                aria-expanded="false" aria-controls="collapseTwo">
-                                OS
-                            </button>
-                        </h3>
-                    </div>
-                    <div id="collapseTwo" class="collapse" aria-labelledby="item2" data-parent="#accordion">
-                        <div class="card s mt-3 mb-3 ml-2 mr-0" style="background-color: #ff3333;">
-                            <div class="card-body p-0">
-                                <h4 class="card-title text-left">OS prac</h4>
-                                <h6 class="card-text text-right mr-2">By URT</h6>
-                            </div>
-                        </div>
-                        <div class="draggable" subject_event_id="{{subject_event.id}}" >
-                            <div class="card s mt-3 mb-3 ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
-                                <div class="card-body p-0">
-                                    <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
-                                    <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
+                            {% endif %}
+                            {% if subject_event.prac_carried%}
+                                <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                    <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac = "true">
+                                        <div class="card s mt-3 mb-3 ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
+                                            <div class="card-body p-0">
+                                                <h4 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h4>
+                                                <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            {% endif %}
+                        {% endfor %}
                     </div>
-                </div>
-                {% endif %}
-                {%endfor%}
+                {% endfor %}
             </div>
-            {% for subject_event in subject_events %}
-            {% if subject_event.lect_carried%}
-            <!-- <div class="draggable" subject_event_id="{{subject_event.id}}">
-                        <article class="card" style="background-color:{{subject_event.Subject_id.color}}">
-                            <header class="card-header">
-                                <h2>{{subject_event.Subject_id}}</h2>
-                            </header>
-                            <div class="author-name">
-                                By {{subject_event.Faculty_id}}
-                            </div>
-                        </article>
-                    </div> -->
-
-            <div class="draggable" subject_event_id="{{subject_event.id}}">
-                <div class="card s" style="background-color:{{subject_event.Subject_id.color}}">
-                    <div class="card-body p-0">
-                        <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
-                        <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% if subject_event.prac_carried%}
-            <!-- <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
-                        <article class="card">
-                            <header class="card-header">
-                                <h2>{{subject_event.Subject_id}} prac</h2>
-                            </header>
-                            <div class="author-name">
-                                <h6> By {{subject_event.Faculty_id}} </h6>
-                            </div>
-                        </article>
-                    </div> -->
-
-            <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
-                <div class="card s" style="background-color:{{subject_event.Subject_id.color}}">
-                    <div class="card-body p-0">
-                        <h4 class="card-title text-left">{{subject_event.Subject_id}} <br> PRAC</h4>
-                        <h6 class="card-text text-right mr-2">By {{subject_event.Faculty_id}}</h6>
-                    </div>
-                </div>
-            </div>
-            {% endif %}
-            {% endfor %}
             <!-- <div class="card" style="background-color: #ff3333;">
                 <div class="card-body p-0">
                     <h4 class="card-title text-left">DBMS prac</h4>

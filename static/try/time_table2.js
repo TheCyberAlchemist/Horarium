@@ -406,7 +406,7 @@ $(document).ready (function () {
 			for (k in subject_event.other_events){
 				var obj = subject_event.other_events[k]['fields']
 				event_td = get_cell(obj.Slot_id);
-				if (!event_td.hasClass("filled")){
+				if (event_td && !event_td.hasClass("filled")){
 					event_td.addClass("not_available_td");
 					// event_td.html(obj.Division_id)
 				}

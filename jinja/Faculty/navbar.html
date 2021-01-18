@@ -1,7 +1,8 @@
-{%block navbar_starts%} {%endblock%}
+{%block navbar_starts%} {%endblock%} 
 <!-- content here -->
-<nav class="navbar navbar-expand-lg sticky-top navbar-dark" style="padding: 0.1rem 1rem">
-  <a class="navbar-brand" href="">Horarium</a>
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark"
+  style="padding: 0.1rem 1rem;font-family : poppins,sans-serif ">
+  <a href="{{url ('logout')}}" class="navbar-brand" style="font-size : 25px;" id="navbar-brand">Horarium</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -12,27 +13,29 @@
       <li class="nav-item active">
         <a class="nav-link" href="">Your Tables <span class="sr-only">(current)</span></a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="">Feedbacks</a>
-      </li>
+      <!-- <li class="nav-item">
+        <a class="nav-link" href="#">dakgfdkghdkfjhgkjfldghajfkl</a>
+            </li> -->
       <li class="nav-item">
         <div class="dropdown show">
           <!-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown link
-          </a> -->
-          <a class="nav-link dropdown-toggle" href="#" tabindex="-1" aria-disabled="true" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Yogesh Rathod</a>
-        
+                  Dropdown link
+                </a> -->
+          <a class="nav-link dropdown-toggle" href="" tabindex="-1" aria-disabled="true" role="button"
+            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user}}</a>
+
           <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-            
-              <div class="container" id="theme_toggler">
-                <label id="switch" class="switch">
-                  <input type="checkbox" onchange="toggle()" id="slider">
-                  <span class="slider round"></span>
-                </label>
-              </div>
+
+            <div class="container" id="theme_toggler">
+              <label id="switch" class="switch">
+                <input type="checkbox" onchange="toggle()" id="slider">
+                <span class="slider round"></span>
+              </label>
+            </div>
             <!-- </a> -->
-            <a class="dropdown-item text-center"  href="{{url ('logout')}}" style="background-color :#333">
-              <img src="{{static ('admin/details/img/power_light.png')}}" alt="" style="height: 30px;width:30px" class="text-center">
+            <a class="dropdown-item text-center" href="" style="background-color :#333">
+              <img src="{{static ('admin/details/img/power_light.png')}}" alt="" style="height: 30px;width:30px"
+                class="text-center">
             </a>
           </div>
         </div>

@@ -280,7 +280,7 @@ $(document).ready (function () {
 				$("#text").removeClass("glow");
 				// console.log(events[i]);
 				clearInterval(interval);
-				$("#text").html("No upcoming lecture 😎");
+				$("#text").html("No upcoming lectures 😎");
 				// console.log("No upcoming lecture .");
 			}
 		}

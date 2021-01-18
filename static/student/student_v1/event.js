@@ -217,8 +217,9 @@ $(document).ready (function () {
 						e = events[j];
 				}
 				w = (ct.delta(st).tis/et.delta(st).tis)*100;
-				// console.log(w);
-				$("#ct").html(ct.time[0] + " : " + ct.time[1] + e.name);
+				console.log(w);
+				$("#ct").html(ct.time[0] + " : " + ct.time[1]);
+				// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
 				if (w >= 100) {
 					clearInterval(id);
 					i = 0;
@@ -282,7 +283,7 @@ $(document).ready (function () {
 				$("#text").removeClass("glow");
 				// console.log(events[i]);
 				clearInterval(interval);
-				$("#text").html("No upcoming lecture 😎");
+				$("#text").html("No upcoming lectures 😎");
 				// console.log("No upcoming lecture .");
 			}
 		}

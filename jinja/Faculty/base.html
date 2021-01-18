@@ -29,11 +29,12 @@
 {# content block for the main contents of the body #}
 </body>
 <!-- scripts here -->
-{% block scripts %}
 	<script src="{{static ('student//BootStrap/jquery.min.js')}}"></script>
 	<script src="{{static ('student//BootStrap/bootstrap.min.js')}}"></script>
 	<script src="{{static ('student//AOS/aos.js')}}"></script>
+	<script src="{{static ('student//student_v1//event.js')}}"></script>
 	<script src="{{static ('student//BootStrap/MyDash/static/navbar.js')}}"></script>	
+{% block scripts %}
 {% endblock %}
 {# script block for all the scripts of the page #}
 </html>

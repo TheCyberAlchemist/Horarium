@@ -167,23 +167,24 @@ $(document).ready (function () {
 			if (events[i].start == st){		// if the first element is here
 				w = (events[i].end.delta(st).tis/et.delta(st).tis)*100;
 				$("#myProgress").append(
-					`<div id="timeBar" style="left:`+w+`%">
+					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].end.hrs+":"+events[i].end.min+`</span>
 					</div>`
 				);
-				console.log(events[parseInt(i)+1].start.delta(st).tis);
+				// console.log(events[parseInt(i)+1].start.delta(st).tis);
 			}else if (events[i].end == et){
 				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
 				$("#myProgress").append(
-					`<div id="timeBar" style="left:`+w+`%">
+					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
 					</div>`
 				);
 				break;
 			}else if(events[i].start.delta(st).tis > 0){
 				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
+				console.log(w,events[i].start);
 				$("#myProgress").append(
-					`<div id="timeBar" style="left:`+w+`%">
+					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
 					</div>`
 				);
@@ -216,7 +217,8 @@ $(document).ready (function () {
 						e = events[j];
 				}
 				w = (ct.delta(st).tis/et.delta(st).tis)*100;
-				$("#ct").html(ct.hrs + " : " + ct.min + e.name);
+				console.log(w);
+				$("#ct").html(ct.time[0] + " : " + ct.time[1] + e.name);
 				if (w >= 100) {
 					clearInterval(id);
 					i = 0;

@@ -102,7 +102,7 @@ function put_events(e,b){
 		events.push(temp_event);
 	}	
 	events.sort((a,b) => (a.start.tis > b.start.tis)? 1 : -1);
-	// console.table(events);
+	console.table(events);
 }
 
 function get_cell(e){
@@ -182,7 +182,7 @@ $(document).ready (function () {
 				break;
 			}else if(events[i].start.delta(st).tis > 0){
 				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
-				console.log(w,events[i].start);
+				// console.log(w,events[i].start);
 				$("#myProgress").append(
 					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>

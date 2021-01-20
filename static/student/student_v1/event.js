@@ -35,6 +35,7 @@ class time{
 		sec = (sec < 10) ? "0" + sec : sec
 		return [hr,min,sec];
 	}
+	
 }
 
 class event_class{
@@ -101,7 +102,7 @@ function put_events(e,b){
 		events.push(temp_event);
 	}	
 	events.sort((a,b) => (a.start.tis > b.start.tis)? 1 : -1);
-	// console.table(events);
+	console.table(events);
 }
 
 function get_cell(e){
@@ -132,38 +133,103 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 }
 
 $(document).ready (function () {
+	let st,et;
 	var sec = 0;
 	var i = 0;
+	function put_events_on_timeline(){
+		// for (let i in events){
+		// 	events[i].start_time
+		// }
+		for (let i in events){
+			if (!events[i].is_break){
+				$("#myProgress").append(
+					`<div id="timeBar_left">
+					<span class="text-left">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+					</div>`
+				);
+				st = events[i].start;
+				break;
+			}
+		}
+		for (let i=events.length-1;i>=0;i--){
+			if (!events[i].is_break){
+				$("#myProgress").append(
+					`<div id="timeBar_right">
+					<span class="text-right">`+events[i].end.hrs+":"+events[i].end.min+`</span>
+					</div>`
+				);
+				et = events[i].end;
+				break;
+			}
+		}
+		for (let i in events){
+			let w;
+			if (events[i].start == st){		// if the first element is here
+				w = (events[i].end.delta(st).tis/et.delta(st).tis)*100;
+				$("#myProgress").append(
+					`<div id="timeBar" style="width:`+w+`%">
+					<span class="text">`+events[i].end.hrs+":"+events[i].end.min+`</span>
+					</div>`
+				);
+				// console.log(events[parseInt(i)+1].start.delta(st).tis);
+			}else if (events[i].end == et){
+				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
+				$("#myProgress").append(
+					`<div id="timeBar" style="width:`+w+`%">
+					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+					</div>`
+				);
+				break;
+			}else if(events[i].start.delta(st).tis > 0){
+				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
+				// console.log(w,events[i].start);
+				$("#myProgress").append(
+					`<div id="timeBar" style="width:`+w+`%">
+					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+					</div>`
+				);
+			}
+		}
+		console.log(events[0].start);
+	}
+	put_events_on_timeline();
 	function main(){
 		// sec++;
 		var d = new Date();
 		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		// ct = new time(11,10,sec);
+		// ct = new time(8,10,sec);
 		/////////////////// progress-bar /////////////////////////////
-		if (i == 0) {
+		if (i == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
+			console.log("hi");
 			i = 1;
 			var elem = document.getElementById("myBar");
-			var width = 1;
 			var elem1 = document.getElementById("ct");
-			var width1 = 1;
 			var id = setInterval(frame, 1000);
 			function frame() {
-				var d = new Date();
+				// var d = new Date();
 				// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-				st = new time(9,15,0);
+				// st = new time(9,15,0);
 				// ct = new time(9,45,0);
-				et = new time(17,00,0);
+				// et = new time(17,00,0);
+				let e = false;
+				for(let j in events){
+					if (ct.delta(events[j].end).tis < 0 && ct.delta(events[j].start).tis > 0)
+						e = events[j];
+				}
 				w = (ct.delta(st).tis/et.delta(st).tis)*100;
-				$("#ct").html(ct.hrs + " : " + ct.min+ " : " + ct.sec);
+				console.log(w);
+				$("#ct").html(ct.time[0] + " : " + ct.time[1]);
+				// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
 				if (w >= 100) {
 					clearInterval(id);
 					i = 0;
 				} else {
-					width++;
 					elem.style.width = w + "%";
 					elem1.style.width = w + "%";
 				}
 			}
+		}else{
+			document.getElementById("myBar").style.width = 0 + "%";
 		}
 		/////////////////// main code /////////////////////////////		
 		// console.log(events,ct);
@@ -217,7 +283,7 @@ $(document).ready (function () {
 				$("#text").removeClass("glow");
 				// console.log(events[i]);
 				clearInterval(interval);
-				$("#text").html("No upcoming lecture 😎");
+				$("#text").html("No upcoming lectures 😎");
 				// console.log("No upcoming lecture .");
 			}
 		}

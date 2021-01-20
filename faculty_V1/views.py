@@ -23,6 +23,7 @@ def get_events_json(qs):
 			d["name"] = str(this.Subject_event_id.Subject_id)
 		d["resource"] = str(this.Resource_id)
 		del d['model'],d['fields']
+	print(qs)
 	return json.dumps(data)
 
 def get_break_json(qs,):
@@ -42,16 +43,19 @@ def faculty_home(request):
 	faculty = request.user.faculty_details
 	my_shift = faculty.Shift_id
 	my_events = Event.objects.filter(Subject_event_id__Faculty_id = faculty)
-	# print(my_events)
+	day = "Tuesday"
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
-		# 'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name="Wednesday")),
-		# 'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name="Wednesday"))
-		'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A"))),
-		'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
+		'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name=day)),
+		'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
+		# 'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A"))),
+		# 'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	}
 	# print(get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A"))))
-	print(context["events"])
+	print(context["events_json"])
 	return render(request,"Faculty/faculty_v1.html",context)
+
+def faculty_feedback(request) :
+	return render(request,"Faculty/feedback.html")

@@ -5,14 +5,6 @@
           box-sizing: border-box;
 }
 
-#event_form {
-  background-color: inherit;
-  border: 2px solid blue;
-  display: none;
-  position: absolute;
-  z-index: 1;
-}
-
 .table_and_card {
   display: -ms-grid;
   display: grid;
@@ -46,9 +38,17 @@
   height: 50px;
 }
 
+.my_row {
+  position: relative;
+}
+
 .my_col.isBreak {
   border-right: none;
   border-left: none;
+}
+
+.break_last .isBreak div {
+  position: absolute;
 }
 
 .break_last {

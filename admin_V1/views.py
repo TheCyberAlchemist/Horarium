@@ -87,9 +87,9 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 			# print(Event.objects.filter(Slot_id_id=d['pk']).values_list("id",flat=True))
 			d['fields']['resources_filled'] = list(Event.objects.filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
 		elif time_table:
-			d['fields']['Subject_color'] = qs.get(Subject_id=d['fields']['Subject_id']).Subject_id.color
-			d['fields']['Faculty_name'] = str(qs.get(pk = d['pk']).Faculty_id)
-			d['fields']['Subject_id'] = str(qs.get(Subject_id=d['fields']['Subject_id']).Subject_id)
+			d['fields']['Subject_color'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.color
+			d['fields']['Faculty_name'] = str(qs.filter(pk = d['pk'])[0].Faculty_id)
+			d['fields']['Subject_id'] = str(qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id)
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
 			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id__Faculty_id = d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
 		if not keep_pk:
@@ -521,13 +521,25 @@ def show_shift(request,Department_id,Shift_id = None):
 		return redirect(get_home_page(request.user))
 
 	return render(request,"admin/details/shift.html",context)
+from django.core.serializers.python import Serializer
 
+class MySerialiser(Serializer):
+	def end_object( self, obj ):
+		self._current['id'] = obj._get_pk_val()
+		include_list = ["Slot_id","Slot_id_2","Subject_event_id","Batch_id","Resource_id"]
+		res = dict([(key, val) for key, val in self._current.items() if key in include_list]) 
+		for i in res:
+			if not res[i]:
+				res[i] = ""
+		self.objects.append( res )
+		
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def show_table(request,Division_id):
 	# the remaining lect and prac for all the subjects should return 0,0
 	#  to start the timetable
+	context = return_context(request)
 	if request.method == "POST":
 		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
 		json_events = json.loads(request.body)
@@ -545,26 +557,30 @@ def show_table(request,Division_id):
 				form = add_event(event)
 				# print(form.is_valid())
 				# candidate = form.save(commit=False)
-				# candidate.Division_id = Division_id
-				
+				# candidate.Division_id = Division_id			
 		redirect('show_table',Division_id)
 
 	my_division = Division.objects.get(pk = Division_id)
 	Shift_id = my_division.Shift_id
 	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
-	# print(subjects)
+	serializer = MySerialiser()
+	my_semester = my_division.Semester_id
+	subject = {}
+	for i in Subject_details.objects.filter(Semester_id = my_semester):
+		subject[i] = Subject_event.objects.filter(Subject_id=i)
 	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
 	timings = Timings.objects.filter(Shift_id = Shift_id)
-	context = {
-		'working_days' : Working_days.objects.filter(Shift_id = Shift_id),
-		'timings' : timings,
-		'slots_json' : get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id),
-		'subject_events_json' : get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id),
-		'subject_events' : Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id"),
-		'resources' : Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id),
-		'batches': my_batches,
-		'batches_json': get_json(my_batches),
-	}
+	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
+	context['timings'] = timings
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
+	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
+	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
+	context['my_subjects'] = subject
+	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
+	context['my_batches'] = my_batches
+	context['batches_json'] = get_json(my_batches)
+
 	print(get_json(Batch.objects.filter(Division_id=Division_id)))
 	return render(request,"try/table.html",context)
 

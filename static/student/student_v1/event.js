@@ -102,6 +102,13 @@ function put_events(e,b){
 		events.push(temp_event);
 	}	
 	events.sort((a,b) => (a.start.tis > b.start.tis)? 1 : -1);
+	for (let j = events.length-1;j>=0;j--){
+		if (events[j].is_break){
+			events.splice(j,1);
+		}else{
+			break;
+		}
+	}
 	console.table(events);
 }
 
@@ -134,7 +141,6 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 
 $(document).ready (function () {
 	let st,et;
-	var sec = 0;
 	var i = 0;
 	function put_events_on_timeline(){
 		// for (let i in events){
@@ -193,11 +199,12 @@ $(document).ready (function () {
 		console.log(events[0].start);
 	}
 	put_events_on_timeline();
+	// var sec = 50;
 	function main(){
 		// sec++;
 		var d = new Date();
 		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		// ct = new time(8,10,sec);
+		// ct = new time(15,9,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (i == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
 			console.log("hi");
@@ -246,6 +253,9 @@ $(document).ready (function () {
 				}
 				if (events[i].is_break){	// if a break is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
+					next = events[parseInt(i)+1];
+					if (next && !(next.is_break || events[i].end.delta(next.start).tis))	// if up next
+						$("#text").append("<br>Up Next - "+ next.name );
 					// console.log("The break is :: ",get_cell(events[i]));
 					// console.log( events[i].name + " ends in :: ",get_counter(events[i],ct));
 
@@ -274,9 +284,9 @@ $(document).ready (function () {
 				// console.log("This lecture is :: ",get_cell(events[i]));
 				// console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
 				break;
-			}else if(events[i].gone(ct) && i != events.length){
+			}else if(events[i].gone(ct) && i != events.length-1){
 				continue;
-			}else if (events[i].gone(ct) && i == events.length){
+			}else if (events[i].gone(ct) && i == events.length-1){
 				for(var j = 0;j < i ; j++){
 					get_cell(events[j]).addClass("td_gone");
 				}

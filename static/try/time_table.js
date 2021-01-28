@@ -172,7 +172,7 @@ function get_cell(slot_id){
 		}
 	}
 	if (!slot_obj)
-	return false
+		return false
 	let tr = $("[timing_id=" + String(slot_obj.timing) + "]");
 	let td = tr.find('td:nth-child('+(slot_obj.day+1)+')')
 	return td;

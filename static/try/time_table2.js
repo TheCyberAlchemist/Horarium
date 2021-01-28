@@ -372,7 +372,13 @@ $(document).ready (function () {
 	$(".clear_td").click(function(){
 		slot_id = $(this).attr("slot_id")
 		if (get_cell(slot_id).hasClass("prac")){
-			
+			let i = get_event_index_by_slot(slot_id);
+			if (i){
+				clear_td(get_cell(events[i].Slot_id));
+				clear_td(get_cell(events[i].Slot_id_2));
+				events.splice(i,1);
+			}
+			console.table(events);
 		}else{
 			let i = get_event_index_by_slot(slot_id);
 			if (i){

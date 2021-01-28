@@ -552,24 +552,36 @@ def show_table(request,Division_id):
 		to_be_added = new_events.difference(old_events)
 		to_be_deleted = old_events.difference(new_events)
 		print(to_be_added,to_be_deleted)
-		if request.is_ajax():
-			for event in json_events:
-				form = add_event(event)
-				# print(form.is_valid())
-				# candidate = form.save(commit=False)
-				# candidate.Division_id = Division_id			
-		redirect('show_table',Division_id)
+		def foo(x,i):
+			if tuple(map(str, x.values())) == i:
+				return True
+			return False
+		for i in to_be_deleted:
+			def get_str(a):
+				return str(a) if a else None
+			TBD = Event.objects.get(Division_id=Division_id,Slot_id= get_str(i[0]))
+			print(TBD)
+			TBD.delete()
+		for i in to_be_added:
+			TBA = [x for x in json_events if foo(x,i)]
+			# print(TBA)
+			form = add_event(TBA[0])
+			candidate = form.save(commit=False)
+			candidate.Division_id_id = Division_id
+			form.save()
 
+		redirect('show_table',Division_id)
+	
 	my_division = Division.objects.get(pk = Division_id)
 	Shift_id = my_division.Shift_id
 	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
 	serializer = MySerialiser()
 	my_semester = my_division.Semester_id
+	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
+	timings = Timings.objects.filter(Shift_id = Shift_id)
 	subject = {}
 	for i in Subject_details.objects.filter(Semester_id = my_semester):
 		subject[i] = Subject_event.objects.filter(Subject_id=i)
-	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
-	timings = Timings.objects.filter(Shift_id = Shift_id)
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
@@ -581,7 +593,6 @@ def show_table(request,Division_id):
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches)
 
-	print(get_json(Batch.objects.filter(Division_id=Division_id)))
 	return render(request,"try/table.html",context)
 
 
@@ -757,4 +768,36 @@ def show_resource(request,Resource_id = None):
 	else:
 		return redirect(get_home_page(request.user))
 
+from admin_V1.algo import get_points
 
+def algo_context(request,Division_id):
+	context = {}
+	my_division = Division.objects.get(pk = Division_id)
+	Shift_id = my_division.Shift_id
+	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
+	serializer = MySerialiser()
+	my_semester = my_division.Semester_id
+	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
+	timings = Timings.objects.filter(Shift_id = Shift_id)
+	subject = {}
+	for i in Subject_details.objects.filter(Semester_id = my_semester):
+		subject[i] = Subject_event.objects.filter(Subject_id=i)
+	context["my_events"] = Event.objects.filter(Division_id=Division_id)
+	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
+	context['timings'] = timings
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
+	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
+	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
+	context['my_subjects'] = subject
+	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
+	context['my_batches'] = my_batches
+	context['batches_json'] = get_json(my_batches)	
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	return context
+
+def algo_v1(request,Division_id):
+	context = algo_context(request,Division_id)
+	context['this_subject_event'] = context["subject_events"][0]
+	context["points_json"] = json.dumps(get_points(context["subject_events"][0],context["my_events"],False))
+	return render(request,"try/algo_v1.html",context)

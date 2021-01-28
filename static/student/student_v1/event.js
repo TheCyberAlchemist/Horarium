@@ -186,9 +186,9 @@ $(document).ready (function () {
 					</div>`
 				);
 				break;
-			}else if(events[i].start.delta(st).tis > 0){
+			}else if(events[i].start.delta(st).tis > 0 && events[i].start.tis != st.tis){
 				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
-				// console.log(w,events[i].start);
+				console.log(w,events[i].start,st.tis);
 				$("#myProgress").append(
 					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>

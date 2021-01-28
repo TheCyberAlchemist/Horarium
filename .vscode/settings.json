@@ -1,3 +1,5 @@
 {
-    "liveServer.settings.port": 5501
+    "python.pythonPath": "C:\\Python38\\python.exe",
+    "python.linting.enabled": false
+    // "python.pythonPath": "C:\\Python38\\python.exe"
 }

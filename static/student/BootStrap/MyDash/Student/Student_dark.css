@@ -111,6 +111,7 @@ th:nth-of-type(1) {
 
 .container#text {
   padding-bottom: 0;
+  margin-top: 2em;
 }
 
 @-webkit-keyframes glow {
@@ -186,6 +187,9 @@ th:nth-of-type(1) {
     font-size: 15px;
     -webkit-transition: 1s;
     transition: 1s;
+  }
+  .container#text2 {
+    margin-bottom: 0em;
   }
 }
 /*# sourceMappingURL=Student_dark.css.map */

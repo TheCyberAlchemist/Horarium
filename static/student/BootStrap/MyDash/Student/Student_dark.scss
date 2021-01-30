@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-*{
+*{ 
   padding: 0;
   margin: 0;
   box-sizing: border-box;
@@ -112,6 +112,7 @@ th:nth-of-type(1) {
 }
 .container#text {
   padding-bottom: 0;
+  margin-top: 2em;
   // background-color: red;
 }
 @-webkit-keyframes glow {
@@ -183,5 +184,8 @@ scrollbar-width: thin !important;
   #text,#text2{
     font-size: 15px;
     transition: 1s;
+  }
+  .container#text2 {
+    margin-bottom: 0em;
   }
 }

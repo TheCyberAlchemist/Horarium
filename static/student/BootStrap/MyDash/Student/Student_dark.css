@@ -20,6 +20,10 @@ body {
   text-decoration: underline;
 }
 
+#agenda_panel a::after, #agenda_panel a::before {
+  display: none;
+}
+
 #agenda_panel {
   color: white;
   overflow-y: auto;

@@ -38,14 +38,14 @@ function toggle() {
       el1.disabled = "disabled";
       el2.disabled = false;
       localStorage.setItem("theme", "dark");
-    }
+    } 
 }
   put_events({{ events_json | safe}}, {{ break_json | safe}});
 
 </script>
 {% endblock %}
 {% block content %}
-<div class="container-fluid pt-4">
+<div class="container-fluid pt-4" translate="no">
   <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
     <div id="ct"></div>
     <div id="myBar"></div>
@@ -58,10 +58,10 @@ function toggle() {
       4:00:00
     </div>
   </div> -->
-  <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500">
+  <!-- <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500">
   </div>
   <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
-  </div>
+  </div> -->
   <div class="row">
     <div class="col-lg-9 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
       <table id="t1" class="">
@@ -358,7 +358,7 @@ function toggle() {
     <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-up" data-aos-duration="1000">
       <div class="card" id="agenda_panel">
 
-        <a class="nav-item nav-link" style="text-decoration:underline" href="#">Agenda</a>
+        <a class="nav-item nav-link" style="text-decoration:underline" href="">Agenda</a>
         <div class="container mt-3" >
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
           nisi praesentium placeat hic eum dolorem, sunt repellendus beatae

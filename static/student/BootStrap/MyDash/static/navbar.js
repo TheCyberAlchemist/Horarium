@@ -11,3 +11,17 @@ function scrollFunction() {
     document.getElementById("navbar-brand").style.backgroundColor = "#333";
   }
 }
+
+var lastScrollTop = 0;
+navbar = document.getElementById("navbar");
+window.addEventListener("scroll",function() {
+  var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  if(scrollTop > lastScrollTop) {
+    navbar.style.top = "-80px";
+    navbar.style.transition = ".5s";
+  }
+  else {
+    navbar.style.top = "0px";
+  }
+  lastScrollTop = scrollTop;
+});

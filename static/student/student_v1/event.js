@@ -175,6 +175,7 @@ $(document).ready (function () {
 				$("#myProgress").append(
 					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].end.hrs+":"+events[i].end.min+`</span>
+					<div class="circles"></div>
 					</div>`
 				);
 				// console.log(events[parseInt(i)+1].start.delta(st).tis);
@@ -183,6 +184,7 @@ $(document).ready (function () {
 				$("#myProgress").append(
 					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+					<div class="circles"></div>
 					</div>`
 				);
 				break;
@@ -192,6 +194,7 @@ $(document).ready (function () {
 				$("#myProgress").append(
 					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+					<div class="circles"></div>
 					</div>`
 				);
 			}

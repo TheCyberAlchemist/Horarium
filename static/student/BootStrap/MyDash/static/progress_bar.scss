@@ -11,7 +11,16 @@
     top : -30px;
     left: 18px;
     position: absolute;
-    
+  }
+  #ct::after {
+    content: "";
+    position: absolute;
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    background-color: rgb(0, 132, 255);
+    transform: translateX(-25px);
+    top :23px;
   }
   #timeBar {
     width: 1%;
@@ -127,6 +136,7 @@
   }
   
   @media (min-width: 600px) and (max-width: 1024px){   //for tablets
+    
     #myProgress {
       font-size: 13px;
       transition: 0.3s;
@@ -147,6 +157,19 @@
     }
 } 
   @media screen and (max-width: 600px) { //for mobile devices
+    #myBar {
+      height: 3px;
+    }
+    #ct::after {
+      content: "";
+      position: absolute;
+      height: 10px;
+      width: 10px;
+      border-radius: 50%;
+      background-color: rgb(0, 132, 255);
+      transform: translateX(-16px);
+      top :16px;
+    }
     #myProgress {
       font-size:10px;
       height: 2px;

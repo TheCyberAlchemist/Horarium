@@ -15,6 +15,18 @@
   position: absolute;
 }
 
+#ct::after {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: #0084ff;
+  -webkit-transform: translateX(-25px);
+          transform: translateX(-25px);
+  top: 23px;
+}
+
 #timeBar {
   width: 1%;
   height: 10px;
@@ -173,6 +185,20 @@
 }
 
 @media screen and (max-width: 600px) {
+  #myBar {
+    height: 3px;
+  }
+  #ct::after {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: #0084ff;
+    -webkit-transform: translateX(-16px);
+            transform: translateX(-16px);
+    top: 16px;
+  }
   #myProgress {
     font-size: 10px;
     height: 2px;

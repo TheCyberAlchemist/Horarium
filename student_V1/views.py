@@ -4,6 +4,8 @@ from django.core import serializers
 import json
 from datetime import datetime as date
 from django.db.models import Q
+from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
+from django.contrib.auth.decorators import login_required
 
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days
@@ -39,6 +41,8 @@ def get_break_json(qs,):
 		del d['model'],d['fields']
 	return json.dumps(data)
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
 def student_home(request):
 	# for i in Slots.objects.filter(day=2):
 	student = request.user.student_details

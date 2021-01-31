@@ -27,6 +27,9 @@ def login_page(request):
 		if user is not None:
 			page = get_home_page(user)
 			if page:
+				print("---------------------------------------")
+				print(user," -- Logged in")
+				print("---------------------------------------")
 				login(request, user)
 				return redirect(page)
 			else:
@@ -39,6 +42,9 @@ def login_page(request):
 
 
 def logout_user(request):
+	print("---------------------------------------")
+	print(request.user," -- Logged out")
+	print("---------------------------------------")
 	logout(request)
 	return redirect('login')
 

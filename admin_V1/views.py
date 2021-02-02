@@ -768,7 +768,7 @@ def show_resource(request,Resource_id = None):
 	else:
 		return redirect(get_home_page(request.user))
 
-from admin_V1.algo import get_points
+from admin_V1.algo import get_points,get_sorted_events
 
 def algo_context(request,Division_id):
 	context = {}
@@ -780,8 +780,10 @@ def algo_context(request,Division_id):
 	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
 	timings = Timings.objects.filter(Shift_id = Shift_id)
 	subject = {}
+
 	for i in Subject_details.objects.filter(Semester_id = my_semester):
 		subject[i] = Subject_event.objects.filter(Subject_id=i)
+	
 	context["my_events"] = Event.objects.filter(Division_id=Division_id)
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
@@ -798,6 +800,11 @@ def algo_context(request,Division_id):
 
 def algo_v1(request,Division_id):
 	context = algo_context(request,Division_id)
-	context['this_subject_event'] = context["subject_events"][0]
-	context["points_json"] = json.dumps(get_points(context["subject_events"][0],context["my_events"],False))
+	# delete all the prior events after taking the locked events
+
+	context['this_subject_event'],subject_events = get_sorted_events(context["subject_events"])#,locked_events)
+	for subject_event in subject_events:
+		get_points(subject_event,context["my_events"],False)
+	context["points_json"] = json.dumps(get_points(subject_events[0],context["my_events"],False))
+
 	return render(request,"try/algo_v1.html",context)

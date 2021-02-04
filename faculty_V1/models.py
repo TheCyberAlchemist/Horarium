@@ -62,3 +62,11 @@ class Not_available(models.Model):
 		return str(self.Faculty_id) + " - " + str(self.Slot_id)
 	class Meta:
 		verbose_name_plural = "Not Available"
+
+class Chart(models.Model) :
+	name = models.CharField(max_length=20)
+	money = models.IntegerField()
+
+	def __str__(self):
+		return str(self.name) + ' - ' + str(self.money)
+	

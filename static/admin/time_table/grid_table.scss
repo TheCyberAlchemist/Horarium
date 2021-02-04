@@ -28,9 +28,12 @@
     font-weight: bold;
     height: 50px;
 }
-.my_col.lect {
-    
-    // padding-top: 35px;
+.my_col.lect .h6{
+    // position: absolute;
+    // top : 50%;
+    // left : 50%;
+    // transform: translate(-50%,-50%);
+    margin-top: 25px;
 }
 .my_row {
     position: relative;

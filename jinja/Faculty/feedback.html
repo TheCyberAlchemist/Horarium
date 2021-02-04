@@ -38,10 +38,10 @@
 
         // The data for our dataset
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: [{%for i in qs%}'{{i.name}}',{%endfor%}],
             datasets: [{
                 label: 'My First dataset',
-                data: [10, 10, 5, 2, 20, 30, 45],
+                data: [{%for i in qs%} {{i.money}}, {%endfor%}],
                 backgroundColor : ['#FCDC3B','#A2EC88','#97FFD7','#567FCE','#FF4D94','#FF3C2A'],
                 borderColor : ['yellow','green','cyan','blue','pink','red','grey'],
                 borderWidth : 2,
@@ -58,10 +58,10 @@
 
         // The data for our dataset
         data: {
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            labels: [{%for i in qs%}'{{i.name}}',{%endfor%}],
             datasets: [{
                 label: 'My First dataset',
-                data: [10, 10, 5, 2, 20, 30, 45],
+                data: [{%for i in qs%} {{i.money}}, {%endfor%}],
                 //backgroundColor : ['red','green','blue','pink','purple','orange','cyan'],
                 backgroundColor : "pink",
                 borderColor : "red"

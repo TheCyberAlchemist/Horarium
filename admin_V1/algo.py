@@ -64,6 +64,7 @@ def check_other_events(slot,subject_event):
 def get_points(subject_event,all_events,is_prac):
 	point_dict = {}
 	all_slots = Slots.objects.filter(Timing_id__Shift_id = all_events[0].Slot_id.Timing_id.Shift_id).exclude(Timing_id__is_break = True).order_by("day")
+	print(subject_event)
 	prac,lect = subject_event.prac_carried,subject_event.lect_carried
 	day = None
 	for slot in all_slots:
@@ -74,7 +75,7 @@ def get_points(subject_event,all_events,is_prac):
 		e = all_events.filter(Slot_id = slot) | all_events.filter(Slot_id_2 = slot)
 		
 		if e and e[0].Batch_id:	# if there is a batch on the slot
-			print("here")
+			print(slot)
 		elif not e:		# if there is not an event on that slot
 			points = 0
 			day_events = all_events.filter(Slot_id__day = day)
@@ -90,3 +91,17 @@ def get_points(subject_event,all_events,is_prac):
 	# for event in all_events:
 	# 	if event.Subject_event_id == subject_event:
 	# 		print(event)
+
+def get_sorted_events(all_subject_events,locked_events = Event.objects.none()):
+	events = []
+	my_dict = {}
+	for subject_event in all_subject_events:
+		t = len(Not_available.objects.filter(Faculty_id = subject_event.Faculty_id))
+		t += len(Event.objects.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
+		t += len(locked_events.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
+		my_dict[subject_event] = t
+
+	my_dict = sorted(my_dict.items(), key=lambda item: item[1], reverse=True)
+	for i in my_dict:
+		events.append(i[0])
+	return events[2],events

@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from institute_V1.models import Slots,Working_days
 from faculty_V1.models import Not_available,Faculty_load
 from Table_V2.models import *
+
 REPETATION_WEIGHT = -8
 # NO_REPETATION_WEIGHT = 4
 OTHER_EVENT = 12
@@ -30,7 +31,7 @@ def check_repetation(day_events,subject_event,is_prac):
 	if repetation:
 		return REPETATION_WEIGHT * len(repetation)
 	return 0
-	
+
 def check_availability(slot,subject_event):
 	# returns -inf if the faculty is not available at that spot
 	if get_or_none(Not_available,None,Faculty_id=subject_event.Faculty_id,Slot_id=slot):
@@ -90,3 +91,17 @@ def get_points(subject_event,all_events,is_prac):
 	# for event in all_events:
 	# 	if event.Subject_event_id == subject_event:
 	# 		print(event)
+
+def get_sorted_events(all_subject_events,locked_events = Event.objects.none()):
+	events = []
+	my_dict = {}
+	for subject_event in all_subject_events:
+		t = len(Not_available.objects.filter(Faculty_id = subject_event.Faculty_id))
+		t += len(Event.objects.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
+		t += len(locked_events.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
+		my_dict[subject_event] = t
+
+	my_dict = sorted(my_dict.items(), key=lambda item: item[1], reverse=True)
+	for i in my_dict:
+		events.append(i[0])
+	return events[2],events

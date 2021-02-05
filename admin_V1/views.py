@@ -768,7 +768,7 @@ def show_resource(request,Resource_id = None):
 	else:
 		return redirect(get_home_page(request.user))
 
-from admin_V1.algo import get_points
+from admin_V1.algo import get_points,get_sorted_events
 
 def algo_context(request,Division_id):
 	context = {}
@@ -798,6 +798,10 @@ def algo_context(request,Division_id):
 
 def algo_v1(request,Division_id):
 	context = algo_context(request,Division_id)
-	context['this_subject_event'] = context["subject_events"][0]
-	context["points_json"] = json.dumps(get_points(context["subject_events"][0],context["my_events"],False))
+	# delete all the prior events after taking the locked events
+
+	context['this_subject_event'],subject_events = get_sorted_events(context["subject_events"])#,locked_events)
+	for subject_event in subject_events:
+		get_points(subject_event,context["my_events"],False)
+	context["points_json"] = json.dumps(get_points(subject_events[0],context["my_events"],False))
 	return render(request,"try/algo_v1.html",context)

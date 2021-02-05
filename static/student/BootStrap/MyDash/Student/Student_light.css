@@ -6,8 +6,29 @@
           box-sizing: border-box;
 }
 
+html {
+  background-color: #fff;
+}
+
 body {
   font-family: "Poppins", sans-serif;
+}
+
+hr {
+  background-color: black;
+}
+
+b a {
+  text-decoration: none !important;
+  color: black !important;
+}
+
+b a:hover {
+  text-decoration: none !important;
+}
+
+.h4 {
+  font-family: 'Poppins',sans-serif;
 }
 
 .container-fluid {

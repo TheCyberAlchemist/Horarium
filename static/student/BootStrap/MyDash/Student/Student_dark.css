@@ -7,8 +7,29 @@
   color: white;
 }
 
+html {
+  background-color: #1e1e2e;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
+}
+
+hr {
+  background-color: white;
+}
+
+b a {
+  text-decoration: none !important;
+  color: white !important;
+}
+
+.h4 {
+  font-family: 'Poppins',sans-serif;
+}
+
+b a:hover {
+  text-decoration: none !important;
 }
 
 .container-fluid {

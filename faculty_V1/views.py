@@ -4,7 +4,7 @@ import json
 from datetime import datetime as date
 from django.db.models import Q
 
-from faculty_V1.models import Faculty_details
+from faculty_V1.models import Faculty_details, Chart
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days
 # Create your views here.
@@ -58,4 +58,12 @@ def faculty_home(request):
 	return render(request,"Faculty/faculty_v1.html",context)
 
 def faculty_feedback(request) :
-	return render(request,"Faculty/feedback.html")
+
+	f_name = Chart.name
+	f_money = Chart.money
+	context = {
+		'name' : f_name,
+		'money' : f_money,
+	}
+	context["qs"] = Chart.objects.all()
+	return render(request,"Faculty/feedback.html",context)

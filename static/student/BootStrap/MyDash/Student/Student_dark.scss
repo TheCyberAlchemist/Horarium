@@ -5,9 +5,25 @@
   box-sizing: border-box;
   color: white;
 }
+html {
+  background-color: #1e1e2e;
+}
 body {
   // font-family: "Montserrat", sans-serif;
   font-family: 'Poppins', sans-serif;
+}
+hr {
+  background-color: white;
+}
+b a{
+  text-decoration: none !important; 
+  color: white !important;
+}
+.h4 {
+  font-family: 'Poppins',sans-serif;
+}
+b a:hover {
+  text-decoration: none !important;
 }
 .td_gone{
 // opacity: 0.7;
@@ -112,7 +128,7 @@ th:nth-of-type(1) {
 }
 .container#text {
   padding-bottom: 0;
-  margin-top: 3em;
+  margin-top: 3em; 
   // background-color: red;
 }
 @-webkit-keyframes glow {

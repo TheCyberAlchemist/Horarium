@@ -70,7 +70,7 @@
                 {% for subject in my_subjects %}
                     <div class="card">
                         <div class="card-header item" id="{{subject.id}}">
-                            <h3><button class="btn btn-primary collapsed" style="width: 150px;" data-toggle="collapse" data-target="#a{{loop.index}}"
+                            <h3><button class="btn btn-primary collapsed" style="width: 150px" data-toggle="collapse" data-target="#a{{loop.index}}"
                                 aria-expanded="false" aria-controls="a{{loop.index}}">
                                 {{subject}}
                             </button></h3>
@@ -79,7 +79,7 @@
                         {%for subject_event in my_subjects[subject]%}
                             {% if subject_event.lect_carried%}
                                 <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
-                                    <div class="draggable" subject_event_id="{{subject_event.id}}">
+                                    <div class="draggable" subject_event_id="{{subject_event.id}}" >
                                         <div class="card s ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
                                             <div class="card-body p-0">
                                                 <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
@@ -111,6 +111,9 @@
                     <h6 class="card-text text-right mr-2">By URT</h6>
                 </div>
             </div> -->
+            <div class="container text-center">
+                <button class="btn btn-primary"onclick="submited()">Submit</button>
+            </div>
         </div>
     </div>
     <div class="container my_container my_table_new">
@@ -224,7 +227,7 @@
     </div>
 </div>
 {{csrf_input}}
-<button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button>
+<!-- <button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button> -->
 <div class='context-menu' style="display:none; position: absolute;">
     <ul>
         <li>

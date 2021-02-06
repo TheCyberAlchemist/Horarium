@@ -780,10 +780,8 @@ def algo_context(request,Division_id):
 	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
 	timings = Timings.objects.filter(Shift_id = Shift_id)
 	subject = {}
-
 	for i in Subject_details.objects.filter(Semester_id = my_semester):
 		subject[i] = Subject_event.objects.filter(Subject_id=i)
-	
 	context["my_events"] = Event.objects.filter(Division_id=Division_id)
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
@@ -806,5 +804,4 @@ def algo_v1(request,Division_id):
 	for subject_event in subject_events:
 		get_points(subject_event,context["my_events"],False)
 	context["points_json"] = json.dumps(get_points(subject_events[0],context["my_events"],False))
-
 	return render(request,"try/algo_v1.html",context)

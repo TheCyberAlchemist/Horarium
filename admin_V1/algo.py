@@ -3,6 +3,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from institute_V1.models import Slots,Working_days
 from faculty_V1.models import Not_available,Faculty_load
 from Table_V2.models import *
+
 REPETATION_WEIGHT = -8
 # NO_REPETATION_WEIGHT = 4
 OTHER_EVENT = 12
@@ -30,7 +31,7 @@ def check_repetation(day_events,subject_event,is_prac):
 	if repetation:
 		return REPETATION_WEIGHT * len(repetation)
 	return 0
-	
+
 def check_availability(slot,subject_event):
 	# returns -inf if the faculty is not available at that spot
 	if get_or_none(Not_available,None,Faculty_id=subject_event.Faculty_id,Slot_id=slot):
@@ -64,7 +65,6 @@ def check_other_events(slot,subject_event):
 def get_points(subject_event,all_events,is_prac):
 	point_dict = {}
 	all_slots = Slots.objects.filter(Timing_id__Shift_id = all_events[0].Slot_id.Timing_id.Shift_id).exclude(Timing_id__is_break = True).order_by("day")
-	print(subject_event)
 	prac,lect = subject_event.prac_carried,subject_event.lect_carried
 	day = None
 	for slot in all_slots:
@@ -75,7 +75,7 @@ def get_points(subject_event,all_events,is_prac):
 		e = all_events.filter(Slot_id = slot) | all_events.filter(Slot_id_2 = slot)
 		
 		if e and e[0].Batch_id:	# if there is a batch on the slot
-			print(slot)
+			print("here")
 		elif not e:		# if there is not an event on that slot
 			points = 0
 			day_events = all_events.filter(Slot_id__day = day)

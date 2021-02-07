@@ -9,7 +9,6 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('institute_V1', '0001_initial'),
         ('login_V2', '0001_initial'),
     ]
 
@@ -18,7 +17,6 @@ class Migration(migrations.Migration):
             name='Admin_details',
             fields=[
                 ('User_id', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to='login_V2.customuser')),
-                ('Institute_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='institute_V1.institute')),
             ],
             options={
                 'verbose_name_plural': 'Admin Details',

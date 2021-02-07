@@ -40,7 +40,7 @@
           localStorage.setItem("theme", "dark");
         }
     }
-
+  put_events({{ events_json | safe}}, {{ break_json | safe}});
 </script>
 {% endblock %}
 {% block content %}

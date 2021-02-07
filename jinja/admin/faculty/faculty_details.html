@@ -149,7 +149,7 @@
             <select name="Designation_id" id="designations">
               <option disabled {% if not update %}selected{% endif %}>Select Designation</option>
               {% for designation in designations %}
-              <option value="{{designation.id}}" {% if update and designation.id==update[1].Designation_id%}selected{%
+              <option value="{{designation.id}}" {% if update and designation.id==update[1].Designation_id_id%}selected{%
                 endif %}>
                 {{designation}}
               </option>
@@ -162,7 +162,7 @@
             <select name="Shift_id" id="shifts">
               <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
               {% for shift in my_shifts %}
-              <option value="{{shift.id}}" {% if update and shift.id==update[1].Shift_id%}selected{% endif %}>
+              <option value="{{shift.id}}" {% if update and shift.id==update[1].Shift_id_id%}selected{% endif %}>
                 {{shift}}
               </option>
               {%endfor%}

@@ -23,7 +23,7 @@ def get_events_json(qs):
 			d["name"] = str(this.Subject_event_id.Subject_id)
 		d["resource"] = str(this.Resource_id)
 		del d['model'],d['fields']
-	print(qs)
+	# print(qs)
 	return json.dumps(data)
 
 def get_break_json(qs,):
@@ -54,7 +54,7 @@ def faculty_home(request):
 		# 'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	}
 	# print(get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A"))))
-	print(context["events_json"])
+	print(context["events"])
 	return render(request,"Faculty/faculty_v1.html",context)
 
 def faculty_feedback(request) :

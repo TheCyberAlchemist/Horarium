@@ -1,0 +1,241 @@
+{% extends 'admin/base.html' %}
+{% block title %}Batch{% endblock title %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{static ('admin/details/timetable.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('admin/time_table/grid_table.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+<style>
+    .not_available_td {
+        background-color: red;
+    }
+
+    .available_td {
+        background-color: green;
+    }
+
+    .here {
+        background-color: blue;
+    }
+</style>
+{%endblock%}
+{% block scripts %}
+<script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+    integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="{{static ('try/time_table2.js') }}"></script>
+<script>
+    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}});
+    $("#resources").select2();
+    $("#batches").select2();
+
+</script>
+{%endblock%}
+{% block content %}
+
+<form id="event_form" class="event_form">
+    <div class="select2_container single_select2">
+        <select id="resources">
+            <option disabled selected value=-1>Select the room </option>
+            {% for resource in resources %}
+            <option value="{{resource.id}}">{{resource}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="select2_container single_select2" style="margin-top: 1em;">
+        <select id="batches">
+            <option disabled selected>Select the batch </option>
+            {% for batch in my_batches %}
+            <option value="{{batch.id}}">{{batch}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <br>
+    <div class="container text-center">
+        <button type="button" id="cancel">Cancel</button>
+        <button type="button" id="aform">Submit</button>
+    </div>
+</form>
+<div class="table_and_card">
+    <div class="card-container">
+        <div class="card-list">
+            <div id="accordion">
+                {% for subject in my_subjects %}
+                    <div class="card">
+                        <div class="card-header item" id="{{subject.id}}">
+                            <h3><button class="btn btn-primary collapsed" style="width: 150px" data-toggle="collapse" data-target="#a{{loop.index}}"
+                                aria-expanded="false" aria-controls="a{{loop.index}}">
+                                {{subject}}
+                            </button></h3>
+                        </div>
+                        {%set a = loop.index%}
+                        {%for subject_event in my_subjects[subject]%}
+                            {% if subject_event.lect_carried%}
+                                <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                    <div class="draggable" subject_event_id="{{subject_event.id}}" >
+                                        <div class="card s ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
+                                            <div class="card-body p-0">
+                                                <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
+                                                <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                            {% if subject_event.prac_carried%}
+                                <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                    <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac = "true">
+                                        <div class="card s ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
+                                            <div class="card-body p-0">
+                                                <h4 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h4>
+                                                <h6 class="card-text text-right mr-2 mt-3">By {{subject_event.Faculty_id}}</h6>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- <div class="card" style="background-color: #ff3333;">
+                <div class="card-body p-0">
+                    <h4 class="card-title text-left">DBMS prac</h4>
+                    <h6 class="card-text text-right mr-2">By URT</h6>
+                </div>
+            </div> -->
+            <div class="container text-center">
+                <button class="btn btn-primary"onclick="submited()">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div class="container my_container my_table_new">
+        <div class="row my_row row_header">
+            <div class="col my_col align-middle"> <span class="h6">Time</span></div>
+            {% for day in working_days %}
+            <div class="col my_col"> <span class="h6">{{day.Days_id}}</span> </div>
+            {%endfor%}
+        </div>
+        {% for timing in timings %}
+        <div class="row my_row" timing_id={{timing.id}}>
+            <!-- <div class="row"></div> -->
+            <div class="col my_col lect">
+                <p class="h6">
+                    {{timing.name}}<br>
+                    [{{timing.return_time()}}]
+                </p>
+            </div>
+            {% if timing.is_break %}
+            {% set len = working_days|length %}
+            {% for day in working_days %}
+            <div class="col my_col isBreak">
+                {%if loop.index==1%}
+                <div class="">
+                    <span class="h4">{{timing.name}}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for day in working_days %}
+            <div class="col my_col lect droppable"></div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {%endfor%}
+        <div class="row my_row">
+            <div class="col my_col lect">10:00</div>
+            <div class="col my_col prac prac_above">
+                <div class="container text-center">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col my_col prac prac_below">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect try_button"></div>
+            <div class="col my_col prac">
+                <div class="row p-2">
+                    <div class="col-12">
+                        <button class="btn btn-primary mt-1">Hello</button>
+                    </div>
+                    <div class="col-6 text-left">URT</div>
+                    <div class="col-6 text-right">305</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{csrf_input}}
+<!-- <button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button> -->
+<div class='context-menu' style="display:none; position: absolute;">
+    <ul>
+        <li>
+            <!-- <span class='clear_td'></span>&nbsp; -->
+            <div class='clear_td'>Clear</div>
+            <div class="clear_td">Lock <img class="input_icons" src="{{static ('admin/details/img/lock.png')}}"></img>
+            </div>
+        </li>
+    </ul>
+</div>
+{%endblock%}

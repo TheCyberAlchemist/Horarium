@@ -1,0 +1,137 @@
+{% extends 'admin/base.html' %}
+{% block title %}Batch{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+    <link rel="stylesheet" href="{{static ('form/form.css')}}">
+    {% endblock css %}
+    {% block scripts %}
+    <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+    <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script>
+      activate("{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.a");
+      $(document).ready(function() {
+        $("#batches").select2();
+      });
+      {% if update %}
+        form_visibility(true);
+      {% endif %}
+    </script>
+{% endblock scripts %}
+
+{% block content %}
+	  <div class="whole_container" id="whole_container_id">
+      <fieldset>
+        <legend>{% if update %}Update{% else %}Add{% endif %} Batch</legend>
+        <form class="myform" method = "POST" {% if not update %}style="display: none;"{% endif %}>
+          {{csrf_input}}
+          <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+          <div class="input_container">
+            <img class="input_icons" src="{{static ('admin/details/img/div.png')}}" alt="dept">
+            <input type="text" name="name" class ="form_input" required maxlength="50" {% if update %} value = {{update.name}}{% endif %} />
+            <label for="" class="form_input_label">
+              <div class="text">Batch Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+          <div class="input_container">
+            <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
+            <input type="text" class="form_input" name="link" autocomplete="off" {% if update and update.link%}value = {{update.link}}{% endif %}>
+            <label for="" class="form_input_label">
+              <div class="text">Meeting Link (if any)</div>
+              <div class="line"></div>
+            </label>
+          </div>
+          <div class="select2_container single_select2">
+            <select name="batch_for" id="batches">
+              <option disabled selected>Select Batch Type</option>
+              <option value="prac" {% if update and update.batch_for == "prac"%} selected{% endif %}>Practical</option> 
+              <option value="lect" {% if update and update.batch_for == "lect"%} selected{% endif %}>Lecture</option>
+            </select>
+          </div>
+          <div class="submit_button_container">
+            <button type="submit" name="button" value="submit" class="submit_button" onclick="">Submit</button>
+          </div>
+        </form>
+        <div class="form_visibility_img_container">
+          <button class="show_form_button" onclick="form_visibility()">
+          <p id="myp">Show Form</p>
+        </button>
+        </div>
+        {% if integrityErrors %}
+          <div class="errors_container">
+            <p>
+              {{integrityErrors}}
+            </p>
+          </div>
+        {% endif %}
+        {% if errors %}
+        <div class="errors_container">
+          <p>
+            {{errors}}
+          </p>
+        </div>
+        <script>
+            show_error("{{errors}}")
+        </script>
+      {% endif %}
+      </fieldset>
+
+    <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->  
+      <div class="table_container">
+            <div class="table_search_box">
+              <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+            </div>
+            <table id = "db_table">
+              <thead>
+                <div class="delete_panel" >
+                  <h1>Batches for {{my_division.name}}({{my_division.Semester_id}})</h1>
+                  <a style="display: none;" id="del" onclick="delete_entries()" >
+                  <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                </a>
+                </div>
+                <tr>
+                  <th>Id</th>
+                  <th>Batch Name</th>
+                  <th>Batch for</th>
+                  <th>Edit</th>
+                  <th>
+                    <!-- Edit -->
+                    <div class="checkboxes" onclick="checkAll();">
+                      <input type="checkbox" id="parent" name="parent" value="parent">
+                      <label for="parent"></label> 
+                    </div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for batch in my_batches %}
+                  <tr>
+                    <td>{{loop.index}}</td>
+                    <td>{{batch.name}}</td>
+                    {% if batch.batch_for == 'prac'%}
+                      <td>Practical</td>
+                    {% else %}
+                      <td>Lecture</td>
+                    {% endif %}
+                    <td>
+                        <a href = "{{url ('update_batch' ,args=[my_division.id,batch.id])}}">
+                    <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" onclick="#">
+                  </a>
+                    </td>
+                    <td>
+                      <div class="checkboxes" onclick="checkSelected()">
+                      <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{batch.id}}">
+                      <label for="{{loop.index}}"></label>
+                    </div>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock content %}

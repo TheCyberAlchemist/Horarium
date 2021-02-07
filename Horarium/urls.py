@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from django.conf.urls import url
+from django.views.generic import RedirectView
+import admin_V1.views as v
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('table/',include('TableV1.urls')),
-    path('',include('login.urls')),
+    path('Admin/',include('admin_V1.urls')),
+    path('student/',include('student_V1.urls')),
+    path('faculty/',include('faculty_V1.urls')),
+    path('',include('login_V2.urls')),
+    url(r'^favicon\.ico$',RedirectView.as_view(url='/static/site_logo.ico')),
+    url(r'^a/(?P<Division_id>\d+)/$',v.algo_v1,name = 'a')
 ]

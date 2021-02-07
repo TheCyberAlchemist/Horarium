@@ -1,0 +1,107 @@
+<link rel="stylesheet" type="text/css" href="{{static ('admin/details/timetable.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('admin/time_table/grid_table.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+<style>
+.col{
+	border:2px solid black;
+}
+</style>
+{{this_subject_event}}
+<script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+<script>
+slots = []
+class slot{
+	constructor(id = 0,day = 0,timing = 0,resources_filled=0){
+		this.id = id;
+		this.day = day;
+		this.timing = timing;
+		this.resources_filled = resources_filled;
+	}
+}
+function put_data(slots_json){
+	for (let i in slots_json){
+		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
+		slots.push(temp_slot);
+	}
+
+}
+function get_cell(slot_id){
+	let slot_obj;
+	// console.log(slot_id);
+	for (i in slots){
+		if (String(slots[i].id) == String(slot_id)){
+			slot_obj = slots[i];
+		}
+	}
+	if (!slot_obj)
+		return false
+	let tr = $("[timing_id=" + String(slot_obj.timing) + "]");
+	let td = tr.find('.my_col:nth-child('+(slot_obj.day+1)+')')
+	return td;
+}
+put_data({{slots_json | safe}});
+console.log({{points_json | safe}},slots)
+$(document).ready (function () {
+    for (let i in {{points_json | safe}}){
+        td = get_cell(i);
+        if (td){
+            td.html(String({{points_json | safe}}[i]))
+            //if ({{points_json | safe}}[i])
+            //    td.html(String({{points_json | safe}}[i]));
+            //    //td.css("background-color","red")
+            //else
+            //    td.css("background-color","green")
+        }
+    }
+});
+</script>
+<div class="container my_container my_table_new">
+        <div class="row my_row row_header">
+            <div class="col my_col align-middle"> <span class="h6">Time</span></div>
+            {% for day in working_days %}
+                <div class="col my_col"> <span class="h6">{{day.Days_id}}</span> </div>
+            {%endfor%}
+        </div>
+        {% for timing in timings %}
+        <div class="row my_row" timing_id="{{timing.id}}">
+            <!-- <div class="row"></div> -->
+            <div class="col my_col lect">
+                <p class="h6">
+                    {{timing.name}}<br>
+                    [{{timing.return_time()}}]
+                </p>
+            </div>
+            {% if timing.is_break %}
+            {% set len = working_days|length %}
+            {% for day in working_days %}
+            <div class="col my_col isBreak">
+                {%if loop.index==1%}
+                <div class="">
+                    <span class="h4">{{timing.name}}</span>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+            {% else %}
+            {% for day in working_days %}
+                {% set vars = {'foo': False} %}
+                {% for event in my_events %}
+                    {% if event.Slot_id.Timing_id.id == timing.id and event.Slot_id.day == day%}
+                        <div class="col my_col lect droppable">{{event.Subject_event_id}}</div>
+                        {% if vars.update({'foo': True}) %} {% endif %}
+                    {% elif event.Slot_id_2 and event.Slot_id_2.Timing_id.id == timing.id and event.Slot_id.day == day%}
+                        <div class="col my_col lect droppable">{{event.Subject_event_id}}</div>
+                        {% if vars.update({'foo': True}) %} {% endif %}
+                    {% endif %}
+                {% endfor %}
+                {% if not vars['foo'] %}
+                    <div class="col my_col lect droppable"></div>
+                {% endif %}
+
+            {% endfor %}
+            {% endif %}
+        </div>
+        {%endfor%}
+    </div>

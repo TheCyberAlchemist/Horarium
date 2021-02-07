@@ -1,0 +1,93 @@
+{% extends 'admin/base.html' %}
+{% block title %}Slots{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{{static ('form/form.css') }}">
+    <link rel="stylesheet" href="{{static ('try/slot2.css') }}">
+    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+{% endblock css %}
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script type="text/javascript" src = "{{static ('jquery.js') }}"></script>
+  <script type="text/javascript" src = "{{static ('try/slot2.js') }}"></script>
+  <script type="text/javascript" src = "{{static ('form/form.js') }}"></script>
+  <script>
+    set_shift("9:00","17:00");
+  </script>
+{%endblock scripts%}
+
+{% block content %}
+<div id="first_form">
+  <input type="number" id = "Duration" style="color: black;"/>
+  <label><input value = "numbers" type="radio" name = "Naming" style="color: black;"/>[1 - 10] </label>
+  <label><input value = "small" type="radio" name = "Naming" style="color: black;"/>[a - z]</label>
+  <label><input value = "capital" type="radio" name = "Naming" style="color: black;"/>[A - Z]</label>
+  <button id = "first_form_submit">hiii</button>
+</div>
+<div class="whole_container">
+  <!-- <div class="mytable_container"> -->
+    <fieldset>
+      <legend>Add Slots</legend>
+    <form id = "slot_form" class="slot_form" method="POST" style="display: none;">
+      {{csrf_input}}
+      <br>
+    <div class="input_container">
+      <img class="input_icons" src="{{static ('admin/details/img/calendar.png')}}" alt="Slot Name">
+      <input type="text" class="form_input" name="name" maxlength="20" required id="id_name">
+      <label for="id_name" class="form_input_label">
+        <div class="text">Slot Name</div>
+        <div class="line"></div>
+      </label>
+    </div>
+    
+    <div class="input_container">
+        <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="Start">
+        <input type="time" class="form_input" name ="start_time" id="start_time">
+        <label for="start_time" class="form_input_label">
+          <div class="text">Start Time</div>
+          <div class="line"></div>
+        </label>
+      </div>
+      <div class="input_container">
+        <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="End">
+        <input type="time" class="form_input" name ="end_time" id = "end_time">
+        <label for="end_time" class="form_input_label">
+          <div class="text">End Time</div>
+          <div class="line"></div>
+        </label>
+      </div>
+      <div class="input_container" style="border: none;">
+        <div class="checkboxes" onclick="" id="is_break">
+          Is Break : <input type="checkbox" class="" id="id_is_break" name="is_break">
+          <label for="id_is_break"></label>
+        </div>
+      </div>
+      <div class="submit_button_container">
+        <button type="button" id = "Go" >Go</button>
+        <button type="button" id = "Go_here" >Go Here</button>
+        <button type="button" id = "edit" >Edit</button>
+      </div>
+    </form>
+    <div class="submit_button_container">
+      <button type="button" id="add_row" onclick = 'submited()'>Add Slot</button>
+    </div>
+  </fieldset>
+      <div class="table_container">
+      <table id="myTable" class="mytable" style="display: none;">
+        <thead>
+          <tr>
+            <th>Slot Name</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Is a Break</th>
+            <th>Edit</th>
+            <th>add next</th>
+          </tr>
+        </thead>
+        <tbody class="mytbody"></tbody>
+          <!-- <tr><td>A</td><td>09:00</td><td>09:05</td><td>False</td><td><button type="button" class="add_here">ADD</button></td></tr><tr><td>B</td><td>09:05</td><td>09:10</td><td>True</td><td><button type="button" class="add_here">ADD</button></td></tr> -->
+      </table>
+      </div>
+</div>
+  {% endblock content %}

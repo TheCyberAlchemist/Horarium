@@ -1,0 +1,176 @@
+{% extends 'admin/base.html' %}
+{% block title %}Subject Event{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+    <link rel="stylesheet" href="{{static ('form/form.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+{% endblock css %}
+{% block scripts %}
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <script src="{{static ('admin/details/subject/subject_event.js')}}" charset="utf-8"></script>
+    <script>
+      $(document).ready(function() {
+        $("#select_fac").select2();
+      });
+      activate("{{my_branch.Department_id}}.{{my_branch}}.b");
+      put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
+      {% if update %}
+        add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
+      {% endif %}
+    </script>
+
+{% endblock scripts %}
+
+{% block content %}
+	  <div class="whole_container" id="whole_container_id">
+      <fieldset>
+        <legend>{% if update %}Update{% else %}Add{% endif %} Subject Event</legend>
+        <form class="myform" method = "POST" {% if not update %}style="display:none"{% endif %}>
+          {{csrf_input}}
+          <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+          {% if update %}
+          <div class="input_container">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="start">
+            <input type="text" disabled id = "name" class="form_input" name="name" required autocomplete="off" {% if update%} value = "{{update.Faculty_id.User_id}}" {% endif %}>
+            <label for="name" class="form_input_label">
+              <div class="text">Faculty Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+          {% endif %}
+          {%if not update %}
+            <div class="select2_container single_select2" style="margin-bottom: 1em;">
+              <select name="Faculty_id" id="select_fac" >
+                <option value="a" disabled selected>Select Faculty </option>
+                {% if not update %}
+                  {% for faculty in my_faculty %}
+                    <option value="{{faculty.id}}">{{faculty.User_id}} ({{faculty.short}})</option>
+                  {% endfor %}
+                {% else %}
+                  <option value="{{update.Faculty_id_id}}" selected >{{update.Faculty_id.User_id}} ({{update.Faculty_id.short}})</option>
+                {% endif %}
+              </select>
+            </div>
+            {% endif %}
+          <div class="input_container_double">
+            <div class="input_container_double_1" >
+              <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
+              <input type="number" id = "lect" class="form_input" name="lect_carried" required autocomplete="off" {% if update%}value = {{update.lect_carried}}{% endif %}>
+              <label for="lect" class="form_input_label">
+                <div class="text">Lectures taken</div>
+                <div class="line"></div>
+              </label>
+            </div>
+            <div class="input_container_double_2" style="border: none;">
+              <!-- <span id = "max_lect">Max</span> -->
+              <label for="lect" class="form_input_label">
+                <div class="text" id = "max_lect"></div>
+                <div class="line"></div>
+              </label>
+            </div>
+          </div>
+          <div class="input_container_double">
+            <div class="input_container_double_1">
+              <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
+              <input type="number" id = "prac" class="form_input" name="prac_carried" required autocomplete="off" {% if update%}value = {{update.prac_carried}}{% endif %}>
+              <label for="prac" class="form_input_label">
+                <div class="text">Practicals taken</div>
+                <div class="line"></div>
+              </label>
+            </div>
+            <div class="input_container_double_2" style="border: none;">
+              <!-- <span id = "max_prac">Max</span> -->
+              <label for="prac" class="form_input_label">
+                <div class="text" id="max_prac"></div>
+                <div class="line"></div>
+              </label>
+            </div>              
+          </div>
+          <div class="submit_button_container">
+            <button type="submit" name="button" class="submit_button">Submit</button>
+          </div>
+        </form>
+        <div class="form_visibility_img_container" >
+          <button class="show_form_button" onclick="form_visibility()">
+          <p id="myp">Show Form</p>
+        </button>
+        </div>
+        {% if integrityErrors %}
+          <div class="errors_container">
+            <p>
+              {{integrityErrors}}
+            </p>
+          </div>
+        {% endif %}
+        {% if errors %}
+          <div class="errors_container">
+            <p>
+              {{errors}}
+            </p>
+          </div>
+          <script>
+            show_error("{{errors}}")
+          </script>
+        {% endif %}
+      </fieldset>
+
+    <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+    <div class="table_container">
+        <h3>Remaining Lectures : {{remaining_lect}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+        Remaining Practicals : {{remaining_prac}}</h3>
+      <table id = "db_table">
+        <thead>
+          <tr>
+            <div class="delete_panel">
+              <h1 >Events for {{my_subject}}</h1>
+              <a style="display: none;" id="del" onclick="delete_entries()" >
+                <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+              </a>
+            </div>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Short</th>
+            <th>Practicals</th>
+            <th>Lectures</th>
+            <th>Total Hrs.</th>
+            <th>Edit</th>
+            <th>
+              <div class="checkboxes" onclick="checkAll();">
+                <input type="checkbox"  id="parent" name="parent" value="parent">
+                <label for="parent"></label> 
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for event in Subject_event %}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>{{event.Faculty_id.User_id}}</td>
+              <td>{{event.Faculty_id.short}}</td>
+              <td>{{event.prac_carried}}</td>
+              <td>{{event.lect_carried}}</td>
+              <td>{{event.total_load_carried()}} Hrs.</td>
+              <td>
+                <a href = "{{url ('update_sub_event' ,args=[my_subject.id,event.Faculty_id_id])}}">
+                  <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+                </a>
+              </td>
+              <td>
+                <div class="checkboxes" onclick="checkSelected()">
+                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{event.id}}">
+                  <label for="{{loop.index}}"></label>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+<a href="{{url ('show_sub_det' , args=[my_branch.id])}}">
+  <h2 style="color: white;margin-top:20px "> <span style="border-bottom : 2px solid white">Go Back to Subject Details </span> </h2>
+</a>
+    </div>
+  </div>
+{% endblock content %}

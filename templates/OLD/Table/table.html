@@ -1,0 +1,227 @@
+{% extends 'Table/base.html' %}
+{% load static %}
+{% block title %}
+	Table
+{% endblock %}
+{% block css %}	<!--  css links  -->
+ 
+
+<link rel="stylesheet" type="text/css" href="{%static 'index.css'%}">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css">
+<link rel="stylesheet" href="{%static 'OLD_stuff/table/button.css'%}">
+
+{% endblock %}
+
+{% block content %}
+
+{% comment %} <p>
+ <!-- Welcome,{{request.user}} -->
+ {% comment %} <a href = "{% url 'logout' %}" style="z-index : 101">logout </a>
+ <!-- <a href = "{% url 'day_form' %}">day select</a> -->
+</p> {% endcomment %}
+
+
+<!--button table-->
+
+<div class="main_container">
+
+	<div class="card-container">
+		<section class="card-list">
+		  <article class="card" draggable="true">
+			<header class="card-header">
+			  <h2>DBMS</h2>
+			  <p></p>
+			</header> 
+			<div class="card-author">
+			  <img src="man2.png" alt="plus">
+			</div>
+			<div class="author-name">
+			  Author URT
+			</div>
+		  </article>
+	
+		  <article class="card">
+			<header class="card-header">
+			  <h2>DS</h2>
+			  <p></p>
+			</header>
+			<div class="card-author">
+			  <img src="man2.png" alt="plus">
+			</div>
+			<div class="author-name">
+			  Author US
+			</div>
+		  </article>
+	
+		  <article class="card">
+			<header class="card-header">
+			  <h2>AEM</h2>
+			  <p></p>
+			</header>
+			<div class="card-author">
+			  <img src="man2.png" alt="plus">
+			</div>
+			<div class="author-name">
+			  Author DD
+			</div>
+		  </article>
+	
+		  <article class="card">
+			<header class="card-header">
+			  <h2>OOP</h2>
+			  <p></p>
+			</header>
+			<div class="card-author">
+			  <img src="man2.png" alt="plus">
+			</div>
+			<div class="author-name">
+			  Author AT
+			</div>
+		  </article>
+	
+		  <article class="card">
+			<header class="card-header">
+			  <h2>OOP</h2>
+			  <p></p>
+			</header>
+			<div class="card-author">
+			  <img src="man2.png" alt="plus">
+			</div>
+			<div class="author-name">
+			  Author AT
+			</div>
+		  </article>
+		  <article class="card">
+			<header class="card-header">
+			  <h2>OOP</h2>
+			  <p></p>
+			</header>
+			<div class="card-author">
+			  <img src="man2.png" alt="plus">
+			</div>
+			<div class="author-name">
+			  Author AT
+			</div>
+		  </article>
+		</section>
+		</div>
+
+
+
+	<div class="butcontainer">
+		<table id="table_but">
+			<thead>
+			</thead>
+			<tbody class="tbooty">
+				{% for event_butt in event_butts %} <!-- show all events button -->
+					<tr><td>
+						<div pk = "{{event_butt.id}}" class = "draggable" name = "{{event_butt.event_name}}" color = "{{event_butt.event_color}}" style = "background-color: {{event_butt.event_color}}">
+							{{event_butt.event_name}}
+						</div>
+					</td></tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<!-- <button name="add" > <img src="plus1.png" class="addBut" alt="plus"> </button> -->
+		<img src="{% static 'plus1.png' %}" class="addBut" alt="plus" onclick="location.href={% url 'add_event'%}">
+	</div>
+</div>
+
+<!-- POP UP FORM  -->
+
+  <div class="form-container" id="form-container-id" href="{% url 'add_event'%}">
+    <div class="form-container-div">
+      <div id="close-form" onclick="closeform()">+</div>
+      <form method="POST" class="myform" id="myform-id">
+			{%csrf_token%}
+			{% comment %} <input type="text" name="event_name">
+			<input type="text" name="event_link">
+			<input type="text" name="event_color">
+			<input type="submit" value="Submit"> {% endcomment %}
+			{{form}}
+		</form>
+	  </div>
+  </div>
+
+  <!-- POP UP FORM ENDS -->
+
+<!-- main timetable -->
+<table style = "width:{{table_width}}px;" class="main_table">
+	<thead>
+		<th>
+			Time
+		</th>
+		{% for day in days %}	<!--for all days in database-->
+			<th>
+				{{day}}
+			</th>
+		{% endfor %}
+	</thead>
+	<tbody class="table_time">
+		{% for period in periods %} <!--for all time periods in database-->
+			<tr>
+				<th pk = "{{period.id}}">
+					<p>
+						{{period}}
+					</p>
+				</th>
+				{% for day in days %}
+					<td class = "droppable" day = "{{day}}" period = "{{period.id}}">
+						<div class = "td_div"></div>
+					</td>
+				{% endfor %}
+			</tr>
+		{% endfor %}
+	</tbody>
+	{% comment %} <tfoot>
+    <tr>
+      <td colspan = "{{day_len}}"  ><img src="{% static 'plus1.png' %}" class="addRow" alt="plus"></td>
+    </tr>
+
+  </tfoot> {% endcomment %}
+</table>
+<div id = "trash">
+hwewrsdfasdfsafasfasf<br>
+hwewrsdfasdfsafasfasf<br>
+hwewrsdfasdfsafasfasf<br>
+hwewrsdfasdfsafasfasf<br>
+
+</div>
+
+<script>
+	td = document.getElementsByClassName("droppable");
+	{% for event in events %}	//iterating over all events in database
+		for (i = 0 ; i < td.length ; i++){
+			day = td[i].getAttribute("day");
+			period_id = td[i].getAttribute("period");
+			// if day of event and day of cell is same
+			// and period id of event object and period id of cell is same
+			if(day == "{{event.day}}" && period_id == {{event.time_obj.id}}){
+				var div = td[i].getElementsByClassName("td_div")[0];
+				td[i].setAttribute("pk","{{event.event_obj.id}}");
+				div.innerHTML="{{event.event_obj}}";
+				div.style.backgroundColor = "{{event.event_obj.event_color}}";
+				//div.setAttribute("class","td_div abc");
+				break;
+			}
+		}
+	{% endfor %}
+</script>
+<br>
+<center><button class="save">Save</button></center>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script type="text/javascript" src="{%static 'index.js'%}"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson.js'%}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.1/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson-row.js'%}"></script>
+<script type="text/javascript" src="{%static 'tabletojson/tabletojson-cell.js'%}"></script>
+
+{% endblock %}

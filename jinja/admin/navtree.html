@@ -1,0 +1,73 @@
+
+<link rel="stylesheet" type="text/css" href="{{static ('admin/navtree.css')}}">
+<div class="wrapper">
+    <ul>
+      <li class="noline">
+          {{institute}}
+          <ul>
+            <li>
+              <label for="a" class = "not_data">Department Details</label>
+            </li>
+          {% for department in departments %}
+            <li><label for="{{department}}">{{department}}</label><input id="{{department}}" type="checkbox" checked>
+                <ul>
+                  <span class="more">&hellip;</span>
+                  <li>
+                    <label for="{{department}}.a" class = "data"><a href = {{url ('show_branch' ,args=[department.id])}}>Branch Details</a></label>
+                  </li>
+                   <li>
+                     <label for="{{department}}.a" class = "not_data"><a>Faculty</a></label>
+                   </li>
+
+
+                  {% for key1,values1 in courses.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
+                    <li><label for="{{department}}.{{value1}}">{{value1}}</label>
+                    <input id="{{department}}.{{value1}}" type="checkbox" checked><ul>
+                    <span class="more">&hellip;</span>
+                    <li>
+                      <label for="{{department}}.{{value1}}.a" class = "not_data">Semester Details</label>
+                    </li>
+                      {% for key2,values2 in sems.items() %}{% if key2 == value1.id %}{% for value2 in values2 %}
+                        <li><label for="{{department}}.{{value1}}.{{value2}}">{{value2}}</label>
+                        <input id="{{department}}.{{value1}}.{{value2}}" type="checkbox" checked ><ul>
+                        <span class="more">&hellip;</span>
+                        <li>
+                          <label for="{{department}}.{{value1}}.{{value2}}.a" class = "not_data">Division Details</label>
+                        </li>
+
+                        {% for key3,values3 in divs.items() %}{% if key3 == value2.id %}{% for value3 in values3 %}
+                          <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}">{{value3.name}}</label>
+                          <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}" type="checkbox" checked ><ul>
+                          <span class="more">&hellip;</span>
+                          <li>
+                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "not_data">Create table</label>
+                          </li>
+                          <li>
+                            <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.b" class = "not_data">Add Batch</label>
+                          </li>
+                            {% for key4,values4 in batches.items() %}{% if key4 == value3.id %}{% for value4 in values4 %}
+                              <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}">{{value4}}</label>
+                              <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}" type="checkbox" checked ><ul>
+                              <span class="more">&hellip;</span>
+                            </ul></li>{% endfor %}{% endif %}{% endfor %}
+                        </ul></li>{% endfor %}{% endif %}{% endfor %}
+                      </ul></li>{% endfor %}{% endif %}{% endfor %}
+                    </ul></li>{% endfor %}{% endif %}{% endfor %}
+                </ul>
+            </li>
+          {% endfor %}
+          </ul>
+      </li>
+    </ul>
+</div>
+<!--{#
+  {% for key3,values3 in divs.items() %}{% if key3 == value2.id %}{% for value3 in values3 %}
+    <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}">{{value3.name}}</label>
+    <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}" type="checkbox" checked ><ul>
+    <span class="more">&hellip;</span>
+    <li>
+      <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class = "not_data">Add Batch</label>
+    </li>
+    ............code here
+  </ul></li>{% endfor %}{% endif %}{% endfor %}
+#}-->

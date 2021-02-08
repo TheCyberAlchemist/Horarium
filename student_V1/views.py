@@ -20,11 +20,10 @@ def get_events_json(qs):
 		if this.Slot_id_2:  # if practical
 			d["end_time"] = str(this.Slot_id_2.Timing_id.end_time)
 			d["name"] = str(this.Subject_event_id.Subject_id) + " Practical"
-			d["link"] = this.Batch_id.link
 		else:			# if lecture
 			d["end_time"] = str(this.Slot_id.Timing_id.end_time)
 			d["name"] = str(this.Subject_event_id.Subject_id)
-			d["link"] = this.Division_id.link
+		d["link"] = this.link
 		d["resource"] = str(this.Resource_id)
 		del d['model'],d['fields']
 	return json.dumps(data)
@@ -48,7 +47,7 @@ def student_home(request):
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.filter(Q(Batch_id=student.Batch_id) | Q(Batch_id=None),Division_id=student.Division_id)
-	day = "Wednesday"
+	# day = "Wednesday"
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
@@ -59,5 +58,5 @@ def student_home(request):
 		'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	}
 	# print(get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A"))))
-	# print("hello")
+	print(context["events_json"])
 	return render(request,"Student/student_v1.html",context)

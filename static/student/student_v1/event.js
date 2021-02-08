@@ -200,7 +200,7 @@ $(document).ready (function () {
 				);
 			}
 		}
-		console.log(events[0].start);
+		// console.log(events[0].start);
 	}
 	put_events_on_timeline();
 	// var sec = 50;

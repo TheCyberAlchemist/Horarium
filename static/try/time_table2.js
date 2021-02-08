@@ -246,7 +246,7 @@ function change_lect_td(td,subject_event_id,resource){	// change lecture ondrop
 	td.html(`
 		<div class='row p-2'>
 		<div class='col-12'>
-			<button class='btn btn-primary mt-1 mb-1'>`
+			<button class='btn mt-1 mb-1' style = ' background-color:`+subject_event.color+`'>`
 				+subject_event.subject_name+
 			`</button>
 		</div>

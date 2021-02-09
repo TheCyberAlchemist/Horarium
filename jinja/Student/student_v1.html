@@ -21,8 +21,9 @@
     //  }
       let cookie = localStorage.getItem("theme") || "";
       if (cookie === "dark"){
+        $("#slider1").prop("checked",true);
+          // console.log("hi");
         toggle();
-        $("#slider").prop("checked",true);
       }
     })(); 
 });
@@ -118,9 +119,11 @@ function toggle() {
                       <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
-                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                        <span>{{temp_event.a.Resource_id}}</span>
-                      </div>
+                      {%if temp_event.a.Resource_id %}
+                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                          <span>{{temp_event.a.Resource_id}}</span>
+                        </div>
+                      {%endif%}
                     </div>
                   </div>
                 </td>
@@ -137,9 +140,11 @@ function toggle() {
                       <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
-                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                        <span>{{temp_event.a.Resource_id}}</span>
-                      </div>
+                      {%if temp_event.a.Resource_id %}
+                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                          <span>{{temp_event.a.Resource_id}}</span>
+                        </div>
+                      {%endif%}
                     </div>
                   </div>
                 </td>

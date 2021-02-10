@@ -39,6 +39,7 @@ def get_break_json(qs,):
 		del d['model'],d['fields']
 	return json.dumps(data)
 
+
 def faculty_home(request):
 	# for i in Slots.objects.filter(day=2):
 	faculty = request.user.faculty_details
@@ -49,12 +50,13 @@ def faculty_home(request):
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
-		# 'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name=day)),
-		# 'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
-		'events_json' : get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A"))),
-		'break_json' : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	}
-	# print(get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A"))))
+	if day:
+		context['events_json'] : get_events_json(my_events.filter(Slot_id__day__Days_id__name=day))
+		context['break_json'] : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
+	else:
+		context['events_json'] : get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
+		context['break_json'] : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))	
 	# print(context["events"])
 	return render(request,"Faculty/faculty_v1.html",context)
 
@@ -66,5 +68,5 @@ def faculty_feedback(request) :
 		'name' : f_name,
 		'money' : f_money,
 	}
-	context["qs"] = Chart.objects.all()
+	# context["qs"] = Chart.objects.all()
 	return render(request,"Faculty/feedback.html",context)

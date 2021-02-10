@@ -2,18 +2,18 @@ window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
   if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
-    document.getElementById("navbar-brand").style.fontSize = "20px";
-    document.getElementById("navbar-brand").style.transition = ".5s";
-    document.getElementById("navbar-brand").style.backgroundColor = "transparent";
+    document.getElementsByClassName("navbar-brand")[0].style.fontSize = "20px";
+    document.getElementsByClassName("navbar-brand")[0].style.transition = ".5s";
+    document.getElementsByClassName("navbar-brand")[0].style.backgroundColor = "transparent";
   } else {
-    document.getElementById("navbar-brand").style.fontSize = "25px";
-    document.getElementById("navbar-brand").style.transition = ".5s";
-    document.getElementById("navbar-brand").style.backgroundColor = "#333";
+    document.getElementsByClassName("navbar-brand")[0].style.fontSize = "25px";
+    document.getElementsByClassName("navbar-brand")[0].style.transition = ".5s";
+    document.getElementsByClassName("navbar-brand")[0].style.backgroundColor = "#333";
   }
 }
 
 var lastScrollTop = 0;
-navbar = document.getElementById("navbar");
+navbar = document.getElementsByClassName("navbar")[0];
 window.addEventListener("scroll",function() {
   var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
   if(scrollTop > lastScrollTop) {

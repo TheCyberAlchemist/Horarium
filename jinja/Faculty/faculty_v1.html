@@ -54,8 +54,8 @@
     <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
     </div>
   <div class="row">
-    <div class="col-lg-9 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
-      <table id="t1">
+    <div class="col-lg-12 col-md-12 col-sm-12 pt-3 mx-auto" data-aos="fade-down" data-aos-duration="2500">
+      <table id="t1" class="mx-auto" style="width: 90%;">
         <thead>
           <tr>
             <th>Time</th>
@@ -349,10 +349,10 @@
         </tbody>
       </table>
     </div>
-    <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-left" data-aos-duration="1000">
+    <!-- <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-left" data-aos-duration="1000">
       <div class="card" id="agenda_panel">
 
-        <a class="nav-item nav-link" style="text-decoration:underline" href="">Agenda</a>
+        <a class="nav-item nav-link" style="text-decoration:underline" >Agenda</a>
         <div class="container mt-3">
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
           nisi praesentium placeat hic eum dolorem, sunt repellendus beatae
@@ -370,73 +370,8 @@
           <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  style="border: 1px solid #333;"></textarea>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 
-  <!-- Button trigger modal -->
-  <button type="button" class="btn modal_btn" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
-
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-      <div class="modal-content">
-        <div class="modal-header border-0">
-          <h5 class="modal-title" id="exampleModalLabel">Feedback</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <!-- <span aria-hidden="true">&times;</span> -->
-          </button>
-        </div>
-        <div class="modal-body text-center">
-          <div class="h4 text-center"> How was your experience for Lecture?</div>
-
-          <label class="radio-inline" for="1">
-            <input type="radio" id="1" value="" name="1">&nbsp;Very Bad
-          </label>
-          <label class="radio-inline" for="2">
-            <input type="radio" value="" id="2" name="1">&nbsp;Bad
-          </label>
-          <label class="radio-inline" for="3">
-            <input type="radio" value="" id="3" name="1">&nbsp;Average
-          </label>
-          <label class="radio-inline" for="4">
-            <input type="radio" id="4" value="" name="1">&nbsp;Good
-          </label>
-          <label class="radio-inline" for="5">
-            <input type="radio" value="" id="5" name="1">&nbsp;Very Good
-          </label>
-          <label class="radio-inline" for="6">
-            <input type="radio" value="" id="6" name="1">&nbsp;Not Applicable
-          </label>
-
-          <div class="h4 text-center"> How was your experience for Practical?</div>
-          <label class="radio-inline" for="1">
-            <input type="radio" id="1" value="" name="2">&nbsp;Very Bad
-          </label>
-          <label class="radio-inline" for="2">
-            <input type="radio" value="" id="2" name="2">&nbsp;Bad
-          </label>
-          <label class="radio-inline" for="3">
-            <input type="radio" value="" id="3" name="2">&nbsp;Average
-          </label>
-          <label class="radio-inline" for="4">
-            <input type="radio" id="4" value="" name="2">&nbsp;Good
-          </label>
-          <label class="radio-inline" for="5">
-            <input type="radio" value="" id="5" name="2">&nbsp;Very Good
-          </label>
-          <label class="radio-inline" for="6">
-            <input type="radio" value="" id="6" name="2">&nbsp;Not Applicable
-          </label>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-          <button type="button" class="modal_btn btn">Submit</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+  
 {% endblock %}

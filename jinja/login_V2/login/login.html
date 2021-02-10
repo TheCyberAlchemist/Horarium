@@ -101,6 +101,13 @@ function visibility2() {
           </div>
           <input type="submit" class="login_btn" value="Sign up" />
         </form>
+        {% if errors %}
+          <div>
+            <p>
+              Invalid Username or password
+            </p>
+          </div>
+        {% endif %}
       </div>
     </div>
 

@@ -49,17 +49,17 @@ def student_home(request):
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.filter(Q(Batch_id=student.Batch_id) | Q(Batch_id=None),Division_id=student.Division_id)
-	# day = "Wednesday"
+	day = ""
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
 	}
 	if day:
-		context['events_json'] : get_events_json(my_events.filter(Slot_id__day__Days_id__name=day))
-		context['break_json'] : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
+		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=day))
+		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
 	else:
-		context['events_json'] : get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
-		context['break_json'] : get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))		
-	print(context["events_json"])
+		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
+		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))		
+	# print(context["events_json"])
 	return render(request,"Student/student_v1.html",context)

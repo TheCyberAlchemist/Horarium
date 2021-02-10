@@ -45,7 +45,7 @@ def faculty_home(request):
 	faculty = request.user.faculty_details
 	my_shift = faculty.Shift_id
 	my_events = Event.objects.filter(Subject_event_id__Faculty_id = faculty)
-	day = ""
+	day = None
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,

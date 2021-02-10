@@ -1,11 +1,12 @@
-function put_data(slots_json){
+function put_data(slots_json,abc){
 	json = JSON.parse(slots_json.replace(/&#34;/ig,'"',));
 	for (i in json){
 		temp_slot = new slot(json[i].pk,json[i].fields.day,json[i].fields.Timing_id)
 		slots.push(temp_slot);
 		// console.log(json[i].fields.Timing_id);
 	}
-	// console.log(slots);
+	// slots = abc;
+	console.log(slots);
 
 }
 var events_json;
@@ -30,7 +31,6 @@ function get_slot(td){
 	// console.log(slots[0],day,time);
 	for (i in slots){	
 		if (slots[i].day == day && slots[i].timing == time){
-			console.log("hello");
 			return slots[i].id;
 		}
 	}
@@ -43,6 +43,15 @@ class event_class {
 		this.subject_event = subject_event;
 	}
 }
+
+function get_cell(obj){
+	// console.log(obj);
+	let tr = $("[timing_id=" + String(obj['fields'].Timing_id) + "]");
+	let td = tr.find('td:nth-child('+(obj['fields'].day+1)+')')
+	// console.log(td);
+	return td;
+}
+
 
 
 $(document).ready (function () {
@@ -94,15 +103,16 @@ $(document).ready (function () {
 	}
 	///////////////////////////// Not Available ///////////////////////
 	else if($(".submit_not_avail").length){
-		console.log(events_json);
+		// console.log(events_json);
 		for(i in events_json){		// all the events are marked and disabled
-			console.log(events_json[i]);
+			// console.log(events_json[i]);
 			var td = get_cell(events_json[i])
 			td.find("input[type='checkbox']").removeAttr("name");
 			td.css({"backgroundColor" : "blue","opacity" : ".5"})
 		}
 		for(i in not_available_json){	// all the not_available are checked
 			get_cell(not_available_json[i]).find("input[type='checkbox']").prop("checked", true);
+			// console.log(get_cell(not_available_json[i]));
 		}
 		function change_css(){			// changes the color of all when called
 			$("tbody").find("input:checkbox[name=not_available]").each(function(){
@@ -117,13 +127,7 @@ $(document).ready (function () {
 			});
 		}
 		change_css();
-		function get_cell(obj){
-			console.log(obj);
-			let tr = $("[timing_id=" + String(obj['fields'].Timing_id) + "]");
-			let td = tr.find('td:nth-child('+(obj['fields'].day+1)+')')
-			console.log(td);
-			return td;
-		}
+		
 		$(".td").click(function(){
 			var checkbox = $(this).find("input[type='checkbox']");
 			checkbox.prop("checked", !checkbox.prop("checked"));
@@ -141,7 +145,7 @@ $(document).ready (function () {
 			});
 			change_css()
 		});
-		$(".day").hover(function() {  // changes css when hovered on day column
+		$(".day").hover(function() {  // changes css when hovered on day column  //css in timetable.css
 			var index = $(this)[0].cellIndex;
 			var td = $('tbody').find('td:nth-child('+(index+1)+')');
 			td.addClass("td_color");
@@ -152,7 +156,7 @@ $(document).ready (function () {
 			td.removeClass("td_color");
 		}
 		);
-		$(".time").click(function(){
+		$(".time").click(function(){ 
 			var tr = $(this).parent();
 			var td = tr.find('td');
 			var input = td.find("input[type='checkbox']");
@@ -166,7 +170,7 @@ $(document).ready (function () {
 			});
 			change_css();
 		});
-		$(".time").hover(function() {  // changes css when hovered on time row
+		$(".time").hover(function() {  // changes css when hovered on time row  //css in timetable.css
 			var tr = $(this).parent();
 			var td = tr.find('td');
 			td.addClass("td_color");
@@ -186,18 +190,20 @@ $(document).ready (function () {
 				type: "post",
 				data: JSON.stringify(checked),
 				success: function (){
+					location.reload();		  
 				}
 			});
 			// console.log(checked);
 		});
-		}
+	}
 });
+
 function submited(){
-	// console.log(JSON.stringify(events),1);
+	console.log("JSON.stringify(events),1)");
 	  $.ajax({
 		  type: "post",
 		  data: JSON.stringify(events),
 		  success: function (){
-		  }
+		}
 	  });
-  }
+}

@@ -139,7 +139,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'abc')
+STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 
 AUTH_USER_MODEL = 'login_V2.CustomUser'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'

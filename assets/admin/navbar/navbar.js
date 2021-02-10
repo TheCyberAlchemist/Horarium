@@ -1,41 +1,50 @@
 $(document).ready(function(){
   /////////////////////// Navbar Animation //////////////////////
-  $(".wrapper").animate({height:"0%",},200);
+  $(".navtree_wrapper").animate({height:"0%",},200);
     offset = l.length? l.offset() : 0;
     $(".me").click(function(){
       $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
-      $('.wrapper').animate({
+      $('.navtree_wrapper').animate({
             scrollTop: offset.top,
             scrollLeft: offset.left/1.5,
         }, 0);
-    $(".wrapper").animate({height:'100%'},300);
-    $(".wrapper").animate({height:'95%'},250);
-    $(".wrapper").animate({height:'100%'},200);
-    $(".wrapper").animate({height:'98%'},100);
-    $(".wrapper").animate({height:'100%'},100);
-    $(".wrapper").animate({height:'99%'},80);
-    $(".wrapper").animate({height:'100%'},70);
+    $(".navtree_wrapper").animate({height:'100%'},300);
+    $(".navtree_wrapper").animate({height:'95%'},250);
+    $(".navtree_wrapper").animate({height:'100%'},200);
+    $(".navtree_wrapper").animate({height:'98%'},100);
+    $(".navtree_wrapper").animate({height:'100%'},100);
+    $(".navtree_wrapper").animate({height:'99%'},80);
+    $(".navtree_wrapper").animate({height:'100%'},70);
     //$(".toggle_button").css({"height":"40px","width":"50px"});
     $(".toggle_button").animate({height:'40px',width:'50px'},10);
     $("fieldset").hide();
     $(".table_container").hide();
     $(".nav_container").hide();
+    if($(".table_and_card")) {
+      console.log("table&card hide");
+      $(".table_and_card").hide();
+    }
       //$(".nav_container").animate({width:'0%',height:'0%'},100);
   });
   
   $(".not_me").click(function(){
     $(".toggle_button").css({"height":"0px","width":"0px"});
-    $(".wrapper").animate({height:'0%'},400);
+    $(".navtree_wrapper").animate({height:'0%'},400);
     $("#whole_container_id").css({"height":"100%","width":"100%","transition":".3s"});
     $("fieldset").show();
     $(".table_container").show();
     $(".nav_container").show();
     $(".nav_container").animate({width:'100%',height:'100%'},100);
+    $("#add_slot_form").hide();
+    if($(".table_and_card")) {
+      console.log("table&card show");
+      $(".table_and_card").show();
+    }
   });
 
   $("#show_tree label").click(function(){
     o = $(this).offset();
-    $('.wrapper').animate({
+    $('.navtree_wrapper').animate({
       scrollLeft: ($ (window). width () - $(this).width ()) / 2 + o.left,
     }, 650);
     my_input = $(this).parent().find("input").first();

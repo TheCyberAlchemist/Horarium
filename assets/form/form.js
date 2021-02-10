@@ -14,31 +14,13 @@ $(document).ready(function () {
     }
   });
 
-  /*//////////////DROPDOWN//////////////*/
-  if ($("#designations").length) {
-    $("#designations").select2();
-    $("#shifts").select2();
-  }
-  if ($("#day1").length) {
-    $("#day1").select2();
-    $("#day2").select2();
-  }
-  if ($("#batches").length) {
-    $("#batches").select2();
-  }
-  if ($("#slot_naming").length) {
-    $("#slot_naming").select2();
-  }
-  /* ///////////TO UpperCase/////////////// */
 
-  // $('.short_names').val($('.short_names').val().toUpperCase());
+  /* ///////////TO UpperCase/////////////// */
 
   $(".submit_button").click(function () {
     if ($('.short_names').length)
       $('.short_names').val($('.short_names').val().toUpperCase());
   });
-  // /* //////Scroll into view ///////// */
-
 
   /**//////////// Can Teach ///////////////////
   $('.can_container li :checkbox').on('click', function () {
@@ -101,23 +83,11 @@ $(document).ready(function () {
       }
     }
   });
-
-  if ($("#first_form").length) {  //if there is firstform
-    $("#first_form").css({ // to make slotDetails Pop Up in center
-      "position": "absolute",
-      "top": "50%",
-      "left": "50%",
-      "transform": "translate(-50%,-50%)",
-      "opacity": "1",
-      "z-index": "100",
-    });
-    $("#whole_container_id,.submit_button_container").addClass("blur_background");
-    //check #first_form_submit in slot.js  
-  }
   $(".form_hider").click(function () {
     $(".myform").hide();
     $(".form_visibility_img_container").show();
     $(".pagination_container").hide();
+    $("#add_row").show();
   });
 });
 function valid_input() {
@@ -141,9 +111,13 @@ function valid_input() {
     "font-size": "16px",
     "color": "rgb(185, 184, 184)"
   });
+  update_div.css({
+    "top" : "6px",
+    "color" : "grey",
+    "user-select" : "none"
+  });
 }
 function visibility1(self) {
-  console.log(self);
   var a = document.getElementById("myinput1");
   var b = document.getElementById("hide1");
   var c = document.getElementById("hide2");
@@ -182,6 +156,19 @@ function delete_entries() {
   let state = JSON.stringify(checked);
   if (checked.length) {  // checkes if one or more are selected or not
     // console.log(state)
+    swal({
+      title: "Warning!",
+      text: "This Data will be deleted!\nNice\nLorem ipsum dolor sit amet consectetur adipisicing elit. Sequi, repellendus soluta libero voluptatum eligendi quos aspernatur possimus commodi, dolores odio repellat itaque consectetur natus consequatur laboriosam quaerat fuga at laborum.\nThe following items will be deleted : \nCSE, IT, BTECH",
+      icon: "warning",
+      dangerMode : true,
+      buttons: ["Cancel","Delete"],
+    })
+    .then((willDelete) => {
+    if (willDelete) {
+      swal("", {
+        icon: "success",
+        text : "Deleted Successfully!"
+      });
     $.ajax({
       type: "post",
       data: state,
@@ -190,15 +177,23 @@ function delete_entries() {
       }
     });
   }
+  else {
+    swal("Your changes are not saved!");
+  }
+}
+    )}
 }
 
-
-function form_visibility() {
+function form_visibility(update = false) {
 
   var form = document.getElementsByClassName("myform")[0];
   var p = document.getElementById("myp");
   var pages = document.getElementsByClassName("pagination_container")[0];
   var container = document.getElementsByClassName("form_visibility_img_container")[0];
+  if (update) {
+    container.style.display = "none";
+    return
+  }
   if (form.style.display == "none") {
     // p.innerHTML = "Close Form";
     container.style.display = "none";

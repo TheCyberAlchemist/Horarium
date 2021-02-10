@@ -8,10 +8,10 @@
   border: none;
 }
 
-.myform .select2_container {
+.myform .select2_container.single_select2 {
   border-width: 1px;
   width: 100%;
-  padding-left: 10em;
+  text-align: center;
   -webkit-transition: .1s;
   transition: .1s;
 }
@@ -111,7 +111,15 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #shifts, #day1, #day2, #batches, #slot_naming, #resources {
+#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources {
   width: 300px;
+}
+
+#shifts {
+  width: 350px;
+}
+
+#select_fac {
+  width: 500px;
 }
 /*# sourceMappingURL=myselect2.css.map */

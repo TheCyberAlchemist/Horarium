@@ -5,7 +5,8 @@ from institute_V1.models import Department
 from django.contrib.auth import get_user_model
 from institute_V1.models import Shift,Institute,Slots
 from subject_V1.models import Subject_details,Subject_event
-
+from Table_V2.models import Event
+from login_V2.models import CustomUser
 ################################################
 
 N_len = 50
@@ -70,3 +71,34 @@ class Chart(models.Model) :
 	def __str__(self):
 		return str(self.name) + ' - ' + str(self.money)
 	
+
+class Feedback(models.Model):
+	# timestamp = 
+	Event_id = models.ForeignKey(Event,on_delete=models.CASCADE)
+	Given_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+
+	rating = (
+		('5',"5"),
+		('4',"4"),
+		('3',"3"),
+		('2',"2"),
+		('1',"1"),
+	)
+
+	Q1 = models.CharField(max_length = 1 ,choices=rating)
+	Q2 = models.CharField(max_length = 1 ,choices=rating)
+	Q3 = models.CharField(max_length = 1 ,choices=rating)
+	Q4 = models.CharField(max_length = 1 ,choices=rating)
+	Q5 = models.CharField(max_length = 1 ,choices=rating)
+	Q6 = models.CharField(max_length = 1 ,choices=rating)
+	Q7 = models.CharField(max_length = 1 ,choices=rating)
+	Q8 = models.CharField(max_length = 1 ,choices=rating)
+	Q9 = models.CharField(max_length = 1 ,choices=rating)
+	query = models.TextField()
+
+	def __str__(self):
+		return self.Event_id.Subject_event_id.Faculty_id +" from "+ self.Given_by
+
+	def save(self, *args, **kwargs):
+		print(str(self))
+

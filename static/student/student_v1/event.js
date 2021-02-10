@@ -109,7 +109,7 @@ function put_events(e,b){
 			break;
 		}
 	}
-	console.table(events);
+	// console.table(events);
 }
 
 function get_cell(e){
@@ -200,7 +200,7 @@ $(document).ready (function () {
 				);
 			}
 		}
-		console.log(events[0].start);
+		// console.log(events[0].start);
 	}
 	put_events_on_timeline();
 	// var sec = 50;
@@ -211,7 +211,7 @@ $(document).ready (function () {
 		// ct = new time(15,9,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (i == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
-			console.log("hi");
+			// console.log("hi");
 			i = 1;
 			var elem = document.getElementById("myBar");
 			var elem1 = document.getElementById("ct");
@@ -228,7 +228,7 @@ $(document).ready (function () {
 						e = events[j];
 				}
 				w = (ct.delta(st).tis/et.delta(st).tis)*100;
-				console.log(w);
+				// console.log(w);
 				$("#ct").html(ct.time[0] + " : " + ct.time[1]);
 				// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
 				if (w >= 100) {

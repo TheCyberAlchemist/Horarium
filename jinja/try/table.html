@@ -70,8 +70,9 @@
                 {% for subject in my_subjects %}
                     <div class="card">
                         <div class="card-header item" id="{{subject.id}}">
-                            <h3><button class="btn btn-primary collapsed" style="width: 150px" data-toggle="collapse" data-target="#a{{loop.index}}"
-                                aria-expanded="false" aria-controls="a{{loop.index}}">
+                            <h3><button class="btn collapsed" style="width: 150px;background-color:{{subject.color}}" data-toggle="collapse" data-target="#a{{loop.index}}"
+                                aria-expanded="false" aria-controls="a{{loop.index}}"
+                                >
                                 {{subject}}
                             </button></h3>
                         </div>
@@ -145,7 +146,7 @@
             {% endfor %}
             {% else %}
             {% for day in working_days %}
-            <div class="col my_col lect droppable"></div>
+                <div class="col my_col lect droppable"></div>
             {% endfor %}
             {% endif %}
         </div>

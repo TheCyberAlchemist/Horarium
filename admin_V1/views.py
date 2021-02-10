@@ -16,6 +16,25 @@ from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,u
 from .forms import add_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
+from admin_V1.algo import get_points,get_sorted_events
+
+############# For running any scripts ###############
+def run_script(request):
+	var = []
+	for i in Event.objects.all():
+		# if i.Slot_id_2:
+		# 	# i.link = i.Batch_id.link
+		# 	# i.save()
+		# 	print(i.link,"- is prac")
+		# else:
+		# 	# i.link = i.Division_id.link
+		# 	# i.save()
+		# 	print(i.link,"- is lect")
+		# if i.Subject_event_id.Subject_id.name == "Web Application Development":
+		# 	i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
+		# 	i.save()
+		pass
+	return HttpResponse(var)
 
 ############# Returns data for navigation tree #############
 def return_context(request):
@@ -280,7 +299,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
 		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
-		context['refresh'] = False
+		refresh = False
 		my_faculty = Faculty_details.objects.filter(Department_id=Department_id)
 		context['my_faculty_load'] = Faculty_load.objects.filter(Faculty_id__in=my_faculty)
 		if Faculty_id:	# if edit is called
@@ -306,7 +325,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				new_can_teach = set(request.POST.getlist('subject'))
 				to_be_deleted = old_can_teach.difference(new_can_teach)
 				to_be_added = new_can_teach.difference(old_can_teach)
-				if not context['refresh']:
+				if not refresh:
 					for i in to_be_deleted:
 						print("deleted - ",Can_teach.objects.filter(Subject_id= i))
 						Can_teach.objects.filter(Subject_id_id= i).delete()
@@ -352,9 +371,9 @@ def add_faculty(request,Department_id,Faculty_id=None):
 						can_teach.append(Can_teach.objects.create(Faculty_id = A,Subject_id=context['my_subjects'].get(pk = subject)))
 					except:
 						context['integrityErrors'] = "We have encountered some problem refresh the page"   #errors to integrityErrors
-						context['refresh'] = True
+						refresh = True
 						break
-				if not context['refresh']:
+				if not refresh:
 					for i in can_teach:
 						i.save()
 				else:
@@ -768,7 +787,6 @@ def show_resource(request,Resource_id = None):
 	else:
 		return redirect(get_home_page(request.user))
 
-from admin_V1.algo import get_points,get_sorted_events
 
 def algo_context(request,Division_id):
 	context = {}

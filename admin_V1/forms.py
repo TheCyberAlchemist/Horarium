@@ -10,6 +10,7 @@ from student_V1.models import Student_details
 from institute_V1.models import Timings
 from Table_V2.models import Event
 
+
 class create_department(ModelForm):
 	class Meta:
 		model = Department

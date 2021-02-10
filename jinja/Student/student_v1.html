@@ -5,7 +5,6 @@
 <script>
   
   $(document).ready(function(){
-    console.log("JQuery is working");
     AOS.init({
         offset : 150,
     });
@@ -22,8 +21,9 @@
     //  }
       let cookie = localStorage.getItem("theme") || "";
       if (cookie === "dark"){
+        $("#slider1").prop("checked",true);
+          // console.log("hi");
         toggle();
-        $("#slider").prop("checked",true);
       }
     })(); 
 });
@@ -111,7 +111,7 @@ function toggle() {
                   <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
                     <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
-                      onclick = "window.open('{{temp_event.a.Batch_id.link}}', '_blank')">
+                      onclick = "window.open('{{temp_event.a.link}}', '_blank')">
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     
@@ -119,9 +119,11 @@ function toggle() {
                       <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
-                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                        <span>{{temp_event.a.Resource_id}}</span>
-                      </div>
+                      {%if temp_event.a.Resource_id %}
+                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                          <span>{{temp_event.a.Resource_id}}</span>
+                        </div>
+                      {%endif%}
                     </div>
                   </div>
                 </td>
@@ -131,16 +133,18 @@ function toggle() {
                   <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
                     <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
-                      onclick = "window.open('{{temp_event.a.Division_id.link}}', '_blank');">
+                      onclick = "window.open('{{temp_event.a.link}}', '_blank');">
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">
                       <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                         <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                       </div>
-                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                        <span>{{temp_event.a.Resource_id}}</span>
-                      </div>
+                      {%if temp_event.a.Resource_id %}
+                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                          <span>{{temp_event.a.Resource_id}}</span>
+                        </div>
+                      {%endif%}
                     </div>
                   </div>
                 </td>

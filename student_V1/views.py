@@ -50,10 +50,22 @@ def student_home(request):
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.filter(Q(Batch_id=student.Batch_id) | Q(Batch_id=None),Division_id=student.Division_id)
 	day = ""
+	questions = [
+		"Lecture or Lab Session Began and End on scheduled Time",
+		"I felt the Teacher well prepared for this particular session",
+		"The Pedagogy (Teaching methods) of the Teacher is effective",
+		"I am able to learn the topic effectively and with clear understanding",
+		"The teacher encourages students to ask questions for better understanding",
+		"If asked, the teacher answers all questions appropriately and clearly",
+		"The Teacher has excellent knowledge about the subject ",
+		"The teacher's behaviour is respectful and treats all students respectfully",
+		"I don't hesitate to ask to the Teacher if I have any doubt",
+	]
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
+		'questions' : questions,
 	}
 	if day:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=day))

@@ -1,0 +1,44 @@
+{%extends 'Student/navbar.html'%}
+{%block navbar_starts%}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>{% block title %} {% endblock %} | Horarium</title>
+	{# title block for printing the name of the page  #}
+	<!-- css here -->
+	{% block css %} 
+	<link id="light" rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_light.css')}}" />
+	<link id="dark" rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student_dark.css')}}"  disabled=true />
+	<!-- <link id="light" rel="stylesheet" href="{{static ('student/BootStrap/MyDash/Student/Student.css')}}" /> -->
+    <link rel="stylesheet" href="{{static ('student//BootStrap/MyDash/static/navbar.css')}}" />
+	<link rel="stylesheet" href="{{static ('student//BootStrap/bootstrap.min.css')}}" />
+	<link rel="stylesheet" href="{{static ('student//BootStrap/MyDash/static/progress_bar.css')}}" />
+	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap')}}" rel="stylesheet"/>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="{{static ('student//AOS/aos.css')}}" />
+	{% endblock %}
+</head>
+<body>
+{%endblock%}
+
+{%block navbar_ends%}
+{% block content %}
+
+{% endblock %}
+{# content block for the main contents of the body #}
+</body>
+<!-- scripts here -->
+<script src="{{static ('student//BootStrap/jquery.min.js')}}"></script>
+<script src="{{static ('student//BootStrap/bootstrap.min.js')}}"></script>
+<script src="{{static ('student//student_v1//event.js')}}"></script>
+<script src="{{static ('student//BootStrap/MyDash/static/navbar.js')}}"></script>
+<script src="{{static ('student//AOS/aos.js')}}"></script>	
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
+{% block scripts %}
+{% endblock %}
+{# script block for all the scripts of the page #}
+</html>
+{% endblock %}

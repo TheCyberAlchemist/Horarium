@@ -1,0 +1,327 @@
+{% extends 'admin/base.html' %}
+{% block title %}Faculty{% endblock title %}
+{% block css %}
+
+  <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+  <link rel="stylesheet" href="{{static ('form/form.css')}}">
+  <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+  <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
+{% endblock css %}
+
+{% block scripts %}
+  <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+  <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+  <script src="{{static ('form/faculty_details.js')}}" charset="utf-8"></script>
+  <script>
+    {% if refresh %}
+    document.getElementByClassName("myform")[0].reset();
+    location.reload();
+    {% endif %}
+
+    activate("{{my_department}}.b");
+    $(document).ready(function () {
+      $("#designations").select2({
+        tags : true
+      });
+      $("#shifts").select2();
+    });
+    {%if update %}
+      set_load("{{update[2].total_load}}","{{my_subject_events}}");
+      form_visibility(true);
+    {%endif%}
+
+
+  </script>
+{% endblock scripts %}
+
+{% block content %}
+<div class="whole_container" id="whole_container_id">
+  <fieldset>
+    <legend>{% if update %}Update{% else %}Add{% endif %} Faculty</legend>
+
+    <form class="myform" method="POST" {% if not update %}style="display: none;" {% endif %}>
+      {{csrf_input}}
+      <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+      <div id="first_page">
+        <div class="input_container_double">
+
+          <div class="input_container_double_1">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
+
+            {% if not update %}
+            <input type="text" class="form_input" name="first_name" required autocomplete="off">
+            {% else %} 
+            <div class="update_div form_input" id="first_name">{{update[0].first_name}}</div>
+            {% endif %}
+
+            <label for="first_name" class="form_input_label">
+              <div class="text">First Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+
+          <div class="input_container_double_2">
+            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="">
+            {% if not update %}
+            <input type="text" class="form_input" name="last_name" required autocomplete="off">
+            {% else %} 
+            <div class="update_div form_input" id="last_name">{{update[0].last_name}}</div>
+            {% endif %}
+            <label for="last_name" class="form_input_label">
+              <div class="text">Last Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+        </div>
+        <div class="input_container_double">
+          <div class="input_container_double_1">
+            <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
+            <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update %}value = {{update[1].short}}{% endif %}>
+            <label for="short" class="form_input_label">
+              <div class="text">Short Name</div>
+              <div class="line"></div>
+            </label>
+          </div>
+          <div class="input_container_double_2">
+            <img class="input_icons" src="{{static ('admin/details/img/mail.png')}}" alt="email">
+
+            {% if not update %}
+            <input type="email" class="form_input" name="email" required autocomplete="off">
+            {% else %}
+              <div class="update_div form_input" id="email">{{update[0].email}}</div>
+            {% endif %}
+
+            <label for="email" class="form_input_label">
+              <div class="text">Email Id</div>
+              <div class="line"></div>
+            </label>
+          </div>
+
+        </div>
+         {% if not update %}
+        <div class="input_container_double">
+          <div class="input_container_double_1">
+            <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+            <input type="password" class="form_input" name="password1" id="myinput1" required autocomplete="off">
+            <label for="password1" class="form_input_label">
+              <div class="text">Password</div>
+              <div class="line"></div>
+            </label>
+            <span id="eye_double" onclick="visibility1(parent)">
+              <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
+              <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
+            </span>
+          </div>
+          <div class="input_container_double_2">
+            <img class="input_icons" src="{{static ('admin/details/img/key.png')}}" alt="key">
+            <input type="password" class="form_input" name="password2" id="myinput2" required autocomplete="off">
+            <label for="password2" class="form_input_label">
+              <div class="text">Confirm Password</div>
+              <div class="line"></div>
+            </label>
+            <span id="eye_double" onclick="visibility2(parent)">
+              <i class="fa fa-eye fa-lg" id="hide3" aria-hidden="true"></i>
+              <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
+            </span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+
+      <div id="second_page" style="display: none">
+        <div class="input_container">
+          <img class="input_icons" src="{{static ('admin/details/img/clock.png')}}" alt="load">
+          <input type="number" class="form_input" name="total_load" required autocomplete="off" {% if update
+            %}value={{update[2].total_load}}{% endif %}>
+          <label for="total_load" class="form_input_label">
+            <div class="text">Total Load of Faculty(in hrs)</div>
+            <div class="line"></div>
+          </label>
+        </div>
+
+
+        <div class="day_selector">
+          <div class="select2_container double_select2">
+            <select name="Designation_id" id="designations">
+              <option disabled {% if not update %}selected{% endif %}>Select Designation</option>
+              {% for designation in designations %}
+              <option value="{{designation.id}}" {% if update and designation.id==update[1].Designation_id_id%}selected{%
+                endif %}>
+                {{designation}}
+              </option>
+              {%endfor%}
+            </select>
+          </div>
+          <div class="day_line" style="height: 0%;"></div>
+
+          <div class="select2_container double_select2">
+            <select name="Shift_id" id="shifts">
+              <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
+              {% for shift in my_shifts %}
+              <option value="{{shift.id}}" {% if update and shift.id==update[1].Shift_id_id%}selected{% endif %}>
+                {{shift}}
+              </option>
+              {%endfor%}
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div id="third_page" style="display:none">
+        <fieldset>
+          <legend>Can Teach</legend>
+          <div class="can_container">
+            <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt=""> -->
+            <ul id="branches">
+
+              {%for branch in my_branches%}
+              <li class="branch">
+                <div class="checkboxes">
+                  <input type="checkbox" id="branch_{{branch.id}}">
+                  <label for="branch_{{branch.id}}"><b>{{branch}}</b></label>
+                </div>
+                <!-- <input type="checkbox" />{{branch}} -->
+                <ul id="semesters" class="dir">
+                  {%for sem in my_sems %}{% if sem.Branch_id == branch %}
+                  <li>
+                    <div class="checkboxes">
+                      <input type="checkbox" id="sem_{{sem.id}}">
+                      <label for="sem_{{sem.id}}"><b>{{sem}}</b></label>
+                    </div>
+                    <!-- <input type="checkbox" />{{sem}} -->
+                    <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt="dept"> -->
+                    <ul id="subjects">
+                      {%for subject in my_subjects%}{% if subject.Semester_id == sem %}
+                      <li>
+                        <div class="checkboxes">
+                          <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if
+                            update and subject.id in update[3]%}checked{% endif %} />
+                          <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
+                        </div>
+                        <!-- <input type="checkbox" />{{subject}} -->
+                      </li>
+                      {% endif %}{%endfor%}
+                    </ul>
+                  </li>
+                  {% endif %}{%endfor%}
+                </ul>
+              </li>
+              {%endfor%}
+            </ul>
+          </div>
+
+        </fieldset>
+        <div class="submit_button_container">
+          <button type="button" name="button" class="submit_button">Submit</button>
+        </div>
+      </div>
+
+      <!-- <div class="page_changer_button_container" id="page_changer_button_container">
+          <button class="page_change_button" id="page_change" onclick="pageChanger()">
+            >
+          </button>
+        </div> -->
+    </form>
+
+    <div class="form_visibility_img_container">
+      <button class="show_form_button" onclick="form_visibility()">
+        <p id="myp">Show Form</p>
+      </button>
+    </div>
+
+    <div class="pagination_container" {% if not update %}style="display: none;" {% endif %}>
+      <div class="numbers" id="first">
+          <h3>1</h3>
+      </div>
+      <div class="numbers" id="second">
+        <h3>2</h3>
+      </div>
+      <div class="numbers" id="third">
+        <h3>3</h3>
+      </div>
+    </div>
+
+    {% if integrityErrors %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+    {% endif %}
+
+    {% if errors %}
+    <div class="errors_container">
+      <p>
+        {{errors}}
+      </p>
+    </div>
+    <script>
+      show_error("{{errors}}")
+    </script>
+    {% endif %}
+  </fieldset>
+
+  <div class="table_container">
+    <div class="table_search_box">
+      <input type="text" id="myinput" name="" placeholder="Search..." onkeyup="searchFun()">
+    </div>
+    <table id="db_table">
+      <thead>
+        <tr>
+          <div class="delete_panel">
+            <h1>Faculties of {{institute}}</h1>
+            <a style="display: none;" id="del" onclick="delete_entries()">
+              <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete">
+            </a>
+          </div>
+          <th>Id</th>
+          <th>Short</th>
+          <th>Faculty Name</th>
+          <th>Designation</th>
+          <th>Load</th>
+          <th>Edit</th>
+          <th>Availibility</th>
+          <th>
+            <div class="checkboxes" onclick="checkAll();">
+              <input type="checkbox" id="parent" name="parent" value="parent">
+              <label for="parent"></label>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for load in my_faculty_load %}
+        <tr>
+          <td>{{loop.index}}</td>
+          <td>{{load.Faculty_id.short}}</td>
+          <td>{{load.Faculty_id.User_id}}</td>
+          <td>{{load.Faculty_id.Designation_id}}</td>
+          <td>{{load.total_load}}</td>
+          <td>
+            <a href="{{url ('update_faculty' ,args=[my_department.id,load.Faculty_id.id])}}">
+              <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+            </a>
+          </td>
+          <td>
+          <a href="{{url ('show_not_avail' ,args=[load.Faculty_id.id])}}">
+            <img class="action_icons" style="height : 30px;width:35px" src="{{static ('admin/details/img/in.png')}}" alt="" title="Edit">
+          </a>
+          </td>
+          <td>
+            <div class="checkboxes" onclick="checkSelected()">
+              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{load.Faculty_id.id}}">
+              <label for="{{loop.index}}"></label>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{%endblock%}

@@ -1,0 +1,181 @@
+{% extends 'admin/base.html' %}
+{% block title %}Slots{% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{{static ('form/form.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+{% endblock css %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{static ('jquery.js') }}"></script>
+<script type="text/javascript" src="{{static ('admin/details/slot.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+  set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
+  activate("{{my_shift.Department_id}}.d.{{my_shift}}");
+  $(document).ready(function() {
+    $("#day1").select2();
+    $("#day2").select2();
+    $("#slot_naming").select2();
+  });
+  put_pen("{{static ('admin/details/img/pen.png')}}")
+</script>
+{%endblock scripts%}
+
+{% block content %}
+<div id="first_form" class="slot_first_form">
+  <fieldset>
+    <legend>Slot Selection</legend>
+  <div class="input_container" style="margin-top: 1em;">
+    <!-- <input class="form_input" type="number" id="Duration" /> -->
+    <img class="input_icons" src="{{static ('admin/details/img/duration.png')}}" alt="dept">
+    <input type="number" id="duration" name="Duration" class="form_input" required/>
+    <label for="duration" class="form_input_label">
+      <div class="text">Duration</div>
+      <div class="line"></div>
+    </label>
+</div>
+    <div class="input_container sl1">
+      <div class="slot_naming" style="margin-bottom: -2em;">
+        <div class="select2_container">
+          <select name="Naming" id="slot_naming">
+            <option value="1">Slot Naming Pattern </option>
+            <option value="numbers">[1 - 10]</option>
+            <option value="small">[a - z]</option>
+            <option value="capital">[A - Z]</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  <div class="day_selector">
+    <div class="select2_container double_select2">
+      <select name="day1" id="day1">
+        <option value="a" disabled selected>Pick Starting Day </option>
+        {% if working_days[0] %}
+          {% set len = working_days[working_days|length -1].Days_id_id %}
+        {% endif %}
+          <option value="1" {% if working_days and working_days[0].Days_id_id == 1 %}selected{% endif %}>Monday</option>
+          <option value="2" {% if working_days and working_days[0].Days_id_id == 2 %}selected{% endif %}>Tuesday</option>
+          <option value="3" {% if working_days and working_days[0].Days_id_id == 3 %}selected{% endif %}>Wednesday</option>
+          <option value="4" {% if working_days and working_days[0].Days_id_id == 4 %}selected{% endif %}>Thursday</option>
+          <option value="5" {% if working_days and working_days[0].Days_id_id == 5 %}selected{% endif %}>Friday</option>
+          <option value="6" {% if working_days and working_days[0].Days_id_id == 6 %}selected{% endif %}>Saturday</option>
+          <option value="7" {% if working_days and working_days[0].Days_id_id == 7 %}selected{% endif %}>Sunday</option>
+      </select>
+    </div>
+    <div class="day_line"></div>
+    <div class="select2_container double_select2">
+      <select name="day2" id="day2">
+        <option value="a" disabled selected>Pick Ending Day </option>
+          <option value="1" {% if working_days and len == 1 %}selected{% endif %}>Monday</option>
+          <option value="2" {% if working_days and len == 2 %}selected{% endif %}>Tuesday</option>
+          <option value="3" {% if working_days and len == 3 %}selected{% endif %}>Wednesday</option>
+          <option value="4" {% if working_days and len == 4 %}selected{% endif %}>Thursday</option>
+          <option value="5" {% if working_days and len == 5 %}selected{% endif %}>Friday</option>
+          <option value="6" {% if working_days and len == 6 %}selected{% endif %}>Saturday</option>
+          <option value="7" {% if working_days and len == 7 %}selected{% endif %}>Sunday</option>
+      </select>
+    </div>
+  </div>
+  <button id="first_form_submit" class="show_form_button">Submit</button>
+</fieldset>
+</div>
+<div class="whole_container" id="whole_container_id">
+  <div style="text-align:center">
+    <button class="other_buttons" id="main_edit">Edit</button>
+  </div>
+  <!-- <div class="mytable_container"> -->
+  <fieldset id = "add_slot_form">
+    <legend class="not_login">Add Slots</legend>
+    <div id="slot_form" class="myform">
+      {{csrf_input}}
+      <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+      <div class="input_container">
+        <img class="input_icons" src="{{static ('admin/details/img/calendar.png')}}" alt="Slot Name">
+        <input type="text" class="form_input" name="name" maxlength="20" required id="id_name">
+        <label for="id_name" class="form_input_label">
+          <div class="text">Slot Name</div>
+          <div class="line"></div>
+        </label>
+      </div>
+
+      <div class="input_container_double">
+        <div class="input_container_double_1">
+          <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="Start">
+          <input type="time" class="form_input update_div" name="start_time" id="start_time" disabled>
+          <!-- <div class="update_div form_input" id="start_time"></div> -->
+          <label for="start_time" class="form_input_label">
+            <div class="text">Start Time</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="input_container_double_2">
+          <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="End">
+          <input type="time" class="form_input" name="end_time" id="end_time">
+          <label for="end_time" class="form_input_label">
+            <div class="text">End Time</div>
+            <div class="line"></div>
+          </label>
+        </div>
+      </div>
+      <div class="input_container" style="border: none;">
+        <div class="checkboxes" onclick="" id="is_break">
+          Is Break : <input type="checkbox" class="" id="id_is_break" name="is_break">
+          <label for="id_is_break"></label>
+        </div>
+      </div>
+      <div class="submit_button_container">
+        <button type="button" id="Go" class="show_form_button">Go</button>
+        <button type="button" id="Go_here" class="show_form_button">Go Here</button>
+        <button type="button" id="edit" class="show_form_button">Edit</button>
+      </div>
+    </div>
+
+    <div class="submit_button_container">
+      <button type="button" id="add_row" class="show_form_button">Add Slot</button>
+    </div>
+
+    {% if integrityErrors %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+    {% endif %}
+    {% if errors %}
+    <div class="errors_container">
+      <p>
+        {{errors}}
+      </p>
+    </div>
+    {% endif %}
+  </fieldset>
+  <div class="table_container">
+    <table id="myTable" class="mytable">
+      <thead>
+        <tr>
+          <th colspan="5" id = "remainder_th">
+            <h3 id="get_remainder"></h3>
+          </th>
+        </tr>
+        <tr>
+          <th>Slot Name</th>
+          <th>Start Time</th>
+          <th>End Time</th>
+          <th>Is a Break</th>
+          <th class = "edit_buttons">Edit</th>
+        </tr>
+      </thead>
+      <tbody class="mytbody"></tbody>
+      <!-- <tr><td>A</td><td>09:00</td><td>09:05</td><td>False</td><td><button type="button" class="add_here">ADD</button></td></tr><tr><td>B</td><td>09:05</td><td>09:10</td><td>True</td><td><button type="button" class="add_here">ADD</button></td></tr> -->
+    </table>
+  </div>
+</div>
+<div class="submit_button_container">
+  <!-- <button type="submit" name="button" class="submit_button">Submit</button> -->
+  <button class="submit_button" onclick='submited()'> Submit</button>
+</div>
+{% endblock content %}

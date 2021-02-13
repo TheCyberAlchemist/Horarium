@@ -1,0 +1,204 @@
+{% extends 'admin/base.html' %}
+{% block title %}Subject Details{% endblock title %}
+{% block css %} 
+<link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+<link rel="stylesheet" href="{{static ('form/form.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+{% endblock css %}
+{% block scripts %}
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <script>
+      activate("{{my_branch.Department_id}}.{{my_branch}}.b");
+      $(document).ready(function() {
+        $("#semesters").select2();
+      });
+      {% if update %}
+        form_visibility(true);
+      {% endif %}
+    </script>
+{% endblock scripts %} 
+
+{% block content %}
+<div class="whole_container" id="whole_container_id">
+  <fieldset>
+    <legend>{% if update %}Update{% else %}Add{% endif %} Subject Details</legend>
+    <form class="myform" method="POST" {% if not update %}style="display: none;" {% endif %}>
+      {{csrf_input}}
+      <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+      <div class="input_container_double">
+        <div class="input_container_double_1">
+          <img class="input_icons" src="{{static ('admin/details/img/subname.png')}}" alt="start">
+          <input type="text" id="name" class="form_input" name="name" required autocomplete="off" {% if update
+            %}value="{{update.name}}" {% endif %}>
+          <label for="name" class="form_input_label">
+            <div class="text">Subject Name</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="input_container_double_2">
+          <img class="input_icons" src="{{static ('admin/details/img/subshort.png')}}" alt="end">
+          <input type="text" id="short" class="form_input" name="short" required autocomplete="off" {% if update
+            %}value="{{update.short}}" {% endif %}>
+          <label for="short" class="form_input_label">
+            <div class="text">Short Name</div>
+            <div class="line"></div>
+          </label>
+
+        </div>
+      </div>
+      <div class="input_container_double">
+        <div class="input_container_double_1">
+          <img class="input_icons" src="{{static ('admin/details/img/lect.png')}}" alt="start">
+          <input type="text" id="lect" class="form_input" name="lect_per_week" required autocomplete="off" {% if update
+            %}value="{{update.lect_per_week}}" {% endif %}>
+          <label for="lect" class="form_input_label">
+            <div class="text">Lectures per week</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="input_container_double_2">
+          <img class="input_icons" src="{{static ('admin/details/img/prac.png')}}" alt="end">
+          <input type="text" id="prac" class="form_input" name="prac_per_week" required autocomplete="off" {% if update
+            %}value="{{update.prac_per_week}}" {% endif %}>
+          <label for="prac" class="form_input_label">
+            <div class="text">Practicals per week</div>
+            <div class="line"></div>
+          </label>
+        </div>
+      </div>
+      <div class="select2_container single_select2" style="margin-bottom: 1em;">
+        <select name="Semester_id" id="semesters">
+          <option value="a" disabled {% if not update %} selected {% endif %}>Pick a semester </option>
+          {% for semester in my_semesters %}
+          <option value="{{semester.id}}" {% if update and update.Semester_id==semester_id %} selected {% endif %}>
+            {{semester}}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <h3>Select Colour for Subject</h3>
+      <div class="color_palette_container">
+        {%set colors = ["#7377a5","#ffbf00","#00b3b3","#ff8080","#d65c7a","#66cc66","#33cccc","#3333ff","#ff3333"]%}
+        {% for c in colors %}
+        <input type="radio" name="color" id="rad{{loop.index}}" value="{{c}}" {% if update and
+          update.color==c%}checked{% endif %}>
+        <label for="rad{{loop.index}}">
+          <div class="colors"
+            style="background-color: {{c}};{% if update and update.color == c%}border:5px solid black{% endif %}"></div>
+        </label>
+        {% endfor %}
+      </div>
+      <div class="submit_button_container">
+        <button type="submit" name="button" class="submit_button">Submit</button>
+      </div>
+
+      {% if integrityErrors %}
+      <div class="errors_container">
+        <p>
+          {{integrityErrors}}
+        </p>
+      </div>
+      {% endif %}
+
+      {% if errors %}
+      <div class="errors_container">
+        <p>
+          {{errors}}
+        </p>
+      </div>
+      <script>
+        show_error("{{errors}}")
+      </script>
+      {% endif %}
+    </form>
+    <div class="form_visibility_img_container">
+      <button class="show_form_button" onclick="form_visibility()">
+        <p id="myp">Show Form</p>
+      </button>
+    </div>
+    {% if integrityErrors %}
+    <div class="errors_container">
+      <p>
+        {{integrityErrors}}
+      </p>
+    </div>
+    {% endif %}
+    {% if errors %}
+    <div class="errors_container">
+      <p>
+        {{errors}}
+      </p>
+    </div>
+    {% endif %}
+  </fieldset>
+
+  <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+  <div class="table_container">
+    <div class="table_search_box">
+      <input type="text" id="myinput" name="" placeholder="Search..." onkeyup="searchFun()">
+    </div>
+    <table id="db_table">
+      <thead>
+        <tr>
+          <div class="delete_panel">
+            <h1>Subjects for {{my_branch}}</h1>
+            <a style="display: none;" id="del" onclick="delete_entries()">
+              <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete">
+            </a>
+          </div>
+          <th>Id</th>
+          <th>Subject Name</th>
+          <th>Short</th>
+          <th>Semester</th>
+          <th>[Lect,Prac]</th>
+          <th>Load</th>
+          <th>Edit</th>
+          <th>
+            <div class="checkboxes" onclick="checkAll();">
+              <input type="checkbox" id="parent" name="parent" value="parent">
+              <label for="parent"></label>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+      {% if my_subjects %}
+        {% set vars = { "foo":my_subjects[0].Semester_id } %}
+        {% for subject in my_subjects %}
+        {% if vars.foo != subject.Semester_id %}
+        {% if vars.update({ "foo":subject.Semester_id }) %} {%endif%}
+        <tr>
+          <td colspan="8" style="text-align: center;pointer-events: none;">
+            -------------------------------------------------------------</td>
+        </tr>
+        {%endif%}
+        <tr>
+          <td>{{loop.index}}</td>
+          <td class="sub_event_go">
+              <a href="{{url ('show_sub_event' ,args=[subject.id])}}">
+                {{subject.name}}
+              </a>
+          </td>
+          <td>{{subject.short}}</td>
+          <td>{{subject.Semester_id}}</td>
+          <td>[{{subject.lect_per_week}} , {{subject.prac_per_week}}]</td>
+          <td>{{subject.load_per_week}} Hrs.</td>
+          <td>
+            <a href="{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
+              <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+            </a>
+          </td>
+          <td>
+            <div class="checkboxes" onclick="checkSelected()">
+              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{subject.id}}">
+              <label for="{{loop.index}}"></label>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock content %}

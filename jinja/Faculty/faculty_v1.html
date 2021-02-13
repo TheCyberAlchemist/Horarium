@@ -1,0 +1,381 @@
+{% extends 'Faculty/base.html' %}
+{% block title %} Faculty {% endblock %}
+
+{% block scripts %}
+<script>
+  (function() {
+    //  let onpageLoad = localStorage.getItem("theme") || "";
+    //  let element = document.body;
+    //  element.classList.add(onpageLoad);
+    //  if (localStorage.getItem("theme")=="dark"){
+    //    console.log(localStorage.getItem("theme"));
+    //    document.getElementById("dark").disabled = false;
+    //  }
+    //  else{
+    //    console.log(localStorage.getItem("theme"));
+    //  }
+        
+    $(document).ready(function(){
+      console.log("JQuery is working");
+      AOS.init({
+          offset : 150,
+      });
+      let cookie = localStorage.getItem("theme") || "";
+      if (cookie === "dark"){
+        toggle();
+        $("#slider1").prop("checked",true);
+      }
+    })(); 
+  });
+    function toggle() {
+        var el1 = document.getElementById("light"),
+          el2 = document.getElementById("dark");
+        if (el1.disabled) {   // if dark
+          localStorage.setItem("theme", "");
+          el1.disabled = false;
+          el2.disabled = "disabled";
+        } else {              // if light
+          el1.disabled = "disabled";
+          el2.disabled = false;
+          localStorage.setItem("theme", "dark");
+        }
+    }
+  put_events({{ events_json | safe}}, {{ break_json | safe}});
+</script>
+{% endblock %}
+{% block content %}
+<div class="container-fluid pt-4">
+    <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
+    <div id="ct"></div>
+    <div id="myBar"></div>
+  </div>
+    <div class="container text-center p-2 h5" id="text" id="text" data-aos="fade-up" data-aos-duration="1500">
+    </div>
+    <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
+    </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 pt-3 mx-auto" data-aos="fade-down" data-aos-duration="2500">
+      <table id="t1" class="mx-auto" style="width: 90%;">
+        <thead>
+          <tr>
+            <th>Time</th>
+            {% for day in days %}
+            <th>
+              {{day.Days_id}}
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {%set before=[]%}
+          {% for timing in timings %}
+          <!--for all time periods in database-->
+          <tr>
+            {% if timing.is_break %}
+            <th>
+              {{timing.name}}<br>
+              [{{timing.return_time()}}]
+            </th>
+            {% set len = days|length %}
+            <th colspan="{{len}}" class="isBreak" break_id="{{timing.id}}">
+              <span class="h4">{{timing.name}}</span>
+            </th>
+            {% else %}
+            <th>
+              {{timing.name}}<br>
+              [{{timing.return_time()}}]
+            </th>
+            {% for day in days %}
+              {% if day not in before %}
+                {% set temp_event={'a':None} %}
+                {% for event in events %}
+                  {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
+                    {% set _ = temp_event.update({'a':event}) %}
+                  {% endif %}
+                {% endfor %}
+                {% if temp_event.a %}
+                <!-- if there is an event-->
+                {% if temp_event.a.Slot_id_2 %}
+                <!-- if there is practical event-->
+                {% set _ = before.append(day) %}
+                <td class= "td_gone" rowspan="2" event_id = "{{temp_event.a.id}}">
+                  <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
+                    <div class="col-12 text-left">
+                      <span>{{temp_event.a.Batch_id}}</span>
+                    </div>
+                    <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                      onclick = "window.open('{{temp_event.a.link}}', '_blank')"
+                      >
+                      {{temp_event.a.Subject_event_id.Subject_id}}
+                    </button>
+                    <div class="row">
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                        <span>{{temp_event.a.Division_id}}</span>
+                      </div>
+                      {%if temp_event.a.Resource_id %}
+                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                          <span>{{temp_event.a.Resource_id}}</span>
+                        </div>
+                      {%endif%}
+                    </div>
+                  </div>
+                </td>
+                {% else %}
+                <!-- if there is lecture event-->
+                <td class = "td_gone" event_id = "{{temp_event.a.id}}">
+                  <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
+                    <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                      onclick = "window.open('{{temp_event.a.link}}', '_blank')">
+                      {{temp_event.a.Subject_event_id.Subject_id}}
+                    </button>
+                    <div class="row">
+                      {%if temp_event.a.Resource_id %}
+                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                          <span>{{temp_event.a.Resource_id}}</span>
+                        </div>
+                      {%endif%}
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              {% endif %}
+              {% else %}
+              <!-- if there is no event-->
+              <td></td>
+              {% endif %}
+              {% else %}
+              {% set _ = before.pop(before.index(day))%}
+              {% endif %}
+            {% endfor %}
+            {% endif %}
+          </tr>
+
+
+          {% endfor %}
+          <!-- <tr>
+            <td>9:00-10:00</td>
+            <td class="td_active">
+              <div class="card p-1">
+                <span class="text-left">Batch-31</span>
+                <button class="btn m-2" style="background-color: #7377a5">
+                  AEM
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>DRD</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+
+                <button class="btn m-2" style="background-color: #fdcb33">
+                  DBMS
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span class="h6">301</span>
+                  </div>
+                  <div class="col-6">
+                    <span class="h6">URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+                <button class="btn m-2" style="background-color: #00b3b3">
+                  AC-2
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span class="h6">301</span>
+                  </div>
+                  <div class="col-6">
+                    <span class="h6">URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td class="td_active">
+              <div class="card p-1">
+                <button class="btn m-2" style="background-color: #ff8080">
+                  AC-3
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span class="h6">301</span>
+                  </div>
+                  <div class="col-6">
+                    <span class="h6">URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+
+                <button class="btn m-2" style="background-color: #ff81a0">
+                  AC-3
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span class="h6">301</span>
+                  </div>
+                  <div class="col-6">
+                    <span class="h6">URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+                <button class="btn m-2" style="background-color: #66cc66">
+                  AC-3
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr> -->
+          <!--<tr>
+            <td>9:00-10:00</td>
+            <td>
+              <div class="card p-1">
+
+                <button class="btn m-2" style="background-color: #33cccc">
+                  AEM
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+
+                <button class="btn m-2" style="background-color: #5252fc">
+                  AC-3
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+
+                <button class="btn m-2" style="background-color: #ff4141">
+                  gg
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+
+                <button class="btn m-2" style="background-color: #7377a5">
+                  DS
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+
+                <button class="btn m-2" style="background-color: #fdcb33">
+                  AC-3
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="card p-1">
+                <button class="btn m-2" style="background-color: #00b3b3">
+                  AC-3
+                </button>
+                <div class="row">
+                  <div class="col-6">
+                    <span>301</span>
+                  </div>
+                  <div class="col-6">
+                    <span>URT</span>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+    <!-- <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-left" data-aos-duration="1000">
+      <div class="card" id="agenda_panel">
+
+        <a class="nav-item nav-link" style="text-decoration:underline" >Agenda</a>
+        <div class="container mt-3">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
+          nisi praesentium placeat hic eum dolorem, sunt repellendus beatae
+          et enim odio ea, assumenda quod mollitia maxime aspernatur a
+          minima laborum.
+        </div>
+        <div class="container mt-3">
+          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse
+          nisi praesentium placeat hic eum dolorem, sunt repellendus beatae
+          et enim odio ea, assumenda quod mollitia maxime aspernatur a
+          minima laborum.
+        </div>
+        <div class="form-group container" style="border:none;outline:none">
+          <label for="exampleFormControlTextarea1">Agenda </label>
+          <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"  style="border: 1px solid #333;"></textarea>
+        </div>
+      </div>
+    </div> -->
+  </div>
+
+  
+{% endblock %}

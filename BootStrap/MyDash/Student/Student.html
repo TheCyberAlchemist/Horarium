@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Index</title>
+  <link rel="stylesheet" href="Student.css">
+  <link rel="stylesheet" href="/BootStrap/MyDash/static/navbar.css">
+  <link rel="stylesheet" href="/BootStrap/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap" rel="stylesheet"> 
+  <script src="/BootStrap/jquery.min.js"></script>
+  <script src="/BootStrap/bootstrap.min.js"></script>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+    }
+    #t1 {
+      border: 1px solid white;
+      text-align: center;
+      width: 100%;
+      table-layout: fixed;
+    }
+    #t1 th {
+      border: 1px solid white;
+      padding: 10px;
+    }
+    #t1 td {
+      border: 1px solid white;
+    }
+    #t1 td:nth-of-type(1), th:nth-of-type(1) {
+      /*For first column of the table*/
+      background-color: #08080e;
+    }
+    #t1 .card {
+      background-color: transparent;
+      /*border: 1px solid #fff;*/
+      outline: none;
+      margin: 2px;
+    }
+    .btn {
+      width: auto;
+      transition: .2s;
+    }
+    .btn:hover {
+      opacity: .8;
+      transition: .2s;
+    }
+
+  </style>
+</head> 
+
+<body>
+  <nav class="navbar navbar-expand-lg sticky-top navbar-dark" style="padding: .1rem 1rem;">
+    <a class="navbar-brand" href="#">Horarium</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Your Tables <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">dakgfdkghdkfjhgkjfldghajfkl</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Yogesh Rathod</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+  <!-- <div class="container">
+      <div class="row">
+        <div class="col-sm p-3 col-md container">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere eius ipsam at nisi porro et debitis quae quis, nam ullam voluptatibus non minus vero necessitatibus dolorem suscipit voluptates pariatur a?
+        </div>
+        <div class="col-sm p-3 col-md container">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Hic quae vitae modi laboriosam animi beatae reprehenderit repellat quaerat esse non? Corrupti assumenda autem delectus ratione
+        </div>
+      </div>
+    </div> -->
+  <div class="container-fluid pt-5">
+    <div class="row">
+      <div class="col-lg-9 col-md-12 col-sm-12 pt-3">
+        <!-- <div class="table-responsive-sm table-responsive-md"> -->
+          <!-- <table class="myt">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Monday</th>
+                <th scope="col">Tuesday</th>
+                <th scope="col">Wednesday</th>
+                <th scope="col">Thursday</th>
+                <th scope="col">Friday</th>
+                <th scope="col">Saturday</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="row">9:00-10:00</td>
+                <td scope="col"><button type="button" class="btn btn-secondary">AEM</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">DBMS</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">AC-3</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">DS</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">abc</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">xyz</button></td>
+              </tr>
+              <tr>
+                <td scope="row"> 10:00-11:00</td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">AEM</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">DBMS</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">AC-3</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">DS</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">abc</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">xyz</button></td>
+              </tr>
+              <tr>
+                <td scope="row">11:00-12:00</td>
+                <td scope="col"><button type="button" class="btn btn-secondary">OOP</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">DD</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">KLAJ</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">BJ</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">YGLKJH</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">IOH:</button></td>
+              </tr>
+            </tbody>
+          </table> -->
+
+          <table id="t1" class="table-responsive-sm table-responsive-md">
+            <thead>
+              <t>
+                <th><h6>Time</h6></th>
+                <th><h6>Monday</h6></th>
+                <th><h6>Tuesday</h6></th>
+                <th><h6>Wednesday</h6></th>
+                <th><h6>Thursday</h6></th>
+                <th><h6>Friday</h6></th>
+                <th><h6>Saturday</h6></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr  style="">
+                <td>
+                  <!-- <span style="border: 1px solid white;padding:10px;border-radius : 10px"> -->
+                    9:00-10:00 
+                  <!-- </span>  -->
+                </td>
+                <td>
+                  <div class="card p-1">
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn m-2" style="background-color: #7377a5;">AEM</button>
+                    <div class="row ">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>DRD</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn m-2" style="background-color:#ffbf00">DBMS</button>
+                    <div class="row ">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn m-2" style="background-color:#00b3b3" >AC-2</button>
+                    <div class="row ">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1">
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn m-2" style="background-color:#ff8080">AC-3</button>
+                    <div class="row ">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn  m-2" style="background-color:#d65c7a">AC-3</button>
+                    <div class="row ">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn  m-2" style="background-color:#66cc66">AC-3</button>
+                    <div class="row ">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>9:00-10:00</td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn  m-2" style="background-color:#33cccc">AEM</button>
+                    <div class="row ">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn  m-2" style="background-color:#3333ff">AC-3</button>
+                    <div class="row">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn  m-2" style="background-color:#ff3333">gg</button>
+                    <div class="row">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn  m-2" style="background-color:#7377a5">DS</button>
+                    <div class="row">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                    <span class="text-left">Batch-31</span>
+                    <button class="btn  m-2" style="background-color:#ffbf00">AC-3</button>
+                    <div class="row">
+                      <div class="col-6">
+                        <span>301</span>
+                      </div>
+                      <div class="col-6">
+                        <span>URT</span>
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <div class="card p-1" >
+                  <span class="text-left">Batch-31</span>
+                  <button class="btn  m-2" style="background-color:#00b3b3">AC-3</button>
+                  <div class="row">
+                    <div class="col-6">
+                      <span>301</span>
+                    </div>
+                    <div class="col-6">
+                      <span>URT</span>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- 
+          <table class="table table-hover text-center mt-5">
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Monday</th>
+                <th scope="col">Tuesday</th>
+                <th scope="col">Wednesday</th>
+                <th scope="col">Thursday</th>
+                <th scope="col">Friday</th>
+                <th scope="col">Saturday</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td scope="col">9:00-10:00</td>
+                <td scope="col"><button type="button" class="btn btn-secondary">AEM</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">DBMS</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">AC-3</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">DS</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">abc</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">xyz</button></td>
+              </tr>
+              <tr>
+                <td scope="col"> 10:00-11:00</td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">AEM</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">DBMS</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">AC-3</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">DS</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">abc</button></td>
+                <td scope="col"> <button type="button" class="btn btn-secondary">xyz</button></td>
+              </tr>
+              <tr>
+                <td scope="col">11:00-12:00</td>
+                <td scope="col"><button type="button" class="btn btn-secondary">OOP</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">DD</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">KLAJ</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">BJ</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">YGLKJH</button></td>
+                <td scope="col"><button type="button" class="btn btn-secondary">IOH:</button></td>
+              </tr>
+            </tbody>
+          </table> -->
+        </div>
+      <div class="col-lg-3 col-md-12 col-sm-12">
+        <div class="card" id="agenda_panel">
+          <nav class="nav navbar-expand-lg nav-tabs nav-fill" data-toggle="collapse" id="tabs">
+            <a class="nav-item nav-link active" href="#">Agenda</a>
+            <a class="nav-item nav-link" href="#">Notification</a>
+          </nav>
+          <div class="container mt-3">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse nisi praesentium placeat hic eum dolorem,
+            sunt repellendus beatae et enim odio ea, assumenda quod mollitia maxime aspernatur a minima laborum.
+          </div>
+          <div class="container mt-3">
+            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Esse nisi praesentium placeat hic eum dolorem,
+            sunt repellendus beatae et enim odio ea, assumenda quod mollitia maxime aspernatur a minima laborum.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

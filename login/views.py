@@ -14,6 +14,7 @@ def login_page(request):
 		password = request.POST.get('password')
 		user = authenticate(request,username = username , password = password)
 		if user is not None:
+			print(user," -- Logged in")
 			login(request, user)
 			return redirect('/table')
 		else:
@@ -24,6 +25,7 @@ def login_page(request):
 
 
 def logout_user(request):
+	print(request.user," -- Logged out")
 	logout(request)
 	return redirect('login')
 

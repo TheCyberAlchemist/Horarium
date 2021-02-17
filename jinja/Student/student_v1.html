@@ -401,20 +401,20 @@ function toggle() {
           {%for ques in questions %}
             <div class="h5 text-center" style="font-weight :bold;">{{ques}}</div>
             <div class="mt-3 mb-3">
-            <label class="radio-inline" for="1">
-              <input type="radio" id="1" value="" name="Q2">&nbsp;Strongly Agree
+            <label class="radio-inline" for="5{{ques}}">
+              <input type="radio" id="5{{ques}}" value="5" name="{{ques}}">&nbsp;Strongly Agree
             </label>
-            <label class="radio-inline" for="2">
-              <input type="radio" value="" id="2" name="Q2">&nbsp;Agree
+            <label class="radio-inline" for="4{{ques}}">
+              <input type="radio" value="4" id="4{{ques}}" name="{{ques}}">&nbsp;Agree
             </label>
-            <label class="radio-inline" for="3">
-              <input type="radio" value="" id="3" name="Q2">&nbsp;Neutral
+            <label class="radio-inline" for="3{{ques}}">
+              <input type="radio" value="3" id="3{{ques}}" name="{{ques}}">&nbsp;Neutral
             </label>
-            <label class="radio-inline" for="4">
-              <input type="radio" id="4" value="" name="Q2">&nbsp;Disagree
+            <label class="radio-inline" for="2{{ques}}">
+              <input type="radio" id="2{{ques}}" value="2" name="{{ques}}">&nbsp;Disagree
             </label>
-            <label class="radio-inline" for="5">
-              <input type="radio" value="" id="5" name="Q2">&nbsp;Strongly Disagree
+            <label class="radio-inline" for="1{{ques}}">
+              <input type="radio" value="1" id="1{{ques}}" name="{{ques}}">&nbsp;Strongly Disagree
             </label>
           </div>
           {%endfor%}

@@ -9,7 +9,7 @@
 body,
 input {
   font-family: "Poppins", sans-serif;
-  background-color: transparent;
+  background-color: #f0f0f0;
   color: #333;
 }
 
@@ -90,7 +90,8 @@ form.sign-in-form {
 }
 
 .input-field input {
-  background: none;
+  /* background: none; */
+  background-color: #f0f0f0;
   outline: none;
   border: none;
   line-height: 1;

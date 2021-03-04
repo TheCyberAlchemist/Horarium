@@ -65,7 +65,7 @@ TEMPLATES = [
         'DIRS': [os.path.join(BASE_DIR,"jinja")],
         'APP_DIRS': True,
         'OPTIONS': {
-            'environment': 'Horarium.jinja2.environment'
+            'environment': 'Horarium.jinja2.environment',
         },
     },
     {
@@ -98,7 +98,11 @@ DATABASES = {
         'PORT': '3306',
         'USER': 'root',
         'PASSWORD': '',
+        'OPTIONS': {
+            'sql_mode': 'traditional',
+        }
     }
+
 }
 
 

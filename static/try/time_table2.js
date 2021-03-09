@@ -246,7 +246,7 @@ function change_lect_td(td,subject_event_id,resource){	// change lecture ondrop
 	td.html(`
 		<div class='row p-2'>
 		<div class='col-12'>
-			<button class='btn mt-1 mb-1' style = ' background-color:`+subject_event.color+`'>`
+			<button class='btn mt-1 mb-1' style = ' background-color:`+subject_event.color+`;color:white'>`
 				+subject_event.subject_name+
 			`</button>
 		</div>
@@ -273,10 +273,10 @@ function change_to_prac_td(td) {	// change td to prac td
 	for (i in batches){
 		string += `
 		<div class=" col-`+ colspan+`"batch_for=`+batches[i].pk+`>
-			<div class="row">
+			<div class="row" >
 				<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
 			</div>
-			<div class="row">
+			<div class="row" style="overflow-x: auto;">
 				<div class="col mt-2">
 					<button class="btn-sm prac_mycol event_name border-0"></button>
 				</div>

@@ -45,7 +45,7 @@
           <select name="Shift_id" id="shifts">
             <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
             {% for shift in my_shifts %}
-              <option value="{{shift.id}}" {% if update and shift.id == update.Shift_id%}selected{% endif %}>
+              <option value="{{shift.id}}" {% if update and shift == update.Shift_id%}selected{% endif %}>
                 {{shift}}
               </option>
             {%endfor%}

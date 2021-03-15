@@ -133,15 +133,17 @@ a {
   transition: 0.4s;
   -webkit-box-shadow: 0 0px 15px #2020203d;
           box-shadow: 0 0px 15px #2020203d;
-  background: white url("https://i.ibb.co/7JfqXxB/sunny.png");
+  background: white url("https://i.ibb.co/FxzBYR9/night.png");
   background-repeat: no-repeat;
   background-position: center;
 }
 
-input:checked + .slider {
+input:not(:checked) + .slider {
   background-color: #2196f3;
 }
-
+input:checked + .slider {
+  background-color: #f8ab37;
+}
 input:focus + .slider {
   -webkit-box-shadow: 0 0 1px #2196f3;
           box-shadow: 0 0 1px #2196f3;
@@ -150,7 +152,7 @@ input:focus + .slider {
 input:checked + .slider:before {
   -webkit-transform: translateX(24px);
   transform: translateX(24px);
-  background: white url("https://i.ibb.co/FxzBYR9/night.png");
+  background: white url("https://i.ibb.co/7JfqXxB/sunny.png");
   background-repeat: no-repeat;
   background-position: center;
 }

@@ -143,4 +143,11 @@ function visibility2() {
       </div>
     </div>
   </div>
+  {% if message %}
+      <div class="errors_container">
+        <p>
+          {{message}}
+        </p>
+      </div>
+      {% endif %}
   {% endblock content %}

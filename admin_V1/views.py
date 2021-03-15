@@ -743,7 +743,7 @@ def show_table(request,Division_id):
 			old_events.add(tuple(map(str, i)))
 		to_be_added = new_events.difference(old_events)
 		to_be_deleted = old_events.difference(new_events)
-		print(to_be_added,to_be_deleted)
+		# print(to_be_added,to_be_deleted)
 		def foo(x,i):
 			if tuple(map(str, x.values())) == i:
 				return True
@@ -751,12 +751,13 @@ def show_table(request,Division_id):
 		for i in to_be_deleted:
 			def get_str(a):
 				return str(a) if a else None
-			TBD = Event.objects.get(Division_id=Division_id,Slot_id= get_str(i[0]))
-			print(TBD)
-			TBD.delete()
+			TBD = Event.objects.filter(Division_id=Division_id,Slot_id= get_str(i[0]))
+			# print(TBD)
+			if len(TBD):
+				TBD.delete()
 		for i in to_be_added:
 			TBA = [x for x in json_events if foo(x,i)]
-			# print(TBA)
+			print(TBA)
 			form = add_event(TBA[0])
 			candidate = form.save(commit=False)
 			candidate.Division_id_id = Division_id

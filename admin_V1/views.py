@@ -784,7 +784,8 @@ def show_table(request,Division_id):
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches)
-
+	# print(context['slots_json'])
+	print(Slots.objects.filter( Timing_id__in = timings))
 	return render(request,"try/table.html",context)
 
 

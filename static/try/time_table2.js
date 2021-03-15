@@ -41,9 +41,11 @@ function put_data(slots_json,sub_events_json,batches,old_events_json){
 		});
 		if (temp_event.Slot_id_2){	// if it is a practical
 			if (push_event(temp_event)){
+				console.log(td);
 				if (!td.html()){
 					change_to_prac_td(td,obj.Subject_event_id);
 				}
+
 				put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
 			}
 		}else{
@@ -226,17 +228,17 @@ function get_event_index_by_slot(slot){
 
 function get_cell(slot_id){
 	let slot_obj;
-	// console.log(slot_id);
+	console.log(slot_id);
 	for (i in slots){
 		if (String(slots[i].id) == String(slot_id)){
 			slot_obj = slots[i];
 		}
 	}
 	if (!slot_obj)
-		return false
+		return $("#kaibhi");
 	let tr = $("[timing_id=" + String(slot_obj.timing) + "]");
 	let td = tr.find('.my_col:nth-child('+(slot_obj.day+1)+')')
-	// print(td);
+	// print(tr);
 	return td;
 }
 

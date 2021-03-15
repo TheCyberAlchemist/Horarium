@@ -1,5 +1,5 @@
 {% extends 'admin/base.html' %}
-{% block title %}Batch{% endblock title %}
+{% block title %}Create Table{% endblock title %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{{static ('admin/details/timetable.css') }}">
 <link rel="stylesheet" type="text/css" href="{{static ('admin/time_table/grid_table.css') }}">
@@ -39,7 +39,8 @@
 </script>
 {%endblock%}
 {% block content %}
-
+<div id="kaibhi" style="display: none;">
+</div>
 <form id="event_form" class="event_form">
     <div class="select2_container single_select2">
         <select id="resources">

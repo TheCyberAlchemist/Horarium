@@ -570,7 +570,7 @@ def show_table(request,Division_id):
 			old_events.add(tuple(map(str, i)))
 		to_be_added = new_events.difference(old_events)
 		to_be_deleted = old_events.difference(new_events)
-		print(to_be_added,to_be_deleted)
+		# print(to_be_added,to_be_deleted)
 		def foo(x,i):
 			if tuple(map(str, x.values())) == i:
 				return True
@@ -587,7 +587,7 @@ def show_table(request,Division_id):
 			form = add_event(TBA[0])
 			candidate = form.save(commit=False)
 			candidate.Division_id_id = Division_id
-			form.save()
+			candidate.save()
 
 		redirect('show_table',Division_id)
 	

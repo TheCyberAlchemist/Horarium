@@ -47,7 +47,7 @@ $(document).ready (function () {
     for (let i in {{points_json | safe}}){
         td = get_cell(i);
         if (td){
-            td.html(String({{points_json | safe}}[i]))
+            td.html(td.html()+"<br>" + String({{points_json | safe}}[i]))
             //if ({{points_json | safe}}[i])
             //    td.html(String({{points_json | safe}}[i]));
             //    //td.css("background-color","red")

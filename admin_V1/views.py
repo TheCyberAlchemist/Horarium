@@ -16,7 +16,7 @@ from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,u
 from .forms import add_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
-from admin_V1.algo import get_points,get_sorted_events
+from admin_V1.algo import get_points,get_sorted_events,put_event
 
 ############# For running any scripts ###############
 def run_script(request):
@@ -555,68 +555,6 @@ class MySerialiser(Serializer):
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
-def show_table(request,Division_id):
-	# the remaining lect and prac for all the subjects should return 0,0
-	#  to start the timetable
-	context = return_context(request)
-	if request.method == "POST":
-		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
-		json_events = json.loads(request.body)
-		new_events = set()
-		old_events = set()
-		for l in json_events:
-			new_events.add(tuple(map(str, l.values())))
-		for i in old_events_qs:
-			old_events.add(tuple(map(str, i)))
-		to_be_added = new_events.difference(old_events)
-		to_be_deleted = old_events.difference(new_events)
-		# print(to_be_added,to_be_deleted)
-		def foo(x,i):
-			if tuple(map(str, x.values())) == i:
-				return True
-			return False
-		for i in to_be_deleted:
-			def get_str(a):
-				return str(a) if a else None
-			TBD = Event.objects.get(Division_id=Division_id,Slot_id= get_str(i[0]))
-			print(TBD)
-			TBD.delete()
-		for i in to_be_added:
-			TBA = [x for x in json_events if foo(x,i)]
-			# print(TBA)
-			form = add_event(TBA[0])
-			candidate = form.save(commit=False)
-			candidate.Division_id_id = Division_id
-			candidate.save()
-
-		redirect('show_table',Division_id)
-	
-	my_division = Division.objects.get(pk = Division_id)
-	Shift_id = my_division.Shift_id
-	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
-	serializer = MySerialiser()
-	my_semester = my_division.Semester_id
-	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
-	timings = Timings.objects.filter(Shift_id = Shift_id)
-	subject = {}
-	for i in Subject_details.objects.filter(Semester_id = my_semester):
-		subject[i] = Subject_event.objects.filter(Subject_id=i)
-	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
-	context['timings'] = timings
-	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
-	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
-	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
-	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
-	context['my_subjects'] = subject
-	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
-	context['my_batches'] = my_batches
-	context['batches_json'] = get_json(my_batches)
-
-	return render(request,"try/table.html",context)
-
-
-@login_required(login_url="login")
-@allowed_users(allowed_roles=['Admin'])
 def show_not_avail(request,Faculty_id):
 	context = return_context(request)
 	############# Returns slot objects for a Qs#############
@@ -788,6 +726,68 @@ def show_resource(request,Resource_id = None):
 		return redirect(get_home_page(request.user))
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
+def show_table(request,Division_id):
+	# the remaining lect and prac for all the subjects should return 0,0
+	#  to start the timetable
+	context = return_context(request)
+	if request.method == "POST":
+		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
+		json_events = json.loads(request.body)
+		new_events = set()
+		old_events = set()
+		for l in json_events:
+			new_events.add(tuple(map(str, l.values())))
+		for i in old_events_qs:
+			old_events.add(tuple(map(str, i)))
+		to_be_added = new_events.difference(old_events)
+		to_be_deleted = old_events.difference(new_events)
+		print(to_be_added,to_be_deleted)
+		def foo(x,i):
+			if tuple(map(str, x.values())) == i:
+				return True
+			return False
+		for i in to_be_deleted:
+			def get_str(a):
+				return str(a) if a else None
+			TBD = Event.objects.get(Division_id=Division_id,Slot_id= get_str(i[0]))
+			print(TBD)
+			TBD.delete()
+		for i in to_be_added:
+			TBA = [x for x in json_events if foo(x,i)]
+			# print(TBA)
+			form = add_event(TBA[0])
+			candidate = form.save(commit=False)
+			candidate.Division_id_id = Division_id
+			form.save()
+		redirect('show_table',Division_id)
+	
+	my_division = Division.objects.get(pk = Division_id)
+	Shift_id = my_division.Shift_id
+	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
+	serializer = MySerialiser()
+	my_semester = my_division.Semester_id
+	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
+	timings = Timings.objects.filter(Shift_id = Shift_id)
+	subject = {}
+	for i in Subject_details.objects.filter(Semester_id = my_semester):
+		subject[i] = Subject_event.objects.filter(Subject_id=i)
+	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
+	context['timings'] = timings
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
+	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
+	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
+	context['my_subjects'] = subject
+	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
+	context['my_batches'] = my_batches
+	context['batches_json'] = get_json(my_batches)
+
+	return render(request,"try/table.html",context)
+
+
+
 def algo_context(request,Division_id):
 	context = {}
 	my_division = Division.objects.get(pk = Division_id)
@@ -814,12 +814,23 @@ def algo_context(request,Division_id):
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
 	return context
 
+
 def algo_v1(request,Division_id):
 	context = algo_context(request,Division_id)
 	# delete all the prior events after taking the locked events
 
-	context['this_subject_event'],subject_events = get_sorted_events(context["subject_events"])#,locked_events)
+	subject_events = get_sorted_events(context["subject_events"])#,locked_events)
+	points = {}
+	c = 0
 	for subject_event in subject_events:
-		get_points(subject_event,context["my_events"],False)
-	context["points_json"] = json.dumps(get_points(subject_events[0],context["my_events"],False))
+		if subject_event.prac_carried:
+			if c == 1:
+				points = put_event(subject_event,context["my_events"],True)
+				context['this_subject_event'] = subject_event
+			c = 1
+			# get_points()
+		# if subject_event.lect_carried:
+		# 	put_event(subject_event,context["my_events"],False)
+		# 	# get_points(subject_event,context["my_events"],True)
+	context["points_json"] = json.dumps(points)
 	return render(request,"try/algo_v1.html",context)

@@ -70,7 +70,7 @@
                 {% for subject in my_subjects %}
                     <div class="card">
                         <div class="card-header item" id="{{subject.id}}">
-                            <h3><button class="btn collapsed" style="width: 150px;background-color:{{subject.color}}" data-toggle="collapse" data-target="#a{{loop.index}}"
+                            <h3><button class="btn collapsed" style="width: 150px;background-color:{{subject.color}};color:white" data-toggle="collapse" data-target="#a{{loop.index}}"
                                 aria-expanded="false" aria-controls="a{{loop.index}}"
                                 >
                                 {{subject}}
@@ -125,7 +125,7 @@
             {%endfor%}
         </div>
         {% for timing in timings %}
-        <div class="row my_row" timing_id={{timing.id}}>
+        <div class="row my_row" timing_id={{timing.id}} >
             <!-- <div class="row"></div> -->
             <div class="col my_col lect">
                 <p class="h6">
@@ -155,8 +155,8 @@
             <div class="col my_col lect">10:00</div>
             <div class="col my_col prac prac_above">
                 <div class="container text-center">
-                    <div class="row text-center">
-                        <div class="col-4">
+                    <div class="row text-center" style="overflow-x: auto;">
+                        <div class="col-3">
                             <div class="row">
                                 <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
                             </div>
@@ -166,7 +166,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
                             <div class="row">
                                 <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
                             </div>
@@ -176,7 +176,17 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
                             <div class="row">
                                 <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
                             </div>
@@ -210,6 +220,7 @@
                                 <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
             </div>

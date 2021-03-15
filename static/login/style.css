@@ -9,7 +9,7 @@
 body,
 input {
   font-family: "Poppins", sans-serif;
-  background-color: transparent;
+  background-color: #f0f0f0;
   color: #333;
 }
 
@@ -90,7 +90,8 @@ form.sign-in-form {
 }
 
 .input-field input {
-  background: none;
+  /* background: none; */
+  background-color: #f0f0f0;
   outline: none;
   border: none;
   line-height: 1;
@@ -135,7 +136,8 @@ form.sign-in-form {
 }
 
 .login_btn {
-  width: 150px;
+  /* width: 150px; */
+  padding: 0 20px;
   background-color: #5995fd;
   border: none;
   outline: none;
@@ -226,7 +228,7 @@ form.sign-in-form {
   margin: 0;
   background: none;
   border: 2px solid #fff;
-  width: 130px;
+  /* width: 130px; */
   height: 41px;
   font-weight: 600;
   font-size: 0.8rem;

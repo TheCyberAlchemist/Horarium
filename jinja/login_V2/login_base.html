@@ -6,8 +6,9 @@
 	<title>{% block title %} {% endblock %} | Horarium</title>
 	{# title block for printing the name of the page  #}
 	{% block css %} {% endblock %}
-	<link rel="stylesheet" href="{{static ('admin/base.css')}}">
+	<link rel="stylesheet" href="{{static ('student/base.css')}}">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> 
+	<link rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" />
 </head>
 <body>
 {%endblock%}
@@ -19,7 +20,7 @@
 {# content block for the main contents of the body #}
 </body>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="{{static ('student/BootStrap/MyDash/static/navbar.js') }}"></script>
+<script src="{{static ('student/navbar/navbar.js') }}"></script>
 {% block scripts %}
 {% endblock %}
 {# script block for all the scripts of the page #}

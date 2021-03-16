@@ -80,13 +80,14 @@ function visibility2() {
             </span>
           </div>
           <input type="submit" value="Login" class="login_btn solid" />
-          {% if errors %}
-          <div>
-            <p style="color: black;">
-              Invalid Username or password
-            </p>
-          </div>
-        {% endif %}
+          {% if message %}
+            <div class="errors_container">
+              <p style="color: black;">
+                {{message}}
+              </p>
+            </div>
+          {% endif %}
+        
         </form>
         <form class="sign-up-form" method="POST">
           <h2 class="title">Forgot Password</h2>
@@ -143,11 +144,4 @@ function visibility2() {
       </div>
     </div>
   </div>
-  {% if message %}
-      <div class="errors_container">
-        <p>
-          {{message}}
-        </p>
-      </div>
-      {% endif %}
   {% endblock content %}

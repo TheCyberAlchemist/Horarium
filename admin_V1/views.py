@@ -22,17 +22,17 @@ from admin_V1.algo import get_points,get_sorted_events,put_event
 def run_script(request):
 	var = []
 	for i in Event.objects.all():
-		# if i.Slot_id_2:
-		# 	i.link = i.Batch_id.link
-		# 	i.save()
-		# 	print(i.link,"- is prac")
-		# else:
-		# 	i.link = i.Division_id.link
-		# 	i.save()
-		# 	print(i.link,"- is lect")
-		# if i.Subject_event_id.Subject_id.name == "Web Application Development":
-		# 	i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
-		# 	i.save()
+		if i.Slot_id_2:
+			i.link = i.Batch_id.link
+			i.save()
+			print(i.link,"- is prac")
+		else:
+			i.link = i.Division_id.link
+			i.save()
+			print(i.link,"- is lect")
+		if i.Subject_event_id.Subject_id.name == "Web Application Development":
+			i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
+			i.save()
 		pass
 	return HttpResponse(var)
 

@@ -57,7 +57,7 @@ def faculty_home(request):
 	else:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))	
-	# print(context["events"])
+	# print(context["events_json"])
 	return render(request,"Faculty/faculty_v1.html",context)
 
 def faculty_feedback(request) :

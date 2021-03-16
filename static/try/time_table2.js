@@ -158,7 +158,8 @@ function event_counter(event){
 	let event_arr = events.filter(e => e.Subject_event_id==event.Subject_event_id);
 	let is_prac = Boolean(event.Slot_id_2);
 	let count = event_arr.filter(e => Boolean(e.Slot_id_2) == is_prac).length;
-	return count;
+	// return count;
+	return 0;
 }
 
 

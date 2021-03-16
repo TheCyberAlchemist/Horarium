@@ -59,7 +59,7 @@ def register_page(request):
 			login(request, user)
 			return redirect('')
 		else:
-			messages.info(request,"username or password not correct")
+			messages.info(request,"username or password is not correct")
 	context = {
 	}
 	return render(request,'login_V2/register/register.html',context)

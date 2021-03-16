@@ -19,14 +19,14 @@
 {% endblock %}
 {# content block for the main contents of the body #}
 </body>
-<script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
-<script src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
+<script type="application/javascript" src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+<script type="application/javascript" src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script> -->
-<script src="{{static ('cookie.min.js')}}"></script>
+<script type="application/javascript" src="{{static ('cookie.min.js')}}"></script>
 <!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script> -->
-<script src="{{static ('select2.js')}}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
-<script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+<script type="application/javascript" src="{{static ('select2.js')}}"></script>
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
+<script type="application/javascript" src="{{static ('form/form.js')}}" charset="utf-8"></script>
 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script> -->
 {% block scripts %}
 {% endblock %}

@@ -39,9 +39,10 @@ function put_data(slots_json,sub_events_json,batches,old_events_json){
 				resource = $(this).html();
 			}
 		});
-		if (temp_event.Slot_id_2){	// if it is a practical
+		if (temp_event.Slot_id_2){	// if it is a practical		
+			// print(temp_event);
 			if (push_event(temp_event)){
-				console.log(td);
+				// console.log(td);
 				if (!td.html()){
 					change_to_prac_td(td,obj.Subject_event_id);
 				}
@@ -56,7 +57,7 @@ function put_data(slots_json,sub_events_json,batches,old_events_json){
 		}
 	}
 
-	console.table(batches);
+	// console.table(batches);
 }
 
 
@@ -228,7 +229,7 @@ function get_event_index_by_slot(slot){
 
 function get_cell(slot_id){
 	let slot_obj;
-	console.log(slot_id);
+	// console.log(slot_id);
 	for (i in slots){
 		if (String(slots[i].id) == String(slot_id)){
 			slot_obj = slots[i];

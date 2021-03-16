@@ -109,6 +109,13 @@ function put_events(e,b){
 			break;
 		}
 	}
+	for (let j = 0;j<events.length;j++){
+		if (events[j].is_break){
+			events.splice(j,1);
+		}else{
+			break;
+		}
+	}
 	// console.table(events);
 }
 
@@ -146,6 +153,7 @@ $(document).ready (function () {
 		// for (let i in events){
 		// 	events[i].start_time
 		// }
+		console.table(events);
 		for (let i in events){
 			if (!events[i].is_break){
 				$("#myProgress").append(
@@ -170,7 +178,7 @@ $(document).ready (function () {
 		}
 		for (let i in events){
 			let w;
-			if (events[i].start == st){		// if the first element is here
+			if (events[i].start == st && events[i].end != et){		// if the first element is here
 				w = (events[i].end.delta(st).tis/et.delta(st).tis)*100;
 				temp_st_end = events[i].end.tis;
 				$("#myProgress").append(
@@ -178,9 +186,9 @@ $(document).ready (function () {
 					<span class="text">`+events[i].end.hrs+":"+events[i].end.min+`</span>
 					<div class="circles"></div>
 					</div>`
-				);
+					);
 				// console.log(events[parseInt(i)+1].start.delta(st).tis);
-			}else if (events[i].end == et){	// if last event is here
+			}else if (events[i].end == et && events[i].start != st){	// if last event is here
 				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
 				$("#myProgress").append(
 					`<div id="timeBar" style="width:`+w+`%">
@@ -208,7 +216,7 @@ $(document).ready (function () {
 		// sec++;
 		var d = new Date();
 		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		// ct = new time(15,9,sec);
+		// ct = new time(9,40,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (i == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
 			// console.log("hi");

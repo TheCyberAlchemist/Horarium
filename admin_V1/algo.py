@@ -1,3 +1,19 @@
+	# subject_events = get_sorted_events(context["subject_events"])#,locked_events)
+	# points = {}
+	# c = 0
+
+	# for subject_event in subject_events:
+	# 	if subject_event.prac_carried:
+	# 		if c == 1:
+	# 			# points = put_event(subject_event,context["my_events"],True)
+	# 			context['this_subject_event'] = subject_event
+	# 		c = 1
+	# 		# get_points()
+	# 	# if subject_event.lect_carried:
+	# 	# 	put_event(subject_event,context["my_events"],False)
+	# 	# 	# get_points(subject_event,context["my_events"],True)
+	# # context["points_json"] = json.dumps(points)
+
 import math
 from django.core.exceptions import ObjectDoesNotExist
 from institute_V1.models import Slots,Working_days,Batch
@@ -11,6 +27,9 @@ LOAD_IS_MORE = 3
 NOT_AVAILABLE = -math.inf
 SLOT_BELOW = -math.inf
 PRAC_ON_PRAC = 2
+
+# we can make it so that the prac sub_eve comes with a batch and it has to keep it in the same batc
+
 
 def get_or_none(classmodel = None,qs = None, **kwargs):
 	if classmodel:
@@ -26,11 +45,11 @@ def get_or_none(classmodel = None,qs = None, **kwargs):
 
 def check_repetation(day_events,subject_event,is_prac):
 	if is_prac:
-		repetation = day_events.filter(Subject_event_id = subject_event).exclude(Slot_id_2 = None)		
+		repetation = day_events.filter(Subject_event_id = subject_event).exclude(Slot_id_2 = None).count()
 	else:
-		repetation = day_events.filter(Subject_event_id = subject_event,Slot_id_2 = None)
+		repetation = day_events.filter(Subject_event_id = subject_event,Slot_id_2 = None).count()
 	if repetation:
-		return REPETATION_WEIGHT * len(repetation)
+		return REPETATION_WEIGHT * repetation
 	return 0
 
 def check_availability(slot,subject_event):
@@ -79,7 +98,8 @@ def check_slot_below(slot,day_slots):
 
 def get_points(subject_event,all_events,is_prac):
 	point_dict = {}
-	# won't work if ell_event is null so pass shift_id here
+	best_obj = None
+	# won't work if all_event is null so pass shift_id here
 	all_slots = Slots.objects.filter(Timing_id__Shift_id = all_events[0].Slot_id.Timing_id.Shift_id).order_by("day")
 	usable_slots = all_slots.exclude(Timing_id__is_break = True)
 	prac,lect = subject_event.prac_carried,subject_event.lect_carried
@@ -92,7 +112,6 @@ def get_points(subject_event,all_events,is_prac):
 		if slot.day != day:		# changes the day_slot 
 			day = slot.day
 			day_slots = usable_slots.filter(day = day)
-		
 		# should use filter as two practicals can be on the same slot
 		e = all_events.filter(Slot_id = slot) | all_events.filter(Slot_id_2 = slot)
 		points = 0
@@ -117,15 +136,18 @@ def get_points(subject_event,all_events,is_prac):
 							points += PRAC_ON_PRAC	
 						# point_dict[slot.pk].append((batch,points))
 				point_dict[slot.pk] = points
-		elif not e:		# if there is not an event on that slot
+		elif not e:				# if there is not an event on that slot
 			points += check_availability(slot,subject_event)
 			if points == 0:		# if it is available
 				if is_prac:
+					next_slot = get_next_slot(slot,usable_slots)
+					print(next_slot)
 					points += check_slot_below(day_events,subject_event)
-				points += check_repetation(day_events,subject_event,is_prac)
+					points += check_repetation(day_events,subject_event,is_prac)
 				points += check_load_distribution(day_events,subject_event)
 				points += check_other_events(slot,subject_event)
 			point_dict[slot.pk] = points
+	
 	if is_prac:
 		# best_slot_pk = max(point_dict,key=point_dict.get)
 		# best_slot = all_slots.get(pk = best_slot_pk)
@@ -141,7 +163,6 @@ def get_points(subject_event,all_events,is_prac):
 def put_event(subject_event,all_events,is_prac):
 	print(is_prac)
 	return get_points(subject_event,all_events,is_prac)
-
 
 def get_sorted_events(all_subject_events,locked_events = Event.objects.none()):
 	events = []

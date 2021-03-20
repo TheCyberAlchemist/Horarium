@@ -11,14 +11,15 @@
 	{% block css %} 
 	<link id="light" rel="stylesheet" href="{{static ('student/Student_light.css')}}" disabled=true/>
 	<link id="dark" rel="stylesheet" href="{{static ('student/Student_dark.css')}}"  />
-    <link rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" />
-	<link rel="stylesheet" href="{{static ('BootStrap/bootstrap.min.css')}}" />
-	<link rel="stylesheet" href="{{static ('AOS/aos.css')}}" />
-	<link rel="stylesheet" href="{{static ('student/progress/progress_bar.css')}}" />
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap')}}" rel="stylesheet"/>
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-	{% endblock %}
+    <link type="text/css" rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" />
+	<!-- <link type="text/css" rel="stylesheet" href="{{static ('BootStrap/bootstrap.min.css')}}" /> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="{{static ('AOS/aos.css')}}" />
+	<link type="text/css" rel="stylesheet" href="{{static ('student/progress/progress_bar.css')}}" />
+	<link type="text/css" rel="preconnect" href="https://fonts.gstatic.com">
+	<link type="text/css" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap')}}" rel="stylesheet"/>
+	<link type="text/css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+	{% endblock %} 
 </head>
 <body>
 {%endblock%}
@@ -31,7 +32,8 @@
 </body>
 <!-- scripts here -->
 <script type="application/javascript" src="{{static ('jquery.js')}}"></script>
-<script type="application/javascript" src="{{static ('BootStrap/bootstrap.min.js')}}"></script>
+<!-- <script type="application/javascript" src="{{static ('BootStrap/bootstrap.min.js')}}"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script type="application/javascript" src="{{static ('student/event.js')}}"></script>
 <script type="application/javascript" src="{{static ('student/navbar/navbar.js')}}"></script>
 <script type="application/javascript" src="{{static ('AOS/aos.js')}}"></script>	

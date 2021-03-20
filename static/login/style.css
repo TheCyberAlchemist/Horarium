@@ -285,7 +285,7 @@ form.sign-in-form {
   }
   .signin-signup {
     width: 100%;
-    top: 95%;
+    top: 65%;
     transform: translate(-50%, -100%);
     transition: 1s 0.8s ease-in-out;
   }
@@ -337,6 +337,9 @@ form.sign-in-form {
     padding: 0.5rem 0;
   }
 
+  .login_btn.me {
+    padding: 0;
+  }
   .login_btn.transparent {
     width: 110px;
     height: 35px;
@@ -385,6 +388,7 @@ form.sign-in-form {
   form {
     padding: 0 1.5rem;
   }
+  
 
   .image {
     display: none;

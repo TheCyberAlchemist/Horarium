@@ -26,7 +26,7 @@ def get_events_json(qs):
 			d["name"] = str(this.Subject_event_id.Subject_id)
 			# d["link"] = this.Division_id.link
 		d["link"] = this.link
-		print(d["link"])
+		# print(d["link"])
 		d["resource"] = str(this.Resource_id)
 		del d['model'],d['fields']
 	return json.dumps(data)
@@ -43,16 +43,38 @@ def get_break_json(qs,):
 		del d['model'],d['fields']
 	return json.dumps(data)
 
-
+import student_V1.forms as _
+import datetime
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Student'])
-def student_home(request):	
-		
-	# for i in Slots.objects.filter(day=2):
+def student_home(request):
+	if request.method == 'POST':
+		form = _.feedback_form(request.POST)
+		if form.is_valid():
+			candidate = form.save(commit=False)
+			event = form.instance.Event_id
+			end_slot = event.Slot_id_2 if event.Slot_id_2 else event.Slot_id
+			end_time = end_slot.Timing_id.end_time
+			# ct = datetime.datetime(year=1990, month=1, day=1,hour=9,minute=14,second=1).time()
+			# testing 
+			ct = datetime.datetime.now().time()
+			end = datetime.datetime(2000, 1, 1,hour=end_time.hour, minute=end_time.minute, second=end_time.second)
+			if (end-datetime.timedelta(minutes=2)).time() < ct < (end+datetime.timedelta(minutes=5)).time():
+				print("done")
+			candidate.Given_by = request.user
+			print((end-datetime.timedelta(minutes=2)).time()," - ",ct," - ",(end+datetime.timedelta(minutes=5)).time())
+			# form.save()
+			# if candidate.Event_id
+			# candidate.Event_id = 
+
+
+
+
+
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.filter(Q(Batch_id=student.Batch_id) | Q(Batch_id=None),Division_id=student.Division_id)
-	day = ""
+	day = "Monday"
 	questions = [
 		"Lecture or Lab Session Began and End on scheduled Time",
 		"I felt the Teacher well prepared for this particular session",
@@ -75,6 +97,5 @@ def student_home(request):
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
 	else:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
-		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))		
-	# print(context["events_json"])
+		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	return render(request,"Student/student_v1.html",context)

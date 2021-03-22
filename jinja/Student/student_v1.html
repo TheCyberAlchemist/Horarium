@@ -162,203 +162,68 @@ function toggle() {
 
 
           {% endfor %}
-          <!-- <tr>
-            <td>9:00-10:00</td>
-            <td class="td_active">
-              <div class="card p-1">
-                <span class="text-left">Batch-31</span>
-                <button class="btn m-2" style="background-color: #7377a5">
-                  AEM
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>DRD</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #fdcb33">
-                  DBMS
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #00b3b3">
-                  AC-2
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="td_active">
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #ff8080">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #ff81a0">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #66cc66">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr> -->
-          <!--<tr>
-            <td>9:00-10:00</td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #33cccc">
-                  AEM
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #5252fc">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #ff4141">
-                  gg
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #7377a5">
-                  DS
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #fdcb33">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #00b3b3">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr> -->
         </tbody>
       </table>
     </div>
+
+  </div>
+
+  <!-- Button trigger modal -->
+  <button id = "feedback_btn" type="button" class="btn modal_btn" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <form method="POST" id="feedback_form">
+  {{csrf_input}}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title h4" id="exampleModalLabel">Feedback for <div id="popped_event" style="display:inline"></div></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <input type="hidden" id="event_id" name="Event_id">
+          <div class="modal-body text-center">
+            {%for ques in questions %}
+              <div class="h5 text-center" style="font-weight :bold;">{{ques}}</div>
+              <div class="mt-3 mb-3">
+              <label class="radio-inline" for="5 {{loop.index}}">
+                <input type="radio" id="5 {{loop.index}}" value="5" name="Q{{loop.index}}">&nbsp;Strongly Agree
+              </label>
+              <label class="radio-inline" for="4 {{loop.index}}">
+                <input type="radio" value="4" id="4 {{loop.index}}" name="Q{{loop.index}}">&nbsp;Agree
+              </label>
+              <label class="radio-inline" for="3 {{loop.index}}">
+                <input type="radio" value="3" id="3 {{loop.index}}" name="Q{{loop.index}}">&nbsp;Neutral
+              </label>
+              <label class="radio-inline" for="2 {{loop.index}}">
+                <input type="radio" id="2 {{loop.index}}" value="2" name="Q{{loop.index}}">&nbsp;Disagree
+              </label>
+              <label class="radio-inline" for="1 {{loop.index}}">
+                <input type="radio" value="1" id="1 {{loop.index}}" name="Q{{loop.index}}">&nbsp;Strongly Disagree
+              </label>
+            </div>
+            {%endfor%}
+          </div>
+          <div class="modal-footer">
+
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <input type="submit" class="btn btn-success" value="Submit">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <hr>
+</div>
+
+
+{% endblock %}
+
     <!-- <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-up" data-aos-duration="1000">
       <div class="card" id="agenda_panel">
 
@@ -377,7 +242,6 @@ function toggle() {
         </div>
       </div>
     </div> -->
-  </div>
 
   <!-- Button trigger modal -->
   <button type="button" class="btn modal_btn" data-toggle="modal" data-target="#exampleModal">

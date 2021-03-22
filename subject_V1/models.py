@@ -2,7 +2,7 @@ from django.db import models
 
 ################################################
 
-from institute_V1.models import Semester,Batch,Division
+from institute_V1.models import Semester,Division
 
 ################################################
 
@@ -43,11 +43,13 @@ class Subject_details(models.Model):
 		return remaining_lect,remaining_prac
 		
 	def get_prac_lect(self):
+		from institute_V1.models import Batch
 		prac_batch = lect_batch = 0
 		no_of_div = len(Division.objects.filter(Semester_id=self.Semester_id))
-		for batch in Batch.objects.filter(Division_id__Semester_id = self.Semester_id):
-			lect_batch += 1 if batch.batch_for == "lect" else 0	# total batches of lecture
-			prac_batch += 1 if batch.batch_for == "prac" else 0	# total batches of practical
+
+		lect_batch = self.batch_set.filter(batch_for = "lect").count()
+		prac_batch = self.batch_set.filter(batch_for = "prac").count()
+
 		lect_batch = no_of_div if lect_batch == 0 else lect_batch
 		prac_batch = no_of_div if prac_batch == 0 else prac_batch
 		return prac_batch,lect_batch
@@ -65,7 +67,8 @@ class Subject_details(models.Model):
 		# self.set(load_per_week = 1)
 
 	def save(self, *args, **kwargs):	# for calculating the load before saving
-		self.set_load(True)
+		# self.set_load(True)
+		self.load_per_week = (self.lect_per_week) + 2 * (self.prac_per_week)
 		super(Subject_details, self).save(*args, **kwargs) 
 
 	def __str__(self):
@@ -78,6 +81,7 @@ class Subject_details(models.Model):
 			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Subject Name is Unique for Semester.')
         ]	
 
+
 class Subject_event(models.Model):
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)
 	Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE)
@@ -86,9 +90,12 @@ class Subject_event(models.Model):
 	lect_carried = models.PositiveIntegerField()
 	def total_load_carried(self):
 		return (self.prac_carried * 2) + self.lect_carried
+	
 	def __str__(self):
 		self.Subject_id.get_prac_lect()
 		return self.Subject_id.short + " by " + str(self.Faculty_id)
+
+
 	class Meta:
 		verbose_name_plural = "Subject events"
 		constraints = [

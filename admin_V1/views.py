@@ -16,25 +16,35 @@ from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,u
 from .forms import add_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
-from admin_V1.algo import get_points,get_sorted_events,put_event
+
 
 ############# For running any scripts ###############
 def run_script(request):
 	var = []
-	for i in Event.objects.all():
-		if i.Slot_id_2:
-			i.link = i.Batch_id.link
-			i.save()
-			print(i.link,"- is prac")
-		else:
-			i.link = i.Division_id.link
-			i.save()
-			print(i.link,"- is lect")
-		if i.Subject_event_id.Subject_id.name == "Web Application Development":
-			i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
-			i.save()
-		pass
-	return HttpResponse(var)
+	# for i in Event.objects.all():
+	# 	if i.Slot_id_2:
+	# 		i.link = i.Batch_id.link
+	# 		i.save()
+	# 		print(i.link,"- is prac")
+	# 	else:
+	# 		i.link = i.Division_id.link
+	# 		i.save()
+	# 		print(i.link,"- is lect")
+	# 	if i.Subject_event_id.Subject_id.name == "Web Application Development":
+	# 		i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
+	# 		i.save()
+	# 	pass
+
+	# for i in Batch.objects.all():		
+	# 	for j in Subject_details.objects.filter(Semester_id = i.Division_id.Semester_id):
+	# 		i.subjects_for_batch.add(j)
+	# 	# # i.subjects_for_batch.remove(Subject_details.objects.filter())
+	# 	i.save()
+		# break
+	for j in Subject_details.objects.all():
+		print(j.get_prac_lect())
+		break
+	return HttpResponse(Subject_details.objects.first())
 
 ############# Returns data for navigation tree #############
 def return_context(request):
@@ -817,22 +827,104 @@ def algo_context(request,Division_id):
 	return context
 
 
-def algo_v1(request,Division_id):
-	context = algo_context(request,Division_id)
-	# delete all the prior events after taking the locked events
+from admin_V1.algo import get_points,get_sorted_events,put_event
 
-	subject_events = get_sorted_events(context["subject_events"])#,locked_events)
-	points = {}
-	c = 0
+import admin_V1.algo2 as algo
+
+
+def algo_v1(request,Division_id):
+	# delete all the prior events after taking the locked events
+	# save all the locked events
+	context = algo_context(request,Division_id)
+	locked_events = Event.objects.filter(Division_id=Division_id)
+	subject_events = algo.get_sorted_events(context["subject_events"],locked_events)
 	for subject_event in subject_events:
-		if subject_event.prac_carried:
-			if c == 1:
-				points = put_event(subject_event,context["my_events"],True)
-				context['this_subject_event'] = subject_event
-			c = 1
-			# get_points()
-		# if subject_event.lect_carried:
-		# 	put_event(subject_event,context["my_events"],False)
-		# 	# get_points(subject_event,context["my_events"],True)
-	context["points_json"] = json.dumps(points)
+		prac_carried = subject_event.prac_carried
+		lect_carried = subject_event.lect_carried
+		if prac_carried:	# if the faculty has practicals here
+			batches = subject_event.Subject_id.batch_set.filter(batch_for = "prac")
+			locked_subject_event = locked_events.filter(Subject_event_id=subject_event).exclude(Slot_id_2=None)
+			prac_per_week = subject_event.Subject_id.prac_per_week
+			if batches:
+				for batch in batches:
+					locked_prac_count = locked_subject_event.filter(Batch_id = batch).count()
+
+					remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
+					prac_remaining = subject_event.prac_carried - locked_subject_event.count()
+					# get the capability of the faculty to take this event
+
+					remaining_count = remaining_count if remaining_count<prac_remaining else prac_remaining
+					# if the faculty has no capicity then have the highest capability be remaining count
+					
+					for i in range(remaining_count):
+						# print(batch,"-",subject_event)
+						algo.get_subject_events(subject_event,True,locked_events,batch)
+			else:
+				locked_prac_count = locked_subject_event.count()
+				
+				remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
+				prac_remaining = subject_event.prac_carried - locked_subject_event.count()
+				# get the capability of the faculty to take this event
+
+				remaining_count = remaining_count if remaining_count<prac_remaining else prac_remaining
+				# if the faculty has no capicity then have the highest capability be remaining count
+				
+				for i in range(remaining_count):
+					# print(subject_event,"- Class")
+					algo.get_subject_events(subject_event,True,locked_events)
+
+		if lect_carried:
+			batches = subject_event.Subject_id.batch_set.filter(batch_for = "lect")
+			locked_subject_event = locked_events.filter(Subject_event_id=subject_event,Slot_id_2=None)
+			lect_per_week = subject_event.Subject_id.lect_per_week
+			if batches:		# if the subject has a batch
+				for batch in batches:
+					locked_lect_count = locked_subject_event.filter(Batch_id = batch).count()
+
+					remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
+					lect_remaining = subject_event.lect_carried - locked_subject_event.count()
+					# get the capability of the faculty to take this event
+
+					remaining_count = remaining_count if remaining_count < lect_remaining else lect_remaining
+					# if the faculty has no capicity then have the highest capability be remaining count
+					
+					for i in range(remaining_count):
+						# print(batch,"-",subject_event)
+						algo.get_subject_events(subject_event,False,locked_events,batch)
+
+			else:
+				locked_lect_count = locked_subject_event.count()
+				
+				remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
+				lect_remaining = subject_event.lect_carried - locked_subject_event.count()
+				# get the capability of the faculty to take this event
+
+				remaining_count = remaining_count if remaining_count<lect_remaining else lect_remaining
+				# if the faculty has no capicity then have the highest capability be remaining count
+				
+				for i in range(remaining_count):
+					# print(subject_event,"- Class")
+					algo.get_subject_events(subject_event,False,locked_events)
+					
+				# print(subject_event," - Class")
+
+
+
+		# if locked_events :
+		# 	subject_event_locked = locked_events.filter(Subject_event_id=subject_event)
+		# 	prac_carried = subject_event.prac_carried
+		# 	lect_carried = subject_event.lect_carried
+		# 	lect_batch = Batch.objects.filter(Division_id = Division_id,batch_for="lect")
+		# 	if len(lect_batch):
+		# 		for batch in lect_batch:
+		# 			print(batch)
+		# 	else:
+		# 		print(subject_event)
+		# 	print(subject_event ," - ",prac_carried,lect_carried)
+			# locked_events.filter()
+			
+
+	# 	# print(subject_event.Subject_id.lect_per_week)
+
+	# print(list(locked_events.values_list("Subject_event_id",flat=True)))
 	return render(request,"try/algo_v1.html",context)

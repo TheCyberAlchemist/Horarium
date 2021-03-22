@@ -61,7 +61,6 @@ def faculty_home(request):
 	return render(request,"Faculty/faculty_v1.html",context)
 
 def faculty_feedback(request) :
-
 	f_name = Chart.name
 	f_money = Chart.money
 	context = {

@@ -150,11 +150,14 @@ th:nth-of-type(1) {
       -ms-user-select: none;
           user-select: none;
 }
-
+#querybox {
+  background-color: #fff;
+}
 .modal_btn.btn {
   -webkit-transition: .3s;
   transition: .3s;
   border: 1px solid #50a6f7;
+  background-color: #50a6f7;
 }
 
 .modal_btn:hover {

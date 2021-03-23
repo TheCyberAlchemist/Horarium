@@ -146,9 +146,33 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 	return t[0]+" : " + t[1]+" : " + t[2];
 }
 
+function toggle_theme() {
+    var el1 = document.getElementById("light"),
+      el2 = document.getElementById("dark");
+	//   console.log("hi");
+    if (el1.disabled) {   // if dark
+      localStorage.setItem("theme", "");
+      el1.disabled = false;
+      el2.disabled = "disabled";
+    } else {              // if light
+      el1.disabled = "disabled";
+      el2.disabled = false;
+      localStorage.setItem("theme", "dark");
+    } 
+}
 $(document).ready (function () {
 	let st,et;
 	var i = 0;
+	AOS.init({
+        offset : 150,
+    });
+	let cookie = localStorage.getItem("theme") || "";
+	// console.log(cookie,"asdasd");
+	if (cookie === ""){
+		$("#slider1").prop("checked",true);
+			// console.log("hi");
+		toggle_theme();
+	}
 	function put_events_on_timeline(){
 		// for (let i in events){
 		// 	events[i].start_time
@@ -216,8 +240,8 @@ $(document).ready (function () {
 	var last_popped_event;
 	function main(){
 		var d = new Date();
-		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(9,13,sec);
+		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		// ct = new time(9,13,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;

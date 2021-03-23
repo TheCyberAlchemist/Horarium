@@ -800,6 +800,14 @@ def show_table(request,Division_id):
 
 
 
+
+
+from admin_V1.algo import get_points,get_sorted_events,put_event
+
+from tabulate import tabulate
+
+import admin_V1.algo2 as algo
+
 def algo_context(request,Division_id):
 	context = {}
 	my_division = Division.objects.get(pk = Division_id)
@@ -824,13 +832,8 @@ def algo_context(request,Division_id):
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches)	
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	algo.put_vars(my_division)
 	return context
-
-
-from admin_V1.algo import get_points,get_sorted_events,put_event
-
-import admin_V1.algo2 as algo
-
 
 def algo_v1(request,Division_id):
 	# delete all the prior events after taking the locked events
@@ -858,7 +861,7 @@ def algo_v1(request,Division_id):
 					
 					for i in range(remaining_count):
 						# print(batch,"-",subject_event)
-						algo.get_subject_events(subject_event,True,locked_events,batch)
+						algo.get_subject_events(Division_id,subject_event,True,locked_events,batch)
 			else:
 				locked_prac_count = locked_subject_event.count()
 				
@@ -871,7 +874,7 @@ def algo_v1(request,Division_id):
 				
 				for i in range(remaining_count):
 					# print(subject_event,"- Class")
-					algo.get_subject_events(subject_event,True,locked_events)
+					algo.get_subject_events(Division_id,subject_event,True,locked_events)
 
 		if lect_carried:
 			batches = subject_event.Subject_id.batch_set.filter(batch_for = "lect")
@@ -890,7 +893,7 @@ def algo_v1(request,Division_id):
 					
 					for i in range(remaining_count):
 						# print(batch,"-",subject_event)
-						algo.get_subject_events(subject_event,False,locked_events,batch)
+						algo.get_subject_events(Division_id,subject_event,False,locked_events,batch)
 
 			else:
 				locked_lect_count = locked_subject_event.count()
@@ -904,7 +907,7 @@ def algo_v1(request,Division_id):
 				
 				for i in range(remaining_count):
 					# print(subject_event,"- Class")
-					algo.get_subject_events(subject_event,False,locked_events)
+					algo.get_subject_events(Division_id,subject_event,False,locked_events)
 					
 				# print(subject_event," - Class")
 
@@ -923,7 +926,7 @@ def algo_v1(request,Division_id):
 		# 	print(subject_event ," - ",prac_carried,lect_carried)
 			# locked_events.filter()
 			
-
+	print(tabulate(algo.l,headers=["event","batch","type"],tablefmt="grid"))
 	# 	# print(subject_event.Subject_id.lect_per_week)
 
 	# print(list(locked_events.values_list("Subject_event_id",flat=True)))

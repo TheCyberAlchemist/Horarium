@@ -4,7 +4,6 @@
 {% block scripts %}
 <script>
   put_events({{ events_json | safe}}, {{ break_json | safe}});
-
 </script>
 {% endblock %}
 {% block content %}
@@ -20,7 +19,7 @@
     <div class="col-6 text-right" style="background-color: grey;">
       4:00:00
     </div>
-  </div> --> 
+  </div> -->
   <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500">
   </div>
   <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
@@ -58,67 +57,67 @@
               [{{timing.return_time()}}]
             </th>
             {% for day in days %}
-              {% if day not in before %}
-                {% set temp_event={'a':None} %}
-                {% for event in events %}
-                  {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
-                    {% set _ = temp_event.update({'a':event}) %}
-                  {% endif %}
-                {% endfor %}
-                {% if temp_event.a %}
-                <!-- if there is an event-->
-                {% if temp_event.a.Slot_id_2 %}
-                <!-- if there is practical event-->
-                {% set _ = before.append(day) %}
-                <td class= "td_gone" rowspan="2" event_id = "{{temp_event.a.id}}">
-                  <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
-                    <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
-                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
-                      onclick = "window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Batch_id.link}}{% endif %}', '_blank')">
-                      {{temp_event.a.Subject_event_id.Subject_id}}
-                    </button>
-                    
-                    <div class="row">
-                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
-                      </div>
-                      {%if temp_event.a.Resource_id %}
-                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                          <span>{{temp_event.a.Resource_id}}</span>
-                        </div>
-                      {%endif%}
-                    </div>
+            {% if day not in before %}
+            {% set temp_event={'a':None} %}
+            {% for event in events %}
+            {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
+            {% set _ = temp_event.update({'a':event}) %}
+            {% endif %}
+            {% endfor %}
+            {% if temp_event.a %}
+            <!-- if there is an event-->
+            {% if temp_event.a.Slot_id_2 %}
+            <!-- if there is practical event-->
+            {% set _ = before.append(day) %}
+            <td class="td_gone" rowspan="2" event_id="{{temp_event.a.id}}">
+              <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
+                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+                  style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                  onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Batch_id.link}}{% endif %}', '_blank')">
+                  {{temp_event.a.Subject_event_id.Subject_id}}
+                </button>
+
+                <div class="row">
+                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
                   </div>
-                </td>
-                {% else %}
-                <!-- if there is lecture event-->
-                <td class = "td_gone" event_id = "{{temp_event.a.id}}">
-                  <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
-                    <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
-                      style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
-                      onclick = "window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">
-                      {{temp_event.a.Subject_event_id.Subject_id}}
-                    </button>
-                    <div class="row">
-                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                        <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
-                      </div>
-                      {%if temp_event.a.Resource_id %}
-                        <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                          <span>{{temp_event.a.Resource_id}}</span>
-                        </div>
-                      {%endif%}
-                    </div>
+                  {%if temp_event.a.Resource_id %}
+                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                    <span>{{temp_event.a.Resource_id}}</span>
                   </div>
-                </td>
-              {% endif %}
-              {% else %}
-              <!-- if there is no event-->
-              <td></td>
-              {% endif %}
-              {% else %}
-              {% set _ = before.pop(before.index(day))%}
-              {% endif %}
+                  {%endif%}
+                </div>
+              </div>
+            </td>
+            {% else %}
+            <!-- if there is lecture event-->
+            <td class="td_gone" event_id="{{temp_event.a.id}}">
+              <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
+                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+                  style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                  onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">
+                  {{temp_event.a.Subject_event_id.Subject_id}}
+                </button>
+                <div class="row">
+                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                  </div>
+                  {%if temp_event.a.Resource_id %}
+                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                    <span>{{temp_event.a.Resource_id}}</span>
+                  </div>
+                  {%endif%}
+                </div>
+              </div>
+            </td>
+            {% endif %}
+            {% else %}
+            <!-- if there is no event-->
+            <td></td>
+            {% endif %}
+            {% else %}
+            {% set _ = before.pop(before.index(day))%}
+            {% endif %}
             {% endfor %}
             {% endif %}
           </tr>
@@ -131,63 +130,7 @@
 
   </div>
 
-  <!-- Button trigger modal -->
-  <button id = "feedback_btn" type="button" class="btn modal_btn" data-toggle="modal" data-target="#exampleModal">
-    Launch demo modal
-  </button>
-
-  <!-- Modal -->
-  <form method="POST" id="feedback_form">
-  {{csrf_input}}
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-      aria-hidden="true">
-      <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-          <div class="modal-header border-0">
-            <h5 class="modal-title h4" id="exampleModalLabel">Feedback for <div id="popped_event" style="display:inline"></div></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <input type="hidden" id="event_id" name="Event_id">
-          <div class="modal-body text-center">
-            {%for ques in questions %}
-              <div class="h5 text-center" style="font-weight :bold;">{{ques}}</div>
-              <div class="mt-3 mb-3">
-              <label class="radio-inline" for="5 {{loop.index}}">
-                <input type="radio" id="5 {{loop.index}}" value="5" name="Q{{loop.index}}">&nbsp;Strongly Agree
-              </label>
-              <label class="radio-inline" for="4 {{loop.index}}">
-                <input type="radio" value="4" id="4 {{loop.index}}" name="Q{{loop.index}}">&nbsp;Agree
-              </label>
-              <label class="radio-inline" for="3 {{loop.index}}">
-                <input type="radio" value="3" id="3 {{loop.index}}" name="Q{{loop.index}}">&nbsp;Neutral
-              </label>
-              <label class="radio-inline" for="2 {{loop.index}}">
-                <input type="radio" id="2 {{loop.index}}" value="2" name="Q{{loop.index}}">&nbsp;Disagree
-              </label>
-              <label class="radio-inline" for="1 {{loop.index}}">
-                <input type="radio" value="1" id="1 {{loop.index}}" name="Q{{loop.index}}">&nbsp;Strongly Disagree
-              </label>
-            </div>
-            {%endfor%}
-          </div>
-          <div class="modal-footer">
-
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            <input type="submit" class="btn btn-success" value="Submit">
-          </div>
-        </div>
-      </div>
-    </div>
-  </form>
-  <hr>
-</div>
-
-
-{% endblock %}
-
-    <!-- <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-up" data-aos-duration="1000">
+  <!-- <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-up" data-aos-duration="1000">
       <div class="card" id="agenda_panel">
 
         <a class="nav-item nav-link" style="text-decoration:underline">Agenda</a>
@@ -206,18 +149,62 @@
       </div>
     </div> -->
 
-              <!-- <div class="container">
-          <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-              <li class="page-item disabled">
-                <a class="page-link" tabindex="-1">Previous</a>
-              </li>
-              <li class="page-item"><a class="page-link">1</a></li>
-              <li class="page-item"><a class="page-link">2</a></li>
-              <li class="page-item"><a class="page-link">3</a></li>
-              <li class="page-item">
-                <a class="page-link">Next</a>
-              </li>
-            </ul>
-          </nav>
-          </div> -->
+  <!-- Button trigger modal -->
+  <button type="button" class="btn modal_btn" data-toggle="modal" data-target="#exampleModal">
+    Launch demo modal
+  </button>
+
+  <!-- Modal -->
+  <form method="post" id="feedback_form">
+    {{csrf_input}}
+    <input type="hidden" id="event_id" name="Event_id">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header border-0">
+            <h5 class="modal-title h4" id="exampleModalLabel">Feedback</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+
+
+            {%for ques in questions %}
+            <div class="h5 text-center" style="font-weight :bold;">{{ques}}</div>
+            <div class="mt-3 mb-3">
+              <label class="radio-inline" for="5{{ques}}">
+                <input type="radio" id="5{{ques}}" value="5" name="{{ques}}">&nbsp;Strongly Agree
+              </label>
+              <label class="radio-inline" for="4{{ques}}">
+                <input type="radio" value="4" id="4{{ques}}" name="{{ques}}">&nbsp;Agree
+              </label>
+              <label class="radio-inline" for="3{{ques}}">
+                <input type="radio" value="3" id="3{{ques}}" name="{{ques}}">&nbsp;Neutral
+              </label>
+              <label class="radio-inline" for="2{{ques}}">
+                <input type="radio" id="2{{ques}}" value="2" name="{{ques}}">&nbsp;Disagree
+              </label>
+              <label class="radio-inline" for="1{{ques}}">
+                <input type="radio" value="1" id="1{{ques}}" name="{{ques}}">&nbsp;Strongly Disagree
+              </label>
+            </div>
+            {%endfor%}
+            <div class="mt-5 mb-2">
+              <textarea class="form-control" id="querybox" name="query" placeholder="Enter your suggestions here"
+                rows="3"></textarea>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            <input type="submit" value="Submit" class="modal_btn btn">
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+{% endblock %}

@@ -236,7 +236,7 @@ $(document).ready (function () {
 	}
 	put_events_on_timeline();
 	var progress_bar_counter = 0
-	var sec = 57;
+	var sec = 57;	
 	var last_popped_event;
 	function main(){
 		var d = new Date();
@@ -308,6 +308,7 @@ $(document).ready (function () {
 						$('#exampleModal').modal(show=true,backdrop=true);
 						$('#popped_event').html(events[i].name);
 						$("#event_id").val(events[i].pk);
+						console.log(events[i]);
 						last_popped_event = events[i];
 					}
 					next = events[parseInt(i)+1];

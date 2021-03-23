@@ -10,6 +10,7 @@ from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days
 from student_V1.forms import feedback_form
+from django.core.mail import send_mail
 
 def get_events_json(qs):
 	data = serializers.serialize("json", qs)
@@ -50,23 +51,34 @@ import datetime
 def student_home(request):
 	if request.method == 'POST':
 		form = _.feedback_form(request.POST)
+		print(request.POST.Event_id)
 		if form.is_valid():
 			candidate = form.save(commit=False)
 			event = form.instance.Event_id
 			end_slot = event.Slot_id_2 if event.Slot_id_2 else event.Slot_id
 			end_time = end_slot.Timing_id.end_time
-			# ct = datetime.datetime(year=1990, month=1, day=1,hour=9,minute=14,second=1).time()
+			ct = datetime.datetime(year=1990, month=1, day=1,hour=9,minute=14,second=1).time()
 			# testing 
-			ct = datetime.datetime.now().time()
+			# ct = datetime.datetime.now().time()
 			end = datetime.datetime(2000, 1, 1,hour=end_time.hour, minute=end_time.minute, second=end_time.second)
 			if (end-datetime.timedelta(minutes=2)).time() < ct < (end+datetime.timedelta(minutes=5)).time():
 				print("done")
+				# message_name = request.POST['message_name']
+				message_name = "Subject"
+				message = request.POST['query']
+				send_mail(
+					message_name, #subject
+					message, #message
+					# from_email = None, # from email 
+					['yogeshrathod19@gnu.ac.in'] # to email
+				)
+			else :
+				print("hrllo")
 			candidate.Given_by = request.user
 			print((end-datetime.timedelta(minutes=2)).time()," - ",ct," - ",(end+datetime.timedelta(minutes=5)).time())
 			# form.save()
 			# if candidate.Event_id
 			# candidate.Event_id = 
-
 
 
 
@@ -99,3 +111,21 @@ def student_home(request):
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	return render(request,"Student/student_v1.html",context)
+
+def sendMail(request) :
+	if request.method == "POST" :
+		message_name = request.POST['message_name']
+		# message_name = "Hello"
+		message_email = request.POST['message']
+		# message_email = "yogeshrathod19@gnu.ac.in"
+		message = request.POST['message']
+
+		send_mail(
+			message_name, #subject
+			message, #message
+			message_email, # from email 
+			['yogeshrathod19@gnu.ac.in'] # to email
+		)
+		return render(request,'Student/submitted.html',{'message':message})	
+	else : 
+		return render(request,'Student/submitted.html', {})

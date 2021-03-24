@@ -72,3 +72,6 @@ def register_page(request):
 	context = {
 	}
 	return render(request, 'login_V2/register/register.html', context)
+
+# def about(request) :
+# 	return render(request,'about/about.html')

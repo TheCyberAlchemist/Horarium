@@ -146,9 +146,33 @@ function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 	return t[0]+" : " + t[1]+" : " + t[2];
 }
 
+function toggle_theme() {
+    var el1 = document.getElementById("light"),
+      el2 = document.getElementById("dark");
+	//   console.log("hi");
+    if (el1.disabled) {   // if dark
+      localStorage.setItem("theme", "");
+      el1.disabled = false;
+      el2.disabled = "disabled";
+    } else {              // if light
+      el1.disabled = "disabled";
+      el2.disabled = false;
+      localStorage.setItem("theme", "dark");
+    } 
+}
 $(document).ready (function () {
 	let st,et;
 	var i = 0;
+	AOS.init({
+        offset : 150,
+    });
+	let cookie = localStorage.getItem("theme") || "";
+	// console.log(cookie,"asdasd");
+	if (cookie === ""){
+		$("#slider1").prop("checked",true);
+			// console.log("hi");
+		toggle_theme();
+	}
 	function put_events_on_timeline(){
 		// for (let i in events){
 		// 	events[i].start_time
@@ -199,7 +223,7 @@ $(document).ready (function () {
 				break;
 			}else if(events[i].start.delta(st).tis > 0 && events[i].start.tis != temp_st_end){
 				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
-				console.log(w,events[i].start,temp_st_end);
+				// console.log(w,events[i].start,temp_st_end);
 				$("#myProgress").append(
 					`<div id="timeBar" style="width:`+w+`%">
 					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
@@ -211,45 +235,52 @@ $(document).ready (function () {
 		// console.log(events[0].start);
 	}
 	put_events_on_timeline();
-	// var sec = 50;
+	var progress_bar_counter = 0
+	var sec = 57;	
+	var last_popped_event;
 	function main(){
-		// sec++;
 		var d = new Date();
 		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		// ct = new time(9,40,sec);
+		// ct = new time(9,13,sec);
 		/////////////////// progress-bar /////////////////////////////
-		if (i == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
-			// console.log("hi");
-			i = 1;
-			var elem = document.getElementById("myBar");
-			var elem1 = document.getElementById("ct");
-			var id = setInterval(frame, 1000);
-			function frame() {
-				// var d = new Date();
-				// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-				// st = new time(9,15,0);
-				// ct = new time(9,45,0);
-				// et = new time(17,00,0);
-				let e = false;
-				for(let j in events){
-					if (ct.delta(events[j].end).tis < 0 && ct.delta(events[j].start).tis > 0)
-						e = events[j];
+		if (progress_bar_counter % 60 == 0){
+			myvar = 0;
+			if (myvar == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
+				// console.log("hi");
+				myvar = 1;
+				var elem = document.getElementById("myBar");
+				var elem1 = document.getElementById("ct");
+				var id = setInterval(frame, 1000);
+				function frame() {
+					// var d = new Date();
+					// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+					// st = new time(9,15,0);
+					// ct = new time(9,45,0);
+					// et = new time(17,00,0);
+					let e = false;
+					for(let j in events){
+						if (ct.delta(events[j].end).tis < 0 && ct.delta(events[j].start).tis > 0)
+							e = events[j];
+					}
+					w = (ct.delta(st).tis/et.delta(st).tis)*100;
+					// console.log(w);
+					$("#ct").html(ct.time[0] + " : " + ct.time[1]);
+					// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
+					if (w >= 100) {
+						clearInterval(id);
+						myvar = 0;
+					} else {
+						elem.style.width = w + "%";
+						elem1.style.width = w + "%";
+					}
 				}
-				w = (ct.delta(st).tis/et.delta(st).tis)*100;
-				// console.log(w);
-				$("#ct").html(ct.time[0] + " : " + ct.time[1]);
-				// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
-				if (w >= 100) {
-					clearInterval(id);
-					i = 0;
-				} else {
-					elem.style.width = w + "%";
-					elem1.style.width = w + "%";
-				}
+			}else{
+				document.getElementById("myBar").style.width = 0 + "%";
+				// $("#myProgress").hide();
 			}
-		}else{
-			document.getElementById("myBar").style.width = 0 + "%";
+			
 		}
+		sec++;
 		/////////////////// main code /////////////////////////////		
 		// console.log(events,ct);
 		for(i in events){
@@ -273,6 +304,13 @@ $(document).ready (function () {
 
 				}else{						// if a class is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
+					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
+						$('#exampleModal').modal(show=true,backdrop=true);
+						$('#popped_event').html(events[i].name);
+						$("#event_id").val(events[i].pk);
+						console.log(events[i]);
+						last_popped_event = events[i];
+					}
 					next = events[parseInt(i)+1];
 					if (next && !(next.is_break || events[i].end.delta(next.start).tis))	// if up next
 						$("#text").append("<br>Up Next - "+ next.name );
@@ -313,7 +351,20 @@ $(document).ready (function () {
 	interval = setInterval(main, 1000);
 	$("#text").addClass("glow");
 	main();
-
+	$("#feedback_form").submit(function(e) {
+	// console.log("JSON.stringify(events),1)");
+		var form = $(this);
+		e.preventDefault();
+		$.ajax({
+			type: "post",
+			data: form.serialize(),
+			success: function (){ 
+				$('#exampleModal').modal("hide");
+				form.trigger("reset");
+				// $('#modal').modal('hide');
+			}
+		});
+	});
 });
 
 function setWithExpiry(key, value, ttl) {
@@ -348,3 +399,4 @@ function getWithExpiry(key) {
 	}
 	return item.value
 }
+

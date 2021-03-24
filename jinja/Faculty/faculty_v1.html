@@ -3,29 +3,29 @@
 
 {% block scripts %}
 <script>
-  (function() {
-    //  let onpageLoad = localStorage.getItem("theme") || "";
-    //  let element = document.body;
-    //  element.classList.add(onpageLoad);
-    //  if (localStorage.getItem("theme")=="dark"){
+  //  let onpageLoad = localStorage.getItem("theme") || "";
+  //  let element = document.body;
+  //  element.classList.add(onpageLoad);
+  //  if (localStorage.getItem("theme")=="dark"){
     //    console.log(localStorage.getItem("theme"));
     //    document.getElementById("dark").disabled = false;
     //  }
     //  else{
-    //    console.log(localStorage.getItem("theme"));
-    //  }
-        
-    $(document).ready(function(){
-      console.log("JQuery is working");
-      AOS.init({
+      //    console.log(localStorage.getItem("theme"));
+      //  }
+      
+      $(document).ready(function(){
+        //console.log("JQuery is working");
+        AOS.init({
           offset : 150,
-      });
-      let cookie = localStorage.getItem("theme") || "";
-      if (cookie === "dark"){
-        toggle();
-        $("#slider1").prop("checked",true);
-      }
-    })(); 
+        });
+      (function() {
+        let cookie = localStorage.getItem("theme") || "";
+        if (cookie === "dark"){
+          toggle();
+          $("#slider1").prop("checked",true);
+        }
+    }); 
   });
     function toggle() {
         var el1 = document.getElementById("light"),
@@ -45,11 +45,11 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid pt-4">
-    <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
+    <div id="myProgress" class="container text-center" data-aos="fade-in" data-aos-duration="1000">
     <div id="ct"></div>
     <div id="myBar"></div>
   </div>
-    <div class="container text-center p-2 h5" id="text" id="text" data-aos="fade-up" data-aos-duration="1500">
+    <div class="container text-center p-2 h5" id="text" id="text" data-aos="fade-in" data-aos-duration="1500">
     </div>
     <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
     </div>

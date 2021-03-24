@@ -73,7 +73,7 @@ class Chart(models.Model) :
 	
 
 class Feedback(models.Model):
-	# timestamp = 
+	timestamp = models.TimeField(auto_now=True)
 	Event_id = models.ForeignKey(Event,on_delete=models.CASCADE)
 	Given_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
@@ -85,20 +85,20 @@ class Feedback(models.Model):
 		('1',"1"),
 	)
 
-	Q1 = models.CharField(max_length = 1 ,choices=rating)
-	Q2 = models.CharField(max_length = 1 ,choices=rating)
-	Q3 = models.CharField(max_length = 1 ,choices=rating)
-	Q4 = models.CharField(max_length = 1 ,choices=rating)
-	Q5 = models.CharField(max_length = 1 ,choices=rating)
-	Q6 = models.CharField(max_length = 1 ,choices=rating)
-	Q7 = models.CharField(max_length = 1 ,choices=rating)
-	Q8 = models.CharField(max_length = 1 ,choices=rating)
-	Q9 = models.CharField(max_length = 1 ,choices=rating)
-	query = models.TextField()
+	Q1 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q2 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q3 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q4 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q5 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q6 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q7 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q8 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	Q9 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
+	query = models.TextField(null=True,blank=True)
 
 	def __str__(self):
-		return self.Event_id.Subject_event_id.Faculty_id +" from "+ self.Given_by
+		return str(self.Event_id.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by)
 
-	def save(self, *args, **kwargs):
-		print(str(self))
+	# def save(self, *args, **kwargs):
+	# 	print(str(self))
 

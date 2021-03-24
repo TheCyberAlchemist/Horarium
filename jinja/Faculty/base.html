@@ -9,15 +9,17 @@
 	{# title block for printing the name of the page  #}
 	<!-- css here -->
 	{% block css %} 
-	<link id="light" rel="stylesheet" href="{{static ('student/Student_light.css')}}" />
-	<link id="dark" rel="stylesheet" href="{{static ('student/Student_dark.css')}}"  disabled=true />
-    <link rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" />
-	<link rel="stylesheet" href="{{static ('BootStrap/bootstrap.min.css')}}" />
-	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link rel="stylesheet" href="{{static ('student/progress/progress_bar.css')}}" />
-	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
-	<!-- <link rel="stylesheet" href="{{static ('AOS/aos.css')}}" /> -->
-	{% endblock %}
+	<link id="light" rel="stylesheet" href="{{static ('student/Student_light.css')}}" disabled=true/>
+	<link id="dark" rel="stylesheet" href="{{static ('student/Student_dark.css')}}"  />
+    <link type="text/css" rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" />
+	<!-- <link type="text/css" rel="stylesheet" href="{{static ('BootStrap/bootstrap.min.css')}}" /> -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<link type="text/css" rel="stylesheet" href="{{static ('AOS/aos.css')}}" />
+	<link type="text/css" rel="stylesheet" href="{{static ('student/progress/progress_bar.css')}}" />
+	<link type="text/css" rel="preconnect" href="https://fonts.gstatic.com">
+	<link type="text/css" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap')}}" rel="stylesheet"/>
+	<link type="text/css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+	{% endblock %} 
 </head>
 <body>
 {%endblock%}
@@ -29,12 +31,13 @@
 {# content block for the main contents of the body #}
 </body>
 <!-- scripts here -->
-<script src="{{static ('jquery.js')}}"></script>
-<script src="{{static ('BootStrap/bootstrap.min.js')}}"></script>
-<script src="{{static ('student/event.js')}}"></script>
-<script src="{{static ('student/navbar/navbar.js')}}"></script>
-<script src="{{static ('AOS/aos.js')}}"></script>	
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
+<script type="application/javascript" src="{{static ('jquery.js')}}"></script>
+<!-- <script type="application/javascript" src="{{static ('BootStrap/bootstrap.min.js')}}"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="{{static ('student/event.js')}}"></script>
+<script type="application/javascript" src="{{static ('student/navbar/navbar.js')}}"></script>
+<script type="application/javascript" src="{{static ('AOS/aos.js')}}"></script>	
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
 {% block scripts %}
 {% endblock %}
 {# script block for all the scripts of the page #}

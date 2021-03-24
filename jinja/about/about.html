@@ -1,15 +1,93 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About Us</title>
-    <link rel="stylesheet" href="">
-</head>
-<body>
-    <div class="container main_cont">
-        
+{% extends 'login_V2/login_base.html' %}
+{% block title %}About{% endblock title %}
+{% block css %}
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link type="text/css" rel="stylesheet" href="{{static ('Bootstrap/bootstrap.min.css') }}">
+<link type="text/css" rel="stylesheet" href="{{static ('about/about.css') }}">
+<link type="text/css" rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" />
+<link type="text/css" rel="stylesheet" href="{{static ('AOS/aos.css')}}" />
+{% endblock css %}
+
+{% block scripts %}
+<script>
+
+</script>
+<script type="application/javascript" src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+<script type="application/javascript" src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+<script type="application/javascript" src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
+<script type="application/javascript" src="{{static ('Rellax/rellax.js') }}"></script>
+<script type="application/javascript" src="{{static ('AOS/aos.js')}}"></script>
+
+<script>
+    $(document).ready(function () {
+        console.log("Hi");
+        AOS.init();
+        var rellax = new Rellax('.rellax');
+    });
+
+</script>
+{% endblock scripts %}
+
+{% block content %}
+
+<div class="container-fluid main_cont text-center">
+    <div class="container-fluid">
+        <div class="row mx-auto clocks_container text-center">
+            <div class="col-4">
+                <img src="{{static ('login/img/clock1.png') }}" alt="" class="img clocks rellax" data-rellax-speed="3">
+            </div>
+            <div class="col-4">
+                <img src="{{static ('login/img/clock2.png') }}" alt="" class="img clocks_even rellax"
+                    data-rellax-speed="12">
+            </div>
+            <div class="col-4">
+                <img src="{{static ('login/img/clock3.png') }}" alt="" class="img clocks rellax" data-rellax-speed="7">
+            </div>
+            <div class="text-center container">
+                <span class="h1" style="color: black;">We know the value of time</span>
+            </div>
+            
+        </div>
     </div>
-</body>
-</html>
+    <div class="container-fluid text-center">
+        <div class="row text-center mx-auto clocks_container">
+            <div class="col-lg-4 col-md-12-col-sm-12">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12-col-sm-12">
+                <div class="card">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12-col-sm-12">
+                <div class="card">
+                    <img src="{{static ('login/img/clock2.png') }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}

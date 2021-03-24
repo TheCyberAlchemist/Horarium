@@ -16,25 +16,35 @@ from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,u
 from .forms import add_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
-from admin_V1.algo import get_points,get_sorted_events
+
 
 ############# For running any scripts ###############
 def run_script(request):
 	var = []
-	for i in Event.objects.all():
-		# if i.Slot_id_2:
-		# 	# i.link = i.Batch_id.link
-		# 	# i.save()
-		# 	print(i.link,"- is prac")
-		# else:
-		# 	# i.link = i.Division_id.link
-		# 	# i.save()
-		# 	print(i.link,"- is lect")
-		# if i.Subject_event_id.Subject_id.name == "Web Application Development":
-		# 	i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
-		# 	i.save()
-		pass
-	return HttpResponse(var)
+	# for i in Event.objects.all():
+	# 	if i.Slot_id_2:
+	# 		i.link = i.Batch_id.link
+	# 		i.save()
+	# 		print(i.link,"- is prac")
+	# 	else:
+	# 		i.link = i.Division_id.link
+	# 		i.save()
+	# 		print(i.link,"- is lect")
+	# 	if i.Subject_event_id.Subject_id.name == "Web Application Development":
+	# 		i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
+	# 		i.save()
+	# 	pass
+
+	# for i in Batch.objects.all():		
+	# 	for j in Subject_details.objects.filter(Semester_id = i.Division_id.Semester_id):
+	# 		i.subjects_for_batch.add(j)
+	# 	# # i.subjects_for_batch.remove(Subject_details.objects.filter())
+	# 	i.save()
+		# break
+	for j in Subject_details.objects.all():
+		print(j.get_prac_lect())
+		break
+	return HttpResponse(Subject_details.objects.first())
 
 ############# Returns data for navigation tree #############
 def return_context(request):
@@ -555,71 +565,6 @@ class MySerialiser(Serializer):
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
-def show_table(request,Division_id):
-	# the remaining lect and prac for all the subjects should return 0,0
-	#  to start the timetable
-	context = return_context(request)
-	if request.method == "POST":
-		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
-		json_events = json.loads(request.body)
-		new_events = set()
-		old_events = set()
-		for l in json_events:
-			new_events.add(tuple(map(str, l.values())))
-		for i in old_events_qs:
-			old_events.add(tuple(map(str, i)))
-		to_be_added = new_events.difference(old_events)
-		to_be_deleted = old_events.difference(new_events)
-		print(to_be_added)
-		def foo(x,i):
-			if tuple(map(str, x.values())) == i:
-				return True
-			return False
-		for i in to_be_deleted:
-			def get_str(a):
-				return str(a) if a else None
-			TBD = Event.objects.get(Division_id=Division_id,Slot_id= get_str(i[0]))
-			print(TBD)
-			TBD.delete()
-		for i in to_be_added:
-			TBA = [x for x in json_events if foo(x,i)]
-			# print(TBA)
-			form = add_event(TBA[0])
-			print(form.is_valid())
-			candidate = form.save(commit=False)
-			candidate.Division_id_id = Division_id
-			# print(candidate.save())
-			# candidate.save()
-			
-
-		redirect('show_table',Division_id)
-	
-	my_division = Division.objects.get(pk = Division_id)
-	Shift_id = my_division.Shift_id
-	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
-	serializer = MySerialiser()
-	my_semester = my_division.Semester_id
-	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
-	timings = Timings.objects.filter(Shift_id = Shift_id)
-	subject = {}
-	for i in Subject_details.objects.filter(Semester_id = my_semester):
-		subject[i] = Subject_event.objects.filter(Subject_id=i)
-	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
-	context['timings'] = timings
-	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
-	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
-	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
-	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
-	context['my_subjects'] = subject
-	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
-	context['my_batches'] = my_batches
-	context['batches_json'] = get_json(my_batches)
-
-	return render(request,"try/table.html",context)
-
-
-@login_required(login_url="login")
-@allowed_users(allowed_roles=['Admin'])
 def show_not_avail(request,Faculty_id):
 	context = return_context(request)
 	############# Returns slot objects for a Qs#############
@@ -791,6 +736,78 @@ def show_resource(request,Resource_id = None):
 		return redirect(get_home_page(request.user))
 
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
+def show_table(request,Division_id):
+	# the remaining lect and prac for all the subjects should return 0,0
+	#  to start the timetable
+	context = return_context(request)
+	if request.method == "POST":
+		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
+		json_events = json.loads(request.body)
+		new_events = set()
+		old_events = set()
+		for l in json_events:
+			new_events.add(tuple(map(str, l.values())))
+		for i in old_events_qs:
+			old_events.add(tuple(map(str, i)))
+		to_be_added = new_events.difference(old_events)
+		to_be_deleted = old_events.difference(new_events)
+		# print(to_be_added,to_be_deleted)
+		def foo(x,i):
+			if tuple(map(str, x.values())) == i:
+				return True
+			return False
+		for i in to_be_deleted:
+			def get_str(a):
+				return str(a) if a else None
+			TBD = Event.objects.filter(Division_id=Division_id,Slot_id= get_str(i[0]))
+			# print(TBD)
+			if len(TBD):
+				TBD.delete()
+		for i in to_be_added:
+			TBA = [x for x in json_events if foo(x,i)]
+			print(TBA)
+			form = add_event(TBA[0])
+			candidate = form.save(commit=False)
+			candidate.Division_id_id = Division_id
+			form.save()
+		redirect('show_table',Division_id)
+	
+	my_division = Division.objects.get(pk = Division_id)
+	Shift_id = my_division.Shift_id
+	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
+	serializer = MySerialiser()
+	my_semester = my_division.Semester_id
+	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
+	timings = Timings.objects.filter(Shift_id = Shift_id)
+	subject = {}
+	for i in Subject_details.objects.filter(Semester_id = my_semester):
+		subject[i] = Subject_event.objects.filter(Subject_id=i)
+	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
+	context['timings'] = timings
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
+	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
+	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
+	context['my_subjects'] = subject
+	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
+	context['my_batches'] = my_batches
+	context['batches_json'] = get_json(my_batches)
+	print(Event.objects.filter(Division_id=Division_id))
+	print(Slots.objects.filter( Timing_id__in = timings)[0])
+	return render(request,"try/table.html",context)
+
+
+
+
+
+from admin_V1.algo import get_points,get_sorted_events,put_event
+
+from tabulate import tabulate
+
+import admin_V1.algo2 as algo
+
 def algo_context(request,Division_id):
 	context = {}
 	my_division = Division.objects.get(pk = Division_id)
@@ -815,14 +832,102 @@ def algo_context(request,Division_id):
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches)	
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	algo.put_vars(my_division)
 	return context
 
 def algo_v1(request,Division_id):
-	context = algo_context(request,Division_id)
 	# delete all the prior events after taking the locked events
-
-	context['this_subject_event'],subject_events = get_sorted_events(context["subject_events"])#,locked_events)
+	# save all the locked events
+	context = algo_context(request,Division_id)
+	locked_events = Event.objects.filter(Division_id=Division_id)
+	subject_events = algo.get_sorted_events(context["subject_events"],locked_events)
 	for subject_event in subject_events:
-		get_points(subject_event,context["my_events"],False)
-	context["points_json"] = json.dumps(get_points(subject_events[0],context["my_events"],False))
+		prac_carried = subject_event.prac_carried
+		lect_carried = subject_event.lect_carried
+		if prac_carried:	# if the faculty has practicals here
+			batches = subject_event.Subject_id.batch_set.filter(batch_for = "prac")
+			locked_subject_event = locked_events.filter(Subject_event_id=subject_event).exclude(Slot_id_2=None)
+			prac_per_week = subject_event.Subject_id.prac_per_week
+			if batches:
+				for batch in batches:
+					locked_prac_count = locked_subject_event.filter(Batch_id = batch).count()
+
+					remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
+					prac_remaining = subject_event.prac_carried - locked_subject_event.count()
+					# get the capability of the faculty to take this event
+
+					remaining_count = remaining_count if remaining_count<prac_remaining else prac_remaining
+					# if the faculty has no capicity then have the highest capability be remaining count
+					
+					for i in range(remaining_count):
+						# print(batch,"-",subject_event)
+						algo.get_subject_events(Division_id,subject_event,True,locked_events,batch)
+			else:
+				locked_prac_count = locked_subject_event.count()
+				
+				remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
+				prac_remaining = subject_event.prac_carried - locked_subject_event.count()
+				# get the capability of the faculty to take this event
+
+				remaining_count = remaining_count if remaining_count<prac_remaining else prac_remaining
+				# if the faculty has no capicity then have the highest capability be remaining count
+				
+				for i in range(remaining_count):
+					# print(subject_event,"- Class")
+					algo.get_subject_events(Division_id,subject_event,True,locked_events)
+
+		if lect_carried:
+			batches = subject_event.Subject_id.batch_set.filter(batch_for = "lect")
+			locked_subject_event = locked_events.filter(Subject_event_id=subject_event,Slot_id_2=None)
+			lect_per_week = subject_event.Subject_id.lect_per_week
+			if batches:		# if the subject has a batch
+				for batch in batches:
+					locked_lect_count = locked_subject_event.filter(Batch_id = batch).count()
+
+					remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
+					lect_remaining = subject_event.lect_carried - locked_subject_event.count()
+					# get the capability of the faculty to take this event
+
+					remaining_count = remaining_count if remaining_count < lect_remaining else lect_remaining
+					# if the faculty has no capicity then have the highest capability be remaining count
+					
+					for i in range(remaining_count):
+						# print(batch,"-",subject_event)
+						algo.get_subject_events(Division_id,subject_event,False,locked_events,batch)
+
+			else:
+				locked_lect_count = locked_subject_event.count()
+				
+				remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
+				lect_remaining = subject_event.lect_carried - locked_subject_event.count()
+				# get the capability of the faculty to take this event
+
+				remaining_count = remaining_count if remaining_count<lect_remaining else lect_remaining
+				# if the faculty has no capicity then have the highest capability be remaining count
+				
+				for i in range(remaining_count):
+					# print(subject_event,"- Class")
+					algo.get_subject_events(Division_id,subject_event,False,locked_events)
+					
+				# print(subject_event," - Class")
+
+
+
+		# if locked_events :
+		# 	subject_event_locked = locked_events.filter(Subject_event_id=subject_event)
+		# 	prac_carried = subject_event.prac_carried
+		# 	lect_carried = subject_event.lect_carried
+		# 	lect_batch = Batch.objects.filter(Division_id = Division_id,batch_for="lect")
+		# 	if len(lect_batch):
+		# 		for batch in lect_batch:
+		# 			print(batch)
+		# 	else:
+		# 		print(subject_event)
+		# 	print(subject_event ," - ",prac_carried,lect_carried)
+			# locked_events.filter()
+			
+	print(tabulate(algo.l,headers=["event","batch","type"],tablefmt="grid"))
+	# 	# print(subject_event.Subject_id.lect_per_week)
+
+	# print(list(locked_events.values_list("Subject_event_id",flat=True)))
 	return render(request,"try/algo_v1.html",context)

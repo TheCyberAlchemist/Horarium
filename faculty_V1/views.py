@@ -3,10 +3,15 @@ from django.core import serializers
 import json
 from datetime import datetime as date
 from django.db.models import Q
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from calendar import monthrange
+
 
 from faculty_V1.models import Faculty_details, Chart
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days
+
 # Create your views here.
 
 def get_events_json(qs):
@@ -60,12 +65,82 @@ def faculty_home(request):
 	# print(context["events_json"])
 	return render(request,"Faculty/faculty_v1.html",context)
 
+
+from faculty_V1.models import Feedback
 def faculty_feedback(request) :
 	f_name = Chart.name
 	f_money = Chart.money
+	data = serializers.serialize("json", Feedback.objects.all())
+	data = json.loads(data)
+	for d in data:
+		del d['model'],d['pk']
+	data = json.dumps(data)
+	# print(data)
 	context = {
+		'data' : data,
 		'name' : f_name,
 		'money' : f_money,
 	}
 	# context["qs"] = Chart.objects.all()
 	return render(request,"Faculty/feedback.html",context)
+
+class ChartData(APIView):
+	authentication_classes = []
+	permission_classes = []
+
+	def get(self, request, format = None):
+		labels = [
+			'January',
+			'February', 
+			'March', 
+			'April', 
+			'May', 
+			'June', 
+			'July'
+			]
+		chartLabel = "ratings"
+		chartdata = [0, 10, 5, 2, 20, 30, 45]
+		data ={
+			"labels":labels,
+			"chartLabel":chartLabel,
+			"chartdata":chartdata,
+		}
+		labels = [
+			'January',
+			'February', 
+			'March', 
+			'April', 
+			'May', 
+			'June', 
+			'July'
+			]
+		chartLabel = "responses"
+		chartdata = [0, 10, 5, 2, 20, 30, 45]
+		data2 ={
+			"labels":labels,
+			"chartLabel":chartLabel,
+			"chartdata":chartdata,
+		}
+		###################### on click ######################
+		if 'graph_name' in request.GET:
+			current_graph,required_value = request.GET['graph_name'].split()
+			if current_graph == "month_rating":
+				datetime_object = date.strptime(required_value, "%B")
+				month_number = datetime_object.month
+				print(monthrange(date.year, month_number))
+				labels = [
+					'Week1',
+					'Week2', 
+					'Week3', 
+					'Week4', 
+					'Week5', 
+				]
+				chartLabel = required_value + "-Rating"
+				chartdata = [10, 5, 2, 20, 30]
+				data ={
+					"labels":labels,
+					"chartLabel":chartLabel,
+					"chartdata":chartdata,
+				}
+				return Response([data,"week_rating"]) # data and next chart_id
+		return Response([data,data2])

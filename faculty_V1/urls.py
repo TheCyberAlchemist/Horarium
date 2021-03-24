@@ -5,4 +5,5 @@ from django.conf.urls import url
 urlpatterns = [
 	path('home/',views.faculty_home,name = 'faculty_home'),
 	path('feedback/',views.faculty_feedback,name = 'faculty_feedback'),
+	path('api/', views.ChartData.as_view()),
 ]

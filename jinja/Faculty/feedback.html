@@ -3,81 +3,21 @@
 
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-<script src="{{static ('student//BootStrap/jquery.min.js')}}"></script>
+<script type="application/javascript" src="{{static ('faculty/feedback.js')}}"></script>
 <script>
-  (function () {
-    let cookie = localStorage.getItem("theme") || "";
-    if (cookie === "dark") {
-      toggle();
-      $("#slider").prop("checked", true);
-    }
-  })();
-  function toggle() {
-    var el1 = document.getElementById("light"),
-      el2 = document.getElementById("dark");
-    if (el1.disabled) {   // if dark
-      localStorage.setItem("theme", "");
-      el1.disabled = false;
-      el2.disabled = "disabled";
-    } else {              // if light
-      el1.disabled = "disabled";
-      el2.disabled = false;
-      localStorage.setItem("theme", "dark");
-    }
-  }
-  $(document).ready(function () {
-    console.log("JQuery is working");
-    /*AOS.init({
-      offset: 150,
-    });*/
-    
-    var ctx = document.getElementById('myChart').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'bar',
-
-        // The data for our dataset
-        data: {
-            labels: [{%for i in qs%}'{{i.name}}',{%endfor%}],
-            datasets: [{
-                label: 'My First dataset',
-                data: [{%for i in qs%} {{i.money}}, {%endfor%}],
-                backgroundColor : ['#FCDC3B','#A2EC88','#97FFD7','#567FCE','#FF4D94','#FF3C2A'],
-                borderColor : ['yellow','green','cyan','blue','pink','red','grey'],
-                borderWidth : 2,
-            }]
-        },
-        // Configuration options go here
-        options: {}
-    }); 
-    ////////////////Radar////////////////
-    var ctx = document.getElementById('myChart2').getContext('2d');
-    var chart = new Chart(ctx, {
-        // The type of chart we want to create
-        type: 'radar',
-
-        // The data for our dataset
-        data: {
-            labels: [{%for i in qs%}'{{i.name}}',{%endfor%}],
-            datasets: [{
-                label: 'My First dataset',
-                data: [{%for i in qs%} {{i.money}}, {%endfor%}],
-                //backgroundColor : ['red','green','blue','pink','purple','orange','cyan'],
-                backgroundColor : "pink",
-                borderColor : "red"
-
-            }]
-        },
-        // Configuration options go here
-        options: {}
-    });
-
-  });
+  put_data({{data|safe}});
 </script>
 {% endblock %}
 {% block content %}
 <div class="container-fluid pt-0">
-  <canvas id="myChart" style="height: 90vh"></canvas>
-  <canvas id="myChart2" style="height: 90vh"></canvas>
+  <canvas id="month_rating"></canvas>
+  <canvas id="week_rating"></canvas>
+  <canvas id="day_rating" ></canvas>
+
+  <canvas id="month_response"></canvas>
+  <canvas id="week_response"></canvas>
+  <canvas id="day_response"></canvas>
+
+  
 </div>
 {% endblock %}

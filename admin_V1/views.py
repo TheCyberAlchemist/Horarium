@@ -20,7 +20,16 @@ from Table_V2.models import Event
 
 ############# For running any scripts ###############
 def run_script(request):
-	var = []
+	# var = []
+	# import random
+	# from faculty_V1.models import Feedback
+	# Event.objects.filter()
+	# for i in range(10) :
+	# 	a = Feedback.objects.create(Event_id=)
+	# 	print(random.randint(1,5))
+
+
+
 	# for i in Event.objects.all():
 	# 	if i.Slot_id_2:
 	# 		i.link = i.Batch_id.link
@@ -926,7 +935,7 @@ def algo_v1(request,Division_id):
 		# 	print(subject_event ," - ",prac_carried,lect_carried)
 			# locked_events.filter()
 			
-	print(tabulate(algo.l,headers=["event","batch","type"],tablefmt="grid"))
+	# print(tabulate(algo.l,headers=["event","batch","type"],tablefmt="grid"))
 	# 	# print(subject_event.Subject_id.lect_per_week)
 
 	# print(list(locked_events.values_list("Subject_event_id",flat=True)))

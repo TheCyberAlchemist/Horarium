@@ -1,7 +1,5 @@
 var ENDPOINT = '/faculty/api';
-function put_data(data){
-    console.log(data);
-}
+
 function toggle_theme() {
 	var el1 = document.getElementById("light"),
 	  el2 = document.getElementById("dark");
@@ -43,12 +41,16 @@ $(document).ready(function () {
 		console.log(error_data);
 		}
 	});
-	function drawBarGraph(data, id) {
+	var myChart;
+	function drawBarGraph(data, id,recursive = false) {
 		var labels = data.labels;
 		var chartLabel = data.chartLabel;
 		var chartdata = data.chartdata;
 		var ctx = document.getElementById(id).getContext('2d');
-		var myChart = new Chart(ctx, {
+		if (recursive){
+			myChart.destroy();
+		}
+		myChart = new Chart(ctx, {
 			type: 'bar',
 			data: {
 			labels: labels,
@@ -77,30 +79,32 @@ $(document).ready(function () {
 			options: {
 				onClick : function (evt, i) {
 					e = i[0];
-					var label_name = this.data.labels[e._index];
-					var chart_id = this.canvas.id
-					// console.log(label_name);
-					// console.log(xhRT_ID);
-					$.ajax({
-						method: "GET",
-						url: ENDPOINT,
-						data : {
-							graph_name : chart_id + " " + label_name
-						},
-						success: function(data) {
-							// change page of the selected chart div
-							drawBarGraph(data[0],data[1]);
-							console.log("drawing");
-						},
-						error: function(error_data) {
-						console.log(error_data);
-						}
-					});
+					if (e){
+						var label_name = this.data.labels[e._index];
+						var chart_id = this.canvas.id
+						// console.log(label_name);
+						// console.log(xhRT_ID);
+						$.ajax({
+							method: "GET",
+							url: ENDPOINT,
+							data : {
+								graph_name : chart_id + " " + label_name
+							},
+							success: function(data) {
+								// change page of the selected chart div
+								drawBarGraph(data[0],data[1],true)
+							},
+							error: function(error_data) {
+							console.log(error_data);
+							}
+						});
+					}
 				},
 			scales: {
 				yAxes: [{
 				ticks: {
-					beginAtZero: true
+					beginAtZero: true,
+					suggestedMax:5,
 				}
 				}]
 			}

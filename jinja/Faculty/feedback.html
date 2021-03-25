@@ -4,13 +4,12 @@
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 <script type="application/javascript" src="{{static ('faculty/feedback.js')}}"></script>
-<script>
-  put_data({{data|safe}});
-</script>
+
 {% endblock %}
 {% block content %}
 <div class="container-fluid pt-0">
   <canvas id="month_rating"></canvas>
+</div>
   <canvas id="week_rating"></canvas>
   <canvas id="day_rating" ></canvas>
 
@@ -19,5 +18,4 @@
   <canvas id="day_response"></canvas>
 
   
-</div>
 {% endblock %}

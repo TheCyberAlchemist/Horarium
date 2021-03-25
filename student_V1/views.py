@@ -56,6 +56,24 @@ The following has been quoted by the student :-
 This mail was sent by horarium.The views and opinions included in this quote belong to their author and do not necessarily mirror the views and opinions of the company.
 """
 mail_subject_template = """Feedback for {} from {} ({},{},{})"""
+questions = [
+		"Lecture or Lab Session Began and End on scheduled Time",
+		"I felt the Teacher well prepared for this particular session",
+		"The Pedagogy (Teaching methods) of the Teacher is effective",
+		"I am able to learn the topic effectively and with clear understanding",
+		"The teacher encourages students to ask questions for better understanding",
+		"If asked, the teacher answers all questions appropriately and clearly",
+		"The Teacher has excellent knowledge about the subject ",
+		"The teacher's behaviour is respectful and treats all students respectfully",
+		"I don't hesitate to ask to the Teacher if I have any doubt",
+	]
+
+def one_selected(instance):
+	a = instance.Q1 or instance.Q2 or instance.Q3 or instance.Q4 or instance.Q5 or instance.Q6 or instance.Q7 or instance.Q8 or instance.Q9 or instance.query
+	if a:
+		return True
+	return False
+
 # faculty,user name, department,semester,enno 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Student'])
@@ -65,12 +83,13 @@ def student_home(request):
 	semester = student_details.Division_id.Semester_id
 	department = semester.Branch_id.Department_id
 	enno = student_details.roll_no
-	print("asd")
 	if request.method == 'POST':
 		form = _.feedback_form(request.POST)
-		# print(form)
 		if form.is_valid():
 			candidate = form.save(commit=False)
+			# print(form.in)
+			if not one_selected(form.instance):
+				return render(request,"Student/student_v1.html")
 			event = form.instance.Event_id
 			end_slot = event.Slot_id_2 if event.Slot_id_2 else event.Slot_id
 			end_time = end_slot.Timing_id.end_time
@@ -112,17 +131,6 @@ def student_home(request):
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.filter(Q(Batch_id=student.Batch_id) | Q(Batch_id=None),Division_id=student.Division_id)
 	day = "Monday"
-	questions = [
-		"Lecture or Lab Session Began and End on scheduled Time",
-		"I felt the Teacher well prepared for this particular session",
-		"The Pedagogy (Teaching methods) of the Teacher is effective",
-		"I am able to learn the topic effectively and with clear understanding",
-		"The teacher encourages students to ask questions for better understanding",
-		"If asked, the teacher answers all questions appropriately and clearly",
-		"The Teacher has excellent knowledge about the subject ",
-		"The teacher's behaviour is respectful and treats all students respectfully",
-		"I don't hesitate to ask to the Teacher if I have any doubt",
-	]
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,

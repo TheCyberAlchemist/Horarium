@@ -3,6 +3,8 @@ from django.core import serializers
 import json
 from datetime import datetime as date
 from django.db.models import Q
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from calendar import monthrange
@@ -62,7 +64,7 @@ def faculty_home(request):
 	else:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))	
-	# print(context["events_json"])
+	
 	return render(request,"Faculty/faculty_v1.html",context)
 
 
@@ -82,11 +84,14 @@ def faculty_feedback(request) :
 		'money' : f_money,
 	}
 	# context["qs"] = Chart.objects.all()
+
 	return render(request,"Faculty/feedback.html",context)
 
 class ChartData(APIView):
-	authentication_classes = []
-	permission_classes = []
+	# authentication_classes = []
+	# permission_classes = []
+	authentication_classes = [SessionAuthentication, BasicAuthentication]
+	permission_classes = [IsAuthenticated]
 
 	def get(self, request, format = None):
 		labels = [
@@ -99,7 +104,7 @@ class ChartData(APIView):
 			'July'
 			]
 		chartLabel = "ratings"
-		chartdata = [0, 10, 5, 2, 20, 30, 45]
+		chartdata = [10, 10, 5, 2, 20, 30, 45]
 		data ={
 			"labels":labels,
 			"chartLabel":chartLabel,
@@ -127,16 +132,35 @@ class ChartData(APIView):
 			if current_graph == "month_rating":
 				datetime_object = date.strptime(required_value, "%B")
 				month_number = datetime_object.month
-				print(monthrange(date.year, month_number))
+				_,days_in_months = monthrange(date.now().year, month_number)
 				labels = [
-					'Week1',
-					'Week2', 
-					'Week3', 
-					'Week4', 
-					'Week5', 
+					'1-7',
+					'8-14', 
+					'15-21', 
+					'21-28'
 				]
+				chartdata = []
+				all_feeback  = Feedback.objects.filter(Event_id__Subject_event_id__Faculty_id = request.user.faculty_details)
+				# print(all_feeback[0].)
+				if days_in_months > 28:		# for the last week
+					labels.append('29-{}'.format(days_in_months))
+				for i in labels:
+					dates = i.split('-')
+					start_date = '2021-{}-{}'.format(month_number,dates[0])
+					end_date = '2021-{}-{}'.format(month_number,dates[1])
+					# print(start_date, end_date)
+					week_feedback = all_feeback.filter(timestamp__gte=start_date, timestamp__lte=end_date)
+					arr = list(week_feedback.values_list("average",flat=True))
+					arr = [x for x in arr if x != 0]
+					week_ave = 0
+					if arr:
+						week_ave = sum(arr)/len(arr)
+					chartdata.append(week_ave)
+					print(week_ave)
+					# print(Feedback.objects.get_ave(week_feedback))
+				print(chartdata)
+				
 				chartLabel = required_value + "-Rating"
-				chartdata = [10, 5, 2, 20, 30]
 				data ={
 					"labels":labels,
 					"chartLabel":chartLabel,

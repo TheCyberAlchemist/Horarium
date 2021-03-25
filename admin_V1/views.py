@@ -290,7 +290,6 @@ def show_batch(request,Division_id,Batch_id = None):
 		context['my_batches'] = batches
 		context['my_division'] = my_division
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id = my_division.Semester_id)
-		print(context['my_subjects'])
 		if request.method == 'POST':
 			if request.is_ajax():	# if delete is called
 				data = json.loads(request.body)

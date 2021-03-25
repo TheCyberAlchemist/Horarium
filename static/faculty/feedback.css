@@ -1,0 +1,19 @@
+.charts_container {
+  height: 90vh;
+  overflow-y: hidden;
+}
+
+.col-2 {
+  position: relative;
+}
+
+.show_child, .row {
+  margin: 0 auto;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  vertical-align: middle;
+  position: absolute;
+}
+/*# sourceMappingURL=feedback.css.map */

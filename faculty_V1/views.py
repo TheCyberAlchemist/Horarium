@@ -125,9 +125,9 @@ class ChartData(APIView):
 		if 'graph_name' in request.GET:
 			current_graph,required_value = request.GET['graph_name'].split()
 			if current_graph == "month_rating":
-				datetime_object = date.strptime(required_value, "%B")
-				month_number = datetime_object.month
-				print(monthrange(date.year, month_number))
+				# datetime_object = date.strptime(required_value, "%B")
+				# month_number = datetime_object.month
+				# print(monthrange(date.year, month_number))
 				labels = [
 					'Week1',
 					'Week2', 

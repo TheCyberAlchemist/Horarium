@@ -89,8 +89,24 @@ $(document).ready(function () {
 						},
 						success: function(data) {
 							// change page of the selected chart div
+
+							// $(".month_rating").hide(300);
+							// $(".week_rating").show(300);
+							// $(".week_rating").css({"margin-top":'0px'});
+							// $("#"+chart_id).parent().parent().hide(300);
+							// // console.log($("#"+chart_id).parent().parent());
+							// $("#"+data[1]).parent().parent().show(300);
+							
+							$("#show_parent").click(function(){
+								$("#"+chart_id).parent().parent().show(300);
+								$("#"+data[1]).parent().parent().hide(300);
+								// $(".week_rating").css({"margin-top":'50px'});
+							});
+							console.log(data[1]);
 							drawBarGraph(data[0],data[1]);
+
 							console.log("drawing");
+							
 						},
 						error: function(error_data) {
 						console.log(error_data);

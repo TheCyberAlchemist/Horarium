@@ -240,8 +240,8 @@ $(document).ready (function () {
 	var last_popped_event;
 	function main(){
 		var d = new Date();
-		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(9,13,sec);
+		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		// ct = new time(9,13,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;

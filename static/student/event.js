@@ -240,8 +240,8 @@ $(document).ready (function () {
 	var last_popped_event;
 	function main(){
 		var d = new Date();
-		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		// ct = new time(9,13,sec);
+		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		ct = new time(9,13,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;
@@ -353,13 +353,13 @@ $(document).ready (function () {
 	main();
 	$("#feedback_form").submit(function(e) {
 	// console.log("JSON.stringify(events),1)");
+		$('#exampleModal').modal("hide");
 		var form = $(this);
 		e.preventDefault();
 		$.ajax({
 			type: "post",
 			data: form.serialize(),
 			success: function (){ 
-				$('#exampleModal').modal("hide");
 				form.trigger("reset");
 				// $('#modal').modal('hide');
 			}

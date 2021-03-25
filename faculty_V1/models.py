@@ -71,9 +71,10 @@ class Chart(models.Model) :
 	def __str__(self):
 		return str(self.name) + ' - ' + str(self.money)
 	
-
+# datetime field rather than time
 class Feedback(models.Model):
-	timestamp = models.TimeField(auto_now=True)
+	timestamp = models.DateTimeField(auto_now=False)
+	# timestamp = models.DateTimeField(auto_now=True)
 	Event_id = models.ForeignKey(Event,on_delete=models.CASCADE)
 	Given_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 

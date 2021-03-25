@@ -163,31 +163,29 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-header border-0">
-            <h5 class="modal-title h4" id="exampleModalLabel">Feedback</h5>
+            <h5 class="modal-title h4" id="exampleModalLabel">Feedback for <span id="popped_event"></span></h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <div class="modal-body text-center">
-
-
+          <div class="modal-body ml-4">
             {%for ques in questions %}
-            <div class="h5 text-center" style="font-weight :bold;">{{ques}}</div>
-            <div class="mt-3 mb-3">
+            <div class="h5" style="font-weight :bold;">{{loop.index}}. {{ques}}.</div>
+            <div class="mt-3 mb-3 pl-4">
               <label class="radio-inline" for="5{{ques}}">
-                <input type="radio" id="5{{ques}}" value="5" name="{{ques}}">&nbsp;Strongly Agree
+                <input type="radio" id="5{{ques}}" value="5" name="Q{{loop.index}}">&nbsp;Strongly Agree
               </label>
               <label class="radio-inline" for="4{{ques}}">
-                <input type="radio" value="4" id="4{{ques}}" name="{{ques}}">&nbsp;Agree
+                <input type="radio" value="4" id="4{{ques}}" name="Q{{loop.index}}">&nbsp;Agree
               </label>
               <label class="radio-inline" for="3{{ques}}">
-                <input type="radio" value="3" id="3{{ques}}" name="{{ques}}">&nbsp;Neutral
+                <input type="radio" value="3" id="3{{ques}}" name="Q{{loop.index}}">&nbsp;Neutral
               </label>
               <label class="radio-inline" for="2{{ques}}">
-                <input type="radio" id="2{{ques}}" value="2" name="{{ques}}">&nbsp;Disagree
+                <input type="radio" id="2{{ques}}" value="2" name="Q{{loop.index}}">&nbsp;Disagree
               </label>
               <label class="radio-inline" for="1{{ques}}">
-                <input type="radio" value="1" id="1{{ques}}" name="{{ques}}">&nbsp;Strongly Disagree
+                <input type="radio" value="1" id="1{{ques}}" name="Q{{loop.index}}">&nbsp;Strongly Disagree
               </label>
             </div>
             {%endfor%}

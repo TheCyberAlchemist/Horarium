@@ -4,10 +4,11 @@ from institute_V1.models import Slots,Working_days,Batch
 from faculty_V1.models import Not_available,Faculty_load
 from Table_V2.models import *
 
+# nothing done for resources
 
 REPETATION_WEIGHT = -8
 NO_REPETATION_WEIGHT = 4
-OTHER_EVENT = 12
+OTHER_EVENT = 12	
 LOAD_IS_MORE = 3
 NOT_AVAILABLE = -math.inf
 SLOT_BELOW = -math.inf
@@ -71,7 +72,6 @@ def check_availability(slot,subject_event):
 
 def check_load_distribution(day_events,subject_event,is_prac = False):
 	# returns -3(delta) if the load is more then the average load per day
-	
 	same_events = day_events.filter(Subject_event_id__Faculty_id = subject_event.Faculty_id)
 	todays_load = 0
 	for event in same_events:
@@ -102,52 +102,82 @@ def get_slot_below(slot,day_slots):
 		return next_slot
 	return False
 
+from tabulate import tabulate
 ########## Get-point functions for the events ##########
 def get_point_for_prac_batch(subject_event,all_events,batch):
 	day = None
-	best_pair = []
+	best_pair = [-math.inf,""]
+	tab = []
 	for slot in usable_slots:
-		next_slot_point = points = 0
+		next_slot_point = points = -math.inf
 		if slot.day != day:		# changes the day_slot 
 			day = slot.day
 			day_slots = usable_slots.filter(day = day)
 			day_events = all_events.filter(Slot_id__day = day)
 		slot_below = get_slot_below(slot,day_slots)
 		if slot_below:
-			e = all_events.filter(Slot_id = slot,Slot_id_2 = slot_below)
-			if e and not e.filter(Batch_id=batch):	# if there is a practical on the slot and the batch is empty
-				# seee if the batches are the same as the subject
-				# print("Empty here :: ",slot,subject_event)
-				# print()
-				points += check_availability(slot,subject_event)
-				if points == 0:		# if it is available
-					points += check_repetation(day_events,subject_event,True,batch)
-					points += check_load_distribution(day_events,subject_event,True)
-					points += check_other_events(slot,subject_event,True)
-				next_slot_point += check_availability(slot,subject_event)
-
-				if next_slot_point == 0:		# if it is available
-					next_slot_point += check_repetation(day_events,subject_event,True,batch)
-					next_slot_point += check_load_distribution(day_events,subject_event,True)
-					next_slot_point += check_other_events(slot,subject_event,True)
-				points = min(points,next_slot_point)
+			print(type(batch))
+			prac_event = day_events.filter(Slot_id = slot,Slot_id_2 = slot_below)
+			points = check_availability(slot,subject_event)
+			if points == 0:		# if it is available
+				points += check_repetation(day_events,subject_event,True,batch)
+				points += check_load_distribution(day_events,subject_event,True)
+				points += check_other_events(slot,subject_event,True)
+			next_slot_point = check_availability(slot,subject_event)
+			if next_slot_point == 0:		# if it is available
+				# print("fef")
+				next_slot_point += check_repetation(day_events,subject_event,True,batch)
+				next_slot_point += check_load_distribution(day_events,subject_event,True)
+				next_slot_point += check_other_events(slot,subject_event,True)
+			points = min(points,next_slot_point)
+			if prac_event and not prac_event.filter(Batch_id=batch):
 				points += PRAC_ON_PRAC
-				print(points)
-				# remaining_batches = all_batches.exclude(pk__in = e.values_list("Batch_id_id",flat=True))
+			tab.append([slot,points])
+		if points > best_pair[0]:
+			best_pair[0] = points
+			best_pair[1] = slot
+	return best_pair
+	# print(tabulate(tab,headers=["slot","point"],tablefmt="grid"))
 
-				# for batch in remaining_batches:
-		# print(day_events)
-		
 
-		
+def get_point_for_prac_class(subject_event,all_events):
+	day = None
+	best_pair = [-math.inf,""]
+	tab = []
+	for slot in usable_slots:
+		next_slot_point = points = -math.inf
+		if slot.day != day:		# changes the day_slot 
+			day = slot.day
+			day_slots = usable_slots.filter(day = day)
+			day_events = all_events.filter(Slot_id__day = day)
+		slot_below = get_slot_below(slot,day_slots)
+		if slot_below:
+			points = check_availability(slot,subject_event)
+			if points == 0:		# if it is available
+				points += check_repetation(day_events,subject_event,True)
+				points += check_load_distribution(day_events,subject_event,True)
+				points += check_other_events(slot,subject_event,True)
+			tab.append([slot,points])
+		if points > best_pair[0]:
+			best_pair[0] = points
+			best_pair[1] = slot
+	# print(tabulate(tab,headers=["slot","point"],tablefmt="grid"))
+	return best_pair
 
-		
-
-def get_point_for_prac_class(all_events):
-	pass
 
 def get_point_for_lect_batch(all_events,batch):
-	pass
+	day = None
+	best_pair = [-math.inf,""]
+	tab = []
+	for slot in usable_slots:
+		points = -math.inf
+		if slot.day != day:		# changes the day_slot 
+			day = slot.day
+			day_slots = usable_slots.filter(day = day)
+			day_events = all_events.filter(Slot_id__day = day)
+		lect_event = day_events.filter(Slot_id = slot,Slot_id_2 = None)
+
+
 
 def get_point_for_lect_class(all_events):
 	pass
@@ -164,24 +194,26 @@ def put_vars(Division_id):
 
 def get_subject_events(Division_id,subject_event,is_prac,all_events,batch = None):
 	point_dict = {}
-	best_obj = None
+	best_slot = None
 	# won't work if all_event is null so pass shift_id here
 	
 	if is_prac:		# if the subject_event is practical
 		if batch:	# if there is a batch for us to put it in
 			l.append([subject_event, batch,"Practical"])
 			# print([subject_event, batch,"Practical"])
-			point = get_point_for_prac_batch(subject_event,all_events,batch)
+			points,best_slot = get_point_for_prac_batch(subject_event,all_events,batch)
+			# print(subject_event,best_slot)
 		else:		# if no batch
 			l.append([subject_event,"Class","Practical"])
 			# print([subject_event,"Class","Practical"])
-			point = get_point_for_prac_class(all_events)
+			points,best_slot = get_point_for_prac_class(subject_event,all_events)
+			print(points,best_slot)
 
 	else:			# if the subject_event is lecture
 		if batch:	# if there is a batch for us to put it in
 			l.append([subject_event,batch,"Lecture"])
 			# print([subject_event,batch,"Lecture"])
-			point = get_point_for_lect_batch(all_events,batch)
+			points,best_slot = get_point_for_lect_batch(subject_event,all_events,batch)
 		else:		# if no batch
 			l.append([subject_event,"Class","Lecture"])
 			# print([subject_event,"Class","Lecture"])

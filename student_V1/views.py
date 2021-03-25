@@ -46,12 +46,29 @@ def get_break_json(qs,):
 
 import student_V1.forms as _
 import datetime
+
+mail_body_template = """
+Feedback for {} teaching the subject {}({}) has been submitted from {} ({},{},{}).
+
+The following has been quoted by the student :- 
+"{}"
+
+This mail was sent by horarium.The views and opinions included in this quote belong to their author and do not necessarily mirror the views and opinions of the company.
+"""
+mail_subject_template = """Feedback for {} from {} ({},{},{})"""
+# faculty,user name, department,semester,enno 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Student'])
 def student_home(request):
+	student_name = request.user
+	student_details = request.user.student_details
+	semester = student_details.Division_id.Semester_id
+	department = semester.Branch_id.Department_id
+	enno = student_details.roll_no
+	print("asd")
 	if request.method == 'POST':
 		form = _.feedback_form(request.POST)
-		print(request.POST.Event_id)
+		# print(form)
 		if form.is_valid():
 			candidate = form.save(commit=False)
 			event = form.instance.Event_id
@@ -61,22 +78,30 @@ def student_home(request):
 			# testing 
 			# ct = datetime.datetime.now().time()
 			end = datetime.datetime(2000, 1, 1,hour=end_time.hour, minute=end_time.minute, second=end_time.second)
-			if (end-datetime.timedelta(minutes=2)).time() < ct < (end+datetime.timedelta(minutes=5)).time():
-				print("done")
+			if (end-datetime.timedelta(minutes=2)).time() < ct < (end+datetime.timedelta(minutes=5)).time() and request.POST['query']:
+				event = candidate.Event_id
+				faculty_name = event.Subject_event_id.Faculty_id.User_id
+				subject_name = event.Subject_event_id.Subject_id.name
+				event_type = "Practical" if event.Slot_id_2 else "Lecture"
 				# message_name = request.POST['message_name']
-				message_name = "Subject"
-				message = request.POST['query']
-				send_mail(
-					message_name, #subject
-					message, #message
-					# from_email = None, # from email 
-					['yogeshrathod19@gnu.ac.in'] # to email
-				)
+				message_name = mail_subject_template.format(faculty_name,student_name,department,semester,enno)
+				# message_name = "mail_subject_template.format()"
+				# print()
+				message = mail_body_template.format(faculty_name,subject_name,event_type,student_name,department,semester,enno,request.POST['query'])
+				# message = 				
+				if message:
+					send_mail(
+						message_name, #subject
+						message, #message
+						from_email = None, # from email 
+						recipient_list = ['yogeshrathod19@gnu.ac.in'] # to email
+					)
+					# pass
 			else :
-				print("hrllo")
+				print("hello")
 			candidate.Given_by = request.user
-			print((end-datetime.timedelta(minutes=2)).time()," - ",ct," - ",(end+datetime.timedelta(minutes=5)).time())
-			# form.save()
+			# print((end-datetime.timedelta(minutes=2)).time()," - ",ct," - ",(end+datetime.timedelta(minutes=5)).time())
+			candidate.save()
 			# if candidate.Event_id
 			# candidate.Event_id = 
 

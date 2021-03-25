@@ -2,44 +2,9 @@
 {% block title %} Faculty {% endblock %}
 
 {% block scripts %}
+<script type="application/javascript" src="{{static ('student/event.js')}}"></script>
+
 <script>
-  //  let onpageLoad = localStorage.getItem("theme") || "";
-  //  let element = document.body;
-  //  element.classList.add(onpageLoad);
-  //  if (localStorage.getItem("theme")=="dark"){
-    //    console.log(localStorage.getItem("theme"));
-    //    document.getElementById("dark").disabled = false;
-    //  }
-    //  else{
-      //    console.log(localStorage.getItem("theme"));
-      //  }
-      
-      $(document).ready(function(){
-        //console.log("JQuery is working");
-        AOS.init({
-          offset : 150,
-        });
-      (function() {
-        let cookie = localStorage.getItem("theme") || "";
-        if (cookie === "dark"){
-          toggle();
-          $("#slider1").prop("checked",true);
-        }
-    }); 
-  });
-    function toggle() {
-        var el1 = document.getElementById("light"),
-          el2 = document.getElementById("dark");
-        if (el1.disabled) {   // if dark
-          localStorage.setItem("theme", "");
-          el1.disabled = false;
-          el2.disabled = "disabled";
-        } else {              // if light
-          el1.disabled = "disabled";
-          el2.disabled = false;
-          localStorage.setItem("theme", "dark");
-        }
-    }
   put_events({{ events_json | safe}}, {{ break_json | safe}});
 </script>
 {% endblock %}

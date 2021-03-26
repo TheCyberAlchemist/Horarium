@@ -1,14 +1,16 @@
 from django.shortcuts import render
 from django.core import serializers
 import json
+from datetime import timedelta as timedelta
 from datetime import datetime as date
+import calendar
 from django.db.models import Q
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from calendar import monthrange
-
+from calendar import monthrange,month_name
+import math
 
 from faculty_V1.models import Faculty_details, Chart
 from Table_V2.models import Event
@@ -87,29 +89,92 @@ def faculty_feedback(request) :
 
 	return render(request,"Faculty/feedback.html",context)
 
+def monthlist_fast(dates):
+    start, end = [date.strptime(_, "%Y-%m-%d") for _ in dates]
+    total_months = lambda dt: dt.month + 12 * dt.year
+    mlist = []
+    for tot_m in range(total_months(start)-1, total_months(end)):
+        y, m = divmod(tot_m, 12)
+        mlist.append(date(y, m+1, 1))
+    return mlist
+
+from subject_V1.models import Subject_event
+import django.utils.timezone as tz
+
 class ChartData(APIView):
 	# authentication_classes = []
 	# permission_classes = []
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
 	permission_classes = [IsAuthenticated]
-
 	def get(self, request, format = None):
+		subject_event = Subject_event.objects.filter(Faculty_id=request.user.faculty_details)[0]
+		wef = subject_event.Subject_id.Semester_id.WEF_id
+		all_feeback  = Feedback.objects.filter(Event_id__Subject_event_id = subject_event)
+		list_of_months = monthlist_fast([str(wef.start_date),str(wef.end_date)])
+		###################### default day view #####################
+		chartLabel ="Rating -> Day"
 		labels = [
-			'January',
-			'February', 
-			'March', 
-			'April', 
-			'May', 
-			'June', 
-			'July'
-			]
-		chartLabel = "ratings"
-		chartdata = [10, 10, 5, 2, 20, 30, 45]
+		]
+		chartdata = []
+		# ids = []
+		delta = timedelta(1)
+		today = date.now()
+		week_number = math.ceil(today.day/7) - 1 # get the week number of the date
+		s_d = today.replace(day=week_number*7) + delta
+		# s_d = date.strptime(start_date, '%Y-%m-%d')
+		for i in range(7):
+			labels.append(s_d.strftime("%d-%m (%a)"))
+			# print(s_d.strftime("%d-%m-%Y"))
+			day_feedback = all_feeback.filter(timestamp__date=s_d)
+			print("total - {}".format(day_feedback.count()))
+			arr = list(day_feedback.values_list("average",flat=True))
+			arr = [x for x in arr if x != 0]
+			day_ave = 0
+			if arr:
+				day_ave = sum(arr)/len(arr)
+			# ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
+			chartdata.append(day_ave)
+			temp = s_d + delta
+			if temp.month == s_d.month:
+				s_d = temp
+			else:
+				break
+		print(chartdata)
 		data ={
 			"labels":labels,
 			"chartLabel":chartLabel,
 			"chartdata":chartdata,
 		}
+		###################### month rating ##########################
+		# labels = []
+		# chartLabel = "Ratings -> Month"
+		# chartdata = []
+		# ids = []
+		# # print(monthlist_fast([str(wef.start_date),str(wef.end_date)]))
+		# print(tz.get_current_timezone())
+		# for i in list_of_months:
+		# 	labels.append(month_name[i.month])
+		# 	ids.append(i.strftime("%B_%Y"))
+		# 	# print()
+		# 	month_feedback = all_feeback.filter(timestamp__month=i.month)
+		# 	print("month {}->{}".format(i.month,month_feedback.count()))
+		# 	arr = list(month_feedback.values_list("average",flat=True))
+		# 	arr = [x for x in arr if x != 0]
+		# 	month_ave = 0
+		# 	if arr:
+		# 		month_ave = round(sum(arr)/len(arr),2)
+		# 	chartdata.append(month_ave)
+		
+		# # for mon in range(wef.start_date.month,wef.end_date.month+1):
+		# # 	month_feedback = all_feeback.filter(timestamp__month=mon)
+		# # 	print("month {}->{}".format(mon,month_feedback.count()))
+		# data ={
+		# 	"labels":labels,
+		# 	'ids':ids,
+		# 	"chartLabel":chartLabel,
+		# 	"chartdata":chartdata,
+		# }
+		######################  ######################
 		labels = [
 			'January',
 			'February', 
@@ -130,41 +195,110 @@ class ChartData(APIView):
 		if 'graph_name' in request.GET:
 			current_graph,required_value = request.GET['graph_name'].split()
 			if current_graph == "month_rating":
-				datetime_object = date.strptime(required_value, "%B")
-				month_number = datetime_object.month
-				_,days_in_months = monthrange(date.now().year, month_number)
+				chartLabel = required_value + "-Rating"
 				labels = [
 					'1-7',
 					'8-14', 
 					'15-21', 
-					'21-28'
+					'22-28'
 				]
 				chartdata = []
-				all_feeback  = Feedback.objects.filter(Event_id__Subject_event_id__Faculty_id = request.user.faculty_details)
-				# print(all_feeback[0].)
+				ids = []
+				###################### data process ######################
+				# wrong output
+				datetime_object = date.strptime(required_value, "%B_%Y")
+				month_number = datetime_object.month
+				year = datetime_object.year
+				_,days_in_months = monthrange(year, month_number)
+				# print(month_number)
 				if days_in_months > 28:		# for the last week
 					labels.append('29-{}'.format(days_in_months))
 				for i in labels:
 					dates = i.split('-')
-					start_date = '2021-{}-{}'.format(month_number,dates[0])
-					end_date = '2021-{}-{}'.format(month_number,dates[1])
+					start_date = date.strptime('{}-{}-{}'.format(year,month_number,dates[0]),"%Y-%m-%d")
+					end_date = date.strptime('{}-{}-{} 23:59:59'.format(year,month_number,dates[1]),"%Y-%m-%d %H:%M:%S")
+					week_feedback = all_feeback.filter(timestamp__date__gte=start_date, timestamp__date__lt=end_date)
+					# print([i.strftime("%H") for i in list(week_feedback.values_list("timestamp",flat=True))])
 					# print(start_date, end_date)
-					week_feedback = all_feeback.filter(timestamp__gte=start_date, timestamp__lte=end_date)
+					print("total - {}".format(week_feedback.count()))
 					arr = list(week_feedback.values_list("average",flat=True))
 					arr = [x for x in arr if x != 0]
 					week_ave = 0
 					if arr:
 						week_ave = sum(arr)/len(arr)
+					ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
 					chartdata.append(week_ave)
-					print(week_ave)
-					# print(Feedback.objects.get_ave(week_feedback))
 				print(chartdata)
-				
-				chartLabel = required_value + "-Rating"
+				data ={
+					"labels":labels,
+					"ids":ids,
+					"chartLabel":chartLabel,
+					"chartdata":chartdata,
+				}
+				return Response([data,"week_rating"]) # data and next chart_id
+			elif current_graph == "week_rating":
+				start_date,end_date = required_value.split("_")
+				chartLabel ="Rating -> Day"
+				labels = [
+				]
+				chartdata = []
+				# ids = []
+				delta = timedelta(1)
+				s_d = date.strptime(start_date, '%Y-%m-%d')
+				for i in range(7):
+					labels.append(s_d.strftime("%d-%m(%a)"))
+					# print(s_d.strftime("%d-%m-%Y"))
+					day_feedback = all_feeback.filter(timestamp__date=s_d)
+					print("total - {}".format(day_feedback.count()))
+					arr = list(day_feedback.values_list("average",flat=True))
+					arr = [x for x in arr if x != 0]
+					day_ave = 0
+					if arr:
+						day_ave = sum(arr)/len(arr)
+					# ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
+					chartdata.append(day_ave)
+					temp = s_d + delta
+					if s_d.month==temp.month:
+						s_d = temp 
+					else :
+						break
+					
+				print(chartdata)
 				data ={
 					"labels":labels,
 					"chartLabel":chartLabel,
 					"chartdata":chartdata,
 				}
-				return Response([data,"week_rating"]) # data and next chart_id
+				return Response([data,"day_rating"]) # data and next chart_id
+			elif current_graph == "get_semester_rating":
+				###################### month rating ##########################
+				labels = []
+				chartLabel = "Ratings -> Month"
+				chartdata = []
+				ids = []
+				# print(monthlist_fast([str(wef.start_date),str(wef.end_date)]))
+				print(tz.get_current_timezone())
+				for i in list_of_months:
+					labels.append(month_name[i.month])
+					ids.append(i.strftime("%B_%Y"))
+					# print()
+					month_feedback = all_feeback.filter(timestamp__month=i.month)
+					print("month {}->{}".format(i.month,month_feedback.count()))
+					arr = list(month_feedback.values_list("average",flat=True))
+					arr = [x for x in arr if x != 0]
+					month_ave = 0
+					if arr:
+						month_ave = round(sum(arr)/len(arr),2)
+					chartdata.append(month_ave)
+				
+				# for mon in range(wef.start_date.month,wef.end_date.month+1):
+				# 	month_feedback = all_feeback.filter(timestamp__month=mon)
+				# 	print("month {}->{}".format(mon,month_feedback.count()))
+				data ={
+					"labels":labels,
+					'ids':ids,
+					"chartLabel":chartLabel,
+					"chartdata":chartdata,
+				}
+				return Response([data,day_rating])
 		return Response([data,data2])

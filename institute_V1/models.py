@@ -89,9 +89,19 @@ class Branch(models.Model):
 			models.UniqueConstraint(fields=['short', 'Department_id'], name='BranchShort is Unique for Department'),
 		]
 
+class WEF(models.Model):
+	name = models.CharField(max_length=N_len)
+	start_date = models.DateField(auto_now_add=False)
+	end_date = models.DateField(auto_now_add=False)
+	def __str__(self):
+		return "{} ({}---{})".format(self.name,str(self.start_date),str(self.end_date))
+	class Meta:
+		verbose_name_plural = "WEF"
+
 class Semester(models.Model):
 	short = models.CharField(max_length = 20)
 	Branch_id = models.ForeignKey(Branch,default=None,on_delete = models.CASCADE)
+	WEF_id = models.ForeignKey(WEF,on_delete=models.RESTRICT,null=True,blank=True)
 	def __str__(self):
 		return self.short
 	class Meta:
@@ -169,3 +179,4 @@ class Slots(models.Model):
 		return " [ " + self.Timing_id.return_time() +" ]"
 	class Meta:
 		verbose_name_plural = "Slots"
+

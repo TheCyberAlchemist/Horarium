@@ -46,6 +46,9 @@ $(document).ready(function () {
 		var labels = data.labels;
 		var chartLabel = data.chartLabel;
 		var chartdata = data.chartdata;
+		if (data.ids)
+			var ids = data.ids;
+		console.log(data);
 		var ctx = document.getElementById(id).getContext('2d');
 		if (recursive){
 			myChart.destroy();
@@ -79,10 +82,10 @@ $(document).ready(function () {
 			options: {
 				onClick : function (evt, i) {
 					e = i[0];
-					if (e){
-						var label_name = this.data.labels[e._index];
+					if ( ids && e){
+						var label_name = ids[e._index];
 						var chart_id = this.canvas.id
-						// console.log(label_name);
+						console.log(chart_id + " " + label_name);
 						// console.log(xhRT_ID);
 						$.ajax({
 							method: "GET",

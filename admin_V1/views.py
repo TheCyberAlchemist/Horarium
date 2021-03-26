@@ -62,7 +62,7 @@ def run_script(request):
 	# 		i.save()
 	# 	pass
 
-	return HttpResponse(Subject_details.objects.first())
+	return HttpResponse("The script ran fine ...")
 
 ############# Returns data for navigation tree #############
 def return_context(request):

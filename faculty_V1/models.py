@@ -96,9 +96,9 @@ class Feedback(models.Model):
 	Q8 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
 	Q9 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
 	query = models.TextField(null=True,blank=True)
-	average = models.IntegerField()
+	average = models.IntegerField(null=True,blank=True)
 	def __str__(self):
-		return str(self.Event_id.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by)
+		return str(self.Event_id.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by) + " at " + str(self.timestamp)
 
 	def get_ave(self):
 		arr = [self.Q1,self.Q2,self.Q3,self.Q4,self.Q5,self.Q6,self.Q7,self.Q8,self.Q9]

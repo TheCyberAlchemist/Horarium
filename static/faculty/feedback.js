@@ -33,7 +33,7 @@ $(document).ready(function () {
 		// data : {
 		// },
 		success: function(data) {
-			drawBarGraph(data[0], 'month_rating');
+			drawBarGraph(data[0], 'day_rating');
 			drawBarGraph(data[1],'month_response');
 			console.log("drawing");
 		},

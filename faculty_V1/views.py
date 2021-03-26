@@ -106,6 +106,7 @@ class ChartData(APIView):
 	# permission_classes = []
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
 	permission_classes = [IsAuthenticated]
+
 	def get(self, request, format = None):
 		subject_event = Subject_event.objects.filter(Faculty_id=request.user.faculty_details)[0]
 		wef = subject_event.Subject_id.Semester_id.WEF_id
@@ -139,9 +140,10 @@ class ChartData(APIView):
 				s_d = temp
 			else:
 				break
-		print(chartdata)
+		# print("graph_name {}".format(today.strftime("%B_%Y")))
 		data ={
 			"labels":labels,
+			"button_name":"graph_name {}".format(today.strftime("%B_%Y")),
 			"chartLabel":chartLabel,
 			"chartdata":chartdata,
 		}
@@ -194,7 +196,7 @@ class ChartData(APIView):
 		###################### on click ######################
 		if 'graph_name' in request.GET:
 			current_graph,required_value = request.GET['graph_name'].split()
-			if current_graph == "month_rating":
+			if current_graph == "month_rating": 	# see weekly rating
 				chartLabel = required_value + "-Rating"
 				labels = [
 					'1-7',
@@ -232,6 +234,7 @@ class ChartData(APIView):
 				data ={
 					"labels":labels,
 					"ids":ids,
+					"button_name":"graph_name get_semester_rating",
 					"chartLabel":chartLabel,
 					"chartdata":chartdata,
 				}
@@ -277,7 +280,7 @@ class ChartData(APIView):
 				chartdata = []
 				ids = []
 				# print(monthlist_fast([str(wef.start_date),str(wef.end_date)]))
-				print(tz.get_current_timezone())
+				# print(tz.get_current_timezone())
 				for i in list_of_months:
 					labels.append(month_name[i.month])
 					ids.append(i.strftime("%B_%Y"))

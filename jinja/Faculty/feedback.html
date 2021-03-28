@@ -1,114 +1,117 @@
 {% extends 'Faculty/base.html' %}
-{% block title %} Faculty {% endblock %}
+{% block title %} Feedback {% endblock %}
+
+{% block css %} 
+  <link type="text/css" rel="stylesheet" href="{{static ('faculty/feedback.css')}}">
+{% endblock %} 
+
 {% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+  integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+  crossorigin="anonymous"></script>
 <script type="application/javascript" src="{{static ('faculty/feedback.js')}}"></script>
 
 {% endblock %}
 {% block content %}
 <div class="container-fluid pt-0">
   <!-- <canvas id="month_rating"></canvas>
-  <canvas id="week_rating"></canvas>
-  <canvas id="day_rating" ></canvas>
+    <canvas id="week_rating"></canvas>
+    <canvas id="day_rating" ></canvas>
 
-  <canvas id="month_response"></canvas>
-  <canvas id="week_response"></canvas>
-  <canvas id="day_response"></canvas> -->
+    <canvas id="month_response"></canvas>
+    <canvas id="week_response"></canvas>
+    <canvas id="day_response"></canvas> -->
 
   <div class="container-fluid charts_container">
-    <div class="row month_rating">
-      <div class="col-2">
+    <div class=" row day_rating">
+      <div class="col-lg-2 col-md-12 col-sm-12 text-center">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Daily Ratings</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">The day to day ratings given by the students are listed in the graph</p>
+            <button class="btn-primary btn" id="show_week">GO up</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
+        <canvas id="day_rating" style="height:70vh;width:80%;"></canvas>
+      </div>
+    </div>   
+    <!-- show_week clicked -> show week_rating chart -->
+
+    <div class=" row week_rating" style="display: none">
+      <div class="col-lg-2 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">The Monthy Ratings</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">Click on any week's bar to get the detailed ratings!</p>
+            <p class="card-text">Click on Go Up to get a broader perspective of your ratings</p>
+            <!-- <a href="#" class="card-link">Another link</a> -->
+            <button class="btn-primary btn" id="show_month">GO up</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
+        <canvas id="week_rating" style="height:60vh;width:80%;"></canvas>
+      </div>
+    </div>
+
+    <div class="row month_rating" style="display: none">
+      <div class="col-lg-2 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">The Yearly Ratings</h4>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text">Click on any month's bar to get the detailed ratings!</p>
+            <p class="card-text">Click on the button below to get a broader perspective of your ratings!</p>
+            <button class="btn-primary btn" id="show_year">GO up</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-10 col-sm-12 table-responsive" style="position:relative;">
+        <canvas id="month_rating" style="height:60vh;width:80%;"></canvas>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="container-fluid charts_container" style="margin-top:500px">
+    <div class=" row week_response" >
+      <div class="col-lg-2 col-md-12 col-sm-12 text-center">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-              content.</p>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
+              card's content.</p>
             <a href="#" class="card-link">Card link</a>
             <a href="#" class="card-link">Another link</a>
+            <button class="btn-primary btn" id="show_parent">GO up</button>
           </div>
         </div>
       </div>
-      <div class="col-10">
-        <canvas id="month_rating" style="height:70vh;width:80%;"></canvas>
+      <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
+        <canvas id="week_response" style="height:60vh;width:80%;"></canvas>
       </div>
     </div>
-    <div class=" row month_response" style="margin-top:1500px;">
-          <div class="col-2 text-center">
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                  card's content.</p>
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
-                <button class="btn-primary btn" id="show_parents">GO up</button>
-              </div>
-            </div>
+    <div class="row month_response" style="display: none">
+      <div class="col-lg-2 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">The Yearly Responses</h5>
+            <p class="card-text">Click on any month's bar to get the detailed responses!</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+            <button class="btn-primary btn" id="show_parents">GO up</button>
           </div>
-          <div class="col-10">
-            <canvas id="week_rating" style="height:70vh;width:80%;"></canvas>
-          </div>
+        </div>
       </div>
-
+      <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
+        <canvas id="month_response" style="height:60vh;width:80%;""></canvas>
+      </div>
     </div>
-
-    <div class="container-fluid charts_container">
-      <div class="row month_response">
-        <div class="col-2">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Card title</h5>
-              <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-              <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-                content.</p>
-              <a href="#" class="card-link">Card link</a>
-              <a href="#" class="card-link">Another link</a>
-            </div>
-          </div>
-        </div>
-        <div class="col-10">
-          <canvas id="month_response" style="height:70vh;width:80%;"></canvas>
-        </div>
-      </div>
-      <div class=" row month_response" style="margin-top:1500px;">
-            <div class="col-2 text-center">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
-                  <button class="btn-primary btn" id="show_parent">GO up</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-10">
-              <canvas id="week_response" style="height:70vh;width:80%;"></canvas>
-            </div>
-        </div>
-      </div>
-      <div class=" row month_response" style="margin-top:1500px;">
-            <div class="col-2 text-center">
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Card title</h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                    card's content.</p>
-                  <a href="#" class="card-link">Card link</a>
-                  <a href="#" class="card-link">Another link</a>
-                  <button class="btn-primary btn" id="show_month">GO up</button>
-                </div>
-              </div>
-            </div>
-            <div class="col-10">
-              <canvas id="day_rating" style="height:70vh;width:80%;"></canvas>
-            </div>
-        </div>
-      </div>
   </div>
-  {% endblock %}
+</div>
+      
+{% endblock %}

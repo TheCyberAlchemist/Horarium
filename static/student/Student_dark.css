@@ -181,6 +181,9 @@ th:nth-of-type(1) {
 .modal-footer {
   border-top: none !important;
 }
+.charts_container .card .card-title,.charts_container .card .card-text{
+  color: black !important;
+}
 @media screen and (max-width: 600px) {
   #t1 {
     width: 100%;

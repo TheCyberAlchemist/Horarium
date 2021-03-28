@@ -8,7 +8,6 @@
 	<title>{% block title %} {% endblock %} | Horarium</title>
 	{# title block for printing the name of the page  #}
 	<!-- css here -->
-	{% block css %} 
 	<link id="light" rel="stylesheet" href="{{static ('student/Student_light.css')}}" disabled=true/>
 	<link id="dark" rel="stylesheet" href="{{static ('student/Student_dark.css')}}"  />
     <link type="text/css" rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" />
@@ -17,9 +16,10 @@
 	<link type="text/css" rel="stylesheet" href="{{static ('AOS/aos.css')}}" />
 	<link type="text/css" rel="stylesheet" href="{{static ('student/progress/progress_bar.css')}}" />
 	<link type="text/css" rel="preconnect" href="https://fonts.gstatic.com">
-	<link type="text/css" rel="stylesheet" href="{{static ('faculty/feedback.css')}}">
 	<link type="text/css" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap')}}" rel="stylesheet"/>
 	<link type="text/css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+	
+	{% block css %} 
 	{% endblock %} 
 </head>
 <body>

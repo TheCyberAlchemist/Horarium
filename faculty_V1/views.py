@@ -143,7 +143,8 @@ class ChartData(APIView):
 		# print("graph_name {}".format(today.strftime("%B_%Y")))
 		data ={
 			"labels":labels,
-			"button_name":"graph_name {}".format(today.strftime("%B_%Y")),
+			"button_name":"month_rating {}".format(today.strftime("%B_%Y")),
+			"button_id" : '#show_week',
 			"chartLabel":chartLabel,
 			"chartdata":chartdata,
 		}

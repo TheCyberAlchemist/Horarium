@@ -49,13 +49,44 @@ $(document).ready(function () {
 		if (data.ids) {
 			var ids = data.ids;
 		}
-			$("#show_week").click(function(){
+		if(data.button_id) {
+			$(data.button_id).click(function() {
 				console.log("button clicked");
-				$("#"+id).parent().parent().show(300);
-				console.log(id);
-				$("#"+data[1]).parent().parent().hide(300);
-			// $(".week_rating").css({"margin-top":'50px'});
-		});	
+				// $("#"+id).parent().parent().hide();
+				$.ajax({
+					method: "GET",
+					url: ENDPOINT,
+					data : {
+						graph_name : data.button_name
+					},
+					success: function(data) {
+						// change page of the selected chart div
+
+						$("#"+data[1]).parent().parent().show(300);								
+						$("#"+id).parent().parent().hide(300);
+
+						// $("#show_week").click(function(){
+						// 	console.log("button clicked");
+						// 	$("#"+chart_id).parent().parent().show(300);
+						// 	$("#"+data[1]).parent().parent().hide(300);
+						// 	// $(".week_rating").css({"margin-top":'50px'});
+						// });	
+						drawBarGraph(data[0],data[1],true)
+						// console.log(data);
+					},
+					error: function(error_data) {
+					console.log(error_data);
+					}
+				});
+			})
+		}
+		// 	$("#show_week").click(function(){
+		// 		$("#"+id).parent().parent().show(300);
+		// 		console.log(id);
+		// 		$("#"+data[1]).parent().parent().hide(300);
+		// 	// $(".week_rating").css({"margin-top":'50px'});
+		// });	
+		
 		console.log(data);
 		var ctx = document.getElementById(id).getContext('2d');
 		if (recursive){
@@ -90,7 +121,7 @@ $(document).ready(function () {
 			options: {
 				onClick : function (evt, i) {
 					e = i[0];
-					console.log("hi");
+					console.log(i);
 					if ( ids && e){
 						var label_name = ids[e._index];
 						var chart_id = this.canvas.id
@@ -132,12 +163,6 @@ $(document).ready(function () {
 		});
 	}
 
-	function myfun(btn_id) {
-		$(btn_id).click(function(){
-			$("#"+chart_id).parent().parent().show(300);
-			$("#"+data[1]).parent().parent().hide(300);
-		});	
-	}
 });
 
 // var ctx = $('#myChart');

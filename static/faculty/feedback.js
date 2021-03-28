@@ -45,7 +45,7 @@ $(document).ready(function () {
 	function drawBarGraph(data, id, recursive = false) {
 		var labels = data.labels;
 		var chartLabel = data.chartLabel;
-		var chartdata = data.chartdata;
+		var chartdata = data.chartdata; 
 		if (recursive) {
 			myChart.destroy();
 		}
@@ -114,7 +114,107 @@ $(document).ready(function () {
 							"rgba(255, 159, 64, 1)",
 						],
 						borderWidth: 1,
+					},{
+						label: "Q1",
+						data: data.Q1,
+						hidden: true,
+						backgroundColor: [
+							"rgba(54, 162, 235, 0.2)",
+						],
+						borderColor: [
+							"rgba(54, 162, 235, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q2",
+						data: data.Q2,
+						hidden: true,
+						backgroundColor: [
+							"rgba(255, 206, 86, 0.2)",
+						],
+						borderColor: [
+							"rgba(255, 206, 86, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q3",
+						data: data.Q3,
+						hidden: true,
+						backgroundColor: [
+							"rgba(75, 192, 192, 0.2)",
+						],
+						borderColor: [
+							"rgba(75, 192, 192, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q4",
+						data: data.Q4,
+						hidden: true,
+						backgroundColor: [
+							"rgba(75, 192, 192, 0.2)",
+						],
+						borderColor: [
+							"rgba(75, 192, 192, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q5",
+						data: data.Q5,
+						hidden: true,
+						backgroundColor: [
+							"rgba(75, 192, 192, 0.2)",
+						],
+						borderColor: [
+							"rgba(75, 192, 192, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q6",
+						data: data.Q6,
+						hidden: true,
+						backgroundColor: [
+							"rgba(75, 192, 192, 0.2)",
+						],
+						borderColor: [
+							"rgba(75, 192, 192, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q7",
+						data: data.Q7,
+						hidden: true,
+						backgroundColor: [
+							"rgba(75, 192, 192, 0.2)",
+						],
+						borderColor: [
+							"rgba(75, 192, 192, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q8",
+						data: data.Q8,
+						hidden: true,
+						backgroundColor: [
+							"rgba(75, 192, 192, 0.2)",
+						],
+						borderColor: [
+							"rgba(75, 192, 192, 1)",
+						],
+						borderWidth: 1,
+					},{
+						label: "Q9",
+						data: data.Q9,
+						hidden: true,
+						backgroundColor: [
+							"rgba(75, 192, 192, 0.2)",
+						],
+						borderColor: [
+							"rgba(75, 192, 192, 1)",
+						],
+						borderWidth: 1,
 					},
+					
 				],
 			},
 			options: {
@@ -122,7 +222,6 @@ $(document).ready(function () {
     			maintainAspectRatio: false,
 				onClick: function (evt, i) {
 					e = i[0];
-					console.log(i);
 					if (ids && e) {
 						var label_name = ids[e._index];
 						var chart_id = this.canvas.id;

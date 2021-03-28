@@ -132,7 +132,7 @@ class ChartData(APIView):
 			arr = [x for x in arr if x != 0]
 			day_ave = 0
 			if arr:
-				day_ave = sum(arr)/len(arr)
+				day_ave = round(sum(arr)/len(arr),2)
 			# ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
 			chartdata.append(day_ave)
 			temp = s_d + delta
@@ -148,56 +148,46 @@ class ChartData(APIView):
 			"chartLabel":chartLabel,
 			"chartdata":chartdata,
 		}
-		###################### month rating ##########################
-		# labels = []
-		# chartLabel = "Ratings -> Month"
-		# chartdata = []
-		# ids = []
-		# # print(monthlist_fast([str(wef.start_date),str(wef.end_date)]))
-		# print(tz.get_current_timezone())
-		# for i in list_of_months:
-		# 	labels.append(month_name[i.month])
-		# 	ids.append(i.strftime("%B_%Y"))
-		# 	# print()
-		# 	month_feedback = all_feeback.filter(timestamp__month=i.month)
-		# 	print("month {}->{}".format(i.month,month_feedback.count()))
-		# 	arr = list(month_feedback.values_list("average",flat=True))
-		# 	arr = [x for x in arr if x != 0]
-		# 	month_ave = 0
-		# 	if arr:
-		# 		month_ave = round(sum(arr)/len(arr),2)
-		# 	chartdata.append(month_ave)
-		
-		# # for mon in range(wef.start_date.month,wef.end_date.month+1):
-		# # 	month_feedback = all_feeback.filter(timestamp__month=mon)
-		# # 	print("month {}->{}".format(mon,month_feedback.count()))
-		# data ={
-		# 	"labels":labels,
-		# 	'ids':ids,
-		# 	"chartLabel":chartLabel,
-		# 	"chartdata":chartdata,
-		# }
-		######################  ######################
-		labels = [
-			'January',
-			'February', 
-			'March', 
-			'April', 
-			'May', 
-			'June', 
-			'July'
-			]
-		chartLabel = "responses"
-		chartdata = [0, 10, 5, 2, 20, 30, 45]
-		data2 ={
-			"labels":labels,
-			"chartLabel":chartLabel,
-			"chartdata":chartdata,
-		}
 		###################### on click ######################
 		if 'graph_name' in request.GET:
 			current_graph,required_value = request.GET['graph_name'].split()
-			if current_graph == "month_rating": 	# see weekly rating
+			if current_graph == "week_rating":
+				start_date,end_date = required_value.split("_")
+				chartLabel ="Rating -> Day"
+				labels = [
+				]
+				chartdata = []
+				# ids = []
+				delta = timedelta(1)
+				s_d = date.strptime(start_date, '%Y-%m-%d')
+				for i in range(7):
+					labels.append(s_d.strftime("%d-%m (%a)"))
+					# print(s_d.strftime("%d-%m-%Y"))
+					day_feedback = all_feeback.filter(timestamp__date=s_d)
+					print("total - {}".format(day_feedback.count()))
+					arr = list(day_feedback.values_list("average",flat=True))
+					arr = [x for x in arr if x != 0]
+					day_ave = 0
+					if arr:
+						day_ave = round(sum(arr)/len(arr),2)
+					# ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
+					chartdata.append(day_ave)
+					temp = s_d + delta
+					if s_d.month==temp.month:
+						s_d = temp 
+					else :
+						break
+					
+				print(chartdata)
+				data ={
+					"labels":labels,
+					"chartLabel":chartLabel,
+					"chartdata":chartdata,
+					"button_name":"month_rating {}".format(s_d.strftime("%B_%Y")),
+					"button_id" : '#show_week',
+				}
+				return Response([data,"day_rating"]) # data and next chart_id
+			elif current_graph == "month_rating": 	# see weekly rating
 				chartLabel = required_value + "-Rating"
 				labels = [
 					'1-7',
@@ -228,60 +218,26 @@ class ChartData(APIView):
 					arr = [x for x in arr if x != 0]
 					week_ave = 0
 					if arr:
-						week_ave = sum(arr)/len(arr)
+						week_ave = round(sum(arr)/len(arr),2)
 					ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
 					chartdata.append(week_ave)
-				print(chartdata)
+				print("here")
 				data ={
 					"labels":labels,
 					"ids":ids,
-					"button_name":"graph_name get_semester_rating",
+					"button_name":"get_semester_rating junk",
+					"button_id" : '#show_semester',
 					"chartLabel":chartLabel,
 					"chartdata":chartdata,
 				}
 				return Response([data,"week_rating"]) # data and next chart_id
-			elif current_graph == "week_rating":
-				start_date,end_date = required_value.split("_")
-				chartLabel ="Rating -> Day"
-				labels = [
-				]
-				chartdata = []
-				# ids = []
-				delta = timedelta(1)
-				s_d = date.strptime(start_date, '%Y-%m-%d')
-				for i in range(7):
-					labels.append(s_d.strftime("%d-%m(%a)"))
-					# print(s_d.strftime("%d-%m-%Y"))
-					day_feedback = all_feeback.filter(timestamp__date=s_d)
-					print("total - {}".format(day_feedback.count()))
-					arr = list(day_feedback.values_list("average",flat=True))
-					arr = [x for x in arr if x != 0]
-					day_ave = 0
-					if arr:
-						day_ave = sum(arr)/len(arr)
-					# ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
-					chartdata.append(day_ave)
-					temp = s_d + delta
-					if s_d.month==temp.month:
-						s_d = temp 
-					else :
-						break
-					
-				print(chartdata)
-				data ={
-					"labels":labels,
-					"chartLabel":chartLabel,
-					"chartdata":chartdata,
-				}
-				return Response([data,"day_rating"]) # data and next chart_id
 			elif current_graph == "get_semester_rating":
 				###################### month rating ##########################
 				labels = []
 				chartLabel = "Ratings -> Month"
 				chartdata = []
 				ids = []
-				# print(monthlist_fast([str(wef.start_date),str(wef.end_date)]))
-				# print(tz.get_current_timezone())
+
 				for i in list_of_months:
 					labels.append(month_name[i.month])
 					ids.append(i.strftime("%B_%Y"))
@@ -295,14 +251,11 @@ class ChartData(APIView):
 						month_ave = round(sum(arr)/len(arr),2)
 					chartdata.append(month_ave)
 				
-				# for mon in range(wef.start_date.month,wef.end_date.month+1):
-				# 	month_feedback = all_feeback.filter(timestamp__month=mon)
-				# 	print("month {}->{}".format(mon,month_feedback.count()))
 				data ={
 					"labels":labels,
 					'ids':ids,
 					"chartLabel":chartLabel,
 					"chartdata":chartdata,
 				}
-				return Response([data,day_rating])
-		return Response([data,data2])
+				return Response([data,"month_rating"])
+		return Response(data)

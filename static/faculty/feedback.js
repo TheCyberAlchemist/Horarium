@@ -55,7 +55,6 @@ $(document).ready(function () {
 		if (data.button_id) {
 			console.log(data.button_name, data.button_id);
 			$(data.button_id).off().on('click', function() {
-				console.log("clicked");
 				$.ajax({
 					method: "GET",
 					url: ENDPOINT,
@@ -119,6 +118,8 @@ $(document).ready(function () {
 				],
 			},
 			options: {
+				// responsive: true,
+    			maintainAspectRatio: false,
 				onClick: function (evt, i) {
 					e = i[0];
 					console.log(i);

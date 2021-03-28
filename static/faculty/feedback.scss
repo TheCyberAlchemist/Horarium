@@ -1,14 +1,24 @@
 .charts_container {
     height: 90vh;
     overflow-y: hidden;
+    width: 100%;
 }
-.col-2 {
+.col-lg-2 {
     position: relative;
 }
-.show_child,.row {
+.show_parent,.row {
     margin: 0 auto;
     text-align: center;
     align-items: center;
     vertical-align: middle;
     position: absolute;
+}
+ .col-sm-12{
+    padding-left: 0 !important;
+}
+
+@media screen and (max-width: 600px) {
+    .charts_container {
+        padding : 0 !important;
+    }
 }

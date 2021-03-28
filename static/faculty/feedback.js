@@ -46,8 +46,16 @@ $(document).ready(function () {
 		var labels = data.labels;
 		var chartLabel = data.chartLabel;
 		var chartdata = data.chartdata;
-		if (data.ids)
+		if (data.ids) {
 			var ids = data.ids;
+		}
+			$("#show_week").click(function(){
+				console.log("button clicked");
+				$("#"+id).parent().parent().show(300);
+				console.log(id);
+				$("#"+data[1]).parent().parent().hide(300);
+			// $(".week_rating").css({"margin-top":'50px'});
+		});	
 		console.log(data);
 		var ctx = document.getElementById(id).getContext('2d');
 		if (recursive){
@@ -82,6 +90,7 @@ $(document).ready(function () {
 			options: {
 				onClick : function (evt, i) {
 					e = i[0];
+					console.log("hi");
 					if ( ids && e){
 						var label_name = ids[e._index];
 						var chart_id = this.canvas.id
@@ -95,6 +104,14 @@ $(document).ready(function () {
 							},
 							success: function(data) {
 								// change page of the selected chart div
+								$("#"+data[1]).parent().parent().show(300);								
+								$("#"+chart_id).parent().parent().hide(300);
+								// $("#show_week").click(function(){
+								// 	console.log("button clicked");
+								// 	$("#"+chart_id).parent().parent().show(300);
+								// 	$("#"+data[1]).parent().parent().hide(300);
+								// 	// $(".week_rating").css({"margin-top":'50px'});
+								// });	
 								drawBarGraph(data[0],data[1],true)
 							},
 							error: function(error_data) {
@@ -113,6 +130,13 @@ $(document).ready(function () {
 			}
 			}
 		});
+	}
+
+	function myfun(btn_id) {
+		$(btn_id).click(function(){
+			$("#"+chart_id).parent().parent().show(300);
+			$("#"+data[1]).parent().parent().hide(300);
+		});	
 	}
 });
 

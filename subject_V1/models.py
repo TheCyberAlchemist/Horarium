@@ -14,6 +14,7 @@ class Subject_manager(models.Manager):
 		# for i in qs:
 		qs.set_load(False)
 		return qs
+	
 	def filter(self, *args, **kwargs):
 		qs = super(Subject_manager, self).filter( *args, **kwargs)
 		for i in qs:
@@ -88,16 +89,16 @@ class Subject_event(models.Model):
 	# link = models.URLField(max_length=200, null=True, blank=True)
 	prac_carried = models.PositiveIntegerField()
 	lect_carried = models.PositiveIntegerField()
+
 	def total_load_carried(self):
 		return (self.prac_carried * 2) + self.lect_carried
 	
 	def __str__(self):
 		self.Subject_id.get_prac_lect()
-		return self.Subject_id.short + " by " + str(self.Faculty_id)
-
+		return str(self.pk) + " "+ self.Subject_id.short + " by " + str(self.Faculty_id)
 
 	class Meta:
 		verbose_name_plural = "Subject events"
 		constraints = [
-            models.UniqueConstraint(fields=['Faculty_id', 'Subject_id'], name='Subject can have only one Unique Faculty.'),
-        ]
+			models.UniqueConstraint(fields=['Faculty_id', 'Subject_id'], name='Subject can have only one Unique Faculty.'),
+		]

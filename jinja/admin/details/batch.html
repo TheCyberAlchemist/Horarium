@@ -79,7 +79,7 @@
               <div class="checkboxes">
                 <!-- <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if update
                   and subject.id in update[3]%}checked{% endif %} /> -->
-                  <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}"/>
+                  <input name="subjects_for_batch" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}"/>
                 <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
               </div>
               <!-- <input type="checkbox" />{{subject}} -->
@@ -164,7 +164,7 @@
           </td>
           <td>
             <div class="checkboxes" onclick="checkSelected()">
-              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{batch.id}}">
+              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{batch.id}}" input_name="{{batch}}">
               <label for="{{loop.index}}"></label>
             </div>
           </td>

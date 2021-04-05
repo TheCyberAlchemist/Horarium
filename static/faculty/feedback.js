@@ -1,5 +1,4 @@
 var ENDPOINT = "/faculty/api";
-
 function toggle_theme() {
 	var el1 = document.getElementById("light"),
 		el2 = document.getElementById("dark");
@@ -99,19 +98,31 @@ $(document).ready(function () {
 						data: chartdata,
 						backgroundColor: [
 							"rgba(255, 99, 132, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(255, 206, 86, 0.2)",
-							"rgba(75, 192, 192, 0.2)",
-							"rgba(153, 102, 255, 0.2)",
-							"rgba(255, 159, 64, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
 						],
 						borderColor: [
 							"rgba(255, 99, 132, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(255, 206, 86, 1)",
-							"rgba(75, 192, 192, 1)",
-							"rgba(153, 102, 255, 1)",
-							"rgba(255, 159, 64, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+							"rgba(255, 99, 132, 1)",
+                            
 						],
 						borderWidth: 1,
 					},{
@@ -120,9 +131,27 @@ $(document).ready(function () {
 						hidden: true,
 						backgroundColor: [
 							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							
 						],
 						borderColor: [
 							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							"rgba(54, 162, 235, 1)",
+							
 						],
 						borderWidth: 1,
 					},{
@@ -130,10 +159,27 @@ $(document).ready(function () {
 						data: data.Q2,
 						hidden: true,
 						backgroundColor: [
-							"rgba(255, 206, 86, 0.2)",
+							"rgba(255, 99, 132, 0.2)",
+							"rgba(54, 162, 235, 0.2)",
+							"rgba(75, 192, 192, 0.2)",
+							"rgba(153, 102, 255, 0.2)",
+							"rgba(255, 159, 64, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(128,128,128, 0.2)",
+                            "rgba(244, 9, 249, 0.2)",
+						    "rgba(255, 0, 0, 0.2)",
 						],
 						borderColor: [
 							"rgba(255, 206, 86, 1)",
+							"rgba(75, 192, 192, 1)",
+							"rgba(153, 102, 255, 1)",
+							"rgba(255, 159, 64, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(99, 252, 39,1)",
+							"rgb(128,128,128, 1)",
+                            "rgba(244, 9, 249, 1)",
+							"rgba(255, 0, 0, 1)",
 						],
 						borderWidth: 1,
 					},{
@@ -141,10 +187,28 @@ $(document).ready(function () {
 						data: data.Q3,
 						hidden: true,
 						backgroundColor: [
-							"rgba(75, 192, 192, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
+							"rgba(1,0,143, 0.2)",
 						],
 						borderColor: [
-							"rgba(75, 192, 192, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
+							"rgba(1,0,143, 1)",
 						],
 						borderWidth: 1,
 					},{
@@ -152,10 +216,28 @@ $(document).ready(function () {
 						data: data.Q4,
 						hidden: true,
 						backgroundColor: [
-							"rgba(75, 192, 192, 0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
+							"rgba(99, 252, 39,0.2)",
 						],
 						borderColor: [
-							"rgba(75, 192, 192, 1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
+							"rgba(132, 218, 99,1)",
 						],
 						borderWidth: 1,
 					},{
@@ -163,10 +245,28 @@ $(document).ready(function () {
 						data: data.Q5,
 						hidden: true,
 						backgroundColor: [
-							"rgba(75, 192, 192, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
+							"rgba(128,128,128, 0.2)",
 						],
 						borderColor: [
-							"rgba(75, 192, 192, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
+							"rgb(128,128,128, 1)",
 						],
 						borderWidth: 1,
 					},{
@@ -174,10 +274,28 @@ $(document).ready(function () {
 						data: data.Q6,
 						hidden: true,
 						backgroundColor: [
-							"rgba(75, 192, 192, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
+							"rgba(244, 9, 249, 0.2)",
 						],
 						borderColor: [
-							"rgba(75, 192, 192, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
+							"rgb(172, 9, 175, 1)",
 						],
 						borderWidth: 1,
 					},{
@@ -185,10 +303,28 @@ $(document).ready(function () {
 						data: data.Q7,
 						hidden: true,
 						backgroundColor: [
-							"rgba(75, 192, 192, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
+							"rgba(255, 0, 0, 0.2)",
 						],
 						borderColor: [
-							"rgba(75, 192, 192, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
+							"rgba(255,0,0, 1)",
 						],
 						borderWidth: 1,
 					},{
@@ -196,10 +332,28 @@ $(document).ready(function () {
 						data: data.Q8,
 						hidden: true,
 						backgroundColor: [
-							"rgba(75, 192, 192, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
+							"rgba(250,255,7, 0.2)",
 						],
 						borderColor: [
-							"rgba(75, 192, 192, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
+							"rgba(250,255,7, 1)",
 						],
 						borderWidth: 1,
 					},{
@@ -207,10 +361,30 @@ $(document).ready(function () {
 						data: data.Q9,
 						hidden: true,
 						backgroundColor: [
-							"rgba(75, 192, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
+							"rgba(0, 255, 192, 0.2)",
 						],
 						borderColor: [
-							"rgba(75, 192, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
+							"rgba(0, 255, 192, 1)",
 						],
 						borderWidth: 1,
 					},
@@ -259,13 +433,61 @@ $(document).ready(function () {
 				scales: {
 					yAxes: [
 						{
+							display : true,
+							scaleLabel : {
+								display : true,
+								labelString : 'Ratings '
+							},
 							ticks: {
 								beginAtZero: true,
 								suggestedMax: 5,
 							},
 						},
 					],
+
+					xAxes: [
+						{
+							display : true,
+							scaleLabel : {
+								display : true,
+								labelString : 'Time Period '
+							},
+						},
+					],
 				},
+				tooltips: {
+					callbacks: {
+							label: function(chart_id) {
+								var avg_of = "Average of ";
+								console.log(chart_id);
+								switch (chart_id.datasetIndex) {
+									case 0:
+										return chart_id.label;
+									case 1:
+										return avg_of + data.len1[chart_id.index];
+									case 2:
+										return avg_of + data.len2[chart_id.index];
+									case 3:
+										return avg_of + data.len3[chart_id.index];
+									case 4:
+										return avg_of + data.len4[chart_id.index];
+									case 5:
+										return avg_of + data.len5[chart_id.index];
+									case 6:
+										return avg_of + data.len6[chart_id.index];
+									case 7:
+										return avg_of + data.len7[chart_id.index];
+									case 8:
+										return avg_of + data.len8[chart_id.index];
+									case 9:
+										return avg_of + data.len9[chart_id.index];
+									default:
+										break;
+								}
+								
+							}
+						}
+					}
 			},
 		});
 	}

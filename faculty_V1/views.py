@@ -76,6 +76,17 @@ def faculty_feedback(request) :
 	f_money = Chart.money
 	data = serializers.serialize("json", Feedback.objects.all())
 	data = json.loads(data)
+	questions = [
+		"Lecture or Lab Session Began and End on scheduled Time",
+		"I felt the Teacher well prepared for this particular session",
+		"The Pedagogy (Teaching methods) of the Teacher is effective",
+		"I am able to learn the topic effectively and with clear understanding",
+		"The teacher encourages students to ask questions for better understanding",
+		"If asked, the teacher answers all questions appropriately and clearly",
+		"The Teacher has excellent knowledge about the subject ",
+		"The teacher's behaviour is respectful and treats all students respectfully",
+		"I don't hesitate to ask to the Teacher if I have any doubt",
+	]
 	for d in data:
 		del d['model'],d['pk']
 	data = json.dumps(data)
@@ -84,6 +95,7 @@ def faculty_feedback(request) :
 		'data' : data,
 		'name' : f_name,
 		'money' : f_money,
+		'questions' : questions
 	}
 	# context["qs"] = Chart.objects.all()
 

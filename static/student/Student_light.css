@@ -173,6 +173,7 @@ th:nth-of-type(1) {
 
 .charts_container .card .card-title,.charts_container .card .card-text{
   color: black !important;
+  font-family: 'Poppins', sans-serif
 }
 
 @media screen and (max-width: 600px) {
@@ -211,5 +212,31 @@ th:nth-of-type(1) {
     -webkit-transition: 1s;
     transition: 1s;
   }
+    /*////////////////////Chart settings/////////////*/
+    .charts_container .card-title, .charts_container .card-body{
+      font-size:smaller;
+    }
+    .questions .card-header .h6, .questions .card-body .h6{
+      font-size:12px;
+      margin-bottom : 20px;
+    }
+    #show_week {
+      font-size:smaller;
+    }
+    .questions .card-header {
+      font-size:1.25rem;
+    }
+    .question_card {
+      width:100%;
+    }
+    .charts_container .card-body{
+      padding : 1rem;
+    }
+    .charts_container .card {
+      margin-top : 10px;
+    }
+    .charts_container .card-title, .charts_container .card-text {
+      margin-bottom: 0 !important;
+    }
 }
 /*# sourceMappingURL=Student_light.css.map */

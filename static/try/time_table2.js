@@ -280,8 +280,8 @@ function change_to_prac_td(td) {	// change td to prac td
 			<div class="row" >
 				<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
 			</div>
-			<div class="row" style="overflow-x: auto;">
-				<div class="col mt-2">
+			<div class="row">
+				<div class="col mt-2" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
 					<button class="btn-sm prac_mycol event_name border-0"></button>
 				</div>
 			</div>
@@ -330,6 +330,7 @@ function put_prac(td,subject_event_id,batch,resource){
 
 $(document).ready (function () {
 	var csrftoken = Cookies.get('csrftoken');
+	$('[data-toggle="tooltip"]').tooltip();   
 	function csrfSafeMethod(method) {
 		// these HTTP methods do not require CSRF protection
 		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));

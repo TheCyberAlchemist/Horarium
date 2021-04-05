@@ -20,6 +20,10 @@
 .prac_mycol {
     writing-mode: vertical-rl;
     text-orientation: upright;
+    font-size:smaller !important;
+    padding:0 1px 0 1px !important;
+    height:110px !important;
+    letter-spacing:0 !important;
 }
 .my_row.row_header .my_col {
     padding-top: 10px;
@@ -34,6 +38,9 @@
     // left : 50%;
     // transform: translate(-50%,-50%);
     margin-top: 25px;
+}
+.my_col.lect.droppable .btn, .my_col.lect.droppable .col-6{
+    font-size:smaller;
 }
 .my_row {
     position: relative;
@@ -87,4 +94,20 @@
 }
 .batch_contents {
     margin-right: 5px;
+}
+p.h6 {
+    font-size: 0.8rem !important;
+}
+
+
+//////////////////////for lecture batches ///////////////////////////
+.lect_batches {
+    font-size:x-small !important;
+    padding:0 1px 0 1px !important;
+    letter-spacing:0 !important;
+    height:70px;
+}
+.lect_mycol {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
 }

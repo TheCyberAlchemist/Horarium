@@ -175,15 +175,24 @@ th:nth-of-type(1) {
   scrollbar-color: #525252 #1f1f24 !important;
   scrollbar-width: thin !important;
 }
-.modal-body,.modal-title,.modal-footer,.modal-header {
-  background-color: #18181d;
+.modal-body,.modal-title,.modal-footer,.modal-header,.modal-content {
+  background-color: #18181d !important;
 }
 .modal-footer {
   border-top: none !important;
 }
+
+/*//////////////////////////Feedback Card////////////////////////////// */
 .charts_container .card .card-title,.charts_container .card .card-text{
-  color: black !important;
+  font-family: 'Poppins', sans-serif
 }
+.charts_container .row .card {
+  background-color:#333;
+  font-family: 'Poppins', sans-serif;
+  color : white !important;
+}
+
+
 @media screen and (max-width: 600px) {
   #t1 {
     width: 100%;
@@ -230,6 +239,33 @@ th:nth-of-type(1) {
   }
   .radio-inline {
     padding-right: 0px;
+  }
+
+  /*////////////////////Chart settings///////////////*/
+  .charts_container .card-title, .charts_container .card-body{
+    font-size:smaller;
+  }
+  .questions .card-header .h6, .questions .card-body .h6{
+    font-size:12px;
+    margin-bottom : 20px;
+  }
+  #show_week {
+    font-size:smaller;
+  }
+  .questions .card-header {
+    font-size:1.25rem;
+  }
+  .question_card {
+    width:100%;
+  }
+  .charts_container .card-body{
+    padding : 1rem;
+  }
+  .charts_container .card {
+    margin-top : 10px;
+  }
+  .charts_container .card-title, .charts_container .card-text {
+    margin-bottom: 0 !important;
   }
 }
 /*# sourceMappingURL=Student_dark.css.map */

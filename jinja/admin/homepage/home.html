@@ -1,5 +1,200 @@
 {% extends 'admin/base.html' %}
 {% block title%} Home
 {% endblock %}
+
+{% block css%}
+<link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+<link rel="stylesheet" href="{{static ('form/form.css')}}">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock %}
+
+{%block scripts %}
+<script type="application/javascript" src="{{static ('jquery.js')}}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+
 {% block content %}
+
+<div class="container-fluid mt-5">
+    <div class="row">
+        <div class="col-2">
+            <nav class="navbar navbar-light bg-light">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Home</a>
+                        <ul>
+                            <li> <a class="nav-link active" href="#">Home IN</a> </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Tutorials</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Articles</a>
+                    </li>
+                </ul>
+            </nav>
+            <ul class="nav nav-tabs">
+              <li class="active"><a data-toggle="tab" href="#fac">Faculty</a></li>
+              <li class="active"><a data-toggle="tab" href="#stu">Student</a></li>
+            </ul>            
+        </div>
+        <div class="col-10">
+            <div class="table_container">
+                <div class="table_search_box">
+                  <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+                </div>
+                <table id = "db_table">
+                  <thead>
+                    <tr>
+                      <div class="delete_panel">
+                        <h1 >Department for {{institute}}</h1>
+                        <a style="display: none;" id="del" onclick="delete_entries()" >
+                          <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+                        </a>
+                      </div>
+                      <th>Id</th>
+                      <th>Department Name</th>
+                      <th>Short</th>
+                      <th>Edit</th>
+                      <th>
+                        <div class="checkboxes" onclick="checkAll();">
+                          <input type="checkbox"  id="parent" name="parent" value="parent">
+                          <label for="parent"></label> 
+                        </div>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for department in departments %}
+                      <tr>
+                        <td>{{loop.index}}</td>
+                         <td>{{department.short}}</td>
+                        <td>
+                          <a href = "{{url ('update_department' ,args=[department.id])}}">
+                            <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+                          </a>
+                        </td>
+                        <td>
+                          <div class="checkboxes" onclick="checkSelected()">
+                            <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{department.id}}">
+                            <label for="{{loop.index}}"></label>
+                          </div>
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+        </div>
+    </div>
+</div>
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#fac">Faculty</a></li>
+  <li class="active"><a data-toggle="tab" href="#stu">Student</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="fac" class="tab-pane fade in active" style="border:none">
+    <h3>Faculty</h3>
+    <div class="table-responsive ">
+      <table class="table text-center">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Branch</th>
+            <th>Semester</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>DRD</td>
+            <td>HOD</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>DRD</td>
+            <td>HOD</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>3</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>URT</td>
+            <td>Prof.</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          
+        </tbody>
+      </table>  
+      </div>
+  </div>
+  <div id="stu" class="tab-pane fade" style="border:none">
+    <h3>Student</h3>
+    <div class="table-responsive">
+      <table class="table text-center">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Branch</th>
+            <th>Semester</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>VenuGopala Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Parambatur ChinnaSwami MutuSwami VenuGopala Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Prabhakarna SriPalaWardhana Atapattu JayaSuriya LaxmanSivramKrishna ShivaVenkata RajShekhara Sriniwasana Trichipalli YekyaParampeel Parambatur ChinnaSwami MutuSwami VenuGopala Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>  
+      </div>
+  </div>
+</div>
+
+</div>
 {% endblock %}

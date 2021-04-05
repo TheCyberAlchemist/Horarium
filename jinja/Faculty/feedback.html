@@ -3,6 +3,12 @@
 
 {% block css %} 
   <link type="text/css" rel="stylesheet" href="{{static ('faculty/feedback.css')}}">
+  <!-- <link id="light" rel="stylesheet" href="{{static ('student/Student_light.css')}}" disabled=true/>
+	<link id="dark" rel="stylesheet" href="{{static ('student/Student_dark.css')}}"  /> -->
+  <style>
+  
+    
+  </style>
 {% endblock %} 
 
 {% block scripts %}
@@ -37,6 +43,18 @@
       <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
         <canvas id="day_rating" style="height:70vh;width:80%;"></canvas>
       </div>
+      <div class="container-fluid question_card text-left mb-3">
+        <div class="card questions">
+          <div class="card-header" style="font-weight :bold;">
+            Feedback Questions
+          </div>
+          <div class="card-body">
+            {%for ques in questions %}
+            <div class="h6" style="font-weight :bold;">Q{{loop.index}}. {{ques}}.</div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
     </div>   
     <!-- show_week clicked -> show week_rating chart -->
 
@@ -56,6 +74,18 @@
       <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
         <canvas id="week_rating" style="height:70vh;width:80%;"></canvas>
       </div>
+      <div class="container-fluid question_card text-left mb-3">
+        <div class="card questions">
+          <div class="card-header" style="font-weight :bold;">
+            Feedback Questions
+          </div>
+          <div class="card-body">
+            {%for ques in questions %}
+            <div class="h6" style="font-weight :bold;">Q{{loop.index}}. {{ques}}.</div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="row month_rating" style="display: none">
@@ -65,16 +95,27 @@
             <h4 class="card-title">The Yearly Ratings</h4>
             <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
             <p class="card-text">Click on any month's bar to get the detailed ratings!</p>
-            <p class="card-text">Click on the button below to get a broader perspective of your ratings!</p>
-            <button class="btn-primary btn" id="show_year">GO up</button>
           </div>
         </div>
       </div>
       <div class="col-lg-10 col-sm-12 table-responsive" style="position:relative;">
         <canvas id="month_rating" style="height:70vh;width:80%;"></canvas>
       </div>
+      <div class="container-fluid question_card text-left mb-3">
+        <div class="card questions">
+          <div class="card-header" style="font-weight :bold;">
+            Feedback Questions
+          </div>
+          <div class="card-body">
+            {%for ques in questions %}
+            <div class="h6" style="font-weight :bold;">Q{{loop.index}}. {{ques}}.</div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
 
 
   

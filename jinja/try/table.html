@@ -21,14 +21,15 @@
 </style>
 {%endblock%}
 {% block scripts %}
-<script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-    crossorigin="anonymous"></script>
+integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+crossorigin="anonymous"></script>
+<script src="{{static ('Popper/popper.min.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
     integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="{{static ('try/time_table2.js') }}"></script>
 <script>
@@ -152,6 +153,115 @@
             {% endif %}
         </div>
         {%endfor%}
+        <div class="row my_row">
+            <div class="col my_col lect">10:00</div>
+            <div class="col my_col prac prac_above">
+                <div class="container text-center">
+                    <div class="row text-center" style="margin-left:-30px">
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="row">
+                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col my_col prac prac_below">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                        <div class="col-4 batch_contents">
+                            <div class="row">
+                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col my_col lect"></div>
+            <div class="col my_col lect try_button"></div>
+            <div class="col my_col prac">
+                <div class="row my-auto" style="margin-left:-25px">
+                    <div class="col-2" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
+                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
+                        <!-- <div class="col-6 text-left" style="font-size:x-small">URT</div>
+                        <div class="col-6 text-right" style="font-size:x-small">305</div> -->
+                    </div>
+                    <div class="col-2">
+                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
+                        <!-- <div class="col-6 text-left" style="font-size:x-small">URT</div>
+                        <div class="col-6 text-right" style="font-size:x-small">305</div> -->
+                    </div>
+                    <div class="col-2">
+                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
+                        <!-- <div class="col-6 text-left" style="font-size:x-small">URT</div>
+                        <div class="col-6 text-right" style="font-size:x-small">305</div> -->
+                    </div>
+                    <div class="col-2">
+                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
+                        <!-- <div class="col-6 text-left" style="font-size:x-small">URT</div>
+                        <div class="col-6 text-right" style="font-size:x-small">305</div> -->
+                    </div>
+                    <div class="col-2">
+                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
+                        <!-- <div class="col-6 text-left" style="font-size:x-small">URT</div>
+                        <div class="col-6 text-right" style="font-size:x-small">305</div> -->
+                    </div>
+                    <!-- <div class="col-2">
+                        <button class="btn-sm btn-primary prac_mycol mt-2" style="font-size:x-small;padding:0 1px 0 1px;height:70px;letter-spacing:0">Hello</button>
+
+                    </div> -->
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {{csrf_input}}
@@ -166,89 +276,5 @@
         </li>
     </ul>
 </div>
+
 {%endblock%}
-<!-- <div class="row my_row">
-    <div class="col my_col lect">10:00</div>
-    <div class="col my_col prac prac_above">
-        <div class="container text-center">
-            <div class="row text-center" style="overflow-x: auto;">
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="row">
-                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col my_col prac prac_below">
-        <div class="container text-center">
-            <div class="row">
-                <div class="col-4 batch_contents">
-                    <div class="row">
-                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                    </div>
-                </div>
-                <div class="col-4 batch_contents">
-                    <div class="row">
-                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                    </div>
-                </div>
-                <div class="col-4 batch_contents">
-                    <div class="row">
-                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                    </div>
-                </div>
-                
-            </div>
-        </div>
-    </div>
-    <div class="col my_col lect"></div>
-    <div class="col my_col lect try_button"></div>
-    <div class="col my_col prac">
-        <div class="row p-2">
-            <div class="col-12">
-                <button class="btn btn-primary mt-1">Hello</button>
-            </div>
-            <div class="col-6 text-left">URT</div>
-            <div class="col-6 text-right">305</div>
-        </div>
-    </div>
-</div> -->

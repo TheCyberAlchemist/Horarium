@@ -20,49 +20,12 @@ from Table_V2.models import Event
 
 ############# For running any scripts ###############
 def run_script(request):
-	# var = []
-	# import random
-	# import datetime
-	# from faculty_V1.models import Feedback
-	# from login_V2.models import CustomUser
-	# subject_event = Event.objects.filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
-	# subject_event = Event.objects.filter(pk__in = [97,114,128])
-	# print(request.user.pk)
-	# fri_delta = datetime.timedelta(4)
-	# thu_delta = datetime.timedelta(3)
-	# week_delta = datetime.timedelta(7)
-	# jan1 = datetime.datetime(2021, 1, 1)
-	# for i in range(15):
-	# 	students = CustomUser.objects.filter(groups=3)
-	# 	next_monday = jan1 + datetime.timedelta(days=-jan1.weekday(), weeks=1)
-	# 	print(next_monday)
-	# 	for user in students: #monday
-	# 		Feedback.objects.create(timestamp=next_monday,Event_id=subject_event[2],Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
-	# 	for user in students: # thursday
-	# 		Feedback.objects.create(timestamp=next_monday+thu_delta,Event_id=subject_event[0],Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
-	# 	for user in students: #friday
-	# 		Feedback.objects.create(timestamp=next_monday+fri_delta,Event_id=subject_event[1],Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
-	# 	jan1 = jan1 + week_delta
+	num = int (input("Enter the number of events to be deleted :: "))
+	for i in range(num):
+		print("{} --- Deleted ".format(Event.objects.all().last()))
+		Event.objects.all().last().delete()
 
-	# 97,114,128
-
-
-
-	# for i in Event.objects.all():
-	# 	if i.Slot_id_2:
-	# 		i.link = i.Batch_id.link
-	# 		i.save()
-	# 		print(i.link,"- is prac")
-	# 	else:
-	# 		i.link = i.Division_id.link
-	# 		i.save()
-	# 		print(i.link,"- is lect")
-	# 	if i.Subject_event_id.Subject_id.name == "Web Application Development":
-	# 		i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
-	# 		i.save()
-	# 	pass
-
-	return HttpResponse("The script ran fine ...")
+	return HttpResponse("<center><h1>The script ran fine ...</h1></center>")
 
 ############# Returns data for navigation tree #############
 def return_context(request):
@@ -880,7 +843,8 @@ def algo_v1(request,Division_id):
 					
 					for i in range(remaining_count):
 						# print(batch,"-",subject_event)
-						algo.get_subject_events(Division_id,subject_event,True,locked_events,batch)
+						# algo.get_subject_events(Division_id,subject_event,True,locked_events,batch)
+						locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events,batch))
 			else:
 				locked_prac_count = locked_subject_event.count()
 				
@@ -893,7 +857,8 @@ def algo_v1(request,Division_id):
 				
 				for i in range(remaining_count):
 					# print(subject_event,"- Class")
-					algo.get_subject_events(Division_id,subject_event,True,locked_events)
+					# algo.get_subject_events(Division_id,subject_event,True,locked_events)
+					locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events))
 
 		if lect_carried:
 			batches = subject_event.Subject_id.batch_set.filter(batch_for = "lect")
@@ -912,7 +877,8 @@ def algo_v1(request,Division_id):
 					
 					for i in range(remaining_count):
 						# print(batch,"-",subject_event)
-						algo.get_subject_events(Division_id,subject_event,False,locked_events,batch)
+						# algo.get_subject_events(Division_id,subject_event,False,locked_events,batch)
+						locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events,batch))
 
 			else:
 				locked_lect_count = locked_subject_event.count()
@@ -926,7 +892,8 @@ def algo_v1(request,Division_id):
 				
 				for i in range(remaining_count):
 					# print(subject_event,"- Class")
-					algo.get_subject_events(Division_id,subject_event,False,locked_events)
+					# algo.get_subject_events(Division_id,subject_event,False,locked_events)
+					locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events))
 					
 				# print(subject_event," - Class")
 
@@ -950,3 +917,46 @@ def algo_v1(request,Division_id):
 
 	# print(list(locked_events.values_list("Subject_event_id",flat=True)))
 	return render(request,"try/algo_v1.html",context)
+
+##################### scripts #####################
+# var = []
+	# import random
+	# import datetime
+	# from faculty_V1.models import Feedback
+	# from login_V2.models import CustomUser
+	# subject_event = Event.objects.filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
+	# subject_event = Event.objects.filter(pk__in = [97,114,128])
+	# print(request.user.pk)
+	# fri_delta = datetime.timedelta(4)
+	# thu_delta = datetime.timedelta(3)
+	# week_delta = datetime.timedelta(7)
+	# jan1 = datetime.datetime(2021, 1, 1)
+	# for i in range(15):
+	# 	students = CustomUser.objects.filter(groups=3)
+	# 	next_monday = jan1 + datetime.timedelta(days=-jan1.weekday(), weeks=1)
+	# 	print(next_monday)
+	# 	for user in students: #monday
+	# 		Feedback.objects.create(timestamp=next_monday,Event_id=subject_event[2],Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
+	# 	for user in students: # thursday
+	# 		Feedback.objects.create(timestamp=next_monday+thu_delta,Event_id=subject_event[0],Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
+	# 	for user in students: #friday
+	# 		Feedback.objects.create(timestamp=next_monday+fri_delta,Event_id=subject_event[1],Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
+	# 	jan1 = jan1 + week_delta
+
+	# 97,114,128
+
+
+
+	# for i in Event.objects.all():
+	# 	if i.Slot_id_2:
+	# 		i.link = i.Batch_id.link
+	# 		i.save()
+	# 		print(i.link,"- is prac")
+	# 	else:
+	# 		i.link = i.Division_id.link
+	# 		i.save()
+	# 		print(i.link,"- is lect")
+	# 	if i.Subject_event_id.Subject_id.name == "Web Application Development":
+	# 		i.link = "https://bkvlearningsystemsprivatelimited.my.webex.com/webappng/sites/bkvlearningsystemsprivatelimited.my/meeting/download/0e59b41ffacf437ab0f338df7ce7d06d?siteurl=bkvlearningsystemsprivatelimited.my&MTID=mfdda13a691e94f89c950540d20160085"
+	# 		i.save()
+	# 	pass

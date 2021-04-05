@@ -38,7 +38,7 @@ class create_division(ModelForm):
 class create_batch(ModelForm):
 	class Meta:
 		model = Batch
-		fields = ['name','batch_for','link']
+		fields = ['name','batch_for','link','subjects_for_batch']
 
 
 class faculty_details(ModelForm):

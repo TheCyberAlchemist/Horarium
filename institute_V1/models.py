@@ -133,7 +133,7 @@ class Batch(models.Model):
 	from subject_V1.models import Subject_details
 	Division_id = models.ForeignKey(Division,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
-	subjects_for_batch = models.ManyToManyField(Subject_details,blank=True)
+	subjects_for_batch = models.ManyToManyField(Subject_details)
 
 	def __str__(self):
 		return self.name

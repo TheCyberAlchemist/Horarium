@@ -46,5 +46,6 @@ urlpatterns = [
 
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 	# path('sube/',views.show_subject_events, name = 'show_subject_events')
-
+	
+	# path('500/',views.error_500_view,name = '500'),
 ]

@@ -18,6 +18,7 @@ from django.urls import path,include
 from django.conf.urls import url
 from django.views.generic import RedirectView
 import admin_V1.views as v
+from django.conf.urls import handler404, handler500
 urlpatterns = [
     path('script/', v.run_script,name = 'run_script'),
     path('admin/', admin.site.urls),
@@ -28,3 +29,5 @@ urlpatterns = [
     url(r'^favicon\.ico$',RedirectView.as_view(url='/static/site_logo.ico')),
     url(r'^a/(?P<Division_id>\d+)/$',v.algo_v1,name = 'a')
 ]
+handler404 = v.error_404_view
+handler500 = v.error_500_view

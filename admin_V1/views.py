@@ -918,6 +918,16 @@ def algo_v1(request,Division_id):
 	# print(list(locked_events.values_list("Subject_event_id",flat=True)))
 	return render(request,"try/algo_v1.html",context)
 
+def error_404_view(request,exception) :
+	return render(request,'404/404.html')
+
+def error_500_view(request) :
+	return render(request,'500/500.html')
+
+
+# def error_404_view(request) :
+# 	return render(request,'404/404.html')
+
 ##################### scripts #####################
 # var = []
 	# import random

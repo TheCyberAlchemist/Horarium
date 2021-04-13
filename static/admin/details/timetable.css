@@ -134,6 +134,16 @@ width: 100%;
 	transform: translateY(-50%);
 	left : 20px;
   }
+  .card-header .cards_left {
+	position: absolute;
+	top:-8px;
+	left : 92%;
+	height:25px;
+	width : 25px;
+	padding-left:2px;	
+	border-radius: 50%;
+	background-color:red
+  }
   #accordion > .card {
 	  background-color: transparent;
 	  outline: none;
@@ -154,7 +164,17 @@ width: 100%;
 	box-shadow: -1rem 0 3rem #000;
 	transition: 0.2s;
   }
-  
+  .card.s .cards_left {
+	position: absolute;
+	top:-8px;
+	left : 92%;
+	height:30px;
+	width : 30px;
+	padding-left:2px;	
+	padding-top : 2px;
+	border-radius: 50%;
+	background-color:red
+  }
   .card.s:hover{
 	transform: translateY(-1.5rem);
 	transition: 0.2s;

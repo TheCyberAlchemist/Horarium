@@ -275,18 +275,20 @@ function change_to_prac_td(td) {	// change td to prac td
 	let string = `<div class="container text-center"><div class="row text-center">`;
 	// console.log(batches);
 	for (i in batches){
+		// if($(".col-"+colspan).children('gg').children().children().html()!=null) {
 		string += `
 		<div class=" col-`+ colspan+`"batch_for=`+batches[i].pk+`>
 			<div class="row" >
 				<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
 			</div>
-			<div class="row">
+			<div class="row gg">
 				<div class="col mt-2" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
 					<button class="btn-sm prac_mycol event_name border-0"></button>
 				</div>
 			</div>
 		</div>
 		`;
+		// }
 	}
 	string += `</div></div>`
 	pair[0].html(string);

@@ -293,7 +293,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 		department = Department.objects.get(pk = Department_id)
 		context['my_department'] = department
 		context['my_branches'] = Branch.objects.filter(Department_id=department)
-		context['my_sems'] = Semester.objects.filter(Branch_id=1)
+		context['my_sems'] = Semester.objects.filter(Branch_id__Department_id=department)
 		starttime = timeit.default_timer()
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
 		print("The context time :", timeit.default_timer() - starttime)
@@ -924,6 +924,16 @@ def algo_v1(request,Division_id):
 	# 	# print(subject_event.Subject_id.lect_per_week)
 
 	# print(list(locked_events.values_list("Subject_event_id",flat=True)))
+
+def error_404_view(request,exception) :
+	return render(request,'404/404.html')
+
+def error_500_view(request) :
+	return render(request,'500/500.html')
+
+
+# def error_404_view(request) :
+# 	return render(request,'404/404.html')
 
 ##################### scripts #####################
 # var = []

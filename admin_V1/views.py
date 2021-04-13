@@ -282,13 +282,16 @@ def show_batch(request,Division_id,Batch_id = None):
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def add_faculty(request,Department_id,Faculty_id=None):
+	import timeit
 	context = return_context(request)
 	if context['institute']:
 		department = Department.objects.get(pk = Department_id)
 		context['my_department'] = department
 		context['my_branches'] = Branch.objects.filter(Department_id=department)
-		context['my_sems'] = Semester.objects.filter(Branch_id=1)
+		context['my_sems'] = Semester.objects.filter(Branch_id__Department_id=department)
+		starttime = timeit.default_timer()
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
+		print("The context time :", timeit.default_timer() - starttime)
 		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 		refresh = False

@@ -77,6 +77,7 @@ crossorigin="anonymous"></script>
                                 >
                                 {{subject}}
                             </button></h3>
+                            <div class="cards_left text-center">1</div>
                         </div>
                         {%set a = loop.index%}
                         {%for subject_event in my_subjects[subject]%}
@@ -87,6 +88,9 @@ crossorigin="anonymous"></script>
                                             <div class="card-body p-0">
                                                 <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
                                                 <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
+                                            </div>
+                                            <div class="cards_left text-center">
+                                                2                                                
                                             </div>
                                         </div>
                                     </div>
@@ -99,6 +103,9 @@ crossorigin="anonymous"></script>
                                             <div class="card-body p-0">
                                                 <h4 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h4>
                                                 <h6 class="card-text text-right mr-2 mt-3">By {{subject_event.Faculty_id}}</h6>
+                                            </div>
+                                            <div class="cards_left text-center">
+                                                1
                                             </div>
                                         </div>
                                     </div>
@@ -153,7 +160,7 @@ crossorigin="anonymous"></script>
             {% endif %}
         </div>
         {%endfor%}
-        <!-- <div class="row my_row">
+        <div class="row my_row">
             <div class="col my_col lect">10:00</div>
             <div class="col my_col prac prac_above">
                 <div class="container text-center">
@@ -247,7 +254,7 @@ crossorigin="anonymous"></script>
                     </div>
                 </div>
             </div>
-        </div> -->
+        </div>
     </div>
 </div>
 {{csrf_input}}

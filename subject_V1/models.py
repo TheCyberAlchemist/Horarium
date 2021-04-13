@@ -8,18 +8,18 @@ from institute_V1.models import Semester,Division
 
 N_len = 50
 S_len = 10
-class Subject_manager(models.Manager):
-	def get(self, *args, **kwargs):
-		qs = super(Subject_manager, self).get( *args, **kwargs)
-		# for i in qs:
-		qs.set_load(False)
-		return qs
+# class Subject_manager(models.Manager):
+# 	def get(self, *args, **kwargs):
+# 		qs = super(Subject_manager, self).get( *args, **kwargs)
+# 		# for i in qs:
+# 		qs.set_load(False)
+# 		return qs
 	
-	def filter(self, *args, **kwargs):
-		qs = super(Subject_manager, self).filter( *args, **kwargs)
-		for i in qs:
-			i.set_load(False)
-		return qs
+# 	def filter(self, *args, **kwargs):
+# 		qs = super(Subject_manager, self).filter( *args, **kwargs)
+# 		for i in qs:
+# 			i.set_load(False)
+# 		return qs
 
 
 class Subject_details(models.Model):
@@ -30,7 +30,7 @@ class Subject_details(models.Model):
 	prac_per_week = models.PositiveIntegerField(null= True,blank = True)
 	load_per_week = models.PositiveIntegerField(default = 0)
 	color = models.CharField(max_length = 7)
-	objects = Subject_manager()
+	# objects = Subject_manager()
 	def remaining_lect_prac(self):
 		p,l = self.get_prac_lect()
 		total_prac = p * self.prac_per_week

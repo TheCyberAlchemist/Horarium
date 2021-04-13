@@ -18,6 +18,9 @@
     .here {
         background-color: blue;
     }
+    .select2-container--default .select2-results__option[aria-disabled=true] {
+        display: none;
+    }
 </style>
 {%endblock%}
 {% block scripts %}
@@ -31,15 +34,16 @@ crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script src="{{static ('try/time_table2.js') }}"></script>
+<script src="{{static ('try/time_table.js') }}"></script>
 <script>
-    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}});
+    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
     $("#resources").select2();
     $("#batches").select2();
 
 </script>
 {%endblock%}
 {% block content %}
+
 <div id="kaibhi" style="display: none;">
 </div>
 <form id="event_form" class="event_form">
@@ -53,7 +57,7 @@ crossorigin="anonymous"></script>
     </div>
     <div class="select2_container single_select2" style="margin-top: 1em;">
         <select id="batches">
-            <option disabled selected>Select the batch </option>
+            <option disabled selected value=-1>Select the batch </option>
             {% for batch in my_batches %}
             <option value="{{batch.id}}">{{batch}}</option>
             {% endfor %}
@@ -228,8 +232,8 @@ crossorigin="anonymous"></script>
             </div>
             <div class="col my_col lect"></div>
             <div class="col my_col lect try_button"></div>
-            <div class="col my_col prac">
-                <div class="row my-auto" style="margin-left:-25px">
+            <div class="col my_col lect">
+                <div class="row my-auto text-center" >
                     <div class="col-2" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
                         <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
                         <!-- <div class="col-6 text-left" style="font-size:x-small">URT</div>
@@ -255,10 +259,7 @@ crossorigin="anonymous"></script>
                         <!-- <div class="col-6 text-left" style="font-size:x-small">URT</div>
                         <div class="col-6 text-right" style="font-size:x-small">305</div> -->
                     </div>
-                    <!-- <div class="col-2">
-                        <button class="btn-sm btn-primary prac_mycol mt-2" style="font-size:x-small;padding:0 1px 0 1px;height:70px;letter-spacing:0">Hello</button>
-
-                    </div> -->
+                    
                 </div>
             </div>
         </div>

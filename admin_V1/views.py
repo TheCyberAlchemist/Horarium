@@ -7,6 +7,7 @@ import json
 from django.db import IntegrityError
 from django.core import serializers
 
+from django.contrib.auth.models import Group
 
 from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift,Working_days,Timings,Slots,Resource
 from subject_V1.models import Subject_details,Subject_event
@@ -16,7 +17,6 @@ from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,u
 from .forms import add_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
-
 
 ############# For running any scripts ###############
 def run_script(request):
@@ -99,7 +99,8 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 		elif time_table:
 			d['fields']['Subject_color'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.color
 			d['fields']['Faculty_name'] = str(qs.filter(pk = d['pk'])[0].Faculty_id)
-			d['fields']['Subject_id'] = str(qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id)
+			d['fields']['Subject_id'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.pk
+			d['fields']['Subject_name'] = str(qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id)
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
 			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id__Faculty_id = d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
 		if not keep_pk:
@@ -236,7 +237,7 @@ def show_division(request,Semester_id,Division_id = None):
 	else:
 		raise redirect(get_home_page(request.user))
 
-
+# asdasdasdgajdgasgfagsfgsdfgsaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaf
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def show_batch(request,Division_id,Batch_id = None):
@@ -250,7 +251,10 @@ def show_batch(request,Division_id,Batch_id = None):
 			edit = Batch.objects.get(pk=Batch_id)
 			form = create_batch(instance = edit)
 			context['update'] = form.instance
+
 		context['my_batches'] = batches
+		for i in batches:
+			print(i.subjects_for_batch.all())
 		context['my_division'] = my_division
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id = my_division.Semester_id)
 		if request.method == 'POST':
@@ -266,8 +270,9 @@ def show_batch(request,Division_id,Batch_id = None):
 					candidate = form.save(commit=False)
 					candidate.Division_id = my_division
 					try:	# unique contraint added
-						# print(candidate.batch_for)
 						candidate.save()
+						candidate.subjects_for_batch.clear()
+						candidate.subjects_for_batch.add(*list(form.cleaned_data['subjects_for_batch']))
 						context['form'] = create_batch()     				#Form Renewed
 						return redirect('show_batch',Division_id)                      #Page Renewed
 					except IntegrityError:
@@ -282,13 +287,16 @@ def show_batch(request,Division_id,Batch_id = None):
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def add_faculty(request,Department_id,Faculty_id=None):
+	import timeit
 	context = return_context(request)
 	if context['institute']:
 		department = Department.objects.get(pk = Department_id)
 		context['my_department'] = department
 		context['my_branches'] = Branch.objects.filter(Department_id=department)
 		context['my_sems'] = Semester.objects.filter(Branch_id=1)
+		starttime = timeit.default_timer()
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
+		print("The context time :", timeit.default_timer() - starttime)
 		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 		refresh = False
@@ -341,7 +349,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 			# print(user_form.is_valid(),faculty_detail_form.is_valid(),faculty_load_form.is_valid())
 			# print(user_form.errors)
 			if user_form.is_valid() and faculty_detail_form.is_valid() and faculty_load_form.is_valid():
-				from django.contrib.auth.models import Group
+				
 				group = Group.objects.get(name='Faculty')
 				user = user_form.save(commit = False)
 				user.save()
@@ -357,7 +365,6 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				subjects = request.POST.getlist('subject')
 				can_teach = []
 				B.save()
-
 				for subject in subjects:
 					try :
 						can_teach.append(Can_teach.objects.create(Faculty_id = A,Subject_id=context['my_subjects'].get(pk = subject)))
@@ -374,7 +381,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
 	else:
 		return redirect(get_home_page(request.user))
-		
+
 	return render(request,"admin/faculty/faculty_details.html",context)
 
 
@@ -592,7 +599,8 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
 	# print("world")
 	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters'])
-	# print(my_subjects)
+	for i in my_subjects:
+		i.set_load()
 	context['my_subjects'] = my_subjects
 	context['my_branch'] = my_branch
 	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
@@ -766,6 +774,7 @@ def show_table(request,Division_id):
 	subject = {}
 	for i in Subject_details.objects.filter(Semester_id = my_semester):
 		subject[i] = Subject_event.objects.filter(Subject_id=i)
+	
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
@@ -773,15 +782,13 @@ def show_table(request,Division_id):
 	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
 	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
 	context['my_subjects'] = subject
+	context['subjects_json'] = get_json(subject)
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches
-	context['batches_json'] = get_json(my_batches)
-	print(Event.objects.filter(Division_id=Division_id))
+	context['batches_json'] = get_json(my_batches,keep_pk=True)
+
 	print(Slots.objects.filter( Timing_id__in = timings)[0])
 	return render(request,"try/table.html",context)
-
-
-
 
 
 from admin_V1.algo import get_points,get_sorted_events,put_event
@@ -896,8 +903,9 @@ def algo_v1(request,Division_id):
 					locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events))
 					
 				# print(subject_event," - Class")
-
-
+	
+	
+	return render(request,"try/algo_v1.html",context)
 
 		# if locked_events :
 		# 	subject_event_locked = locked_events.filter(Subject_event_id=subject_event)
@@ -910,13 +918,12 @@ def algo_v1(request,Division_id):
 		# 	else:
 		# 		print(subject_event)
 		# 	print(subject_event ," - ",prac_carried,lect_carried)
-			# locked_events.filter()
+		#	locked_events.filter()
 			
 	# print(tabulate(algo.l,headers=["event","batch","type"],tablefmt="grid"))
 	# 	# print(subject_event.Subject_id.lect_per_week)
 
 	# print(list(locked_events.values_list("Subject_event_id",flat=True)))
-	return render(request,"try/algo_v1.html",context)
 
 ##################### scripts #####################
 # var = []

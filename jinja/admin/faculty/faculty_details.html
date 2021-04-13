@@ -80,7 +80,7 @@
         <div class="input_container_double">
           <div class="input_container_double_1">
             <img class="input_icons" src="{{static ('admin/details/img/user1.png')}}" alt="">
-            <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update %}value = {{update[1].short}}{% endif %}>
+            <input type="text" class="form_input short_names" name="short" required autocomplete="off" {% if update %}value = "{{update[1].short}}"{% endif %}>
             <label for="short" class="form_input_label">
               <div class="text">Short Name</div>
               <div class="line"></div>
@@ -313,7 +313,7 @@
           </td>
           <td>
             <div class="checkboxes" onclick="checkSelected()">
-              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{load.Faculty_id.id}}">
+              <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{load.Faculty_id.id}}"  input_name="{{load.Faculty_id.User_id}}">
               <label for="{{loop.index}}"></label>
             </div>
           </td>

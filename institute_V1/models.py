@@ -123,6 +123,9 @@ class Division(models.Model):
 			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Division Name is Unique for Semester'),
 		]
 
+
+# import subject_V1.models.Subject_details as subject
+from subject_V1.models import Subject_details
 class Batch(models.Model):
 	BATCH_FOR = (
 		('lect', 'Lecture'),
@@ -130,14 +133,26 @@ class Batch(models.Model):
 	)
 	name = models.CharField(max_length = S_len)
 	batch_for = models.CharField(max_length = 4 ,choices=BATCH_FOR)
-	from subject_V1.models import Subject_details
 	Division_id = models.ForeignKey(Division,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
 	subjects_for_batch = models.ManyToManyField(Subject_details)
 
+	def save(self, *args, **kwargs):
+		super(Batch, self).save(*args,**kwargs)
+		subjects_for_batch = list(self.subjects_for_batch.all())
+		for subject in subjects_for_batch:
+			subject.set_load()
+
+	def delete(self, *args, **kwargs):
+		subjects_for_batch = list(self.subjects_for_batch.all())
+		super(Batch, self).delete(*args, **kwargs)
+		for subject in subjects_for_batch:
+			subject.set_load()
+
+
 	def __str__(self):
 		return self.name
-		
+
 	class Meta:
 		verbose_name_plural = "Batch"
 		constraints = [

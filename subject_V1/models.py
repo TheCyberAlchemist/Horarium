@@ -3,23 +3,22 @@ from django.db import models
 ################################################
 
 from institute_V1.models import Semester,Division
-
 ################################################
 
 N_len = 50
 S_len = 10
-class Subject_manager(models.Manager):
-	def get(self, *args, **kwargs):
-		qs = super(Subject_manager, self).get( *args, **kwargs)
-		# for i in qs:
-		qs.set_load(False)
-		return qs
+# class Subject_manager(models.Manager):
+# 	def get(self, *args, **kwargs):
+# 		qs = super(Subject_manager, self).get( *args, **kwargs)
+# 		# for i in qs:
+# 		qs.set_load(False)
+# 		return qs
 	
-	def filter(self, *args, **kwargs):
-		qs = super(Subject_manager, self).filter( *args, **kwargs)
-		for i in qs:
-			i.set_load(False)
-		return qs
+# 	def filter(self, *args, **kwargs):
+# 		qs = super(Subject_manager, self).filter( *args, **kwargs)
+# 		for i in qs:
+# 			i.set_load(False)
+# 		return qs
 
 
 class Subject_details(models.Model):
@@ -30,7 +29,7 @@ class Subject_details(models.Model):
 	prac_per_week = models.PositiveIntegerField(null= True,blank = True)
 	load_per_week = models.PositiveIntegerField(default = 0)
 	color = models.CharField(max_length = 7)
-	objects = Subject_manager()
+	# objects = Subject_manager()
 	def remaining_lect_prac(self):
 		p,l = self.get_prac_lect()
 		total_prac = p * self.prac_per_week
@@ -44,7 +43,6 @@ class Subject_details(models.Model):
 		return remaining_lect,remaining_prac
 		
 	def get_prac_lect(self):
-		from institute_V1.models import Batch
 		prac_batch = lect_batch = 0
 		no_of_div = len(Division.objects.filter(Semester_id=self.Semester_id))
 
@@ -63,13 +61,11 @@ class Subject_details(models.Model):
 		prac_batch,lect_batch = self.get_prac_lect()
 			# if batch  is 0 make it 1 for the formula
 		self.load_per_week = (self.lect_per_week * lect_batch) + 2 * (self.prac_per_week * prac_batch)
+		# print(f"changing load of {self.name} to {self.load_per_week}")
 		if not save:
 			self.save()
-		# self.set(load_per_week = 1)
 
 	def save(self, *args, **kwargs):	# for calculating the load before saving
-		# self.set_load(True)
-		self.load_per_week = (self.lect_per_week) + 2 * (self.prac_per_week)
 		super(Subject_details, self).save(*args, **kwargs) 
 
 	def __str__(self):
@@ -81,7 +77,6 @@ class Subject_details(models.Model):
             models.UniqueConstraint(fields=['short', 'Semester_id'], name='Subject Short is Unique for Semester.'),
 			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Subject Name is Unique for Semester.')
         ]	
-
 
 class Subject_event(models.Model):
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)

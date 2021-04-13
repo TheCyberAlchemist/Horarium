@@ -45,8 +45,7 @@
       <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
       <div class="input_container">
         <img class="input_icons" src="{{static ('admin/details/img/div.png')}}" alt="dept">
-        <input type="text" name="name" class="form_input" required maxlength="50" {% if update %}
-          value={{update.name}}{% endif %} />
+        <input type="text" name="name" class="form_input" required maxlength="50" {% if update %}value="{{update.name}}"{% endif %} />
         <label for="" class="form_input_label">
           <div class="text">Batch Name</div>
           <div class="line"></div>
@@ -54,8 +53,7 @@
       </div>
       <div class="input_container">
         <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-        <input type="text" class="form_input" name="link" autocomplete="off" {% if update and
-          update.link%}value={{update.link}}{% endif %}>
+        <input type="text" class="form_input" name="link" autocomplete="off" {% if update and update.link%}value="{{update.link}}"{% endif %}>
         <label for="" class="form_input_label">
           <div class="text">Meeting Link (if any)</div>
           <div class="line"></div>
@@ -79,7 +77,8 @@
               <div class="checkboxes">
                 <!-- <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if update
                   and subject.id in update[3]%}checked{% endif %} /> -->
-                  <input name="subjects_for_batch" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}"/>
+                  <input name="subjects_for_batch" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}"
+                  {% if update and subject in update['subjects_for_batch'].all()%}checked{% endif %}/>
                 <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
               </div>
               <!-- <input type="checkbox" />{{subject}} -->

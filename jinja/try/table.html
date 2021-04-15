@@ -14,7 +14,9 @@
     .available_td {
         background-color: green;
     }
-
+    .locked{
+        opacity: 0.3;
+    }
     .here {
         background-color: blue;
     }
@@ -77,24 +79,22 @@ crossorigin="anonymous"></script>
                     <div class="card">
                         <div class="card-header item" id="{{subject.id}}">
                             <h3><button class="btn collapsed" style="width: 150px;background-color:{{subject.color}};color:white" data-toggle="collapse" data-target="#a{{loop.index}}"
-                                aria-expanded="false" aria-controls="a{{loop.index}}"
-                                >
+                                aria-expanded="false" aria-controls="a{{loop.index}}">
                                 {{subject}}
                             </button></h3>
-                            <div class="cards_left text-center">1</div>
+                            <div class="cards_left text-center total_remaining_load">0</div>
                         </div>
                         {%set a = loop.index%}
                         {%for subject_event in my_subjects[subject]%}
                             {% if subject_event.lect_carried%}
                                 <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
-                                    <div class="draggable" subject_event_id="{{subject_event.id}}" >
+                                    <div class="draggable" subject_event_id="{{subject_event.id}}" is_lect = "true">
                                         <div class="card s ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
                                             <div class="card-body p-0">
                                                 <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
                                                 <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
                                             </div>
-                                            <div class="cards_left text-center">
-                                                2                                                
+                                            <div class="remaining_load cards_left text-center">0                                            
                                             </div>
                                         </div>
                                     </div>
@@ -108,8 +108,7 @@ crossorigin="anonymous"></script>
                                                 <h4 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h4>
                                                 <h6 class="card-text text-right mr-2 mt-3">By {{subject_event.Faculty_id}}</h6>
                                             </div>
-                                            <div class="cards_left text-center">
-                                                1
+                                            <div class="remaining_load cards_left text-center">0
                                             </div>
                                         </div>
                                     </div>

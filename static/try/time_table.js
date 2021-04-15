@@ -29,6 +29,12 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 		temp_sub_event = new subject_event(sub_events_json[i].pk,obj.Subject_name,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
 			,obj.other_events,obj.Subject_color,obj.Faculty_name)
 		subject_events.push(temp_sub_event);
+		if (obj.prac_carried){
+			update_card(temp_sub_event,true);
+		}if(obj.lect_carried){
+			update_card(temp_sub_event,false);
+		}
+
 	}
 	this.batches=batches;
 	this.subjects = subjects_json;
@@ -61,7 +67,6 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 			}
 		}
 	}
-
 	// console.table(events);
 	// console.table(subjects);
 }
@@ -94,19 +99,16 @@ class subject_event {
 	}
 }
 
-
 events = [];
 class event_class {
-	constructor(Slot_id,Subject_event_id,Batch_id,Resource_id,Slot_id_2=null){
+	constructor(Slot_id,Subject_event_id,Batch_id,Resource_id,Slot_id_2=null,locked = false){
 		this.Slot_id = Slot_id;
 		this.Subject_event_id = Subject_event_id;
 		this.Batch_id = Batch_id?Batch_id:null;
 		this.Resource_id = Resource_id?Resource_id:null;
 		this.Slot_id_2 = Slot_id_2?Slot_id_2:null;
+		this.locked = locked?locked:false;
 	}
-	toString() {
-        return `(${get_cell(this.Slot_id)}, ${get_subject_event(this.Subject_event_id).subject_name})`
-    }
 }
 
 
@@ -116,14 +118,12 @@ function push_event(temp_event){
 	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
 	let subject_event = get_subject_event(temp_event.Subject_event_id);
 	let is_prac = Boolean(a2[1]);
+ 
+	if (get_cell(temp_event.Slot_id).hasClass("locked")){
+		console.log("This cell is locked");
+		return false;
+	}
 
-	// if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
-	// 	console.log("max_filled");
-	// 	return false;
-	// }else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
-	// 	console.log("max_filled");
-	// 	return false;
-	// } 
 	if (!subject_event_has_load_remaining(temp_event.Subject_event_id,is_prac) || !subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac)){
 		console.log("max_filled");
 		return false;
@@ -175,15 +175,24 @@ function push_event(temp_event){
 
 function update_card(subject_event,is_prac) {
 	let event_arr = events.filter(e => e.Subject_event_id==subject_event.id && Boolean(e.Slot_id_2) == is_prac);
-	let remaining;
+	let remaining,event_load;
 	if (is_prac){
 		remaining = subject_event.prac_carried - event_arr.length;
-		$(`[subject_event_id = ${subject_event.id}][is_prac = ${is_prac}]`);
+		event_load = $(`[subject_event_id = ${subject_event.id}][is_prac = ${is_prac}] .remaining_load`);
+		event_load.html(remaining);
+		// subject_card.html() += parseInt(subject_card.html())
 	}else{
 		remaining = subject_event.lect_carried - event_arr.length;
-		$(`[subject_event_id = ${subject_event.id}]`);
+		event_load = $(`[subject_event_id = ${subject_event.id}][is_lect = "true"] .remaining_load`).html(remaining);
 	}
-
+	let subject_card = event_load.parentsUntil("#accordion");
+	let subject_load = subject_card.find(".total_remaining_load");
+	// let subject_card.find(".remaining_load");
+	total_load = 0;
+	subject_card.find(".remaining_load").each(function() {
+		total_load += parseInt($(this).html());
+	});
+	subject_load.html(total_load);
 }
 
 
@@ -329,6 +338,10 @@ function get_cell(slot_id){
 	return td;
 }
 
+function get_all_locked_events(){
+	return events.filter(e=>e.locked == true);
+}
+
 function change_to_lect_td(td,subject_batch){
 	let colspan;
 	let string = "";
@@ -351,8 +364,8 @@ function change_to_lect_td(td,subject_batch){
 			<div class='col-12'>
 				<button class='event_name btn mt-1 mb-1' style = 'color:white;'></button>
 			</div>
-			<div class='col-6 text-left' class = "faculty_name"></div>
-			<div class='col-6 text-right' class = "resource_name"></div>
+			<div class='col-6 text-left faculty_name'></div>
+			<div class='col-6 text-right resource_name'></div>
 		</div>`
 	}
 	td.html(string);
@@ -377,12 +390,13 @@ function put_lect(td,subject_event_id,resource,batch=null) {	// change lecture o
 		// resource_div.html(resource);
 	}else{
 		button = td.find(".event_name");
+
 		faculty_div = td.find(".faculty_name");
 		resource_div = td.find(".resource_name");
 		
 		button.html(subject_event.subject_name);
 		button.css("background-color",subject_event.color);
-		
+
 		faculty_div.html(subject_event.faculty_name);
 		resource_div.html(resource);
 	}
@@ -506,21 +520,22 @@ $(document).ready (function () {
 	});
 	///////////////////////////// Time Table ///////////////////////
 	$(".droppable").bind('contextmenu', function (e) {
-		// Show contextmenu
-		// let rect = $(this)[0].getBoundingClientRect();
-		var left,top = e.pageY+5;
-		if (e.pageX+$(".context-menu").width() >= screen.width){
-			left = e.pageX - $(".context-menu").width();
-		}else{
-			left = e.pageX;
+		if (!$(this).hasClass("locked")){
+			// Show contextmenu
+			// let rect = $(this)[0].getBoundingClientRect();
+			var left,top = e.pageY+5;
+			if (e.pageX+$(".context-menu").width() >= screen.width){
+				left = e.pageX - $(".context-menu").width();
+			}else{
+				left = e.pageX;
+			}	
+			$(".context-menu").toggle(100).css({
+			top: top + "px",
+			left: left + "px"
+			});
+			$(".clear_td").attr("slot_id",get_slot($(this)).id);
+			$(this).addClass("right_click_selected"); // 
 		}
-		$(".context-menu").toggle(100).css({
-		 top: top + "px",
-		 left: left + "px"
-		});
-		$(".clear_td").attr("slot_id",get_slot($(this)).id);
-		$(this).addClass("right_click_selected"); // 
-
 		return false;
 	});
 	$(document).bind('contextmenu click',function(){
@@ -538,7 +553,9 @@ $(document).ready (function () {
 			if (i){
 				clear_td(get_cell(events[i].Slot_id));
 				clear_td(get_cell(events[i].Slot_id_2));
+				events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
 				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
+				events_removed.forEach(e=>update_card(get_subject_event(e.Subject_event_id),true));
 			}
 			console.table(events);
 		}else{
@@ -546,12 +563,13 @@ $(document).ready (function () {
 			if (i){
 				clear_td(get_cell(events[i].Slot_id));
 				// clear_td(get_cell(events[i].Slot_id_2));
+				events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
 				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
+				events_removed.forEach(e=>update_card(get_subject_event(e.Subject_event_id),false));
 			}
 			console.table(events);
 		}
 	})
-
 	$(".draggable").draggable({
 		revert: true,
 		cursor: "move",
@@ -697,6 +715,7 @@ $(document).ready (function () {
 			}
 		}
 	});
+
 	///////////////////////////// form  ///////////////////////
 	$("#aform").on("click", function(){
 	// $("#aform").on("click", function(){
@@ -759,6 +778,21 @@ $(document).ready (function () {
 	$("#cancel").on("click", function(){
 		$("#event_form").hide();
 	});
+	$(".droppable").dblclick(function(e,t){
+		let slot = get_slot($(this));
+		let locking_events = events.filter(e=> e.Slot_id == slot.id || e.Slot_id_2 == slot.id);
+		if (Boolean(locking_events.length) && Boolean(locking_events[0].Slot_id_2)){
+			get_prac_pair($(this)).forEach(e=>e.toggleClass("locked"))
+		}
+		else{
+			$(this).toggleClass("locked");
+		}
+		for (i in locking_events){
+			locking_events[i].locked = !locking_events[i].locked;
+			// console.log(locking_events[i]);
+		}
+		// console.log(get_all_locked_events());
+	});
 });
 
 
@@ -766,7 +800,7 @@ function submited(){
 	// console.log("JSON.stringify(events),1)");
 	  $.ajax({
 		  type: "post",
-		  data: JSON.stringify(events),
+		  data: JSON.stringify(get_all_locked_events()),
 		  success: function (){
 		}
 	});

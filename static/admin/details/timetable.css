@@ -190,8 +190,15 @@ width: 100%;
 
 
   /*Card*/
+		
+  /*Lock Image */
+  .container.lock_img {
+	  background-image : url('../../admin/details/img/lock2.png');
+	  height : 30px;
+	  width: 30px;
+	  position: absolute;
 
-
+  }
   .card:hover ~ .card{
 	transform: translateY(0.5rem);
   }

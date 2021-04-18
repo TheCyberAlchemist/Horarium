@@ -117,7 +117,7 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 @allowed_users(allowed_roles=['Admin'])
 def admin_home(request):
 	context = return_context(request)
-	return render(request,'admin/homepage/home.html',context)
+	return render(request,'admin/homepage/home2.html',context)
 
 
 @login_required(login_url="login")

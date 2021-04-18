@@ -272,7 +272,7 @@ function change_to_prac_td(td) {	// change td to prac td
 	pair[0].removeClass("lect");
 	pair[0].addClass("prac prac_above");
 	colspan = (12/batches.length);
-	let string = `<div class="container text-center"><div class="row text-center">`;
+	let string = `<div class="container text-center"><div class="row text-center"><div class='container lock_img'></div>`;
 	// console.log(batches);
 	for (i in batches){
 		// if($(".col-"+colspan).children('gg').children().children().html()!=null) {

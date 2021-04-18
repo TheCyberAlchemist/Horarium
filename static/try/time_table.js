@@ -14,34 +14,11 @@ function get_prac_pair(td){
 	}
 }
 
-
-var batches = [];
-var subjects = [];
-function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_json){
-	for (i in slots_json){
-		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
-		slots.push(temp_slot);
-	}
-	// console.table(slots);
-	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
-	for (i in sub_events_json){
-		obj = sub_events_json[i].fields;
-		temp_sub_event = new subject_event(sub_events_json[i].pk,obj.Subject_name,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
-			,obj.other_events,obj.Subject_color,obj.Faculty_name)
-		subject_events.push(temp_sub_event);
-		if (obj.prac_carried){
-			update_card(temp_sub_event,true);
-		}if(obj.lect_carried){
-			update_card(temp_sub_event,false);
-		}
-
-	}
-	this.batches=batches;
-	this.subjects = subjects_json;
-	// console.table(old_events_json);
-	for(i in old_events_json){
-		obj = old_events_json[i];
+function put_json_in_table(json_data){
+	for(i in json_data){
+		obj = json_data[i];
 		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2);
+		// console.log(temp_event);
 		td = get_cell(obj.Slot_id);
 		let resource = "";
 		$("#resources option").each(function(){
@@ -67,6 +44,34 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 			}
 		}
 	}
+}
+
+
+var batches = [];
+var subjects = [];
+function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_json){
+	for (i in slots_json){
+		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
+		slots.push(temp_slot);
+	}
+	// console.table(slots);
+	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
+	for (i in sub_events_json){
+		obj = sub_events_json[i].fields;
+		temp_sub_event = new subject_event(sub_events_json[i].pk,obj.Subject_name,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
+			,obj.other_events,obj.Subject_color,obj.Faculty_name)
+		subject_events.push(temp_sub_event);
+		if (obj.prac_carried){
+			update_card(temp_sub_event,true);
+		}if(obj.lect_carried){
+			update_card(temp_sub_event,false);
+		}
+
+	}
+	this.batches=batches;
+	this.subjects = subjects_json;
+	// console.table(old_events_json);
+	put_json_in_table(old_events_json);
 	// console.table(events);
 	// console.table(subjects);
 }
@@ -297,7 +302,7 @@ function arraysEqual(a1,a2) {
 
 function clear_td(td){		// refresh the td
 	// console.log(td);
-	if (td.length){
+	if (td.length && !td.hasClass("locked")){
 		td.html("");
 		if(td.hasClass("prac")){
 			td.removeClass("prac");
@@ -311,6 +316,23 @@ function clear_td(td){		// refresh the td
 	return;
 }
 
+function clear_all_td(){		// refresh all the td
+	for(let i in events){
+		clear_td(get_cell(events[i].Slot_id));
+		if (events[i].Slot_id_2)
+			clear_td(get_cell(events[i].Slot_id_2));
+	}
+	events = [];
+	for(let j in subject_events){
+		// update_card(subject_events[j],)
+		console.log(subject_events[j]);
+		if (subject_events[j].prac_carried){
+			update_card(subject_events[j],true);
+		}if(subject_events[j].lect_carried){
+			update_card(subject_events[j],false);
+		}
+	}
+}
 
 function get_event_index_by_slot(slot){
 	for(i in events){
@@ -715,7 +737,6 @@ $(document).ready (function () {
 			}
 		}
 	});
-
 	///////////////////////////// form  ///////////////////////
 	$("#aform").on("click", function(){
 	// $("#aform").on("click", function(){
@@ -800,8 +821,21 @@ function submited(){
 	// console.log("JSON.stringify(events),1)");
 	  $.ajax({
 		  type: "post",
-		  data: JSON.stringify(get_all_locked_events()),
+		  data: JSON.stringify(events),
 		  success: function (){
 		}
 	});
+}
+
+function call_algo(){
+	$.ajax({
+		type: "post",
+		url: "./algo/",
+		data: JSON.stringify(get_all_locked_events()),
+		success: function (data){
+			clear_all_td();
+			console.log(events);
+			put_json_in_table(data);
+	  }
+  });
 }

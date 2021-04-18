@@ -39,10 +39,14 @@ def get_or_none(classmodel = None,qs = None, **kwargs):
 			return classmodel.objects.get(**kwargs)
 		except classmodel.DoesNotExist:
 			return False
+		except e:
+			return False
 	elif qs:
 		try:
 			return qs.get(**kwargs)
 		except ObjectDoesNotExist:
+			return False
+		except e:
 			return False
 
 ########## Get slot below ##########
@@ -295,6 +299,8 @@ def get_subject_events(Division_id,subject_event,is_prac,all_events,batch = None
 		if batch:	# if there is a batch for us to put it in
 			l.append([subject_event,batch,"Lecture"])
 			print([subject_event,batch,"Lecture"])
+
+
 			points,best_slot = get_point_for_lect_batch(subject_event,all_events,batch)
 		else:		# if no batch
 			l.append([subject_event,"Class","Lecture"])

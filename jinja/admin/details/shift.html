@@ -1,133 +1,180 @@
-{% extends 'admin/base.html' %}
-{% block title %}Shifts{% endblock title %}
-{% block css %}
-    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
-    <link rel="stylesheet" href="{{static ('form/form.css')}}">
-{% endblock css %}
-{% block scripts %}
-    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
-    <script>
-      activate("{{my_department}}.d.a");
-      {% if u_name %}
-        form_visibility(true);
-      {% endif %}
+{% extends 'admin/base2.html' %}
+{% block title%} Department
+{% endblock %}
+
+{% block css%}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css"/>
+
+<link rel="stylesheet" href="{{static ('form/form2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
+
+<style>
+    td,th {
+        font-size: .9rem !important;
+    }
+</style>
+{% endblock %}
+
+{%block scripts%}
+<script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+{% if u_name %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#flush-collapseOne').collapse("show");
+        });
     </script>
-{% endblock scripts %}
+{% endif %}
+{% endblock %}
 
 {% block content %}
-  <div class="whole_container" id="whole_container_id">
-    <fieldset>
-      <legend>{% if u_name %}Update{% else %}Add{% endif %} Shift</legend>
-      <form class="myform" method = "POST" {% if not u_name %}style="display: none;"{% endif %}>
-        {{csrf_input}}
-        <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
-        <div class="input_container">
-          <img class="input_icons" src="{{static ('admin/details/img/swap.png')}}" alt="dept">
-          <input type="text" name="name" {% if u_name %} value = "{{u_name}}"{% endif %} class ="form_input" required maxlength="50"/>
-          <label for="" class="form_input_label">
-            <div class="text">Shift Name</div>
-            <div class="line"></div>
-          </label>
-        </div>
-
-        <div class="input_container_double">
-          <div class="input_container_double_1">
-            <img class="input_icons" src="{{static ('admin/details/img/start.png')}}" alt="start">
-            <input type="time" class="form_input" name="start_time" {% if u_start_time %} value = "{{u_start_time}}"{% endif %} required autocomplete="off">
-            <label for="" class="form_input_label">
-              <div class="text">Start Time</div>
-              <div class="line"></div>
-            </label>
-          </div>
-          <div class="input_container_double_2">
-            <img class="input_icons" src="{{static ('admin/details/img/end.png')}}" alt="end">
-            <input type="time" class="form_input" name="end_time" {% if u_end_time %} value = "{{u_end_time}}"{% endif %} required autocomplete="off">
-            <label for="" class="form_input_label">
-              <div class="text">End Time</div>
-              <div class="line"></div>
-            </label>
-
-          </div>
-        </div>
-        <div class="submit_button_container">
-          <button type="submit" name="button" class="submit_button">Submit</button>
-        </div>
-      </form>
-      <div class="form_visibility_img_container" >
-        <button class="show_form_button" onclick="form_visibility()">
-        <p id="myp">Show Form</p>
-      </button>
-      </div>
+<div class="main_content">
       
-      {% if integrityErrors %}
-        <div class="errors_container">
-          <p>
-            {{integrityErrors}}
-          </p>
+    <div class="row p-2 ">
+        <div class="container navigate">
+            <a href="{{url ('admin_home')}}">
+                <i class="fas fa-home"></i>    
+            </a>
+            <i class="fas fa-angle-double-right"></i>
+            <a href="{{url ('show_shift',args=[my_department.id])}}">
+                <span class="h6 fw-bold">Add Shift</span> 
+            </a>
+            {%if u_name %}
+                <i class="fas fa-angle-double-right"></i>
+                <span class="h6 fw-bold">Update Shift</span> 
+            {%endif %}
         </div>
-      {% endif %}
+        <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
+            <div class="card shadow-sm components-section" style="border-radius: 1rem;">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    <h5>{% if u_name %}Update{% else %}Add{% endif %} Shift</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <form class="myform" method = "POST">
+                                        {{csrf_input}}
+                                        <div class="row mb-3 mx-lg-5 mx-sm-0">
+                                            <!--////////////////Form Goes here///////////-->
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
 
-      {% if errors %}
-        <div class="errors_container">
-          <p>
-            {{errors}}
-          </p>
-        </div>
-        <script>
-            show_error("{{errors}}")
-          </script>
-      {% endif %}
-    </fieldset>
+                                                    <input type="text" class="form-control myinputs" id="name"
+                                                        placeholder="-" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" required maxlength="50" >
+                                                    <label for="name" >Shift Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control myinputs" id="short"
+                                                        placeholder="-" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input short_names" required maxlength = "20">
+                                                    <label for="short">Short Name</label>
+                                                </div>
+                                            </div>
 
-  <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
-    <div class="table_container">
-      <div class="table_search_box">
-        <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
-      </div>
-      <table id = "db_table">
-        <thead>
-          <tr>
-            <div class="delete_panel">
-              <h1>Shifts for {{my_department}}</h1>
-              <a style="display: none;" id="del" onclick="delete_entries()" >
-                <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
-              </a>
-            </div>
-            <th>Id</th>
-            <th>Shift Name</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Edit</th>
-            <th>
-              <div class="checkboxes" onclick="checkAll();">
-                <input type="checkbox"  id="parent" name="parent" value="parent">
-                <label for="parent"></label> 
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for shift in my_shifts %}
-            <tr>
-              <td>{{loop.index}}</td>
-              <td>{{shift.name}}</td>
-              <td>{{shift.start_time}}</td>
-              <td>{{shift.end_time}}</td>
-              <td>
-                <a href = "{{url ('update_shift' ,args=[my_department.id,shift.id])}}">
-                  <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
-                </a>
-              </td>
-              <td>
-                <div class="checkboxes" onclick="checkSelected()">
-                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{shift.id}}" input_name="{{shift}}">
-                  <label for="{{loop.index}}"></label>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="time" name="start_time" id="stime" {% if u_start_time %} value = "{{u_start_time}}"{% endif %} required autocomplete="off">
+                                                    <label for="stime">Start Time</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="time" id="etime" name="end_time" {% if u_end_time %} value = "{{u_end_time}}"{% endif %} required autocomplete="off">>
+                                                    <label for="etime">End Time</label>
+                                                </div>
+                                            </div>
+                                            <div class="container mt-4" style="width:80%;">
+                                                <button type="submit" class="btn btn-outline-success"
+                                                    style="width:100%">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {% if integrityErrors %}
+                                        <div class="errors_container">
+                                            <p>
+                                            {{integrityErrors}}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                    {% if errors %}
+                                        <div class="errors_container">
+                                            <p>
+                                            {{errors}}
+                                            </p>
+                                        </div>
+                                        <script>
+                                            show_error("{{errors}}")
+                                        </script>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+            </div>
+        </div>
+        <div class="container-fluid p-2 table_container">
+            <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="row text-center">
+                        <div class="col-lg-10 col-sm-12">
+                            <div class="h3 text-center">Shifts For {{my_department}}</div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <a style="display: none;" id="del" onclick="delete_entries()" >
+                                <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table">
+                        <table class="table nowrap responsive compact mb-0 rounded text-center" id="example">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="border-0"><i class="fas fa-hashtag"></i></th>
+                                    <th class="border-0 fw-bold">Shift Name</th>
+                                    <th class="border-0 fw-bold">Start Time</th>
+                                    <th class="border-0 fw-bold">End Time</th>
+                                    <th class="border-0">Edit</th>
+                                    <th class="border-0 text-center">
+                                        <div class="form-check" onclick="checkAll();">
+                                            <input class="form-check-input" type="checkbox" value="parent"
+                                                id="parent" name="parent">
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for shift in my_shifts %}
+                                    <tr>
+                                        <td class="border-0 fw-bold">{{loop.index}}</td>
+                                        <td class="border-0 fw-bold">{{shift.name}}</td>
+                                        <td class="border-0 fw-bold">{{shift.start_time}}</td>
+                                        <td class="border-0 fw-bold">{{shift.end_time}}</td>
+                                        <td class="border-0">
+                                            <a href = "{{url ('update_shift' ,args=[my_department.id,shift.id])}}">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </td>
+                                        <td class="border-0 ">
+                                            <div class="form-check" onclick="checkSelected()">
+                                                <input class="form-check-input del_input" type="checkbox"
+                                                id="{{loop.index}}" name="del" value="{{shift.id}}" input_name="{{shift}}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-{% endblock content %}
+    {% endblock %}

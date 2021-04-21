@@ -1,0 +1,131 @@
+{% extends 'admin/base.html' %}
+{% block title %}Division{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+    <link rel="stylesheet" href="{{static ('form/form.css')}}">
+{% endblock css %}
+{% block scripts %}
+    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
+    <script src="{{static ('form/form.js')}}" charset="utf-8"></script>
+    <script>
+      activate("{{my_semester.Branch_id.Department_id}}.{{my_semester.Branch_id}}.{{my_semester}}.a");
+      $("#shifts").select2();
+      {% if update %}
+        form_visibility(true);
+      {% endif %}
+    </script>
+{% endblock scripts %}
+
+{% block content %}
+  <div class="whole_container" id="whole_container_id">
+    <fieldset>
+      <legend>{% if update %}Update{% else %}Add{% endif %} Division</legend>
+      <form class="myform" method = "POST"{% if not update %}style="display: none;"{% endif %}>
+        {{csrf_input}}
+        <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
+        <div class="input_container">
+          <img class="input_icons" src="{{static ('admin/details/img/div.png')}}" alt="delete" title="Delete" >
+          <input type="text" name="name" class ="form_input" required maxlength="50" {% if update %}value = "{{update.name}}"{% endif %}/>
+          <label for="" class="form_input_label">
+            <div class="text">Division Name</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="input_container">
+          <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
+          <input type="text" class="form_input" name="link" autocomplete="off" {% if update and update.link%}value = "{{update.link}}"{% endif %}>
+          <label for="" class="form_input_label">
+            <div class="text">Meeting Link (if any)</div>
+            <div class="line"></div>
+          </label>
+        </div>
+        <div class="select2_container single_select2">
+          <select name="Shift_id" id="shifts">
+            <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
+            {% for shift in my_shifts %}
+              <option value="{{shift.id}}" {% if update and shift == update.Shift_id%}selected{% endif %}>
+                {{shift}}
+              </option>
+            {%endfor%}
+          </select>
+        </div>
+        <div class="submit_button_container">
+          <button type="submit" name="button" class="submit_button">Submit</button>
+        </div>
+      </form>
+      <div class="form_visibility_img_container">
+        <button class="show_form_button" onclick="form_visibility()">
+        <p id="myp">Show Form</p>
+        </button>
+      </div>
+      
+      {% if integrityErrors %}
+        <div class="errors_container">
+          <p>
+            {{integrityErrors}}
+          </p>
+        </div>
+      {% endif %}
+
+      {% if errors %}
+        <div class="errors_container">
+          <p>
+            {{errors}}
+          </p>
+        </div>
+        <script>
+            show_error("{{errors}}")
+          </script>
+      {% endif %}
+    </fieldset>
+
+  <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
+    <div class="table_container">
+      <div class="table_search_box">
+        <input type="text" id = "myinput" name="" placeholder="Search..." onkeyup="searchFun()" >
+      </div>
+      <table id = "db_table">
+        <thead>
+          <tr>
+            <div class="delete_panel">
+              <h1 >Division for {{my_semester}}</h1>
+              <a style="display: none;" id="del" onclick="delete_entries()" >
+                <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
+              </a>
+            </div>
+            <th>Id</th>
+            <th>Division Name</th>
+            <th>Edit</th>
+            <th>
+              <div class="checkboxes" onclick="checkAll();">
+                <input type="checkbox"  id="parent" name="parent" value="parent">
+                <label for="parent"></label> 
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for division in my_divisions %}
+            <tr>
+              <td>{{loop.index}}</td>
+              <td>{{division.name}}</td>
+              <td>
+                <a href = "{{url ('update_division' ,args=[my_semester.id,division.id])}}">
+                  <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
+                </a>
+              </td>
+              <td>
+                <div class="checkboxes" onclick="checkSelected()">
+                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{division.id}}" input_name="{{division}}">
+                  <label for="{{loop.index}}"></label>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+{% endblock content %}

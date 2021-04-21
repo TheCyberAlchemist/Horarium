@@ -1,0 +1,30 @@
+.table_container {
+    width: 85% !important;
+}
+
+.table thead tr th,.table tbody tr td{
+    font-size: 0.85rem !important;
+    outline : 0;
+}
+
+.table tbody .even td,.table tbody .odd td{
+    border-bottom: 1px solid rgb(185, 185, 185) !important;
+}
+.fas {
+    font-size: 22px !important;
+    transform : translateY(4px);
+    color: rgb(116, 116, 116) !important;
+    transition: .3s;
+}
+.fas:hover {
+    color: blue !important;
+    transition: .3s;
+}
+.fas.fa-hashtag {
+    color : black !important;
+}
+@media screen and (max-width: 600px) {
+table.dataTable > tbody > tr.child span.dtr-title {
+    min-width: auto !important;
+}
+}

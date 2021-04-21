@@ -1,0 +1,38 @@
+.table_container {
+  width: 85% !important;
+}
+
+.table thead tr th, .table tbody tr td {
+  font-size: 0.85rem !important;
+  outline: 0;
+}
+
+.table tbody .even td, .table tbody .odd td {
+  border-bottom: 1px solid #b9b9b9 !important;
+}
+
+.fas {
+  font-size: 22px !important;
+  -webkit-transform: translateY(4px);
+          transform: translateY(4px);
+  color: #747474 !important;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.fas:hover {
+  color: blue !important;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.fas.fa-hashtag {
+  color: black !important;
+}
+
+@media screen and (max-width: 600px) {
+  table.dataTable > tbody > tr.child span.dtr-title {
+    min-width: auto !important;
+  }
+}
+/*# sourceMappingURL=dbtable2.css.map */

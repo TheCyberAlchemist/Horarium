@@ -6,6 +6,8 @@ urlpatterns = [
 	
 	path('home/',views.admin_home,name = 'admin_home'),
 	
+	url(r'^form/$',views.show_form,name = 'show_form'),
+
 	url(r'^department/$',views.show_department,name = 'show_department'),
 	url(r'^department/(?P<Department_id>\d+)/$',views.show_department,name = 'update_department'),
 

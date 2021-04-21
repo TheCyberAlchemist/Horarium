@@ -13,13 +13,25 @@
 {% endblock %}
 
 {%block scripts%}
-<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
-<script src="{{static ('datatable.js') }}"></script>
-<script type="application/javascript" src="{{static ('main.js')}}"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    var table = $('#example').DataTable();
+} );
+
+</script>
+
+
+<!-- <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script> -->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>-->
+
+
+<!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>-->
+<!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>-->
+<!--<script src="{{static ('datatable.js') }}"></script>-->
+<!--<script type="application/javascript" src="{{static ('main.js')}}"></script>-->
 <!-- <script type="application/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
 <script type="application/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap.min.js"></script> -->
 {% endblock %}
@@ -28,7 +40,7 @@
 
 <div class="main-card mb-3 card">
     <div class="card-body">
-        <table style="width: 100%;" id="example" class="table table-hover table-striped table-bordered nowrap">
+        <table id="example" class="table table-striped table-bordered nowrap" style="width:100%">
             <thead>
             <tr>
                 <th>Name</th>

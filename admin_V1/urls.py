@@ -46,6 +46,8 @@ urlpatterns = [
 	url(r'^sub_event/(?P<Subject_id>\d+)/$',views.show_sub_event,name = 'show_sub_event'),
 	url(r'^sub_event/(?P<Subject_id>\d+)/(?P<Faculty_id>\d+)/$',views.show_sub_event,name = 'update_sub_event'),
 
+	url(r'^table/(?P<Division_id>\d+)/algo/$',views.algo_v1,name = 'algo'),
+	# url("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 	# path('sube/',views.show_subject_events, name = 'show_subject_events')
 	

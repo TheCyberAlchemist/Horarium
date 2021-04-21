@@ -1,4 +1,4 @@
-{%extends 'admin/navbar2.html'%}
+{%extends 'admin/navbar.html'%}
 {%block navbar_starts%}
 <!DOCTYPE html>
 <html>
@@ -6,7 +6,7 @@
 	<title>{% block title %} {% endblock %} | Horarium</title>
 	{# title block for printing the name of the page  #}
 	{% block css %} {% endblock %}
-	<!-- <link rel="stylesheet" href="{{static ('admin/base.css')}}"> -->
+	<link rel="stylesheet" href="{{static ('admin/base.css')}}">
 	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> 
 	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> -->
 </head>

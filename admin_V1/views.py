@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -827,8 +827,40 @@ def algo_context(request,Division_id):
 def algo_v1(request,Division_id):
 	# delete all the prior events after taking the locked events
 	# save all the locked events
+	old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
+	json_events = json.loads(request.body)
+	new_events = set()
+	old_events = set()
+	for l in json_events:
+		del l['locked']
+		new_events.add(tuple(map(str, l.values())))
+	for i in old_events_qs:
+		old_events.add(tuple(map(str, i)))
+	to_be_added = new_events.difference(old_events)
+	to_be_deleted = old_events.difference(new_events)
+	# print(to_be_added)
+	# print(to_be_deleted)
+	def foo(x,i):
+		if tuple(map(str, x.values())) == i:
+			return True
+		return False
+	for i in to_be_deleted:
+		def get_str(a):
+			return str(a) if a else None
+		TBD = Event.objects.filter(Division_id=Division_id,Slot_id= get_str(i[0]))
+		# print(TBD)
+		if len(TBD):
+			TBD.delete()
+	for i in to_be_added:
+		TBA = [x for x in json_events if foo(x,i)]
+		print(TBA)
+		form = add_event(TBA[0])
+		candidate = form.save(commit=False)
+		candidate.Division_id_id = Division_id
+		form.save()
 	context = algo_context(request,Division_id)
 	locked_events = Event.objects.filter(Division_id=Division_id)
+	print(locked_events)
 	subject_events = algo.get_sorted_events(context["subject_events"],locked_events)
 	for subject_event in subject_events:
 		prac_carried = subject_event.prac_carried
@@ -902,11 +934,18 @@ def algo_v1(request,Division_id):
 					# algo.get_subject_events(Division_id,subject_event,False,locked_events)
 					locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events))
 					
-				# print(subject_event," - Class")
+				print(subject_event," - Class")
+	serializer = MySerialiser()
+	data = serializer.serialize(Event.objects.filter(Division_id=Division_id))
+	return JsonResponse(data, safe=False)
+	# return 
+	# return render(request,"try/algo_v1.html",context)
 	
-	
-	return render(request,"try/algo_v1.html",context)
-
+###################################################################################################
+###################################################################################################
+###################################################################################################
+###################################################################################################
+###################################################################################################
 		# if locked_events :
 		# 	subject_event_locked = locked_events.filter(Subject_event_id=subject_event)
 		# 	prac_carried = subject_event.prac_carried

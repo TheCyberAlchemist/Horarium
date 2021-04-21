@@ -1,77 +1,4 @@
-function print(abc){
-	console.log(abc);
-	return true;
-}
-
-
-function get_prac_pair(td){
-	var td_below = td.closest('.my_row').next().children().eq(td.index());
-	var td_above = td.closest('.my_row').prev().children().eq(td.index());
-	if (td_below.length && !td_below.hasClass("isBreak")){
-		return [td,td_below];
-	}else if(td_above.length && !td_above.hasClass("isBreak")){
-		return [td_above,td];
-	}
-}
-
-
-var batches = [];
-var subjects = [];
-function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_json){
-	for (i in slots_json){
-		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
-		slots.push(temp_slot);
-	}
-	// console.table(slots);
-	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
-	for (i in sub_events_json){
-		obj = sub_events_json[i].fields;
-		temp_sub_event = new subject_event(sub_events_json[i].pk,obj.Subject_name,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
-			,obj.other_events,obj.Subject_color,obj.Faculty_name)
-		subject_events.push(temp_sub_event);
-		if (obj.prac_carried){
-			update_card(temp_sub_event,true);
-		}if(obj.lect_carried){
-			update_card(temp_sub_event,false);
-		}
-
-	}
-	this.batches=batches;
-	this.subjects = subjects_json;
-	// console.table(old_events_json);
-	for(i in old_events_json){
-		obj = old_events_json[i];
-		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2);
-		td = get_cell(obj.Slot_id);
-		let resource = "";
-		$("#resources option").each(function(){
-			if ($(this).val() == obj.Resource_id){
-				resource = $(this).html();
-			}
-		});
-		if (temp_event.Slot_id_2){	// if it is a practical		
-			// print(temp_event);
-			if (push_event(temp_event)){
-				// console.log(td);
-				if (!td.html()){
-					change_to_prac_td(td,get_batches(obj.Subject_event_id,true));
-				}
-				put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
-			}
-		}else{	
-			if (push_event(temp_event)){
-				if (!td.html()){
-					change_to_lect_td(td,get_batches(obj.Subject_event_id,false));
-				}
-				put_lect(td,obj.Subject_event_id,resource,obj.Batch_id);
-			}
-		}
-	}
-	// console.table(events);
-	// console.table(subjects);
-}
-
-
+///////////////////////////////// classes & arrays /////////////////////////////////
 var slots = [];
 class slot{
 	constructor(id = 0,day = 0,timing = 0,resources_filled=0){
@@ -82,7 +9,7 @@ class slot{
 	}
 }
 
-subject_events = [];
+var subject_events = [];
 class subject_event {
 	constructor(id = 0,subject_name,subject_id,prac_carried,lect_carried,faculty_id,not_available
 		,other_events,color,faculty_name){
@@ -99,7 +26,7 @@ class subject_event {
 	}
 }
 
-events = [];
+var events = [];
 class event_class {
 	constructor(Slot_id,Subject_event_id,Batch_id,Resource_id,Slot_id_2=null,locked = false){
 		this.Slot_id = Slot_id;
@@ -111,90 +38,38 @@ class event_class {
 	}
 }
 
-
-function push_event(temp_event){
-	// check for batches in event_counter too
-
-	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
-	let subject_event = get_subject_event(temp_event.Subject_event_id);
-	let is_prac = Boolean(a2[1]);
- 
-	if (get_cell(temp_event.Slot_id).hasClass("locked")){
-		console.log("This cell is locked");
-		return false;
+var actions = [];
+var undo_actions = [];
+class event_action{
+	constructor(type, event){
+		this.type = type;
+		this.event = event;
 	}
-
-	if (!subject_event_has_load_remaining(temp_event.Subject_event_id,is_prac) || !subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac)){
-		console.log("max_filled");
-		return false;
-	}
-	for(var i = events.length - 1;i >= 0 ;i--){
-		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
-		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id){
-			console.log("duplicate");
-			return false;
-		}else if (intersects(a1,a2)){
-			// if there is overwritting 
-			b1 = events[i].Batch_id
-			b2 = temp_event.Batch_id
-			if (b1 == b2){
-				// if lect-lect or prac(b1)-prac(b1)
-				console.log("lect-lect or prac(b1)-prac(b1)");
-				events.splice(i,1);
-				clear_td(get_cell(a1[0]));
-				clear_td(get_cell(a1[1]));
-			}else{
-				if (b1 && b2){
-					// if both not null prac(b1)-prac(b2)
-					console.log("prac(b1)-prac(b2)");
-				}else{
-					// if lect-prac or prac-lect
-					console.log("prac-lect or lect-prac");
-					events.splice(i,1);
-					clear_td(get_cell(a1[0]));
-					clear_td(get_cell(a1[1]));
-				}
-			}
-			
-			// clear the old slot td
-		}
-	}
-	events.push(temp_event);
-	update_card(subject_event,is_prac);
-	// if (!subject_event_has_load_remaining(temp_event.Subject_event_id,is_prac)){
-	// 	// get the card and disable it
-	// }
-
-	// if (is_prac && event_counter(temp_event) >= subject_event.prac_carried){
-	// 	// get card and disable it
-	// }else if (!is_prac && event_counter(temp_event) >= subject_event.lect_carried){
-	// 	// get card and disable it	
-	// }
-	return true;
 }
-
-function update_card(subject_event,is_prac) {
-	let event_arr = events.filter(e => e.Subject_event_id==subject_event.id && Boolean(e.Slot_id_2) == is_prac);
-	let remaining,event_load;
-	if (is_prac){
-		remaining = subject_event.prac_carried - event_arr.length;
-		event_load = $(`[subject_event_id = ${subject_event.id}][is_prac = ${is_prac}] .remaining_load`);
-		event_load.html(remaining);
-		// subject_card.html() += parseInt(subject_card.html())
-	}else{
-		remaining = subject_event.lect_carried - event_arr.length;
-		event_load = $(`[subject_event_id = ${subject_event.id}][is_lect = "true"] .remaining_load`).html(remaining);
+var batches = [];
+var subjects = [];
+///////////////////////////////// hotkeys /////////////////////////////////
+hotkeys('ctrl+z,ctrl+y', function (event, handler){
+	switch (handler.key) {
+	  case 'ctrl+z': undo();
+		break;
+	  case 'ctrl+y': redo();
+		break;
 	}
-	let subject_card = event_load.parentsUntil("#accordion");
-	let subject_load = subject_card.find(".total_remaining_load");
-	// let subject_card.find(".remaining_load");
-	total_load = 0;
-	subject_card.find(".remaining_load").each(function() {
-		total_load += parseInt($(this).html());
-	});
-	subject_load.html(total_load);
-}
+  });
 
+
+///////////////////////////////// get methods /////////////////////////////////
+
+function get_prac_pair(td){
+	var td_below = td.closest('.my_row').next().children().eq(td.index());
+	var td_above = td.closest('.my_row').prev().children().eq(td.index());
+	if (td_below.length && !td_below.hasClass("isBreak")){
+		return [td,td_below];
+	}else if(td_above.length && !td_above.hasClass("isBreak")){
+		return [td_above,td];
+	}
+}
 
 function get_slot(td){
 	let day = td.index();
@@ -208,7 +83,6 @@ function get_slot(td){
 	}
 }
 
-
 function get_subject_event(id){
 	// console.log(slots[0],day,time);
 	for (j in subject_events){
@@ -217,50 +91,6 @@ function get_subject_event(id){
 		}
 	}
 }
-
-
-function subject_event_has_load_remaining(subject_event_id,is_prac=false){
-	let subject_event = get_subject_event(subject_event_id);
-	let event_arr = events.filter(e => e.Subject_event_id==subject_event_id && Boolean(e.Slot_id_2) == is_prac);
-	total_similar_events = event_arr.length;
-	if (total_similar_events){
-		// event_arr
-		if (event_arr[0].Slot_id_2){	// if it was a practical
-			if (subject_event.prac_carried > total_similar_events){
-				return true;
-			}
-		}else{							// if it was a lecture
-			if (subject_event.lect_carried > total_similar_events){
-				return true;
-			}
-		}
-	}else if (!total_similar_events){ // if no event is still there
-		return true;
-	}
-	console.log(`max filled - ${subject_event.subject_name}`,is_prac);
-	return false;
-}
-
-
-
-function subject_has_load_for_batch(subject_id,batch_id,is_prac) {
-	let subject = subjects.filter(e=> e.pk == subject_id)[0].fields;
-	// console.log(subject_id);
-	if (is_prac && subject.prac_per_week){
-		let all_events_for_subject_in_same_batch = events.filter(e=> e.Slot_id_2 && e.Batch_id==batch_id && get_subject_event(e.Subject_event_id).subject_id == subject_id);
-		if (subject.prac_per_week > all_events_for_subject_in_same_batch.length ){
-			return true;
-		}
-	}else if (!is_prac && subject.lect_per_week){
-		let all_events_for_subject_in_same_batch = events.filter(e=> !e.Slot_id_2 && e.Batch_id==batch_id && get_subject_event(e.Subject_event_id).subject_id == subject_id);
-		if (subject.lect_per_week > all_events_for_subject_in_same_batch.length ){
-			return true;
-		}
-	}
-	console.log(`max filled for batch ${batch_id} - ${subject.name}`,is_prac);
-	return false;
-}
-
 
 function get_batches(subject_event_id,is_prac=false){	// get all the batches that consist the subject event(P/L)
 	let subject_id = get_subject_event(subject_event_id).subject_id;
@@ -277,38 +107,6 @@ function get_batches(subject_event_id,is_prac=false){	// get all the batches tha
 		return temp;
 	}
 	return false;
-}
-
-
-function intersects(a1,a2) {
-	// console.log(a1,a2);
-    for (j in a1){
-		if (a1[j] && a2.includes(a1[j]))
-			return true
-	}
-	return false
-}
-
-
-function arraysEqual(a1,a2) {
-    return JSON.stringify(a1)==JSON.stringify(a2);
-}
-
-
-function clear_td(td){		// refresh the td
-	// console.log(td);
-	if (td.length){
-		td.html("");
-		if(td.hasClass("prac")){
-			td.removeClass("prac");
-			td.removeClass("prac_above");
-			td.removeClass("prac_below");
-			td.removeClass("prac_below");
-		}
-		td.removeClass("filled");
-		td.addClass("lect");
-	}
-	return;
 }
 
 
@@ -342,6 +140,441 @@ function get_all_locked_events(){
 	return events.filter(e=>e.locked == true);
 }
 
+
+///////////////////////////////// put methods/////////////////////////////////
+function put_json_in_table(json_data){
+	// console.log("obj",json_data);
+	for(i in json_data){
+		let obj = json_data[i];
+		// console.log(obj);
+		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2,obj.locked);
+		// console.log(temp_event);
+		td = get_cell(obj.Slot_id);
+		let resource = "";
+		$("#resources option").each(function(){
+			if ($(this).val() == obj.Resource_id){
+				resource = $(this).html();
+			}
+		});
+		if (temp_event.Slot_id_2){	// if it is a practical		
+			// print(temp_event);
+			if (push_event(temp_event)){
+				// console.log(td);
+				if (!td.html()){
+					change_to_prac_td(td,get_batches(obj.Subject_event_id,true));
+				}
+				put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
+			}
+		}else{	
+			if (push_event(temp_event)){
+				if (!td.html()){
+					change_to_lect_td(td,get_batches(obj.Subject_event_id,false));
+				}
+				put_lect(td,obj.Subject_event_id,resource,obj.Batch_id);
+			}
+		}
+		if (obj.locked){
+			let cell = get_cell(temp_event.Slot_id);
+			// let locking_events = events.filter(e=> e.Slot_id == obj.Slot_id || e.Slot_id_2 == obj.Slot_id);
+			if (temp_event.Slot_id_2){
+				get_prac_pair(cell).forEach(e=>e.addClass("locked"))
+			}
+			else{
+				console.log(cell.hasClass("locked"));
+				cell.addClass("locked");
+			}
+		}
+	}
+}
+
+function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_json){
+	for (i in slots_json){
+		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
+		slots.push(temp_slot);
+	}
+	// console.table(slots);
+	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
+	for (i in sub_events_json){
+		obj = sub_events_json[i].fields;
+		temp_sub_event = new subject_event(sub_events_json[i].pk,obj.Subject_name,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
+			,obj.other_events,obj.Subject_color,obj.Faculty_name)
+		subject_events.push(temp_sub_event);
+		if (obj.prac_carried){
+			update_card(temp_sub_event,true);
+		}if(obj.lect_carried){
+			update_card(temp_sub_event,false);
+		}
+
+	}
+	this.batches=batches;
+	this.subjects = subjects_json;
+	// console.table(old_events_json);
+	put_json_in_table(old_events_json);
+	// console.table(events);
+	// console.table(subjects);
+}
+
+///////////////////////////////// only functions /////////////////////////////////
+
+function print(abc){
+	console.log(abc);
+	return true;
+}
+
+function intersects(a1,a2) {
+	// console.log(a1,a2);
+    for (j in a1){
+		if (a1[j] && a2.includes(a1[j]))
+			return true
+	}
+	return false
+}
+
+function arraysEqual(a1,a2) {
+    return JSON.stringify(a1)==JSON.stringify(a2);
+}
+
+function update_card(subject_event,is_prac) {
+	let event_arr = events.filter(e => e.Subject_event_id==subject_event.id && Boolean(e.Slot_id_2) == is_prac);
+	let remaining,event_load;
+	if (is_prac){
+		remaining = subject_event.prac_carried - event_arr.length;
+		event_load = $(`[subject_event_id = ${subject_event.id}][is_prac = ${is_prac}] .remaining_load`);
+		event_load.html(remaining);
+		// subject_card.html() += parseInt(subject_card.html())
+	}else{
+		remaining = subject_event.lect_carried - event_arr.length;
+		event_load = $(`[subject_event_id = ${subject_event.id}][is_lect = "true"] .remaining_load`).html(remaining);
+	}
+	let subject_card = event_load.parentsUntil("#accordion");
+	let subject_load = subject_card.find(".total_remaining_load");
+	// let subject_card.find(".remaining_load");
+	total_load = 0;
+	subject_card.find(".remaining_load").each(function() {
+		total_load += parseInt($(this).html());
+	});
+	subject_load.html(total_load);
+}
+
+function subject_event_has_load_remaining(subject_event_id,is_prac=false){
+	let subject_event = get_subject_event(subject_event_id);
+	let event_arr = events.filter(e => e.Subject_event_id==subject_event_id && Boolean(e.Slot_id_2) == is_prac);
+	total_similar_events = event_arr.length;
+	if (total_similar_events){
+		// event_arr
+		if (event_arr[0].Slot_id_2){	// if it was a practical
+			if (subject_event.prac_carried > total_similar_events){
+				return true;
+			}
+		}else{							// if it was a lecture
+			if (subject_event.lect_carried > total_similar_events){
+				return true;
+			}
+		}
+	}else if (!total_similar_events){ // if no event is still there
+		return true;
+	}
+	console.log(`max filled - ${subject_event.subject_name}`,is_prac);
+	return false;
+}
+
+function subject_has_load_for_batch(subject_id,batch_id,is_prac) {
+	let subject = subjects.filter(e=> e.pk == subject_id)[0].fields;
+	// console.log(subject_id);
+	if (is_prac && subject.prac_per_week){
+		let all_events_for_subject_in_same_batch = events.filter(e=> e.Slot_id_2 && e.Batch_id==batch_id && get_subject_event(e.Subject_event_id).subject_id == subject_id);
+		if (subject.prac_per_week > all_events_for_subject_in_same_batch.length ){
+			return true;
+		}
+	}else if (!is_prac && subject.lect_per_week){
+		let all_events_for_subject_in_same_batch = events.filter(e=> !e.Slot_id_2 && e.Batch_id==batch_id && get_subject_event(e.Subject_event_id).subject_id == subject_id);
+		if (subject.lect_per_week > all_events_for_subject_in_same_batch.length ){
+			return true;
+		}
+	}
+	console.log(`max filled for batch ${batch_id} - ${subject.name}`,is_prac);
+	return false;
+}
+
+///////////////////////////////// events manipulation /////////////////////////////////
+
+function push_event(temp_event){
+	// check for batches in event_counter too
+
+	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
+	let subject_event = get_subject_event(temp_event.Subject_event_id);
+	let is_prac = Boolean(a2[1]);
+ 
+	if (get_cell(temp_event.Slot_id).hasClass("locked")){
+		console.log("This cell is locked");
+		return false;
+	}
+
+	if (!subject_event_has_load_remaining(temp_event.Subject_event_id,is_prac) || !subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac)){
+		console.log("max_filled");
+		return false;
+	}
+	for(var i = events.length - 1;i >= 0 ;i--){
+		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
+		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id){
+			console.log(events[i]);
+			console.log("duplicate");
+			return false;
+		}else if (intersects(a1,a2)){
+			// if there is overwritting 
+			b1 = events[i].Batch_id
+			b2 = temp_event.Batch_id
+			if (b1 == b2){
+				// if lect-lect or prac(b1)-prac(b1)
+				console.log("lect-lect or prac(b1)-prac(b1)");
+				events.splice(i,1);
+				clear_td(get_cell(a1[0]));
+				clear_td(get_cell(a1[1]));
+			}else{
+				if (b1 && b2){
+					// if both not null prac(b1)-prac(b2)
+					console.log("prac(b1)-prac(b2)");
+				}else{
+					// if lect-prac or prac-lect
+					console.log("prac-lect or lect-prac");
+					events.splice(i,1);
+					clear_td(get_cell(a1[0]));
+					clear_td(get_cell(a1[1]));
+				}
+			}
+			
+			// clear the old slot td
+		}
+	}
+	events.push(temp_event);
+	let caller = push_event.caller.name
+	if (caller != "put_json_in_table" && caller != "undo" && caller != "redo"){	
+		// if not called by put_event (i.e. regular push)
+		actions.push(new event_action("added",temp_event));
+	}
+	update_card(subject_event,is_prac);
+	return true;
+}
+
+function undo(){
+	let last_action = actions.pop();		// use when completed
+	// let last_action = actions[actions.length - 1];
+	if (!last_action)	// if no undo is here
+		return false;
+	let my_event = last_action.event;
+	let temp_events;
+	switch(last_action.type){
+		case "removed":
+			if (push_event(my_event)){
+				let td = get_cell(my_event.Slot_id);
+				if (my_event.Slot_id_2){
+					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
+					if (!td.html()){
+						change_to_prac_td(td,subject_batch);
+					}
+					put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
+				}else{	// if lect 
+					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
+					if (!td.html()){
+						change_to_lect_td(td,subject_batch);
+					}
+					put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
+				}
+				undo_actions.push(new event_action("added",my_event));
+			}
+			break;
+		case "added":
+			temp_events = events.filter(e=> e.Slot_id != my_event.Slot_id || e.Subject_event_id != my_event.Subject_event_id);
+			// console.log(my_event);
+			if (my_event.locked){
+				alert("the event is locked.")
+			}
+			totally_clear_all(false);
+			// console.log(my_event,temp_events);
+			// events = temp_events;
+			put_json_in_table(temp_events);
+			// console.table(events);
+			undo_actions.push(new event_action("removed",my_event));
+			break;
+		case "cleared_unlocked":
+			temp_events = my_event;
+			// console.log(temp_events);
+			put_json_in_table(temp_events);
+			undo_actions.push(new event_action("put_all_unlocked",temp_events));
+			break;
+	}
+	// console.log(undo_actions);
+}
+
+actions.push = function actions_push() {		// if the action array is pushed then undo_actions should be refreshed
+	// if (actions[actions.length - 1])
+		console.log();
+	if (JSON.stringify(actions[actions.length - 1]) !== JSON.stringify(arguments[0]))
+		Array.prototype.push.apply(this, arguments);
+	if (!(actions_push.caller.name == "redo" || ( actions_push.caller.caller && actions_push.caller.caller.name == "redo")))
+		undo_actions = [];
+	// console.log(undo_actions);
+};
+
+function redo(){
+	// console.log(undo_actions);
+	let last_undo = undo_actions.pop();		// use when completed
+	// let last_undo = undo_actions[undo_actions.length - 1];
+	if (!last_undo)	// if no undo is here
+		return false;
+	let my_event = last_undo.event;
+	let temp_events,cleared;
+	switch(last_undo.type){
+		case "added":
+			temp_events = events.filter(e=> e.Slot_id != my_event.Slot_id || e.Subject_event_id != my_event.Subject_event_id);
+			cleared = clear_all_unlocked_td(my_event,false);
+			console.log(cleared);
+			// events = temp_events;
+			if (cleared){
+				put_json_in_table(temp_events);
+				actions.push(new event_action("removed",my_event));
+			}else{
+				undo_actions.push(last_undo);
+			}
+			// console.table(events);
+			break;
+		case "removed":
+			if (push_event(my_event)){
+				let td = get_cell(my_event.Slot_id);
+				if (my_event.Slot_id_2){
+					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
+					if (!td.html()){
+						change_to_prac_td(td,subject_batch);
+					}
+					put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
+				}else{	// if lect 
+					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
+					if (!td.html()){
+						change_to_lect_td(td,subject_batch);
+					}
+					put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
+				}
+				actions.push(new event_action("added",my_event))
+			}	
+			break;
+		case "put_all_unlocked":
+			cleared = clear_all_unlocked_td(my_event,false);
+			// console.log(cleared);
+			if (cleared){
+				actions.push(new event_action("cleared_unlocked",my_event));
+			}else{
+				undo_actions.push(last_undo);
+			}
+			break;
+	}
+	// console.log(undo_actions);
+}
+
+function show_all(){
+	console.table(events);
+	console.table(actions);
+	console.table(undo_actions);
+}
+///////////////////////////////// clear functions /////////////////////////////////
+
+function clear_td(td,totally_clear_all=false){		// refresh the td
+	// console.log("clear called");
+	if (td.length){
+		if (!totally_clear_all && td.hasClass("locked"))
+			return;
+		if (totally_clear_all )
+			td.removeClass("locked");
+		td.html("");
+		if(td.hasClass("prac")){
+			td.removeClass("prac");
+			td.removeClass("prac_above");
+			td.removeClass("prac_below");
+			td.removeClass("prac_below");
+		}
+		td.removeClass("filled");
+		td.addClass("lect");
+	}
+	return false;
+}
+
+
+
+// get the event logic to clear unlocked from the redo 
+function totally_clear_all(push_action = true){
+	for(let i in events){
+		clear_td(get_cell(events[i].Slot_id),true);
+		if (events[i].Slot_id_2)
+			clear_td(get_cell(events[i].Slot_id_2),true);
+	}
+	if (push_action)
+		actions.push(new event_action("totally_cleared",events));
+	events = [];
+	for(let j in subject_events){
+		// update_card(subject_events[j],)
+		// console.log(subject_events[j]);
+		if (subject_events[j].prac_carried){
+			update_card(subject_events[j],true);
+		}if(subject_events[j].lect_carried){
+			update_card(subject_events[j],false);
+		}
+	}
+	return true;	
+}
+
+function clear_all_unlocked_td(my_events = false,push_action = true){		// refresh all the td
+	function clear_html(){
+		if (my_events.length > 1){
+			for(let i in my_events){
+				clear_td(get_cell(my_events[i].Slot_id));
+				if (my_events[i].Slot_id_2)
+					clear_td(get_cell(my_events[i].Slot_id_2));
+			}
+		}else{
+			for(let i in events){
+				clear_td(get_cell(events[i].Slot_id));
+				if (events[i].Slot_id_2)
+					clear_td(get_cell(events[i].Slot_id_2));
+			}
+		}
+		actions.push(new event_action("cleared_unlocked",events.filter(e=>!e.locked)));
+		events = events.filter(e=>e.locked);
+		for(let j in subject_events){
+			// update_card(subject_events[j],)
+			// console.log(subject_events[j]);
+			if (subject_events[j].prac_carried){
+				update_card(subject_events[j],true);
+			}if(subject_events[j].lect_carried){
+				update_card(subject_events[j],false);
+			}
+		}
+	}
+	let latest_my_events = [];
+	if (my_events > 1){
+		for(i in my_events){
+			for (j in events){
+				if (my_events[i].Subject_event_id == events[j].Subject_event_id && my_events[i].Slot_id == events[j].Slot_id){
+					latest_my_events.push(events[j]);
+				}
+			}
+		}
+	}
+	// console.log(my_events,latest_my_events);
+	if ((my_events.length > 1 && latest_my_events.filter(e=>e.locked).length) || my_events.locked ){
+		Swal.fire({
+			icon: 'error',
+			title: 'Locked event found! ',
+			text: 'Locked event cannot be deleted. '
+		  })
+		return false;
+	}else{
+		clear_html();
+		return true;
+	}
+}
+
+///////////////////////////////// put lect and prac on td /////////////////////////////////
+
+
 function change_to_lect_td(td,subject_batch){
 	let colspan;
 	let string = "";
@@ -372,7 +605,6 @@ function change_to_lect_td(td,subject_batch){
 	td.addClass("filled");
 }
 
-
 function put_lect(td,subject_event_id,resource,batch=null) {	// change lecture ondrop
 	let subject_event = get_subject_event(subject_event_id);
 	// console.log(Boolean(batch));
@@ -401,7 +633,6 @@ function put_lect(td,subject_event_id,resource,batch=null) {	// change lecture o
 		resource_div.html(resource);
 	}
 }
-
 
 function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	pair = get_prac_pair(td);
@@ -480,7 +711,6 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	pair[1].addClass("filled");
 }
 
-
 function put_prac(td,subject_event_id,batch,resource){
 	subject_event = get_subject_event(subject_event_id);
 	pair = get_prac_pair(td);
@@ -500,8 +730,10 @@ function put_prac(td,subject_event_id,batch,resource){
 	resource_div.html(resource);
 }
 
+///////////////////////////////// ready function /////////////////////////////////
 
 $(document).ready (function () {
+	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get('csrftoken');
 	function csrfSafeMethod(method) {
 		// these HTTP methods do not require CSRF protection
@@ -515,10 +747,13 @@ $(document).ready (function () {
 			}
 		}
 	});
+
 	$(".isBreak").parent().each(function (){
 		$(this).last().addClass("break_last");
 	});
-	///////////////////////////// Time Table ///////////////////////
+
+	///////////////////////////// right click menu ///////////////////////
+
 	$(".droppable").bind('contextmenu', function (e) {
 		if (!$(this).hasClass("locked")){
 			// Show contextmenu
@@ -555,9 +790,12 @@ $(document).ready (function () {
 				clear_td(get_cell(events[i].Slot_id_2));
 				events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
 				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
-				events_removed.forEach(e=>update_card(get_subject_event(e.Subject_event_id),true));
+				for (e in events_removed){
+					update_card(get_subject_event(events_removed[e].Subject_event_id),true);
+					actions.push(new event_action("removed",events_removed[e]));
+				}
 			}
-			console.table(events);
+			// console.table(events);
 		}else{
 			let i = get_event_index_by_slot(slot_id);
 			if (i){
@@ -565,11 +803,16 @@ $(document).ready (function () {
 				// clear_td(get_cell(events[i].Slot_id_2));
 				events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
 				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
-				events_removed.forEach(e=>update_card(get_subject_event(e.Subject_event_id),false));
+				for (e in events_removed){
+					update_card(get_subject_event(events_removed[e].Subject_event_id),false);
+					actions.push(new event_action("removed",events_removed[e]));
+				}
 			}
-			console.table(events);
+			// console.table(events);
 		}
 	})
+	///////////////////////////// draggable/droppable ///////////////////////
+
 	$(".draggable").draggable({
 		revert: true,
 		cursor: "move",
@@ -673,7 +916,7 @@ $(document).ready (function () {
 							$("#batches option[value=" + subject_batches[i].pk.toString() + "]").prop('disabled', false);
 						}
 					}else{					// lect_class
-						console.log("lect_class");
+						// console.log("lect_class");
 						$("#batches").next(".select2-container").hide();
 					}
 					$("#event_form").removeAttr("is_prac");
@@ -715,7 +958,6 @@ $(document).ready (function () {
 			}
 		}
 	});
-
 	///////////////////////////// form  ///////////////////////
 	$("#aform").on("click", function(){
 	// $("#aform").on("click", function(){
@@ -727,7 +969,7 @@ $(document).ready (function () {
 		let resource = $("#resources").val();
 		let resource_name = $("#resources").find(':selected').html();
 		if (resource){
-			subject_batch = get_batches(subject_event_id,is_prac);
+			let subject_batch = get_batches(subject_event_id,is_prac);
 			if (is_prac){
 				if (subject_batch){	// if prac_batch
 					temp_event = new event_class(String(get_slot(get_prac_pair(td)[0]).id),subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
@@ -743,7 +985,7 @@ $(document).ready (function () {
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
 						}
-						put_prac(td,subject_event_id,resource_name,batch=null);
+						put_prac(td,subject_event_id,batch=null,resource_name);
 					}
 				}
 			}else if(!is_prac){
@@ -766,7 +1008,7 @@ $(document).ready (function () {
 				}
 			}else
 				return;
-			console.table(events);
+			// console.table(events);
 		}else{
 			return;
 		}
@@ -778,6 +1020,7 @@ $(document).ready (function () {
 	$("#cancel").on("click", function(){
 		$("#event_form").hide();
 	});
+	//////////////////////////// double click locking ///////////////////////////
 	$(".droppable").dblclick(function(e,t){
 		let slot = get_slot($(this));
 		let locking_events = events.filter(e=> e.Slot_id == slot.id || e.Slot_id_2 == slot.id);
@@ -800,8 +1043,21 @@ function submited(){
 	// console.log("JSON.stringify(events),1)");
 	  $.ajax({
 		  type: "post",
-		  data: JSON.stringify(get_all_locked_events()),
+		  data: JSON.stringify(events),
 		  success: function (){
 		}
 	});
+}
+
+function call_algo(){
+	$.ajax({
+		type: "post",
+		url: "./algo/",
+		data: JSON.stringify(get_all_locked_events()),
+		success: function (data){
+			clear_all_unlocked_td();
+			console.log(events);
+			put_json_in_table(data);
+	  }
+  });
 }

@@ -30,12 +30,16 @@
 integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
 crossorigin="anonymous"></script>
 <script src="{{static ('Popper/popper.min.js') }}"></script>
+<script src="{{static ('hotkeys.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
     integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
     crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="{{static ('bootbox.min.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{static ('try/time_table.js') }}"></script>
 <script>
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
@@ -45,7 +49,25 @@ crossorigin="anonymous"></script>
 </script>
 {%endblock%}
 {% block content %}
-
+<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="confirm_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirm_modal">Locked events found !</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Do you want to delete locked events ? 
+        </div>
+        <div class="modal-footer">
+          <button type="button" id = "close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" id = "delete" class="btn btn-primary"  data-dismiss="modal">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <div id="kaibhi" style="display: none;">
 </div>
 <form id="event_form" class="event_form">
@@ -125,6 +147,22 @@ crossorigin="anonymous"></script>
                 </div>
             </div> -->
             <div class="container text-center">
+                <button class="btn btn-primary"onclick="undo()">undo</button>
+            </div>
+            <br><br>
+            <div class="container text-center">
+                <button class="btn btn-primary"onclick="redo()">redo</button>
+            </div>
+            <br><br>
+            <div class="container text-center">
+                <button class="btn btn-primary"onclick="clear_all_unlocked_td()">clear</button>
+            </div>
+            <br><br>
+            <div class="container text-center">
+                <button class="btn btn-primary"onclick="call_algo()">Generate</button>
+            </div>
+            <br><br>
+            <div class="container text-center">
                 <button class="btn btn-primary"onclick="submited()">Submit</button>
             </div>
         </div>
@@ -163,101 +201,6 @@ crossorigin="anonymous"></script>
             {% endif %}
         </div>
         {%endfor%}
-        <div class="row my_row">
-            <div class="col my_col lect">10:00</div>
-            <div class="col my_col prac prac_above">
-                <div class="container text-center">
-                    <div class="row text-center" style="margin-left:-30px">
-                        <div class="col-3">
-                            <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="row">
-                                <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col my_col prac prac_below">
-                <div class="container text-center">
-                    <div class="row">
-                        <div class="col-4 batch_contents">
-                            <div class="row">
-                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                            </div>
-                        </div>
-                        <div class="col-4 batch_contents">
-                            <div class="row">
-                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                            </div>
-                        </div>
-                        <div class="col-4 batch_contents">
-                            <div class="row">
-                                <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                            </div>
-                        </div>
-                        
-                    </div>
-                </div>
-            </div>
-            <div class="col my_col lect"></div>
-            <div class="col my_col lect try_button"></div>
-            <div class="col my_col lect">
-                <div class="row my-auto text-center" >
-                    <div class="col-2" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">
-                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn-sm btn-primary lect_mycol mt-2 lect_batches" >Hello</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 {{csrf_input}}
@@ -267,7 +210,6 @@ crossorigin="anonymous"></script>
         <li>
             <!-- <span class='clear_td'></span>&nbsp; -->
             <div class='clear_td'>Clear</div>
-            <div class="clear_td">Lock <img class="input_icons" src="{{static ('admin/details/img/lock.png')}}"></img>
             </div>
         </li>
     </ul>

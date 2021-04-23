@@ -17,13 +17,29 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-{% if u_name %}
     <script type="text/javascript">
+        activate("{{my_branch.Department_id}}.{{my_branch}}.a");
         $(document).ready(function() {
-            $('#flush-collapseOne').collapse("show");
+            {% if u_short %}
+                $('#flush-collapseOne').collapse("show");
+            {% endif %}
+            let table = $('#example').dataTable({
+                "columnDefs" : [{
+                    "targets" : [2,3],
+                    "orderable" : false,
+                    },
+                    {responsivePriority: 1, targets: 1},
+                    {responsivePriority: 2, targets: 0},
+                    {
+                        targets : [2,3],
+                        className : "all",
+                    }
+                ],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                responsive: true
+            });
         });
     </script>
-{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -38,7 +54,7 @@
             <a href="{{url ('show_semester',args=[my_branch.id]) }}">
                 <span class="h6 fw-bold">Add Semester</span> 
             </a>
-            {%if u_name %}
+            {%if u_short %}
                 <i class="fas fa-angle-double-right"></i>
                 <span class="h6 fw-bold">Update Semester</span> 
             {%endif %}
@@ -52,7 +68,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne" aria-expanded="false"
                                     aria-controls="flush-collapseOne">
-                                    <h5>{% if u_name %}Update{% else %}Add{% endif %} Semester</h5>
+                                    <h5>{% if u_short %}Update{% else %}Add{% endif %} Semester</h5>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse"

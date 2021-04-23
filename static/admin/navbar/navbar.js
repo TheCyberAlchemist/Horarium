@@ -1,4 +1,7 @@
 $(document).ready(function(){
+  // navbar sarkhu 
+  // search bar ahiyaj??
+  // subject_event sarkhu nathi ane ani link kai rite rakhvi
   /////////////////////// Navbar Animation //////////////////////
   $(".navtree_wrapper").animate({height:"0%",},200);
     offset = l.length? l.offset() : 0;

@@ -17,13 +17,28 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-{% if u_name %}
     <script type="text/javascript">
+        activate("{{my_department}}.d.a");
         $(document).ready(function() {
-            $('#flush-collapseOne').collapse("show");
+            {% if u_name %}
+                $('#flush-collapseOne').collapse("show");
+            {% endif %}
+            let table = $('#example').dataTable({
+                "columnDefs" : [{
+                    "targets" : [4,5],
+                    "orderable" : false,
+                    },
+                    {responsivePriority: 1, targets: 1},
+                    {
+                        targets : [4,5],
+                        className : "all",
+                    }
+                ],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                responsive: true
+            });
         });
     </script>
-{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -72,21 +87,13 @@
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control myinputs" id="short"
-                                                        placeholder="-" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input short_names" required maxlength = "20">
-                                                    <label for="short">Short Name</label>
-                                                </div>
-                                            </div>
-
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                                <div class="form-floating mb-3">
                                                     <input type="time" name="start_time" id="stime" {% if u_start_time %} value = "{{u_start_time}}"{% endif %} required autocomplete="off">
                                                     <label for="stime">Start Time</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="time" id="etime" name="end_time" {% if u_end_time %} value = "{{u_end_time}}"{% endif %} required autocomplete="off">>
+                                                    <input type="time" id="etime" name="end_time" {% if u_end_time %} value = "{{u_end_time}}"{% endif %} required autocomplete="off">
                                                     <label for="etime">End Time</label>
                                                 </div>
                                             </div>

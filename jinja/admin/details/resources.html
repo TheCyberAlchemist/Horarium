@@ -17,13 +17,29 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-{% if u_name %}
     <script type="text/javascript">
+        activate("b");
         $(document).ready(function() {
-            $('#flush-collapseOne').collapse("show");
+            {% if update %}
+                $('#flush-collapseOne').collapse("show");
+            {% endif %}
+            let table = $('#example').dataTable({
+                "columnDefs" : [{
+                    "targets" : [3,4],
+                    "orderable" : false,
+                    },
+                    {responsivePriority: 1, targets: 1},
+                    {responsivePriority: 2, targets: 2},
+                    {
+                        targets : [3,4],
+                        className : "all",
+                    }
+                ],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                responsive: true
+            });
         });
     </script>
-{% endif %}
 {% endblock %}
 
 {% block content %}
@@ -38,7 +54,7 @@
             <a href="{{url ('show_resource')}}">
                 <span class="h6 fw-bold">Add Resource</span> 
             </a>
-            {%if u_name %}
+            {%if update %}
                 <i class="fas fa-angle-double-right"></i>
                 <span class="h6 fw-bold">Update Resource</span> 
             {%endif %}
@@ -55,7 +71,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne" aria-expanded="false"
                                     aria-controls="flush-collapseOne">
-                                    <h5>{% if u_name %}Update{% else %}Add{% endif %} Resource</h5>
+                                    <h5>{% if update %}Update{% else %}Add{% endif %} Resource</h5>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse"

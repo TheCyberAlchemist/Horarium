@@ -8,9 +8,9 @@
 <script type="text/javascript" src="{{static ('jquery.js') }}"></script>
 <script src="{{static ('try/table.js') }}"></script>
 <script>
+	activate("{{my_department}}.b");
 	put_data("{{slots_json}}");
 	put_events("{{events}}", "{{not_available}}");
-	activate("{{my_department}}.b");
 </script>
 <script src="{{static ('cookie.min.js')}}"></script>
 {% endblock scripts %}

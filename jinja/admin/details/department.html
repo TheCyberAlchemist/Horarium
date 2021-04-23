@@ -7,7 +7,6 @@
 
 <link rel="stylesheet" href="{{static ('form/form2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
-
 <style>
     td,th {
         font-size: .9rem !important;
@@ -16,14 +15,30 @@
 {% endblock %}
 
 {%block scripts%}
-<script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-{% if u_name %}
+    <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
     <script type="text/javascript">
+        activate("a");
         $(document).ready(function() {
-            $('#flush-collapseOne').collapse("show");
+            {% if u_name %}
+                $('#flush-collapseOne').collapse("show");
+            {% endif %}
+            let table = $('#example').dataTable({
+                "columnDefs" : [{
+                    "targets" : [3,4],
+                    "orderable" : false,
+                    },
+                    {responsivePriority: 1, targets: 2},
+                    {responsivePriority: 2, targets: 1},
+                    {
+                        targets : [3,4],
+                        className : "all",
+                    }
+                ],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                responsive: true
+            });
         });
     </script>
-{% endif %}
 {% endblock %}
 
 {% block content %}

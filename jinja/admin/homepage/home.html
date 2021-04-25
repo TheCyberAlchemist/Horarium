@@ -3,9 +3,6 @@
 {% endblock %}
 
 {% block css%}
-<link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
-<link rel="stylesheet" href="{{static ('form/form.css')}}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
   #db_table td,
   #db_table th {
@@ -29,8 +26,44 @@
 {% endblock %}
 
 {%block scripts %}
-<script type="application/javascript" src="{{static ('jquery.js')}}"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% if u_name %}
+                $('#flush-collapseOne').collapse("show");
+            {% endif %}
+            let table = $('#example').dataTable({
+                "columnDefs" : [{
+                    "targets" : [3,4],
+                    "orderable" : false,
+                    },
+                    {responsivePriority: 1, targets: 2},
+                    {responsivePriority: 2, targets: 1},
+                    {
+                        targets : [3,4],
+                        className : "all",
+                    }
+                ],
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "./get_user_ajax",
+                    "type": "POST"
+                },
+                "columns": [
+                    { "data": "user" },
+                    { "data": "user" },
+                    { "data": "invoice_number" },
+                    { "data": "date_transaction" },
+                    { "data": "total_price" },
+                    { "data": "category" },
+                    { "data": "status" }
+                ]
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                responsive: true,
+            });
+        });
+    </script>
 {% endblock %}
 
 {% block content %}
@@ -48,7 +81,7 @@
       <div class="table_search_box">
         <input type="text" id="myinput" name="" placeholder="Search..." onkeyup="searchFun()">
       </div>
-      <table id="db_table">
+      <table id="example">
         <thead>
           <tr>
             <div class="delete_panel">

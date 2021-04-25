@@ -31,8 +31,7 @@ function searchFun(){
 
 function checkAll(){
 	var parent = document.getElementById('parent');
-	
-	var input = document.getElementsByClassName('del_input');
+	var input = document.getElementsByClassName('del_input');	
 	if(parent.checked == true){	
 
 	  for(var i=0; i<input.length;i++){

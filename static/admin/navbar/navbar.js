@@ -2,10 +2,12 @@ $(document).ready(function(){
   // navbar sarkhu 
   // search bar ahiyaj??
   // subject_event sarkhu nathi ane ani link kai rite rakhvi
+  // navbar ne animate karvu hce ke nai?
   /////////////////////// Navbar Animation //////////////////////
   $(".navtree_wrapper").animate({height:"0%",},200);
     offset = l.length? l.offset() : 0;
     $(".me").click(function(){
+      $(".navtree_wrapper").show();
       $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
       $('.navtree_wrapper').animate({
             scrollTop: offset.top,

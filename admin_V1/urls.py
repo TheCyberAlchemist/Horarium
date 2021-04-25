@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path
-from . import views
+from . import views,ajax_datatable_views
 from django.conf.urls import url
 urlpatterns = [
 	
-	path('home/',views.admin_home,name = 'admin_home'),
-	
+	path(r'home/',views.admin_home,name = 'admin_home'),
+	url(r'^home/get_student_user_ajax/$',ajax_datatable_views.student_user_table.as_view(),name = 'ajax_user'),
+
 	url(r'^form/$',views.show_form,name = 'show_form'),
 
 	url(r'^department/$',views.show_department,name = 'show_department'),

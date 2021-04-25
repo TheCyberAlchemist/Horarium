@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'ajax_datatable',
     'Table_V2',
     'login_V2',
     'institute_V1',

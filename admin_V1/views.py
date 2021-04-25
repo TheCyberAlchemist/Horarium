@@ -1,11 +1,14 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse
+from django.views.generic import View
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import json
 from django.db import IntegrityError
+from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.models import Group
 
@@ -17,6 +20,10 @@ from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,u
 from .forms import add_event
 from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
 from Table_V2.models import Event
+import login_V2.models as login_V2
+
+# pip install django-ajax-datatable
+# pip install jsonfield
 
 ############# For running any scripts ###############
 def run_script(request):
@@ -117,7 +124,50 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 @allowed_users(allowed_roles=['Admin'])
 def admin_home(request):
 	context = return_context(request)
-	return render(request,'admin/homepage/home2.html',context)
+	return render(request,'admin/user_dash/user_dash.html',context)
+
+class get_user_ajax(View):
+	def post(self, request):
+		users = self._datatables(request)
+		return HttpResponse(json.dumps(users, cls=DjangoJSONEncoder), content_type='application/json')
+	def _datatables(self, request):
+		datatables = request.POST
+		# Ambil draw
+		draw = int(datatables.get('draw'))
+		# Ambil start
+		start = int(datatables.get('start'))
+		# Ambil length (limit)
+		length = int(datatables.get('length'))
+		# Ambil data search
+		search = datatables.get('search[value]')
+		records_total = login_V2.CustomUser.objects.all().count()
+		# Set records filtered
+		records_filtered = records_total
+		if search:	# if search was performed
+			pass
+		users = login_V2.CustomUser.objects.all()
+		paginator = Paginator(users, length)
+		try:
+			object_list = paginator.page(draw).object_list
+		except PageNotAnInteger:
+			object_list = paginator.page(draw).object_list
+		except EmptyPage:
+			object_list = paginator.page(paginator.num_pages).object_list
+		data = [
+			{
+				'id': usr.pk,
+				'name': str(usr),
+				'email': usr.email,
+			} for usr in object_list
+		]
+		print(data[0])
+		return {
+			'draw': draw,
+			'recordsTotal': records_total,
+			'recordsFiltered': records_filtered,
+			'data': data,
+			}
+		# print(datatables,draw,start,length,search)
 
 
 @login_required(login_url="login")

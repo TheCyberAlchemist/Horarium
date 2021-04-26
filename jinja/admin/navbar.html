@@ -31,41 +31,32 @@
       </ul>
     </div>
   </nav> -->
-  <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="background-color: #3f6ad8;">
+<nav class="navbar navbar-expand-lg  fixed-top" style="background-color:#101820FF">
     <div class="container-fluid">
       <a class="navbar-brand">
-          <a href="{{url ('logout')}}">Hi, {{request.user}}</a>
+        Horarium
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
           <li class="nav-item me">
-            <a class=" active">Nav Tree</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" >Link</a>
+            <a class="active nav-link">Nav Tree</a>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Dropdown
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li><a class="dropdown-item" >Action</a></li>
-              <li><a class="dropdown-item" >Another action</a></li>
+              <li>
+                <a class="dropdown-item">Hi, {{request.user}}</a>
+              </li>
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" >Something else here</a></li>
+              <li><a href="{{url ('logout')}}" class="dropdown-item" >Log Out</a></li>
             </ul>
           </li>
-          <li class="nav-item">
-            <a class="nav-link disabled" tabindex="-1" aria-disabled="true">Disabled</a>
-          </li>
         </ul>
-        <form class="d-flex">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>
@@ -114,7 +105,7 @@
             </li>
 
             {% for key1,values1 in branches.items() %}{% if key1 == department.id %}{% for value1 in values1 %}
-            <li><label for="{{department}}.{{value1}}">{{value1}}</label>
+            <li><label for="{{department}}.{{value1}}" class="data">{{value1}}</label>
               <input id="{{department}}.{{value1}}" type="checkbox" checked>
               <ul>
                 <span class="more">&hellip;</span>

@@ -1038,7 +1038,7 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #29313d;
+    /* color: #29313d; */
     background-color: #F9FAFB;
     -webkit-text-size-adjust: 100%;
     -webkit-tap-highlight-color: rgba(46, 54, 80, 0);
@@ -25488,7 +25488,7 @@ main {
 }
 
 img {
-    max-width: 100%;
+    /* max-width: 100%; */
 }
 
 strong {

@@ -58,16 +58,16 @@ class add_user(UserCreationForm):
 		model = get_user_model()
 		fields = ['first_name','last_name','email','password1','password2']
 
+class update_user_by_admin(ModelForm):
+	class Meta:
+		model = get_user_model()
+		fields = ['first_name','last_name','email']
 
 class add_resource(ModelForm):
 	class Meta:
 		model = Resource
 		fields = ["name","block"]
 
-# class update_user_by_admin(AbstractUser):
-# 	class Meta:
-# 		# model = get_user_model()
-# 		fields = ['first_name','last_name']
 
 class add_subject_details(ModelForm):
 	class Meta:

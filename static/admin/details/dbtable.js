@@ -19,15 +19,6 @@ function searchFun(){
 		}
 	}
 }
-// function hover(self,link) {
-// 	console.log(link);
-//   	self.setAttribute("src",link);
-// }
-
-// function unhover(self,link){
-// 	self.setAttribute("src",link);
-// }
-
 
 function checkAll(){
 	var parent = document.getElementById('parent');

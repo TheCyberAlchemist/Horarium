@@ -1,11 +1,12 @@
-from ajax_datatable.views import AjaxDatatableView
 from django.contrib.auth.models import Permission
-from django.template.loader import render_to_string
 from django.core import serializers
-from rest_framework.response import Response
-import login_V2.models as login_V2
-import jsonfield
+from django.http import JsonResponse
 import json
+
+
+from ajax_datatable.views import AjaxDatatableView
+from .forms import update_user_by_admin
+import login_V2.models as login_V2
 
 # https://pypi.org/project/django-ajax-datatable/#sorting-columns
 class student_user_table(AjaxDatatableView):
@@ -104,11 +105,9 @@ class student_user_table(AjaxDatatableView):
 		# 'row' is a dictionary representing the current row, and 'obj' is the current object.
 		row['Name'] = str(obj)
 		row['Edit'] = '''<td class="border-0">
-							<a href = "{{url ('')}}">
-								<i class="fas fa-edit"></i>
-							</a>
+							<i class="fas fa-edit" onclick="student_edit_called(%s)"></i>
 						</td>''' % (
-			# obj.id,
+			obj.id
 		)
 		row['Delete'] ='''<div class="form-check" onclick="checkSelected()">
 							<input class="form-check-input del_input" type="checkbox"
@@ -119,3 +118,16 @@ class student_user_table(AjaxDatatableView):
 		# if obj.recipe is not None:
 		# 	row['recipe'] = obj.recipe.display_as_tile() + ' ' + str(obj.recipe)
 		return
+
+def user_edit_called(request):
+	if request.method == 'POST':
+		pk = json.loads(request.body)
+		user = login_V2.CustomUser.objects.get(pk=pk)
+		# json_user = serializers.serialize('json', user)
+		update = {
+			'first_name':user.first_name,
+			'last_name':user.last_name,
+			'email':user.email
+		}
+		print(update)
+	return JsonResponse(update)

@@ -1,4 +1,5 @@
 $(document).ready(function () {
+	checkSelected(); // if any selected for delete already
 	////////////// ajax setup   /////////////////////////
 	var csrftoken = Cookies.get("csrftoken");
 	function csrfSafeMethod(method) {
@@ -152,37 +153,82 @@ function visibility2() {
 
 function delete_entries() {
 	var checked = $('input[name="del"]:checked').map(function () {return this.value;}).get();
-  var inner_html = $('input[name="del"]:checked').map(function () {return this.attributes.input_name.value;}).get();
-  let delete_message = inner_html.toString().replaceAll(",","\n->");
+	var inner_html = $('input[name="del"]:checked').map(function () {return this.attributes.input_name.value;}).get().toString().split(',');
+	let delete_message = "";
+	for (i in inner_html){
+		delete_message += "<li>" + inner_html[i] + "</li>";
+	}
+	console.log(delete_message);
 	let state = JSON.stringify(checked);
-  
+	
 	if (checked.length) {
 		// checkes if one or more are selected or not
 		// console.log(state)
-		swal({
-			title: "Warning!",
-			text:
-        "This Data will be deleted :: \n ->" + delete_message,
-			icon: "warning",
-			dangerMode: true,
-			buttons: ["Cancel", "Delete"],
-		}).then((willDelete) => {
-			if (willDelete) {
-				swal("", {
-					icon: "success",
-					text: "Deleted Successfully!",
-				});
-				$.ajax({
-					type: "post",
-					data: state,
-					success: function () {
-						location.reload(); // reload page after success of post
-					},
-				});
-			} else {
-				swal("Your changes are not saved!");
-			}
-		});
+		const swalWithBootstrapButtons = Swal.mixin({
+			customClass: {
+			  confirmButton: 'btn btn-success',
+			  cancelButton: 'btn btn-danger'
+			},
+			buttonsStyling: false
+		  })
+		  swalWithBootstrapButtons.fire({
+			title: `Are you sure?`,
+			html:`You won't be able to revert this!<br><ul>`+delete_message+`</ul>`,
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonText: 'No, cancel!',
+			cancelButtonText: 'Yes, delete it! ',
+			reverseButtons: true
+		  }).then((result) => {
+			if (result.isConfirmed) {
+				swalWithBootstrapButtons.fire(
+					'Cancelled',
+					'Your imaginary file is safe :)',
+					'error'
+					)
+				} else if (result.dismiss === Swal.DismissReason.cancel) {
+					swalWithBootstrapButtons.fire({
+						title:'Deleted!',
+						text:'Your file has been deleted.',
+						icon:'success',
+						showConfirmButton: false,
+					})
+					$.ajax({
+						type: "post",
+						data: state,
+						success: function () {
+							// reload page after success of post
+							setTimeout(() => {  location.reload(); }, 1000);
+						},
+					});
+				}
+		  })
+
+
+		// swal({
+		// 	title: "Warning!",
+		// 	text:
+        // "This Data will be deleted :: \n ->" + delete_message,
+		// 	icon: "warning",
+		// 	dangerMode: true,
+		// 	buttons: ["Cancel", "Delete"],
+		// }).then((willDelete) => {
+		// 	if (willDelete) {
+		// 		swal("", {
+		// 			icon: "success",
+		// 			text: "Deleted Successfully!",
+		// 		});
+				// $.ajax({
+				// 	type: "post",
+				// 	data: state,
+				// 	success: function () {
+				// 		location.reload(); // reload page after success of post
+				// 	},
+				// });
+		// 	} else {
+		// 		swal("Your changes are not saved!");
+		// 	}
+		// });
 	}
 }
 

@@ -17,7 +17,7 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-{% if u_name %}
+{% if update %}
     <script type="text/javascript">
         $(document).ready(function() {
             $('#flush-collapseOne').collapse("show");
@@ -38,7 +38,7 @@
             <a href="{{url ('show_division',args=[my_semester.id]) }}">
                 <span class="h6 fw-bold">Add Division</span> 
             </a>
-            {%if u_name %}
+            {%if update %}
                 <i class="fas fa-angle-double-right"></i>
                 <span class="h6 fw-bold">Update Division</span> 
             {%endif %}
@@ -52,7 +52,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne" aria-expanded="false"
                                     aria-controls="flush-collapseOne">
-                                    <h5>{% if u_name %}Update{% else %}Add{% endif %} Division</h5>
+                                    <h5>{% if update %}Update{% else %}Add{% endif %} Division</h5>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
@@ -153,14 +153,14 @@
                             <tbody>
                                 {% for division in my_divisions %}
                                     <tr>
-                                        <td class="border-0 fw-bold">{{loop.index}}</td>
-                                        <td class="border-0 fw-bold">{{division.name}}</td>
-                                        <td class="border-0">
+                                        <td class="fw-bold">{{loop.index}}</td>
+                                        <td class="fw-bold">{{division.name}}</td>
+                                        <td>
                                             <a href = "{{url ('update_division' ,args=[my_semester.id,division.id])}}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         </td>
-                                        <td class="border-0">
+                                        <td>
                                             <div class="form-check" onclick="checkSelected()">
                                                 <input class="form-check-input del_input" type="checkbox"
                                                 id="{{loop.index}}" name="del" value="{{division.id}}" input_name="{{division}}">

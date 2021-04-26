@@ -17,7 +17,7 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-{% if u_name %}
+{% if update %}
     <script type="text/javascript">
         $(document).ready(function() {
             $('#flush-collapseOne').collapse("show");
@@ -38,7 +38,7 @@
             <a href="{{url ('show_batch',args=[my_division.id]) }}">
                 <span class="h6 fw-bold">Add Batch</span> 
             </a>
-            {%if u_name %}
+            {%if update %}
                 <i class="fas fa-angle-double-right"></i>
                 <span class="h6 fw-bold">Update Batch</span> 
             {%endif %}
@@ -52,7 +52,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne" aria-expanded="false"
                                     aria-controls="flush-collapseOne">
-                                    <h5>{% if u_name %}Update{% else %}Add{% endif %} Batch</h5>
+                                    <h5>{% if update %}Update{% else %}Add{% endif %} Batch</h5>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
@@ -148,14 +148,14 @@
                             <tbody>
                                 {% for batch in my_batches %}
                                     <tr>
-                                        <td class="border-0 fw-bold">{{loop.index}}</td>
-                                        <td class="border-0 fw-bold">{{batch.name}}</td>
+                                        <td class="fw-bold">{{loop.index}}</td>
+                                        <td class="fw-bold">{{batch.name}}</td>
                                         {% if batch.batch_for == 'prac'%}
-                                            <td class="border-0 fw-bold">Practical</td>
+                                            <td class="fw-bold">Practical</td>
                                         {% else %}
-                                            <td class="border-0 fw-bold">Lecture</td>
+                                            <td class="fw-bold">Lecture</td>
                                         {% endif %}
-                                        <td class="border-0">
+                                        <td>
                                             <a href="{{url ('update_batch' ,args=[my_division.id,batch.id])}}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -164,7 +164,7 @@
                                             <div class="form-check" onclick="checkSelected()">
                                                 <input class="form-check-input del_input" type="checkbox"
                                                 id="{{loop.index}}" name="del" value="{{batch.id}}" input_name="{{batch}}">
-                                            </div>
+                                            </div> 
                                         </td>
                                     </tr>
                                 {% endfor %}

@@ -1,7 +1,9 @@
 /* FUNCTIONAL - Needed for the tree diagram */
-
+/* a {
+  color : white !important;
+} */
 .navtree_wrapper {
-  background-color: #3f6ad8;
+  background-color:  #101820FF;
   position: absolute;
   top: 0;
   left: 0;
@@ -15,9 +17,15 @@
 }
 .data {
   text-decoration: none;
-  /* background-color: salmon; */
+  color : white !important;
 }
 
+.not_data {
+  color : white !important;
+}
+.noline label {
+  color : white !important;
+}
 .navtree_wrapper ul {
   position: relative;
   display: block;
@@ -63,7 +71,7 @@ body .navtree_wrapper .message {
   max-width: 30vw;
   font-size: 0.75vmin;
   font-family: "Open Sans", sans-serif;
-  color: white;
+  color: white !important;
 }
 
 body .navtree_wrapper .message a {
@@ -150,12 +158,11 @@ body .navtree_wrapper ul input:checked ~ ul .more {
   height: 100%;
   max-width: 100%;
   max-height: 100%;
-  margin-left: 0;
+  margin-left: -15px !important;
   -webkit-transition: all 0.01s;
   transition: all 0.01s;
+  color : white !important;
 }
-/*# sourceMappingURL=try.css.map */
-
 
 .navtree_wrapper .toggle_button{
   position: sticky;
@@ -170,8 +177,8 @@ body .navtree_wrapper ul input:checked ~ ul .more {
   animation: updown 2s ease infinite;
 }
 .navtree_wrapper .toggle_button img{
-  height: 40px;
-  width: 50px;
+  height: 40px !important;
+  width: 50px !important;
 }
 .navtree_wrapper .toggle_button:hover{
   /* background-color: salmon; */

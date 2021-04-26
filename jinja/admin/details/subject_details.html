@@ -17,7 +17,7 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-{% if u_name %}
+{% if update %}
     <script type="text/javascript">
         $(document).ready(function() {
             $('#flush-collapseOne').collapse("show");
@@ -38,7 +38,7 @@
             <a href="{{url ('show_sub_det',args=[my_branch.id]) }}">
                 <span class="h6 fw-bold">Add Subject Details</span> 
             </a>
-            {%if u_name %}
+            {%if update %}
                 <i class="fas fa-angle-double-right"></i>
                 <span class="h6 fw-bold">Update Subject Details</span> 
             {%endif %}
@@ -52,7 +52,7 @@
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#flush-collapseOne" aria-expanded="false"
                                     aria-controls="flush-collapseOne">
-                                    <h5>{% if u_name %}Update{% else %}Add{% endif %} Subject Details</h5>
+                                    <h5>{% if update %}Update{% else %}Add{% endif %} Subject Details</h5>
                                 </button>
                             </h2>
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
@@ -93,12 +93,11 @@
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <h3>Select Colour for Subject</h3>
-                                                <div class="color_palette_container">
+                                                <h3 class="h3">Select Colour for Subject</h3> 
+                                                <div class="color_palette_container text-center">
                                                     {%set colors = ["#7377a5","#ffbf00","#00b3b3","#ff8080","#d65c7a","#66cc66","#33cccc","#3333ff","#ff3333"]%}
                                                     {% for c in colors %}
-                                                    <input type="radio" name="color" id="rad{{loop.index}}" value="{{c}}" {% if update and
-                                                    update.color==c%}checked{% endif %}>
+                                                    <input type="radio" name="color" id="rad{{loop.index}}" value="{{c}}" {% if update and update.color==c%}checked{% endif %}>
                                                     <label for="rad{{loop.index}}">
                                                     <div class="colors"
                                                         style="background-color: {{c}};{% if update and update.color == c%}border:5px solid black{% endif %}"></div>
@@ -154,8 +153,12 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="border-0"><i class="fas fa-hashtag"></i></th>
-                                    <th class="border-0">Semester</th>
-                                    <th class="border-0">Edit</th>
+                                    <th class="border-0 fw-bold">Subject Name</th>
+                                    <th class="border-0 fw-bold">Short</th>
+                                    <th class="border-0 fw-bold">Semester</th>
+                                    <th class="border-0 fw-bold">[Lect,Prac]</th>
+                                    <th class="border-0 fw-bold">Load</th>
+                                    <th class="border-0 fw-bold">Edit</th> 
                                     <th class="border-0 text-center">
                                         <div class="form-check" onclick="checkAll();">
                                             <input class="form-check-input" type="checkbox" value="parent"
@@ -165,23 +168,41 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for semester in my_semesters %}
-                                    <tr>
-                                        <td class="border-0 fw-bold">{{loop.index}}</td>
-                                        <td class="border-0 fw-bold">{{semester.short}}</td>
-                                        <td class="border-0">
-                                            <a href = "{{url ('update_semester' ,args=[my_branch.id,semester.id])}}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                        <td class="border-0">
-                                            <div class="form-check" onclick="checkSelected()">
-                                                <input class="form-check-input del_input" type="checkbox"
-                                                id="{{loop.index}}" name="del" value="{{semester.id}}" input_name="{{semester}}">
-                                            </div>
-                                        </td>
-                                    </tr>
+                                {% if my_subjects %}
+                                {% set vars = { "foo":my_subjects[0].Semester_id } %}
+                                {% for subject in my_subjects %}
+                                {% if vars.foo != subject.Semester_id %}
+                                {% if vars.update({ "foo":subject.Semester_id }) %} {%endif%}
+                                <tr>
+                                <td colspan="8" style="text-align: center;pointer-events: none;">
+                                    -------------------------------------------------------------</td>
+                                </tr>
+                                {%endif%}
+                                <tr>
+                                    <td clas="fw-bold">{{loop.index}}</td>
+                                    <td class="sub_event_go fw-bold">
+                                        <a href="{{url ('show_sub_event' ,args=[subject.id])}}">
+                                          {{subject.name}}
+                                        </a>
+                                    </td>
+                                    <td class="fw-bold">{{subject.short}}</td>
+                                    <td class="fw-bold">{{subject.Semester_id}}</td>
+                                    <td class="fw-bold">[{{subject.lect_per_week}} , {{subject.prac_per_week}}]</td>
+                                    <td class="fw-bold">{{subject.load_per_week}} Hrs.</td>
+                                    <td>
+                                        <a href="{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check" onclick="checkSelected()">
+                                            <input class="form-check-input del_input" type="checkbox"
+                                            id="{{loop.index}}" name="del" value="{{subject.id}}" input_name="{{subject}}">
+                                        </div>
+                                    </td>
+                                </tr>
                                 {% endfor %}
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>

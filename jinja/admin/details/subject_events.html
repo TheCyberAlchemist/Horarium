@@ -1,176 +1,215 @@
-{% extends 'admin/base.html' %}
-{% block title %}Subject Event{% endblock title %}
-{% block css %}
-    <link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
-    <link rel="stylesheet" href="{{static ('form/form.css')}}">
-    <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
-    <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
-{% endblock css %}
-{% block scripts %}
-    <script src="{{static ('admin/details/dbtable.js')}}" charset="utf-8"></script>
-    <script src="{{static ('admin/details/subject/subject_event.js')}}" charset="utf-8"></script>
-    <script>
-      $(document).ready(function() {
-        $("#select_fac").select2();
-      });
-      activate("{{my_branch.Department_id}}.{{my_branch}}.b");
-      put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
-      {% if update %}
-        add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
-      {% endif %}
-    </script>
+{% extends 'admin/base2.html' %}
+{% block title%} Subject Event
+{% endblock %}
 
-{% endblock scripts %}
+{% block css%}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css"/>
+
+<link rel="stylesheet" href="{{static ('form/form2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
+
+<style>
+    td,th {
+        font-size: .9rem !important;
+    }
+</style>
+{% endblock %}
+
+{%block scripts%}
+<script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+<script src="{{static ('admin/details/subject/subject_event.js')}}" charset="utf-8"></script>
+{% if update %}
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#flush-collapseOne').collapse("show");
+        });
+    </script>
+{% endif %}
+{% endblock %}
 
 {% block content %}
-	  <div class="whole_container" id="whole_container_id">
-      <fieldset>
-        <legend>{% if update %}Update{% else %}Add{% endif %} Subject Event</legend>
-        <form class="myform" method = "POST" {% if not update %}style="display:none"{% endif %}>
-          {{csrf_input}}
-          <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
-          {% if update %}
-          <div class="input_container">
-            <img class="input_icons" src="{{static ('admin/details/img/user.png')}}" alt="start">
-            <input type="text" disabled id = "name" class="form_input" name="name" required autocomplete="off" {% if update%} value = "{{update.Faculty_id.User_id}}" {% endif %}>
-            <label for="name" class="form_input_label">
-              <div class="text">Faculty Name</div>
-              <div class="line"></div>
-            </label>
-          </div>
-          {% endif %}
-          {%if not update %}
-            <div class="select2_container single_select2" style="margin-bottom: 1em;">
-              <select name="Faculty_id" id="select_fac" >
-                <option value="a" disabled selected>Select Faculty </option>
-                {% if not update %}
-                  {% for faculty in my_faculty %}
-                    <option value="{{faculty.id}}">{{faculty.User_id}} ({{faculty.short}})</option>
-                  {% endfor %}
-                {% else %}
-                  <option value="{{update.Faculty_id_id}}" selected >{{update.Faculty_id.User_id}} ({{update.Faculty_id.short}})</option>
-                {% endif %}
-              </select>
-            </div>
-            {% endif %}
-          <div class="input_container_double">
-            <div class="input_container_double_1" >
-              <img class="input_icons" src="{{static ('admin/details/img/one.png')}}" alt="start">
-              <input type="number" id = "lect" class="form_input" name="lect_carried" required autocomplete="off" {% if update%}value = {{update.lect_carried}}{% endif %}>
-              <label for="lect" class="form_input_label">
-                <div class="text">Lectures taken</div>
-                <div class="line"></div>
-              </label>
-            </div>
-            <div class="input_container_double_2" style="border: none;">
-              <!-- <span id = "max_lect">Max</span> -->
-              <label for="lect" class="form_input_label">
-                <div class="text" id = "max_lect"></div>
-                <div class="line"></div>
-              </label>
-            </div>
-          </div>
-          <div class="input_container_double">
-            <div class="input_container_double_1">
-              <img class="input_icons" src="{{static ('admin/details/img/two.png')}}" alt="end">
-              <input type="number" id = "prac" class="form_input" name="prac_carried" required autocomplete="off" {% if update%}value = {{update.prac_carried}}{% endif %}>
-              <label for="prac" class="form_input_label">
-                <div class="text">Practicals taken</div>
-                <div class="line"></div>
-              </label>
-            </div>
-            <div class="input_container_double_2" style="border: none;">
-              <!-- <span id = "max_prac">Max</span> -->
-              <label for="prac" class="form_input_label">
-                <div class="text" id="max_prac"></div>
-                <div class="line"></div>
-              </label>
-            </div>              
-          </div>
-          <div class="submit_button_container">
-            <button type="submit" name="button" class="submit_button">Submit</button>
-          </div>
-        </form>
-        <div class="form_visibility_img_container" >
-          <button class="show_form_button" onclick="form_visibility()">
-          <p id="myp">Show Form</p>
-        </button>
+<div class="main_content">
+      
+    <div class="row p-2 ">
+        <div class="container navigate">
+            <a href="{{url ('admin_home')}}">
+                <i class="fas fa-home"></i>    
+            </a>
+            <i class="fas fa-angle-double-right"></i>
+            
+            <a href="{{url ('show_sub_det',args=[my_branch.id]) }}">
+                <span class="h6 fw-bold">Add Subject Details</span> 
+            </a>
+            <i class="fas fa-angle-double-right"></i>
+                <span class="h6 fw-bold">Add Subject Event</span> 
+            </a>
+            {%if update %}
+                <i class="fas fa-angle-double-right"></i>
+                <span class="h6 fw-bold">Update Subject Event</span> 
+            {%endif %}
         </div>
-        {% if integrityErrors %}
-          <div class="errors_container">
-            <p>
-              {{integrityErrors}}
-            </p>
-          </div>
-        {% endif %}
-        {% if errors %}
-          <div class="errors_container">
-            <p>
-              {{errors}}
-            </p>
-          </div>
-          <script>
-            show_error("{{errors}}")
-          </script>
-        {% endif %}
-      </fieldset>
+        <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
+            <div class="card shadow-sm components-section" style="border-radius: 1rem;">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    <h5>{% if update %}Update{% else %}Add{% endif %} Subject Event</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <form class="myform" method = "POST">
+                                        {{csrf_input}}
+                                        <div class="row mb-3 mx-lg-5 mx-sm-0">
+                                            <!--////////////////Form Goes here///////////-->
+                                            {%if update%}
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control myinputs" id="name"
+                                                            placeholder="-" name="name" required autocomplete="off" {% if update
+                                                                %} value = "{{update.Faculty_id.User_id}}" {% endif %}>
+                                                        <label for="name">Faculty Name</label>
+                                                    </div>
+                                                </div>                                            
+                                            {% endif %}
 
-    <!-- <button type="button" name="button" onclick="toggle_form()">Click</button> -->
-    <div class="table_container">
-        <h3>Remaining Lectures : {{remaining_lect}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-        Remaining Practicals : {{remaining_prac}}</h3>
-      <table id = "db_table">
-        <thead>
-          <tr>
-            <div class="delete_panel">
-              <h1 >Events for {{my_subject}}</h1>
-              <a style="display: none;" id="del" onclick="delete_entries()" >
-                <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete" >
-              </a>
-            </div>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Short</th>
-            <th>Practicals</th>
-            <th>Lectures</th>
-            <th>Total Hrs.</th>
-            <th>Edit</th>
-            <th>
-              <div class="checkboxes" onclick="checkAll();">
-                <input type="checkbox"  id="parent" name="parent" value="parent">
-                <label for="parent"></label> 
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for event in Subject_event %}
-            <tr>
-              <td>{{loop.index}}</td>
-              <td>{{event.Faculty_id.User_id}}</td>
-              <td>{{event.Faculty_id.short}}</td>
-              <td>{{event.prac_carried}}</td>
-              <td>{{event.lect_carried}}</td>
-              <td>{{event.total_load_carried()}} Hrs.</td>
-              <td>
-                <a href = "{{url ('update_sub_event' ,args=[my_subject.id,event.Faculty_id_id])}}">
-                  <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit" >
-                </a>
-              </td>
-              <td>
-                <div class="checkboxes" onclick="checkSelected()">
-                  <input type="checkbox" class="del_input" id="{{loop.index}}" name="del" value="{{event.id}}" input_name="{{event}}">
-                  <label for="{{loop.index}}"></label>
+                                            {%if not update%}
+                                                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                                                    <select name="Faculty_id" id="select_fac" >
+                                                        <option value="a" disabled selected>Select Faculty </option>
+                                                        {% if not update %}
+                                                        {% for faculty in my_faculty %}
+                                                            <option value="{{faculty.id}}">{{faculty.User_id}} ({{faculty.short}})</option>
+                                                        {% endfor %}
+                                                        {% else %}
+                                                        <option value="{{update.Faculty_id_id}}" selected >{{update.Faculty_id.User_id}} ({{update.Faculty_id.short}})</option>
+                                                        {% endif %}
+                                                    </select>
+                                                </div>    
+                                            {% endif %}                                        
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control myinputs" id="lec_carried"
+                                                        placeholder="-" name="lect_carried" required autocomplete="off" {% if update%}value = {{update.lect_carried}}{% endif %}>
+                                                    <label for="lec_carried">Lectures Taken</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <div class="container" id="max_lect" style="color:black"></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control myinputs" id="prac_carried"
+                                                        placeholder="-" name="prac_carried" required autocomplete="off" {% if update%}value = {{update.prac_carried}}{% endif %}>
+                                                    <label for="prac_carried">Practical Taken</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <div class="container" id="max_prac" style="color: black"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="container mt-4" style="width:80%;">
+                                                <button type="submit" class="btn btn-outline-success"
+                                                    style="width:100%">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {% if integrityErrors %}
+                                        <div class="errors_container">
+                                            <p>
+                                            {{integrityErrors}}
+                                            </p>
+                                        </div>
+                                    {% endif %}
+                                    {% if errors %}
+                                        <div class="errors_container">
+                                            <p>
+                                            {{errors}}
+                                            </p>
+                                        </div>
+                                        <script>
+                                            show_error("{{errors}}")
+                                        </script>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-              </td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-
-<a href="{{url ('show_sub_det' , args=[my_branch.id])}}">
-  <h2 style="color: white;margin-top:20px "> <span style="border-bottom : 2px solid white">Go Back to Subject Details </span> </h2>
-</a>
+            </div>
+        </div>
+        <div class="container-fluid p-2 table_container">
+            <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="row text-center">
+                        <div class="col-lg-10 col-sm-12">
+                            <div class="h3 text-center">Events For {{my_subject}}</div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <a style="display: none;" id="del" onclick="delete_entries()" >
+                                <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table">
+                        <table class="table nowrap responsive compact mb-0 rounded text-center" id="example">
+                            <thead class="thead-light">
+                                <tr>
+                                    <div class="h5 text-center">Remaining Lectures : {{remaining_lect}} &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                                        Remaining Practicals : {{remaining_prac}}</div>
+                                </tr>
+                                <tr>
+                                    <th class="border-0"><i class="fas fa-hashtag"></i></th>
+                                    <th class="border-0 fw-bold">Name</th>
+                                    <th class="border-0 fw-bold">Short</th>
+                                    <th class="border-0 fw-bold">Practicals</th>
+                                    <th class="border-0 fw-bold">Lectures</th>
+                                    <th class="border-0 fw-bold">Total Hrs.</th>
+                                    <th class="border-0 fw-bold">Edit</th> 
+                                    <th class="border-0 text-center">
+                                        <div class="form-check" onclick="checkAll();">
+                                            <input class="form-check-input" type="checkbox" value="parent"
+                                                id="parent" name="parent">
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for event in Subject_event %}
+                                <tr>
+                                    <td clas="fw-bold">{{loop.index}}</td>
+                                    <td class="fw-bold">{{event.Faculty_id.User_id}}</td>
+                                    <td class="fw-bold">{{event.Faculty_id.short}}</td>
+                                    <td class="fw-bold">{{event.prac_carried}}</td>
+                                    <td class="fw-bold">{{event.lect_carried}}</td>
+                                    <td class="fw-bold">{{event.total_load_carried()}} Hrs.</td>
+                                    <td>
+                                        <a href = "{{url ('update_sub_event' ,args=[my_subject.id,event.Faculty_id_id])}}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="form-check" onclick="checkSelected()">
+                                            <input class="form-check-input del_input" type="checkbox"
+                                            id="{{loop.index}}" name="del" value="{{event.id}}" input_name="{{event}}">
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-{% endblock content %}
+    {% endblock %}

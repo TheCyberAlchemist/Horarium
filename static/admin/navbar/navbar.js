@@ -3,7 +3,7 @@ $(document).ready(function(){
   $(".navtree_wrapper").animate({height:"0%",},200);
     offset = l.length? l.offset() : 0;
     $(".me").click(function(){
-      $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
+      $(".main_content").css({"height":"0%","width":"0%","transition":".3s"});
       $('.navtree_wrapper').animate({
             scrollTop: offset.top,
             scrollLeft: offset.left/1.5,
@@ -30,7 +30,7 @@ $(document).ready(function(){
   $(".not_me").click(function(){
     $(".toggle_button").css({"height":"0px","width":"0px"});
     $(".navtree_wrapper").animate({height:'0%'},400);
-    $("#whole_container_id").css({"height":"100%","width":"100%","transition":".3s"});
+    $(".main_content").css({"height":"100%","width":"100%","transition":".3s"});
     $("fieldset").show();
     $(".table_container").show();
     $(".nav_container").show();

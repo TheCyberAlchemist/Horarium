@@ -1,4 +1,4 @@
-{% extends 'admin/base.html' %}
+{% extends 'admin/base2.html' %}
 {% block title %}Create Table{% endblock title %}
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{{static ('admin/details/timetable.css') }}">
@@ -169,16 +169,16 @@ crossorigin="anonymous"></script>
     </div>
     <div class="container my_container my_table_new">
         <div class="row my_row row_header">
-            <div class="col my_col align-middle"> <span class="h6">Time</span></div>
+            <div class="col my_col align-middle"> <span class="h6 fw-bold">Time</span></div>
             {% for day in working_days %}
-            <div class="col my_col"> <span class="h6">{{day.Days_id}}</span> </div>
+            <div class="col my_col fw-bold"> <span class="h6 fw-bold">{{day.Days_id}}</span> </div>
             {%endfor%}
         </div>
         {% for timing in timings %}
         <div class="row my_row" timing_id={{timing.id}} >
             <!-- <div class="row"></div> -->
             <div class="col my_col lect">
-                <p class="h6">
+                <p class="h6 fw-bold">
                     {{timing.name}}<br>
                     [{{timing.return_time()}}]
                 </p>
@@ -207,7 +207,7 @@ crossorigin="anonymous"></script>
 <!-- <button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button> -->
 <div class='context-menu' style="display:none; position: absolute;">
     <ul>
-        <li>
+        <li style="list-style-type: none">
             <!-- <span class='clear_td'></span>&nbsp; -->
             <div class='clear_td'>Clear</div>
             </div>

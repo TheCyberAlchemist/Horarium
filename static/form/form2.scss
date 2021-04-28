@@ -3,7 +3,13 @@
     padding-top : 60px !important;
 }
 
-.form-control.myinputs,.input-group {
+.user_dash.main_content,html {
+    background-color :#f1f4f6 !important;
+    padding-top : 30px !important;
+}
+
+
+.form-control.myinputs {
     border-top : none !important;
     border-right : none !important;
     border-left : none !important;
@@ -12,6 +18,12 @@
     outline : none !important;
     box-shadow: none !important;
 
+}
+.input-group {
+    border : none !important;
+    border-radius: 0 !important;
+    outline : none !important;
+    box-shadow: none !important;
 }
 .form-control.myinputs:focus {
     outline : none !important;
@@ -101,12 +113,15 @@ appearance: none;
 
 .form-check {
   width : 10px;
-  transform: translateX(30px);
+  transform: translateX(-50%);
 }
 .container.navigate {
   margin-left: 40px !important;
   transform: translateY(-30px);
 
+}
+.container.navigate a span.active{
+  color : #0d6efd !important;
 }
 .btn.btn-outline-success {
   color : #2dce89 !important;
@@ -133,7 +148,10 @@ appearance: none;
 ////////////Subject Details <a> tag styling STARTS //////////////
 .sub_event_go a{
   color : #0d6efd !important;
-  text-decoration: underline !important;
+//   text-decoration: underline !important;
+}
+.sub_event_go a:hover{
+  color : #0d31fd !important;
 }
 ////////////Subject Details <a> tag styling ENDS //////////////
 

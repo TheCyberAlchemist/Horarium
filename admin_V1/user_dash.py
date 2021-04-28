@@ -91,9 +91,9 @@ class student_user_table(AjaxDatatableView):
 		fields['Semester'] = fields['Division'].Semester_id
 		fields['Branch'] = fields['Semester'].Branch_id
 		# print(student_details.Division_id.Semester_id)
-		html = '<table class="row-details">'
+		html = '<table class="row-details" style="width:100%">'
 		for key in fields:
-		    html += '<tr><td>%s</td><td>%s</td></tr>' % (key, fields[key])
+		    html += '<tr><td class="fw-bold">%s</td><td class="fw-bold">%s</td></tr>' % (key, fields[key])
 
 		html += '</table>'
 		return html

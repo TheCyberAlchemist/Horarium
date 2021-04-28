@@ -98,7 +98,7 @@
 
 /*Bootstrap Navbar Styling*/
 
-.nav-link,.navbar-brand {
+.nav_container .nav-link,.navbar-brand {
   font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
   font-weight: 800 !important;
   color : #b3bcc4 !important;

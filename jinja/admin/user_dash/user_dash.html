@@ -1,21 +1,25 @@
 {% extends 'admin/base2.html' %}
-{% block title%} Home2
+{% block title%} Home
 {% endblock %}
 
 {% block css%}
 
 <style>
-    td,th{
+    td,
+    th {
         font-size: .9rem !important;
     }
 </style>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.css"/>
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.css" />
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
 {% endblock %}
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js')}}"></script>
- 
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.js"></script>
+
+<script type="text/javascript"
+    src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.js"></script>
 <script type="text/javascript" src="{{ static ('my_ajax_datatable/js/utils.js') }}"></script>
 
 <script type="text/javascript" src="{{ static ('admin/user_dash/user_dash.js') }}"></script>
@@ -23,21 +27,78 @@
 {% endblock %}
 
 {% block content %}
-<div id="del">asdasd</div>
-<div class="card border-light shadow-sm mb-4" style="margin-top: 10em;">
-    <div class="card-body">
-        <div class="table-responsive">
-            <table class="table table-centered table-nowrap mb-0 rounded" id="student_details">
-            </table>
+<div class="main_content user_dash">
+    <div class="card m-4 components-section" style="border-radius: 1rem;">
+        <div class="card-title text-center" style="margin:0 auto">
+            <ul class="nav nav-pills mt-4" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="pills-faculty-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-faculty" type="button" role="tab" aria-controls="pills-faculty"
+                        aria-selected="true">Faculties</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="pills-student-tab" data-bs-toggle="pill"
+                        data-bs-target="#pills-student" type="button" role="tab" aria-controls="pills-student"
+                        aria-selected="false">Students</button>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body">
+        <div class="container-fluid p-1 table_container">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="pills-student" role="tabpanel"
+                    aria-labelledby="pills-student-tab">
+                    <div id="del">asdasd</div>
+                    <div class="card shadow-sm mb-4 p-0 components-section" style="border-radius: 1rem;">
+                        <div class="card-body" style="border-radius: 1rem;">
+                            <div class="row text-center">
+                                <div class="col-lg-11 col-sm-12">
+                                    <div class="h3 text-center">Students Of {{institute}}</div>
+                                </div>
+                                <div class="col-lg-1 col-sm-12">
+                                    <a style="display: none;" id="del" onclick="delete_entries()">
+                                        <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}"
+                                            alt="Delete">
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-centered fw-bold text-center table-nowrap mb-0 rounded"
+                                    id="student_details">
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <form method="post" id="update_user_form">
+                        <input type="text" name="first_name">
+                        <input type="text" name="last_name">
+                        <input type="email" name="email">
+                        <input type="password1" name="password1">
+                        <input type="password2" name="password2">
+                        <input type="submit" value="submit">
+                    </form>
+                    <div class="form-group mt-4 search_box">
+                        <input id="exampleFormControlInput1" type="email" placeholder="What're you searching for?"
+                            class="form-control form-control-underlined">
+                    </div>
+
+                    <div class="m-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4">
+                        <div class="input-group">
+                            <input type="search" placeholder="What're you searching for?"
+                                aria-describedby="button-addon1" class="form-control border-0 bg-light">
+                            <div class="input-group-append">
+                                <button id="button-addon1" type="submit" class="btn btn-link text-primary"><i
+                                        class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show active" id="pills-faculty" role="tabpanel"
+                    aria-labelledby="pills-faculty-tab">
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 </div>
-<form method="post" id="update_user_form">
-    <input type="text" name = "first_name">
-    <input type="text" name = "last_name">
-    <input type="email" name = "email">
-    <input type="password1" name = "password1">
-    <input type="password2" name = "password2">
-    <input type="submit" value="submit">
-</form>
 {% endblock %}

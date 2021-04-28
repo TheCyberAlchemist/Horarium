@@ -3,11 +3,24 @@
   padding-top: 60px !important;
 }
 
-.form-control.myinputs, .input-group {
+.user_dash.main_content, html {
+  background-color: #f1f4f6 !important;
+  padding-top: 30px !important;
+}
+
+.form-control.myinputs {
   border-top: none !important;
   border-right: none !important;
   border-left: none !important;
   border-bottom: 1px solid #ced4da !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+.input-group {
+  border: none !important;
   border-radius: 0 !important;
   outline: none !important;
   -webkit-box-shadow: none !important;
@@ -112,14 +125,18 @@ a {
 
 .form-check {
   width: 10px;
-  -webkit-transform: translateX(30px);
-          transform: translateX(30px);
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
 }
 
 .container.navigate {
   margin-left: 40px !important;
   -webkit-transform: translateY(-30px);
           transform: translateY(-30px);
+}
+
+.container.navigate a span.active {
+  color: #0d6efd !important;
 }
 
 .btn.btn-outline-success {
@@ -149,7 +166,10 @@ a {
 
 .sub_event_go a {
   color: #0d6efd !important;
-  text-decoration: underline !important;
+}
+
+.sub_event_go a:hover {
+  color: #0d31fd !important;
 }
 
 @media screen and (max-width: 600px) {

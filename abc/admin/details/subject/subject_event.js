@@ -42,6 +42,7 @@ function max_prac(fac){
 
 }
 function max_lect(fac){
+    console.log("Fac");
 	remaining_load = fac.remaining_load
 	if ($("#prac").val()){
 		remaining_load -= 2 *parseInt($("#prac").val());

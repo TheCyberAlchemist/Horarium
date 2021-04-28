@@ -321,14 +321,14 @@ width: 100%;
 }
 
 .clear_td {
-	background-color: white;
+	background-color: black;
 	padding: 6px 70px;
 	border-radius: 5px;
-	color: #000;
+	color: #fff;
 	position: relative;
 }
 .clear_td:hover {
-	background-color: rgb(201, 201, 201);
+	background-color: rgb(68, 68, 68);
 }
 .clear_td:first-of-type {
 	border-radius: 5px 5px 0 0 ;

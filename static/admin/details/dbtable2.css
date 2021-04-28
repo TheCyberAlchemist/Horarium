@@ -1,5 +1,9 @@
-.table_container {
+.main_content .table_container {
   width: 85% !important;
+}
+
+.main_content.user_dash .table_container {
+  width: 95% !important;
 }
 
 .table thead tr th, .table tbody tr td {
@@ -30,9 +34,87 @@
   color: black !important;
 }
 
+.user_dash .card .nav-pills .nav-link {
+  border: 1px solid #b9b9b9 !important;
+}
+
+.user_dash .card .nav-pills .nav-link:hover {
+  border: 1px solid #b9b9b9 !important;
+  color: black !important;
+}
+
+.search_box .form-control:focus {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+.search_box .form-control {
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+  border: 0 !important;
+  height: 30px !important;
+  margin-top: 5px !important;
+}
+
+.search_box .form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+.search_box .form-control::-webkit-input-placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_box .form-control:-ms-input-placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_box .form-control::-ms-input-placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_box .form-control::placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_container {
+  width: 200px !important;
+  height: 25px !important;
+}
+
+.search_container .input-group .input-group-append .btn {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  outline: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
+}
+
+#student_details .row-details tbody tr td {
+  border: 1px solid #b9b9b9;
+}
+
 @media screen and (max-width: 600px) {
   table.dataTable > tbody > tr.child span.dtr-title {
     min-width: auto !important;
+  }
+  .table.responsive {
+    table-layout: fixed !important;
+  }
+  td.child {
+    word-wrap: break-word !important;
   }
 }
 /*# sourceMappingURL=dbtable2.css.map */

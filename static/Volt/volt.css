@@ -3834,7 +3834,7 @@ progress {
     -webkit-appearance: none;
     appearance: none;
     /* border-radius: 1rem; */
-    box-shadow: inset 0 1px 2px rgba(46, 54, 80, 0.075);
+    /* box-shadow: inset 0 1px 2px rgba(46, 54, 80, 0.075); */
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -25139,8 +25139,7 @@ textarea.form-control-lg {
 .components-section > .navbar + .navbar,
 .components-section > .progress + .progress,
 .components-section > .progress + .btn,
-.components-section .badge,
-.components-section .btn {
+.components-section .badge {
     margin-top: .5rem;
     margin-bottom: .5rem;
 }
@@ -30196,7 +30195,7 @@ label {
 
 .card .table td,
   .card .table th {
-    padding-left: 1.5rem;
+    /* padding-left: 1.5rem; */
     padding-right: 1.5rem;
 }
 
@@ -30231,7 +30230,7 @@ label {
 }
 
 .dataTables_wrapper .dataTables_filter {
-    padding-right: 1.5rem;
+    /* padding-right: 1.5rem; */
 }
 
 .dataTable-top,

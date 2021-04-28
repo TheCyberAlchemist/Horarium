@@ -23,7 +23,7 @@
             {% if update %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
-            let table = $('#example').dataTable({
+            let table = $('#example').DataTable({
                 "columnDefs" : [{
                     "targets" : [2,3],
                     "orderable" : false,
@@ -36,8 +36,24 @@
                     }
                 ],
                 "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                responsive: true
+                responsive: true,
+                "dom": "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
             });
+            $('.search_div').html(`<div id="example_filter" class="dataTables_filter">
+                    <div class="input-group">
+                        <input type="search" placeholder="What're you searching for?"
+                            aria-describedby="button-addon1" class="form-control border-0 bg-light" id="search_box" style="box-shadow:none;outline:none">
+                        <div class="input-group-append">
+                            <button id="button-addon1" type="submit" style="box-shadow:none;outline:none" class="btn btn-link text-primary"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>`);
+            $('#search_box').keyup(function(){
+                table.search($(this).val()).draw() ;
+          })
         });
     </script>
 {% endblock %}

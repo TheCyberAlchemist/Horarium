@@ -45,37 +45,24 @@
   </style>
 </head>
 <body>
-<div class="container">
-
-  <div class="gixies">
-      <div class="gixi gixi-md"></div>
-        <div class="gixi gixi-md"></div>
-          <div class="gixi gixi-md"></div>
-          <div><br /><br /></div>
-          <div class="gixi gixi-sm"></div>
-            <div class="gixi gixi-sm"></div>
-              <div class="gixi gixi-sm"></div>
-                <div class="gixi gixi-sm"></div>
-  </div>
-</div>
-  <form method="post">
+<img src = "{{form.instance.display_image.url}}">
+  <form method="post" enctype="multipart/form-data">
   {{csrf_input}}
-<!-- <input type="image" class = "asd" name="assd"> -->
-<input type="file"  accept="image/*" name="asd" class = "asd" id="file">
+{{form.as_p()}}
 <input type = "text" id = "img_str" name= "img_str">
 <input type="submit" name="">
 </form>
   <script>
-    $('.gixi').each(function() {
-      $(this).gixi();
-    });
-    var imageSize = 300;
+    //$('.gixi').each(function() {
+    //  $(this).gixi();
+    //});
+    var imageSize = 60;
     var canvas = document.createElement('canvas');
     var imageData = new GIXI(imageSize).getImage();
 	$('#img_str').val(imageData);
-    console.log(imageData);
-	//.replace("data:image/png;base64,", "")
-    // $(".asd").attr('value',imageData)
+    //console.log(imageData);
+	////.replace("data:image/png;base64,", "")
+    //// $(".asd").attr('value',imageData)
   </script>
 </body>
 </html>

@@ -195,3 +195,6 @@ class Slots(models.Model):
 	class Meta:
 		verbose_name_plural = "Slots"
 
+class try_model(models.Model):
+	user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,null=True,blank=True)
+	display_image = models.ImageField(null=True, blank=True)

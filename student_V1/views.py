@@ -162,3 +162,46 @@ def sendMail(request) :
 		return render(request,'Student/submitted.html',{'message':message})	
 	else : 
 		return render(request,'Student/submitted.html', {})
+
+from .forms import add_student_form
+from django.views.generic.edit import FormView
+from .models import Student_details
+
+import base64
+
+from django.core.files.base import ContentFile
+def add_student(request):
+	instance = Student_details.objects.get(User_id__first_name='Dev')
+	form = add_student_form(instance = instance)
+	# print (dict(form.instance))
+	if request.method == 'POST':
+		# print(form.fields['display_image'])
+		form = add_student_form(request.POST,request.FILES, instance = instance)
+		# print(form.fields['display_image'])
+		# if not request.POST['display_image']:
+		# 	format, imgstr = request.POST['img_str'].split(';base64,') 
+		# 	ext = format.split('/')[-1] 
+		# 	data = ContentFile(base64.b64decode(imgstr))
+		# 	file_name = "%s.%s" % (form.instance.User_id,ext)
+		# 	# print(request.POST)
+		# 	form.instance.display_image.save(file_name, data)
+		# 	# obj.display_image.save(file_name, data, save=True)
+		# 	# print(form)
+		if form.is_valid():
+			form.save()
+			print("here")
+		
+	return render(request,'/try/asd.html',{'form':form})
+
+# class add_student(FormView):
+# 	template_name = '/try/asd.html'
+# 	form_class = add_student
+# 	# success_url = '/thanks/'
+
+# 	# def form_valid(self, form):
+# 	#     # This method is called when valid form data has been POSTed.
+# 	#     # It should return an HttpResponse.
+# 	#     form.save()
+# 	#     return super().form_valid(form)
+# 	def post(self,request):
+# 		print(request.POST['img_str'])

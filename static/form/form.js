@@ -151,14 +151,19 @@ function visibility2() {
 	}
 }
 
-function delete_entries() {
-	var checked = $('input[name="del"]:checked').map(function () {return this.value;}).get();
-	var inner_html = $('input[name="del"]:checked').map(function () {return this.attributes.input_name.value;}).get().toString().split(',');
+function delete_entries(id = false) {
+	if (id){	// if faculty in user_details
+		var checked = $('input[name="del1"]:checked').map(function () {return this.value;}).get();
+		var inner_html = $('input[name="del1"]:checked').map(function () {return this.attributes.input_name.value;}).get().toString().split(',');
+	}else{
+		var checked = $('input[name="del"]:checked').map(function () {return this.value;}).get();
+		var inner_html = $('input[name="del"]:checked').map(function () {return this.attributes.input_name.value;}).get().toString().split(',');
+	}
+	console.log(checked);
 	let delete_message = "";
 	for (i in inner_html){
 		delete_message += "<li>" + inner_html[i] + "</li>";
 	}
-	console.log(delete_message);
 	let state = JSON.stringify(checked);
 	
 	if (checked.length) {

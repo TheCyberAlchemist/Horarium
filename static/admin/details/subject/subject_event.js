@@ -14,6 +14,7 @@ function put_data(faculty_details,remaining_l,remaining_p){
 	remaining_prac = remaining_p
 	remaining_lect = remaining_l
 	faculty_details = faculty_details.replace(/&#34;/ig,'"',);
+	console.log(faculty_details);
 	json = JSON.parse(faculty_details);
 	for(i in json){
 		obj = json[i].fields;
@@ -21,6 +22,12 @@ function put_data(faculty_details,remaining_l,remaining_p){
 		all_faculty.push(temp);
 	}
 }
+
+function update_prompts(){
+	$("#max_prac").html("Max Prac "+max_prac(current_faculty));
+	$("#max_lect").html("Max Lect "+max_lect(current_faculty));
+}
+
 function add_load(id,lect,prac){
 	for(i in all_faculty){
 		if (all_faculty[i].id == parseInt(id)){
@@ -30,6 +37,7 @@ function add_load(id,lect,prac){
 	}
 	remaining_prac = parseInt(remaining_prac) + parseInt(prac);
 	remaining_lect = parseInt(remaining_lect) + parseInt(lect);
+	update_prompts();
 }
 function max_prac(fac){
 	remaining_load = fac.remaining_load
@@ -54,7 +62,6 @@ function max_lect(fac){
 $(document).ready (function () {
 	/////////////////////// set current_faculty //////////////////////////////
 	if ($("#name").val()){
-		console.log(all_faculty);
 		for(i in all_faculty){
 			if (all_faculty[i].id == parseInt($("#name").val())){
 				current_faculty = all_faculty[i];
@@ -70,8 +77,7 @@ $(document).ready (function () {
 					}}}})
 		$("#prac").val(null);
 		$("#lect").val(null);
-		$("#max_prac").html("Max Prac "+max_prac(current_faculty));
-		$("#max_lect").html("Max Lect "+max_lect(current_faculty));
+		update_prompts();
 	});
 	$('#select_fac option').each(function() {
 		if($(this).is(':selected')){
@@ -81,22 +87,21 @@ $(document).ready (function () {
 	}}}});
 
 	///////////////////////////////////////////////////////////////////////////
-	$('#lect').change(function() {
-		prac = max_prac(current_faculty)
-		lect = max_lect(current_faculty)
-		if(parseInt($("#lect").val()) > lect){
+	$('#lect').on("input",function() {
+		console.log($(this).val());
+		prac = max_prac(current_faculty);
+		lect = max_lect(current_faculty);
+		if((isNaN($("#lect").val())) || parseInt($("#lect").val()) > lect){
 			$("#lect").val(null);
 		}
-		$("#max_prac").html("Max Prac "+max_prac(current_faculty));
-		$("#max_lect").html("Max Lect "+max_lect(current_faculty));
+		update_prompts();
 	});
-	$('#prac').change(function() {
+	$('#prac').keyup(function() {
 		prac = max_prac(current_faculty)
 		lect = max_lect(current_faculty)
-		if(parseInt($("#prac").val()) > prac){
+		if((isNaN($("#prac").val())) || parseInt($("#prac").val()) > prac){
 			$("#prac").val(null);
 		}	
-		$("#max_prac").html("Max Prac "+max_prac(current_faculty));
-		$("#max_lect").html("Max Lect "+max_lect(current_faculty));
+		update_prompts();
 	});
 });

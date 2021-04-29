@@ -142,16 +142,17 @@ window.AjaxDatatableViewUtils = (function() {
                                 .attr('placeholder', '')
                                 .addClass('search_box')
                                 .attr('value', item.initialSearchValue ? item.initialSearchValue : '')
+                            let placeholder_title = item.placeholder ? item.placeholder : item.title;
+                            // console.log(item);
                             html = $(`<div class="bg-light rounded rounded-pill shadow-sm search_container"><div class="input-group">`).append(input).html();
                             var html1 = `<div class="bg-light rounded rounded-pill shadow-sm">
                             <div class="input-group">
-                            <input type="text" data-index= ${index} placeholder="Search" aria-describedby="button-addon1" class="form-control border-0 bg-light search_box" style="height:30px;margin-top:5px;margin-left:10px;outline:none;border-bottom:none;box-shadow:none">
+                            <input type="text" data-index= ${index} placeholder="Search ${placeholder_title}" aria-describedby="button-addon1" class="form-control border-0 bg-light search_box" style="height:30px;margin-top:5px;margin-left:10px;outline:none;border-bottom:none;box-shadow:none">
                             <div class="input-group-append">
                             <button id="button-addon1" type="submit" class="btn btn-link text-primary" style="box-shadow:none;outline:none;padding:0;z-index:20"><i class="fa fa-search" style="transform:translateX(-10px)"></i></button>
                             </div>
                             </div>
                             </div>`;
-                            console.log(html1);
                         }
                         if (item.className) {
                             filter_row += '<th class="' + item.className + ' fw-bold">' + html1 + '</th>';
@@ -172,6 +173,12 @@ window.AjaxDatatableViewUtils = (function() {
                             filter_row += `<th><div class="form-check" onclick="checkAll();">
                                                 <input class="form-check-input" type="checkbox" value="parent"
                                                     id="parent" name="parent">
+                                            </div></th>`;
+                        }
+                        else if (item.name == "Delete_faculty"){
+                            filter_row += `<th><div class="form-check" onclick="checkAll('del1');">
+                                                <input class="form-check-input" type="checkbox" value="parent1"
+                                                    id="parent1" name="parent1">
                                             </div></th>`;
                         }
                         else {

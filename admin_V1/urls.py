@@ -5,7 +5,8 @@ from django.conf.urls import url
 urlpatterns = [
 	
 	path(r'home/',views.admin_home,name = 'admin_home'),
-	url(r'^home/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'ajax_user'),
+	url(r'^home/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
+	url(r'^home/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
 	
 	path('home/user_edit_called/',user_dash.user_edit_called,name = "user_edit"),
 

@@ -20,11 +20,16 @@ function searchFun(){
 	}
 }
 
-function checkAll(){
-	var parent = document.getElementById('parent');
-	var input = document.getElementsByClassName('del_input');	
+function checkAll(id = false){
+	// if faculty in user_details then id = del1
+	if (id){
+		var parent = document.getElementById('parent1');
+		var input = document.getElementsByClassName('del1_input');
+	}else{
+		var parent = document.getElementById('parent');
+		var input = document.getElementsByClassName('del_input');
+	}
 	if(parent.checked == true){	
-
 	  for(var i=0; i<input.length;i++){
 		  if(input[i].checked == false ) {
 			input[i].checked = true; 
@@ -38,13 +43,17 @@ function checkAll(){
 		  }
 	  }
 	}
-
-	checkSelected();
+	if (id){
+		checkSelected(id);
+	}else{
+		checkSelected();
+	}
 }
 
-function checkSelected(){
-	var child = document.getElementsByName('del');
-	var del = document.getElementById('del');
+function checkSelected(id = "del"){
+	// if faculty in user_details then id = del1
+	var child = document.getElementsByName(id);
+	var del = document.getElementById(id);
 	var check = false;
 	for(var c in child){
 		if(child[c].checked == true){

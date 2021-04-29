@@ -34,6 +34,7 @@ class Faculty_details(models.Model):
 	class Meta:
 		verbose_name_plural = "Faculty Details"
 
+# make fac id onetoone in load
 class Faculty_load(models.Model):
 	total_load = models.PositiveIntegerField()
 	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE)

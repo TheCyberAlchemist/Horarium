@@ -3,13 +3,13 @@
 {% endblock %}
 
 {% block css%}
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css"/>
-
-<link rel="stylesheet" href="{{static ('form/form2.css')}}">
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css" />
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
 
 <style>
-    td,th {
+    td,
+    th {
         font-size: .9rem !important;
     }
 </style>
@@ -17,46 +17,62 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-    <script type="text/javascript">
-        activate("{{my_department}}.b");
-        $(document).ready(function() {
-            {% if update %}
-                $('#flush-collapseOne').collapse("show");
-            {% endif %}
-            let table = $('#example').dataTable({
-                "columnDefs" : [{
-                    "targets" : [6,7],
-                    "orderable" : false,
-                    },
-                    {responsivePriority: 1, targets: 1},
-                    {responsivePriority: 2, targets: 2},
-                    {
-                        targets : [6,7],
-                        className : "all",
-                    }
-                ],
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                responsive: true
-            });
+<script type="text/javascript">
+    activate("{{my_department}}.b");
+    $(document).ready(function () {
+        {% if update %}
+        $('#flush-collapseOne').collapse("show");
+        {% endif %}
+        let table = $('#example').DataTable({
+            "columnDefs": [{
+                "targets": [6, 7],
+                "orderable": false,
+            },
+            { responsivePriority: 1, targets: 1 },
+            { responsivePriority: 2, targets: 2 },
+            {
+                targets: [6, 7],
+                className: "all",
+            }
+            ],
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            responsive: true,
+            "dom": "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" +
+                "<'row'<'col-sm-12'tr>>" +
+                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
         });
-    </script>
+        $('.search_div').html(`<div id="example_filter" class="dataTables_filter">
+                    <div class="input-group">
+                        <input type="search" placeholder="Global Search"
+                            aria-describedby="button-addon1" class="form-control border-0 bg-light" id="search_box" style="box-shadow:none;outline:none">
+                        <div class="input-group-append">
+                            <button id="button-addon1" type="submit" style="box-shadow:none;outline:none" class="btn btn-link text-primary"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                    </div>
+                </div>`);
+        $('#search_box').keyup(function () {
+            table.search($(this).val()).draw();
+        })
+    });
+</script>
 {% endblock %}
 
 {% block content %}
 <div class="main_content">
-      
+
     <div class="row p-2 ">
         <div class="container navigate">
             <a href="{{url ('admin_home')}}">
-                <i class="fas fa-home"></i>    
+                <i class="fas fa-home"></i>
             </a>
             <i class="fas fa-angle-double-right"></i>
             <a href="{{url ('add_faculty',args=[my_department.id])}}">
-                <span class="h6 fw-bold">Add Faculty</span> 
+                <span class="h6 fw-bold">Add Faculty</span>
             </a>
             {%if update %}
-                <i class="fas fa-angle-double-right"></i>
-                <span class="h6 fw-bold">Update Faculty</span> 
+            <i class="fas fa-angle-double-right"></i>
+            <span class="h6 fw-bold">Update Faculty</span>
             {%endif %}
         </div>
         <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
@@ -74,35 +90,37 @@
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    <form class="myform" method = "POST">
+                                    <form class="myform" method="POST">
                                         {{csrf_input}}
-                                        <div id="first_page">
+                                        <div id="first_page" style="display:none">
                                             <div class="row mb-3 mx-lg-5 mx-sm-0">
                                                 <!--////////////////Form Goes here///////////-->
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
-                                                        {% if not update %}
-                                                        <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control myinputs" id="fname"
-                                                                placeholder="-" name="first_name" required autocomplete="off">
-                                                            <label for="fname" >First Name</label>
+                                                    {% if not update %}
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control myinputs" id="fname"
+                                                            placeholder="-" name="first_name" required
+                                                            autocomplete="off">
+                                                        <label for="fname">First Name</label>
+                                                    </div>
+                                                    {% else %}
+                                                    <div class="form-floating mb-3">
+                                                        <div class="container" id="first_name">
+                                                            {{update[0].first_name}}
                                                         </div>
-                                                        {% else %} 
-                                                        <div class="form-floating mb-3">
-                                                            <div class="container" id="first_name">
-                                                                {{update[0].first_name}}
-                                                            </div>
-                                                        </div>
-                                                        {% endif %}
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
 
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     {% if not update %}
                                                     <div class="form-floating mb-3">
                                                         <input type="text" class="form-control myinputs" id="lname"
-                                                            placeholder="-" name="last_name" required autocomplete="off">
-                                                        <label for="lname" >Last Name</label>
+                                                            placeholder="-" name="last_name" required
+                                                            autocomplete="off">
+                                                        <label for="lname">Last Name</label>
                                                     </div>
-                                                    {% else %} 
+                                                    {% else %}
                                                     <div class="form-floating mb-3">
                                                         <div class="container" id="last_name">
                                                             {{update[0].last_name}}
@@ -114,7 +132,8 @@
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
                                                         <input type="text" class="form-control myinputs" id="short"
-                                                            placeholder="-" name="short" required autocomplete="off" {% if update %}value = "{{update[1].short}}"{% endif %}>
+                                                            placeholder="-" name="short" required autocomplete="off" {%
+                                                            if update %}value="{{update[1].short}}" {% endif %}>
                                                         <label for="short">Short Name</label>
                                                     </div>
                                                 </div>
@@ -124,9 +143,9 @@
                                                     <div class="form-floating mb-3">
                                                         <input type="text" class="form-control myinputs" id="email"
                                                             placeholder="-" name="email" required autocomplete="off">
-                                                        <label for="email" >Email ID</label>
+                                                        <label for="email">Email ID</label>
                                                     </div>
-                                                    {% else %} 
+                                                    {% else %}
                                                     <div class="form-floating mb-3">
                                                         <div class="container" id="last_name">
                                                             {{update[0].email}}
@@ -136,21 +155,27 @@
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
-                                                        <input type="password" class="form-control myinputs" id="myinput1" name="password1" required autocomplete="off">
+                                                        <input type="password" class="form-control myinputs"
+                                                            id="myinput1" name="password1" required autocomplete="off">
                                                         <label for="password1">Password</label>
                                                         <span id="eye_double" onclick="visibility1(parent)">
-                                                            <i class="fa fa-eye fa-lg" id="hide1" aria-hidden="true"></i>
-                                                            <i class="fa fa-eye-slash fa-lg" id="hide2" aria-hidden="true"></i>
+                                                            <i class="fa fa-eye fa-lg" id="hide1"
+                                                                aria-hidden="true"></i>
+                                                            <i class="fa fa-eye-slash fa-lg" id="hide2"
+                                                                aria-hidden="true"></i>
                                                         </span>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
-                                                        <input type="password" class="form-control myinputs" id="myinput2" name="password2" required autocomplete="off">
+                                                        <input type="password" class="form-control myinputs"
+                                                            id="myinput2" name="password2" required autocomplete="off">
                                                         <label for="password2">Confirm Password</label>
                                                         <span id="eye_double" onclick="visibility2(parent)">
-                                                            <i class="fa fa-eye fa-lg" id="hide3" aria-hidden="true"></i>
-                                                            <i class="fa fa-eye-slash fa-lg" id="hide4" aria-hidden="true"></i>
+                                                            <i class="fa fa-eye fa-lg" id="hide3"
+                                                                aria-hidden="true"></i>
+                                                            <i class="fa fa-eye-slash fa-lg" id="hide4"
+                                                                aria-hidden="true"></i>
                                                         </span>
                                                     </div>
                                                 </div>
@@ -160,86 +185,105 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="second_page">
+                                        <div id="second_page" style="display: none;">
                                             <div class="row mb-3 mx-lg-5 mx-sm-0">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
                                                         <input type="number" class="form-control myinputs" id="load"
-                                                            placeholder="-" name="total_load" required autocomplete="off" {% if update
-                                                                %}value={{update[2].total_load}}{% endif %}>
-                                                        <label for="load" >Total Load of Faculty(in hrs)</label>
+                                                            placeholder="-" name="total_load" required
+                                                            autocomplete="off" {% if update
+                                                            %}value={{update[2].total_load}}{% endif %}>
+                                                        <label for="load">Total Load of Faculty(in hrs)</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
-                                                    <div class="select2_container double_select2">
-                                                        <select name="Designation_id" id="designations">
-                                                          <option disabled {% if not update %}selected{% endif %}>Select Designation</option>
-                                                          {% for designation in designations %}
-                                                          <option value="{{designation.id}}" {% if update and designation.id==update[1].Designation_id_id%}selected{%
-                                                            endif %}>
-                                                            {{designation}}
-                                                          </option>
-                                                          {%endfor%}
-                                                        </select>
-                                                      </div>
-                                                      </div>
+                                                        <div class="select2_container double_select2">
+                                                            <select name="Designation_id" id="designations">
+                                                                <option disabled {% if not update %}selected{% endif %}>
+                                                                    Select Designation</option>
+                                                                {% for designation in designations %}
+                                                                <option value="{{designation.id}}" {% if update and
+                                                                    designation.id==update[1].Designation_id_id%}selected{%
+                                                                    endif %}>
+                                                                    {{designation}}
+                                                                </option>
+                                                                {%endfor%}
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
                                                         <div class="select2_container double_select2">
                                                             <select name="Shift_id" id="shifts">
-                                                              <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
-                                                              {% for shift in my_shifts %}
-                                                              <option value="{{shift.id}}" {% if update and shift.id==update[1].Shift_id_id%}selected{% endif %}>
-                                                                {{shift}}
-                                                              </option>
-                                                              {%endfor%}
+                                                                <option disabled {% if not update %}selected{% endif %}>
+                                                                    Select Shift</option>
+                                                                {% for shift in my_shifts %}
+                                                                <option value="{{shift.id}}" {% if update and
+                                                                    shift.id==update[1].Shift_id_id%}selected{% endif
+                                                                    %}>
+                                                                    {{shift}}
+                                                                </option>
+                                                                {%endfor%}
                                                             </select>
-                                                          </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="third_page">
+                                        <div id="third_page" style="">
                                             <div class="row mb-3 mx-lg-5 mx-sm-0">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="form-floating mb-3">
+                                                    <div class="form-floating">
                                                         <div class="can_container">
-                                                            <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt=""> -->
-                                                            <ul id="branches">
-                                                
-                                                              {%for branch in my_branches%}
-                                                              <li class="branch">
-                                                                <div class="form-check">
-                                                                    <input type="checkbox" class="form-check-input" id="branch_{{branch.id}}">
-                                                                    <label for="branch_{{branch.id}}">{{branch}}</label>
-                                                                </div>
-                                                                <ul id="semesters" class="dir">
-                                                                  {%for sem in my_sems %}{% if sem.Branch_id == branch %}
-                                                                  <li>
+                                                            <ul id="branches" class="pt-3">
+
+                                                                {%for branch in my_branches%}
+                                                                <li class="branch">
                                                                     <div class="form-check">
-                                                                        <input type="checkbox" class="form-check-input" id="sem_{{sem.id}}">
-                                                                        <label for="sem_{{sem.id}}">{{sem}}</label>
+                                                                        <input type="checkbox" class="form-check-input"
+                                                                            id="branch_{{branch.id}}">
+                                                                        <label
+                                                                            for="branch_{{branch.id}}">{{branch}}</label>
                                                                     </div>
-                                                                    <ul id="subjects">
-                                                                      {%for subject in my_subjects%}{% if subject.Semester_id == sem %}
-                                                                      <li>
-                                                                        <div class="form-check">
-                                                                            <input class="form-check-input" name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if
-                                                                                update and subject.id in update[3]%}checked{% endif %} />
-                                                                            <label for="subject_{{subject.id}}">{{subject}}</label>
-                                                                        </div>
-                                                                      </li>
-                                                                      {% endif %}{%endfor%}
+                                                                    <ul id="semesters" class="dir">
+                                                                        {%for sem in my_sems %}{% if sem.Branch_id ==
+                                                                        branch %}
+                                                                        <li>
+                                                                            <div class="form-check">
+                                                                                <input type="checkbox"
+                                                                                    class="form-check-input"
+                                                                                    id="sem_{{sem.id}}">
+                                                                                <label
+                                                                                    for="sem_{{sem.id}}">{{sem}}</label>
+                                                                            </div>
+                                                                            <ul id="subjects">
+                                                                                {%for subject in my_subjects%}{% if
+                                                                                subject.Semester_id == sem %}
+                                                                                <li>
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input"
+                                                                                            name="subject"
+                                                                                            type="checkbox"
+                                                                                            id="subject_{{subject.id}}"
+                                                                                            value="{{subject.id}}" {% if
+                                                                                            update and subject.id in
+                                                                                            update[3]%}checked{% endif
+                                                                                            %} />
+                                                                                        <label
+                                                                                            for="subject_{{subject.id}}">{{subject}}</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                                {% endif %}{%endfor%}
+                                                                            </ul>
+                                                                        </li>
+                                                                        {% endif %}{%endfor%}
                                                                     </ul>
-                                                                  </li>
-                                                                  {% endif %}{%endfor%}
-                                                                </ul>
-                                                              </li>
-                                                              {%endfor%}
+                                                                </li>
+                                                                {%endfor%}
                                                             </ul>
-                                                          </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="container mt-4" style="width:80%;">
@@ -248,23 +292,40 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <nav aria-label="Page navigation example" class="text-center"> 
+                                            <ul class="pagination">
+                                                <li class="page-item">
+                                                    <a class="page-link" aria-label="Previous">
+                                                        <span aria-hidden="true">&laquo;</span>
+                                                    </a>
+                                                </li>
+                                                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                <li class="page-item">
+                                                    <a class="page-link" href="#" aria-label="Next">
+                                                        <span aria-hidden="true">&raquo;</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
                                     </form>
                                     {% if integrityErrors %}
-                                        <div class="errors_container">
-                                            <p>
+                                    <div class="errors_container">
+                                        <p>
                                             {{integrityErrors}}
-                                            </p>
-                                        </div>
+                                        </p>
+                                    </div>
                                     {% endif %}
                                     {% if errors %}
-                                        <div class="errors_container">
-                                            <p>
+                                    <div class="errors_container">
+                                        <p>
                                             {{errors}}
-                                            </p>
-                                        </div>
-                                        <script>
-                                            show_error("{{errors}}")
-                                        </script>
+                                        </p>
+                                    </div>
+                                    <script>
+                                        show_error("{{errors}}")
+                                    </script>
                                     {% endif %}
                                 </div>
                             </div>
@@ -281,7 +342,7 @@
                             <div class="h3 text-center">Faculties For {{institute}}</div>
                         </div>
                         <div class="col-lg-2 col-sm-12">
-                            <a style="display: none;" id="del" onclick="delete_entries()" >
+                            <a style="display: none;" id="del" onclick="delete_entries()">
                                 <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete">
                             </a>
                         </div>
@@ -299,37 +360,39 @@
                                     <th class="border-0 fw-bold">Edit</th>
                                     <th class="border-0 text-center">
                                         <div class="form-check" onclick="checkAll();">
-                                            <input class="form-check-input" type="checkbox" value="parent"
-                                                id="parent" name="parent">
+                                            <input class="form-check-input" type="checkbox" value="parent" id="parent"
+                                                name="parent">
                                         </div>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for load in my_faculty_load %}
-                                    <tr>
-                                        <td class="border-0 fw-bold">{{loop.index}}</td>
-                                        <td class="border-0 fw-bold">{{load.Faculty_id.short}}</td>
-                                        <td class="border-0 fw-bold">{{load.Faculty_id.User_id}}</td>
-                                        <td class="border-0 fw-bold">{{load.Faculty_id.Designation_id}}</td>
-                                        <td class="border-0 fw-bold">{{load.total_load}}</td>
-                                        <td class="border-0 fw-bold">
-                                            <a href="{{url ('show_not_avail' ,args=[load.Faculty_id.id])}}">
-                                                <i class="fas fa-sign-in-alt"></i>
-                                            </a>
-                                        </td>
-                                        <td class="border-0 fw-bold">
-                                            <a href="{{url ('update_faculty' ,args=[my_department.id,load.Faculty_id.id])}}">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                        <td class="border-0 ">
-                                            <div class="form-check" onclick="checkSelected()">
-                                                <input class="form-check-input del_input" type="checkbox"
-                                                id="{{loop.index}}" name="del" value="{{load.Faculty_id.id}}"  input_name="{{load.Faculty_id.User_id}}">
-                                            </div>
-                                        </td>
-                                    </tr>
+                                <tr>
+                                    <td class="border-0 fw-bold">{{loop.index}}</td>
+                                    <td class="border-0 fw-bold">{{load.Faculty_id.short}}</td>
+                                    <td class="border-0 fw-bold">{{load.Faculty_id.User_id}}</td>
+                                    <td class="border-0 fw-bold">{{load.Faculty_id.Designation_id}}</td>
+                                    <td class="border-0 fw-bold">{{load.total_load}}</td>
+                                    <td class="border-0 fw-bold">
+                                        <a href="{{url ('show_not_avail' ,args=[load.Faculty_id.id])}}">
+                                            <i class="fas fa-sign-in-alt"></i>
+                                        </a>
+                                    </td>
+                                    <td class="border-0 fw-bold">
+                                        <a
+                                            href="{{url ('update_faculty' ,args=[my_department.id,load.Faculty_id.id])}}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    </td>
+                                    <td class="border-0 ">
+                                        <div class="form-check" onclick="checkSelected()">
+                                            <input class="form-check-input del_input" type="checkbox"
+                                                id="{{loop.index}}" name="del" value="{{load.Faculty_id.id}}"
+                                                input_name="{{load.Faculty_id.User_id}}">
+                                        </div>
+                                    </td>
+                                </tr>
                                 {% endfor %}
                             </tbody>
                         </table>

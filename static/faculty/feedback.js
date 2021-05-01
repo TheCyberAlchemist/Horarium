@@ -1,19 +1,27 @@
 var ENDPOINT = "./api";
 // Array(11).fill("rgba(255, 99, 132, 0.2)"),
+var opacity = "0.4";
+my_charts = {};
 function toggle_theme() {
 	var el1 = document.getElementById("light"),
 		el2 = document.getElementById("dark");
 	//   console.log("hi");
 	if (el1.disabled) {
 		// if dark
+		console.log("was dark");
 		el1.disabled = false;
 		el2.disabled = "disabled";
 		localStorage.setItem("theme", "");
 	} else {
 		// if light
+		console.log("was light");
+		opacity = "0.2";
 		el1.disabled = "disabled";
 		el2.disabled = false;
 		localStorage.setItem("theme", "dark");
+	}
+	for(a in my_charts){
+		my_charts[a].render();
 	}
 }
 var subject_events;
@@ -28,10 +36,8 @@ $(document).ready(function () {
 	// console.log(cookie,"asdasd");
 	if (cookie === "") {
 		$("#slider1").prop("checked", true);
-		// console.log("hi");
 		toggle_theme();
 	}
-	my_charts = {};
 	for (a of subject_events){
 		id_str = "day_rating__"+a['id'];
 		my_charts[a['id']] = "asd";
@@ -100,16 +106,17 @@ $(document).ready(function () {
 				labels: labels,
 				datasets: [
 					{
+						a:console.log(opacity),
 						label: chartLabel,
 						data: chartdata,
-						backgroundColor: Array(11).fill("rgba(255, 99, 132, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(255, 99, 132, ${opacity})`),
 						borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q1",
 						data: data.Q1,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(54, 162, 235, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(54, 162, 235, ${opacity})`),
 						
 						borderColor: Array(11).fill("rgba(54, 162, 235, 1)"),
 						borderWidth: 1,
@@ -117,56 +124,56 @@ $(document).ready(function () {
 						label: "Q2",
 						data: data.Q2,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(75, 192, 192, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(75, 192, 192, ${opacity})`),
 						borderColor: Array(11).fill("rgba(75, 192, 192, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q3",
 						data: data.Q3,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(1,0,143, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(1,0,143, ${opacity})`),
 						borderColor: Array(11).fill("rgba(1,0,143, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q4",
 						data: data.Q4,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(99, 252, 39,0.2)"),
+						backgroundColor: Array(11).fill(`rgba(99, 252, 39,${opacity})`),
 						borderColor: Array(11).fill("rgba(132, 218, 99,1)"),
 						borderWidth: 1,
 					},{
 						label: "Q5",
 						data: data.Q5,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(128,128,128, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(128,128,128, ${opacity})`),
 						borderColor: Array(11).fill("rgb(128,128,128, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q6",
 						data: data.Q6,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(244, 9, 249, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(244, 9, 249, ${opacity})`),
 						borderColor: Array(11).fill("rgb(172, 9, 175, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q7",
 						data: data.Q7,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(255, 0, 0, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(255, 0, 0, ${opacity})`),
 						borderColor: Array(11).fill("rgba(255,0,0, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q8",
 						data: data.Q8,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(250,255,7, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(250,255,7, ${opacity})`),
 						borderColor: Array(11).fill("rgba(250,255,7, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q9",
 						data: data.Q9,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(0, 255, 192, 0.2)"),
+						backgroundColor: Array(11).fill(`rgba(0, 255, 192, ${opacity})`),
 						borderColor: Array(11).fill("rgba(0, 255, 192, 1)"),
 						borderWidth: 1,
 					},

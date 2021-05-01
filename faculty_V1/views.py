@@ -72,10 +72,15 @@ def faculty_home(request):
 
 from faculty_V1.models import Feedback
 def faculty_feedback(request) :
-	f_name = Chart.name
-	f_money = Chart.money
-	data = serializers.serialize("json", Feedback.objects.all())
-	data = json.loads(data)
+	# f_name = Chart.name
+	# f_money = Chart.money
+	# data = serializers.serialize("json", Subject_event.objects.filter(Faculty_id=request.user.faculty_details))
+	events = []
+	subject_events =  Subject_event.objects.filter(Faculty_id=request.user.faculty_details)
+	for event in subject_events:
+		events.append({'Subject_name':str(event.Subject_id),"id":event.pk})
+	events = json.dumps(events)
+	# data = json.loads(data)
 	questions = [
 		"Lecture or Lab Session Began and End on scheduled Time",
 		"I felt the Teacher well prepared for this particular session",
@@ -87,16 +92,12 @@ def faculty_feedback(request) :
 		"The teacher's behaviour is respectful and treats all students respectfully",
 		"I don't hesitate to ask to the Teacher if I have any doubt",
 	]
-	for d in data:
-		del d['model'],d['pk']
-	data = json.dumps(data)
-	# print(data)
 	context = {
-		'data' : data,
-		'name' : f_name,
-		'money' : f_money,
-		'questions' : questions
+		'subject_events_json': events,
+		'subject_events':subject_events,
+		'questions' : questions,
 	}
+	
 	# context["qs"] = Chart.objects.all()
 
 	return render(request,"Faculty/feedback.html",context)
@@ -115,6 +116,7 @@ import django.utils.timezone as tz
 def transpose(l1):
     l2 = list(map(list, zip(*l1)))
     return l2
+
 def get_all_questions_list(qs):
 	# Q1 = Q2 = Q3 = Q4 = Q5 = Q6 = Q7 = Q8 = Q9 = []
 	Q = []
@@ -136,7 +138,9 @@ class ChartData(APIView):
 	permission_classes = [IsAuthenticated]
 	def get(self, request, format = None):
 		########################## general decleration ######################
-		subject_event = Subject_event.objects.filter(Faculty_id=request.user.faculty_details)[0]
+		print(request.GET)
+		subject_event = Subject_event.objects.get(pk = request.GET['id'])
+		print(subject_event)
 		wef = subject_event.Subject_id.Semester_id.WEF_id
 		all_feeback  = Feedback.objects.filter(Event_id__Subject_event_id = subject_event)
 		list_of_months = monthlist_fast([str(wef.start_date),str(wef.end_date)])
@@ -146,6 +150,7 @@ class ChartData(APIView):
 		###################### if Graph name ######################
 		if 'graph_name' in request.GET:
 			current_graph,required_value = request.GET['graph_name'].split()
+			print(request.GET['graph_name'])
 			if current_graph == "week_rating":
 				start_date,end_date = required_value.split("_")
 				chartLabel ="Average Rating"
@@ -207,10 +212,9 @@ class ChartData(APIView):
 					"Q8":Que8,"len8":length8,
 					"Q9":Que9,"len9":length9,
 					"button_name":"month_rating {}".format(s_d.strftime("%B_%Y")),
-					"button_id" : '#show_week',
-
+					"button_id" : '#show_week__%s'%(request.GET['id']),
 				}
-				return Response([data,"day_rating"]) # data and next chart_id
+				return Response([data,'day_rating__%s'%(request.GET['id'])]) # data and next chart_id
 			elif current_graph == "month_rating": 	# see weekly rating
 				chartLabel = "Average Rating"
 				labels = [
@@ -278,9 +282,9 @@ class ChartData(APIView):
 					"Q8":Que8,"len8":length8,
 					"Q9":Que9,"len9":length9,
 					"button_name":"get_semester_rating junk",
-					"button_id" : '#show_semester',
+					"button_id" : '#show_semester__%s'%(request.GET['id']),
 				}
-				return Response([data,"week_rating"]) # data and next chart_id
+				return Response([data,'week_rating__%s'%(request.GET['id'])]) # data and next chart_id
 			elif current_graph == "get_semester_rating":
 				###################### month rating ##########################
 				labels = []
@@ -335,7 +339,7 @@ class ChartData(APIView):
 					"Q8":Que8,"len8":length8,
 					"Q9":Que9,"len9":length9,
 				}
-				return Response([data,"month_rating"])
+				return Response([data,'month_rating__%s'%(request.GET['id'])])
 		
 		###################### default day view #####################
 		chartLabel ="Average Rating"
@@ -344,7 +348,10 @@ class ChartData(APIView):
 		delta = timedelta(1)
 		today = date.now()
 		week_number = math.ceil(today.day/7) - 1 # get the week number of the date
-		s_d = today.replace(day=week_number*7) + delta
+		if week_number == 0:	# if it is first week 
+			s_d = today.replace(day=1)
+		else:
+			s_d = today.replace(day=week_number*7) + delta
 		# s_d = date.strptime(start_date, '%Y-%m-%d')
 		for i in range(7):
 			labels.append(s_d.strftime("%d-%m (%a)"))
@@ -381,7 +388,7 @@ class ChartData(APIView):
 			else:
 				break
 		# print("graph_name {}".format(today.strftime("%B_%Y")))
-		print(Que2,len(Que2))
+		# print(Que2,len(Que2))
 		data ={
 			"labels":labels,
 			"chartLabel":chartLabel,
@@ -395,8 +402,8 @@ class ChartData(APIView):
 			"Q8":Que8,"len8":length8,
 			"Q9":Que9,"len9":length9,
 			"button_name":"month_rating {}".format(today.strftime("%B_%Y")),
-			"button_id" : '#show_week',
+			"button_id" : '#show_week__%s'%(request.GET['id']),
 			"chartdata":chartdata,
 		}
 		###################### on click ######################
-		return Response(data)
+		return Response([data,'day_rating__%s'%(request.GET['id'])])

@@ -1,4 +1,5 @@
-var ENDPOINT = "/faculty/api";
+var ENDPOINT = "./api";
+// Array(11).fill("rgba(255, 99, 132, 0.2)"),
 function toggle_theme() {
 	var el1 = document.getElementById("light"),
 		el2 = document.getElementById("dark");
@@ -15,7 +16,10 @@ function toggle_theme() {
 		localStorage.setItem("theme", "dark");
 	}
 }
-
+var subject_events;
+function put_data(subject_events_json){
+	subject_events = subject_events_json;
+}
 $(document).ready(function () {
 	AOS.init({
 		offset: 150,
@@ -27,42 +31,51 @@ $(document).ready(function () {
 		// console.log("hi");
 		toggle_theme();
 	}
-
-	$.ajax({
-		method: "GET",
-		url: ENDPOINT,
-		// data : {
-		// },
-		success: function (data) {
-			drawBarGraph(data, "day_rating");
-		},
-		error: function (error_data) {
-			console.log(error_data);
-		},
-	});
+	my_charts = {};
+	for (a of subject_events){
+		id_str = "day_rating__"+a['id'];
+		my_charts[a['id']] = "asd";
+		$.ajax({
+			method: "GET",
+			url: ENDPOINT,
+			data : {
+				'id' :a['id'],
+			},
+			success: function (data) {
+				// console.log(data),
+				drawBarGraph(data[0], data[1]);
+				// drawBarGraph(data, "day_rating1");
+			},
+			error: function (error_data) {
+				console.log(error_data);
+			},
+		});
+	}
 	var myChart;
 	function drawBarGraph(data, id, recursive = false) {
+		// console.log(id);
+		let event_id = id.split("__")[1];
 		var labels = data.labels;
 		var chartLabel = data.chartLabel;
 		var chartdata = data.chartdata; 
 		if (recursive) {
-			myChart.destroy();
+			my_charts[event_id].destroy();
 		}
 		if (data.ids) {
 			var ids = data.ids;
 		}
 		if (data.button_id) {
-			console.log(data.button_name, data.button_id);
+			// console.log(data.button_name, data.button_id);
 			$(data.button_id).off().on('click', function() {
 				$.ajax({
 					method: "GET",
 					url: ENDPOINT,
 					data: {
+						'id' : event_id,
 						graph_name: data.button_name,
 					},
 					success: function (data) {
 						// change page of the selected chart div
-
 						$("#" + data[1])
 							.parent()
 							.parent()
@@ -71,15 +84,8 @@ $(document).ready(function () {
 							.parent()
 							.parent()
 							.hide(300);
-
-						// $("#show_week").click(function(){
-						// 	console.log("button clicked");
-						// 	$("#"+chart_id).parent().parent().show(300);
-						// 	$("#"+data[1]).parent().parent().hide(300);
-						// 	// $(".week_rating").css({"margin-top":'50px'});
-						// });
+						console.log(data);
 						drawBarGraph(data[0], data[1], true);
-						// console.log(data);
 					},
 					error: function (error_data) {
 						console.log(error_data);
@@ -88,7 +94,7 @@ $(document).ready(function () {
 			});
 		}
 		var ctx = document.getElementById(id).getContext("2d");
-		myChart = new Chart(ctx, {
+		my_charts[event_id] = new Chart(ctx, {
 			type: "bar",
 			data: {
 				labels: labels,
@@ -96,303 +102,79 @@ $(document).ready(function () {
 					{
 						label: chartLabel,
 						data: chartdata,
-						backgroundColor: [
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(255, 99, 132, 0.2)",
-						],
-						borderColor: [
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-							"rgba(255, 99, 132, 1)",
-                            
-						],
+						backgroundColor: Array(11).fill("rgba(255, 99, 132, 0.2)"),
+						borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q1",
 						data: data.Q1,
 						hidden: true,
-						backgroundColor: [
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							
-						],
-						borderColor: [
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							"rgba(54, 162, 235, 1)",
-							
-						],
+						backgroundColor: Array(11).fill("rgba(54, 162, 235, 0.2)"),
+						
+						borderColor: Array(11).fill("rgba(54, 162, 235, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q2",
 						data: data.Q2,
 						hidden: true,
-						backgroundColor: [
-							"rgba(255, 99, 132, 0.2)",
-							"rgba(54, 162, 235, 0.2)",
-							"rgba(75, 192, 192, 0.2)",
-							"rgba(153, 102, 255, 0.2)",
-							"rgba(255, 159, 64, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(128,128,128, 0.2)",
-                            "rgba(244, 9, 249, 0.2)",
-						    "rgba(255, 0, 0, 0.2)",
-						],
-						borderColor: [
-							"rgba(255, 206, 86, 1)",
-							"rgba(75, 192, 192, 1)",
-							"rgba(153, 102, 255, 1)",
-							"rgba(255, 159, 64, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(99, 252, 39,1)",
-							"rgb(128,128,128, 1)",
-                            "rgba(244, 9, 249, 1)",
-							"rgba(255, 0, 0, 1)",
-						],
+						backgroundColor: Array(11).fill("rgba(255, 99, 132, 0.2)"),
+						borderColor: Array(11).fill("rgba(255, 206, 86, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q3",
 						data: data.Q3,
 						hidden: true,
-						backgroundColor: [
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-							"rgba(1,0,143, 0.2)",
-						],
-						borderColor: [
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-							"rgba(1,0,143, 1)",
-						],
+						backgroundColor: Array(11).fill("rgba(1,0,143, 0.2)"),
+						borderColor: Array(11).fill("rgba(1,0,143, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q4",
 						data: data.Q4,
 						hidden: true,
-						backgroundColor: [
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-							"rgba(99, 252, 39,0.2)",
-						],
-						borderColor: [
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-							"rgba(132, 218, 99,1)",
-						],
+						backgroundColor: Array(11).fill("rgba(99, 252, 39,0.2)"),
+						borderColor: Array(11).fill("rgba(132, 218, 99,1)"),
 						borderWidth: 1,
 					},{
 						label: "Q5",
 						data: data.Q5,
 						hidden: true,
-						backgroundColor: [
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-							"rgba(128,128,128, 0.2)",
-						],
-						borderColor: [
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-							"rgb(128,128,128, 1)",
-						],
+						backgroundColor: Array(11).fill("rgba(128,128,128, 0.2)"),
+						borderColor: Array(11).fill("rgb(128,128,128, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q6",
 						data: data.Q6,
 						hidden: true,
-						backgroundColor: [
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-							"rgba(244, 9, 249, 0.2)",
-						],
-						borderColor: [
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-							"rgb(172, 9, 175, 1)",
-						],
+						backgroundColor: Array(11).fill("rgba(244, 9, 249, 0.2)"),
+						borderColor: Array(11).fill("rgb(172, 9, 175, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q7",
 						data: data.Q7,
 						hidden: true,
-						backgroundColor: [
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-							"rgba(255, 0, 0, 0.2)",
-						],
-						borderColor: [
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-							"rgba(255,0,0, 1)",
-						],
+						backgroundColor: Array(11).fill("rgba(255, 0, 0, 0.2)"),
+						borderColor: Array(11).fill("rgba(255,0,0, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q8",
 						data: data.Q8,
 						hidden: true,
-						backgroundColor: [
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-							"rgba(250,255,7, 0.2)",
-						],
-						borderColor: [
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-							"rgba(250,255,7, 1)",
-						],
+						backgroundColor: Array(11).fill("rgba(250,255,7, 0.2)"),
+						borderColor: Array(11).fill("rgba(250,255,7, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q9",
 						data: data.Q9,
 						hidden: true,
-						backgroundColor: [
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-							"rgba(0, 255, 192, 0.2)",
-						],
-						borderColor: [
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-							"rgba(0, 255, 192, 1)",
-						],
+						backgroundColor: Array(11).fill("rgba(0, 255, 192, 0.2)"),
+						borderColor: Array(11).fill("rgba(0, 255, 192, 1)"),
 						borderWidth: 1,
 					},
 					
 				],
 			},
 			options: {
-				// responsive: true,
+				responsive: true,
     			maintainAspectRatio: false,
 				onClick: function (evt, i) {
 					e = i[0];
@@ -404,7 +186,8 @@ $(document).ready(function () {
 							method: "GET",
 							url: ENDPOINT,
 							data: {
-								graph_name: chart_id + " " + label_name,
+								id: chart_id.split("__")[1],
+								graph_name: chart_id.split("__")[0] + " " + label_name,
 							},
 							success: function (data) {
 								// change page of the selected chart div

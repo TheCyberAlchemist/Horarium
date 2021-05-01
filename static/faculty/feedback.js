@@ -6,9 +6,9 @@ function toggle_theme() {
 	//   console.log("hi");
 	if (el1.disabled) {
 		// if dark
-		localStorage.setItem("theme", "");
 		el1.disabled = false;
 		el2.disabled = "disabled";
+		localStorage.setItem("theme", "");
 	} else {
 		// if light
 		el1.disabled = "disabled";
@@ -117,8 +117,8 @@ $(document).ready(function () {
 						label: "Q2",
 						data: data.Q2,
 						hidden: true,
-						backgroundColor: Array(11).fill("rgba(255, 99, 132, 0.2)"),
-						borderColor: Array(11).fill("rgba(255, 206, 86, 1)"),
+						backgroundColor: Array(11).fill("rgba(75, 192, 192, 0.2)"),
+						borderColor: Array(11).fill("rgba(75, 192, 192, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q3",

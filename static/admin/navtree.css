@@ -25,6 +25,7 @@
 }
 .noline label {
   color : white !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 .navtree_wrapper ul {
   position: relative;
@@ -70,7 +71,7 @@ body .navtree_wrapper .message {
   bottom: 1vw;
   max-width: 30vw;
   font-size: 0.75vmin;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Poppins', sans-serif !important;
   color: white !important;
 }
 
@@ -211,6 +212,6 @@ body .navtree_wrapper ul input:checked ~ ul .more {
 	border-radius: 3px;
 }
 :root{
-	scrollbar-color:#767692 #1f1f24 !important;
+	/* scrollbar-color:#767692 #1f1f24 !important; */
 	scrollbar-width: thin !important;
   }

@@ -8,20 +8,25 @@
 .table thead tr th,.table tbody tr td{
     font-size: 0.85rem !important;
     outline : 0;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .table tbody .even td,.table tbody .odd td{
     border-bottom: 1px solid rgb(185, 185, 185) !important;
 }
-.fas {
+.fas.fa-edit {
     font-size: 22px !important;
     transform : translateY(4px);
-    color: rgb(116, 116, 116) !important;
+    color: rgb(29, 98, 248) !important;
     transition: .3s;
 }
-.fas:hover {
+
+.fas.fa-edit:hover {
     color: blue !important;
     transition: .3s;
+}
+.fas.fa-chart-line {
+    color : rgb(23, 255, 120) !important;
 }
 .fas.fa-hashtag {
     color : black !important;
@@ -70,10 +75,12 @@
       outline : none !important;
       box-shadow: none !important;
   }
-#student_details .row-details tbody tr td {
+#student_details .row-details tbody tr td, #faculty_details .row-details tbody tr td {
     border: 1px solid rgb(185, 185, 185);
 }
-
+#student_details .row-details tbody tr td ul li, #faculty_details .row-details tbody tr td ul li{ 
+    list-style-type: none;
+ }
 
 @media screen and (max-width: 600px) {
 table.dataTable > tbody > tr.child span.dtr-title {

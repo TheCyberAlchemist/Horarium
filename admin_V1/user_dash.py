@@ -195,7 +195,7 @@ class faculty_user_table(AjaxDatatableView):
 		    html += '<tr><td class="fw-bold">%s</td><td class="fw-bold">%s</td></tr>' % (key, fields[key])
 		html += '<tr><td class="fw-bold">Subject_events</td><td class="fw-bold"><ul>'
 		for event in sub_events:
-			html += '<li>%s (%s)</li>' % (event[0],event[1])
+			html += '<li stlye="font-weight:600">%s (%s)</li>' % (event[0],event[1])
 		html+='</ul></td></tr>'
 		html += '</table>'
 		return html
@@ -212,7 +212,7 @@ class faculty_user_table(AjaxDatatableView):
 			obj.id
 		)
 		# row["Load"] = Faculty_load.objects.get(Faculty_id=obj.faculty_details).total_load
-		row['Feedback'] = ''' icon '''
+		row['Feedback'] = ''' <a href=""><i class="fas fa-chart-line" style="font-size:25px"></i></a>'''
 		row['Delete_faculty'] ='''<div class="form-check" onclick="checkSelected('del1')">
 							<input class="form-check-input del1_input" type="checkbox"
 							name="del1" value="%s" input_name="%s">

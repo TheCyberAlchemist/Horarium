@@ -14,19 +14,18 @@
 .table tbody .even td,.table tbody .odd td{
     border-bottom: 1px solid rgb(185, 185, 185) !important;
 }
-.fas.fa-edit {
+.fas.fa-edit, .fas.fa-sign-in-alt {
     font-size: 22px !important;
     transform : translateY(4px);
-    color: rgb(29, 98, 248) !important;
+    color : grey !important;
     transition: .3s;
 }
-
 .fas.fa-edit:hover {
-    color: blue !important;
+    color: rgb(103, 103, 255) !important;
     transition: .3s;
 }
 .fas.fa-chart-line {
-    color : rgb(23, 255, 120) !important;
+    color : rgb(255, 168, 7) !important;
 }
 .fas.fa-hashtag {
     color : black !important;

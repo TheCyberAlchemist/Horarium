@@ -10,11 +10,10 @@
     .not_available_td {
         background-color: red;
     }
-
     .available_td {
         background-color: green;
     }
-    .locked{
+    .locked {
         opacity: 0.3;
     }
     .here {
@@ -27,14 +26,16 @@
 {%endblock%}
 {% block scripts %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-crossorigin="anonymous"></script>
+    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
+    crossorigin="anonymous"></script>
 <script src="{{static ('Popper/popper.min.js') }}"></script>
 <script src="{{static ('hotkeys.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
     integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
     crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js" integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"
+    integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA=="
+    crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
@@ -45,29 +46,43 @@ crossorigin="anonymous"></script>
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
     $("#resources").select2();
     $("#batches").select2();
+    window.onscroll = function() {myFunction()};
+
+var header = document.getElementById("myHeader");
+var sticky = header.offsetTop;
+
+function myFunction() {
+  if (window.pageYOffset > sticky) {
+    header.classList.add("sticky");
+  } else {
+    header.classList.remove("sticky");
+  }
+}
+
 
 </script>
 {%endblock%}
 {% block content %}
-<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="confirm_modal" aria-hidden="true">
+<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="confirm_modal"
+    aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="confirm_modal">Locked events found !</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirm_modal">Locked events found !</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to delete locked events ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="delete" class="btn btn-primary" data-dismiss="modal">Delete</button>
+            </div>
         </div>
-        <div class="modal-body">
-          Do you want to delete locked events ? 
-        </div>
-        <div class="modal-footer">
-          <button type="button" id = "close" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" id = "delete" class="btn btn-primary"  data-dismiss="modal">Delete</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 <div id="kaibhi" style="display: none;">
 </div>
 <form id="event_form" class="event_form">
@@ -93,115 +108,133 @@ crossorigin="anonymous"></script>
         <button type="button" id="aform">Submit</button>
     </div>
 </form>
-<div class="main_content">
-    <div class="table_and_card mt-4 row">
-        <div class="card-container col-3">
-            <div class="card-list">
-                <div id="accordion">
-                    {% for subject in my_subjects %}
-                        <div class="card">
+<div class="main_content" style="margin-top:-20px">
+    <div class="container-fluid toolbar" >
+        
+        <div class="row m-0  p-2" >
+            <div class="col-3">
+                <div class="container text-center">
+                    <button class="btn btn-outline-success" onclick="undo()">Undo</button>
+                    <i class="fas fa-undo"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="container text-center">
+                    <button class="btn btn-outline-success" onclick="redo()">Redo</button>
+                    <i class="fas fa-redo"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="container text-center">
+                    <button class="btn btn-outline-success" onclick="clear_all_unlocked_td()">Clear</button>
+                    <i class="fas fa-broom"></i>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="container text-center">
+                    <button class="btn btn-outline-success" onclick="call_algo()">Generate</button>
+                </div>
+            </div>
+        </div>
+        <div class="table_and_card mt-0 row">
+            <div class="card-container col-2">
+                <div class="card-list">
+                    <div id="accordion">
+                        {% for subject in my_subjects %}
+                        <div class="card" style="width:150px">
                             <div class="card-header item" id="{{subject.id}}">
-                                <h3><button class="btn collapsed" style="width: 150px;background-color:{{subject.color}};color:white" data-toggle="collapse" data-target="#a{{loop.index}}"
-                                    aria-expanded="false" aria-controls="a{{loop.index}}">
-                                    {{subject}}
-                                </button></h3>
+                                <h3><button class="btn collapsed" style="background-color:{{subject.color}};color:white"
+                                        data-toggle="collapse" data-target="#a{{loop.index}}" aria-expanded="false"
+                                        aria-controls="a{{loop.index}}">
+                                        {{subject}}
+                                    </button></h3>
                                 <div class="cards_left text-center total_remaining_load">0</div>
                             </div>
                             {%set a = loop.index%}
                             {%for subject_event in my_subjects[subject]%}
-                                {% if subject_event.lect_carried%}
-                                    <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
-                                        <div class="draggable" subject_event_id="{{subject_event.id}}" is_lect = "true">
-                                            <div class="card s ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
-                                                <div class="card-body p-0">
-                                                    <h4 class="card-title text-left">{{subject_event.Subject_id}}</h4>
-                                                    <h6 class="card-text text-right mr-2 mt-4">By {{subject_event.Faculty_id}}</h6>
-                                                </div>
-                                                <div class="remaining_load cards_left text-center">0                                            
-                                                </div>
-                                            </div>
+                            {% if subject_event.lect_carried%}
+                            <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                <div class="draggable" subject_event_id="{{subject_event.id}}" is_lect="true">
+                                    <div class="card s ml-2 mr-0 text-center"
+                                        style="background-color:{{subject_event.Subject_id.color}}">
+                                        <div class="card-body p-0">
+                                            <h6 class="card-title text-left">{{subject_event.Subject_id}}</h6>
+                                            <h6 class="card-text text-right mr-2 mt-3" style="font-size:smaller">By
+                                                {{subject_event.Faculty_id}}</h6>
+                                        </div>
+                                        <div class="remaining_load cards_left text-center">0
                                         </div>
                                     </div>
-                                {% endif %}
-                                {% if subject_event.prac_carried%}
-                                    <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
-                                        <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac = "true">
-                                            <div class="card s ml-2 mr-0" style="background-color:{{subject_event.Subject_id.color}}">
-                                                <div class="card-body p-0">
-                                                    <h4 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h4>
-                                                    <h6 class="card-text text-right mr-2 mt-3">By {{subject_event.Faculty_id}}</h6>
-                                                </div>
-                                                <div class="remaining_load cards_left text-center">0
-                                                </div>
-                                            </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if subject_event.prac_carried%}
+                            <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
+                                    <div class="card s ml-2 mr-0 text-center"
+                                        style="background-color:{{subject_event.Subject_id.color}}">
+                                        <div class="card-body p-0">
+                                            <h6 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h6>
+                                            <h6 class="card-text text-right mr-2 mt-3" style="font-size:small">By
+                                                {{subject_event.Faculty_id}}</h6>
+                                        </div>
+                                        <div class="remaining_load cards_left text-center">0
                                         </div>
                                     </div>
-                                {% endif %}
+                                </div>
+                            </div>
+                            {% endif %}
                             {% endfor %}
                         </div>
-                    {% endfor %}
-                </div>
-                <!-- <div class="card" style="background-color: #ff3333;">
+                        {% endfor %}
+                    </div>
+                    <!-- <div class="card" style="background-color: #ff3333;">
                     <div class="card-body p-0">
                         <h4 class="card-title text-left">DBMS prac</h4>
                         <h6 class="card-text text-right mr-2">By URT</h6>
                     </div>
                 </div> -->
-                <div class="container text-center">
-                    <button class="btn btn-primary"onclick="undo()">undo</button>
-                </div>
-                <br><br>
-                <div class="container text-center">
-                    <button class="btn btn-primary"onclick="redo()">redo</button>
-                </div>
-                <br><br>
-                <div class="container text-center">
-                    <button class="btn btn-primary"onclick="clear_all_unlocked_td()">clear</button>
-                </div>
-                <br><br>
-                <div class="container text-center">
-                    <button class="btn btn-primary"onclick="call_algo()">Generate</button>
-                </div>
-                <br><br>
-                <div class="container text-center">
-                    <button class="btn btn-primary"onclick="submited()">Submit</button>
-                </div>
-            </div>
-        </div>
-        <div class="container my_container my_table_new col-9">
-            <div class="row my_row row_header">
-                <div class="col my_col align-middle"> <span class="h6 fw-bold">Time</span></div>
-                {% for day in working_days %}
-                <div class="col my_col fw-bold"> <span class="h6 fw-bold">{{day.Days_id}}</span> </div>
-                {%endfor%}
-            </div>
-            {% for timing in timings %}
-            <div class="row my_row" timing_id={{timing.id}} >
-                <!-- <div class="row"></div> -->
-                <div class="col my_col lect">
-                    <p class="h6 fw-bold">
-                        {{timing.name}}<br>
-                        [{{timing.return_time()}}]
-                    </p>
-                </div>
-                {% if timing.is_break %}
-                {% set len = working_days|length %}
-                {% for day in working_days %}
-                <div class="col my_col isBreak">
-                    {%if loop.index==1%}
-                    <div class="">
-                        <span class="h4">{{timing.name}}</span>
+                    
+                    <div class="container text-center">
+                        <button class="btn btn-outline-success" onclick="submited()">Submit</button>
                     </div>
+                </div>
+            </div>
+            <div class="container my_container my_table_new col-9">
+                <div class="row my_row row_header">
+                    <div class="col my_col align-middle"> <span class="h6 fw-bold">Time</span></div>
+                    {% for day in working_days %}
+                    <div class="col my_col fw-bold"> <span class="h6 fw-bold">{{day.Days_id}}</span> </div>
+                    {%endfor%}
+                </div>
+                {% for timing in timings %}
+                <div class="row my_row" timing_id={{timing.id}}>
+                    <!-- <div class="row"></div> -->
+                    <div class="col my_col lect">
+                        <p class="h6 fw-bold">
+                            {{timing.name}}<br>
+                            [{{timing.return_time()}}]
+                        </p>
+                    </div>
+                    {% if timing.is_break %}
+                    {% set len = working_days|length %}
+                    {% for day in working_days %}
+                    <div class="col my_col isBreak">
+                        {%if loop.index==1%}
+                        <div class="">
+                            <span class="h4">{{timing.name}}</span>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% for day in working_days %}
+                    <div class="col my_col lect droppable"></div>
+                    {% endfor %}
                     {% endif %}
                 </div>
-                {% endfor %}
-                {% else %}
-                {% for day in working_days %}
-                    <div class="col my_col lect droppable"></div>
-                {% endfor %}
-                {% endif %}
+                {%endfor%}
             </div>
-            {%endfor%}
         </div>
     </div>
 </div>
@@ -213,9 +246,9 @@ crossorigin="anonymous"></script>
         <li style="list-style-type: none">
             <!-- <span class='clear_td'></span>&nbsp; -->
             <div class='clear_td'>Clear</div>
-            </div>
-        </li>
-    </ul>
+</div>
+</li>
+</ul>
 </div>
 
 {%endblock%}

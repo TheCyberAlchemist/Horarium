@@ -1,4 +1,13 @@
 html {
   font-family: 'Poppins', sans-serif !important;
 }
+
+.fas.fa-angle-double-right, .fas.fa-home {
+  -webkit-transform: translateY(-1px) !important;
+          transform: translateY(-1px) !important;
+  -webkit-transform: translateX(3px) !important;
+          transform: translateX(3px) !important;
+  font-size: 17px !important;
+  color: #333;
+}
 /*# sourceMappingURL=base2.css.map */

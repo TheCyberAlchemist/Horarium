@@ -16,23 +16,23 @@
   border-bottom: 1px solid #b9b9b9 !important;
 }
 
-.fas.fa-edit {
+.fas.fa-edit, .fas.fa-sign-in-alt {
   font-size: 22px !important;
   -webkit-transform: translateY(4px);
           transform: translateY(4px);
-  color: #1d62f8 !important;
+  color: grey !important;
   -webkit-transition: .3s;
   transition: .3s;
 }
 
 .fas.fa-edit:hover {
-  color: blue !important;
+  color: #6767ff !important;
   -webkit-transition: .3s;
   transition: .3s;
 }
 
 .fas.fa-chart-line {
-  color: #17ff78 !important;
+  color: #ffa807 !important;
 }
 
 .fas.fa-hashtag {

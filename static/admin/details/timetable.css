@@ -136,22 +136,24 @@ width: 100%;
 	display: block;
 	padding: 2rem 2rem 3rem 2rem;
 	position: fixed !important; 
-	top : 50%;
-	height: 500px;
+	top : 51%;
+	height: 450px;
 	overflow-y: scroll;
-	transform: translateY(-50%);
+	transform: translate(6%,-40%);
 	left : 20px;
+    scrollbar-width: thin;          /* "auto" or "thin" */
+    scrollbar-color: #abacad #f1f4f6;   /* scroll thumb and track */
   }
-  .card-header .cards_left {
-	position: absolute;
-	top:-8px;
-	left : 92%;
-	height:25px;
-	width : 25px;
-	padding-left:2px;	
-	border-radius: 50%;
-	background-color:red
-  }
+.card-list::-webkit-scrollbar {
+	width: 7px !important;
+	height: 10px !important;
+    background-color: #f1f4f6;
+}
+.card-list::-webkit-scrollbar-thumb {
+	background-color: #abacad !important;
+	border-radius: 3px !important;
+}
+
   #accordion > .card {
 	  background-color: transparent;
 	  outline: none;
@@ -161,32 +163,51 @@ width: 100%;
 	padding: 0;  
 	border-bottom: none;
   }
+  .item.card-header h3 button {
+      width: 140px;
+  }
   .card.s{
 	color :white;
 	display: flex;
 	position: relative;
 	flex-direction: column;
-	width: 150px;
-	height: 110px;
+	width: 140px;
+	height: 80px;
+    transform: translate(-3px, 10px) !important;
 	padding: 0.5rem;  /* 1rem = 15px */
-	box-shadow: -1rem 0 3rem #000;
+	box-shadow: -0.5rem 0 3rem rgb(92, 91, 91);
 	transition: 0.2s;
   }
+  .card.s:hover{
+	transform: translate(-3px,-0.8rem) !important;
+	transition: 0.2s;
+  }
+  .card-header .cards_left {
+    /*Styling for the total cards left of header*/
+  position: absolute;
+  top:-8px;
+  left : 86%;
+  height:25px;
+  width : 25px;
+  padding-left:0px;	
+  border-radius: 50%;
+  background-color:red;
+  color :white;
+}
+
   .card.s .cards_left {
+      /*Styling for the total cards left of cards*/
 	position: absolute;
 	top:-8px;
-	left : 92%;
-	height:30px;
-	width : 30px;
+	left : 90%;
+	height:25px;
+	width : 25px;
 	padding-left:2px;	
-	padding-top : 2px;
+	/* padding-top : 2px; */
 	border-radius: 50%;
 	background-color:red
   }
-  .card.s:hover{
-	transform: translateY(-1.5rem);
-	transition: 0.2s;
-  }
+
 .td_color {       /*table.js ('.day').hover*/
 	background-color: #f8b76d;
 	z-index: 100;
@@ -343,3 +364,26 @@ width: 100%;
 	height: 30px;
     width: 30px;
 }
+
+
+/*Toolbar styling */
+.toolbar {
+    border : 1px solid black;
+}
+.toolbar .myHeader{ 
+    background-color: #101820FF;
+}
+    
+.myHeader {
+    /* background-color: #101820FF; */
+    z-index: 100;
+    transform: translateY(-33px);
+    transition: 0.3s;
+}
+.sticky {  /*For sticky toolbar*/
+    position: fixed;
+    top: 13%;
+    width: 100%;
+    transition: 0.3s;
+    opacity: 1;
+  }

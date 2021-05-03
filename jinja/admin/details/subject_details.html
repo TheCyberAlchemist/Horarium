@@ -1,6 +1,7 @@
 {% extends 'admin/base2.html' %} {% block title%} Subject Details {% endblock %} {% block css%}
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css" />
-
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 <link rel="stylesheet" href="{{static ('form/form2.css')}}" />
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}" />
 
@@ -12,9 +13,11 @@
 </style>
 {% endblock %} {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+<script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script type="text/javascript">
 	activate("{{my_branch.Department_id}}.{{my_branch}}.b");
 	$(document).ready(function () {
+        $("#semesters").select2();
         {% if update %}
 		    $("#flush-collapseOne").collapse("show");
         {% endif %}
@@ -107,7 +110,8 @@
 													<label for="prac">Practicals per week</label>
 												</div>
 											</div>
-                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                            <div class="col-lg-12 col-md-12 col-sm-12 mb-3 text-center">
+                                                <div class="select2_container double_select2">
 												<select name="Semester_id" id="semesters">
                                                     <option value="a" disabled {% if not update %} selected {% endif %}>Pick a semester </option>
                                                     {% for semester in my_semesters %}
@@ -115,6 +119,7 @@
                                                     {{semester}}</option>
                                                     {% endfor %}
                                                 </select>
+                                                </div>
 											</div>
 											<div class="col-lg-12 col-md-12 col-sm-12">
                                                 {% if update %}

@@ -83,12 +83,10 @@ $(document).ready(function () {
 					success: function (data) {
 						// change page of the selected chart div
 						$("#" + data[1])
-							.parent()
-							.parent()
+                            .parents(".row")
 							.show(300);
 						$("#" + id)
-							.parent()
-							.parent()
+                            .parents(".row")
 							.hide(300);
 						console.log(data);
 						drawBarGraph(data[0], data[1], true);
@@ -199,12 +197,10 @@ $(document).ready(function () {
 							success: function (data) {
 								// change page of the selected chart div
 								$("#" + data[1])
-									.parent()
-									.parent()
+									.parents(".row")
 									.show(300);
 								$("#" + chart_id)
-									.parent()
-									.parent()
+                                    .parents(".row")
 									.hide(300);
 								// $("#show_week").click(function(){
 								// 	console.log("button clicked");

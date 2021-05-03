@@ -1,24 +1,27 @@
 var ENDPOINT = "./api";
 // Array(11).fill("rgba(255, 99, 132, 0.2)"),
-var opacity = "0.4";
+var opacity = "0.2";
 my_charts = {};
 function toggle_theme() {
 	var el1 = document.getElementById("light"),
 		el2 = document.getElementById("dark");
 	//   console.log("hi");
+	if (el1){
 	if (el1.disabled) {
 		// if dark
 		console.log("was dark");
+		opacity = "0.2";
 		el1.disabled = false;
 		el2.disabled = "disabled";
 		localStorage.setItem("theme", "");
 	} else {
 		// if light
 		console.log("was light");
-		opacity = "0.2";
+		opacity = "0.4";
 		el1.disabled = "disabled";
 		el2.disabled = false;
 		localStorage.setItem("theme", "dark");
+	}
 	}
 	for(a in my_charts){
 		my_charts[a].render();
@@ -37,6 +40,8 @@ $(document).ready(function () {
 	if (cookie === "") {
 		$("#slider1").prop("checked", true);
 		toggle_theme();
+	}else{
+		opacity = '0.4';
 	}
 	for (a of subject_events){
 		id_str = "day_rating__"+a['id'];

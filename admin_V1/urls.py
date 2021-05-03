@@ -2,14 +2,17 @@ from django.contrib import admin
 from django.urls import path
 from . import views,user_dash
 from django.conf.urls import url
+import faculty_V1.views as faculty_view
 urlpatterns = [
 	
 	path(r'home/',views.admin_home,name = 'admin_home'),
+
 	url(r'^home/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	url(r'^home/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
-	
+	url(r'^home/faculty_feedback/api/$',faculty_view.ChartData.as_view(),name = 'admin_faculty_feedback_api'),
 	path('home/user_edit_called/',user_dash.user_edit_called,name = "user_edit"),
 
+	url(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
 
 	url(r'^form/$',views.show_form,name = 'show_form'),
 

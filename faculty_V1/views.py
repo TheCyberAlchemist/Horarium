@@ -71,12 +71,17 @@ def faculty_home(request):
 
 
 from faculty_V1.models import Feedback
-def faculty_feedback(request) :
+def faculty_feedback(request,Faculty_id = None) :
 	# f_name = Chart.name
 	# f_money = Chart.money
 	# data = serializers.serialize("json", Subject_event.objects.filter(Faculty_id=request.user.faculty_details))
+
 	events = []
-	subject_events =  Subject_event.objects.filter(Faculty_id=request.user.faculty_details)
+	if Faculty_id:	# if called by admin_dashboard
+		subject_events =  Subject_event.objects.filter(Faculty_id__User_id=Faculty_id)
+	else:
+		subject_events =  Subject_event.objects.filter(Faculty_id=request.user.faculty_details)
+	print(subject_events)
 	for event in subject_events:
 		events.append({'Subject_name':str(event.Subject_id),"id":event.pk})
 	events = json.dumps(events)
@@ -98,9 +103,11 @@ def faculty_feedback(request) :
 		'questions' : questions,
 	}
 	
-	# context["qs"] = Chart.objects.all()
-
-	return render(request,"Faculty/feedback.html",context)
+	context["qs"] = Chart.objects.all()
+	if Faculty_id:
+		return render(request,"admin/user_dash/faculty_feedback.html",context)
+	else:
+		return render(request,"Faculty/feedback.html",context)
 
 def monthlist_fast(dates):
     start, end = [date.strptime(_, "%Y-%m-%d") for _ in dates]

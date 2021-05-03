@@ -1,0 +1,108 @@
+{% block draw_chart %}
+	<div class="container-fluid pt-0">
+    <!-- <canvas id="month_rating"></canvas>
+    <canvas id="week_rating"></canvas>
+    <canvas id="day_rating" ></canvas>
+
+    <canvas id="month_response"></canvas>
+    <canvas id="week_response"></canvas>
+    <canvas id="day_response"></canvas> -->
+
+  {% for event in subject_events %}
+    {{event.Subject_id}}
+    <div class="container-fluid charts_container">
+      <div class=" row day_rating_{{event.pk}}">
+        <div class="col-lg-2 col-md-12 col-sm-12 text-center">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Daily Ratings</h5>
+              <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+              <p class="card-text">The day to day ratings given by the students are listed in the graph</p>
+              <button class="btn-primary btn" id="show_week__{{event.pk}}">GO up</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
+          <canvas id="day_rating__{{event.pk}}" style="height:70vh;width:80%;"></canvas>
+        </div>
+      </div>   
+      <!-- show_week clicked -> show week_rating chart -->
+
+      <div class=" row week_rating_{{event.pk}}" style="display: none">
+        <div class="col-lg-2 col-md-12 col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">The Monthy Ratings</h5>
+              <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+              <p class="card-text">Click on any week's bar to get the detailed ratings!</p>
+              <p class="card-text">Click on Go Up to get a broader perspective of your ratings</p>
+              <!-- <a href="#" class="card-link">Another link</a> -->
+              <button class="btn-primary btn" id="show_semester__{{event.pk}}">GO up</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-10 col-md-12 col-sm-12" style="position:relative">
+          <canvas id="week_rating__{{event.pk}}" style="height:70vh;width:80%;"></canvas>
+        </div>
+      </div>
+
+      <div class="row month_rating_{{event.pk}}" style="display: none">
+        <div class="col-lg-2 col-sm-12">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">The Yearly Ratings</h4>
+              <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+              <p class="card-text">Click on any month's bar to get the detailed ratings!</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-10 col-sm-12 table-responsive" style="position:relative;">
+          <canvas id="month_rating__{{event.pk}}" style="height:70vh;width:80%;"></canvas>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+  <!--<div class="container-fluid question_card text-left mb-3">
+    <div class="card questions">
+      <div class="card-header" style="font-weight :bold;">
+        Feedback Questions
+      </div>
+      <div class="card-body">
+        {%for ques in questions %}
+        <div class="h6" style="font-weight :bold;">Q{{loop.index}}. {{ques}}.</div>
+        {%endfor%}
+      </div>
+    </div>
+  </div>-->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Launch demo modal
+  </button>
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+          <div class="modal-content">
+              <div class="modal-body">
+                  <div class="container-fluid question_card text-left mb-3">
+                      <div class="card questions">
+                          <div class="card-header" style="font-weight :bold;">
+                              Feedback Questions
+                          </div>
+                          <div class="card-body">
+                              {%for ques in questions %}
+                                <div class="h6" style="font-weight :bold;">Q{{loop.index}}. {{ques}}.</div>
+                              {%endfor%}
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+          </div>
+      </div>
+  </div>
+
+  
+</div>
+     
+{%endblock%}

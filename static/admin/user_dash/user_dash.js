@@ -2,6 +2,10 @@ $(document).ready(function () {
 	/* student datatable */ {
 		let student_last_searched = false;
 		$("#student_details").on("drawCallback", function (event, table) {
+			// $(".gixiasd").each(function () {
+			// 	console.log($(this));
+			// 	$(this).gixi();
+			// });
 			$("tr .gixi").each(function () {
 				$(this).gixi();
 			});

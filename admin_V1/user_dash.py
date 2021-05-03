@@ -1,5 +1,7 @@
 from django.contrib.auth.models import Permission
 from django.core import serializers
+from django.shortcuts import render
+from django.urls import reverse
 from django.http import JsonResponse
 import json
 
@@ -212,7 +214,7 @@ class faculty_user_table(AjaxDatatableView):
 			obj.id
 		)
 		# row["Load"] = Faculty_load.objects.get(Faculty_id=obj.faculty_details).total_load
-		row['Feedback'] = ''' <a href=""><i class="fas fa-chart-line" style="font-size:25px"></i></a>'''
+		row['Feedback'] = ''' <a href="%s"><i class="fas fa-chart-line" style="font-size:25px"></i></a>'''%(reverse('faculty_feedback',args=[obj.pk]))
 		row['Delete_faculty'] ='''<div class="form-check" onclick="checkSelected('del1')">
 							<input class="form-check-input del1_input" type="checkbox"
 							name="del1" value="%s" input_name="%s">
@@ -222,6 +224,10 @@ class faculty_user_table(AjaxDatatableView):
 		
 		
 		return
+
+def faculty_feedback(request,Faculty_id = None):
+	print(Faculty_id)
+	return render(request,"admin/user_dash/faculty_feedback.html")
 
 
 def user_edit_called(request):

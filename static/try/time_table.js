@@ -733,6 +733,12 @@ function put_prac(td,subject_event_id,batch,resource){
 ///////////////////////////////// ready function /////////////////////////////////
 
 $(document).ready (function () {
+	$(document).ajaxStart(function(){
+		alert("start");
+	});
+	$(document).ajaxStop(function(){
+		alert("All AJAX requests completed");
+	  });
 	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get('csrftoken');
 	function csrfSafeMethod(method) {
@@ -1054,6 +1060,7 @@ function call_algo(){
 		type: "post",
 		url: "./algo/",
 		data: JSON.stringify(get_all_locked_events()),
+
 		success: function (data){
 			clear_all_unlocked_td();
 			console.log(events);

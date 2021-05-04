@@ -84,10 +84,14 @@ def student_home(request):
 	department = semester.Branch_id.Department_id
 	enno = student_details.roll_no
 	if request.method == 'POST':
-		form = _.feedback_form(request.POST)
+		form = _.feedback_form(request.POST.copy())
+		# form.instance.Event_id = Event.objects.all().first()
+		form.data["Event_id"]= Event.objects.all().first()
+		print(form.errors)
 		if form.is_valid():
+
 			candidate = form.save(commit=False)
-			# print(form.in)
+			print("form.in")
 			if not one_selected(form.instance):
 				return render(request,"Student/student_v1.html")
 			event = form.instance.Event_id
@@ -97,30 +101,31 @@ def student_home(request):
 			# testing 
 			# ct = datetime.datetime.now().time()
 			end = datetime.datetime(2000, 1, 1,hour=end_time.hour, minute=end_time.minute, second=end_time.second)
-			if (end-datetime.timedelta(minutes=2)).time() < ct < (end+datetime.timedelta(minutes=5)).time() and request.POST['query']:
-				event = candidate.Event_id
-				faculty_name = event.Subject_event_id.Faculty_id.User_id
-				subject_name = event.Subject_event_id.Subject_id.name
-				event_type = "Practical" if event.Slot_id_2 else "Lecture"
-				# message_name = request.POST['message_name']
-				message_name = mail_subject_template.format(faculty_name,student_name,department,semester,enno)
-				# message_name = "mail_subject_template.format()"
-				# print()
-				message = mail_body_template.format(faculty_name,subject_name,event_type,student_name,department,semester,enno,request.POST['query'])
-				# message = 				
-				if message:
+			# if (end-datetime.timedelta(minutes=2)).time() < ct < (end+datetime.timedelta(minutes=5)).time() and request.POST['query']:
+			event = candidate.Event_id
+			faculty_name = event.Subject_event_id.Faculty_id.User_id
+			subject_name = event.Subject_event_id.Subject_id.name
+			event_type = "Practical" if event.Slot_id_2 else "Lecture"
+			# message_name = request.POST['message_name']
+			message_name = mail_subject_template.format(faculty_name,student_name,department,semester,enno)
+			# message_name = "mail_subject_template.format()"
+			# print()
+			message = mail_body_template.format(faculty_name,subject_name,event_type,student_name,department,semester,enno,request.POST['query'])
+			# message = 				
+			print(message)
+			if message:
 					send_mail(
 						message_name, #subject
 						message, #message
 						from_email = None, # from email 
-						recipient_list = ['yogeshrathod19@gnu.ac.in'] # to email
+						recipient_list = ['devmpatel19@gnu.ac.in'] # to email
 					)
 					# pass
-			else :
-				print("hello")
+			# else :
+			# 	print("hello")
 			candidate.Given_by = request.user
 			# print((end-datetime.timedelta(minutes=2)).time()," - ",ct," - ",(end+datetime.timedelta(minutes=5)).time())
-			candidate.save()
+			# candidate.save()
 			# if candidate.Event_id
 			# candidate.Event_id = 
 
@@ -157,7 +162,7 @@ def sendMail(request) :
 			message_name, #subject
 			message, #message
 			message_email, # from email 
-			['yogeshrathod19@gnu.ac.in'] # to email
+			['devmpatel19@gnu.ac.in'] # to email
 		)
 		return render(request,'Student/submitted.html',{'message':message})	
 	else : 

@@ -112,7 +112,9 @@ th:nth-of-type(1) {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-
+#myProgress {
+    color : white !important; 
+}
 .btn:hover {
   -webkit-transform: scale(1.1);
           transform: scale(1.1);
@@ -178,6 +180,7 @@ th:nth-of-type(1) {
 }
 .modal-body,.modal-title,.modal-footer,.modal-header,.modal-content {
   background-color: #18181d !important;
+  color : white !important;
 }
 .modal-footer {
   border-top: none !important;
@@ -197,7 +200,9 @@ th:nth-of-type(1) {
     background-color: rgb(221, 224, 238) !important;
 }
 
-
+#text {  /*Text for Upcoming events */
+    color : white !important;
+}
 @media screen and (max-width: 600px) {
   #t1 {
     width: 100%;

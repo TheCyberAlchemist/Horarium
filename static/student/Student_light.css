@@ -73,6 +73,7 @@ b a:hover {
   text-align: center;
   width: 100%;
   table-layout: fixed;
+  color : black !important;
 }
 
 #t1 th {

@@ -729,27 +729,11 @@ function put_prac(td,subject_event_id,batch,resource){
 	faculty_div.html(subject_event.faculty_name);
 	resource_div.html(resource);
 }
-function toggle_loading(){
-	if ($(".image-container").is(":visible")){
-		$(".main_content").css("filter","blur(0px)");
-	}else{
-		$(".main_content").css("filter","blur(4px)");
-	}
-	$(".image-container").toggle();
-	// $(".svg").toggle();
-	
-}
+
 ///////////////////////////////// ready function /////////////////////////////////
 
 $(document).ready (function () {
-	$(document).ajaxStart(function(){
-		// alert("start");
-		toggle_loading();
-	});
-	$(document).ajaxStop(function(){
-		// alert("All AJAX requests completed");
-		toggle_loading();
-	  });
+	
 	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get('csrftoken');
 	function csrfSafeMethod(method) {

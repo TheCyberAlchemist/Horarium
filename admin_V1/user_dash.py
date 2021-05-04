@@ -21,11 +21,6 @@ class student_user_table(AjaxDatatableView):
 	search_values_separator = " "
 	column_defs = [
 		AjaxDatatableView.render_row_tools_column_def(),
-		{
-			'name': 'id',
-			'visible': False,
-			'searchable': True,
-		},
 		{'name': 'first_name', 'visible': True,'searchable': True,'orderable': True,'title': 'Name',},
 		{'name': 'email', 'visible': True,'searchable': True,'title': 'Email', },
 		{
@@ -127,11 +122,6 @@ class faculty_user_table(AjaxDatatableView):
 	search_values_separator = " "
 	column_defs = [
 		AjaxDatatableView.render_row_tools_column_def(),
-		{
-			'name': 'id',
-			'visible': False,
-			'searchable': True,
-		},
 		{'name': 'first_name', 'visible': True,'searchable': True,'orderable': True,'title': 'Name',},
 		{
 			'name': 'Short',
@@ -226,7 +216,6 @@ class faculty_user_table(AjaxDatatableView):
 		return
 
 def faculty_feedback(request,Faculty_id = None):
-	print(Faculty_id)
 	return render(request,"admin/user_dash/faculty_feedback.html")
 
 

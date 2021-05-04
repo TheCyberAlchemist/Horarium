@@ -722,22 +722,33 @@ function put_prac(td,subject_event_id,batch,resource){
 	button = div_above.find(".event_name");
 	faculty_div = div_below.find(".faculty_name");
 	resource_div = div_below.find(".resource_name");
-	
-	button.html(subject_event.subject_name);
+	asd = subject_event.subject_name.split("").join("<br>");
+	button.html(asd);
 	button.css("background-color",subject_event.color);
 
 	faculty_div.html(subject_event.faculty_name);
 	resource_div.html(resource);
 }
-
+function toggle_loading(){
+	if ($(".image-container").is(":visible")){
+		$(".main_content").css("filter","blur(0px)");
+	}else{
+		$(".main_content").css("filter","blur(4px)");
+	}
+	$(".image-container").toggle();
+	// $(".svg").toggle();
+	
+}
 ///////////////////////////////// ready function /////////////////////////////////
 
 $(document).ready (function () {
 	$(document).ajaxStart(function(){
-		alert("start");
+		// alert("start");
+		toggle_loading();
 	});
 	$(document).ajaxStop(function(){
-		alert("All AJAX requests completed");
+		// alert("All AJAX requests completed");
+		toggle_loading();
 	  });
 	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get('csrftoken');

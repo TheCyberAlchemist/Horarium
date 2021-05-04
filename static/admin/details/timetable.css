@@ -177,6 +177,7 @@ width: 100%;
 	padding: 0.5rem;  /* 1rem = 15px */
 	box-shadow: -0.5rem 0 3rem rgb(92, 91, 91);
 	transition: 0.2s;
+    z-index: 11;
   }
   .card.s:hover{
 	transform: translate(-3px,-0.8rem) !important;
@@ -368,7 +369,7 @@ width: 100%;
 
 /*Toolbar styling */
 .toolbar {
-    border : 1px solid black;
+    /* border : 1px solid black; */
 }
 .toolbar .myHeader{ 
     background-color: #101820FF;

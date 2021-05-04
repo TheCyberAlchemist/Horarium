@@ -9,6 +9,38 @@
     th {
         font-size: .9rem !important;
     }
+    .user_dash .nav-item.s { 
+        display: table-cell; 
+        position: relative; 
+      }
+      .user_dash .nav-link.s {
+        text-decoration: none;
+        display: inline-block;
+        position: relative;
+        border : none;
+        outline: none;
+      }
+      .user_dash .nav-link.s:after {    
+        background: none repeat scroll 0 0 transparent;
+        bottom: 0;
+        content: "";
+        display: block;
+        height: 2px;
+        left: 50%;
+        position: absolute;
+        background: black;
+        transition: width 0.3s ease 0s, left 0.3s ease 0s;
+        width: 0;
+      }
+      .user_dash .nav-link.s:hover:after { 
+        width: 100%; 
+        left: 0; 
+      }
+      @media screen and (max-height: 300px) {
+          .user_dash ul {
+              margin-top: 40px;
+          }
+      }
 </style>
 <link rel="stylesheet" type="text/css"
     href="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.css" />
@@ -33,17 +65,18 @@
         <div class="card-title text-center" style="margin:0 auto">
             <ul class="nav nav-pills mt-4" id="pills-tab" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="pills-faculty-tab" data-bs-toggle="pill"
+                    <button class="nav-link active s h4" id="pills-faculty-tab" data-bs-toggle="pill"
                         data-bs-target="#pills-faculty" type="button" role="tab" aria-controls="pills-faculty"
                         aria-selected="true">Faculties</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="pills-student-tab" data-bs-toggle="pill"
+                    <button class="nav-link s h4" id="pills-student-tab" data-bs-toggle="pill"
                         data-bs-target="#pills-student" type="button" role="tab" aria-controls="pills-student"
                         aria-selected="false">Students</button>
                 </li>
             </ul>
         </div>
+        <hr class="ml-5 mr-5">
         <div class="card-body">
         <!-- <div class="gixi float-start" data-gixiseed="asdads"></div> -->
         <div class="container-fluid p-1 table_container">
@@ -102,7 +135,7 @@
                         <div class="card-body" style="border-radius: 1rem;">
                             <div class="row text-center">
                                 <div class="col-lg-11 col-sm-12">
-                                    <div class="h3 text-center">Faculty Of {{institute}}</div>
+                                    <div class="h3 text-center">Faculties Of {{institute}}</div>
                                 </div>
                                 <div class="col-lg-1 col-sm-12">
                                     <a style="display: none;" id="del1" onclick="delete_entries('del1')">

@@ -21,11 +21,6 @@ class student_user_table(AjaxDatatableView):
 	search_values_separator = " "
 	column_defs = [
 		AjaxDatatableView.render_row_tools_column_def(),
-		{
-			'name': 'id',
-			'visible': False,
-			'searchable': True,
-		},
 		{'name': 'first_name', 'visible': True,'searchable': True,'orderable': True,'title': 'Name',},
 		{'name': 'email', 'visible': True,'searchable': True,'title': 'Email', },
 		{

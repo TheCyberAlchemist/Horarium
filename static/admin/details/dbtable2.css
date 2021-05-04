@@ -32,19 +32,10 @@
 }
 
 .fas.fa-chart-line {
-  color: #ffa807 !important;
+  color: grey !important;
 }
 
 .fas.fa-hashtag {
-  color: black !important;
-}
-
-.user_dash .card .nav-pills .nav-link {
-  border: 1px solid #b9b9b9 !important;
-}
-
-.user_dash .card .nav-pills .nav-link:hover {
-  border: 1px solid #b9b9b9 !important;
   color: black !important;
 }
 

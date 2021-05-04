@@ -79,22 +79,29 @@ body {
     font-size: small;
     height: 110px;
     position: inherit !important ;
-    z-index: -1;
+    // z-index: -1;
 }
 .btn {
     width: 90%;
 }
-.batch_contents {
-    margin-top: 3em;
-}
 .batch_contents:first-child {
-    margin-left: -20px;
+    margin-left: -9px;
+    transform: translate(-10px, 55px);
+}
+.batch_contents:not(:first-child) {
+    transform: translate(14px, 55px);
 }
 .batch_contents {
-    margin-right: 5px;
+    // margin-left: -9px;
+    // transform: translate(-10px, 55px);
+    // margin-top: 3em;
 }
 p.h6 {
     font-size: 0.8rem !important;
+}
+.prac_above .container {
+    // margin: 0 !important;
+    padding: 0 !important;
 }
 
 

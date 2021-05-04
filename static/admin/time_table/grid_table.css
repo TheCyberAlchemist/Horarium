@@ -80,27 +80,29 @@ body {
   font-size: small;
   height: 110px;
   position: inherit !important;
-  z-index: -1;
 }
 
 .btn {
   width: 90%;
 }
 
-.batch_contents {
-  margin-top: 3em;
-}
-
 .batch_contents:first-child {
-  margin-left: -20px;
+  margin-left: -9px;
+  -webkit-transform: translate(-10px, 55px);
+          transform: translate(-10px, 55px);
 }
 
-.batch_contents {
-  margin-right: 5px;
+.batch_contents:not(:first-child) {
+  -webkit-transform: translate(14px, 55px);
+          transform: translate(14px, 55px);
 }
 
 p.h6 {
   font-size: 0.8rem !important;
+}
+
+.prac_above .container {
+  padding: 0 !important;
 }
 
 .lect_batches {

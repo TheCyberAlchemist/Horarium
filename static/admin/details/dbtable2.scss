@@ -25,20 +25,14 @@
     transition: .3s;
 }
 .fas.fa-chart-line {
-    color : rgb(255, 168, 7) !important;
+    color : grey !important;
 }
 .fas.fa-hashtag {
     color : black !important;
 }
 
 
-.user_dash .card .nav-pills .nav-link {
-    border : 1px solid rgb(185, 185, 185) !important;
-}
-.user_dash .card .nav-pills .nav-link:hover {
-    border : 1px solid rgb(185, 185, 185) !important;
-    color : black !important;
-}
+
 //For SearchBox in DataTable
 
   .search_box .form-control:focus {

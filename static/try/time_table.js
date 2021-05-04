@@ -645,7 +645,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 		colspan = (12/subject_batch.length);
 	else 
 		colspan = 12;
-	let string = `<div class="container text-center"><div class="row text-center">`;
+	let string = `<div class="container text-center mt-1"><div class="row text-center">`;
 	
 	if (has_batch){	
 		for (i in subject_batch){
@@ -654,9 +654,9 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 				<div class="row" >
 					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
 				</div>
-				<div class="row" style="overflow-x: auto;">
+				<div class="row">
 					<div class="col mt-2">
-						<button class="btn-sm prac_mycol event_name border-0" style = "padding: 0 1px 0 1px !important;"></button>
+						<button class="btn-sm prac_mycol event_name border-0" style = "width:17px;padding: 0 1px 0 1px !important;z-index:10"></button>
 					</div>
 				</div>
 			</div>
@@ -668,7 +668,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 				<div class="row" >
 					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`"></div>
 				</div>
-				<div class="row" style="overflow-x: auto;">
+				<div class="row">
 					<div class="col mt-2">
 						<button class="btn-sm prac_mycol event_name border-0"></button>
 					</div>
@@ -723,7 +723,8 @@ function put_prac(td,subject_event_id,batch,resource){
 	faculty_div = div_below.find(".faculty_name");
 	resource_div = div_below.find(".resource_name");
 	
-	button.html(subject_event.subject_name);
+	asd = subject_event.subject_name.split("").join("<br>");
+	button.html(asd);
 	button.css("background-color",subject_event.color);
 
 	faculty_div.html(subject_event.faculty_name);

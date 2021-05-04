@@ -170,7 +170,9 @@ th:nth-of-type(1) {
   scrollbar-color: #525252 #1f1f24 !important;
   scrollbar-width: thin !important;
 }
-
+.charts_container .row .card {
+    border-radius: 14px;
+}
 .charts_container .card .card-title,.charts_container .card .card-text{
   color: black !important;
   font-family: 'Poppins', sans-serif

@@ -7,3 +7,18 @@ html {
     font-size: 17px !important;
     color : #333;
   }
+
+  //For navpills in user dashboard
+.user_dash .card .nav-pills .nav-link {
+    // border : 1px solid rgb(185, 185, 185) !important;
+}
+.user_dash .card .nav-pills .nav-link.active {
+    // background-color: rgb(218, 218, 218);
+     background-color: transparent !important;
+    color: black !important;
+    font-weight: 500;
+}
+.user_dash .card .nav-pills .nav-link:hover {
+    // border : 1px solid rgb(185, 185, 185) !important;
+    color : black !important;
+}

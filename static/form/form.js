@@ -90,39 +90,6 @@ $(document).ready(function () {
 		$(".pagination_container").hide();
 		$("#add_row").show();
 	});
-
-    /////For Pagination of Faculty Page
-    if(document.getElementsByClassName("pagination_container")[0]) {
-        $('#first').click(function() {
-            $(this).parent().addClass("active");
-            $("#second").parent().removeClass("active");
-            $("#third").parent().removeClass("active");
-
-            $("#first_page").css("display","block");
-            $("#second_page").css("display","none");
-            $("#third_page").css("display","none"); 
-        })
-
-        $('#second').click(function() {
-            $(this).parent().addClass("active");
-            $("#first").parent().removeClass("active");
-            $("#third").parent().removeClass("active");
-
-            $("#first_page").css("display","none");
-            $("#second_page").css("display","block");
-            $("#third_page").css("display","none");
-        })
-
-        $('#third').click(function() {
-            $(this).parent().addClass("active");
-            $("#second").parent().removeClass("active");
-            $("#first").parent().removeClass("active");
-
-            $("#first_page").css("display","none");
-            $("#second_page").css("display","none");
-            $("#third_page").css("display","block");
-        })
-    }
 });
 function valid_input() {
 	var inputs = $(".form_input");

@@ -8,33 +8,38 @@ function set_load(load,events){
     // }
 }
 $(document).ready(function(){
-    $("#first").click(function(){
-        $("#second_page").hide();
-        $("#third_page").hide();
-        $("#first_page").show(100);
-
-        $(this).addClass("active");
-        $("#second").removeClass("active");
-        $("#third").removeClass("active");
-    });
-    $("#second").click(function(){
-        $("#first_page").hide();
-        $("#third_page").hide();
-        $("#second_page").show(100);
-
-        $(this).addClass("active");
-        $("#third").removeClass("active");
-        $("#first").removeClass("active");
-    });
-    $("#third").click(function(){
-        $("#second_page").hide();
-        $("#first_page").hide();
-        $("#third_page").show(100);
-
-        $(this).addClass("active");
-        $("#second").removeClass("active");
-        $("#first").removeClass("active");
-    });
+        /////For Pagination of Faculty Page
+        if(document.getElementsByClassName("pagination_container")[0]) {
+            $('#first').click(function() {
+                $(this).parent().addClass("active");
+                $("#second").parent().removeClass("active");
+                $("#third").parent().removeClass("active");
+    
+                $("#first_page").css("display","block");
+                $("#second_page").css("display","none");
+                $("#third_page").css("display","none"); 
+            })
+    
+            $('#second').click(function() {
+                $(this).parent().addClass("active");
+                $("#first").parent().removeClass("active");
+                $("#third").parent().removeClass("active");
+    
+                $("#first_page").css("display","none");
+                $("#second_page").css("display","block");
+                $("#third_page").css("display","none");
+            })
+    
+            $('#third').click(function() {
+                $(this).parent().addClass("active");
+                $("#second").parent().removeClass("active");
+                $("#first").parent().removeClass("active");
+    
+                $("#first_page").css("display","none");
+                $("#second_page").css("display","none");
+                $("#third_page").css("display","block");
+            })
+        }
 
     $(".submit_button").click(function(){
         if(old_load > parseInt($("input[name='total_load']").val())){
@@ -47,7 +52,6 @@ $(document).ready(function(){
         }
     });
 });
-
 // function pageChanger() {
 //     var page1 = document.getElementById("first_page");
 //     var page2 = document.getElementById("second_page");

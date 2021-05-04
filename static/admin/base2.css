@@ -10,4 +10,14 @@ html {
   font-size: 17px !important;
   color: #333;
 }
+
+.user_dash .card .nav-pills .nav-link.active {
+  background-color: transparent !important;
+  color: black !important;
+  font-weight: 500;
+}
+
+.user_dash .card .nav-pills .nav-link:hover {
+  color: black !important;
+}
 /*# sourceMappingURL=base2.css.map */

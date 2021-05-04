@@ -105,6 +105,15 @@ p.h6 {
   padding: 0 !important;
 }
 
+.btn-sm.prac_mycol.event_name {
+  width: 17px;
+  padding: 0 1px 0 1px !important;
+  z-index: 10;
+  -webkit-writing-mode: rl;
+      -ms-writing-mode: rl;
+          writing-mode: rl;
+}
+
 .lect_batches {
   font-size: x-small !important;
   padding: 0 1px 0 1px !important;

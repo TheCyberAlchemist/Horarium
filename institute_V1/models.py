@@ -23,6 +23,7 @@ class Institute(models.Model):
 class Resource(models.Model):
 	name = models.CharField(max_length = N_len)
 	block = models.CharField(max_length = N_len)
+
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name

@@ -838,7 +838,8 @@ def show_table(request,Division_id):
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches,keep_pk=True)
 
-	print(Slots.objects.filter( Timing_id__in = timings)[0])
+	# print(Slots.objects.filter( Timing_id__in = timings)[0])
+	print(Event.objects.filter(Division_id=Division_id))
 	return render(request,"try/table.html",context)
 
 
@@ -916,14 +917,15 @@ def algo_v1(request,Division_id):
 	for subject_event in subject_events:
 		prac_carried = subject_event.prac_carried
 		lect_carried = subject_event.lect_carried
+		all_events_of_subject = locked_events.filter(Subject_event_id__Subject_id = subject_event.Subject_id)
 		if prac_carried:	# if the faculty has practicals here
 			batches = subject_event.Subject_id.batch_set.filter(batch_for = "prac")
 			locked_subject_event = locked_events.filter(Subject_event_id=subject_event).exclude(Slot_id_2=None)
 			prac_per_week = subject_event.Subject_id.prac_per_week
+			# print(locked_subject_event)
 			if batches:
 				for batch in batches:
-					locked_prac_count = locked_subject_event.filter(Batch_id = batch).count()
-
+					locked_prac_count = all_events_of_subject.filter(Batch_id = batch).count()
 					remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
 					prac_remaining = subject_event.prac_carried - locked_subject_event.count()
 					# get the capability of the faculty to take this event
@@ -936,8 +938,7 @@ def algo_v1(request,Division_id):
 						# algo.get_subject_events(Division_id,subject_event,True,locked_events,batch)
 						locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events,batch))
 			else:
-				locked_prac_count = locked_subject_event.count()
-				
+				locked_prac_count = all_events_of_subject.count()
 				remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
 				prac_remaining = subject_event.prac_carried - locked_subject_event.count()
 				# get the capability of the faculty to take this event
@@ -956,7 +957,7 @@ def algo_v1(request,Division_id):
 			lect_per_week = subject_event.Subject_id.lect_per_week
 			if batches:		# if the subject has a batch
 				for batch in batches:
-					locked_lect_count = locked_subject_event.filter(Batch_id = batch).count()
+					locked_lect_count = all_events_of_subject.filter(Batch_id = batch).count()
 
 					remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
 					lect_remaining = subject_event.lect_carried - locked_subject_event.count()
@@ -971,11 +972,11 @@ def algo_v1(request,Division_id):
 						locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events,batch))
 
 			else:
-				locked_lect_count = locked_subject_event.count()
-				
+				locked_lect_count = all_events_of_subject.filter(Slot_id_2=None).count()
 				remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
 				lect_remaining = subject_event.lect_carried - locked_subject_event.count()
 				# get the capability of the faculty to take this event
+				print(f"locked_lect_count- {locked_lect_count}\nremaining_count-{remaining_count}\nlect_remaining-{lect_remaining}")
 
 				remaining_count = remaining_count if remaining_count<lect_remaining else lect_remaining
 				# if the faculty has no capicity then have the highest capability be remaining count

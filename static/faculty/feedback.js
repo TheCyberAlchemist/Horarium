@@ -120,7 +120,6 @@ $(document).ready(function () {
 						data: data.Q1,
 						hidden: true,
 						backgroundColor: Array(11).fill(`rgba(54, 162, 235, ${opacity})`),
-						
 						borderColor: Array(11).fill("rgba(54, 162, 235, 1)"),
 						borderWidth: 1,
 					},{

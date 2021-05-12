@@ -205,7 +205,7 @@ class ChartData(APIView):
 						break
 					
 				print(chartdata)
-				data ={
+				data = {
 					"labels":labels,
 					"chartLabel":chartLabel,
 					"chartdata":chartdata,

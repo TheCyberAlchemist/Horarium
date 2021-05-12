@@ -21,6 +21,11 @@ class student_user_table(AjaxDatatableView):
 	search_values_separator = " "
 	column_defs = [
 		AjaxDatatableView.render_row_tools_column_def(),
+		{
+			'name': 'id',
+			'visible': False,
+			'searchable': False,
+		},
 		{'name': 'first_name', 'visible': True,'searchable': True,'orderable': True,'title': 'Name',},
 		{'name': 'email', 'visible': True,'searchable': True,'title': 'Email', },
 		{
@@ -122,6 +127,11 @@ class faculty_user_table(AjaxDatatableView):
 	search_values_separator = " "
 	column_defs = [
 		AjaxDatatableView.render_row_tools_column_def(),
+		{
+			'name': 'id',
+			'visible': False,
+			'searchable': False,
+		},
 		{'name': 'first_name', 'visible': True,'searchable': True,'orderable': True,'title': 'Name',},
 		{
 			'name': 'Short',
@@ -185,7 +195,7 @@ class faculty_user_table(AjaxDatatableView):
 		html = '<table class="row-details" style="width:100%">'
 		for key in fields:
 		    html += '<tr><td class="fw-bold">%s</td><td class="fw-bold">%s</td></tr>' % (key, fields[key])
-		html += '<tr><td class="fw-bold">Subject_events</td><td class="fw-bold"><ul>'
+		html += '<tr><td class="fw-bold">Subject Events</td><td class="fw-bold"><ul>'
 		for event in sub_events:
 			html += '<li stlye="font-weight:600">%s (%s)</li>' % (event[0],event[1])
 		html+='</ul></td></tr>'

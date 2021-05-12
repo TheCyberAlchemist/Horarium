@@ -144,6 +144,7 @@ function return_row(slot){
 	tr.appendChild(is_break);
   var edit = document.createElement('td');
   edit.innerHTML = '<img class=\"action_icons edit\" src = ' + pen_link + ' alt=pen title=\"Edit\" ></img>';
+//   edit.innerHTML = '<a><i class="fas fa-edit">dd</i></a>'
   edit.className = "edit_buttons";
   tr.appendChild(edit);
   

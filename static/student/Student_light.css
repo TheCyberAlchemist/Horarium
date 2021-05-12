@@ -1,9 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
- * {
+* {
   padding: 0;
   margin: 0;
   -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
@@ -28,7 +28,7 @@ b a:hover {
 }
 
 .h4 {
-  font-family: 'Poppins',sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .container-fluid {
@@ -43,37 +43,38 @@ b a:hover {
 #agenda_panel {
   color: black;
   overflow-y: auto;
-  box-shadow: 0px -1px 26px 0px #b0b0b0;
+  /* box-shadow: 0px -1px 26px 0px #b0b0b0;
   -webkit-box-shadow: 0px -1px 26px 0px #b0b0b0;
-  -moz-box-shadow: 0px -1px 26px 0px #b0b0b0;
+  -moz-box-shadow: 0px -1px 26px 0px #b0b0b0; */
 }
 
-#agenda_panel a::after, #agenda_panel a::before {
+#agenda_panel a::after,
+#agenda_panel a::before {
   display: none;
 }
 
-#agenda_panel .container {
+#feedback_panel .container {
   border-radius: 10px;
   padding: 1em;
   width: 90%;
   border: 1px solid grey;
   margin-bottom: 1em;
-  -webkit-transition: .3s;
-  transition: .3s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
-#agenda_panel .container:hover {
+#feedback_panel .container:hover {
   -webkit-transform: scale(1.03);
-          transform: scale(1.03);
-  -webkit-transition: .3s;
-  transition: .3s;
+  transform: scale(1.03);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
 #t1 {
   text-align: center;
   width: 100%;
   table-layout: fixed;
-  color : black !important;
+  color: black !important;
 }
 
 #t1 th {
@@ -110,7 +111,7 @@ th:nth-of-type(1) {
 
 .btn:hover {
   -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  transform: scale(1.1);
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
@@ -147,14 +148,14 @@ th:nth-of-type(1) {
 .radio-inline {
   padding-right: 20px;
   -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .modal_btn.btn {
-  -webkit-transition: .3s;
-  transition: .3s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
   border: 1px solid #50a6f7;
 }
 
@@ -172,12 +173,63 @@ th:nth-of-type(1) {
   scrollbar-width: thin !important;
 }
 .charts_container .row .card {
-    border-radius: 14px;
+  border-radius: 14px;
 }
-.charts_container .card .card-title,.charts_container .card .card-text{
+.charts_container .card .card-title,
+.charts_container .card .card-text {
   color: black !important;
-  font-family: 'Poppins', sans-serif
+  font-family: "Poppins", sans-serif;
 }
+
+/* #region  Sidebar Button*/
+.sidebar_container {
+  position: relative;
+}
+.sidebar {
+    position: fixed;
+    top: 20%;
+    left: 1%;
+    animation-name: sidebar;
+    animation-duration: 1s;
+    animation-delay: 1s;
+    animation-iteration-count: infinite;
+}
+@keyframes sidebar {
+    0%, 13.32%, 20.01%, 40%, 46.67%, 93.32% {
+        background-color: red;
+        transform: rotate(20deg);
+        transition: 0.3s;
+    }
+    25%{
+        background-color: yellow;
+        transform: rotate(-20deg);
+        transition: 0.3s;
+    }
+    50% {
+        background-color: red;
+        transform: rotate(20deg);
+        transition: 0.3s;
+    }
+    75% {
+        background-color: yellow;
+        transform: rotate(-20deg);
+        transition: 0.3s;
+    }
+    100% {
+        background-color: red;
+        transform: rotate(20deg);
+        transition: 0.3s;
+    }
+  }
+
+/* #endregion Sidebar button*/
+
+/* #region  Offcanvas */
+.offcanvas {
+    
+}
+
+/* #endregion  Offcanvas*/
 
 @media screen and (max-width: 600px) {
   #t1 {
@@ -188,13 +240,13 @@ th:nth-of-type(1) {
     padding: 5px 2px;
   }
   #lect .btn {
-    margin: 7px .5em 0 .5em;
+    margin: 7px 0.5em 0 0.5em;
     padding: 5px 2px;
   }
   #prac .btn {
     height: 50px;
     padding: 0;
-    margin: 0 .5em;
+    margin: 0 0.5em;
   }
   #t1 .btn {
     font-size: 12px;
@@ -204,42 +256,45 @@ th:nth-of-type(1) {
   }
   #agenda_panel .container {
     border-radius: 10px;
-    padding: .7em;
+    padding: 0.7em;
     width: 95%;
     font-size: 13px;
     margin-bottom: 1em;
     border: 1px solid grey;
   }
-  #text, #text2 {
+  #text,
+  #text2 {
     font-size: 15px;
     -webkit-transition: 1s;
     transition: 1s;
   }
-    /*////////////////////Chart settings/////////////*/
-    .charts_container .card-title, .charts_container .card-body{
-      font-size:smaller;
-    }
-    .questions .card-header .h6, .questions .card-body .h6{
-      font-size:12px;
-      margin-bottom : 20px;
-    }
-    #show_week {
-      font-size:smaller;
-    }
-    .questions .card-header {
-      font-size:1.25rem;
-    }
-    .question_card {
-      width:100%;
-    }
-    .charts_container .card-body{
-      padding : 1rem;
-    }
-    .charts_container .card {
-      margin-top : 10px;
-    }
-    .charts_container .card-title, .charts_container .card-text {
-      margin-bottom: 0 !important;
-    }
+  /*////////////////////Chart settings/////////////*/
+  .charts_container .card-title,
+  .charts_container .card-body {
+    font-size: smaller;
+  }
+  .questions .card-header .h6,
+  .questions .card-body .h6 {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  #show_week {
+    font-size: smaller;
+  }
+  .questions .card-header {
+    font-size: 1.25rem;
+  }
+  .question_card {
+    width: 100%;
+  }
+  .charts_container .card-body {
+    padding: 1rem;
+  }
+  .charts_container .card {
+    margin-top: 10px;
+  }
+  .charts_container .card-title,
+  .charts_container .card-text {
+    margin-bottom: 0 !important;
+  }
 }
-/*# sourceMappingURL=Student_light.css.map */

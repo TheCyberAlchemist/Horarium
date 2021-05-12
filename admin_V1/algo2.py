@@ -137,6 +137,14 @@ def check_other_events_for_slot(all_events,slot,subject_event,batch=None,slot_be
 				return OTHER_EVENT_SLOT
 	return 0
 
+def is_better_slot(points,best_pair,this_slot):
+	if points > best_pair[0]:	# if slot is better
+		return True
+	if points == best_pair[0]:	# if slot has same points as best one
+		if best_pair[1].Timing_id.start_time > this_slot.Timing_id.start_time:
+			# if the given slot is earlier
+			return True
+	return False
 
 from tabulate import tabulate
 ########## Get-point functions for the events ##########
@@ -172,7 +180,7 @@ def get_point_for_prac_batch(subject_event,all_events,batch):
 			if prac_event and not prac_event.filter(Batch_id=batch) and prac_event[0].Batch_id:
 				points += PRAC_ON_PRAC
 			tab.append([slot,points,check_other_events_for_faculty(slot,subject_event,True)])
-		if points > best_pair[0]:
+		if is_better_slot(points,best_pair,slot):	# if it is better slot
 			best_pair[0] = points
 			best_pair[1] = slot
 			best_pair[2] = slot_below
@@ -206,7 +214,7 @@ def get_point_for_prac_class(subject_event,all_events):
 				next_slot_point += check_other_events_for_faculty(slot_below,subject_event,True)
 			points = min(points,next_slot_point)
 			tab.append([slot,points])
-		if points > best_pair[0]:
+		if is_better_slot(points,best_pair,slot):	# if it is better slot
 			best_pair[0] = points
 			best_pair[1] = slot
 			best_pair[2] = slot_below
@@ -235,7 +243,7 @@ def get_point_for_lect_batch(subject_event,all_events,batch):
 			points += check_other_events_for_slot(all_events,slot,subject_event,batch)
 			if lect_event and not lect_event.filter(Batch_id=batch):
 				points += PRAC_ON_PRAC
-		if points > best_pair[0]:
+		if is_better_slot(points,best_pair,slot):	# if it is better slot
 			best_pair[0] = points
 			best_pair[1] = slot
 		# tab.append([slot,points])
@@ -259,12 +267,14 @@ def get_point_for_lect_class(subject_event,all_events):
 			points += check_load_distribution(day_events,subject_event)
 			points += check_other_events_for_faculty(slot,subject_event)
 			points += check_other_events_for_slot(all_events,slot,subject_event)			
-		if points > best_pair[0]:
+		if is_better_slot(points,best_pair,slot):	# if it is better slot
 			best_pair[0] = points
 			best_pair[1] = slot
+
+
 		tab.append([slot,points])
-	if subject_event.pk == 29:
-		print(tabulate(tab,headers=["slot","point"],tablefmt="grid"))
+	# if subject_event.pk == 29:
+	# 	print(tabulate(tab,headers=["slot","point"],tablefmt="grid"))
 	return best_pair
 
 ########## gets the subject_event and the batch or none to place it ##########
@@ -299,8 +309,6 @@ def get_subject_events(Division_id,subject_event,is_prac,all_events,batch = None
 		if batch:	# if there is a batch for us to put it in
 			l.append([subject_event,batch,"Lecture"])
 			print([subject_event,batch,"Lecture"])
-
-
 			points,best_slot = get_point_for_lect_batch(subject_event,all_events,batch)
 		else:		# if no batch
 			l.append([subject_event,"Class","Lecture"])

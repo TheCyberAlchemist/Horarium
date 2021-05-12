@@ -46,18 +46,21 @@
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
     $("#resources").select2();
     $("#batches").select2();
-    $("#links").select2({tags: true});
-    window.onscroll = function() {myFunction()};
+    $("#links").select2({
+        tags: true
+    });
 
 var header = document.getElementById("myHeader");
-var sticky = header.offsetTop;
-
-function myFunction() {
-  if (window.pageYOffset > sticky) {
-    header.classList.add("sticky");
-  } else {
-    header.classList.remove("sticky");
-  }
+if (header){
+    window.onscroll = function() {myFunction()};
+    var sticky = header.offsetTop;
+    function myFunction() {
+        if (window.pageYOffset > sticky) {
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
+    }
 }
 
 
@@ -92,7 +95,7 @@ function myFunction() {
         <select id="resources">
             <option disabled selected value=-1>Select the room </option>
             {% for resource in resources %}
-            <option value="{{resource.id}}">{{resource}}</option>
+                <option value="{{resource.id}}">{{resource}}</option>
             {% endfor %}
         </select>
     </div>
@@ -258,9 +261,12 @@ function myFunction() {
         <li style="list-style-type: none">
             <!-- <span class='clear_td'></span>&nbsp; -->
             <div class='clear_td'>Clear</div>
-</div>
-</li>
-</ul>
+        </li>
+        <li style="list-style-type: none">
+            <!-- <span class='clear_td'></span>&nbsp; -->
+            <div class='open_menu'>Edit</div>
+        </li>
+    </ul>
 </div>
 
 {%endblock%}

@@ -10,13 +10,13 @@ function toggle_loading(){
 	
 }
 $(document).ajaxStart(function(){
-		// alert("start");
-		toggle_loading();
-	});
-	$(document).ajaxStop(function(){
-		// alert("All AJAX requests completed");
-		toggle_loading();
-	  });
+    // alert("start");
+    toggle_loading();
+});
+$(document).ajaxStop(function(){
+    // alert("All AJAX requests completed");
+    toggle_loading();
+    });
 </script>
 <div class="image-container">
     <p class="image-holder">

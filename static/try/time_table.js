@@ -1,4 +1,4 @@
-///////////////////////////////// classes & arrays /////////////////////////////////
+//#region  ////////////// classes & arrays //////////////
 var slots = [];
 class slot{
 	constructor(id = 0,day = 0,timing = 0,resources_filled=0){
@@ -48,7 +48,9 @@ class event_action{
 }
 var batches = [];
 var subjects = [];
-///////////////////////////////// hotkeys /////////////////////////////////
+//#endregion
+
+//#region  ////////////// hotkeys //////////////
 hotkeys('ctrl+z,ctrl+y', function (event, handler){
 	switch (handler.key) {
 	  case 'ctrl+z': undo();
@@ -56,12 +58,13 @@ hotkeys('ctrl+z,ctrl+y', function (event, handler){
 	  case 'ctrl+y': redo();
 		break;
 	}
-  });
+});
+//#endregion
 
-
-///////////////////////////////// get methods /////////////////////////////////
+//#region  ////////////// get methods //////////////
 
 function get_prac_pair(td){
+	// console.log(td);
 	var td_below = td.closest('.my_row').next().children().eq(td.index());
 	var td_above = td.closest('.my_row').prev().children().eq(td.index());
 	if (td_below.length && !td_below.hasClass("isBreak")){
@@ -71,7 +74,7 @@ function get_prac_pair(td){
 	}
 }
 
-function get_slot(td){
+function get_slot_by_td(td){
 	let day = td.index();
 	let time = td.parent().attr("timing_id");
 	// console.log(slots[0],day,time);
@@ -132,6 +135,7 @@ function get_cell(slot_id){
 		return $("#kaibhi");
 	let tr = $("[timing_id=" + String(slot_obj.timing) + "]");
 	let td = tr.find('.my_col:nth-child('+(slot_obj.day+1)+')')
+	// console.log(String(slot_obj.timing),$("tr"));
 	// print(tr);
 	return td;
 }
@@ -139,17 +143,21 @@ function get_cell(slot_id){
 function get_all_locked_events(){
 	return events.filter(e=>e.locked == true);
 }
+//#endregion
 
-
-///////////////////////////////// put methods/////////////////////////////////
+//#region  ////////////// put methods //////////////
 function put_json_in_table(json_data){
 	// console.log("obj",json_data);
 	for(i in json_data){
 		let obj = json_data[i];
-		// console.log(obj);
-		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2,obj.locked);
-		// console.log(temp_event);
 		td = get_cell(obj.Slot_id);
+		if (td.hasClass("locked")){ // if the slot is locked
+			// console.log(td);
+			continue;
+		}
+		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2,obj.locked);
+		if (obj.Subject_event_id == 20)
+			console.log(temp_event);
 		let resource = "";
 		$("#resources option").each(function(){
 			if ($(this).val() == obj.Resource_id){
@@ -184,6 +192,7 @@ function put_json_in_table(json_data){
 				cell.addClass("locked");
 			}
 		}
+
 	}
 }
 
@@ -192,7 +201,7 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
 		slots.push(temp_slot);
 	}
-	// console.table(slots);
+	console.table(sub_events_json);
 	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
 	for (i in sub_events_json){
 		obj = sub_events_json[i].fields;
@@ -209,12 +218,15 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 	this.batches=batches;
 	this.subjects = subjects_json;
 	// console.table(old_events_json);
-	put_json_in_table(old_events_json);
+	$(document).ready (function () {
+		put_json_in_table(old_events_json);
+	});
 	// console.table(events);
 	// console.table(subjects);
 }
+//#endregion
 
-///////////////////////////////// only functions /////////////////////////////////
+//#region  ////////////// only functions //////////////
 
 function print(abc){
 	console.log(abc);
@@ -253,6 +265,7 @@ function update_card(subject_event,is_prac) {
 	subject_card.find(".remaining_load").each(function() {
 		total_load += parseInt($(this).html());
 	});
+	// console.log(total_load,subject_card);
 	subject_load.html(total_load);
 }
 
@@ -283,6 +296,8 @@ function subject_has_load_for_batch(subject_id,batch_id,is_prac) {
 	// console.log(subject_id);
 	if (is_prac && subject.prac_per_week){
 		let all_events_for_subject_in_same_batch = events.filter(e=> e.Slot_id_2 && e.Batch_id==batch_id && get_subject_event(e.Subject_event_id).subject_id == subject_id);
+		if (subject_id == 14)
+			console.log(all_events_for_subject_in_same_batch,subject.prac_per_week,all_events_for_subject_in_same_batch.length);
 		if (subject.prac_per_week > all_events_for_subject_in_same_batch.length ){
 			return true;
 		}
@@ -295,8 +310,30 @@ function subject_has_load_for_batch(subject_id,batch_id,is_prac) {
 	console.log(`max filled for batch ${batch_id} - ${subject.name}`,is_prac);
 	return false;
 }
+function open_menu_in_event_div(event_div,e){
+	if (!$(this).hasClass("locked")){
+		// Show contextmenu
+		// let rect = $(this)[0].getBoundingClientRect();
+		var left,top = e.pageY+5;
+		if (e.pageX+$(".context-menu").width() >= screen.width){
+			left = e.pageX - $(".context-menu").width();
+		}else{
+			left = e.pageX;
+		}	
+		$(".context-menu").toggle(100).css({
+		top: top + "px",
+		left: left + "px"
+		});
+		console.log($(this));
+		$(".clear_td").attr("slot_id",get_slot_by_td($(this)).id);
+		$(this).addClass("right_click_selected"); // 
+	}
+	return false;
+}
 
-///////////////////////////////// events manipulation /////////////////////////////////
+//#endregion
+
+//#region  ////////////// events manipulation //////////////
 
 function push_event(temp_event){
 	// check for batches in event_counter too
@@ -311,7 +348,7 @@ function push_event(temp_event){
 	}
 
 	if (!subject_event_has_load_remaining(temp_event.Subject_event_id,is_prac) || !subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac)){
-		console.log("max_filled");
+		console.log("max_filled",subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac));
 		return false;
 	}
 	for(var i = events.length - 1;i >= 0 ;i--){
@@ -350,7 +387,7 @@ function push_event(temp_event){
 	let caller = push_event.caller.name
 	if (caller != "put_json_in_table" && caller != "undo" && caller != "redo"){	
 		// if not called by put_event (i.e. regular push)
-		actions.push(new event_action("added",temp_event));
+		push_into_action(new event_action("added",temp_event));
 	}
 	update_card(subject_event,is_prac);
 	return true;
@@ -406,15 +443,15 @@ function undo(){
 	// console.log(undo_actions);
 }
 
-actions.push = function actions_push() {		// if the action array is pushed then undo_actions should be refreshed
-	// if (actions[actions.length - 1])
-		console.log();
-	if (JSON.stringify(actions[actions.length - 1]) !== JSON.stringify(arguments[0]))
-		Array.prototype.push.apply(this, arguments);
-	if (!(actions_push.caller.name == "redo" || ( actions_push.caller.caller && actions_push.caller.caller.name == "redo")))
-		undo_actions = [];
-	// console.log(undo_actions);
-};
+function push_into_action(action,is_redo = false){
+	actions.push(action);
+	if (is_redo)	// if not called by redo related functions
+	return;
+	undo_actions = [];
+	// console.trace();
+	console.log("new action occured !!"); 
+}
+
 
 function redo(){
 	// console.log(undo_actions);
@@ -427,12 +464,12 @@ function redo(){
 	switch(last_undo.type){
 		case "added":
 			temp_events = events.filter(e=> e.Slot_id != my_event.Slot_id || e.Subject_event_id != my_event.Subject_event_id);
-			cleared = clear_all_unlocked_td(my_event,false);
+			cleared = clear_all_unlocked_td(my_event,push_action=false,is_redo=true);
 			console.log(cleared);
 			// events = temp_events;
 			if (cleared){
 				put_json_in_table(temp_events);
-				actions.push(new event_action("removed",my_event));
+				push_into_action(new event_action("removed",my_event),true);
 			}else{
 				undo_actions.push(last_undo);
 			}
@@ -454,14 +491,14 @@ function redo(){
 					}
 					put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
 				}
-				actions.push(new event_action("added",my_event))
+				push_into_action(new event_action("added",my_event),true)
 			}	
 			break;
 		case "put_all_unlocked":
-			cleared = clear_all_unlocked_td(my_event,false);
+			cleared = clear_all_unlocked_td(my_event,push_action=false,is_redo=true);
 			// console.log(cleared);
 			if (cleared){
-				actions.push(new event_action("cleared_unlocked",my_event));
+				push_into_action(new event_action("cleared_unlocked",my_event),true);
 			}else{
 				undo_actions.push(last_undo);
 			}
@@ -475,7 +512,9 @@ function show_all(){
 	console.table(actions);
 	console.table(undo_actions);
 }
-///////////////////////////////// clear functions /////////////////////////////////
+//#endregion
+
+//#region  ////////////// clear & locking functions //////////////
 
 function clear_td(td,totally_clear_all=false){		// refresh the td
 	// console.log("clear called");
@@ -497,8 +536,6 @@ function clear_td(td,totally_clear_all=false){		// refresh the td
 	return false;
 }
 
-
-
 // get the event logic to clear unlocked from the redo 
 function totally_clear_all(push_action = true){
 	for(let i in events){
@@ -507,7 +544,7 @@ function totally_clear_all(push_action = true){
 			clear_td(get_cell(events[i].Slot_id_2),true);
 	}
 	if (push_action)
-		actions.push(new event_action("totally_cleared",events));
+		push_into_action(new event_action("totally_cleared",events));
 	events = [];
 	for(let j in subject_events){
 		// update_card(subject_events[j],)
@@ -521,7 +558,8 @@ function totally_clear_all(push_action = true){
 	return true;	
 }
 
-function clear_all_unlocked_td(my_events = false,push_action = true){		// refresh all the td
+function clear_all_unlocked_td(my_events = false,push_action = true,is_redo=false){		// refresh all the td
+	
 	function clear_html(){
 		if (my_events.length > 1){
 			for(let i in my_events){
@@ -536,7 +574,8 @@ function clear_all_unlocked_td(my_events = false,push_action = true){		// refres
 					clear_td(get_cell(events[i].Slot_id_2));
 			}
 		}
-		actions.push(new event_action("cleared_unlocked",events.filter(e=>!e.locked)));
+		if (push_action)
+			push_into_action(new event_action("cleared_unlocked",events.filter(e=>!e.locked)),is_redo);
 		events = events.filter(e=>e.locked);
 		for(let j in subject_events){
 			// update_card(subject_events[j],)
@@ -572,7 +611,27 @@ function clear_all_unlocked_td(my_events = false,push_action = true){		// refres
 	}
 }
 
-///////////////////////////////// put lect and prac on td /////////////////////////////////
+function lock_event_by_td(td){
+	let slot = get_slot_by_td(td);
+	let locking_events = events.filter(e=> e.Slot_id == slot.id || e.Slot_id_2 == slot.id);
+	if (Boolean(locking_events.length) && Boolean(locking_events[0].Slot_id_2)){
+		get_prac_pair(td).forEach(e=>e.toggleClass("locked"))
+	}
+	else{
+		td.toggleClass("locked");
+	}
+	for (i in locking_events){
+		locking_events[i].locked = !locking_events[i].locked;
+		// console.log(locking_events[i]);
+	}
+}
+
+function lock_all_events(){
+	
+}
+//#endregion
+
+//#region  ////////////// put lect and prac on td //////////////
 
 
 function change_to_lect_td(td,subject_batch){
@@ -650,7 +709,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	if (has_batch){	
 		for (i in subject_batch){
 			string += `
-			<div class=" col-`+ colspan+`"batch_for=`+subject_batch[i].pk+`>
+			<div class="event_divs col-`+ colspan+`"batch_for=`+subject_batch[i].pk+`>
 				<div class="row" >
 					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
 				</div>
@@ -678,8 +737,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	}
 	string += `</div></div>`
 	pair[0].html(string);
-
-
+	
 	/////////////////////////////// pair [1] - prac_below ////////////////////////////
 	pair[1].removeClass("lect");
 	pair[1].addClass("prac prac_below");
@@ -705,7 +763,9 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	}
 	string += `</div></div>`;
 	pair[1].html(string);
-
+	$(".event_divs").bind('contextmenu', function (e) {
+		return open_menu_in_event_div($(this),e);
+	});
 
 	pair[0].addClass("filled");
 	pair[1].addClass("filled");
@@ -730,8 +790,9 @@ function put_prac(td,subject_event_id,batch,resource){
 	faculty_div.html(subject_event.faculty_name);
 	resource_div.html(resource);
 }
+//#endregion
 
-///////////////////////////////// ready function /////////////////////////////////
+//#region  ////////////// ready function //////////////
 
 $(document).ready (function () {
 	
@@ -756,24 +817,8 @@ $(document).ready (function () {
 
 	///////////////////////////// right click menu ///////////////////////
 
-	$(".droppable").bind('contextmenu', function (e) {
-		if (!$(this).hasClass("locked")){
-			// Show contextmenu
-			// let rect = $(this)[0].getBoundingClientRect();
-			var left,top = e.pageY+5;
-			if (e.pageX+$(".context-menu").width() >= screen.width){
-				left = e.pageX - $(".context-menu").width();
-			}else{
-				left = e.pageX;
-			}	
-			$(".context-menu").toggle(100).css({
-			top: top + "px",
-			left: left + "px"
-			});
-			$(".clear_td").attr("slot_id",get_slot($(this)).id);
-			$(this).addClass("right_click_selected"); // 
-		}
-		return false;
+	$(".event_divs").bind('contextmenu', function (e) {
+		return open_menu_in_event_div($(this),e);
 	});
 	$(document).bind('contextmenu click',function(){
 		$(".context-menu").hide();
@@ -794,7 +839,7 @@ $(document).ready (function () {
 				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
 				for (e in events_removed){
 					update_card(get_subject_event(events_removed[e].Subject_event_id),true);
-					actions.push(new event_action("removed",events_removed[e]));
+					push_into_action(new event_action("removed",events_removed[e]));
 				}
 			}
 			// console.table(events);
@@ -807,12 +852,15 @@ $(document).ready (function () {
 				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
 				for (e in events_removed){
 					update_card(get_subject_event(events_removed[e].Subject_event_id),false);
-					actions.push(new event_action("removed",events_removed[e]));
+					push_into_action(new event_action("removed",events_removed[e]));
 				}
 			}
 			// console.table(events);
 		}
 	})
+	$(".open_menu").click(function(){
+		console.log()
+	});
 	///////////////////////////// draggable/droppable ///////////////////////
 
 	$(".draggable").draggable({
@@ -897,7 +945,7 @@ $(document).ready (function () {
 			if (!$( this ).hasClass("not_available_td")){
 			// if faculty is available at this slot
 				let td = $(this);
-				var slot = get_slot(td);
+				var slot = get_slot_by_td(td);
 				let subject_event_id = ui.draggable.attr("subject_event_id");
 				let is_prac = ui.draggable.attr("is_prac");
 
@@ -974,7 +1022,7 @@ $(document).ready (function () {
 			let subject_batch = get_batches(subject_event_id,is_prac);
 			if (is_prac){
 				if (subject_batch){	// if prac_batch
-					temp_event = new event_class(String(get_slot(get_prac_pair(td)[0]).id),subject_event_id,batch,resource,String(get_slot(get_prac_pair(td)[1]).id));
+					temp_event = new event_class(String(get_slot_by_td(get_prac_pair(td)[0]).id),subject_event_id,batch,resource,String(get_slot_by_td(get_prac_pair(td)[1]).id));
 					if (push_event(temp_event)){
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
@@ -982,7 +1030,7 @@ $(document).ready (function () {
 						put_prac(td,subject_event_id,batch,resource_name);
 					}
 				}else{			// if prac_class
-					temp_event = new event_class(String(get_slot(get_prac_pair(td)[0]).id),subject_event_id,null,resource,String(get_slot(get_prac_pair(td)[1]).id));
+					temp_event = new event_class(String(get_slot_by_td(get_prac_pair(td)[0]).id),subject_event_id,null,resource,String(get_slot_by_td(get_prac_pair(td)[1]).id));
 					if (push_event(temp_event)){
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
@@ -1024,22 +1072,14 @@ $(document).ready (function () {
 	});
 	//////////////////////////// double click locking ///////////////////////////
 	$(".droppable").dblclick(function(e,t){
-		let slot = get_slot($(this));
-		let locking_events = events.filter(e=> e.Slot_id == slot.id || e.Slot_id_2 == slot.id);
-		if (Boolean(locking_events.length) && Boolean(locking_events[0].Slot_id_2)){
-			get_prac_pair($(this)).forEach(e=>e.toggleClass("locked"))
-		}
-		else{
-			$(this).toggleClass("locked");
-		}
-		for (i in locking_events){
-			locking_events[i].locked = !locking_events[i].locked;
-			// console.log(locking_events[i]);
-		}
+		lock_event_by_td($(this));
 		// console.log(get_all_locked_events());
 	});
 });
 
+//#endregion
+
+//#region  ////////////// ajax function //////////////
 
 function submited(){
 	// console.log("JSON.stringify(events),1)");
@@ -1056,11 +1096,11 @@ function call_algo(){
 		type: "post",
 		url: "./algo/",
 		data: JSON.stringify(get_all_locked_events()),
-
 		success: function (data){
 			clear_all_unlocked_td();
-			console.log(events);
+			// console.log(events);
 			put_json_in_table(data);
 	  }
   });
 }
+//#endregion

@@ -25,126 +25,127 @@
 
 {% endblock %}
 {% block content %}
-<!-- <button class="btn btn-primary sidebar" id="sidebar" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true">Feedback</button> -->
-
 <div class="container sidebar_container">
     <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true">
 </div>
-    <div class="container-fluid pt-4 main_content" translate="no">
-        <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
-            <div id="ct"></div>
-            <div id="myBar"></div>
-        </div>
-    <!-- <div class="row container-fluid pl-5 pr-5" style="background-color: red;">
-        <div class="col-6 text-left" style="background-color: green;">
-        9:00:00
-        </div>
-        <div class="col-6 text-right" style="background-color: grey;">
-        4:00:00
-        </div>
-    </div> -->
-        <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500">
-        </div>
-        <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
-        </div>
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
-            <table id="t1" class="">
-                <thead>
-                    <tr>
-                        <th>Time</th>
-                        {% for day in days %}
-                        <th>
-                        {{day.Days_id}}
-                        </th>
-                        {% endfor %}
-                    </tr>
-                </thead>
-                <tbody>
-                    {%set before=[]%}
-                    {% for timing in timings %}
-                    <!--for all time periods in database-->
-                        <tr>
-                            {% if timing.is_break %}
-                            <th>
-                                {{timing.name}}<br>
-                                [{{timing.return_time()}}]
-                            </th>
-                            {% set len = days|length %}
-                            <th colspan="{{len}}" class="isBreak" break_id="{{timing.id}}">
-                                <span class="h4">{{timing.name}}</span>
-                            </th>
-                            {% else %}
-                            <th>
-                                {{timing.name}}<br>
-                                [{{timing.return_time()}}]
-                            </th>
-                            {% for day in days %}
-                                {% if day not in before %}
-                                    {% set temp_event={'a':None} %}
-                                {% for event in events %}
-                                    {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
-                                        {% set _ = temp_event.update({'a':event}) %}
-                                    {% endif %}
-                                {% endfor %}
-                            {% if temp_event.a %}
-                            <!-- if there is an event-->
-                            {% if temp_event.a.Slot_id_2 %}
-                            <!-- if there is practical event-->
-                            {% set _ = before.append(day) %}
-                            <td class="td_gone" rowspan="2" event_id="{{temp_event.a.id}}">
-                            <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
-                                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
-                                style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
-                                onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Batch_id.link}}{% endif %}', '_blank')">
-                                {{temp_event.a.Subject_event_id.Subject_id}}
-                                </button>
+<div class="container-fluid pt-4" translate="no">
+  <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
+    <div id="ct"></div>
+    <div id="myBar"></div>
+  </div>
+  <!-- <div class="row container-fluid pl-5 pr-5" style="background-color: red;">
+    <div class="col-6 text-left" style="background-color: green;">
+      9:00:00
+    </div>
+    <div class="col-6 text-right" style="background-color: grey;">
+      4:00:00
+    </div>
+  </div> -->
+  <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500">
+  </div>
+  <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
+  </div>
+  <div class="row">
+    <div class="col-lg-12 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
+      <table id="t1" class="">
+        <thead>
+          <tr>
+            <th>Time</th>
+            {% for day in days %}
+            <th>
+              {{day.Days_id}}
+            </th>
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          {%set slot_2_arr=[]%}
+          {% for timing in timings %}
+            <!--for all time periods in database-->
+            <tr>
+              {% if timing.is_break %}
+                <th>
+                  {{timing.name}}<br>
+                  [{{timing.return_time()}}]
+                </th>
+                {% set len = days|length %}
+                <th colspan="{{len}}" class="isBreak" break_id="{{timing.id}}">
+                  <span class="h4">{{timing.name}}</span>
+                </th>
+              {% else %}
+                <th>
+                  {{timing.name}}<br>
+                  [{{timing.return_time()}}]
+                </th>
+                {% for day in days %}
+                  {% if day not in slot_2_arr %}
+                    {% set temp_event={'a':None} %}
+                    {% for event in events %}
+                      {% if event.Slot_id.day == day and event.Slot_id.Timing_id == timing %}
+                        {% set _ = temp_event.update({'a':event}) %}
+                      {% endif %}
+                    {% endfor %}
+                    {% if temp_event.a %}
+                      <!-- if there is an event-->
+                      {% if temp_event.a.Slot_id_2 %}
+                        <!-- if there is practical event-->
+                        {% set _ = slot_2_arr.append(day) %}
+                        <td class="td_gone" rowspan="2" event_id="{{temp_event.a.id}}">
+                          <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
+                            <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+                              style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                              onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Batch_id.link}}{% endif %}', '_blank')">
+                              {{temp_event.a.Subject_event_id.Subject_id}}
+                            </button>
 
-                                <div class="row">
-                                <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
-                                </div>
-                                {%if temp_event.a.Resource_id %}
-                                    <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                                        <span>{{temp_event.a.Resource_id}}</span>
-                                    </div>
-                                {%endif%}
-                                </div>
+                            <div class="row">
+                              <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                              </div>
+                              {%if temp_event.a.Resource_id %}
+                              <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                                <span>{{temp_event.a.Resource_id}}</span>
+                              </div>
+                              {%endif%}
                             </div>
-                            </td>
-                            {% else %}
-                            <!-- if there is lecture event-->
-                            <td class="td_gone" event_id="{{temp_event.a.id}}">
-                            <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
-                                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
-                                style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
-                                onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">
-                                {{temp_event.a.Subject_event_id.Subject_id}}
-                                </button>
-                                <div class="row">
-                                <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
-                                </div>
-                                {%if temp_event.a.Resource_id %}
-                                <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                                    <span>{{temp_event.a.Resource_id}}</span>
-                                </div>
-                                {%endif%}
-                                </div>
+                          </div>
+                        </td>
+                      {% else %}
+                        <!-- if there is lecture event-->
+                        <td class="td_gone" event_id="{{temp_event.a.id}}">
+                          <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
+                            <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+                              style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
+                              onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">
+                              {{temp_event.a.Subject_event_id.Subject_id}}
+                            </button>
+                            <div class="row">
+                              <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                                <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                              </div>
+                              {%if temp_event.a.Resource_id %}
+                              <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                                <span>{{temp_event.a.Resource_id}}</span>
+                              </div>
+                              {%endif%}
                             </div>
-                            </td>
-                            {% endif %}
-                            {% else %}
-                            <!-- if there is no event-->
-                            <td></td>
-                            {% endif %}
-                            {% else %}
-                            {% set _ = before.pop(before.index(day))%}
-                            {% endif %}
-                            {% endfor %}
-                            {% endif %}
-                        </tr>
-
+                          </div>
+                        </td>
+                      {% endif %}
+                    {% else %}
+                      <!-- if there is no event-->
+                      <td></td>
+                    {% endif %}
+                  {% else %}
+                    {% set _ = slot_2_arr.pop(slot_2_arr.index(day))%}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
 
                 {% endfor %}
                 </tbody>

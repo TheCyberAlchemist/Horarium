@@ -25,9 +25,7 @@
 </style>
 {%endblock%}
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-    crossorigin="anonymous"></script>
+
 <script src="{{static ('Popper/popper.min.js') }}"></script>
 <script src="{{static ('hotkeys.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
@@ -38,17 +36,15 @@
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="{{static ('bootbox.min.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{static ('try/time_table.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
     $("#resources").select2();
     $("#batches").select2();
-    $("#links").select2({
-        tags: true
-    });
+
 
 var header = document.getElementById("myHeader");
 if (header){
@@ -94,14 +90,6 @@ if (header){
     <div class="select2_container single_select2">
         <select id="resources">
             <option disabled selected value=-1>Select the room </option>
-            {% for resource in resources %}
-                <option value="{{resource.id}}">{{resource}}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <div class="select2_container single_select2">
-        <select id="links" type="text">
-            <option disabled selected value=-1>Enter the link </option>
             {% for resource in resources %}
                 <option value="{{resource.id}}">{{resource}}</option>
             {% endfor %}

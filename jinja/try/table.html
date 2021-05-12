@@ -46,6 +46,7 @@
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
     $("#resources").select2();
     $("#batches").select2();
+    $("#links").select2({tags: true});
     window.onscroll = function() {myFunction()};
 
 var header = document.getElementById("myHeader");
@@ -65,7 +66,7 @@ function myFunction() {
 {% block content %}
 
 {%include "admin/details/loading.html" %}
-<div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="confirm_modal" aria-hidden="true">
+<div class="modal fade" id="confirm_modal" role="dialog" aria-labelledby="confirm_modal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -95,6 +96,16 @@ function myFunction() {
             {% endfor %}
         </select>
     </div>
+
+    <div class="select2_container single_select2">
+        <select id="links">
+            <option disabled selected value=-1>Select the link </option>
+            {% for resource in resources %}
+            <option value="{{resource.id}}">{{resource}}</option>
+            {% endfor %}
+        </select>
+    </div>
+
     <div class="select2_container single_select2" style="margin-top: 1em;">
         <select id="batches">
             <option disabled selected value=-1>Select the batch </option>

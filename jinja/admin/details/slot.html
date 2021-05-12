@@ -28,9 +28,9 @@
     activate("{{my_shift.Department_id}}.d.{{my_shift}}");
     put_pen("{{static ('admin/details/img/pen.png')}}")
     $(document).ready(function () {
-        $("#day1").select2({tags:true});
-        $("#day2").select2({tags: true});
-        $("#slot_naming").select2({tags: true});
+        $("#day1").select2();
+        $("#day2").select2();
+        $("#slot_naming").select2();
     });
 
     $(document).ready(function () {

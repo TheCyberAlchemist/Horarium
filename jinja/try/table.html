@@ -19,9 +19,9 @@
     .here {
         background-color: blue;
     }
-    .select2-container--default .select2-results__option[aria-disabled=true] {
+    /*select2-container--default .select2-results__option[aria-disabled=true] {
         display: none;
-    }
+    }*/
 </style>
 {%endblock%}
 {% block scripts %}
@@ -38,17 +38,18 @@
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script src="{{static ('bootbox.min.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{static ('try/time_table.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
-    $("#resources").select2();
-    $("#batches").select2();
-    $("#links").select2({
-        tags: true
-    });
+    $(document).ready(function (){
+        $("#resources").select2();
+        $("#batches").select2();
+        $("#links").select2({
+            tags: true
+        });
+    })
 
 var header = document.getElementById("myHeader");
 if (header){

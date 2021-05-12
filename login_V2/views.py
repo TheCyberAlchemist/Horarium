@@ -75,3 +75,6 @@ def register_page(request):
 
 def about(request) :
 	return render(request,'about/about.html')
+
+def user_settings(request) :
+    return render(request,'AccountSetting/user_settings1.html')

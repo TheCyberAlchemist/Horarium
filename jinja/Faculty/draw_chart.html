@@ -1,4 +1,20 @@
 {% block draw_chart %}
+<style type="text/css">
+    canvas.bar_styling {
+        min-width:70vw !important;
+        min-height: 70vh !important;
+        max-height: 70vh !important;
+        max-width: 80vw !important;
+    }
+    .chartjs-render-monitor {
+        animation: chartjs-render-animation 0s;
+    }
+    .chartjs-size-monitor-expand > div {
+        max-width:80vw !important;
+        max-height: 70vw !important;
+        transition : 0s !important;
+    }
+</style>
 <div class="container-fluid pt-4">
     <!-- <canvas id="month_rating"></canvas>
     <canvas id="week_rating"></canvas>
@@ -22,12 +38,36 @@
                 </div>
             </div>
             <div class="chart col-lg-10 col-md-12 col-sm-12" style="position:relative">
-                <div class="card">
+                <div class="card mb-5">
                     <div class="card-title mt-2">
                         <span class="h4">Ratings For {{event.Subject_id}} </span>
                     </div>
                     <div class="card-body">
-                        <canvas id="day_rating__{{event.pk}}" style="height:70vh;width:80%;"></canvas>
+                        <canvas id="day_rating__{{event.pk}}" class="bar_styling"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            
+            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
+                <div class="card mt-2 mb-2">
+                    <div class="card-title mt-1">
+                        <span class="h6">Needs improvement in following questions</span>
+                    </div>
+                    <div class="card-body" style="margin-top:-30px">
+                        <canvas id="myChart" style="width:646px;height:350px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-0 col-sm-0 p-0"></div>
+            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
+                <div class="card mt-2 mb-2">
+                    <div class="card-title mt-1">
+                        <span class="h6">Progress in all areas</span>
+                    </div>
+                    <div class="card-body" style="margin-bottom:30px">
+                        <canvas id="myChart1" style="width:646px;height:350px"></canvas>
                     </div>
                 </div>
             </div>
@@ -48,12 +88,12 @@
                 </div>
             </div>
             <div class="chart col-lg-10 col-md-12 col-sm-12" style="position:relative">
-                <div class="card mt-2">
+                <div class="card mt-2 mb-5">
                     <div class="card-title mt-2">
                         <span class="h4">Ratings For {{event.Subject_id}} </span>
                     </div>
                     <div class="card-body">
-                        <canvas id="week_rating__{{event.pk}}" style="height:70vh;width:80%;"></canvas>
+                        <canvas id="week_rating__{{event.pk}}" class="bar_styling" style="width:80%;" ></canvas>
                     </div>
                 </div>
             </div>
@@ -75,7 +115,7 @@
                         <span class="h4">Ratings For {{event.Subject_id}} </span>
                     </div>
                     <div class="card-body">
-                        <canvas id="month_rating__{{event.pk}}" style="height:70vh;width:80%;"></canvas>
+                        <canvas id="month_rating__{{event.pk}}" class="bar_styling" style="width:80%;"></canvas>
                     </div>
                 </div>
             </div>

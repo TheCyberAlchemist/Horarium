@@ -32,9 +32,9 @@ function put_data(subject_events_json){
 	subject_events = subject_events_json;
 }
 $(document).ready(function () {
-	AOS.init({
-		offset: 150,
-	});
+	// AOS.init({
+	// 	offset: 150,
+	// });
 	let cookie = localStorage.getItem("theme") || "";
 	// console.log(cookie,"asdasd");
 	if (cookie === "") {
@@ -184,8 +184,9 @@ $(document).ready(function () {
 				],
 			},
 			options: {
-				responsive: true,
+                responsive: true,
     			maintainAspectRatio: false,
+                responsiveAnimationDuration: 0,
 				onClick: function (evt, i) {
 					e = i[0];
 					if (ids && e) {

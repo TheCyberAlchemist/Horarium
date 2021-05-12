@@ -1,9 +1,11 @@
-.main_content, html {
+.main_content,
+html {
   background-color: #f1f4f6 !important;
   padding-top: 60px !important;
 }
 
-.user_dash.main_content, html {
+.user_dash.main_content,
+html {
   background-color: #f1f4f6 !important;
   padding-top: 30px !important;
 }
@@ -17,8 +19,8 @@
   outline: none !important;
   -webkit-box-shadow: none !important;
           box-shadow: none !important;
-  -webkit-transition: .1s;
-  transition: .1s;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
 }
 
 .form-control.myinputs:focus {
@@ -27,14 +29,16 @@
 
 .form-control.myinputs:focus + label {
   color: #0d6efd !important;
-  -webkit-transition: .1s;
-  transition: .1s;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
 }
 
-input[type="number"] {
-  -webkit-appearance: none;
-     -moz-appearance: none;
-          appearance: none;
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  margin: 0 !important;
 }
 
 .input-group {
@@ -76,8 +80,8 @@ a {
   top: 4.5%;
   height: 30px;
   width: 30px;
-  -webkit-transition: .2s;
-  transition: .2s;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
 .form_hider:hover {
@@ -85,8 +89,8 @@ a {
           transform: rotate(180deg);
   height: 35px;
   width: 35px;
-  -webkit-transition: .2s;
-  transition: .2s;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 
 .form-check-input {
@@ -105,9 +109,9 @@ a {
   height: 50px;
   width: 50px;
   border-radius: 7px;
-  -webkit-transition: .1s;
-  transition: .1s;
-  margin-bottom: .6em;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  margin-bottom: 0.6em;
   margin-right: 10px;
   border: none;
 }
@@ -115,9 +119,9 @@ a {
 .colors:hover {
   -webkit-transform: scale(1.3);
           transform: scale(1.3);
-  -webkit-transition: .1s;
-  transition: .1s;
-  opacity: .8;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+  opacity: 0.8;
   border-radius: 30px;
 }
 
@@ -129,7 +133,7 @@ a {
 }
 
 .accordion-button {
-  padding: .5rem 1.25rem !important;
+  padding: 0.5rem 1.25rem !important;
   background-color: transparent !important;
 }
 
@@ -273,6 +277,31 @@ a {
 
 .swal2-container .swal2-modal .swal2-actions .swal2-cancel {
   margin-right: 10px;
+}
+
+.day_line::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  -webkit-transform: translate(-18px, 18px);
+          transform: translate(-18px, 18px);
+  width: 85px;
+  background-color: black;
+}
+
+@media screen and (min-width: 576px) {
+  #slotModal .modal-dialog {
+    max-width: 900px !important;
+  }
+  #slotModal .modal-footer {
+    border-top: none !important;
+  }
+  #slotModal .modal-header {
+    border-bottom: none !important;
+  }
+  #day1 {
+    margin-bottom: 20px;
+  }
 }
 
 @media screen and (max-width: 600px) {

@@ -3,13 +3,15 @@
 {% endblock %}
 
 {% block css%}
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css"/>
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css" />
 
 <link rel="stylesheet" href="{{static ('form/form2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
 
 <style>
-    td,th {
+    td,
+    th {
         font-size: .9rem !important;
     }
 </style>
@@ -17,31 +19,31 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
-    <script type="text/javascript">
-        activate("{{my_department}}.a");
-        $(document).ready(function() {
-            {% if u_name %}
-                $('#flush-collapseOne').collapse("show");
-            {% endif %}
-            let table = $('#example').DataTable({
-                "columnDefs" : [{
-                    "targets" : [3,4],
-                    "orderable" : false,
-                    },
-                    {responsivePriority: 1, targets: 2},
-                    {responsivePriority: 2, targets: 1},
-                    {
-                        targets : [3,4],
-                        className : "all",
-                    }
-                ],
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                responsive: true,
-                "dom": "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" +
+<script type="text/javascript">
+    activate("{{my_department}}.a");
+    $(document).ready(function () {
+        {% if u_name %}
+        $('#flush-collapseOne').collapse("show");
+        {% endif %}
+        let table = $('#example').DataTable({
+            "columnDefs": [{
+                "targets": [3, 4],
+                "orderable": false,
+            },
+            { responsivePriority: 1, targets: 2 },
+            { responsivePriority: 2, targets: 1 },
+            {
+                targets: [3, 4],
+                className: "all",
+            }
+            ],
+            "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            responsive: true,
+            "dom": "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" +
                 "<'row'<'col-sm-12'tr>>" +
                 "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-            });
-            $('.search_div').html(`<div id="example_filter" class="dataTables_filter">
+        });
+        $('.search_div').html(`<div id="example_filter" class="dataTables_filter">
                     <div class="input-group">
                         <input type="search" placeholder="What're you searching for?"
                             aria-describedby="button-addon1" class="form-control border-0 bg-light" id="search_box" style="box-shadow:none;outline:none">
@@ -51,28 +53,28 @@
                         </div>
                     </div>
                 </div>`);
-            $('#search_box').keyup(function(){
-                table.search($(this).val()).draw() ;
-          })
-        });
-    </script>
+        $('#search_box').keyup(function () {
+            table.search($(this).val()).draw();
+        })
+    });
+</script>
 {% endblock %}
 
 {% block content %}
 <div class="main_content">
-      
+
     <div class="row p-2 ">
         <div class="container navigate">
             <a href="{{url ('admin_home')}}">
-                <i class="fas fa-home"></i>    
+                <i class="fas fa-home"></i>
             </a>
             <i class="fas fa-angle-double-right"></i>
             <a href="{{url ('show_branch',args=[my_department.id]) }}">
-                <span class="h6 fw-bold">Add Branch</span> 
+                <span class="h6 fw-bold">Add Branch</span>
             </a>
             {%if u_name %}
-                <i class="fas fa-angle-double-right"></i>
-                <span class="h6 fw-bold">Update Branch</span> 
+            <i class="fas fa-angle-double-right"></i>
+            <span class="h6 fw-bold">Update Branch</span>
             {%endif %}
         </div>
         <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
@@ -90,7 +92,7 @@
                             <div id="flush-collapseOne" class="accordion-collapse collapse"
                                 aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body">
-                                    <form class="myform" method = "POST">
+                                    <form class="myform" method="POST">
                                         {{csrf_input}}
                                         <div class="row mb-3 mx-lg-5 mx-sm-0">
                                             <!--////////////////Form Goes here///////////-->
@@ -98,101 +100,104 @@
                                                 <div class="form-floating mb-3">
 
                                                     <input type="text" class="form-control myinputs" id="bname"
-                                                        placeholder="-" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" required maxlength="50"/>
-                                                    <label for="bname" >Branch Name</label>
+                                                        placeholder="-" name="name" {% if u_name %}value="{{u_name}}" {%
+                                                        endif %} class="form_input" required maxlength="50" />
+                                                    <label for="bname">Branch Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control myinputs" id="short"
-                                                        placeholder="-" {% if u_short %}value = "{{u_short}}"{% endif %} name="short"  class="form_input short_names" required maxlength="10"/>
+                                                        placeholder="-" {% if u_short %}value="{{u_short}}" {% endif %}
+                                                        name="short" class="form_input short_names" required
+                                                        maxlength="10" />
                                                     <label for="short">Short Name</label>
                                                 </div>
                                             </div>
-                                              </div>
-                                            <div class="container mt-4" style="width:80%;">
-                                                <button type="submit" class="btn btn-outline-success"
-                                                    style="width:100%">Submit</button>
-                                            </div>
                                         </div>
-                                    </form>
-                                    {% if integrityErrors %}
-                                        <div class="errors_container">
-                                            <p>
-                                            {{integrityErrors}}
-                                            </p>
+                                        <div class="container mt-4" style="width:80%;">
+                                            <button type="submit" class="btn btn-outline-success"
+                                                style="width:100%">Submit</button>
                                         </div>
-                                    {% endif %}
-                                    {% if errors %}
-                                        <div class="errors_container">
-                                            <p>
-                                            {{errors}}
-                                            </p>
-                                        </div>
-                                        <script>
-                                            show_error("{{errors}}")
-                                        </script>
-                                    {% endif %}
                                 </div>
+                                </form>
+                                {% if integrityErrors %}
+                                <div class="errors_container">
+                                    <p>
+                                        {{integrityErrors}}
+                                    </p>
+                                </div>
+                                {% endif %}
+                                {% if errors %}
+                                <div class="errors_container">
+                                    <p>
+                                        {{errors}}
+                                    </p>
+                                </div>
+                                <script>
+                                    show_error("{{errors}}")
+                                </script>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid p-2 table_container">
-            <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="row text-center">
-                        <div class="col-lg-10 col-sm-12">
-                            <div class="h3 text-center">Branches For {{my_department}}</div>
-                        </div>
-                        <div class="col-lg-2 col-sm-12">
-                            <a style="display: none;" id="del" onclick="delete_entries()" >
-                                <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete">
-                            </a>
-                        </div>
+    </div>
+    <div class="container-fluid p-2 table_container">
+        <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">
+            <div class="card-body" style="border-radius: 1rem;">
+                <div class="row text-center">
+                    <div class="col-lg-10 col-sm-12">
+                        <div class="h3 text-center">Branches For {{my_department}}</div>
                     </div>
-                    <div class="table">
-                        <table class="table nowrap responsive compact mb-0 rounded text-center" id="example">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="border-0"><i class="fas fa-hashtag"></i></th>
-                                    <th class="border-0">Branch Name</th>
-                                    <th class="border-0 fw-bold">Short</th>
-                                    <th class="border-0">Edit</th>
-                                    <th class="border-0 text-center">
-                                        <div class="form-check" onclick="checkAll();">
-                                            <input class="form-check-input" type="checkbox" value="parent"
-                                                id="parent" name="parent">
-                                        </div>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for branch in my_branches %}
-                                    <tr>
-                                        <td class="border-0 fw-bold">{{loop.index}}</td>
-                                        <td class="border-0 fw-bold">{{branch.name}}</td>
-                                        <td class="border-0 fw-bold">{{branch.short}}</td>
-                                        <td class="border-0">
-                                            <a href = {{url ('update_branch' ,args=[my_department.id,branch.id])}}>
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </td>
-                                        <td class="border-0">
-                                            <div class="form-check" onclick="checkSelected()">
-                                                <input class="form-check-input del_input" type="checkbox"
-                                                id="{{loop.index}}" name="del" value="{{branch.id}}" input_name="{{branch}}">
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+                    <div class="col-lg-2 col-sm-12">
+                        <a style="display: none;" id="del" onclick="delete_entries()">
+                            <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete">
+                        </a>
                     </div>
+                </div>
+                <div class="table">
+                    <table class="table nowrap responsive compact mb-0 rounded text-center" id="example">
+                        <thead class="thead-light">
+                            <tr>
+                                <th class="border-0"><i class="fas fa-hashtag"></i></th>
+                                <th class="border-0">Branch Name</th>
+                                <th class="border-0 fw-bold">Short</th>
+                                <th class="border-0">Edit</th>
+                                <th class="border-0 text-center">
+                                    <div class="form-check" onclick="checkAll();">
+                                        <input class="form-check-input" type="checkbox" value="parent" id="parent"
+                                            name="parent">
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for branch in my_branches %}
+                            <tr>
+                                <td class="border-0 fw-bold">{{loop.index}}</td>
+                                <td class="border-0 fw-bold">{{branch.name}}</td>
+                                <td class="border-0 fw-bold">{{branch.short}}</td>
+                                <td class="border-0">
+                                    <a href={{url ('update_branch' ,args=[my_department.id,branch.id])}}>
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                                <td class="border-0">
+                                    <div class="form-check" onclick="checkSelected()">
+                                        <input class="form-check-input del_input" type="checkbox" id="{{loop.index}}"
+                                            name="del" value="{{branch.id}}" input_name="{{branch}}">
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
     </div>
-    {% endblock %}
+</div>
+{% endblock %}

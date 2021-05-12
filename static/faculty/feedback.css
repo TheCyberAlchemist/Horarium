@@ -1,6 +1,4 @@
 .charts_container {
-  height: 90vh;
-  overflow-y: hidden;
   width: 100%;
 }
 
@@ -15,7 +13,6 @@
       -ms-flex-align: center;
           align-items: center;
   vertical-align: middle;
-  position: absolute;
 }
 
 .col-sm-12 {

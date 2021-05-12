@@ -1,181 +1,296 @@
-{% extends 'admin/base.html' %}
-{% block title %}Slots{% endblock title %}
+{% extends 'admin/base2.html' %}
+{% block title%} Slots
+{% endblock %}
 
-{% block css %}
-<link rel="stylesheet" href="{{static ('form/form.css') }}">
-<link rel="stylesheet" href="{{static ('admin/details/slot.css') }}">
-<link rel="stylesheet" href="{{static ('admin/details/dbtable.css')}}">
-<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
-<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
-{% endblock css %}
+{% block css%}
+<link rel="stylesheet" type="text/css"
+    href="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.css" />
 
-{% block scripts %}
-<script type="text/javascript" src="{{static ('jquery.js') }}"></script>
+<link rel="stylesheet" href="{{static ('form/form2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+
+<style>
+    td,
+    th {
+        font-size: .9rem !important;
+    }
+</style>
+{% endblock %}
+
+{%block scripts%}
+<script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
 <script type="text/javascript" src="{{static ('admin/details/slot.js') }}"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script>
-  set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
-  activate("{{my_shift.Department_id}}.d.{{my_shift}}");
-  $(document).ready(function() {
-    $("#day1").select2();
-    $("#day2").select2();
-    $("#slot_naming").select2();
-  });
-  put_pen("{{static ('admin/details/img/pen.png')}}")
+<script type="application/javascript" src="{{static ('select2.js')}}"></script>
+<script type="text/javascript">
+    set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
+    activate("{{my_shift.Department_id}}.d.{{my_shift}}");
+    put_pen("{{static ('admin/details/img/pen.png')}}")
+    $(document).ready(function () {
+        $("#day1").select2();
+        $("#day2").select2();
+        $("#slot_naming").select2();
+    });
+
+    $(document).ready(function () {
+        {% if u_short %}
+        $('#flush-collapseOne').collapse("show");
+        {% endif %}
+    });
 </script>
-{%endblock scripts%}
+{% endblock %}
 
 {% block content %}
-<div id="first_form" class="slot_first_form">
-  <fieldset>
-    <legend>Slot Selection</legend>
-  <div class="input_container" style="margin-top: 1em;">
-    <!-- <input class="form_input" type="number" id="Duration" /> -->
-    <img class="input_icons" src="{{static ('admin/details/img/duration.png')}}" alt="dept">
-    <input type="number" id="duration" name="Duration" class="form_input" required/>
-    <label for="duration" class="form_input_label">
-      <div class="text">Duration</div>
-      <div class="line"></div>
-    </label>
-</div>
-    <div class="input_container sl1">
-      <div class="slot_naming" style="margin-bottom: -2em;">
-        <div class="select2_container">
-          <select name="Naming" id="slot_naming">
-            <option value="1">Slot Naming Pattern </option>
-            <option value="numbers">[1 - 10]</option>
-            <option value="small">[a - z]</option>
-            <option value="capital">[A - Z]</option>
-          </select>
-        </div>
-      </div>
-    </div>
-  <div class="day_selector">
-    <div class="select2_container double_select2">
-      <select name="day1" id="day1">
-        <option value="a" disabled selected>Pick Starting Day </option>
-        {% if working_days[0] %}
-          {% set len = working_days[working_days|length -1].Days_id_id %}
-        {% endif %}
-          <option value="1" {% if working_days and working_days[0].Days_id_id == 1 %}selected{% endif %}>Monday</option>
-          <option value="2" {% if working_days and working_days[0].Days_id_id == 2 %}selected{% endif %}>Tuesday</option>
-          <option value="3" {% if working_days and working_days[0].Days_id_id == 3 %}selected{% endif %}>Wednesday</option>
-          <option value="4" {% if working_days and working_days[0].Days_id_id == 4 %}selected{% endif %}>Thursday</option>
-          <option value="5" {% if working_days and working_days[0].Days_id_id == 5 %}selected{% endif %}>Friday</option>
-          <option value="6" {% if working_days and working_days[0].Days_id_id == 6 %}selected{% endif %}>Saturday</option>
-          <option value="7" {% if working_days and working_days[0].Days_id_id == 7 %}selected{% endif %}>Sunday</option>
-      </select>
-    </div>
-    <div class="day_line"></div>
-    <div class="select2_container double_select2">
-      <select name="day2" id="day2">
-        <option value="a" disabled selected>Pick Ending Day </option>
-          <option value="1" {% if working_days and len == 1 %}selected{% endif %}>Monday</option>
-          <option value="2" {% if working_days and len == 2 %}selected{% endif %}>Tuesday</option>
-          <option value="3" {% if working_days and len == 3 %}selected{% endif %}>Wednesday</option>
-          <option value="4" {% if working_days and len == 4 %}selected{% endif %}>Thursday</option>
-          <option value="5" {% if working_days and len == 5 %}selected{% endif %}>Friday</option>
-          <option value="6" {% if working_days and len == 6 %}selected{% endif %}>Saturday</option>
-          <option value="7" {% if working_days and len == 7 %}selected{% endif %}>Sunday</option>
-      </select>
-    </div>
-  </div>
-  <button id="first_form_submit" class="show_form_button">Submit</button>
-</fieldset>
-</div>
-<div class="whole_container" id="whole_container_id">
-  <div style="text-align:center">
-    <button class="other_buttons" id="main_edit">Edit</button>
-  </div>
-  <!-- <div class="mytable_container"> -->
-  <fieldset id = "add_slot_form">
-    <legend class="not_login">Add Slots</legend>
-    <div id="slot_form" class="myform">
-      {{csrf_input}}
-      <img class="form_hider" src="{{static ('admin/details/img/close.png')}}" alt="hide">
-      <div class="input_container">
-        <img class="input_icons" src="{{static ('admin/details/img/calendar.png')}}" alt="Slot Name">
-        <input type="text" class="form_input" name="name" maxlength="20" required id="id_name">
-        <label for="id_name" class="form_input_label">
-          <div class="text">Slot Name</div>
-          <div class="line"></div>
-        </label>
-      </div>
+<!-- Button trigger modal -->
 
-      <div class="input_container_double">
-        <div class="input_container_double_1">
-          <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="Start">
-          <input type="time" class="form_input update_div" name="start_time" id="start_time" disabled>
-          <!-- <div class="update_div form_input" id="start_time"></div> -->
-          <label for="start_time" class="form_input_label">
-            <div class="text">Start Time</div>
-            <div class="line"></div>
-          </label>
+<div class="main_content">
+
+    <div class="row p-2 ">
+        <div class="container navigate">
+            <a href="{{url ('admin_home')}}">
+                <i class="fas fa-home active"></i>
+            </a>
+            <i class="fas fa-angle-double-right"></i>
+            <a href="">
+                <span class="h6 fw-bold active">Add Shift</span>
+            </a>
+            <i class="fas fa-angle-double-right"></i>
+            <span class="h6 fw-bold">Add Slot</span>
+            {%if u_short %}
+            <i class="fas fa-angle-double-right"></i>
+            <span class="h6 fw-bold">Update Slot</span>
+            {%endif %}
         </div>
-        <div class="input_container_double_2">
-          <img class="input_icons" src="{{static ('admin/details/img/chronometer.png')}}" alt="End">
-          <input type="time" class="form_input" name="end_time" id="end_time">
-          <label for="end_time" class="form_input_label">
-            <div class="text">End Time</div>
-            <div class="line"></div>
-          </label>
+        <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
+            <div class="card shadow-sm components-section" style="border-radius: 1rem;">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="accordion accordion-flush" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-headingOne">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                    aria-controls="flush-collapseOne">
+                                    <h5>{% if u_short %}Update{% else %}Add{% endif %} Slot</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <form class="myform" method="POST">
+                                        {{csrf_input}}
+                                        <div class="row mb-3 mx-lg-5 mx-sm-0">
+                                            <!--////////////////Form Goes here///////////-->
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="text" class="form-control myinputs" placeholder="-"
+                                                        name="name" maxlength="20" required id="id_name" />
+                                                    <label for="id_name">Slot Name</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="time" class="form-control myinputs" placeholder="-"
+                                                        name="start_time" id="start_time" disabled />
+                                                    <label for="id_name">Start Time</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <input type="time" class="form-control myinputs" placeholder="-"
+                                                        name="end_time" id="end_time" />
+                                                    <label for="end_time">End Time</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="form-floating mb-3">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" id="breakk">
+                                                        <label for="breakk">Is a Break</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="container mt-4" style="width:80%;">
+                                                <button type="submit" class="btn btn-outline-success"
+                                                    style="width:100%">Submit</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    {% if integrityErrors %}
+                                    <div class="errors_container">
+                                        <p>
+                                            {{integrityErrors}}
+                                        </p>
+                                    </div>
+                                    {% endif %}
+                                    {% if errors %}
+                                    <div class="errors_container">
+                                        <p>
+                                            {{errors}}
+                                        </p>
+                                    </div>
+                                    <script>
+                                        show_error("{{errors}}")
+                                    </script>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="input_container" style="border: none;">
-        <div class="checkboxes" onclick="" id="is_break">
-          Is Break : <input type="checkbox" class="" id="id_is_break" name="is_break">
-          <label for="id_is_break"></label>
+        <div class="container-fluid p-2 table_container">
+            <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="row text-center">
+                        <div class="col-lg-10 col-sm-12" id="remainder_th">
+                            <div class="h3 text-center" id="get_remainder"></div>
+                        </div>
+                        <div class="col-lg-2 col-sm-12">
+                            <a style="display: none;" id="del" onclick="delete_entries()">
+                                <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="table">
+                        <table class="table nowrap responsive compact mb-0 rounded text-center example" id="myTable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <!-- <th class="border-0"><i class="fas fa-hashtag"></i></th> -->
+                                    <th class="border-0">Slot Name</th>
+                                    <th class="border-0">Start Time</th>
+                                    <th class="border-0">End Time</th>
+                                    <th class="border-0">Is a Break</th>
+                                    <th class="border-0">Edit</th>
+                                    <th class="border-0 text-center">
+                                        <div class="form-check" onclick="checkAll();">
+                                            <input class="form-check-input" type="checkbox" value="parent" id="parent"
+                                                name="parent">
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border-0 fw-bold"></td>
+                                    <td class="border-0 fw-bold"></td>
+                                    <td class="border-0 fw-bold"></td>
+                                    <td class="border-0 fw-bold"></td>
+                                    <td class="border-0">
+                                        <a href=""><i class="fas fa-edit"></i></a>
+                                    </td>
+                                    <td class="border-0">
+                                        <div class="form-check" onclick="checkSelected()">
+                                            <input class="form-check-input del_input" type="checkbox">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="submit_button_container">
-        <button type="button" id="Go" class="show_form_button">Go</button>
-        <button type="button" id="Go_here" class="show_form_button">Go Here</button>
-        <button type="button" id="edit" class="show_form_button">Edit</button>
-      </div>
     </div>
 
-    <div class="submit_button_container">
-      <button type="button" id="add_row" class="show_form_button">Add Slot</button>
-    </div>
 
-    {% if integrityErrors %}
-    <div class="errors_container">
-      <p>
-        {{integrityErrors}}
-      </p>
+
+
+
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#slotModal">
+        Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="slotModal" tabindex="-1" aria-labelledby="slotModalLabel" aria-hidden="true"
+        data-bs-keyboard="false" data-bs-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title fw-bold" id="slotModalLabel">Slot Selection</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form class="myform" method="POST">
+                        {{csrf_input}}
+                        <div class="row mb-3 mx-lg-5 mx-sm-0">
+                            <!--////////////////Form Goes here///////////-->
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control myinputs" placeholder="-" id="duration"
+                                        name="Duration" required />
+                                    <label for="short">Slot Duration</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-floating mb-5 text-center">
+                                    <select name="Naming" id="slot_naming">
+                                        <option value="1" disabled selected>Slot Naming Pattern </option>
+                                        <option value="numbers">[1 - 10]</option>
+                                        <option value="small">[a - z]</option>
+                                        <option value="capital">[A - Z]</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-12 col-sm-12 ">
+                                <select name="day1" id="day1">
+                                    <option value="a" disabled selected>Pick Starting Day </option>
+                                    {% if working_days[0] %}
+                                    {% set len = working_days[working_days|length -1].Days_id_id %}
+                                    {% endif %}
+                                    <option value="1" {% if working_days and working_days[0].Days_id_id==1 %}selected{%
+                                        endif %}>Monday
+                                    </option>
+                                    <option value="2" {% if working_days and working_days[0].Days_id_id==2 %}selected{%
+                                        endif %}>Tuesday
+                                    </option>
+                                    <option value="3" {% if working_days and working_days[0].Days_id_id==3 %}selected{%
+                                        endif %}>
+                                        Wednesday</option>
+                                    <option value="4" {% if working_days and working_days[0].Days_id_id==4 %}selected{%
+                                        endif %}>
+                                        Thursday</option>
+                                    <option value="5" {% if working_days and working_days[0].Days_id_id==5 %}selected{%
+                                        endif %}>Friday
+                                    </option>
+                                    <option value="6" {% if working_days and working_days[0].Days_id_id==6 %}selected{%
+                                        endif %}>
+                                        Saturday</option>
+                                    <option value="7" {% if working_days and working_days[0].Days_id_id==7 %}selected{%
+                                        endif %}>Sunday
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-1 col-md-0 col-sm-0 day_line d-none d-lg-block d-md-block"></div>
+                            <div class="col-lg-5 col-md-12 col-sm-12">
+                                <select name="day2" id="day2">
+                                    <option value="a" disabled selected>Pick Ending Day </option>
+                                    <option value="1" {% if working_days and len==1 %}selected{% endif %}>Monday
+                                    </option>
+                                    <option value="2" {% if working_days and len==2 %}selected{% endif %}>Tuesday
+                                    </option>
+                                    <option value="3" {% if working_days and len==3 %}selected{% endif %}>Wednesday
+                                    </option>
+                                    <option value="4" {% if working_days and len==4 %}selected{% endif %}>Thursday
+                                    </option>
+                                    <option value="5" {% if working_days and len==5 %}selected{% endif %}>Friday
+                                    </option>
+                                    <option value="6" {% if working_days and len==6 %}selected{% endif %}>Saturday
+                                    </option>
+                                    <option value="7" {% if working_days and len==7 %}selected{% endif %}>Sunday
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer text-center mb-3">
+                    <button type="submit" class="btn btn-outline-success" style="width:90%;margin:0 auto"
+                        data-bs-dismiss="modal">Submit</button>
+                </div>
+            </div>
+        </div>
     </div>
-    {% endif %}
-    {% if errors %}
-    <div class="errors_container">
-      <p>
-        {{errors}}
-      </p>
-    </div>
-    {% endif %}
-  </fieldset>
-  <div class="table_container">
-    <table id="myTable" class="mytable">
-      <thead>
-        <tr>
-          <th colspan="5" id = "remainder_th">
-            <h3 id="get_remainder"></h3>
-          </th>
-        </tr>
-        <tr>
-          <th>Slot Name</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-          <th>Is a Break</th>
-          <th class = "edit_buttons">Edit</th>
-        </tr>
-      </thead>
-      <tbody class="mytbody"></tbody>
-      <!-- <tr><td>A</td><td>09:00</td><td>09:05</td><td>False</td><td><button type="button" class="add_here">ADD</button></td></tr><tr><td>B</td><td>09:05</td><td>09:10</td><td>True</td><td><button type="button" class="add_here">ADD</button></td></tr> -->
-    </table>
-  </div>
 </div>
-<div class="submit_button_container">
-  <!-- <button type="submit" name="button" class="submit_button">Submit</button> -->
-  <button class="submit_button" onclick='submited()'> Submit</button>
-</div>
-{% endblock content %}
+{% endblock %}

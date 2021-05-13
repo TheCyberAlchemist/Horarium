@@ -338,16 +338,16 @@ def show_batch(request,Division_id,Batch_id = None):
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def add_faculty(request,Department_id,Faculty_id=None):
-	import timeit
+	# import timeit
 	context = return_context(request)
 	if context['institute']:
 		department = Department.objects.get(pk = Department_id)
 		context['my_department'] = department
 		context['my_branches'] = Branch.objects.filter(Department_id=department)
 		context['my_sems'] = Semester.objects.filter(Branch_id__Department_id=department)
-		starttime = timeit.default_timer()
+		# starttime = timeit.default_timer()
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
-		print("The context time :", timeit.default_timer() - starttime)
+		# print("The context time :", timeit.default_timer() - starttime)
 		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 		refresh = False
@@ -816,16 +816,17 @@ def show_table(request,Division_id):
 		redirect('show_table',Division_id)
 	
 	my_division = Division.objects.get(pk = Division_id)
+	my_semester = my_division.Semester_id
+	context['my_division'] = my_division
+	context['my_semester'] = my_semester
 	Shift_id = my_division.Shift_id
 	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
 	serializer = MySerialiser()
-	my_semester = my_division.Semester_id
 	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
 	timings = Timings.objects.filter(Shift_id = Shift_id)
 	subject = {}
 	for i in Subject_details.objects.filter(Semester_id = my_semester):
 		subject[i] = Subject_event.objects.filter(Subject_id=i)
-	
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)

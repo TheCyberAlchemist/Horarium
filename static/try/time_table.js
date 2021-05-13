@@ -36,6 +36,11 @@ class event_class {
 		this.Slot_id_2 = Slot_id_2?Slot_id_2:null;
 		this.locked = locked?locked:false;
 	}
+	is_prac(){
+		if (this.Slot_id_2)
+			return true
+		return false
+	}
 }
 
 var actions = [];
@@ -143,6 +148,18 @@ function get_cell(slot_id){
 function get_all_locked_events(){
 	return events.filter(e=>e.locked == true);
 }
+
+function get_resource_name_by_id(resource_id){
+	let resource = "";
+	$("#resources option").each(function(){
+		if ($(this).val() == resource_id){
+			resource = $(this).html();
+			// console.log(resource);
+		}
+	});
+	return resource;
+}
+
 //#endregion
 
 //#region  ////////////// put methods //////////////
@@ -158,12 +175,7 @@ function put_json_in_table(json_data){
 		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2,obj.locked);
 		if (obj.Subject_event_id == 20)
 			console.log(temp_event);
-		let resource = "";
-		$("#resources option").each(function(){
-			if ($(this).val() == obj.Resource_id){
-				resource = $(this).html();
-			}
-		});
+		let resource = obj.Resource_id;
 		if (temp_event.Slot_id_2){	// if it is a practical		
 			// print(temp_event);
 			if (push_event(temp_event)){
@@ -310,8 +322,11 @@ function subject_has_load_for_batch(subject_id,batch_id,is_prac) {
 	console.log(`max filled for batch ${batch_id} - ${subject.name}`,is_prac);
 	return false;
 }
+
 function open_menu_in_event_div(event_div,e){
-	if (!$(this).hasClass("locked")){
+	const td_div = event_div.parents(".droppable");
+	const batch_id = event_div.attr("batch_for");
+	if (!td_div.hasClass("locked")){
 		// Show contextmenu
 		// let rect = $(this)[0].getBoundingClientRect();
 		var left,top = e.pageY+5;
@@ -321,12 +336,12 @@ function open_menu_in_event_div(event_div,e){
 			left = e.pageX;
 		}	
 		$(".context-menu").toggle(100).css({
-		top: top + "px",
-		left: left + "px"
+			top: top + "px",
+			left: left + "px"
 		});
-		console.log($(this));
-		$(".clear_td").attr("slot_id",get_slot_by_td($(this)).id);
-		$(this).addClass("right_click_selected"); // 
+		$("#clear_td").attr("slot_id",get_slot_by_td(td_div).id);
+		$("#clear_td").attr("batch_id",batch_id?batch_id:false);
+		// $(this).addClass("right_click_selected"); // 
 	}
 	return false;
 }
@@ -645,14 +660,14 @@ function change_to_lect_td(td,subject_batch){
 		string +=  `<div class="row my-auto text-center" >`;
 		for (let i in subject_batch){
 			string +=
-			 `<div class="col-`+colspan+`" batch_for=`+subject_batch[i].pk+` data-toggle="tooltip" data-placement="bottom" title="" >
+			 `<div class="event_divs col-`+colspan+`" batch_for=`+subject_batch[i].pk+` data-toggle="tooltip" data-placement="bottom" title="" >
 				<button class="event_name lect_mycol mt-2 lect_batches"></button>
 			</div>`;
 		}
 		string += `</div>`;
 	}else{
 		string +=
-		`<div class='row p-2'>
+		`<div class='event_divs row p-2'>
 			<div class='col-12'>
 				<button class='event_name btn mt-1 mb-1' style = 'color:white;'></button>
 			</div>
@@ -664,9 +679,9 @@ function change_to_lect_td(td,subject_batch){
 	td.addClass("filled");
 }
 
-function put_lect(td,subject_event_id,resource,batch=null) {	// change lecture ondrop
+function put_lect(td,subject_event_id,resource_id,batch=null) {	// change lecture ondrop
 	let subject_event = get_subject_event(subject_event_id);
-	// console.log(Boolean(batch));
+	let resource_name = get_resource_name_by_id(resource_id);
 	if (Boolean(batch)){
 		batch_element = td.find("[batch_for="+batch+"]");
 		button = batch_element.find(".event_name");
@@ -689,7 +704,7 @@ function put_lect(td,subject_event_id,resource,batch=null) {	// change lecture o
 		button.css("background-color",subject_event.color);
 
 		faculty_div.html(subject_event.faculty_name);
-		resource_div.html(resource);
+		resource_div.html(resource_name);
 	}
 }
 
@@ -723,7 +738,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 		}
 	}else{	// put "class" instead of batch_id
 		string += `
-			<div class=" col-`+ colspan+`"batch_for = class>
+			<div class="event_divs col-`+ colspan+`"batch_for = class>
 				<div class="row" >
 					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`"></div>
 				</div>
@@ -763,16 +778,14 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	}
 	string += `</div></div>`;
 	pair[1].html(string);
-	$(".event_divs").bind('contextmenu', function (e) {
-		return open_menu_in_event_div($(this),e);
-	});
-
 	pair[0].addClass("filled");
 	pair[1].addClass("filled");
 }
 
-function put_prac(td,subject_event_id,batch,resource){
-	subject_event = get_subject_event(subject_event_id);
+function put_prac(td,subject_event_id,batch,resource_id){
+	let subject_event = get_subject_event(subject_event_id);
+	let resource_name = get_resource_name_by_id(resource_id);
+	console.log(resource_name);
 	pair = get_prac_pair(td);
 	batch = batch?batch:"class";
 	
@@ -788,12 +801,12 @@ function put_prac(td,subject_event_id,batch,resource){
 	button.css("background-color",subject_event.color);
 
 	faculty_div.html(subject_event.faculty_name);
-	resource_div.html(resource);
+	resource_div.html(resource_name);
 }
 //#endregion
 
 //#region  ////////////// ready function //////////////
-
+global_var=0;
 $(document).ready (function () {
 	
 	///////////////////////////// AJAX setup ///////////////////////
@@ -816,48 +829,72 @@ $(document).ready (function () {
 	});
 
 	///////////////////////////// right click menu ///////////////////////
-
-	$(".event_divs").bind('contextmenu', function (e) {
+	$('.droppable').on('contextmenu', '.event_divs', function(e){
 		return open_menu_in_event_div($(this),e);
 	});
+	// $(".event_divs").bind('contextmenu', function (e) {
+	// });
 	$(document).bind('contextmenu click',function(){
 		$(".context-menu").hide();
 		$(".right_click_selected").removeClass("right_click_selected");
 		$("#txt_id").val("");
 	});
+
 	$('.context-menu').bind('contextmenu',function(){
 		return false;
 	});
-	$(".clear_td").click(function(){
-		slot_id = $(this).attr("slot_id")
-		if (get_cell(slot_id).hasClass("prac")){
-			let i = get_event_index_by_slot(slot_id);
-			if (i){
-				clear_td(get_cell(events[i].Slot_id));
-				clear_td(get_cell(events[i].Slot_id_2));
-				events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
-				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
-				for (e in events_removed){
-					update_card(get_subject_event(events_removed[e].Subject_event_id),true);
-					push_into_action(new event_action("removed",events_removed[e]));
-				}
-			}
-			// console.table(events);
+
+	$("#clear_td").click(function(){
+		const slot_id = $(this).attr("slot_id");
+		let batch_id;
+		if ($(this).attr("batch_id") !== "false"){
+			batch_id = $(this).attr("batch_id");
 		}else{
-			let i = get_event_index_by_slot(slot_id);
-			if (i){
-				clear_td(get_cell(events[i].Slot_id));
-				// clear_td(get_cell(events[i].Slot_id_2));
-				events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
-				events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
-				for (e in events_removed){
-					update_card(get_subject_event(events_removed[e].Subject_event_id),false);
-					push_into_action(new event_action("removed",events_removed[e]));
-				}
-			}
-			// console.table(events);
+			batch_id = null;
 		}
+		const this_event = events.filter(e=>e.Slot_id == slot_id && e.Batch_id == batch_id);
+		global_var = [slot_id,batch_id];
+		if (this_event.length == 1){
+			if (this_event[0].is_prac()){
+				clear_td(get_cell(this_event[0].Slot_id));
+				clear_td(get_cell(this_event[0].Slot_id_2));
+			}else{
+				clear_td(get_cell(this_event[0].Slot_id));
+			}
+			events = events.filter(e=>e != this_event[0]);
+			update_card(get_subject_event(this_event[0].Subject_event_id),true);
+			push_into_action(new event_action("removed",this_event[0]));
+		}else
+			console.log("No event found");
+		// if (get_cell(slot_id).hasClass("prac")){
+		// 	let i = get_event_index_by_slot(slot_id);
+		// 	if (i){
+		// 		clear_td(get_cell(events[i].Slot_id));
+		// 		clear_td(get_cell(events[i].Slot_id_2));
+		// 		events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
+		// 		events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
+		// 		for (e in events_removed){
+		// 			update_card(get_subject_event(events_removed[e].Subject_event_id),true);
+		// 			push_into_action(new event_action("removed",events_removed[e]));
+		// 		}
+		// 	}
+		// 	// console.table(events);
+		// }else{
+		// 	let i = get_event_index_by_slot(slot_id);
+		// 	if (i){
+		// 		clear_td(get_cell(events[i].Slot_id));
+		// 		// clear_td(get_cell(events[i].Slot_id_2));
+		// 		events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
+		// 		events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
+		// 		for (e in events_removed){
+		// 			update_card(get_subject_event(events_removed[e].Subject_event_id),false);
+		// 			push_into_action(new event_action("removed",events_removed[e]));
+		// 		}
+		// 	}
+		// 	// console.table(events);
+		// }
 	})
+
 	$(".open_menu").click(function(){
 		console.log()
 	});
@@ -1017,7 +1054,7 @@ $(document).ready (function () {
 		td = get_cell(slot_id);
 		let batch = $("#batches").val();
 		let resource = $("#resources").val();
-		let resource_name = $("#resources").find(':selected').html();
+		let resource_id = $("#resources").find(':selected').val();
 		if (resource){
 			let subject_batch = get_batches(subject_event_id,is_prac);
 			if (is_prac){
@@ -1027,7 +1064,7 @@ $(document).ready (function () {
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
 						}
-						put_prac(td,subject_event_id,batch,resource_name);
+						put_prac(td,subject_event_id,batch,resource_id);
 					}
 				}else{			// if prac_class
 					temp_event = new event_class(String(get_slot_by_td(get_prac_pair(td)[0]).id),subject_event_id,null,resource,String(get_slot_by_td(get_prac_pair(td)[1]).id));
@@ -1035,7 +1072,7 @@ $(document).ready (function () {
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
 						}
-						put_prac(td,subject_event_id,batch=null,resource_name);
+						put_prac(td,subject_event_id,batch=null,resource_id);
 					}
 				}
 			}else if(!is_prac){
@@ -1045,7 +1082,7 @@ $(document).ready (function () {
 						if (!td.html()){
 							change_to_lect_td(td,subject_batch);
 						}
-						put_lect(td,subject_event_id,resource_name,batch);
+						put_lect(td,subject_event_id,resource_id,batch);
 					}
 				}else{				// if lect_class
 					temp_event = new event_class(slot_id,subject_event_id,null,resource);
@@ -1053,7 +1090,7 @@ $(document).ready (function () {
 						if (!td.html()){
 							change_to_lect_td(td,null);
 						}
-						put_lect(td,subject_event_id,resource_name,batch=null);
+						put_lect(td,subject_event_id,resource_id,batch=null);
 					}
 				}
 			}else

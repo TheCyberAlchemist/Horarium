@@ -45,7 +45,6 @@
     $("#resources").select2();
     $("#batches").select2();
 
-
 var header = document.getElementById("myHeader");
 if (header){
     window.onscroll = function() {myFunction()};
@@ -63,7 +62,7 @@ if (header){
 </script>
 {%endblock%}
 {% block content %}
-
+<div id = "page_activator" activate-page="{{my_semester.Branch_id.Department_id}}.{{my_semester.Branch_id}}.{{my_semester}}.{{my_division}}.b"></div>
 {%include "admin/details/loading.html" %}
 <div class="modal fade" id="confirm_modal" tabindex="-1" role="dialog" aria-labelledby="confirm_modal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -247,11 +246,11 @@ if (header){
     <ul>
         <li style="list-style-type: none">
             <!-- <span class='clear_td'></span>&nbsp; -->
-            <div class='clear_td'>Clear</div>
+            <div class='clear_td' id="clear_td" >Clear</div>
         </li>
         <li style="list-style-type: none">
             <!-- <span class='clear_td'></span>&nbsp; -->
-            <div class='open_menu'>Edit</div>
+            <div class='clear_td' id="edit_event" >Edit</div>
         </li>
     </ul>
 </div>

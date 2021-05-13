@@ -8,7 +8,6 @@
 <script type="text/javascript" src="{{static ('jquery.js') }}"></script>
 <script src="{{static ('try/table.js') }}"></script>
 <script>
-	activate("{{my_department}}.b");
 	put_data("{{slots_json}}");
 	put_events("{{events}}", "{{not_available}}");
 </script>
@@ -16,6 +15,7 @@
 {% endblock scripts %}
 
 {% block content %}
+<div id = "page_activator" activate-page="{{my_department}}.b"></div>
 <div class="main_content" style="margin-top: -30px">
 	<div class="container navigate mt-4">
 		<a href="{{url ('admin_home')}}">

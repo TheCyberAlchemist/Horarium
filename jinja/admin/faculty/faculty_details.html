@@ -21,7 +21,6 @@
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script type="application/javascript" src="{{static ('form/faculty_details.js') }}" charset="utf-8"></script>
 <script type="text/javascript">
-    activate("{{my_department}}.b");
     $(document).ready(function () {
         {% if update %}
         $('#flush-collapseOne').collapse("show");
@@ -66,6 +65,7 @@
 {% endblock %}
 
 {% block content %}
+<div id = "page_activator" activate-page="{{my_department}}.b"></div>
 <div class="main_content">
 
     <div class="row p-2 ">

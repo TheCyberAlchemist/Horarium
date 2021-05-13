@@ -730,7 +730,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 				</div>
 				<div class="row">
 					<div class="col mt-2">
-						<button class="btn-sm prac_mycol event_name border-0" style = ""></button>
+						<button class="btn-sm prac_mycol event_name border-0"  style="color:white"></button>
 					</div>
 				</div>
 			</div>

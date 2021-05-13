@@ -25,9 +25,7 @@
 </style>
 {%endblock%}
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-    integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-    crossorigin="anonymous"></script>
+
 <script src="{{static ('Popper/popper.min.js') }}"></script>
 <script src="{{static ('hotkeys.js') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
@@ -68,7 +66,7 @@ if (header){
 </script>
 {%endblock%}
 {% block content %}
-
+<div id = "page_activator" activate-page="{{my_semester.Branch_id.Department_id}}.{{my_semester.Branch_id}}.{{my_semester}}.{{my_division}}.b"></div>
 {%include "admin/details/loading.html" %}
 <div class="modal fade" id="confirm_modal" role="dialog" aria-labelledby="confirm_modal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -355,11 +353,11 @@ if (header){
     <ul>
         <li style="list-style-type: none">
             <!-- <span class='clear_td'></span>&nbsp; -->
-            <div class='clear_td'>Clear</div>
+            <div class='clear_td' id="clear_td" >Clear</div>
         </li>
         <li style="list-style-type: none">
             <!-- <span class='clear_td'></span>&nbsp; -->
-            <div class='open_menu'>Edit</div>
+            <div class='clear_td' id="edit_event" >Edit</div>
         </li>
     </ul>
 </div>

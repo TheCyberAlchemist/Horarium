@@ -1,19 +1,19 @@
 $(document).ready(function(){
-  // navbar sarkhu 
-  // search bar ahiyaj??
-  // subject_event sarkhu nathi ane ani link kai rite rakhvi
-  // navbar ne animate karvu hce ke nai?
+  activate();
   /////////////////////// Navbar Animation //////////////////////
-  $(".navtree_wrapper").animate({height:"0%",},200);
+  // $(".navtree_wrapper").animate({height:"0%",},0);
+  // offset = 0
+  // console.log(offset);
+  $(".me").click(function(){
+    $(".navtree_wrapper").show();
+    // $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
+    $(".main_content").css({"height":"0%","width":"0%","transition":".3s"});
     offset = l.length? l.offset() : 0;
-    $(".me").click(function(){
-      $(".navtree_wrapper").show();
-      // $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
-      $(".main_content").css({"height":"0%","width":"0%","transition":".3s"});
-      $('.navtree_wrapper').animate({
-            scrollTop: offset.top,
-            scrollLeft: offset.left/1.5,
-        }, 0);
+    $(".navtree_wrapper")[0].scrollTo(offset.left+(screen.width/1.5),offset.top);
+      // $('.navtree_wrapper').animate({
+      //       scrollTop: offset.top,
+      //       scrollLeft: offset.left/1.5,
+      //   }, 0);
     $(".navtree_wrapper").animate({height:'100%'},300);
     $(".navtree_wrapper").animate({height:'95%'},250);
     $(".navtree_wrapper").animate({height:'100%'},200);
@@ -49,21 +49,25 @@ $(document).ready(function(){
   });
 
   $("#show_tree label").click(function(){
-    o = $(this).offset();
-    $('.navtree_wrapper').animate({
-      scrollLeft: ($ (window). width () - $(this).width ()) / 2 + o.left,
-    }, 650);
-    my_input = $(this).parent().find("input").first();
-    sibling_inputs = $(this).parent().parent().children($("li")).find("input").not(my_input);
-    sibling_inputs.prop("checked",true);
+      my_input = $(this).parent().find("input").first();
+      sibling_inputs = $(this).parent().parent().children($("li")).find("input").not(my_input);
+      sibling_inputs.prop("checked",true);
+      setTimeout(function(){
+        o = my_input.parent().offset();
+        $('.navtree_wrapper')[0].scrollTo({
+          top:o.top,
+          left:o.left+my_input.parent().width()+(screen.width/1.5),
+          behavior: 'smooth'
+        });
+      }, 250);
   });
   /////////////////////// Checkbox to Radio //////////////////////
   
 });
 l = 0;
-function activate(for_name){
+function activate(){
+  for_name = $("#page_activator").attr("activate-page");
   label = $('[for="'+for_name+'"]');
-  l = label;
   if(label.length){
     do{
       ///////// for inputs /////////      
@@ -73,4 +77,6 @@ function activate(for_name){
       label = label.parent().parent().parent().find($("label")).first();
     }while(!label.hasClass("institute"))
   }
+  l = label;
+  // console.log(label);
 }

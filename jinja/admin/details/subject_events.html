@@ -21,7 +21,6 @@
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script src="{{static ('admin/details/subject/subject_event.js')}}" charset="utf-8"></script>
     <script type="text/javascript">
-      activate("{{my_branch.Department_id}}.{{my_branch}}.b");
       put_data("{{fac}}","{{remaining_lect}}","{{remaining_prac}}");
       {% if update %}
       add_load("{{update.Faculty_id_id}}","{{update.lect_carried}}","{{update.prac_carried}}");
@@ -67,7 +66,7 @@
 {% endblock %}
 
 {% block content %}
-
+<div id = "page_activator" activate-page="{{my_branch.Department_id}}.{{my_branch}}.b"></div>
 <div class="main_content">
     <div class="row p-2 ">
         <div class="container navigate">

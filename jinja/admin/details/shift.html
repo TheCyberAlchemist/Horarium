@@ -18,7 +18,6 @@
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
     <script type="text/javascript">
-        activate("{{my_department}}.d.a");
         $(document).ready(function() {
             {% if u_name %}
                 $('#flush-collapseOne').collapse("show");
@@ -58,6 +57,7 @@
 {% endblock %}
 
 {% block content %}
+<div id = "page_activator" activate-page="{{my_department}}.d.a"></div>
 <div class="main_content">
       
     <div class="row p-2 ">

@@ -18,7 +18,6 @@
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
     <script type="text/javascript">
-    activate("{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.a");
         $(document).ready(function() {
             {% if update %}
                 $('#flush-collapseOne').collapse("show");
@@ -60,6 +59,7 @@
 {% endblock %}
 
 {% block content %}
+<div id = "page_activator" activate-page="{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.a"></div>
 <div class="main_content">
       
     <div class="row p-2 ">

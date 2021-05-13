@@ -15,7 +15,6 @@
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script type="text/javascript">
-	activate("{{my_branch.Department_id}}.{{my_branch}}.b");
 	$(document).ready(function () {
         $("#semesters").select2();
         {% if update %}
@@ -56,6 +55,7 @@
 </script>
 {% endblock %} {% block content %}
 <div class="main_content">
+<div id = "page_activator" activate-page="{{my_branch.Department_id}}.{{my_branch}}.b"></div>
 	<div class="row p-2">
 		<div class="container navigate">
 			<a href="{{url ('admin_home')}}">

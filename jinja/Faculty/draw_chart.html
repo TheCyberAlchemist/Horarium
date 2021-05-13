@@ -48,30 +48,6 @@
                 </div>
             </div>
         </div>
-        <div class="row mb-5">
-            
-            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
-                <div class="card mt-2 mb-2">
-                    <div class="card-title mt-1">
-                        <span class="h6">Needs improvement in following questions</span>
-                    </div>
-                    <div class="card-body" style="margin-top:-30px">
-                        <canvas id="myChart" style="width:646px;height:350px"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-0 col-sm-0 p-0"></div>
-            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
-                <div class="card mt-2 mb-2">
-                    <div class="card-title mt-1">
-                        <span class="h6">Progress in all areas</span>
-                    </div>
-                    <div class="card-body" style="margin-bottom:30px">
-                        <canvas id="myChart1" style="width:646px;height:350px"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- show_week clicked -> show week_rating chart -->
 
         <div class=" row week_rating_{{event.pk}}" style="display: none">
@@ -116,6 +92,30 @@
                     </div>
                     <div class="card-body">
                         <canvas id="month_rating__{{event.pk}}" class="bar_styling" style="width:80%;"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-5">
+            
+            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
+                <div class="card mt-2 mb-2">
+                    <div class="card-title mt-1">
+                        <span class="h6">Needs improvement in following questions</span>
+                    </div>
+                    <div class="card-body" style="margin-top:-30px">
+                        <canvas id="myChart" style="width:646px;height:350px"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-0 col-sm-0 p-0"></div>
+            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
+                <div class="card mt-2 mb-2">
+                    <div class="card-title mt-1">
+                        <span class="h6">Progress in all areas</span>
+                    </div>
+                    <div class="card-body" style="margin-bottom:30px">
+                        <canvas id="myChart1" style="width:646px;height:350px;margin-top:-30px"></canvas>
                     </div>
                 </div>
             </div>

@@ -31,7 +31,7 @@ b a:hover {
   font-family: "Poppins", sans-serif;
 }
 
-.container-fluid {
+.container-fluid.pt-4  {
   background-color: #fff;
 }
 

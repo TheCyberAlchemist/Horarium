@@ -7,7 +7,8 @@
 
 <link rel="stylesheet" href="{{static ('form/form2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
-
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 <style>
     td,th {
         font-size: .9rem !important;
@@ -17,8 +18,10 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+<script type="application/javascript" src="{{static ('select2.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            $("#shifts").select2();
             {% if update %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}

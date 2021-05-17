@@ -761,8 +761,8 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
 				</div>
 				<div class="row">
-					<div class="col mt-2">
-						<button class="btn-sm prac_mycol event_name border-0"  style="color:white"></button>
+					<div class="col mt-1">
+						<button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:transparent"></button>
 					</div>
 				</div>
 			</div>

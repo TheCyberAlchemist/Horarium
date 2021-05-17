@@ -13,9 +13,6 @@
     .available_td {
         background-color: green;
     }
-    .locked {
-        opacity: 0.3;
-    }
     .here {
         background-color: blue;
     }
@@ -123,7 +120,7 @@ if (header){
         <button type="button" id="aform">Submit</button>
     </div>
 </form>
-<div class="main_content" style="margin-top:-20px">
+<div class="main_content" style="margin-top:-20px;">
     <div class="container-fluid toolbar" >
         
         <div class="row m-0  p-2" >
@@ -236,7 +233,7 @@ if (header){
                     {% for day in working_days %}
                     <div class="col my_col isBreak">
                         {%if loop.index==1%}
-                        <div class="">
+                        <div class="" style="{%if len == 6%}padding-left:350px{%else%}padding-left:300px{%endif%}">
                             <span class="h4">{{timing.name}}</span>
                         </div>
                         {% endif %}
@@ -257,13 +254,13 @@ if (header){
                                 <div class="col" style="margin-right:5px">
                                     <div class="row">
                                         <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
                                     </div>
                                     <div class="row">
-                                        <div class="col mt-2">
+                                        <div class="col mt-1">
                                             <button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:red">DBMS</button>
                                         </div>
+                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
                                     </div>
                                 </div>
                                 <div class="col" style="margin-right:5px">
@@ -293,13 +290,14 @@ if (header){
                                 <div class="col" style="margin-right:5px">
                                     <div class="row">
                                         <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
+                                        
                                     </div>
                                     <div class="row">
                                         <div class="col">
                                             <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
                                         </div>
+                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
                                     </div>
                                 </div>
                                 

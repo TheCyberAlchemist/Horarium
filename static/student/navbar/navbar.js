@@ -6,9 +6,8 @@ function scrollFunction() {
     document.getElementsByClassName("navbar-brand")[0].style.transition = ".5s";
     document.getElementsByClassName("navbar-brand")[0].style.backgroundColor = "transparent";
   } else {
-    document.getElementsByClassName("navbar-brand")[0].style.fontSize = "25px";
+    document.getElementsByClassName("navbar-brand")[0].style.fontSize = "22px";
     document.getElementsByClassName("navbar-brand")[0].style.transition = ".5s";
-    document.getElementsByClassName("navbar-brand")[0].style.backgroundColor = "#333";
   }
 }
 

@@ -19,9 +19,9 @@
     .here {
         background-color: blue;
     }
-    /*select2-container--default .select2-results__option[aria-disabled=true] {
+    .select2-container--default .select2-results__option--disabled{
         display: none;
-    }*/
+    }
 </style>
 {%endblock%}
 {% block scripts %}
@@ -102,8 +102,9 @@ if (header){
     <div class="select2_container single_select2">
         <select id="links">
             <option disabled selected value=-1>Select the link </option>
-            {% for resource in resources %}
-            <option value="{{resource.id}}">{{resource}}</option>
+            <option value="{{my_division.link}}">{{my_division.name}}-[{{my_division.link}}]</option>
+            {% for batch in my_batches %}
+                <option value="{{batch.link}}">{{batch}}-[{{batch.link}}]</option>
             {% endfor %}
         </select>
     </div>

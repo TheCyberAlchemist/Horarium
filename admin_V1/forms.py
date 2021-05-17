@@ -106,4 +106,4 @@ class timing(ModelForm):
 class add_event(ModelForm):
 	class Meta:
 		model = Event
-		fields = ("Slot_id","Slot_id_2","Batch_id","Subject_event_id","Resource_id")
+		fields = ("Slot_id","Slot_id_2","Batch_id","Subject_event_id","Resource_id","link")

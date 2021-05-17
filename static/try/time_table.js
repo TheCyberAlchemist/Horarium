@@ -28,13 +28,30 @@ class subject_event {
 
 var events = [];
 class event_class {
-	constructor(Slot_id,Subject_event_id,Batch_id,Resource_id,Slot_id_2=null,locked = false){
+	constructor(Slot_id,Subject_event_id,Batch_id,Resource_id,Slot_id_2=null,locked = false,link){
 		this.Slot_id = Slot_id;
 		this.Subject_event_id = Subject_event_id;
 		this.Batch_id = Batch_id?Batch_id:null;
 		this.Resource_id = Resource_id?Resource_id:null;
 		this.Slot_id_2 = Slot_id_2?Slot_id_2:null;
 		this.locked = locked?locked:false;
+		this.link = link;
+	}
+	put_slots(Slot_id,Slot_id_2){
+		this.Slot_id = Slot_id;
+		this.Slot_id_2 = Slot_id_2?Slot_id_2:null;
+	}
+	put_batch_resource(Batch_id,Resource_id){
+		this.Batch_id = Batch_id?Batch_id:null;
+		this.Resource_id = Resource_id?Resource_id:null;
+		
+	}
+	put_link_locked(link,locked=false){
+		this.link = link?link:null;
+		this.locked = locked?locked:false;
+	}
+	put_subject_event(Subject_event_id){
+		this.Subject_event_id = Subject_event_id;
 	}
 	is_prac(){
 		if (this.Slot_id_2)
@@ -164,7 +181,7 @@ function get_resource_name_by_id(resource_id){
 
 //#region  ////////////// put methods //////////////
 function put_json_in_table(json_data){
-	// console.log("obj",json_data);
+	// console.table("obj-",json_data);
 	for(i in json_data){
 		let obj = json_data[i];
 		td = get_cell(obj.Slot_id);
@@ -172,9 +189,14 @@ function put_json_in_table(json_data){
 			// console.log(td);
 			continue;
 		}
-		temp_event = new event_class(obj.Slot_id,obj.Subject_event_id,obj.Batch_id,obj.Resource_id,obj.Slot_id_2,obj.locked);
-		if (obj.Subject_event_id == 20)
-			console.log(temp_event);
+		temp_event = new event_class();
+		temp_event.put_subject_event(obj.Subject_event_id);
+		temp_event.put_slots(obj.Slot_id,obj.Slot_id_2);
+		temp_event.put_batch_resource(obj.Batch_id,obj.Resource_id);
+		temp_event.put_link_locked(obj.link,obj.locked);
+
+		// if (obj.Subject_event_id == 20)
+		// 	console.log(temp_event);
 		let resource = obj.Resource_id;
 		if (temp_event.Slot_id_2){	// if it is a practical		
 			// print(temp_event);
@@ -213,13 +235,14 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 		temp_slot = new slot(slots_json[i].pk,slots_json[i].fields.day,slots_json[i].fields.Timing_id,slots_json[i].fields.resources_filled)
 		slots.push(temp_slot);
 	}
-	console.table(sub_events_json);
+	// console.table(sub_events_json);
 	// events_json = JSON.parse(events_json.replace(/&#34;/ig,'"',));
 	for (i in sub_events_json){
 		obj = sub_events_json[i].fields;
 		temp_sub_event = new subject_event(sub_events_json[i].pk,obj.Subject_name,obj.Subject_id,obj.prac_carried,obj.lect_carried,obj.Faculty_id,obj.not_available
 			,obj.other_events,obj.Subject_color,obj.Faculty_name)
 		subject_events.push(temp_sub_event);
+		// console.log("put_data");
 		if (obj.prac_carried){
 			update_card(temp_sub_event,true);
 		}if(obj.lect_carried){
@@ -277,6 +300,7 @@ function update_card(subject_event,is_prac) {
 	subject_card.find(".remaining_load").each(function() {
 		total_load += parseInt($(this).html());
 	});
+	// console.log(total_load);
 	// console.log(total_load,subject_card);
 	subject_load.html(total_load);
 }
@@ -308,8 +332,8 @@ function subject_has_load_for_batch(subject_id,batch_id,is_prac) {
 	// console.log(subject_id);
 	if (is_prac && subject.prac_per_week){
 		let all_events_for_subject_in_same_batch = events.filter(e=> e.Slot_id_2 && e.Batch_id==batch_id && get_subject_event(e.Subject_event_id).subject_id == subject_id);
-		if (subject_id == 14)
-			console.log(all_events_for_subject_in_same_batch,subject.prac_per_week,all_events_for_subject_in_same_batch.length);
+		// if (subject_id == 14)
+			// console.log(all_events_for_subject_in_same_batch,subject.prac_per_week,all_events_for_subject_in_same_batch.length);
 		if (subject.prac_per_week > all_events_for_subject_in_same_batch.length ){
 			return true;
 		}
@@ -352,7 +376,7 @@ function open_menu_in_event_div(event_div,e){
 
 function push_event(temp_event){
 	// check for batches in event_counter too
-
+	const debug = false; // for printing the method if 
 	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
 	let subject_event = get_subject_event(temp_event.Subject_event_id);
 	let is_prac = Boolean(a2[1]);
@@ -369,8 +393,10 @@ function push_event(temp_event){
 	for(var i = events.length - 1;i >= 0 ;i--){
 		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
 		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id){
-			console.log(events[i]);
-			console.log("duplicate");
+			if (debug){
+				console.log(events[i]);
+				console.log("duplicate");
+			}
 			return false;
 		}else if (intersects(a1,a2)){
 			// if there is overwritting 
@@ -378,17 +404,20 @@ function push_event(temp_event){
 			b2 = temp_event.Batch_id
 			if (b1 == b2){
 				// if lect-lect or prac(b1)-prac(b1)
-				console.log("lect-lect or prac(b1)-prac(b1)");
+				if (debug)
+					console.log("lect-lect or prac(b1)-prac(b1)");
 				events.splice(i,1);
 				clear_td(get_cell(a1[0]));
 				clear_td(get_cell(a1[1]));
 			}else{
 				if (b1 && b2){
 					// if both not null prac(b1)-prac(b2)
-					console.log("prac(b1)-prac(b2)");
+					if (debug)
+						console.log("prac(b1)-prac(b2)");
 				}else{
 					// if lect-prac or prac-lect
-					console.log("prac-lect or lect-prac");
+					if (debug)
+						console.log("prac-lect or lect-prac");
 					events.splice(i,1);
 					clear_td(get_cell(a1[0]));
 					clear_td(get_cell(a1[1]));
@@ -464,7 +493,7 @@ function push_into_action(action,is_redo = false){
 	return;
 	undo_actions = [];
 	// console.trace();
-	console.log("new action occured !!"); 
+	// console.log("new action occured !!"); 
 }
 
 
@@ -551,6 +580,25 @@ function clear_td(td,totally_clear_all=false){		// refresh the td
 	return false;
 }
 
+function clear_batch_div(td,batch){
+	// console.log(td.find(""))
+	batch_div = td.find(`[batch_for=${batch}]`);
+	// change as needed
+}
+
+
+function update_all_cards() {
+	for(let j in subject_events){
+		// update_card(subject_events[j],)
+		// console.log(subject_events[j]);
+		if (subject_events[j].prac_carried){
+			update_card(subject_events[j],true);
+		}if(subject_events[j].lect_carried){
+			update_card(subject_events[j],false);
+		}
+	}
+}
+
 // get the event logic to clear unlocked from the redo 
 function totally_clear_all(push_action = true){
 	for(let i in events){
@@ -561,15 +609,7 @@ function totally_clear_all(push_action = true){
 	if (push_action)
 		push_into_action(new event_action("totally_cleared",events));
 	events = [];
-	for(let j in subject_events){
-		// update_card(subject_events[j],)
-		// console.log(subject_events[j]);
-		if (subject_events[j].prac_carried){
-			update_card(subject_events[j],true);
-		}if(subject_events[j].lect_carried){
-			update_card(subject_events[j],false);
-		}
-	}
+	update_all_cards();
 	return true;	
 }
 
@@ -592,15 +632,7 @@ function clear_all_unlocked_td(my_events = false,push_action = true,is_redo=fals
 		if (push_action)
 			push_into_action(new event_action("cleared_unlocked",events.filter(e=>!e.locked)),is_redo);
 		events = events.filter(e=>e.locked);
-		for(let j in subject_events){
-			// update_card(subject_events[j],)
-			// console.log(subject_events[j]);
-			if (subject_events[j].prac_carried){
-				update_card(subject_events[j],true);
-			}if(subject_events[j].lect_carried){
-				update_card(subject_events[j],false);
-			}
-		}
+		update_all_cards();
 	}
 	let latest_my_events = [];
 	if (my_events > 1){
@@ -785,7 +817,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 function put_prac(td,subject_event_id,batch,resource_id){
 	let subject_event = get_subject_event(subject_event_id);
 	let resource_name = get_resource_name_by_id(resource_id);
-	console.log(resource_name);
+	// console.log(resource_name);
 	pair = get_prac_pair(td);
 	batch = batch?batch:"class";
 	
@@ -808,7 +840,7 @@ function put_prac(td,subject_event_id,batch,resource_id){
 //#region  ////////////// ready function //////////////
 global_var=0;
 $(document).ready (function () {
-	
+	update_all_cards();
 	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get('csrftoken');
 	function csrfSafeMethod(method) {
@@ -844,59 +876,86 @@ $(document).ready (function () {
 		return false;
 	});
 
-	$("#clear_td").click(function(){
-		const slot_id = $(this).attr("slot_id");
-		let batch_id;
-		if ($(this).attr("batch_id") !== "false"){
-			batch_id = $(this).attr("batch_id");
-		}else{
-			batch_id = null;
-		}
-		const this_event = events.filter(e=>e.Slot_id == slot_id && e.Batch_id == batch_id);
-		global_var = [slot_id,batch_id];
-		if (this_event.length == 1){
-			if (this_event[0].is_prac()){
-				clear_td(get_cell(this_event[0].Slot_id));
-				clear_td(get_cell(this_event[0].Slot_id_2));
-			}else{
-				clear_td(get_cell(this_event[0].Slot_id));
-			}
-			events = events.filter(e=>e != this_event[0]);
-			update_card(get_subject_event(this_event[0].Subject_event_id),true);
-			push_into_action(new event_action("removed",this_event[0]));
-		}else
-			console.log("No event found");
-		// if (get_cell(slot_id).hasClass("prac")){
-		// 	let i = get_event_index_by_slot(slot_id);
-		// 	if (i){
-		// 		clear_td(get_cell(events[i].Slot_id));
-		// 		clear_td(get_cell(events[i].Slot_id_2));
-		// 		events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
-		// 		events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
-		// 		for (e in events_removed){
-		// 			update_card(get_subject_event(events_removed[e].Subject_event_id),true);
-		// 			push_into_action(new event_action("removed",events_removed[e]));
-		// 		}
-		// 	}
-		// 	// console.table(events);
-		// }else{
-		// 	let i = get_event_index_by_slot(slot_id);
-		// 	if (i){
-		// 		clear_td(get_cell(events[i].Slot_id));
-		// 		// clear_td(get_cell(events[i].Slot_id_2));
-		// 		events_removed = events.filter(e=>e.Slot_id_2 == slot_id || e.Slot_id == slot_id );
-		// 		events = events.filter(e=>e.Slot_id_2 != slot_id && e.Slot_id != slot_id );
-		// 		for (e in events_removed){
-		// 			update_card(get_subject_event(events_removed[e].Subject_event_id),false);
-		// 			push_into_action(new event_action("removed",events_removed[e]));
-		// 		}
-		// 	}
-		// 	// console.table(events);
-		// }
-	})
-
 	$(".open_menu").click(function(){
 		console.log()
+	});
+
+	$("#clear_td").click(function(){
+		const slot_id = $(this).attr("slot_id");
+		let batch_id = $(this).attr("batch_id");
+		if ( batch_id === "false"){
+			batch_id = null;
+		}
+		const all_events_on_slot = events.filter(e=>e.Slot_id == slot_id);
+		const this_event = all_events_on_slot.filter(e=>e.Batch_id == batch_id);
+		// global_var = [this_event];
+		if (this_event.length == 1){
+			if (this_event[0].is_prac()){
+				if (all_events_on_slot.length == 1){	// if only one event is there
+					clear_td(get_cell(this_event[0].Slot_id));
+					clear_td(get_cell(this_event[0].Slot_id_2))
+				}else{									// if two or more events are there
+					clear_batch_div(get_cell(this_event[0].Slot_id),batch_id);
+				}
+			}else{
+				if (all_events_on_slot.length == 1){	// if only one event is there
+					clear_td(get_cell(this_event[0].Slot_id));
+				}else{									// if two or more events are there
+					clear_batch_div(get_cell(this_event[0].Slot_id),batch_id);
+				}
+			}
+			// console.log(this_event[0].Subject_event_id)
+			events = events.filter(e=>e != this_event[0]);
+			// console.log("hi");
+			// global_var = [get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac()]
+			update_card(get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac());
+			// push_into_action(new event_action("removed",this_event[0]));
+		}else
+			console.log("No event found 😢");
+	})
+
+	$("#edit_event").click(function(){
+		// console.log("here");
+		const slot_id = $("#clear_td").attr("slot_id");
+		let batch_id = $("#clear_td").attr("batch_id");
+		if ( batch_id === "false"){
+			batch_id = null;
+		}
+		const this_event = events.filter(e=> e.Slot_id == slot_id && e.Batch_id == batch_id);
+		
+		if (this_event.length == 1){
+			$("#batches").next(".select2-container").hide(); // hide batch 
+			const slot = slots.filter(e=>e.id == slot_id);
+			$("#resources option").prop('disabled', false);
+			// all the options are enabled and then the filled resources are disabled 
+			
+			globar_var = this_event;
+			for (i in slot.resources_filled){
+				$("#resources option[value='"+String(slot.resources_filled[i])+"']").prop('disabled', 'disabled');
+			}
+			//give default values 
+			console.log(this_event)
+			let Resource_id= this_event[0].Resource_id ? String(this_event[0].Resource_id) : "-1";
+			$("#resources").val(Resource_id).trigger("change");
+			// $("#resources option[value=-1]").prop('disabled', 'disabled');
+			let link= this_event[0].link ? this_event[0].link : "-1";
+			$("#links").val(link).trigger("change");
+			global_var = [link,Resource_id];
+			let rect = get_cell(slot_id)[0].getBoundingClientRect();
+			var left,top = event.pageY+5;
+			if (rect.right+100 >= screen.width){
+				left = rect.left - $("#event_form").width();
+			}else{
+				left = rect.right - 10;
+			}
+
+			$("#event_form").toggle(100).css({
+				top: top + "px",
+				left: left + "px"
+			});
+
+		}else
+			console.log("No event found 😢");
 	});
 	///////////////////////////// draggable/droppable ///////////////////////
 
@@ -985,7 +1044,9 @@ $(document).ready (function () {
 				var slot = get_slot_by_td(td);
 				let subject_event_id = ui.draggable.attr("subject_event_id");
 				let is_prac = ui.draggable.attr("is_prac");
-
+				$("#resources").val("-1").trigger("change");
+				$("#links").val("-1").trigger("change");
+				$("#batches").val("-1").trigger("change");
 				$("#resources option").prop('disabled', false);
 				// all the options are enabled and then the filled resources are disabled 
 				$("#batches").next(".select2-container").show();
@@ -1009,12 +1070,12 @@ $(document).ready (function () {
 					$("#event_form").removeAttr("is_prac");
 				}
 				else{
-					if (subject_batches) {	// lect_batch
+					if (subject_batches) {	// prac_batch
 						for (let i in subject_batches) {
 							$("#batches option[value=" + subject_batches[i].pk.toString() + "]").prop('disabled', false);
 						}
-					}else{					// lect_class
-						console.log("lect_class");
+					}else{					// prac_class
+						// console.log("prac_class");/
 						$("#batches").next(".select2-container").hide();
 					}
 					$("#event_form").attr("is_prac",is_prac);
@@ -1046,20 +1107,30 @@ $(document).ready (function () {
 		}
 	});
 	///////////////////////////// form  ///////////////////////
+
 	$("#aform").on("click", function(){
-	// $("#aform").on("click", function(){
-		slot_id = $("#event_form").attr("slot_id");
-		is_prac = $("#event_form").attr("is_prac");
-		subject_event_id = $("#event_form").attr("subject_event_id");
-		td = get_cell(slot_id);
-		let batch = $("#batches").val();
-		let resource = $("#resources").val();
-		let resource_id = $("#resources").find(':selected').val();
-		if (resource){
-			let subject_batch = get_batches(subject_event_id,is_prac);
+		const slot_id = $("#event_form").attr("slot_id");
+		const is_prac = $("#event_form").attr("is_prac");
+		const subject_event_id = $("#event_form").attr("subject_event_id");
+		const td = get_cell(slot_id);
+
+		const batch = $("#batches").val();
+		const resource = $("#resources").val();
+		const resource_id = $("#resources").find(':selected').val();
+		const subject_batch = get_batches(subject_event_id,is_prac);
+		const link = $("#links").val();
+
+		if (resource && Boolean(batch) === Boolean(subject_batch)){ // validation
 			if (is_prac){
+				const slot_pair = get_prac_pair(td)
 				if (subject_batch){	// if prac_batch
-					temp_event = new event_class(String(get_slot_by_td(get_prac_pair(td)[0]).id),subject_event_id,batch,resource,String(get_slot_by_td(get_prac_pair(td)[1]).id));
+
+					temp_event = new event_class();
+					temp_event.put_subject_event(subject_event_id);
+					temp_event.put_slots(String(get_slot_by_td(slot_pair[0]).id),String(get_slot_by_td(slot_pair[1]).id));
+					temp_event.put_batch_resource(batch,resource);
+					temp_event.put_link_locked(link);
+
 					if (push_event(temp_event)){
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
@@ -1067,7 +1138,12 @@ $(document).ready (function () {
 						put_prac(td,subject_event_id,batch,resource_id);
 					}
 				}else{			// if prac_class
-					temp_event = new event_class(String(get_slot_by_td(get_prac_pair(td)[0]).id),subject_event_id,null,resource,String(get_slot_by_td(get_prac_pair(td)[1]).id));
+					temp_event = new event_class();
+					temp_event.put_subject_event(subject_event_id);
+					temp_event.put_slots(String(get_slot_by_td(slot_pair[0]).id),String(get_slot_by_td(slot_pair[1]).id));
+					temp_event.put_batch_resource(null,resource);
+					temp_event.put_link_locked(link);
+
 					if (push_event(temp_event)){
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
@@ -1077,7 +1153,13 @@ $(document).ready (function () {
 				}
 			}else if(!is_prac){
 				if (subject_batch){	// if lect_batch
-					temp_event = new event_class(slot_id,subject_event_id,batch,resource);
+
+					temp_event = new event_class();
+					temp_event.put_subject_event(subject_event_id);
+					temp_event.put_slots(slot_id);
+					temp_event.put_batch_resource(batch,resource);
+					temp_event.put_link_locked(link);
+
 					if (push_event(temp_event)){
 						if (!td.html()){
 							change_to_lect_td(td,subject_batch);
@@ -1085,12 +1167,18 @@ $(document).ready (function () {
 						put_lect(td,subject_event_id,resource_id,batch);
 					}
 				}else{				// if lect_class
-					temp_event = new event_class(slot_id,subject_event_id,null,resource);
+					
+					temp_event = new event_class();
+					temp_event.put_subject_event(subject_event_id);
+					temp_event.put_slots(slot_id);
+					temp_event.put_batch_resource(null,resource);
+					temp_event.put_link_locked(link);
+
 					if (push_event(temp_event)){
 						if (!td.html()){
 							change_to_lect_td(td,null);
 						}
-						put_lect(td,subject_event_id,resource_id,batch=null);
+						put_lect(td,subject_event_id,resource_id,null);
 					}
 				}
 			}else
@@ -1108,6 +1196,7 @@ $(document).ready (function () {
 		$("#event_form").hide();
 	});
 	//////////////////////////// double click locking ///////////////////////////
+
 	$(".droppable").dblclick(function(e,t){
 		lock_event_by_td($(this));
 		// console.log(get_all_locked_events());

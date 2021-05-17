@@ -1,15 +1,15 @@
 $(document).ready(function(){
   activate();
   /////////////////////// Navbar Animation //////////////////////
-  // $(".navtree_wrapper").animate({height:"0%",},0);
+  $(".navtree_wrapper").animate({height:"0%",},0);
   // offset = 0
   // console.log(offset);
+  $(".navtree_wrapper").show();
+  offset = l.length? l.offset() : 0;
+  $(".navtree_wrapper")[0].scrollTo(offset.left+(screen.width/1.5),offset.top);
   $(".me").click(function(){
-    $(".navtree_wrapper").show();
     // $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
     $(".main_content").css({"height":"0%","width":"0%","transition":".3s"});
-    offset = l.length? l.offset() : 0;
-    $(".navtree_wrapper")[0].scrollTo(offset.left+(screen.width/1.5),offset.top);
       // $('.navtree_wrapper').animate({
       //       scrollTop: offset.top,
       //       scrollLeft: offset.left/1.5,
@@ -48,10 +48,11 @@ $(document).ready(function(){
     }
   });
 
-  $("#show_tree label").click(function(){
+  $("#show_tree .data").click(function(){
       my_input = $(this).parent().find("input").first();
       sibling_inputs = $(this).parent().parent().children($("li")).find("input").not(my_input);
       sibling_inputs.prop("checked",true);
+      
       setTimeout(function(){
         o = my_input.parent().offset();
         $('.navtree_wrapper')[0].scrollTo({
@@ -78,5 +79,6 @@ function activate(){
     }while(!label.hasClass("institute"))
   }
   l = label;
+  // we can also keep it such that the parent is center
   // console.log(label);
 }

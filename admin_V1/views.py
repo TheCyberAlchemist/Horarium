@@ -595,7 +595,7 @@ from django.core.serializers.python import Serializer
 class MySerialiser(Serializer):
 	def end_object( self, obj ):
 		self._current['id'] = obj._get_pk_val()
-		include_list = ["Slot_id","Slot_id_2","Subject_event_id","Batch_id","Resource_id"]
+		include_list = ["Slot_id","Slot_id_2","Subject_event_id","Batch_id","Resource_id","link"]
 		res = dict([(key, val) for key, val in self._current.items() if key in include_list]) 
 		for i in res:
 			if not res[i]:
@@ -784,17 +784,21 @@ def show_table(request,Division_id):
 	#  to start the timetable
 	context = return_context(request)
 	if request.method == "POST":
-		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
+		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2','link'))
 		json_events = json.loads(request.body)
 		new_events = set()
 		old_events = set()
 		for l in json_events:
+			del(l['locked'])
 			new_events.add(tuple(map(str, l.values())))
 		for i in old_events_qs:
 			old_events.add(tuple(map(str, i)))
+		# print(new_events)
+		# print(old_events)
 		to_be_added = new_events.difference(old_events)
 		to_be_deleted = old_events.difference(new_events)
-		# print(to_be_added,to_be_deleted)
+		print(to_be_added)
+		print(to_be_deleted)
 		def foo(x,i):
 			if tuple(map(str, x.values())) == i:
 				return True
@@ -808,7 +812,7 @@ def show_table(request,Division_id):
 				TBD.delete()
 		for i in to_be_added:
 			TBA = [x for x in json_events if foo(x,i)]
-			print(TBA)
+			# print(TBA)
 			form = add_event(TBA[0])
 			candidate = form.save(commit=False)
 			candidate.Division_id_id = Division_id
@@ -827,6 +831,7 @@ def show_table(request,Division_id):
 	subject = {}
 	for i in Subject_details.objects.filter(Semester_id = my_semester):
 		subject[i] = Subject_event.objects.filter(Subject_id=i)
+	
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
@@ -838,9 +843,8 @@ def show_table(request,Division_id):
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches,keep_pk=True)
-
 	# print(Slots.objects.filter( Timing_id__in = timings)[0])
-	print(Event.objects.filter(Division_id=Division_id))
+	# print(context['events_json'])
 	return render(request,"try/table.html",context)
 
 

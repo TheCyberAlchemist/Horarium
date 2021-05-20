@@ -114,7 +114,7 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources {
+#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac {
   width: 300px;
 }
 
@@ -124,5 +124,12 @@
 
 #select_fac {
   width: 500px;
+}
+
+@media screen and (max-width: 600px) {
+  #designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #select_fac, #shifts {
+    width: 100%;
+    font-size: x-small;
+  }
 }
 /*# sourceMappingURL=myselect2.css.map */

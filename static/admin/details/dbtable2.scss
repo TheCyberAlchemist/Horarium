@@ -14,6 +14,9 @@
 .table tbody .even td,.table tbody .odd td{
     border-bottom: 1px solid rgb(185, 185, 185) !important;
 }
+.table tbody .even td:first-child,.table tbody .odd td:first-child {  //for styling the first column of table 
+    color : blue;
+}
 .fas.fa-edit, .fas.fa-sign-in-alt {
     font-size: 22px !important;
     transform : translateY(4px);

@@ -137,6 +137,11 @@ a {
   background-color: transparent !important;
 }
 
+.myform .pagination_container nav {
+  -webkit-transform: translateX(45%);
+          transform: translateX(45%);
+}
+
 .container.navigate {
   margin-left: 40px !important;
   -webkit-transform: translateY(-30px);
@@ -315,6 +320,13 @@ a {
   }
   .fas.fa-hashtag {
     font-size: 15px !important;
+  }
+  .myform {
+    font-size: smaller;
+  }
+  .myform .pagination_container nav {
+    -webkit-transform: translateX(25%);
+            transform: translateX(25%);
   }
 }
 /*# sourceMappingURL=form2.css.map */

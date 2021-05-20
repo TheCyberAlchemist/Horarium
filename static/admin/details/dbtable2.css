@@ -16,6 +16,10 @@
   border-bottom: 1px solid #b9b9b9 !important;
 }
 
+.table tbody .even td:first-child, .table tbody .odd td:first-child {
+  color: blue;
+}
+
 .fas.fa-edit, .fas.fa-sign-in-alt {
   font-size: 22px !important;
   -webkit-transform: translateY(4px);

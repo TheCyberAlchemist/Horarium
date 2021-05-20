@@ -61,9 +61,9 @@
 			<a href="{{url ('admin_home')}}">
 				<i class="fas fa-home"></i>
 			</a>
-			<i class="fas fa-angle-double-right"></i>
+			&nbsp;<b>/</b>
 			<a href="{{url ('show_sub_det',args=[my_branch.id]) }}">
-				<span class="h6 fw-bold">Add Subject Details</span>
+				<span class="h6 fw-bold active">Add Subject Details</span>
 			</a>
 			{%if update %}
 			<i class="fas fa-angle-double-right"></i>
@@ -123,7 +123,7 @@
 											</div>
 											<div class="col-lg-12 col-md-12 col-sm-12">
                                                 {% if update %}
-												<h3 class="h3">Select Colour for Subject {{update.color}}</h3>
+												<h3 class="h4 mt-1 mb-3 text-center">Select Colour for <span style="color:blue">{{update.name}}</span></h3>
                                                 {%endif%}
 												<div class="color_palette_container text-center">
 													{%set colors = ["#7377a5","#ffbf00","#00b3b3","#ff8080","#d65c7a","#66cc66","#33cccc","#3333ff","#ff3333"]%} 

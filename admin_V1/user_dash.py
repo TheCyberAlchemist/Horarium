@@ -1,13 +1,9 @@
 from django.contrib.auth.models import Permission
-from django.core import serializers
 from django.shortcuts import render
 from django.urls import reverse
-from django.http import JsonResponse
-import json
 
 
 from ajax_datatable.views import AjaxDatatableView
-from .forms import update_user_by_admin
 import login_V2.models as login_V2
 from subject_V1.models import Subject_event
 from faculty_V1.models import Faculty_load
@@ -104,7 +100,7 @@ class student_user_table(AjaxDatatableView):
 		# 'row' is a dictionary representing the current row, and 'obj' is the current object.
 		row['first_name'] = '<div class="gixi gixi-md float-start" data-gixiseed="%s_%s"></div>'%(obj,obj.pk) + str(obj)
 		row['Edit'] = '''<td class="border-0">
-							<i class="fas fa-edit" onclick="user_edit_called(%s)"></i>
+							<i class="fas fa-edit" onclick="student_edit_called(%s)"></i>
 						</td>''' % (
 			obj.id
 		)
@@ -209,7 +205,7 @@ class faculty_user_table(AjaxDatatableView):
 		# 'row' is a dictionary representing the current row, and 'obj' is the current object.
 		row['first_name'] = f'<div class="gixi gixi-md float-start" data-gixiseed="%s_%s"></div>'%(obj,obj.pk) + str(obj)
 		row['Edit'] = '''<td class="border-0">
-							<i class="fas fa-edit" onclick="user_edit_called(%s)"></i>
+							<i class="fas fa-edit" onclick="faculty_edit_called(%s)"></i>
 						</td>''' % (
 			obj.id
 		)
@@ -228,16 +224,3 @@ class faculty_user_table(AjaxDatatableView):
 def faculty_feedback(request,Faculty_id = None):
 	return render(request,"admin/user_dash/faculty_feedback.html")
 
-
-def user_edit_called(request):
-	if request.method == 'POST':
-		pk = json.loads(request.body)
-		user = login_V2.CustomUser.objects.get(pk=pk)
-		# json_user = serializers.serialize('json', user)
-		update = {
-			'first_name':user.first_name,
-			'last_name':user.last_name,
-			'email':user.email
-		}
-		print(update)
-	return JsonResponse(update)

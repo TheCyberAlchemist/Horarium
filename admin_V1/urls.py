@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from . import views,user_dash
+from . import views,user_dash,add_update_users
 from django.conf.urls import url
 import faculty_V1.views as faculty_view
 urlpatterns = [
@@ -10,7 +10,12 @@ urlpatterns = [
 	url(r'^home/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	url(r'^home/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
 	url(r'^home/faculty_feedback/api/$',faculty_view.ChartData.as_view(),name = 'admin_faculty_feedback_api'),
-	path('home/user_edit_called/',user_dash.user_edit_called,name = "user_edit"),
+
+	path('home/faculty_edit_called/',add_update_users.faculty_edit_called,name = "faculty_edit"),
+
+	path('home/student_edit_called/',add_update_users.student_edit_called,name = "student_edit"),
+	
+	path('home/update_student/',add_update_users.student_edit_called,name = "student_edit"),
 
 	url(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
 

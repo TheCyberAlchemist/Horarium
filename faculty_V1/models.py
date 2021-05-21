@@ -76,7 +76,7 @@ class Chart(models.Model) :
 class Feedback(models.Model):
 	timestamp = models.DateTimeField(auto_now=False)
 	# timestamp = models.DateTimeField(auto_now=True)
-	Event_id = models.ForeignKey(Event,on_delete=models.CASCADE)
+	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE)
 	Given_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
 	rating = (
@@ -99,7 +99,7 @@ class Feedback(models.Model):
 	query = models.TextField(null=True,blank=True)
 	average = models.IntegerField(null=True,blank=True)
 	def __str__(self):
-		return str(self.Event_id.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by) + " at " + str(self.timestamp)
+		return str(self.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by) + " at " + str(self.timestamp)
 
 	def get_ave(self):
 		arr = [self.Q1,self.Q2,self.Q3,self.Q4,self.Q5,self.Q6,self.Q7,self.Q8,self.Q9]

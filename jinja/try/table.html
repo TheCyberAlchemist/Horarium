@@ -233,8 +233,8 @@ if (header){
                     {% for day in working_days %}
                     <div class="col my_col isBreak">
                         {%if loop.index==1%}
-                        <div class="" style="{%if len == 6%}padding-left:350px{%else%}padding-left:300px{%endif%}">
-                            <span class="h4">{{timing.name}}</span>
+                        <div class="h4" style="{%if len == 6%}transform:translateX(350px){%else%}transform:translateX(300px){%endif%}">
+                            {{timing.name}}
                         </div>
                         {% endif %}
                     </div>

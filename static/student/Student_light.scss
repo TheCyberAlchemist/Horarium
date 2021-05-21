@@ -36,6 +36,7 @@ b a:hover {
 }
 
 /* #region  Feedback Panel */
+
 #feedback_panel .container {
   border-radius: 10px;
   padding: 1em;
@@ -52,8 +53,8 @@ b a:hover {
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
-
 /* #endregion */
+
 /* #region  Table Styling */
 #t1 {
   text-align: center;
@@ -71,7 +72,7 @@ b a:hover {
 #t1 td {
   border: 1px solid black;
   width: auto;
-  padding: 0 7px;
+  padding:0 7px;
 }
 
 #t1 td:nth-of-type(1),
@@ -130,8 +131,8 @@ th:nth-of-type(1) {
     background-color: white;
   }
 }
-
 /* #endregion */
+
 /* #region modal button Styling */
 .radio-inline {
   padding-right: 20px;
@@ -152,6 +153,7 @@ th:nth-of-type(1) {
 }
 
 /* #endregion */
+
 /* #region  Scrollbar Styling */
 ::-webkit-scrollbar-thumb {
   background-color: #333;
@@ -162,70 +164,21 @@ th:nth-of-type(1) {
   scrollbar-color: #525252 #1f1f24 !important;
   scrollbar-width: thin !important;
 }
-
 /* #endregion */
+
 /* #region  Sidebar Button*/
 .sidebar_container {
   position: relative;
 }
-
 .sidebar {
   position: fixed;
   top: 20%;
   left: 1%;
-  -webkit-animation-name: sidebar;
-          animation-name: sidebar;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+  animation-name: sidebar;
+  animation-duration: 1s;
+  animation-delay: 1s;
+  animation-iteration-count: infinite;
 }
-
-@-webkit-keyframes sidebar {
-  0%,
-  13.32%,
-  20.01%,
-  40%,
-  46.67%,
-  93.32% {
-    background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
-  }
-  25% {
-    background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
-  }
-  50% {
-    background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
-  }
-  75% {
-    background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
-  }
-  100% {
-    background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
-    transition: 0.3s;
-  }
-}
-
 @keyframes sidebar {
   0%,
   13.32%,
@@ -234,49 +187,39 @@ th:nth-of-type(1) {
   46.67%,
   93.32% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
   25% {
     background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(-20deg);
     transition: 0.3s;
   }
   50% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
   75% {
     background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(-20deg);
     transition: 0.3s;
   }
   100% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
 }
 
 /* #endregion Sidebar button*/
+
 /* #region  Feedback Modal Radio button */
 .feedback-modal .radio-inline input[type="radio"] {
-  -webkit-appearance: none !important;
-     -moz-appearance: none !important;
-          appearance: none !important;
+  appearance: none !important;
 }
-
+.feedback-modal .radio-inline {
+}
 .feedback-modal .radio-inline:hover {
   color: black !important;
 }
@@ -285,20 +228,18 @@ th:nth-of-type(1) {
   border-color: #2dce89 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(1):hover {
   background-color: #2dce89 !important;
 }
-
-input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
-  background-color: #2dce89 !important;
+input[type="radio"]:focus {
+  .feedback-modal .radio-inline:nth-child(1) {
+    background-color: #2dce89 !important;
+  }
 }
-
 .feedback-modal .radio-inline:nth-child(2) {
   border-color: #05ff92 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(2):hover {
   background-color: #05ff92 !important;
 }
@@ -307,7 +248,6 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   border-color: #fff675 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(3):hover {
   background-color: #fff675 !important;
 }
@@ -316,7 +256,6 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   border-color: #ff7d7d !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(4):hover {
   background-color: #ff7d7d !important;
 }
@@ -325,101 +264,97 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   border-color: #ff5537 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(5):hover {
   background-color: #ff5537 !important;
 }
-
 /* #endregion */
+
 /* #region  Offcanvas */
+.offcanvas {
+}
+
 /* #endregion  Offcanvas*/
-/* #region  Chart Settings */
-.charts_container .card-title,
-.charts_container .card-body {
-  font-size: smaller;
-}
 
-.charts_container .card .card-title,
-.charts_container .card .card-text {
-  color: black !important;
-  font-family: "Poppins", sans-serif;
-}
 
-.charts_container .row .card {
-  border-radius: 14px;
-}
+  /* #region  Chart Settings */
+  .charts_container .card-title,
+  .charts_container .card-body {
+    font-size: smaller;
+  }
+  .charts_container .card .card-title,
+  .charts_container .card .card-text {
+    color: black !important;
+    font-family: "Poppins", sans-serif;
+  }
+  .charts_container .row .card {
+    border-radius: 14px;
+  }
+  .questions .card-header .h6,
+  .questions .card-body .h6 {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  #show_week {
+    font-size: smaller;
+  }
+  .questions .card-header {
+    font-size: 1.25rem;
+  }
+  .question_card {
+    width: 100%;
+  }
+  .charts_container .card-body {
+    padding: 1rem;
+  }
+  .charts_container .card {
+    margin-top: 10px;
+  }
+  .charts_container .card-title,
+  .charts_container .card-text {
+    margin-bottom: 0 !important;
+  }
 
-.questions .card-header .h6,
-.questions .card-body .h6 {
-  font-size: 12px;
-  margin-bottom: 20px;
-}
-
-#show_week {
-  font-size: smaller;
-}
-
-.questions .card-header {
-  font-size: 1.25rem;
-}
-
-.question_card {
-  width: 100%;
-}
-
-.charts_container .card-body {
-  padding: 1rem;
-}
-
-.charts_container .card {
-  margin-top: 10px;
-}
-
-.charts_container .card-title,
-.charts_container .card-text {
-  margin-bottom: 0 !important;
-}
 
 /* #endregion */
+
 /* #region  Mobile Device */
 @media screen and (max-width: 600px) {
-  #t1 {
-    width: 100%;
-    font-size: 10px;
-  }
-  #t1 th {
-    padding: 5px 2px;
-  }
-  #lect .btn {
-    margin: 7px 0.5em 0 0.5em;
-    padding: 5px 2px;
-  }
-  #prac .btn {
-    height: 50px;
-    padding: 0;
-    margin: 0 0.5em;
-  }
-  #t1 .btn {
-    font-size: 12px;
-  }
-  #agenda_panel {
-    font-size: 12px;
-  }
-  #agenda_panel .container {
-    border-radius: 10px;
-    padding: 0.7em;
-    width: 95%;
-    font-size: 13px;
-    margin-bottom: 1em;
-    border: 1px solid grey;
-  }
-  #text,
-  #text2 {
-    font-size: 15px;
-    -webkit-transition: 1s;
-    transition: 1s;
-  }
+    #t1 {
+      width: 100%;
+      font-size: 10px;
+    }
+    #t1 th {
+      padding: 5px 2px;
+    }
+    #lect .btn {
+      margin: 7px 0.5em 0 0.5em;
+      padding: 5px 2px;
+    }
+    #prac .btn {
+      height: 50px;
+      padding: 0;
+      margin: 0 0.5em;
+    }
+    #t1 .btn {
+      font-size: 12px;
+    }
+    #agenda_panel {
+      font-size: 12px;
+    }
+    #agenda_panel .container {
+      border-radius: 10px;
+      padding: 0.7em;
+      width: 95%;
+      font-size: 13px;
+      margin-bottom: 1em;
+      border: 1px solid grey;
+    }
+    #text,
+    #text2 {
+      font-size: 15px;
+      -webkit-transition: 1s;
+      transition: 1s;
+    }
 }
-
 /* #endregion */
-/*# sourceMappingURL=Student_light.css.map */
+  

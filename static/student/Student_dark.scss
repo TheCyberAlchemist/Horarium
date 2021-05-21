@@ -18,7 +18,6 @@ body {
 hr {
   background-color: white;
 }
-
 b a {
   text-decoration: none !important;
   color: black !important;
@@ -27,13 +26,12 @@ b a {
 b a:hover {
   text-decoration: none !important;
 }
-
 .h4 {
   font-family: "Poppins", sans-serif;
 }
 
 .container-fluid.pt-4 {
-  background-color: #131a24 !important;
+  background-color:#131a24 !important;
 }
 
 #agenda_panel .nav-item {
@@ -86,7 +84,7 @@ b a:hover {
 #t1 td {
   border: 1px solid white;
   width: auto;
-  padding: 0 7px;
+  padding:0 7px;
 }
 
 #t1 td:nth-of-type(1),
@@ -114,11 +112,9 @@ th:nth-of-type(1) {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-
 #myProgress {
   color: white !important;
 }
-
 .table .btn:hover {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
@@ -151,12 +147,10 @@ th:nth-of-type(1) {
     color: white;
   }
 }
-
 #querybox {
   background-color: #18181d;
   color: white !important;
 }
-
 .radio-inline {
   padding-right: 20px;
   -webkit-user-select: none;
@@ -164,7 +158,6 @@ th:nth-of-type(1) {
   -ms-user-select: none;
   user-select: none;
 }
-
 .modal_btn.btn {
   -webkit-transition: 0.3s;
   transition: 0.3s;
@@ -185,7 +178,6 @@ th:nth-of-type(1) {
   scrollbar-color: #525252 #1f1f24 !important;
   scrollbar-width: thin !important;
 }
-
 .modal-body,
 .modal-title,
 .modal-footer,
@@ -194,208 +186,83 @@ th:nth-of-type(1) {
   background-color: #18181d !important;
   color: white !important;
 }
-
 .modal-footer {
   border-top: none !important;
 }
 
 /* #region  Sidebar Button*/
 .sidebar_container {
-  position: relative;
-}
+    position: relative;
+  }
+  .sidebar {
+    position: fixed;
+    top: 20%;
+    left: 1%;
+    animation-name: sidebar;
+    animation-duration: 3s;
+    animation-delay: 0s;
+    animation-iteration-count: infinite;
+  }
+  @keyframes sidebar {
+    0% { transform: rotate(0deg);opacity:1; }
+    8.0% { transform: rotate(0deg);opacity:1; }
+    12.0% { transform: rotate(42deg);opacity:1; }
+    16.0% { transform: rotate(-35deg);opacity:1; }
+    20.0% { transform: rotate(0deg);opacity:1; }
+    23.0% { transform: rotate(28deg);opacity:1; }
+    26.0% { transform: rotate(-20deg);opacity:1; }
+    29.0% { transform: rotate(0deg);opacity:1; }
+    31.0% { transform: rotate(16deg);opacity:1; }
+    33.0% { transform: rotate(-12deg);opacity:1; }
+    35.0% { transform: rotate(0deg);opacity:1; }	
+    37.0% { transform: rotate(-6deg);opacity:1; }
+    39.0% { transform: rotate(0deg);opacity:1; }
+  }
+  
+  /* #endregion Sidebar button*/
+  
 
-.sidebar {
-  position: fixed;
-  top: 20%;
-  left: 1%;
-  -webkit-animation-name: sidebar;
-          animation-name: sidebar;
-  -webkit-animation-duration: 3s;
-          animation-duration: 3s;
-  -webkit-animation-delay: 0s;
-          animation-delay: 0s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
-}
-
-@-webkit-keyframes sidebar {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  8.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  12.0% {
-    -webkit-transform: rotate(42deg);
-            transform: rotate(42deg);
-    opacity: 1;
-  }
-  16.0% {
-    -webkit-transform: rotate(-35deg);
-            transform: rotate(-35deg);
-    opacity: 1;
-  }
-  20.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  23.0% {
-    -webkit-transform: rotate(28deg);
-            transform: rotate(28deg);
-    opacity: 1;
-  }
-  26.0% {
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    opacity: 1;
-  }
-  29.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  31.0% {
-    -webkit-transform: rotate(16deg);
-            transform: rotate(16deg);
-    opacity: 1;
-  }
-  33.0% {
-    -webkit-transform: rotate(-12deg);
-            transform: rotate(-12deg);
-    opacity: 1;
-  }
-  35.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  37.0% {
-    -webkit-transform: rotate(-6deg);
-            transform: rotate(-6deg);
-    opacity: 1;
-  }
-  39.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-}
-
-@keyframes sidebar {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  8.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  12.0% {
-    -webkit-transform: rotate(42deg);
-            transform: rotate(42deg);
-    opacity: 1;
-  }
-  16.0% {
-    -webkit-transform: rotate(-35deg);
-            transform: rotate(-35deg);
-    opacity: 1;
-  }
-  20.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  23.0% {
-    -webkit-transform: rotate(28deg);
-            transform: rotate(28deg);
-    opacity: 1;
-  }
-  26.0% {
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    opacity: 1;
-  }
-  29.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  31.0% {
-    -webkit-transform: rotate(16deg);
-            transform: rotate(16deg);
-    opacity: 1;
-  }
-  33.0% {
-    -webkit-transform: rotate(-12deg);
-            transform: rotate(-12deg);
-    opacity: 1;
-  }
-  35.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-  37.0% {
-    -webkit-transform: rotate(-6deg);
-            transform: rotate(-6deg);
-    opacity: 1;
-  }
-  39.0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    opacity: 1;
-  }
-}
-
-/* #endregion Sidebar button*/
 /* #region  Offcanvas */
 .offcanvas {
-  background-color: #101820 !important;
-  color: white !important;
+    background-color: rgb(16, 24, 32) !important;
+    color : white !important;
 }
-
 /* #endregion  Offcanvas*/
+
 /* #region  Feedback and Agenda Panel */
-#feedback_panel .container {
-  border-radius: 10px;
-  padding: 1em;
-  width: 90%;
-  border: 1px solid #2dce89;
-  margin-bottom: 1em;
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
+  
+  #feedback_panel .container {
+    border-radius: 10px;
+    padding: 1em;
+    width: 90%;
+    border: 1px solid #2dce89;
+    margin-bottom: 1em;
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+  }
+  
+  #feedback_panel .container:hover {
+    -webkit-transform: scale(1.03);
+    transform: scale(1.03);
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+  }
+  /* #endregion */
+  
 
-#feedback_panel .container:hover {
-  -webkit-transform: scale(1.03);
-  transform: scale(1.03);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-/* #endregion */
 /*//////////////////////////Feedback Card////////////////////////////// */
 .charts_container .card .card-title,
 .charts_container .card .card-text {
   font-family: "Poppins", sans-serif;
 }
-
 .charts_container .row .card {
-  background-color: #dde0ee;
+  background-color: rgb(221, 224, 238);
   font-family: "Poppins", sans-serif;
   color: black !important;
   border-radius: 14px;
 }
-
 .charts_container .row .chart .card {
-  background-color: #dde0ee !important;
+  background-color: rgb(221, 224, 238) !important;
 }
 
 #text {
@@ -405,15 +272,11 @@ th:nth-of-type(1) {
 
 /* #region  Feedback Modal Radio button */
 .feedback-modal .radio-inline input[type="radio"] {
-  -webkit-appearance: none !important;
-     -moz-appearance: none !important;
-          appearance: none !important;
+  appearance: none !important;
 }
-
 .feedback-modal .radio-inline {
   color: white !important;
 }
-
 .feedback-modal .radio-inline:hover {
   color: white !important;
 }
@@ -422,20 +285,18 @@ th:nth-of-type(1) {
   border-color: #2dce89 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(1):hover {
   background-color: #2dce89 !important;
 }
-
-input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
-  background-color: #2dce89 !important;
+input[type="radio"]:focus {
+  .feedback-modal .radio-inline:nth-child(1) {
+    background-color: #2dce89 !important;
+  }
 }
-
 .feedback-modal .radio-inline:nth-child(2) {
   border-color: #05ff92 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(2):hover {
   background-color: #05ff92 !important;
 }
@@ -444,7 +305,6 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   border-color: #fff675 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(3):hover {
   background-color: #fff675 !important;
 }
@@ -453,7 +313,6 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   border-color: #ff7d7d !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(4):hover {
   background-color: #ff7d7d !important;
 }
@@ -462,12 +321,11 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   border-color: #ff5537 !important;
   margin-right: 10px;
 }
-
 .feedback-modal .radio-inline:nth-child(5):hover {
   background-color: #ff5537 !important;
 }
-
 /* #endregion */
+
 @media screen and (max-width: 600px) {
   #t1 {
     width: 100%;
@@ -476,6 +334,7 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   #t1 th {
     padding: 5px 2px;
   }
+  
   #lect .btn {
     margin: 7px 0.5em 0 0.5em;
     padding: 5px 2px;
@@ -484,9 +343,7 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
     height: 50px;
     padding: 0;
     margin: 0 0.5em;
-    -webkit-writing-mode: vertical-rl;
-        -ms-writing-mode: tb-rl;
-            writing-mode: vertical-rl;
+    writing-mode: vertical-rl;
     text-orientation: upright;
   }
   #t1 .btn {
@@ -520,6 +377,7 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
   .radio-inline {
     padding-right: 0px;
   }
+
   /* #region  Chart Settings */
   .charts_container .card-title,
   .charts_container .card-body {
@@ -552,4 +410,3 @@ input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
 }
 
 /* #endregion */
-/*# sourceMappingURL=Student_dark.css.map */

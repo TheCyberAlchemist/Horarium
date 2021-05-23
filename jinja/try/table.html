@@ -86,40 +86,48 @@ if (header){
 </div>
 <div id="kaibhi" style="display: none;">
 </div>
-<form id="event_form" class="event_form">
-    <div class="select2_container single_select2">
-        <select id="resources">
-            <option disabled selected value=-1>Select the room </option>
-            {% for resource in resources %}
-                <option value="{{resource.id}}">{{resource}}</option>
-            {% endfor %}
-        </select>
-    </div>
+<div class="container">
+    <form id="event_form" class="event_form">
+        <div class="select2_container single_select2 mb-3">
+            <select id="resources">
+                <option disabled selected value=-1>Select the room </option>
+                {% for resource in resources %}
+                    <option value="{{resource.id}}">{{resource}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="select2_container single_select2 mb-3">
+            <select id="links">
+                <option disabled selected value=-1>Select the link </option>
+                <option value="{{my_division.link}}">{{my_division.name}}-[{{my_division.link}}]</option>
+                {% for batch in my_batches %}
+                    <option value="{{batch.link}}">{{batch}}-[{{batch.link}}]</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="select2_container single_select2" style="margin-top: 1em;">
+            <select id="batches">
+                <option disabled selected value=-1>Select the batch </option>
+                {% for batch in my_batches %}
+                <option value="{{batch.id}}">{{batch}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-6">
+                <button type="button" id="cancel" class="btn btn-outline-danger">Cancel</button>
+            </div>
+            <div class="col-6">
+                <button type="button" id="aform" class="btn btn-outline-success">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
 
-    <div class="select2_container single_select2">
-        <select id="links">
-            <option disabled selected value=-1>Select the link </option>
-            <option value="{{my_division.link}}">{{my_division.name}}-[{{my_division.link}}]</option>
-            {% for batch in my_batches %}
-                <option value="{{batch.link}}">{{batch}}-[{{batch.link}}]</option>
-            {% endfor %}
-        </select>
-    </div>
 
-    <div class="select2_container single_select2" style="margin-top: 1em;">
-        <select id="batches">
-            <option disabled selected value=-1>Select the batch </option>
-            {% for batch in my_batches %}
-            <option value="{{batch.id}}">{{batch}}</option>
-            {% endfor %}
-        </select>
-    </div>
-    <br>
-    <div class="container text-center">
-        <button type="button" id="cancel">Cancel</button>
-        <button type="button" id="aform">Submit</button>
-    </div>
-</form>
 <div class="main_content" style="margin-top:-20px;">
     <div class="container-fluid toolbar" >
         

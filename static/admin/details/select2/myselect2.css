@@ -50,7 +50,7 @@
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
   display: block;
-  font-size: 1em;
+  font-size: smaller;
   position: absolute;
   background-color: #ffffff;
   border: 1px solid #ced4da;
@@ -69,6 +69,7 @@
   white-space: nowrap;
   outline: none;
   border: none;
+  font-size: smaller;
 }
 
 .select2-container--default .select2-selection--single {
@@ -82,10 +83,12 @@
   color: black;
   line-height: 28px;
   text-align: center;
+  font-size: smaller;
 }
 
 .select2-container--default .select2-results__option--selected {
   background-color: #3586f1;
+  font-size: smaller;
 }
 
 .select2-container--default .select2-selection--single .select2-selection__arrow {
@@ -114,7 +117,7 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac {
+#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac, #links {
   width: 300px;
 }
 

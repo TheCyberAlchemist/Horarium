@@ -583,6 +583,14 @@ function clear_td(td,totally_clear_all=false){		// refresh the td
 function clear_batch_div(td,batch){
 	// console.log(td.find(""))
 	batch_div = td.find(`[batch_for=${batch}]`);
+    button = batch_div.find(".event_name");
+    faculty_div = batch_div.find(".faculty_name");
+    resource_div = batch_div.find(".resource_name");
+    faculty_div.html("");
+    resource_div.html("");
+    button.html("");
+    button.css({backgroundColor:"transparent"});
+    console.log(faculty_div,resource_div,button);
 	// change as needed
 }
 
@@ -765,6 +773,10 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 						<button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:transparent"></button>
 					</div>
 				</div>
+                    <div class="row ml-0 text-center prac_below_texts">
+                        <div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+                        <div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+                    </div>
 			</div>
 			`;
 		}
@@ -779,6 +791,10 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 						<button class="btn-sm prac_mycol event_name border-0"></button>
 					</div>
 				</div>
+                <div class="row ml-0 text-center prac_below_texts">
+                    <div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+                    <div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+                </div>
 			</div>
 			`;
 	}
@@ -788,28 +804,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	/////////////////////////////// pair [1] - prac_below ////////////////////////////
 	pair[1].removeClass("lect");
 	pair[1].addClass("prac prac_below");
-	string = `<div class="container text-center"><div class="row">`
-	if (has_batch){
-		for (i in subject_batch){
-			string +=
-			`<div class="col-`+ colspan+` batch_contents " batch_for=`+subject_batch[i].pk+`>
-				<div class="row ml-0 text-center">
-					<div class="col-12 p-0 pl-`+ colspan+` prac_texts faculty_name"></div>
-					<div class="col-12 p-0 pl-`+ colspan+` prac_texts resource_name"></div>
-				</div>
-			</div>`
-		}
-	}else{	// put "class" instead of batch_id
-		string += 
-		`<div class="col-`+ colspan+` batch_contents " batch_for = class >
-			<div class="row ml-0 text-center">
-				<div class="col-12 p-0 pl-`+ colspan+` prac_texts faculty_name"></div>
-				<div class="col-12 p-0 pl-`+ colspan+` prac_texts resource_name"></div>
-			</div>
-		</div>`;
-	}
-	string += `</div></div>`;
-	pair[1].html(string);
+	// pair[1].html(string);
 	pair[0].addClass("filled");
 	pair[1].addClass("filled");
 }
@@ -825,8 +820,8 @@ function put_prac(td,subject_event_id,batch,resource_id){
 	div_below = pair[1].find("[batch_for="+batch+"]");
 	
 	button = div_above.find(".event_name");
-	faculty_div = div_below.find(".faculty_name");
-	resource_div = div_below.find(".resource_name");
+	faculty_div = div_above.find(".faculty_name");
+	resource_div = div_above.find(".resource_name");
 	
 	asd = subject_event.subject_name.split("").join("<br>");
 	button.html(asd);
@@ -883,9 +878,10 @@ $(document).ready (function () {
 	$("#clear_td").click(function(){
 		const slot_id = $(this).attr("slot_id");
 		let batch_id = $(this).attr("batch_id");
-		if ( batch_id === "false"){
+		if ( batch_id === "false" || batch_id === "class"){
 			batch_id = null;
 		}
+        global_var = batch_id;
 		const all_events_on_slot = events.filter(e=>e.Slot_id == slot_id);
 		const this_event = all_events_on_slot.filter(e=>e.Batch_id == batch_id);
 		// global_var = [this_event];
@@ -909,7 +905,7 @@ $(document).ready (function () {
 			// console.log("hi");
 			// global_var = [get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac()]
 			update_card(get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac());
-			// push_into_action(new event_action("removed",this_event[0]));
+			push_into_action(new event_action("removed",this_event[0]));
 		}else
 			console.log("No event found 😢");
 	})
@@ -1148,7 +1144,7 @@ $(document).ready (function () {
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
 						}
-						put_prac(td,subject_event_id,batch=null,resource_id);
+						put_prac(td,subject_event_id,null,resource_id);
 					}
 				}
 			}else if(!is_prac){

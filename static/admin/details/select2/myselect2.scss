@@ -51,7 +51,7 @@ $font_size1 : 1em;
 	border-radius: 4px;
 	box-sizing: border-box;
 	display: block;
-	font-size: $font_size1;
+	font-size:smaller;
 	position: absolute;
 	// background-color:#333;
 	background-color: #ffffff;
@@ -72,6 +72,7 @@ $font_size1 : 1em;
 	white-space: nowrap;
 	outline: none;
 	border: none;
+    font-size:smaller;
 }
 .select2-container--default .select2-selection--single {
     //backcolor of whole select box
@@ -87,12 +88,14 @@ $font_size1 : 1em;
     color: rgb(0, 0, 0);
 	line-height: 28px;
     text-align: center;
+    font-size:smaller;
 }
 
 .select2-container--default .select2-results__option--selected {
     //selected option properties in dropdown
 	// background-color: rgb(33, 191, 212);
 	background-color: #3586f1;
+    font-size:smaller;
 
 }
 
@@ -123,7 +126,7 @@ $font_size1 : 1em;
 	border-width: 0 8px 9px 8px;
 }
 
-#designations,#day1,#day2,#batches,#slot_naming,#semesters,#resources,#batch_for_lect,#batch_for_prac{
+#designations,#day1,#day2,#batches,#slot_naming,#semesters,#resources,#batch_for_lect,#batch_for_prac,#links{
 	width:300px;
 	// margin: 0em 0em 0em 10em;
 }

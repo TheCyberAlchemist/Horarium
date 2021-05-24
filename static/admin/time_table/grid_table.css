@@ -82,6 +82,11 @@ body {
   border-top: none;
 }
 
+.prac_below_texts {
+  -webkit-transform: translateX(-7px);
+          transform: translateX(-7px);
+}
+
 .prac_texts {
   font-size: 10px;
 }

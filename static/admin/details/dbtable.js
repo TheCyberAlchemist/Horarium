@@ -107,13 +107,13 @@ function delete_entries(id = false) {
 			if (result.isConfirmed) {
 				swalWithBootstrapButtons.fire(
 					'Cancelled',
-					'Your imaginary file is safe :)',
+					'Your data is safe :)',
 					'error'
 					)
 				} else if (result.dismiss === Swal.DismissReason.cancel) {
 					swalWithBootstrapButtons.fire({
 						title:'Deleted!',
-						text:'Your file has been deleted.',
+						text:'Your data has been deleted.',
 						icon:'success',
 						showConfirmButton: false,
 					})

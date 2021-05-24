@@ -97,6 +97,7 @@ class WEF_manager(models.Manager):
 	def inactive(self):
 		return super().get_queryset().filter(active=False)
 
+# add what is related to wef (Branch)
 class WEF(models.Model):
 	name = models.CharField(max_length=N_len)
 	start_date = models.DateField(auto_now_add=False)

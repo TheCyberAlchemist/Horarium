@@ -76,7 +76,7 @@ class Chart(models.Model) :
 class Feedback(models.Model):
 	timestamp = models.DateTimeField(auto_now=False)
 	# timestamp = models.DateTimeField(auto_now=True)
-	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE)
+	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE,null=True,blank=True)
 	Given_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 
 	rating = (

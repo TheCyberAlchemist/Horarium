@@ -145,9 +145,9 @@ class ChartData(APIView):
 	permission_classes = [IsAuthenticated]
 	def get(self, request, format = None):
 		########################## general decleration ######################
-		print(request.GET)
+		# print(request.GET)
 		subject_event = Subject_event.objects.get(pk = request.GET['id'])
-		print(subject_event)
+		# print(subject_event)
 		wef = subject_event.Subject_id.Semester_id.WEF_id
 		all_feeback  = Feedback.objects.filter(Subject_event_id = subject_event)
 		list_of_months = monthlist_fast([str(wef.start_date),str(wef.end_date)])
@@ -157,7 +157,7 @@ class ChartData(APIView):
 		###################### if Graph name ######################
 		if 'graph_name' in request.GET:
 			current_graph,required_value = request.GET['graph_name'].split()
-			print(request.GET['graph_name'])
+			# print(request.GET['graph_name'])
 			if current_graph == "week_rating":
 				start_date,end_date = required_value.split("_")
 				chartLabel ="Average Rating"
@@ -190,7 +190,7 @@ class ChartData(APIView):
 					length8.append(q8[1])
 					Que9.append(q9[0])
 					length9.append(q9[1])
-					print("total - {}".format(day_feedback.count()))
+					# print("total - {}".format(day_feedback.count()))
 					arr = list(day_feedback.values_list("average",flat=True))
 					arr = [x for x in arr if x != 0]
 					day_ave = 0
@@ -204,7 +204,7 @@ class ChartData(APIView):
 					else :
 						break
 					
-				print(chartdata)
+				# print(chartdata)
 				data = {
 					"labels":labels,
 					"chartLabel":chartLabel,
@@ -265,7 +265,7 @@ class ChartData(APIView):
 					length8.append(q8[1])
 					Que9.append(q9[0])
 					length9.append(q9[1])
-					print("total - {}".format(week_feedback.count()))
+					# print("total - {}".format(week_feedback.count()))
 					arr = list(week_feedback.values_list("average",flat=True))
 					arr = [x for x in arr if x != 0]
 					week_ave = 0
@@ -273,7 +273,6 @@ class ChartData(APIView):
 						week_ave = round(sum(arr)/len(arr),2)
 					ids.append("{}_{}".format(start_date.strftime("%Y-%m-%d"), end_date.strftime("%Y-%m-%d")))
 					chartdata.append(week_ave)
-				print("here")
 				data ={
 					"labels":labels,
 					"ids":ids,
@@ -302,7 +301,6 @@ class ChartData(APIView):
 				for i in list_of_months:
 					labels.append(month_name[i.month])
 					ids.append(i.strftime("%B_%Y"))
-					# print()
 					month_feedback = all_feeback.filter(timestamp__month=i.month)
 					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_list(month_feedback)
 					Que1.append(q1[0])
@@ -323,7 +321,7 @@ class ChartData(APIView):
 					length8.append(q8[1])
 					Que9.append(q9[0])
 					length9.append(q9[1])
-					print("month {}->{}".format(i.month,month_feedback.count()))
+					# print("month {}->{}".format(i.month,month_feedback.count()))
 					arr = list(month_feedback.values_list("average",flat=True))
 					arr = [x for x in arr if x != 0]
 					month_ave = 0
@@ -395,7 +393,6 @@ class ChartData(APIView):
 			else:
 				break
 		# print("graph_name {}".format(today.strftime("%B_%Y")))
-		# print(Que2,len(Que2))
 		data ={
 			"labels":labels,
 			"chartLabel":chartLabel,

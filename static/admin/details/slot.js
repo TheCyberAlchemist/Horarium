@@ -143,7 +143,8 @@ function return_row(slot){
 	is_break.innerHTML = slot.is_break ? "True":"False";
 	tr.appendChild(is_break);
   var edit = document.createElement('td');
-  edit.innerHTML = '<img class=\"action_icons edit\" src = ' + pen_link + ' alt=pen title=\"Edit\" ></img>';
+  
+  edit.innerHTML = '<a href=""><i class="fas fa-edit"></i></a>';
 //   edit.innerHTML = '<a><i class="fas fa-edit">dd</i></a>'
   edit.className = "edit_buttons";
   tr.appendChild(edit);
@@ -202,7 +203,7 @@ function check_name(name,edit){
   return true;
 }
 
-$(document).ready (function () {
+jQuery(function () {
   for (i in slots){
     $("#myTable").append(return_row(slots[i]));
   }

@@ -127,7 +127,6 @@ class WEF(models.Model):
 
 	def update(self,today):
 		self.active = self.start_date <= today < self.end_date
-		print("this is update")
 		self.save()
 		# active = True if today is between start and end
 		# else active = False

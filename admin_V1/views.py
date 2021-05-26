@@ -23,16 +23,39 @@ from Table_V2.models import Event
 import login_V2.models as login_V2
 
 # pip install django-ajax-datatable
-# pip install jsonfield
 # pip install pillow
+# change the a-b-c method in navtree
 
 ############# For running any scripts ###############
 def run_script(request):
-	num = int (input("Enter the number of events to be deleted :: "))
-	for i in range(num):
-		print("{} --- Deleted ".format(Event.objects.all().last()))
-		Event.objects.all().last().delete()
+	# num = int (input("Enter the number of events to be deleted :: "))
+	# for i in range(num):
+	# 	print("{} --- Deleted ".format(Event.objects.all().last()))
+	# 	Event.objects.all().last().delete()
+	import random
+	import datetime
+	from faculty_V1.models import Feedback
+	from login_V2.models import CustomUser
+	# subject_event = Event.objects.filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
 
+	subject_event = Subject_event.objects.filter(Faculty_id__short="TRK")[0]
+	# print(subject_event)
+	fri_delta = datetime.timedelta(4)
+	thu_delta = datetime.timedelta(3)
+	week_delta = datetime.timedelta(7)
+	jan1 = datetime.datetime(2021, 1, 1)
+	for _ in range(24):
+		students = CustomUser.objects.filter(groups=3)
+		next_monday = jan1 + datetime.timedelta(days=-jan1.weekday(), weeks=1)
+		# print(next_monday)
+		for user in students: #monday
+			Feedback.objects.create(timestamp=next_monday,Subject_event_id=subject_event,Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
+		for user in students: # thursday
+			Feedback.objects.create(timestamp=next_monday+thu_delta,Subject_event_id=subject_event,Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
+		for user in students: #friday
+			Feedback.objects.create(timestamp=next_monday+fri_delta,Subject_event_id=subject_event,Given_by=user,Q1=random.randint(1,5),Q2=random.randint(1,5),Q3=random.randint(1,5),Q4=random.randint(1,5),Q5=random.randint(1,5),Q6=random.randint(1,5),Q7=random.randint(1,5),Q8=random.randint(1,5),Q9=random.randint(1,5))
+		jan1 = jan1 + week_delta
+		print("one-complete")
 	return HttpResponse("<center><h1>The script ran fine ...</h1></center>")
 
 ############# Returns data for navigation tree #############
@@ -93,7 +116,6 @@ def delete_entries(qs,data):
 	for d in data:
 		qs.get(pk = d).delete()
 
-
 def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False):
 	data = serializers.serialize("json", qs)
 	data = json.loads(data)
@@ -124,6 +146,13 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def admin_home(request):
+	context = return_context(request)
+	context['all_subjects'] = Subject_details.objects.all()
+	return render(request,'admin/user_dash/user_dash.html',context)
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
+def user_dash(request):
 	context = return_context(request)
 	return render(request,'admin/user_dash/user_dash.html',context)
 

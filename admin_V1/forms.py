@@ -58,10 +58,12 @@ class add_user(UserCreationForm):
 		model = get_user_model()
 		fields = ['first_name','last_name','email','password1','password2']
 
-class update_user_by_admin(ModelForm):
+
+class update_user_name(ModelForm):
 	class Meta:
 		model = get_user_model()
-		fields = ['first_name','last_name','email']
+		fields = ['first_name','last_name']
+
 
 class add_resource(ModelForm):
 	class Meta:

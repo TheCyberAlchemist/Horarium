@@ -8,14 +8,20 @@ from django.contrib.auth import get_user_model
 ################################################
 
 N_len = 50
+class WEF(models.Manager):
+	def get_queryset(self):
+		return super().get_queryset().filter(WEF__is_active = True)
+
 
 class Student_details(models.Model):
 	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
 	roll_no = models.CharField(max_length = 20)
 	Division_id = models.ForeignKey(Division,on_delete=models.SET_NULL,null=True)
 	Batch_id = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True)
+	# Batch_id = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True)
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
 	display_image = models.ImageField(null=True,blank=True)
+	# objects = WEF()
 	def __str__(self):
 		return self.User_id.first_name
 	class Meta:

@@ -86,12 +86,12 @@ def student_home(request):
 	if request.method == 'POST':
 		form = _.feedback_form(request.POST.copy())
 		# form.instance.Event_id = Event.objects.all().first()
-		form.data["Event_id"]= Event.objects.all().first()
-		print(form.errors)
+		# form.data["Event_id"]= Event.objects.all().first()
+		# print(form.errors)
 		if form.is_valid():
 
 			candidate = form.save(commit=False)
-			print("form.in")
+			# print("form.in")
 			if not one_selected(form.instance):
 				return render(request,"Student/student_v1.html")
 			event = form.instance.Event_id

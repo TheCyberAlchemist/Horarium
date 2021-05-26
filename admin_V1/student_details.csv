@@ -1,0 +1,6 @@
+E-mail,Password,First name,Last name,Department,Semester,Division,Practical Batch,Lacture Batch
+a@a.com,horarium,b,b,CSE,Sem-1,A,11,
+b@b.com,horarium,c,c,CSE,Sem-1,A,11,
+c@c.com,horarium,d,d,CSE,,A,11,
+e@e.com,,e,e,CSE,Sem-1,A,11,
+,horarium,f,f,CSE,Sem-1,A,11,

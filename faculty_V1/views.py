@@ -149,7 +149,7 @@ class ChartData(APIView):
 		subject_event = Subject_event.objects.get(pk = request.GET['id'])
 		print(subject_event)
 		wef = subject_event.Subject_id.Semester_id.WEF_id
-		all_feeback  = Feedback.objects.filter(Event_id__Subject_event_id = subject_event)
+		all_feeback  = Feedback.objects.filter(Subject_event_id = subject_event)
 		list_of_months = monthlist_fast([str(wef.start_date),str(wef.end_date)])
 		Que1 ,Que2 ,Que3 ,Que4 ,Que5 ,Que6 ,Que7 ,Que8 ,Que9 = ([] for i in range(9))
 		length1 ,length2 ,length3 ,length4 ,length5 ,length6 ,length7 ,length8 ,length9 = ([] for i in range(9))

@@ -14,8 +14,8 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,include
-from django.conf.urls import url
+from django.urls import path,include,re_path
+# from django.conf.urls import re_path
 from django.views.generic import RedirectView
 
 from django.conf.urls.static import static
@@ -36,10 +36,22 @@ urlpatterns = [
     path('student/',include('student_V1.urls')),
     path('faculty/',include('faculty_V1.urls')),
     path('',include('login_V2.urls')),
-    url(r'^favicon\.ico$',RedirectView.as_view(url='/static/site_logo.ico')),
+    re_path(r'^favicon\.ico$',RedirectView.as_view(url='/static/site_logo.ico')),
     path('media/<path:relative_path>', iv.DocumentDownload, name='document-download'),
-    # url(r'^a/(?P<Division_id>\d+)/$',v.algo_v1,name = 'a')
+    # re_path(r'^a/(?P<Division_id>\d+)/$',v.algo_v1,name = 'a')
 ]
+
+######## for scheduling the task of updatinf WEFs ########
+from apscheduler.schedulers.background import BackgroundScheduler
+from institute_V1.models import WEF
+import datetime
+
+WEF.update_all_WEF()
+scheduler = BackgroundScheduler()
+scheduler.add_job(WEF.update_all_WEF, 'cron', hour=1, minute=0, second=0)
+scheduler.start()
+###########################################################
+
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
 handler404 = v.error_404_view

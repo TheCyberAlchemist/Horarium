@@ -1117,11 +1117,10 @@ $(document).ready (function () {
 		const link = $("#links").val();
 
 		if (resource && Boolean(batch) === Boolean(subject_batch)){ // validation
+			let temp_event = new event_class();
 			if (is_prac){
 				const slot_pair = get_prac_pair(td)
 				if (subject_batch){	// if prac_batch
-
-					temp_event = new event_class();
 					temp_event.put_subject_event(subject_event_id);
 					temp_event.put_slots(String(get_slot_by_td(slot_pair[0]).id),String(get_slot_by_td(slot_pair[1]).id));
 					temp_event.put_batch_resource(batch,resource);
@@ -1134,7 +1133,6 @@ $(document).ready (function () {
 						put_prac(td,subject_event_id,batch,resource_id);
 					}
 				}else{			// if prac_class
-					temp_event = new event_class();
 					temp_event.put_subject_event(subject_event_id);
 					temp_event.put_slots(String(get_slot_by_td(slot_pair[0]).id),String(get_slot_by_td(slot_pair[1]).id));
 					temp_event.put_batch_resource(null,resource);
@@ -1150,7 +1148,6 @@ $(document).ready (function () {
 			}else if(!is_prac){
 				if (subject_batch){	// if lect_batch
 
-					temp_event = new event_class();
 					temp_event.put_subject_event(subject_event_id);
 					temp_event.put_slots(slot_id);
 					temp_event.put_batch_resource(batch,resource);
@@ -1164,7 +1161,6 @@ $(document).ready (function () {
 					}
 				}else{				// if lect_class
 					
-					temp_event = new event_class();
 					temp_event.put_subject_event(subject_event_id);
 					temp_event.put_slots(slot_id);
 					temp_event.put_batch_resource(null,resource);

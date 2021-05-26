@@ -323,10 +323,10 @@ $selected_placeholder_font_size : 16px;
       border-left: 1px solid rgb(255, 255, 255);
       margin-left: 17px;
     }
-    .can_container #branches {
+    .can_container .branches {
       border-left: none;
     }
-    .can_container #branches .branch::before {
+    .can_container .branches .branch::before {
       content: "";
       position: absolute;
       background-color: #fff;

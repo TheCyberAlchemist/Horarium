@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 
 ################################################
+import datetime
 
 N_len = 50
 S_len = 10
@@ -90,14 +91,61 @@ class Branch(models.Model):
 			models.UniqueConstraint(fields=['short', 'Department_id'], name='BranchShort is Unique for Department'),
 		]
 
+class WEF_manager(models.Manager):
+	def active(self):
+		return super().get_queryset().filter(active=True)
+	def inactive(self):
+		return super().get_queryset().filter(active=False)
+
+# add what is related to wef (Branch)
 class WEF(models.Model):
+	Department_id = models.ForeignKey(Department,default=None	,on_delete = models.CASCADE)
 	name = models.CharField(max_length=N_len)
 	start_date = models.DateField(auto_now_add=False)
 	end_date = models.DateField(auto_now_add=False)
+	active = models.BooleanField(default=False)
+	objects = models.Manager()
+	WEF_manager = WEF_manager()
+
 	def __str__(self):
 		return "{} ({}---{})".format(self.name,str(self.start_date),str(self.end_date))
+	
+	def get_percent_completed(self):
+		# if the WEF is completed
+		if completed:
+			return 100
+		# if it is still going
+		import time
+		
+		t = lambda dt:time.mktime(dt.timetuple())
+		def percent(start_time, end_time, current_time):
+			total = t(end_time) - t(start_time)
+			current = t(current_time) - t(start_time)
+			return (100.0 * current) / total
+
+		return percent(self.start_date,self.end_date,datetime.date.now())
+
+	def update(self,today):
+		self.active = self.start_date <= today < self.end_date
+		print("this is update")
+		self.save()
+		# active = True if today is between start and end
+		# else active = False
+			
+	@staticmethod
+	def update_all_WEF():
+		today = datetime.date.today()
+		for i in WEF.objects.all():
+			i.update(today)
+
 	class Meta:
 		verbose_name_plural = "WEF"
+
+# from django_q.tasks import schedule
+
+# schedule('WEF.update_all_WEF', name=None, schedule_type='M',
+# 	minutes=None, repeats=-1, next_run=datetime.datetime.now()+datetime.timedelta(minutes=1), q_options=None)
+
 
 class Semester(models.Model):
 	short = models.CharField(max_length = 20)

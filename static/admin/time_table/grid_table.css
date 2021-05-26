@@ -4,6 +4,19 @@ body {
 
 .my_container {
   margin-top: 1em;
+  height: 90vh;
+  overflow-y: auto;
+}
+
+.my_container::-webkit-scrollbar {
+  scrollbar-width: thin;
+  background-color: #f1f4f6;
+}
+
+.my_container::-webkit-scrollbar-thumb {
+  scrollbar-width: thin !important;
+  background-color: #abacad !important;
+  border-radius: 3px !important;
 }
 
 .my_col {
@@ -76,6 +89,7 @@ body {
 
 .my_col.prac.prac_above {
   border-bottom: none;
+  z-index: 13;
 }
 
 .my_col.prac.prac_below {
@@ -117,7 +131,21 @@ p.h6 {
 }
 
 .prac_above .container {
+  overflow-x: scroll;
+  scrollbar-width: thin;
   padding: 0 !important;
+}
+
+.prac_above .container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
+}
+
+.prac_above .container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
 }
 
 .btn-sm.prac_mycol.event_name {

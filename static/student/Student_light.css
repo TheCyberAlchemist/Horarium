@@ -271,62 +271,59 @@ th:nth-of-type(1) {
 
 /* #endregion Sidebar button*/
 /* #region  Feedback Modal Radio button */
-.feedback-modal .radio-inline input[type="radio"] {
+.feedback-modal input[type="radio"] {
   -webkit-appearance: none !important;
      -moz-appearance: none !important;
           appearance: none !important;
+  display: none !important;
 }
 
 .feedback-modal .radio-inline:hover {
   color: black !important;
 }
 
-.feedback-modal .radio-inline:nth-child(1) {
+.feedback-modal .radio-inline:nth-of-type(1) {
   border-color: #2dce89 !important;
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-child(1):hover {
+.feedback-modal .radio-inline:nth-of-type(1):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(1) {
   background-color: #2dce89 !important;
 }
 
-input[type="radio"]:focus .feedback-modal .radio-inline:nth-child(1) {
-  background-color: #2dce89 !important;
-}
-
-.feedback-modal .radio-inline:nth-child(2) {
+.feedback-modal .radio-inline:nth-of-type(2) {
   border-color: #05ff92 !important;
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-child(2):hover {
+.feedback-modal .radio-inline:nth-of-type(2):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(2) {
   background-color: #05ff92 !important;
 }
 
-.feedback-modal .radio-inline:nth-child(3) {
+.feedback-modal .radio-inline:nth-of-type(3) {
   border-color: #fff675 !important;
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-child(3):hover {
+.feedback-modal .radio-inline:nth-of-type(3):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(3) {
   background-color: #fff675 !important;
 }
 
-.feedback-modal .radio-inline:nth-child(4) {
+.feedback-modal .radio-inline:nth-of-type(4) {
   border-color: #ff7d7d !important;
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-child(4):hover {
+.feedback-modal .radio-inline:nth-of-type(4):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(4) {
   background-color: #ff7d7d !important;
 }
 
-.feedback-modal .radio-inline:nth-child(5) {
+.feedback-modal .radio-inline:nth-of-type(5) {
   border-color: #ff5537 !important;
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-child(5):hover {
+.feedback-modal .radio-inline:nth-of-type(5):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(5) {
   background-color: #ff5537 !important;
 }
 

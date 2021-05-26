@@ -1,5 +1,5 @@
 $fieldset_bgcolor : #fff;
-$fontfamily :  'Montserrat', sans-serif;
+$fontfamily :  'Poppins', sans-serif;
 * {
 	margin: 0;
 	color: white;
@@ -77,6 +77,9 @@ legend {
 
 i {
 	text-align: right;
+}
+.h1,.h2,.h3,.h4.h5,.h6 {
+    font-family: "Poppins", sans-serif !important;
 }
 ::-webkit-scrollbar {
 	width: 7px;

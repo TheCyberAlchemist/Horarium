@@ -15,6 +15,8 @@ urlpatterns = [
 	url(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
 
 	url(r'^form/$',views.show_form,name = 'show_form'),
+    url(r'^wef/$',views.wef,name = 'wef'),
+    url(r'^home2/$',views.home,name = 'home2'),
 
 	url(r'^department/$',views.show_department,name = 'show_department'),
 	url(r'^department/(?P<Department_id>\d+)/$',views.show_department,name = 'update_department'),

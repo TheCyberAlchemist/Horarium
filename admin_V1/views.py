@@ -23,9 +23,8 @@ from Table_V2.models import Event
 import login_V2.models as login_V2
 
 # pip install django-ajax-datatable
-# pip install jsonfield
 # pip install pillow
-# pip install django-q
+# change the a-b-c method in navtree
 
 ############# For running any scripts ###############
 def run_script(request):
@@ -116,7 +115,6 @@ def return_context(request):
 def delete_entries(qs,data):
 	for d in data:
 		qs.get(pk = d).delete()
-
 
 def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False):
 	data = serializers.serialize("json", qs)

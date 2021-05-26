@@ -99,10 +99,11 @@ class WEF_manager(models.Manager):
 
 # add what is related to wef (Branch)
 class WEF(models.Model):
+	Department_id = models.ForeignKey(Department,default=None	,on_delete = models.CASCADE)
 	name = models.CharField(max_length=N_len)
 	start_date = models.DateField(auto_now_add=False)
 	end_date = models.DateField(auto_now_add=False)
-	active = models.BooleanField(default=True)
+	active = models.BooleanField(default=False)
 	objects = models.Manager()
 	WEF_manager = WEF_manager()
 
@@ -124,9 +125,18 @@ class WEF(models.Model):
 
 		return percent(self.start_date,self.end_date,datetime.date.now())
 
+	def update(self,today):
+		self.active = self.start_date <= today < self.end_date
+		print("this is update")
+		self.save()
+		# active = True if today is between start and end
+		# else active = False
+			
 	@staticmethod
 	def update_all_WEF():
-		print(WEF.objects.all())
+		today = datetime.date.today()
+		for i in WEF.objects.all():
+			i.update(today)
 
 	class Meta:
 		verbose_name_plural = "WEF"

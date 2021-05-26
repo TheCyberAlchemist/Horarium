@@ -72,7 +72,8 @@ class Chart(models.Model) :
 	def __str__(self):
 		return str(self.name) + ' - ' + str(self.money)
 	
-# datetime field rather than time
+
+
 class Feedback(models.Model):
 	timestamp = models.DateTimeField(auto_now=False)
 	# timestamp = models.DateTimeField(auto_now=True)

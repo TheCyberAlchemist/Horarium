@@ -52,7 +52,6 @@ $(document).ready(function(){
       my_input = $(this).parent().find("input").first();
       sibling_inputs = $(this).parent().parent().children($("li")).find("input").not(my_input);
       sibling_inputs.prop("checked",true);
-      
       setTimeout(function(){
         o = my_input.parent().offset();
         $('.navtree_wrapper')[0].scrollTo({

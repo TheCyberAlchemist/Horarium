@@ -87,7 +87,7 @@ class Feedback_type(models.Model):
 
 	@staticmethod
 	def update_all_feedback_types():
-		'Function to update all Feedback_type object if they are actice or inactive'
+		'Function to update all Feedback_type object if they are active or inactive'
 		today = datetime.date.today()
 		# print("this is feedback type update")
 		for i in Feedback_type.objects.all():

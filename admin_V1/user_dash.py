@@ -188,7 +188,7 @@ class faculty_user_table(AjaxDatatableView):
 			"Shift":faculty_details.Shift_id,
 		}
 
-		html = '<table class="row-details" style="width:100%">'
+		html = '<table class="row-details">'
 		for key in fields:
 		    html += '<tr><td class="fw-bold">%s</td><td class="fw-bold">%s</td></tr>' % (key, fields[key])
 		html += '<tr><td class="fw-bold">Subject Events</td><td class="fw-bold"><ul>'

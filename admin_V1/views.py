@@ -499,6 +499,7 @@ def show_slot(request,Shift_id=None):
 		check_all = True
 		timings = data['slots'];
 		days = data['days']
+		# print(data)
 		############# for working-day models #############
 		old_days = set(context['working_days'].values_list("Days_id",flat=True))
 		new_days = set(i for i in range(int(days[0]),int(days[1])+1))

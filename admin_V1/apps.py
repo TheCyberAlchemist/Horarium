@@ -5,7 +5,7 @@ import sys
 class AdminV1Config(AppConfig):
 	name = 'admin_V1'
 	def ready(self):
-		if sys.argv[-1] == "runserver":
+		if "runserver" in sys.argv:
 			######## for scheduling the task of updating WEFs ########
 			from apscheduler.schedulers.background import BackgroundScheduler
 			from institute_V1.models import WEF

@@ -30,7 +30,13 @@
 <div class="container sidebar_container">
   <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
 </div>
-<div class="container-fluid pt-4" translate="no">
+<div class="container-fluid pt-4 mt-5" translate="no">
+    <div class="mandatory_feedback_container text-center">
+        <span class="h5" style="font-family: Poppins,sans-serif"> Remaining Feedbacks are 5/5 </span>
+        <span class="h5 " style="font-family: Poppins,sans-serif;margin-left: 30px;"> 
+            <button class="btn btn-outline-success">Click here</button>
+        </span>
+    </div>
   <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
     <div id="ct"></div>
     <div id="myBar"></div>
@@ -151,7 +157,7 @@
         <div class="modal-content">
           <div class="modal-header border-0">
             <h5 class="modal-title h4" id="exampleModalLabel">Feedback for <span id="popped_event"></span></h5>
-            <button type="button" class="btn-close bg-dark" data-bs-dismiss="modal" aria-label="Close" style="color: white">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color: white">
               <span aria-hidden="true"></span>
             </button>
           </div>
@@ -162,11 +168,20 @@
               {%for ques in questions %}
               <div class="h5" style="font-weight: bold">{{loop.index}}. {{ques}}.</div>
               <div class="mt-3 mb-3 pl-4 text-center" >
-                <label class="radio-inline btn" tabindex="1"  for="5{{ques}}"> <input type="radio" id="5{{ques}}" value="5" name="Q{{loop.index}}" />&nbsp;Strongly Agree </label>
-                <label class="radio-inline btn" for="4{{ques}}"> <input type="radio" value="4" id="4{{ques}}" name="Q{{loop.index}}" />&nbsp;Agree </label>
-                <label class="radio-inline btn" for="3{{ques}}"> <input type="radio" value="3" id="3{{ques}}" name="Q{{loop.index}}" />&nbsp;Neutral </label>
-                <label class="radio-inline btn" for="2{{ques}}"> <input type="radio" id="2{{ques}}" value="2" name="Q{{loop.index}}" />&nbsp;Disagree </label>
-                <label class="radio-inline btn " for="1{{ques}}"> <input type="radio" value="1" id="1{{ques}}" name="Q{{loop.index}}" />&nbsp;Strongly Disagree </label>
+                <input type="radio" id="5{{ques}}" value="5" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" tabindex="1"  for="5{{ques}}"> &nbsp;Strongly Agree </label>
+
+                <input type="radio" value="4" id="4{{ques}}" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" for="4{{ques}}"> &nbsp;Agree </label>
+
+                <input type="radio" value="3" id="3{{ques}}" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" for="3{{ques}}"> &nbsp;Neutral </label>
+
+                <input type="radio" id="2{{ques}}" value="2" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" for="2{{ques}}"> &nbsp;Disagree </label>
+
+                <input type="radio" value="1" id="1{{ques}}" name="Q{{loop.index}}" />
+                <label class="radio-inline btn " for="1{{ques}}"> &nbsp;Strongly Disagree </label>
               </div>
               {%endfor%}
             </form>

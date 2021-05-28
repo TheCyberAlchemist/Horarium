@@ -117,7 +117,7 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac, #links {
+#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac, #links, #division, #department {
   width: 300px;
 }
 

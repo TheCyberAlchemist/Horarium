@@ -12,13 +12,13 @@ urlpatterns = [
 
 	path('home/faculty_edit_called/',add_update_users.faculty_edit_called,name = "faculty_edit"),
 
+    re_path(r'^wef/$',views.wef,name = 'wef'),
+    re_path(r'^home2/$',views.home,name = 'home2'),
 	path('home/student_edit_called/',add_update_users.student_edit_called,name = "student_edit"),
 	
 	path('home/update_student/',add_update_users.student_edit_called,name = "student_edit"),
 
 	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
-
-	re_path(r'^form/$',views.show_form,name = 'show_form'),
 
 	re_path(r'^department/$',views.show_department,name = 'show_department'),
 	re_path(r'^department/(?P<Department_id>\d+)/$',views.show_department,name = 'update_department'),

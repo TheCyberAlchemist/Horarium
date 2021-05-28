@@ -120,6 +120,34 @@
                                                     </select>
                                               </div>
                                               </div>
+                                              <div class="col-12">
+                                                <fieldset>
+                                                    <legend>Batch For</legend>
+                                                    <div class="" style="width:80%;margin:0 auto;">
+                                                      <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt=""> -->
+                                                      <ul id="subjects">
+                                                        {%for subject in my_subjects%}
+                                                        <li>
+                                                            <!-- <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if update
+                                                              and subject.id in update[3]%}checked{% endif %} /> -->
+                                                              <div class="row">
+                                                              <div class="col">
+                                                                  <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
+                                                                  <div class="form-check">
+                                                                      <input class="form-check-input" id="subject_{{subject.id}}" value="{{subject.id}}"
+                                                                      {% if update and subject in update['subjects_for_batch'].all()%}checked{% endif %} type="checkbox" value="parent">
+                                                                  </div>
+                                                              </div>
+                                                              </div>
+                                                          <!-- <input type="checkbox" />{{subject}} -->
+                                                        </li>
+                                                        {%endfor%}
+                                                      </ul>
+                                            
+                                                    </div>
+                                            
+                                                  </fieldset>
+                                              </div>
                                             <div class="container mt-4" style="width:80%;">
                                                 <button type="submit" class="btn btn-outline-success"
                                                     style="width:100%">Submit</button>

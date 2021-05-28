@@ -37,7 +37,7 @@ li {
 }
 
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #fff;
   scrollbar-face-color: white;
   scrollbar-track-color: transparent;
@@ -83,6 +83,10 @@ legend {
 
 i {
   text-align: right;
+}
+
+.h1, .h2, .h3, .h4.h5, .h6 {
+  font-family: "Poppins", sans-serif !important;
 }
 
 ::-webkit-scrollbar {

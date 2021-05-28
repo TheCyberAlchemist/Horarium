@@ -1057,12 +1057,12 @@ def error_404_view(request,exception) :
 def error_500_view(request) :
 	return render(request,'500/500.html')
 
-def show_form(request) :
-	return render(request,'admin/details/form.html')
-
+def wef(request) :
+    return render(request,'admin/details/WEF.html')
 # def error_404_view(request) :
 # 	return render(request,'404/404.html')
-
+def home(request) :
+    return render(request,'admin/homepage/home.html')
 ##################### scripts #####################
 # var = []
 	# import random

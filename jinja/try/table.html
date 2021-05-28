@@ -19,6 +19,12 @@
     .select2-container--default .select2-results__option--disabled{
         display: none;
     }
+    body { 
+        user-select : none !important;
+    }
+    .fas {
+        color : black !important;
+    }
 </style>
 {%endblock%}
 {% block scripts %}
@@ -129,34 +135,39 @@ if (header){
 
 
 <div class="main_content" style="margin-top:-20px;">
-    <div class="container-fluid toolbar" >
-        
-        <div class="row m-0  p-2" >
-            <div class="col-3">
-                <div class="container text-center">
-                    <button class="btn btn-outline-success" onclick="undo()">Undo</button>
-                    <i class="fas fa-undo"></i>
-                </div>
+    <div class="container-fluid toolbar p-1" >
+        <!-- #region Toolbar Buttons -->
+        <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm">
+            <div class="container-fluid">
+              <a class="">Create Table</a>
+              <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0">
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Undo">
+                        <i class="fas fa-undo-alt ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Redo" onclick="redo()">
+                        <i class="fas fa-redo ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear" onclick="clear_all_unlocked_td()">
+                        <i class="fas fa-broom ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Generate" onclick="call_algo()">Generate</button>
+                  </li>
+                </ul>
+              </div>
             </div>
-            <div class="col-3">
-                <div class="container text-center">
-                    <button class="btn btn-outline-success" onclick="redo()">Redo</button>
-                    <i class="fas fa-redo"></i>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="container text-center">
-                    <button class="btn btn-outline-success" onclick="clear_all_unlocked_td()">Clear</button>
-                    <i class="fas fa-broom"></i>
-                </div>
-            </div>
-            <div class="col-3">
-                <div class="container text-center">
-                    <button class="btn btn-outline-success" onclick="call_algo()">Generate</button>
-                </div>
-            </div>
-        </div>
+        </nav>
+        <hr class="mt-1">
+        <!-- #endregion -->
         <div class="table_and_card mt-0 row">
+            <!-- #region Card Container -->
             <div class="card-container col-2">
                 <div class="card-list">
                     <div id="accordion">
@@ -220,6 +231,8 @@ if (header){
                     </div>
                 </div>
             </div>
+            <!-- #endregion Card Container-->
+            <!-- #region Table Container -->
             <div class="container my_container my_table_new col-9">
                 <div class="row my_row row_header">
                     <div class="col my_col align-middle"> <span class="h6 fw-bold">Time</span></div>
@@ -254,7 +267,7 @@ if (header){
                     {% endif %}
                 </div>
                 {%endfor%}
-                <div class="row my_row">
+                <!-- <div class="row my_row">
                     <div class="col my_col lect">10:00</div>
                     <div class="col my_col prac prac_above">
                         <div class="container text-center">
@@ -348,8 +361,9 @@ if (header){
                             <div class="col-6 text-right">305</div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
+            <!-- #endregion Table Container-->
         </div>
     </div>
 </div>

@@ -17,7 +17,7 @@
 {% block content %}
 <div id = "page_activator" activate-page="{{my_department}}.b"></div>
 <div class="main_content" style="margin-top: -30px">
-	<div class="container navigate mt-4">
+	<div class="container navigate mt-5">
 		<a href="{{url ('admin_home')}}">
 			<i class="fas fa-home"></i>    
 		</a>
@@ -30,7 +30,7 @@
 	</div>
 	<h2 class="text-center">{{my_faculty.User_id}} Is Not Available At</h2>
 
-	<table style="width : 90%;" class="main_table table-responsive text-center">
+	<table style="width : 90%;" class="main_table text-center">
 		<thead>
 			<th>
 				Time
@@ -84,7 +84,7 @@
 		<tfoot>
 			<tr>
 				<td colspan="7" style="border : none">
-					<button class="submit_not_avail submit_button btn btn-success" style="width:80%;"> Submit</button>
+					<button class="submit_not_avail submit_button btn btn-outline-success" style="width:80%;"> Submit</button>
 				</td>
 			</tr>
 		</tfoot>

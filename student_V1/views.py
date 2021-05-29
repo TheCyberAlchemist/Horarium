@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.core import serializers
 import json
 import datetime
@@ -12,7 +13,7 @@ from student_V1.models import Student_details
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days,Batch
-
+from faculty_V1.models import Feedback,Feedback_type
 
 def get_events_json(qs):
 	data = serializers.serialize("json", qs)
@@ -74,7 +75,8 @@ The following has been quoted by the student :-
 This mail was sent by horarium.The views and opinions included in this quote belong to their author and do not necessarily mirror the views and opinions of the company.
 """
 mail_subject_template = """Feedback for {} from {} ({},{},{})"""
-def send_email(user,my_subject_event,my_event,query):	
+def send_regular_email(user,my_subject_event,my_event,query):	
+	'send email for regular feedback query'
 	student_name = user
 	student_details = user.student_details
 	semester = student_details.Division_id.Semester_id
@@ -95,7 +97,9 @@ def send_email(user,my_subject_event,my_event,query):
 		)
 	# print(subject,body)
 
-
+def send_mandatory_email():
+	'send email for mandatory feedback query'
+	pass
 
 # faculty,user name, department,semester,enno 
 @login_required(login_url="login")
@@ -114,12 +118,15 @@ def student_home(request):
 				return render(request,"Student/student_v1.html",context)
 			candidate.Subject_event_id = my_subject_event
 			candidate.Given_by = request.user
-			send_email(request.user,my_subject_event,my_event,request.POST['query'])
-			candidate.save()	
+			if candidate.query:
+				send_regular_email(request.user,my_subject_event,my_event,request.POST['query'])
+			candidate.save()
+
 	get_all_subjects_of_student(request)
+	fill_mandatory_feedback(request)
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
-	my_events = Event.objects.filter(Q(Batch_id=student.Batch_id) | Q(Batch_id=None),Division_id=student.Division_id)
+	my_events = Event.objects.filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
 	day = ""
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
@@ -153,19 +160,61 @@ def sendMail(request) :
 	else : 
 		return render(request,'Student/submitted.html', {})
 
+class subject_serializer(serializers.python.Serializer):
+	def end_object( self, obj ):
+		self._current['id'] = obj._get_pk_val()
+		include_list = ["id","name","short"]
+		res = dict([(key, val) for key, val in self._current.items() if key in include_list]) 
+		for i in res:
+			if not res[i]:
+				res[i] = ""
+		self.objects.append( res )
 
 def get_all_subjects_of_student(request):
-	all_sub = Subject_details.objects.all().filter(Semester_id__short = "Sem-4")
-	print(request.user.student_details)
-	# my_sub = []
-	# for i in all_sub:
-	# 	all_batches_set = set(i.batch_set.all())
-	# 	if len(all_batches) == 0:
-	# 		print("universal subject")
-	# 		break
-	# 	if 
-		
+	''' returns all the subjects to be filled for the mandatory feedback and the feedback_type in the last element'''
+	my_subjects = []
+	student = request.user.student_details
+	my_feedback_type = Feedback_type.objects.active().filter(WEF=student.Division_id.Semester_id.WEF_id)
+	data = []
+	if my_feedback_type.count():
+		my_batches = {student.prac_batch,student.prac_batch}
 
+		all_sub = Subject_details.objects.all().filter(Semester_id = student.Division_id.Semester_id)
+		done_subjects = Feedback.objects.special().filter(Given_by=request.user,Feedback_type=my_feedback_type[0]).values_list("Subject_id")
+		remaining_subjects = all_sub.exclude(pk__in=done_subjects)
+
+		for i in remaining_subjects:
+			subject_batches = set(i.batch_set.all())
+			if len(subject_batches) == 0:
+				# if the subject has no batches
+				my_subjects.append(i)
+				continue
+			if my_batches.intersection(subject_batches):
+				# if the batches of the subject has the student's batch
+				my_subjects.append(i)
+				continue
+		data = subject_serializer().serialize(my_subjects)
+		data.append({'feedback_type':str(my_feedback_type[0].pk)})
+		print(data)
+	return JsonResponse(data, safe=False)
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])	
+def fill_mandatory_feedback(request):
+	if request.method == 'POST':
+		my_feedback_type = Feedback_type.objects.active().filter(pk = request.POST['Feedback_type']).first()
+		if my_feedback_type.active:
+			my_subject = Subject_details.objects.get(pk=request.POST['Subject_id'])
+			form = feedback_form(request.POST.copy())
+			if form.is_valid():
+				candidate = form.save(commit=False)
+				candidate.Subject_id = my_subject
+				candidate.Feedback_type = my_feedback_type
+				candidate.Given_by = request.user
+				if candidate.query:
+					send_mandatory_email(request.user,my_subject_event,my_event,request.POST['query'])
+				candidate.save()
+		
 
 # get_all_subjects_of_student()
 

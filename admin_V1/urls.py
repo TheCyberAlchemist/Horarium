@@ -14,6 +14,8 @@ urlpatterns = [
 
     re_path(r'^wef/$',views.wef,name = 'wef'),
     re_path(r'^home2/$',views.home,name = 'home2'),
+    re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
+
 	path('home/student_edit_called/',add_update_users.student_edit_called,name = "student_edit"),
 	
 	path('home/update_student/',add_update_users.student_edit_called,name = "student_edit"),

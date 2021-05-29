@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+$font-black : black !important;
+$font-white : white !important;
 * {
   padding: 0;
   margin: 0;
@@ -20,7 +22,7 @@ hr {
 }
 b a {
   text-decoration: none !important;
-  color: black !important;
+  color : $font-black;
 }
 
 b a:hover {
@@ -35,7 +37,7 @@ b a:hover {
 }
 
 #agenda_panel .nav-item {
-  color: white;
+  color: $font-white;
   text-decoration: underline;
 }
 
@@ -45,7 +47,7 @@ b a:hover {
 }
 
 #agenda_panel {
-  color: white;
+  color: $font-white;
   overflow-y: auto;
   background-color: rgba(71, 71, 71, 0.815);
 }
@@ -55,7 +57,7 @@ b a:hover {
   padding: 1em;
   width: 90%;
   border: 1px solid grey;
-  color: white;
+  color: $font-white;
   margin-bottom: 1em;
   -webkit-transition: 0.3s;
   transition: 0.3s;
@@ -104,7 +106,7 @@ th:nth-of-type(1) {
 }
 
 #lect .btn {
-  color: white;
+  color: $font-white;
 }
 
 .table .btn {
@@ -112,8 +114,8 @@ th:nth-of-type(1) {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-#myProgress {
-  color: white !important;
+#myProgress,#timeBar .text {
+  color: $font-white !important;
 }
 .table .btn:hover {
   -webkit-transform: scale(1.1);
@@ -140,16 +142,16 @@ th:nth-of-type(1) {
 @-webkit-keyframes glow {
   from {
     background-color: #333;
-    color: white;
+    color: $font-white;
   }
   to {
     background-color: #464646;
-    color: white;
+    color: $font-white;
   }
 }
 #querybox {
   background-color: #18181d;
-  color: white !important;
+  color: $font-white;
 }
 .radio-inline {
   padding-right: 20px;
@@ -162,7 +164,7 @@ th:nth-of-type(1) {
   -webkit-transition: 0.3s;
   transition: 0.3s;
   border: 1px solid #50a6f7;
-  color: white;
+  color: $font-white;
 }
 
 .modal_btn:hover {
@@ -184,13 +186,13 @@ th:nth-of-type(1) {
 .modal-header,
 .modal-content {
   background-color: #18181d !important;
-  color: white !important;
+  color: $font-white;
 }
 .modal-footer {
   border-top: none !important;
 }
 .modal .btn {
-    color : white !important;
+    color : $font-white;
 }
 /* #region  Sidebar Button*/
 .sidebar_container {
@@ -227,7 +229,7 @@ th:nth-of-type(1) {
 /* #region  Offcanvas */
 .offcanvas {
     background-color: rgb(16, 24, 32) !important;
-    color : white !important;
+    color : $font-white;
 }
 /* #endregion  Offcanvas*/
 
@@ -251,7 +253,9 @@ th:nth-of-type(1) {
   }
   /* #endregion */
   
-
+.mandatory_feedback_event {
+    color : $font-white; 
+}
 /*//////////////////////////Feedback Card////////////////////////////// */
 .charts_container .card .card-title,
 .charts_container .card .card-text {
@@ -260,7 +264,7 @@ th:nth-of-type(1) {
 .charts_container .row .card {
   background-color: rgb(221, 224, 238);
   font-family: "Poppins", sans-serif;
-  color: black !important;
+  color: $font-black;
   border-radius: 14px;
 }
 .charts_container .row .chart .card {
@@ -269,11 +273,11 @@ th:nth-of-type(1) {
 
 #text {
   /*Text for Upcoming events */
-  color: white !important;
+  color: $font-white;
 }
 
 .btn-close {
-    background-color : white !important;
+    background-color : $font-white;
 }
 /* #region  Feedback Modal Radio button */
 .feedback-modal input[type="radio"] {
@@ -281,7 +285,7 @@ th:nth-of-type(1) {
     display: none !important;
   }
   .feedback-modal .radio-inline:hover {
-    color: white !important;
+    color: $font-white;
   }
   .feedback-modal .radio-inline:nth-of-type(1) {
     border-color: #2dce89 !important;
@@ -304,6 +308,7 @@ th:nth-of-type(1) {
   }
   .feedback-modal .radio-inline:nth-of-type(3):hover,.feedback-modal input[type="radio"]:checked + label:nth-of-type(3) {
     background-color: #fff675 !important;
+    color : $font-black;
   }
   
   .feedback-modal .radio-inline:nth-of-type(4) {

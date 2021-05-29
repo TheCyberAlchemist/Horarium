@@ -1062,6 +1062,9 @@ def wef(request) :
 # 	return render(request,'404/404.html')
 def home(request) :
     return render(request,'admin/homepage/home.html')
+
+def all_feedbacks(request) :
+    return render(request,'admin/all_feedbacks.html')
 ##################### scripts #####################
 # var = []
 	# import random

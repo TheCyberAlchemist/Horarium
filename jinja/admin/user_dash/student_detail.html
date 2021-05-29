@@ -43,7 +43,7 @@ aria-labelledby="pills-student-tab">
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
-                                        <input type="text" class="form-control myinputs" id="en_no"
+                                        <input type="number" class="form-control myinputs" id="en_no"
                                             placeholder="-" name="en_no" required/>
                                         <label for="en_no">Enrollment Number</label>
                                     </div>
@@ -63,26 +63,8 @@ aria-labelledby="pills-student-tab">
                                     </div>
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <div class="select2_container single_select2">
-                                        <select name="batch_for" id="batch_for_lect">
-                                            <option disabled selected>Select Lecture Batch</option>
-                                            <option value="" >Batch-1</option>
-                                            <option value="" >Batch-2</option>
-                                        </select>
-                                  </div>
-                                </div>   
-                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <div class="select2_container single_select2">
-                                        <select name="batch_for" id="batch_for_prac" >
-                                            <option disabled selected>Select Practical Batch</option>
-                                            <option value="">Batch-1</option>
-                                            <option value="">Batch-2</option>
-                                        </select>
-                                  </div>
-                                </div>   
-                                <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="batch_for" id="department">
+                                        <select name="batch_for" id="department" style="width:100%">
                                             <option disabled selected>Select Department</option>
                                             <option value="">CSE</option>
                                             <option value="">IT</option>
@@ -91,13 +73,31 @@ aria-labelledby="pills-student-tab">
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="batch_for" id="division">
+                                        <select name="batch_for" id="division" style="width:100%">
                                             <option disabled selected>Select Division</option>
                                             <option value="">Class A</option>
                                             <option value="">Class B</option>
                                         </select>
                                   </div>
+                                </div>  
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="select2_container single_select2 mt-3">
+                                        <select name="batch_for" id="batch_for_lect" style="width:100%">
+                                            <option disabled selected>Select Lecture Batch</option>
+                                            <option value="" >Batch-1</option>
+                                            <option value="" >Batch-2</option>
+                                        </select>
+                                  </div>
                                 </div>   
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="select2_container single_select2 mt-3">
+                                        <select name="batch_for" id="batch_for_prac" style="width:100%">
+                                            <option disabled selected>Select Practical Batch</option>
+                                            <option value="">Batch-1</option>
+                                            <option value="">Batch-2</option>
+                                        </select>
+                                  </div>
+                                </div>    
                                 <div class="container mt-4" style="width:80%;">
                                     <button type="submit" class="btn btn-outline-success"
                                         style="width:100%">Submit</button>

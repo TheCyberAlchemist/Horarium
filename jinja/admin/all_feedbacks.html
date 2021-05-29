@@ -1,0 +1,96 @@
+{% extends 'admin/base2.html' %} {% block title%} All Feedbacks {% endblock %} {% block css%}
+<style>
+  canvas {
+    max-height: 60vh !important;
+    min-height: 60vh !important;
+    max-width: 60vw !important;
+    min-width: 60vw !important;
+  }
+</style>
+{% endblock %} {%block scripts%}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $(".carousel").carousel({
+      interval: false,
+    });
+    var ctx = document.getElementById("student_satisfaction").getContext("2d");
+    var myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        datasets: [
+          {
+            label: "# of Votes",
+            data: [12, 19, 3, 5, 2, 33],
+            backgroundColor: ["rgba(54, 162, 235, 0.2)"],
+            borderColor: ["rgba(54, 162, 235, 1)"],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  });
+</script>
+{% endblock %} {% block content %}
+<div id="page_activator"></div>
+<div class="main_content">
+  <div class="row">
+    <div id="carouselExampleDark" class="carousel carousel-dark slide" style="width:70%;margin: 0 auto">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active" data-bs-interval="false">
+          <div class="card mt-2 mb-5" style="border-radius: 20px">
+            <div class="card-title mt-2 text-center">
+              <span class="h4">Feedback For WAD </span>
+            </div>
+            <div class="card-body text-center" style="position: relative; margin: 0 auto">
+              <canvas id="student_satisfaction" class="bar_styling"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-item " data-bs-interval="false">
+          <div class="card mt-2 mb-5" style="border-radius: 20px">
+            <div class="card-title mt-2 text-center">
+              <span class="h4">Feedback For WAD </span>
+            </div>
+            <div class="card-body text-center" style="position: relative; margin: 0 auto">
+              <canvas id="student_satisfaction" class="bar_styling"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item " data-bs-interval="false">
+          <div class="card mt-2 mb-5" style="border-radius: 20px">
+            <div class="card-title mt-2 text-center">
+              <span class="h4">Feedback For WAD </span>
+            </div>
+            <div class="card-body text-center" style="position: relative; margin: 0 auto">
+              <canvas id="student_satisfaction" class="bar_styling"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+  {% endblock %}
+</div>

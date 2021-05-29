@@ -154,13 +154,15 @@ function toggle_theme() {
       localStorage.setItem("theme", "");
       el1.disabled = false;
       el2.disabled = "disabled";
+      $("#timeBar .text").css({color :"black" });  //Timebar color styling
     } else {              // if light
       el1.disabled = "disabled";
       el2.disabled = false;
       localStorage.setItem("theme", "dark");
+      $("#timeBar .text").css({color :"white" }); //Timebar color styling
     } 
 }
-$(document).ready (function () {
+jQuery(function() {
 	let st,et;
 	var i = 0;
 	AOS.init({

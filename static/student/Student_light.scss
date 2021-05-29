@@ -271,10 +271,7 @@ th:nth-of-type(1) {
 
 
   /* #region  Chart Settings */
-  .charts_container .card-title,
-  .charts_container .card-body {
-    font-size: smaller;
-  }
+  
   .charts_container .card .card-title,
   .charts_container .card .card-text {
     color: black !important;
@@ -313,6 +310,12 @@ th:nth-of-type(1) {
 
 /* #region  Mobile Device */
 @media screen and (max-width: 600px) {
+    .charts_container .card-title,
+  .charts_container .card-body, .charts_container .card-title,
+  .charts_container .card-body .btn {
+    font-size: small;
+  }
+
     #t1 {
       width: 100%;
       font-size: 10px;

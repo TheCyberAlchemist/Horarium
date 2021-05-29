@@ -126,7 +126,7 @@ function put_pen(link){
 
 function return_row(slot){
   var tr = document.createElement('tr');
-
+  
   var name = document.createElement('td');
   name.innerHTML = slot.name;
   tr.appendChild(name);
@@ -142,11 +142,13 @@ function return_row(slot){
 	var is_break = document.createElement('td');
 	is_break.innerHTML = slot.is_break ? "True":"False";
 	tr.appendChild(is_break);
+
   var edit = document.createElement('td');
-  edit.innerHTML = '<img class=\"action_icons edit\" src = ' + pen_link + ' alt=pen title=\"Edit\" ></img>';
-//   edit.innerHTML = '<a><i class="fas fa-edit">dd</i></a>'
-  edit.className = "edit_buttons";
+  // edit.innerHTML = '<img class=\"action_icons edit\" src = ' + pen_link + ' alt=pen title=\"Edit\" ></img>';
+  edit.innerHTML = '<i class="fas fa-edit edit"></i>'
+  edit.className = "border-0 edit_buttons";
   tr.appendChild(edit);
+  
   
   return tr;
 }
@@ -183,9 +185,26 @@ function get_remainder(){
   temp_slot = new slot();
   temp_slot.start_time = slots[slots.length-1].end_time;
   temp_slot.end_time = shift_end_time;
-  let min = temp_slot.duration();
-  console.log(temp_slot);
-  $("#get_remainder").html("Remaining Time :: "+parseInt(min/60) + " hr(s)\t"+(min%60) + " min(s)" );
+let min = temp_slot.duration();
+  if (!min){
+    return;
+  }
+  let hr = parseInt(min/60);
+  min = (min%60);
+  let time_str = 'Remaining Time -> '
+  if (hr){
+    if (hr > 1)
+      time_str += hr + " hrs "
+    else
+      time_str += hr + " hr "
+  }
+  if (min){
+    if (min > 1)
+      time_str += min + " mins "
+    else
+      time_str += min + " min "
+  }
+  $("#get_remainder").html(time_str);
   return temp_slot.duration();
 }
 
@@ -202,7 +221,7 @@ function check_name(name,edit){
   return true;
 }
 
-$(document).ready (function () {
+jQuery(function () {
   for (i in slots){
     $("#myTable").append(return_row(slots[i]));
   }
@@ -216,16 +235,7 @@ $(document).ready (function () {
   $(".edit_buttons").hide();
   ////////////////////// When edit is clicked ///////////////////////////
   $(document).on("click",'#main_edit',function(){
-    $('#first_form').show();
-    $("#first_form").css({ // to make slotDetails Pop Up in center
-      "position": "absolute",
-      "top": "50%",
-      "left": "50%",
-      "transform": "translate(-50%,-50%)",
-      "opacity": "1",
-      "z-index": "100",
-    });
-    $("#whole_container_id,.submit_button_container").addClass("blur_background");
+    $('#slotModal').modal('show');
   });
   ////////////////////// When first_form is submitted ///////////////////////////
   $(document).on("click",'#first_form_submit',function(){
@@ -238,7 +248,7 @@ $(document).ready (function () {
     $('#main_edit').hide();
     $(".edit_buttons").show();
     $('#add_slot_form').show();
-    $("#slot_form").hide();
+    $('#slot_form_accordion').collapse("hide");
     $('#add_row').show();
     $(".submit_button").show();
     $("#remainder_th").show();
@@ -249,8 +259,9 @@ $(document).ready (function () {
   $(document).on("click", "#add_row" , function () {   // when add row is called
     $('#Go').show();
     $("#edit").hide();
-    $('#slot_form').show();
-    $('#add_row').hide();
+    $('#slot_form_accordion').collapse("show");
+    $("#add_or_update").html("Add")
+    // $('#slot_form').show();
     if(slots.length){		                              // if not first
       last_end_time = slots[slots.length-1].end_time;
       temp_slot = new slot();
@@ -269,7 +280,6 @@ $(document).ready (function () {
       $('#slot_form').find("#is_break").hide();
       $('#slot_form').find("#id_is_break").prop( "checked" ,false);
     }
-    valid_input();
 	});
   
   $(document).on("click", "#Go" , function() {    // when slot form is submitted
@@ -290,7 +300,8 @@ $(document).ready (function () {
     slots.push(temp);
     form.trigger('reset');
     $("#myTable").append(return_row(temp));
-    $('#slot_form').hide();
+    $('#slot_form_accordion').collapse("hide");
+    // $('#slot_form').hide();
     $('#Go').hide();
     $('#add_row').show();
 
@@ -301,7 +312,8 @@ $(document).ready (function () {
 
   $(document).on("click", ".add_here" , function(){
     $('#Go_here').show();
-    $('#slot_form').show();
+    $('#slot_form_accordion').collapse("show");
+    // $('#slot_form').show();
 		selected_tr = $(this).parentsUntil("tbody").last();
     name_td = selected_tr.find("td").first().html();
 		for (i = 0 ; i < slots.length; i++){
@@ -344,15 +356,17 @@ $(document).ready (function () {
       $("#myTable").append(return_row(slots[i]));
     }
     $('#Go_here').hide();
-    $('#slot_form').hide();
+    $('#slot_form_accordion').collapse("hide");
+    // $('#slot_form').hide();
     get_remainder();
   });
   
   $(document).on("click", ".edit" , function(){
     $("#edit").show();
     $("#Go").hide();
-    $('#slot_form').show();
-    $('#add_row').hide();
+    $('#slot_form_accordion').collapse("show");
+    $("#add_or_update").html("Update")
+    // $('#slot_form').show();
     selected_tr = $(this).parentsUntil("tbody").last();
     name_td = selected_tr.find("td").first().html();
 		for (i = 0 ; i < slots.length; i++){
@@ -365,8 +379,7 @@ $(document).ready (function () {
     $('#slot_form').find("#id_name").val(slots[index].name);
     $('#slot_form').find("#start_time").val(slots[index].start_time);
     $('#slot_form').find("#end_time").val(slots[index].end_time);
-    $('#slot_form').find("#id_is_break").prop( "checked" ,slots[index].is_break);
-    valid_input();
+    $('#slot_form').find("#id_is_break").prop("checked",slots[index].is_break);
   });
 
   $(document).on("click", "#edit" , function(){
@@ -401,8 +414,9 @@ $(document).ready (function () {
     for (i in slots){
       $("#myTable").append(return_row(slots[i]));
     }
-
-    $('#slot_form').hide();
+    $('#slot_form_accordion').collapse("hide");
+    // console.log($('#slot_form_accordion'));
+    // $('#slot_form').hide();
     $('#edit').hide();
     $('#add_row').show();
 

@@ -41,17 +41,6 @@ urlpatterns = [
     # re_path(r'^a/(?P<Division_id>\d+)/$',v.algo_v1,name = 'a')
 ]
 
-######## for scheduling the task of updatinf WEFs ########
-from apscheduler.schedulers.background import BackgroundScheduler
-from institute_V1.models import WEF
-import datetime
-
-WEF.update_all_WEF()
-scheduler = BackgroundScheduler()
-scheduler.add_job(WEF.update_all_WEF, 'cron', hour=1, minute=0, second=0)
-scheduler.start()
-###########################################################
-
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 
 handler404 = v.error_404_view

@@ -576,7 +576,7 @@ function clear_td(td,totally_clear_all=false){		// refresh the td
 		if (!totally_clear_all && td.hasClass("locked"))
 			return;
 		if (totally_clear_all )
-			td.removeClass("locked");
+			td.removeClass("locked");console.log("asd");
 		td.html("");
 		if(td.hasClass("prac")){
 			td.removeClass("prac");

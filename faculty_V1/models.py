@@ -1,16 +1,17 @@
 from django.db import models
+import datetime
+from django.contrib.auth import get_user_model
 ################################################
 
-from institute_V1.models import Department
-from django.contrib.auth import get_user_model
+from institute_V1.models import Department,WEF,Semester
 from institute_V1.models import Shift,Institute,Slots
 from subject_V1.models import Subject_details,Subject_event
 from Table_V2.models import Event
-from login_V2.models import CustomUser
 ################################################
 
 N_len = 50
 S_len = 10
+MANDATORY_FEEDBACK_ACTIVE_DAYS = 3
 
 class Faculty_designation(models.Model):
 	designation = models.CharField(max_length = N_len)
@@ -71,15 +72,63 @@ class Chart(models.Model) :
 
 	def __str__(self):
 		return str(self.name) + ' - ' + str(self.money)
-	
 
+class Feedback_type_manager(models.Manager):
+	def active(self):
+		'Get all the active feedback_type from the db (active=True)'
+		return super().get_queryset().filter(active=True)
+
+# need to delete all the feedback types after WEF ends
+class Feedback_type(models.Model):
+	name = models.CharField(max_length = N_len)
+	WEF = models.ForeignKey(WEF,on_delete=models.CASCADE)
+	for_date = models.DateField()
+	active = models.BooleanField(default=False)
+	objects = Feedback_type_manager()
+	def update(self,today):
+		'Update Feedback_type object if they are actice or inactive'
+		self.active = self.for_date <= today < (self.for_date + datetime.timedelta(MANDATORY_FEEDBACK_ACTIVE_DAYS))
+		self.save()
+
+	@staticmethod
+	def update_all_feedback_types():
+		'Function to update all Feedback_type object if they are active or inactive'
+		today = datetime.date.today()
+		# print("this is feedback type update")
+		for i in Feedback_type.objects.all():
+			i.update(today)
+
+	def __str__(self):
+		return "%s for %s" %(str(self.for_date),str(self.WEF.name))
+
+	def save(self, *args, **kwargs):
+		self.active = self.for_date <= datetime.date.today() < (self.for_date + datetime.timedelta(MANDATORY_FEEDBACK_ACTIVE_DAYS))
+		super(Feedback_type, self).save(*args, **kwargs)
+
+
+class Feedback_manager(models.Manager):
+	def regular(self):
+		'Get all the regular feedbacks from the db (Feedback_type = null)'
+		return super().get_queryset().filter(Feedback_type__isnull=True)
+	def special(self):
+		'Get all the special/mandatory feedbacks from the db (Feedback_type != null)'
+		return super().get_queryset().filter(Feedback_type__isnull=False)
+	def previous(self):
+		'get all the feedbacks that are of previous WEFs (having no Subject_event)'
+		return super().get_queryset().filter(Subject_event_id__isnull=True)
 
 class Feedback(models.Model):
-	timestamp = models.DateTimeField(auto_now=False)
-	# timestamp = models.DateTimeField(auto_now=True)
-	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE,null=True,blank=True)
-	Given_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+	timestamp = models.DateTimeField(auto_now=True)
+	Given_by = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
 
+	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.SET_NULL,null=True,blank=True)
+
+	Feedback_type = models.ForeignKey(Feedback_type,default=None,on_delete=models.SET_NULL, null=True,blank=True)
+	Subject_id = models.ForeignKey(Subject_details,on_delete=models.SET_NULL,null=True,blank=True)
+	
+	objects = Feedback_manager()
+	
+	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE,null=True,blank=True)
 	rating = (
 		('5',"5"),
 		('4',"4"),
@@ -99,8 +148,12 @@ class Feedback(models.Model):
 	Q9 = models.CharField(max_length = 1 ,choices=rating,null=True,blank=True)
 	query = models.TextField(null=True,blank=True)
 	average = models.IntegerField(null=True,blank=True)
+
 	def __str__(self):
-		return str(self.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by) + " at " + str(self.timestamp)
+		if self.Subject_event_id:
+			return str(self.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by) + " at " + str(self.timestamp)
+		else:
+			return "Mandatory %s from %s at %s" % (self.Subject_id.name,self.Given_by,self.timestamp)
 
 	def get_ave(self):
 		arr = [self.Q1,self.Q2,self.Q3,self.Q4,self.Q5,self.Q6,self.Q7,self.Q8,self.Q9]
@@ -120,10 +173,11 @@ class Feedback(models.Model):
 			self.average = sum(arr)/len(arr)
 		else:
 			self.average = 0
+		if self.Subject_event_id:
+			self.Faculty_id = self.Subject_event_id.Faculty_id
 		super(Feedback, self).save(*args, **kwargs)
 		
 		# return None
 
 	# def save(self, *args, **kwargs):
 	# 	print(str(self))
-

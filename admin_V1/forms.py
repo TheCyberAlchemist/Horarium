@@ -90,7 +90,7 @@ class update_sub_event(ModelForm):
 class student_details(ModelForm):
 	class Meta:
 		model = Student_details
-		fields = ('roll_no','Division_id','Batch_id',)
+		fields = ('roll_no','Division_id','prac_batch','lect_batch')
 
 
 class shift(ModelForm):

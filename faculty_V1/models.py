@@ -109,13 +109,12 @@ class Feedback_manager(models.Manager):
 		return super().get_queryset().filter(Subject_event_id__is_null=True)
 
 class Feedback(models.Model):
-	timestamp = models.DateTimeField(auto_now=False)
+	timestamp = models.DateTimeField(auto_now=True)
 	Feedback_type = models.ForeignKey(Feedback_type,default=None,on_delete=models.SET_NULL, null=True,blank=True)
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.SET_NULL,null=True,blank=True)
 	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE,null=True,blank=True)
 	Given_by = models.ForeignKey(CustomUser,on_delete=models.CASCADE)
 	objects = Feedback_manager()
-
 	rating = (
 		('5',"5"),
 		('4',"4"),

@@ -11,4 +11,4 @@ class add_student_form(ModelForm):
 class feedback_form(ModelForm):
 	class Meta:
 		model = Feedback
-		fields = ["Subject_event_id",'Q1',"Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","query"]
+		fields = ['Q1',"Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9","query"]

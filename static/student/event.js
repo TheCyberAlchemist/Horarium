@@ -160,7 +160,8 @@ function toggle_theme() {
       localStorage.setItem("theme", "dark");
     } 
 }
-$(document).ready (function () {
+
+jQuery(function () {
 	let st,et;
 	var i = 0;
 	AOS.init({
@@ -240,8 +241,8 @@ $(document).ready (function () {
 	var last_popped_event;
 	function main(){
 		var d = new Date();
-		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		// ct = new time(9,13,sec);
+		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		ct = new time(9,13,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;
@@ -305,7 +306,8 @@ $(document).ready (function () {
 				}else{						// if a class is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
 					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
-						$('#exampleModal').modal(show=true,backdrop=true);
+						console.log(events[i].end.delta(ct).tis);
+						$('#exampleModal').modal("show");
 						$('#popped_event').html(events[i].name);
 						$("#event_id").val(events[i].pk);
 						console.log(events[i]);
@@ -353,11 +355,11 @@ $(document).ready (function () {
 		$("#text").addClass("glow");
 		main();
 	}
-	$("#feedback_form").submit(function(e) {
-	// console.log("JSON.stringify(events),1)");
+	$("#feedback_form").on('submit',function(e) {
 		$('#exampleModal').modal("hide");
 		var form = $(this);
 		e.preventDefault();
+		console.log(form.serialize())
 		$.ajax({
 			type: "post",
 			data: form.serialize(),

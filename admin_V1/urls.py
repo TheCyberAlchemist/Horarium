@@ -12,7 +12,7 @@ urlpatterns = [
 
 	path('home/faculty_edit_called/',add_update_users.faculty_edit_called,name = "faculty_edit"),
 
-    re_path(r'^wef/$',views.wef,name = 'wef'),
+
     re_path(r'^home2/$',views.home,name = 'home2'),
     re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
 
@@ -31,6 +31,9 @@ urlpatterns = [
 	re_path(r'^branch/(?P<Department_id>\d+)/$',views.show_branch,name = 'show_branch'),
 	re_path(r'^branch/(?P<Department_id>\d+)/(?P<Branch_id>\d+)/$',views.show_branch,name = 'update_branch'),
 	
+    re_path(r'^wef/(?P<Department_id>\d+)/$',views.show_wef,name = 'show_wef'),
+	re_path(r'^wef/(?P<Department_id>\d+)/(?P<WEF_id>\d+)/$',views.show_wef,name = 'update_wef'),
+
 	re_path(r'^semester/(?P<Branch_id>\d+)/$',views.show_semester,name = 'show_semester'),
 	re_path(r'^semester/(?P<Branch_id>\d+)/(?P<Semester_id>\d+)/$',views.show_semester,name = 'update_semester'),
 	

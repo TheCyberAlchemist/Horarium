@@ -115,7 +115,7 @@ th:nth-of-type(1) {
   transition: 0.2s;
 }
 #myProgress,#timeBar .text {
-  color: $font-white !important;
+  color: $font-white;
 }
 .table .btn:hover {
   -webkit-transform: scale(1.1);

@@ -93,41 +93,49 @@ class Branch(models.Model):
 
 class WEF_manager(models.Manager):
 	def active(self):
+		'Get all the active WEFs in the db'
 		return super().get_queryset().filter(active=True)
 	def inactive(self):
+		'Get all the inactive WEFs in the db'
 		return super().get_queryset().filter(active=False)
-
-# add what is related to wef (Branch)
 class WEF(models.Model):
-	Department_id = models.ForeignKey(Department,default=None	,on_delete = models.CASCADE)
+	Department_id = models.ForeignKey(Department,default=None,on_delete = models.CASCADE)
 	name = models.CharField(max_length=N_len)
 	start_date = models.DateField(auto_now_add=False)
 	end_date = models.DateField(auto_now_add=False)
 	active = models.BooleanField(default=False)
-	objects = models.Manager()
-	WEF_manager = WEF_manager()
+	objects = WEF_manager()	
 
 	def __str__(self):
-		return "{} ({}---{})".format(self.name,str(self.start_date),str(self.end_date))
+		return "{} ({})".format(self.name,self.get_range())
 	
+	def get_start_date(self):
+		return self.start_date.strftime("%d/%m/%Y")
+
+	def get_end_date(self):
+		return self.end_date.strftime("%d/%m/%Y")
+
 	def get_percent_completed(self):
-		# if the WEF is completed
-		if completed:
-			return 100
 		# if it is still going
-		import time
-		
+		import time	
 		t = lambda dt:time.mktime(dt.timetuple())
 		def percent(start_time, end_time, current_time):
 			total = t(end_time) - t(start_time)
 			current = t(current_time) - t(start_time)
-			return (100.0 * current) / total
+			return int((100.0 * current) / total)
+		per = percent(self.start_date,self.end_date,datetime.datetime.now())
+		if per < 0 :
+			return 0
+		if per > 100:
+			return 100
+		return per
 
-		return percent(self.start_date,self.end_date,datetime.date.now())
-
+	def get_range(self):
+		'return formated date range as dd/mm/yyyy - dd/mm/yyyy'
+		return "%s - %s"%(self.start_date.strftime("%d/%m/%Y"),self.end_date.strftime("%d/%m/%Y"))
+	
 	def update(self,today):
 		self.active = self.start_date <= today < self.end_date
-		self.save()
 		# active = True if today is between start and end
 		# else active = False
 			
@@ -135,7 +143,10 @@ class WEF(models.Model):
 	def update_all_WEF():
 		today = datetime.date.today()
 		for i in WEF.objects.all():
-			i.update(today)
+			i.save()
+	def save(self,*args, **kwargs):
+		self.update(datetime.date.today())
+		super(WEF,self).save(*args,**kwargs)
 
 	class Meta:
 		verbose_name_plural = "WEF"

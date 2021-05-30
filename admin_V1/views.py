@@ -12,13 +12,10 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.contrib.auth.models import Group
 
-from institute_V1.models import Institute,Department,Branch,Semester,Division,Batch,Shift,Working_days,Timings,Slots,Resource
+from institute_V1.models import *
 from subject_V1.models import Subject_details,Subject_event
-from .forms import create_branch,create_department,create_semester,create_division,create_division,create_batch
-from .forms import add_user,faculty_load,faculty_details,student_details
-from .forms import timing,shift,add_resource,add_subject_details,add_sub_event,update_sub_event
-from .forms import add_event
-from faculty_V1.models import Faculty_designation,Can_teach,Faculty_details,Faculty_load,Not_available
+from .forms import *
+from faculty_V1.models import *
 from Table_V2.models import Event
 import login_V2.models as login_V2
 
@@ -567,14 +564,110 @@ def show_branch(request,Department_id,Branch_id=None):
 					try:	# unique contraint added
 						candidate.save()
 						context['form'] = create_branch()     				#Form Renewed
-						return redirect('show_branch',Department_id)                      #Page Renewed
+						return redirect('show_branch',Department_id)		#Page Renewed
 					except IntegrityError:
 						context['integrityErrors'] = "*Name and Short must be unique for Department*"   #errors to integrityErrors
 				else:
 					context['errors'] = form.errors
+		
 		return render(request,"admin/details/branch.html",context)
 	else:
 		return redirect(get_home_page(request.user))
+
+
+def show_wef(request,Department_id,WEF_id=None):
+	context = return_context(request)
+	context['my_department'] = Department.objects.get(id=Department_id)
+	context['my_wefs']= WEF.objects.all().filter(Department_id_id=Department_id)
+	import datetime
+	if WEF_id:
+		wef = WEF.objects.filter(id=WEF_id).first()
+		types = Feedback_type.objects.all().filter(WEF = wef)
+		context['update'] = wef
+		context['types'] = types
+		# if update
+		if request.method == 'POST':
+			# if update form is posted
+			# delete all the upcoming feedback_types and then add the same
+			wef.name = request.POST['name']
+			start_date = wef.start_date
+			end_date = wef.end_date
+			if not wef.active:		# if wef is inactive
+				date_range = request.POST['wef_duration'].split(' - ')
+				start_date = datetime.datetime.strptime(date_range[0],'%d/%m/%Y').date()
+				end_date = datetime.datetime.strptime(date_range[1],'%d/%m/%Y').date()
+			wef.start_date = start_date
+			wef.end_date = end_date
+			wef.save()
+			for i in types:		# delete all the coming types to add new types
+				if i.active == 1:
+					i.delete()
+			if request.POST.get('mandatory1', False):
+				# check all dates for any errors
+				mandatory1 = datetime.datetime.strptime(request.POST['mandatory1'], '%Y-%m-%d').date()
+				if not start_date < mandatory1 < end_date:
+					context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
+					return render(request,'admin/details/WEF.html',context)
+				type1 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory1)
+				type1.save()
+				types = Feedback_type.objects.all().filter(WEF = wef)
+				
+			if request.POST.get('mandatory2', False):
+				mandatory2 = datetime.datetime.strptime(request.POST['mandatory2'], '%Y-%m-%d').date()
+				print(type(mandatory2))
+				if not start_date < mandatory2 < end_date:
+					context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
+					return render(request,'admin/details/WEF.html',context)
+				type2 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory2)
+				type2.save()
+				types = Feedback_type.objects.all().filter(WEF = wef)
+			
+			return redirect('show_wef',Department_id)
+	
+	elif request.is_ajax() and request.method == 'POST':
+		# if delete is called
+		data = json.loads(request.body)
+		for d in data:
+			wef = WEF.objects.inactive().filter(pk=d).first()
+			if wef:
+				wef.delete()
+			# qs.get(pk = d).delete()
+	
+	elif request.method == 'POST':
+		# if add form submit
+		# print(request.POST)
+		date_range = request.POST['wef_duration'].split(' - ')
+		start_date = datetime.datetime.strptime(date_range[0],'%d/%m/%Y').date()
+		end_date = datetime.datetime.strptime(date_range[1],'%d/%m/%Y').date()
+		wef = WEF(name=request.POST['name'],Department_id_id = Department_id,start_date=start_date,end_date=end_date)
+		if request.POST['mandatory1']:
+			# check all dates for any errors
+			mandatory1 = datetime.datetime.strptime(request.POST['mandatory1'], '%Y-%m-%d').date()
+			if not start_date < mandatory1 < end_date:
+				context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
+				return render(request,'admin/details/WEF.html',context)
+			type1 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory1)
+
+		if request.POST['mandatory2']:
+			mandatory2 = datetime.datetime.strptime(request.POST['mandatory2'], '%Y-%m-%d').date()
+			if not start_date < mandatory2 < end_date:
+				context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
+				return render(request,'admin/details/WEF.html',context)
+			type2 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory2)
+		
+		try:
+			wef.save()
+			if type1:
+				type1.save()
+			if type2:
+				type2.save()
+		except Exception as e:
+			context['errors'] = e
+			print(e)
+
+	# print(context['my_wefs'])
+	return render(request,'admin/details/WEF.html',context)
+
 
 
 @login_required(login_url="login")
@@ -1057,8 +1150,6 @@ def error_404_view(request,exception) :
 def error_500_view(request) :
 	return render(request,'500/500.html')
 
-def wef(request) :
-    return render(request,'admin/details/WEF.html')
 # def error_404_view(request) :
 # 	return render(request,'404/404.html')
 def home(request) :

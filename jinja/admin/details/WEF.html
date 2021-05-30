@@ -21,29 +21,39 @@
         
         $('input[name="wef_duration"]').daterangepicker({
             autoUpdateInput: false,
+			minDate: new Date(),
             locale: {
-                cancelLabel: 'Clear'
-            }
+                cancelLabel: 'Clear',
+				format:'DD/MM/YYYY'
+            },
         });
-
         $('input[name="wef_duration"]').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY') + ' - ' + picker.endDate.format('MM/DD/YYYY'));
-          });
+            $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+			$("#mand1").val("");$("#mand2").val("");
+			$("#mand1").attr("min",picker.startDate.format('YYYY-MM-DD'));
+			$("#mand1").attr("max",picker.endDate.format('YYYY-MM-DD'));
+			$("#mand1").removeAttr("disabled");
+			$("#mand2").attr("min",picker.startDate.format('YYYY-MM-DD'));
+			$("#mand2").attr("max",picker.endDate.format('YYYY-MM-DD'));
+			$("#mand2").removeAttr("disabled");
+
+		});
+		
       
-          $('input[name="wef_duration"]').on('cancel.daterangepicker', function(ev, picker) {
-              $(this).val('');
-          });
+		$('input[name="wef_duration"]').on('cancel.daterangepicker', function(ev, picker) {
+			$(this).val('');
+		});
         
         {% if update %}
 		    $("#flush-collapseOne").collapse("show");
         {% endif %}
         let table = $('#example').DataTable({
                 "columnDefs" : [{
-                    "targets" : [4,5],
+                    "targets" : [2,3,4,5],
                     "orderable" : false,
                     },
-                    {responsivePriority: 1, targets: 2},
-                    {responsivePriority: 2, targets: 1},
+                    {responsivePriority: 1, targets: 1},
+                    {responsivePriority: 2, targets: 2},
                     {
                         targets : [4,5],
                         className : "all",
@@ -79,12 +89,12 @@
 				<i class="fas fa-home"></i>
 			</a>
 			&nbsp;<b>/</b>
-			<a href="">
+			<a href="{{url ('show_wef',args=[my_department.id])}}">
 				<span class="h6 fw-bold active">Add WEF</span>
 			</a>
 			{%if update %}
-			<i class="fas fa-angle-double-right"></i>
-			<span class="h6 fw-bold">Update WEF</span>
+				<i class="fas fa-angle-double-right"></i>
+				<span class="h6 fw-bold">Update WEF</span>
 			{%endif %}
 		</div>
 		<div class="col-12 mb-4" style="width: 80%; margin: 0 auto">
@@ -105,13 +115,30 @@
 											<!--////////////////Form Goes here///////////-->
 											<div class="col-lg-6 col-md-12 col-sm-12">
 												<div class="form-floating mb-3">
-													<input type="text" class="form-control myinputs" id="name" placeholder="-" name="name" required autocomplete="off"/>
+													<input 	type="text" class="form-control myinputs" id="name" 
+															placeholder="-" name="name" autocomplete="off"
+															{% if update %}
+																value = "{{update.name}}"
+															{% else %}
+																required
+															{% endif %}
+													/>
 													<label for="name">WEF Name</label>
 												</div>
 											</div>
 											<div class="col-lg-6 col-md-12 col-sm-12 text-center">
 												<div class="form-floating mb-3">
-                                                    <input type="text" class="form-control myinputs" id="wef_duration" placeholder="-" name="wef_duration" required autocomplete="off"/>
+                                                    <input 	type="text" class="form-control myinputs" id="wef_duration" 
+															placeholder="-" autocomplete="off" name="wef_duration"
+															{% if update %}
+																value = "{{update.get_range()}}"
+																{% if update.active %}
+																	disabled
+																{% endif %}
+															{% else %}
+																required
+															{% endif %}
+													/>
                                                     <!-- <input type="text" name="datefilter" value="" /> -->
                                                     <label for="wef_duration">WEF Duration</label>
 												</div>
@@ -120,8 +147,20 @@
                                         <div class="row mb-3 mx-lg-5 mx-sm-0">
                                             <div class="col-lg-5 col-md-12 col-sm-12 text-center">
                                                 <div class="form-floating mb-3" >
-                                                    <input type="date" class="form-control myinputs" id="mand1" placeholder="-" required autocomplete="off"/>
-                                                    <!-- <input type="text" name="datefilter" value="" /> -->
+                                                    <input 	type="date" class="form-control myinputs" id="mand1"
+															placeholder="-" autocomplete="off"
+															{%if types and types[0] %}
+																max="{{update.end_date}}" min="{{update.start_date}}"
+																value="{{types[0].for_date}}"
+																{% if types[0].active == 1 %}
+																	name="mandatory1"
+																{% else %}
+																	disabled
+																{% endif %}
+															{%else %}
+																name="mandatory1"
+															{%endif %}
+													/>
                                                     <label for="datefilter">Mandatory Date 1</label>
 												</div>
                                             </div>
@@ -130,7 +169,22 @@
                                             </div>
                                             <div class="col-lg-5 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="date" class="form-control myinputs" id="mand2" placeholder="-" required autocomplete="off"/>
+                                                    <input 	type="date" class="form-control myinputs" id="mand2"
+															placeholder="-" autocomplete="off"
+															{% if update %}
+																max="{{update.end_date}}" min="{{update.start_date}}"
+															{% endif %}
+															{%if types and types[1] %}
+																value="{{types[1].for_date}}"
+																{% if types[1].active == 1 %}
+																	name="mandatory2"	
+																{% else %}
+																	disabled
+																{% endif %}
+															{%else %}
+																name="mandatory2"
+															{%endif %}
+													/>
                                                     <!-- <input type="text" name="datefilter" value="" /> -->
                                                     <label for="datefilter">Mandatory Date 2</label>
 												</div>
@@ -145,10 +199,11 @@
 										</div>
 									</form>
 									{% if integrityErrors %}
-									<div class="errors_container">
-										<p>{{integrityErrors}}</p>
-									</div>
-									{% endif %} {% if errors %}
+										<div class="errors_container">
+											<p>{{integrityErrors}}</p>
+										</div>
+									{% endif %} 
+									{% if errors %}
 									<div class="errors_container">
 										<p>{{errors}}</p>
 									</div>
@@ -168,7 +223,7 @@
 				<div class="card-body" style="border-radius: 1rem">
 					<div class="row text-center">
 						<div class="col-lg-10 col-sm-12">
-							<div class="h3 text-center">WEF For</div>
+							<div class="h3 text-center">WEFs For {{my_department}}</div>
 						</div>
 						<div class="col-lg-2 col-sm-12">
 							<a style="display: none" id="del" onclick="delete_entries()">
@@ -195,28 +250,30 @@
 								</tr>
 							</thead>
 							<tbody>
-								{% if my_subjects %} 
-                                {% for subject in my_subjects %}
-								<tr>
-									<td class="fw-bold">{{loop.index}}</td>
-									<td class="sub_event_go fw-bold">
-										<a href="{{url ('show_sub_event' ,args=[subject.id])}}"> {{subject.name}}</a>
-									</td>
-									<td class="fw-bold">{{wef.short}}</td>
-									<td class="fw-bold">{{wef.startdate}}</td>
-									<td class="fw-bold">{{wef.enddate}}</td>
-									<td class="border-0">
-										<a href="{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
-											<i class="fas fa-edit"></i>
-										</a>
-									</td>
-									<td class="border-0">
-										<div class="form-check" onclick="checkSelected()">
-											<input class="form-check-input del_input" type="checkbox" id="{{loop.index}}" name="del" value="{{subject.id}}" input_name="{{subject}}" />
-										</div>
-									</td>
-								</tr>
-								{% endfor %} {% endif %}
+                                {% for wef in my_wefs %}
+									<tr>
+										<td class="fw-bold">{{loop.index}}</td>
+										<td class="fw-bold">{{wef.name}}</td>
+										<td class="fw-bold">{{wef.get_start_date()}}</td>
+										<td class="fw-bold">{{wef.get_end_date()}}</td>
+										<td class="border-0">
+											<a href="{{url ('update_wef',args=[my_department.id,wef.id])}}">
+												<i class="fas fa-edit"></i>
+											</a>
+										</td>
+										<td class="border-0">
+											<div class="form-check" onclick="checkSelected()">
+												{% if wef.active %}
+													<i class="fas fa-lock"></i>
+												{% else %}
+													<input class="form-check-input del_input" 
+														type="checkbox" id="{{loop.index}}" name="del" 
+														value="{{wef.id}}" input_name="{{wef}}"/>
+												{% endif %}
+											</div>
+										</td>
+									</tr>
+								{% endfor %}
 							</tbody>
 						</table>
 					</div>

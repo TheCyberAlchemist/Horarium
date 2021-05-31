@@ -8,7 +8,9 @@ urlpatterns = [
 
 	re_path(r'^home/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	re_path(r'^home/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
-	re_path(r'^home/faculty_feedback/api/$',faculty_view.ChartData.as_view(),name = 'admin_faculty_feedback_api'),
+
+	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
+	re_path(r'^home/faculty_feedback/api/$',faculty_view.feedback.as_view(),name = 'admin_faculty_feedback_api'),
 
 	path('home/faculty_edit_called/',add_update_users.faculty_edit_called,name = "faculty_edit"),
 
@@ -20,7 +22,6 @@ urlpatterns = [
 	
 	path('home/update_student/',add_update_users.student_edit_called,name = "student_edit"),
 
-	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
 
 	re_path(r'^department/$',views.show_department,name = 'show_department'),
 	re_path(r'^department/(?P<Department_id>\d+)/$',views.show_department,name = 'update_department'),

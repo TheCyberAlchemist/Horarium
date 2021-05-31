@@ -34,6 +34,7 @@ new Chart(ch, {
         hoverBorderWidth: 2,
         backgroundColor: barColors,
         data: final_value,
+        borderColor : "hsla(0, 0%, 66%, 0.877)"
       },
     ],
   },

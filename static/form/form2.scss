@@ -93,6 +93,9 @@ a {
 .form-floating > label {
   // padding:1.5rem .75rem !important;
 }
+.form-floating input[type="time"] {
+    width : 100% !important;
+}
 .color_palette_container {
   width: 100%;
   // display: grid;

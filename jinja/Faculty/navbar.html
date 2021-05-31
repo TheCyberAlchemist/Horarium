@@ -22,6 +22,14 @@
                   <li>
                     <a class="dropdown-item">Hi, {{request.user}}</a>
                   </li>
+                  <li>
+                    <div class="container" id="theme_toggler">
+                        <label id="switch" class="switch">
+                          <input type="checkbox" onchange="toggle_theme()" id="slider1">
+                          <span class="slider round"></span>
+                        </label>
+                      </div>
+                  </li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a href="{{url ('logout')}}" class="dropdown-item" >Log Out</a></li>
                 </ul>

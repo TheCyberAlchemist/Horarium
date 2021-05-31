@@ -154,12 +154,10 @@ function toggle_theme() {
       localStorage.setItem("theme", "");
       el1.disabled = false;
       el2.disabled = "disabled";
-      $("#timeBar .text").css({color :"black" });  //Timebar color styling
     } else {              // if light
       el1.disabled = "disabled";
       el2.disabled = false;
       localStorage.setItem("theme", "dark");
-      $("#timeBar .text").css({color :"white" }); //Timebar color styling
     } 
 }
 
@@ -244,7 +242,7 @@ jQuery(function () {
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(9,13,sec);
+		ct = new time(11,0,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;

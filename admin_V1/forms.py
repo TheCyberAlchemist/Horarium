@@ -3,8 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
 
-from institute_V1.models import Department,Branch,Semester,Division,Batch,Shift,Resource
-from faculty_V1.models import Faculty_details,Faculty_designation,Faculty_load,Can_teach
+from institute_V1.models import *
+from faculty_V1.models import *
 from subject_V1.models import Subject_details,Subject_event
 from student_V1.models import Student_details
 from institute_V1.models import Timings
@@ -22,6 +22,10 @@ class create_branch(ModelForm):
 		model = Branch
 		fields = ['name','short']
 
+class create_feedback_type(ModelForm):
+	class Meta:
+		model = Feedback_type
+		fields = ['name','for_date']
 
 class create_semester(ModelForm):
 	class Meta:

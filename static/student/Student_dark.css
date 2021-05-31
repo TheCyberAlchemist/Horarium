@@ -116,7 +116,7 @@ th:nth-of-type(1) {
 }
 
 #myProgress, #timeBar .text {
-  color: white !important !important;
+  color: white !important;
 }
 
 .table .btn:hover {

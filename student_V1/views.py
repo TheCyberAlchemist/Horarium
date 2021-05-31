@@ -127,7 +127,7 @@ def student_home(request):
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
-	day = ""
+	day = "Monday"
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
@@ -174,7 +174,7 @@ def get_all_subjects_of_student(request):
 	''' returns all the subjects to be filled for the mandatory feedback and the feedback_type in the last element'''
 	my_subjects = []
 	student = request.user.student_details
-	my_feedback_type = Feedback_type.objects.active().filter(WEF=student.Division_id.Semester_id.WEF_id)
+	my_feedback_type = Feedback_type.objects.present().filter(WEF=student.Division_id.Semester_id.WEF_id)
 	data = []
 	if my_feedback_type.count():
 		my_batches = {student.prac_batch,student.prac_batch}

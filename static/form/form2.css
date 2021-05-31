@@ -101,6 +101,10 @@ a {
           box-shadow: none !important;
 }
 
+.form-floating input[type="time"] {
+  width: 100% !important;
+}
+
 .color_palette_container {
   width: 100%;
 }

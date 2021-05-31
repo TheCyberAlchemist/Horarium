@@ -1,22 +1,22 @@
 {% block draw_chart %}
 <style type="text/css">
-    canvas.bar_styling {
-        min-width:70vw !important;
-        min-height: 70vh !important;
-        max-height: 70vh !important;
-        max-width: 80vw !important;
-    }
-    .chartjs-render-monitor {
-        animation: chartjs-render-animation 0s;
-    }
-    .chartjs-size-monitor-expand > div {
-        max-width:80vw !important;
-        max-height: 70vw !important;
-        transition : 0s !important;
-    }
+  canvas.bar_styling {
+    min-width: 70vw !important;
+    min-height: 70vh !important;
+    max-height: 70vh !important;
+    max-width: 80vw !important;
+  }
+  .chartjs-render-monitor {
+    animation: chartjs-render-animation 0s;
+  }
+  .chartjs-size-monitor-expand > div {
+    max-width: 80vw !important;
+    max-height: 70vw !important;
+    transition: 0s !important;
+  }
 </style>
 <div class="container-fluid pt-4 mt-5">
-    <!-- <canvas id="month_rating"></canvas>
+  <!-- <canvas id="month_rating"></canvas>
     <canvas id="week_rating"></canvas>
     <canvas id="day_rating" ></canvas>
 
@@ -24,110 +24,155 @@
     <canvas id="week_response"></canvas>
     <canvas id="day_response"></canvas> -->
 
-    {% for event in subject_events %}
-    <div class="container-fluid charts_container">
-        <div class=" row day_rating_{{event.pk}}">
-            <div class="col-lg-2 col-md-12 col-sm-12 text-center">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Daily Ratings</h5>
-                        <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-                        <p class="card-text">The day to day ratings are shown in the graph</p>
-                        <button class="btn-primary btn" id="show_week__{{event.pk}}">GO up</button>
-                    </div>
-                </div>
-            </div>
-            <div class="chart col-lg-10 col-md-12 col-sm-12" style="position:relative">
-                <div class="card mb-5">
-                    <div class="card-title mt-2">
-                        <span class="h4">Ratings For {{event.Subject_id}} </span>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="day_rating__{{event.pk}}" class="bar_styling"></canvas>
-                    </div>
-                </div>
-            </div>
+  {% for event in subject_events %}
+  <div class="container-fluid charts_container">
+    <!-- #region Day Rating Chart -->
+    <div class=" row day_rating_{{event.pk}}">
+      <div class="col-lg-2 col-md-12 col-sm-12 text-center">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Daily Ratings</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text mt-1">The day to day ratings are shown in the graph</p>
+            <button class="btn-primary btn mt-1" id="show_week__{{event.pk}}">Monthy View</button>
+          </div>
         </div>
-        <!-- show_week clicked -> show week_rating chart -->
-        <div class=" row week_rating_{{event.pk}}" style="display: none">
-            <div class="col-lg-2 col-md-12 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">The Monthy Ratings</h5>
-                        <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-                        <p class="card-text">Click on any week's bar to get the detailed ratings!</p>
-                        <p class="card-text">Click on Go Up to get a broader perspective of your ratings</p>
-                        <!-- <a href="#" class="card-link">Another link</a> -->
-                        <button class="btn-primary btn" id="show_semester__{{event.pk}}">GO up</button>
-                    </div>
-                </div>
-            </div>
-            <div class="chart col-lg-10 col-md-12 col-sm-12" style="position:relative">
-                <div class="card mt-2 mb-5">
-                    <div class="card-title mt-2">
-                        <span class="h4">Ratings For {{event.Subject_id}} </span>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="week_rating__{{event.pk}}" class="bar_styling" style="width:80%;" ></canvas>
-                    </div>
-                </div>
-            </div>
+      </div>
+      <div class="chart col-lg-10 col-md-12 col-sm-12" style="position: relative">
+        <div class="card mb-5">
+          <div class="card-title mt-2">
+            <span class="h4">Ratings For {{event.Subject_id}} </span>
+          </div>
+          <div class="card-body">
+            <canvas id="day_rating__{{event.pk}}" class="bar_styling"></canvas>
+          </div>
         </div>
-
-        <div class="row month_rating_{{event.pk}}" style="display: none">
-            <div class="col-lg-2 col-sm-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">The Yearly Ratings</h4>
-                        <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
-                        <p class="card-text">Click on any month's bar to get the detailed ratings!</p>
-                    </div>
-                </div>
-            </div>
-            <div class="chart col-lg-10 col-sm-12 table-responsive" style="position:relative;">
-                <div class="card mt-2 mb-3">
-                    <div class="card-title mt-2">
-                        <span class="h4">Ratings For {{event.Subject_id}} </span>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="month_rating__{{event.pk}}" class="bar_styling" style="width:80%;"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row mb-5">
-            
-            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
-                <div class="card mt-2 mb-2">
-                    <div class="card-title mt-1">
-                        <span class="h6">Needs improvement in following questions</span>
-                    </div>
-                    <div class="card-body" style="margin-top:-30px">
-                        <canvas id="myChart" style="width:646px;height:350px"></canvas>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-2 col-md-0 col-sm-0 p-0"></div>
-            <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position:relative">
-                <div class="card mt-2 mb-2">
-                    <div class="card-title mt-1">
-                        <span class="h6">Progress in all areas</span>
-                    </div>
-                    <div class="card-body" style="margin-bottom:30px">
-                        <canvas id="myChart1" style="width:646px;height:350px;margin-top:-30px"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {% for feedback_type in my_types[event.pk] %}
-            <div class="card-body">
-                <canvas id="mandatory_feedback__{{feedback_type.pk}}" class="bar_styling" style="width:80%;" ></canvas>
-            </div>
-        {% endfor %}
+      </div>
     </div>
+    <!-- #endregion -->
+    <!-- show_week clicked -> show week_rating chart -->
 
-    {% endfor %}
-    <!--<div class="container-fluid question_card text-left mb-3">
+    <!-- #region Week Rating Chart -->
+    <div class=" row week_rating_{{event.pk}}" style="display: none">
+      <div class="col-lg-2 col-md-12 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">The Monthy Ratings</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text mt-1">Click on any week's bar to get the detailed ratings!</p>
+            <!-- <a href="#" class="card-link">Another link</a> -->
+            <button class="btn-primary btn mt-1" id="show_semester__{{event.pk}}">Semester View</button>
+          </div>
+        </div>
+      </div>
+      <div class="chart col-lg-10 col-md-12 col-sm-12" style="position: relative">
+        <div class="card mt-2 mb-5">
+          <div class="card-title mt-2">
+            <span class="h4">Ratings For {{event.Subject_id}} </span>
+          </div>
+          <div class="card-body">
+            <canvas id="week_rating__{{event.pk}}" class="bar_styling" style="width: 80%"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #endregion -->
+
+    <!-- #region Month Rating Chart -->
+    <div class="row month_rating_{{event.pk}}" style="display: none">
+      <div class="col-lg-2 col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">The Yearly Ratings</h5>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> -->
+            <p class="card-text mt-1">Click on any month's bar to get the detailed ratings!</p>
+          </div>
+        </div>
+      </div>
+      <div class="chart col-lg-10 col-sm-12 table-responsive" style="position: relative">
+        <div class="card mt-2 mb-3">
+          <div class="card-title mt-2">
+            <span class="h4">Ratings For {{event.Subject_id}} </span>
+          </div>
+          <div class="card-body">
+            <canvas id="month_rating__{{event.pk}}" class="bar_styling" style="width: 80%"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #endregion -->
+<hr>
+    <!-- #region Polar And Radar Chart -->
+    <div class="row mb-5">
+      <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position: relative">
+        <div class="card mt-2 mb-2">
+          <div class="card-title mt-1">
+            <span class="h6">Needs improvement in following questions</span>
+          </div>
+          <div class="card-body" style="margin-top: -30px">
+            <canvas id="myChart" style="width: 646px; height: 350px"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-0 col-sm-0 p-0"></div>
+      <div class="chart col-lg-5 col-md-12 col-sm-12 p-0" style="position: relative">
+        <div class="card mt-2 mb-2">
+          <div class="card-title mt-1">
+            <span class="h6">Progress in all areas</span>
+          </div>
+          <div class="card-body" style="margin-bottom: 30px">
+            <canvas id="myChart1" style="width: 646px; height: 350px; margin-top: -30px"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- #endregion -->
+<hr>
+    <!-- #region Mandatory Feedbacks Chart -->
+    <div class="row">
+      <div class="col-12">
+        <div id="mandatory_feedback_carousal" class="carousel carousel-dark slide" style="margin: 0 auto">
+          <div class="carousel-indicators">
+            {% for feedback_type in my_types[event.pk] %}
+                <button type="button" data-bs-target="#mandatory_feedback_carousal"
+                        data-bs-slide-to="{{loop.index - 1}}" aria-label="Slide {{loop.index}}"
+                        {% if loop.index == 1 %}
+                            class="active" aria-current="true"
+                        {% endif %}
+                >
+                </button>
+            {% endfor %}
+          </div>
+            <div class="carousel-inner">
+          	{% for feedback_type in my_types[event.pk] %}
+                <div class="carousel-item {% if loop.index == 1 %}active{% endif %}" data-bs-interval="false">
+                    <div class="card mt-2 mb-5" style="border-radius: 20px">
+                        <div class="card-title mt-2 text-center">
+                        <span class="h4">Feedback For WAD </span>
+                        </div>
+                        <div class="card-body text-center" style="position: relative; margin: 0 auto">
+                            <!--<canvas id="others" class="bar_styling"></canvas>-->
+                            {{loop.index}}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#mandatory_feedback_carousal" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#mandatory_feedback_carousal" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- #endregion -->
+  </div>
+  {% endfor %}
+  <!--<div class="container-fluid question_card text-left mb-3">
     <div class="card questions">
       <div class="card-header" style="font-weight :bold;">
         Feedback Questions
@@ -139,34 +184,31 @@
       </div>
     </div>
   </div>-->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-        Launch demo modal
-    </button>
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="container-fluid question_card text-left mb-3">
-                        <div class="card questions">
-                            <div class="card-header" style="font-weight :bold;">
-                                Feedback Questions
-                            </div>
-                            <div class="card-body">
-                                {%for ques in questions %}
-                                <div class="h6" style="font-weight :bold;">Q{{loop.index}}. {{ques}}.</div>
-                                {%endfor%}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer text-center">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                </div>
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button>
+
+  <!-- #region Feedback Questions -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="container-fluid question_card text-left mb-3">
+            <div class="card questions">
+              <div class="card-header" style="font-weight: bold">Feedback Questions</div>
+              <div class="card-body">
+                {%for ques in questions %}
+                    <div class="h6" style="font-weight: bold">Q{{loop.index}}. {{ques}}.</div>
+                {%endfor%}
+              </div>
             </div>
+          </div>
         </div>
+        <div class="modal-footer text-center">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
     </div>
-
-
+  </div>
+  <!-- #endregion -->
 </div>
 
 {%endblock%}

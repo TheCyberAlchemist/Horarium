@@ -1,6 +1,4 @@
 .charts_container {
-    // height: 90vh;
-    // overflow-y: hidden;
     width: 100%;
 }
 .col-lg-2 {
@@ -21,4 +19,11 @@
     .charts_container {
         padding : 0 !important;
     }
+    .col-sm-12{
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+    // #mandatory_feedback_carousal {
+    //     height : 100px
+    // }
 }

@@ -27,13 +27,10 @@
     set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
     activate("{{my_shift.Department_id}}.d.{{my_shift}}");
     put_pen("{{static ('admin/details/img/pen.png')}}")
-    $(document).ready(function () {
+    jQuery(function () {
         $("#day1").select2();
         $("#day2").select2();
         $("#slot_naming").select2();
-    });
-
-    $(document).ready(function () {
         {% if u_short %}
         $('#slot_form_accordion').collapse("show");
         {% endif %}
@@ -106,14 +103,14 @@
                                                 <div class="form-floating mb-3">
                                                     <div class="form-check" id="is_break">
                                                         <input class="form-check-input" type="checkbox" id="id_is_break">
-                                                        <label for="id_is_break">Is a Break</label>
+                                                        <label for="id_is_break" class="mt-1 ml-2" >Is a Break</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="submit_button_container">
-                                                <button type="button" id="Go" class="show_form_button">Go</button>
-                                                <button type="button" id="Go_here" class="show_form_button">Go Here</button>
-                                                <button type="button" id="edit" class="show_form_button">Edit</button>
+                                                <button type="button" id="Go" class="btn btn-outline-success">Go</button>
+                                                <button type="button" id="Go_here" class="btn btn-outline-success">Go Here</button>
+                                                <button type="button" id="edit" class="btn btn-outline-success">Edit</button>
                                             </div>
                                             <div class="container mt-4" style="width:80%;">
                                                 <button type="submit" class="btn btn-outline-success"
@@ -145,12 +142,12 @@
                 </div>
             </div>
         </div>
-        <div style="text-align:center">
-            <button class="other_buttons" id="main_edit">Edit</button>
+        <div class="container text-center">
+            <button class="btn btn-outline-success" id="main_edit" style="width:40%">Edit</button>
         </div>
-        <div class="submit_button_container">
+        <div class="submit_button_container container text-center">
             <!-- <button type="submit" name="button" class="submit_button">Submit</button> -->
-            <button class="submit_button" onclick='submited()'> Submit</button>
+            <button class="submit_button btn btn-outline-success" onclick='submited()' style="width:50%"> Submit</button>
         </div>
         <div class="container-fluid p-2 table_container">
             <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">

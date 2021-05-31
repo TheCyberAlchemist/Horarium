@@ -49,7 +49,6 @@
             </div>
         </div>
         <!-- show_week clicked -> show week_rating chart -->
-
         <div class=" row week_rating_{{event.pk}}" style="display: none">
             <div class="col-lg-2 col-md-12 col-sm-12">
                 <div class="card">
@@ -120,7 +119,13 @@
                 </div>
             </div>
         </div>
+        {% for feedback_type in my_types[event.pk] %}
+            <div class="card-body">
+                <canvas id="mandatory_feedback__{{feedback_type.pk}}" class="bar_styling" style="width:80%;" ></canvas>
+            </div>
+        {% endfor %}
     </div>
+
     {% endfor %}
     <!--<div class="container-fluid question_card text-left mb-3">
     <div class="card questions">

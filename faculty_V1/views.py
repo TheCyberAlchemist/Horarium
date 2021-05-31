@@ -12,7 +12,7 @@ from rest_framework.response import Response
 from calendar import monthrange,month_name
 import math
 
-from faculty_V1.models import Faculty_details, Chart
+from faculty_V1.models import Faculty_details,Feedback_type,Feedback
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days
 
@@ -70,22 +70,24 @@ def faculty_home(request):
 	return render(request,"Faculty/faculty_v1.html",context)
 
 
-from faculty_V1.models import Feedback
 def faculty_feedback(request,Faculty_id = None) :
-	# f_name = Chart.name
-	# f_money = Chart.money
-	# data = serializers.serialize("json", Subject_event.objects.filter(Faculty_id=request.user.faculty_details))
-
-	events = []
+	subject_events_list = []
+	subjects_list = []
 	if Faculty_id:	# if called by admin_dashboard
 		subject_events =  Subject_event.objects.filter(Faculty_id__User_id=Faculty_id)
 	else:
 		subject_events =  Subject_event.objects.filter(Faculty_id=request.user.faculty_details)
-	print(subject_events)
-	for event in subject_events:
-		events.append({'Subject_name':str(event.Subject_id),"id":event.pk})
-	events = json.dumps(events)
+	# print(subject_events)
+	for subject_event in subject_events:
+		subject_events_list.append({'Subject_name':str(subject_event.Subject_id),"id":subject_event.pk})
+		subjects_list.append({'Subject_name':str(subject_event.Subject_id),"id":subject_event.Subject_id_id})
 	# data = json.loads(data)
+	my_types = {}
+	for i in subject_events:
+		print(i.Subject_id.Semester_id)
+		my_types[i.pk] = Feedback_type.objects.past().filter(WEF = i.Subject_id.Semester_id.WEF_id).union(Feedback_type.objects.present().filter(WEF = i.Subject_id.Semester_id.WEF_id))
+	print(my_types)
+
 	questions = [
 		"Lecture or Lab Session Began and End on scheduled Time",
 		"I felt the Teacher well prepared for this particular session",
@@ -98,12 +100,12 @@ def faculty_feedback(request,Faculty_id = None) :
 		"I don't hesitate to ask to the Teacher if I have any doubt",
 	]
 	context = {
-		'subject_events_json': events,
+		'subject_events_json': json.dumps(subject_events_list),
+		'subjects_json':json.dumps(subjects_list),
 		'subject_events':subject_events,
+		'my_types':my_types,
 		'questions' : questions,
 	}
-	
-	context["qs"] = Chart.objects.all()
 	if Faculty_id:
 		return render(request,"admin/user_dash/faculty_feedback.html",context)
 	else:
@@ -124,7 +126,7 @@ def transpose(l1):
     l2 = list(map(list, zip(*l1)))
     return l2
 
-def get_all_questions_list(qs):
+def get_all_questions_ave_list(qs):
 	# Q1 = Q2 = Q3 = Q4 = Q5 = Q6 = Q7 = Q8 = Q9 = []
 	Q = []
 	Questions = list(qs.values_list("Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9"))
@@ -138,7 +140,15 @@ def get_all_questions_list(qs):
 			ave[i] = [round(sum(temp)/len(temp),2),len(temp)]
 	return ave
 
-class ChartData(APIView):
+class mandatory_feedbacks(APIView):
+	authentication_classes = [SessionAuthentication, BasicAuthentication]
+	permission_classes = [IsAuthenticated]
+	def get(self, request, format = None):
+		pass
+		# (pk = request.GET['id'])
+
+
+class feedback(APIView):
 	# authentication_classes = []
 	# permission_classes = []
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -171,7 +181,7 @@ class ChartData(APIView):
 					labels.append(s_d.strftime("%d-%m (%a)"))
 					# print(s_d.strftime("%d-%m-%Y"))
 					day_feedback = all_feeback.filter(timestamp__date=s_d)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_list(day_feedback)
+					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(day_feedback)
 					Que1.append(q1[0])
 					length1.append(q1[1])
 					Que2.append(q2[0])
@@ -246,7 +256,7 @@ class ChartData(APIView):
 					start_date = date.strptime('{}-{}-{}'.format(year,month_number,dates[0]),"%Y-%m-%d")
 					end_date = date.strptime('{}-{}-{} 23:59:59'.format(year,month_number,dates[1]),"%Y-%m-%d %H:%M:%S")
 					week_feedback = all_feeback.filter(timestamp__date__gte=start_date, timestamp__date__lt=end_date)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_list(week_feedback)
+					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(week_feedback)
 					Que1.append(q1[0])
 					length1.append(q1[1])
 					Que2.append(q2[0])
@@ -302,7 +312,7 @@ class ChartData(APIView):
 					labels.append(month_name[i.month])
 					ids.append(i.strftime("%B_%Y"))
 					month_feedback = all_feeback.filter(timestamp__month=i.month)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_list(month_feedback)
+					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(month_feedback)
 					Que1.append(q1[0])
 					length1.append(q1[1])
 					Que2.append(q2[0])
@@ -361,7 +371,7 @@ class ChartData(APIView):
 		for i in range(7):
 			labels.append(s_d.strftime("%d-%m (%a)"))
 			day_feedback = all_feeback.filter(timestamp__date=s_d)
-			q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_list(day_feedback)
+			q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(day_feedback)
 			Que1.append(q1[0])
 			length1.append(q1[1])
 			Que2.append(q2[0])

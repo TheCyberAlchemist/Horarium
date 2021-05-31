@@ -62,7 +62,25 @@ $(document).ready(function () {
 			},
 		});
 	}
-	var myChart;
+	function draw_line_graph(date,id){
+		let mandatory_chart = [];
+		var ctx = document.getElementById(id).getContext("2d");
+		mandatory_chart[event_id] = new Chart(ctx, {
+				type: "bar",
+				data: {
+					labels: labels,
+					datasets: [
+						{
+							label: chartLabel,
+							data: chartdata,
+							backgroundColor: Array(11).fill(`rgba(255, 99, 132, ${opacity})`),
+							borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
+							borderWidth: 1,
+						}
+					]
+				}
+			});
+	}
 	function drawBarGraph(data, id, recursive = false) {
 		// console.log(id);
 		let event_id = id.split("__")[1];
@@ -109,7 +127,6 @@ $(document).ready(function () {
 				labels: labels,
 				datasets: [
 					{
-						a:console.log(opacity),
 						label: chartLabel,
 						data: chartdata,
 						backgroundColor: Array(11).fill(`rgba(255, 99, 132, ${opacity})`),
@@ -283,89 +300,3 @@ $(document).ready(function () {
 		});
 	}
 });
-
-// var ctx = $('#myChart');
-// 	var myChart = new Chart(ctx, {
-// 		type: 'bar',
-// 		data: {
-// 			labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-// 			datasets: [{
-// 				label: '# of Votes',
-// 				data: [12, 19, 3, 5, 2, 3],
-// 				backgroundColor: [
-// 					'rgba(255, 99, 132, 0.2)',
-// 					'rgba(54, 162, 235, 0.2)',
-// 					'rgba(255, 206, 86, 0.2)',
-// 					'rgba(75, 192, 192, 0.2)',
-// 					'rgba(153, 102, 255, 0.2)',
-// 					'rgba(255, 159, 64, 0.2)'
-// 				],
-// 				borderColor: [
-// 					'rgba(255, 99, 132, 1)',
-// 					'rgba(54, 162, 235, 1)',
-// 					'rgba(255, 206, 86, 1)',
-// 					'rgba(75, 192, 192, 1)',
-// 					'rgba(153, 102, 255, 1)',
-// 					'rgba(255, 159, 64, 1)'
-// 				],
-// 				borderWidth: 1
-// 			}]
-// 		},
-// 		options: {
-// 			scales: {
-// 				yAxes: [{
-// 					ticks: {
-// 						beginAtZero: true
-// 					}
-// 				}]
-// 			}
-// 		}
-// 	});
-// $(document).ready(function () {
-// 	console.log("JQuery is working");
-// 	/*AOS.init({
-// 	  offset: 150,
-// 	});*/
-
-// 	var ctx = document.getElementById('myChart').getContext('2d');
-// 	var chart = new Chart(ctx, {
-// 		// The type of chart we want to create
-// 		type: 'bar',
-
-// 		// The data for our dataset
-// 		data: {
-// 			labels: [{%for i in qs%}'{{i.name}}',{%endfor%}],
-// 			datasets: [{
-// 				label: 'My First dataset',
-// 				data: [{%for i in qs%} {{i.money}}, {%endfor%}],
-// 				backgroundColor : ['#FCDC3B','#A2EC88','#97FFD7','#567FCE','#FF4D94','#FF3C2A'],
-// 				borderColor : ['yellow','green','cyan','blue','pink','red','grey'],
-// 				borderWidth : 2,
-// 			}]
-// 		},
-// 		// Configuration options go here
-// 		options: {}
-// 	});
-// 	////////////////Radar////////////////
-// 	var ctx = document.getElementById('myChart2').getContext('2d');
-// 	var chart = new Chart(ctx, {
-// 		// The type of chart we want to create
-// 		type: 'radar',
-
-// 		// The data for our dataset
-// 		data: {
-// 			labels: [{%for i in qs%}'{{i.name}}',{%endfor%}],
-// 			datasets: [{
-// 				label: 'My First dataset',
-// 				data: [{%for i in qs%} {{i.money}}, {%endfor%}],
-// 				//backgroundColor : ['red','green','blue','pink','purple','orange','cyan'],
-// 				backgroundColor : "pink",
-// 				borderColor : "red"
-
-// 			}]
-// 		},
-// 		// Configuration options go here
-// 		options: {}
-// 	});
-
-//   });

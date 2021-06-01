@@ -64,19 +64,23 @@
 <div class="main_content">
       
     <div class="row p-2 ">
-        <div class="container navigate">
-            <a href="{{url ('admin_home')}}">
-                <i class="fas fa-home"></i>    
-            </a>
-            &nbsp;<b>/</b>
-            <a href="{{url ('show_batch',args=[my_division.id]) }}">
-                <span class="h6 fw-bold active">Add Batch</span> 
-            </a>
-            {%if update %}
-                <i class="fas fa-angle-double-right"></i>
-                <span class="h6 fw-bold">Update Batch</span> 
-            {%endif %}
-        </div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+                <i class="fas fa-home"></i>  
+              </a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                <a href="{{url ('show_batch',args=[my_division.id]) }}">
+                    <span class="h6 fw-bold">Add Batch</span> 
+                </a>
+              </li>
+                {%if update %}
+                <li class="breadcrumb-item" aria-current="page">
+                    <span class="h6 fw-bold">Update Batch</span> 
+                </li>     
+                {%endif %}
+            </ol>
+          </nav>
         <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
             <div class="card shadow-sm components-section" style="border-radius: 1rem;">
                 <div class="card-body" style="border-radius: 1rem;">
@@ -128,8 +132,6 @@
                                                       <ul id="subjects">
                                                         {%for subject in my_subjects%}
                                                         <li>
-                                                            <!-- <input name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if update
-                                                              and subject.id in update[3]%}checked{% endif %} /> -->
                                                               <div class="row">
                                                               <div class="col">
                                                                   <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>

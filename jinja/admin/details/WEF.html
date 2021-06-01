@@ -84,19 +84,23 @@
 <div class="main_content">
 <div id = "page_activator" activate-page=""></div>
 	<div class="row p-2">
-		<div class="container navigate">
-			<a href="{{url ('admin_home')}}">
-				<i class="fas fa-home"></i>
-			</a>
-			&nbsp;<b>/</b>
-			<a href="{{url ('show_wef',args=[my_department.id])}}">
-				<span class="h6 fw-bold active">Add WEF</span>
-			</a>
-			{%if update %}
-				<i class="fas fa-angle-double-right"></i>
-				<span class="h6 fw-bold">Update WEF</span>
-			{%endif %}
-		</div>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+                <i class="fas fa-home"></i>  
+              </a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                <a href="{{url ('show_wef',args=[my_department.id])}}">
+                    <span class="h6 fw-bold">Add WEF</span>
+                </a>
+              </li>
+              {%if update %}
+              <li class="breadcrumb-item" aria-current="page">
+                <span class="h6 fw-bold">Update WEF</span>
+              </li>     
+              {%endif%}
+            </ol>
+          </nav>
 		<div class="col-12 mb-4" style="width: 80%; margin: 0 auto">
 			<div class="card shadow-sm components-section" style="border-radius: 1rem">
 				<div class="card-body" style="border-radius: 1rem">
@@ -144,7 +148,24 @@
 												</div>
 											</div>
                                         </div>
-                                        <div class="row mb-3 mx-lg-5 mx-sm-0">
+                                        <div class="row mb-3 mx-lg-5 mx-sm-0 text-center">
+                                            <div class="col-lg-5 col-md-12 col-sm-12 text-center">
+                                                <div class="form-floating mb-3" >
+                                                    <input 	type="text" class="form-control myinputs" id="mandatory1_name" 
+															placeholder="-" autocomplete="off" name="mandatory1_name"
+															{% if update %}
+																value = "{{update.mandatory1_name}}"
+																{% if update.active %}
+																	disabled
+																{% endif %}
+															{% else %}
+																required
+															{% endif %}
+													/>
+                                                    <!-- <input type="text" name="datefilter" value="" /> -->
+                                                    <label for="mandatory1_name">Mandatory Date 1 Name</label>
+                                                </div>
+                                            </div>
                                             <div class="col-lg-5 col-md-12 col-sm-12 text-center">
                                                 <div class="form-floating mb-3" >
                                                     <input 	type="date" class="form-control myinputs" id="mand1"
@@ -164,8 +185,25 @@
                                                     <label for="datefilter">Mandatory Date 1</label>
 												</div>
                                             </div>
-                                            <div class="col-lg-1 col-md-12 col-sm-12 my-auto">
+                                            <div class="col-lg-1 col-md-12 col-sm-12 my-auto text-right">
                                                 <i class="fas fa-info-circle" data-bs-toggle="popover" title="Mandatory Date 1" data-bs-content="Select the date of the first mandatory feedback"></i>
+                                            </div>
+                                            <div class="col-lg-5 col-md-12 col-sm-12 text-center">
+                                                <div class="form-floating mb-3" >
+                                                    <input 	type="text" class="form-control myinputs" id="mandatory2_name" 
+															placeholder="-" autocomplete="off" name="mandatory2_name"
+															{% if update %}
+																value = "{{update.mandatory2_name}}"
+																{% if update.active %}
+																	disabled
+																{% endif %}
+															{% else %}
+																required
+															{% endif %}
+													/>
+                                                    <!-- <input type="text" name="datefilter" value="" /> -->
+                                                    <label for="mandatory2_name">Mandatory Date 2 Name</label>
+                                                </div>
                                             </div>
                                             <div class="col-lg-5 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
@@ -189,7 +227,7 @@
                                                     <label for="datefilter">Mandatory Date 2</label>
 												</div>
                                             </div>
-                                            <div class="col-lg-1 col-md-12 col-sm-12 my-auto">
+                                            <div class="col-lg-1 col-md-12 col-sm-12 my-auto text-right">
                                                 <i class="fas fa-info-circle" data-bs-toggle="popover" title="Mandatory Date 2" data-bs-content="Select the date of the second mandatory feedback"></i>
                                             </div>
                                         </div>
@@ -264,7 +302,7 @@
 										<td class="border-0">
 											<div class="form-check" onclick="checkSelected()">
 												{% if wef.active %}
-													<i class="fas fa-lock"></i>
+													<i class="fas fa-lock" data-bs-toggle="popover" title="Locked WEF" data-bs-content="Active WEF cannot be deleted" style="transform: translateX(-10px)"></i>
 												{% else %}
 													<input class="form-check-input del_input" 
 														type="checkbox" id="{{loop.index}}" name="del" 

@@ -16,18 +16,22 @@
 
 {% block content %}
 <div id = "page_activator" activate-page="{{my_department}}.b"></div>
-<div class="main_content" style="margin-top: -30px">
-	<div class="container navigate mt-5">
-		<a href="{{url ('admin_home')}}">
-			<i class="fas fa-home"></i>    
-		</a>
-		<i class="fas fa-angle-double-right"></i>
-		<a href="{{url ('add_faculty',args=[my_department.id])}}">
-			<span class="h6 fw-bold active">Add Faculty</span> 
-		</a>
-            &nbsp;<b>/</b>
-			<span class="h6 fw-bold">Not Available</span> 
-	</div>
+<div class="main_content" style="margin-top: -10px">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+            <i class="fas fa-home"></i>  
+          </a></li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <a href="{{url ('add_faculty',args=[my_department.id])}}">
+                <span class="h6 fw-bold ">Add Faculty</span> 
+            </a>
+          </li>
+          <li class="breadcrumb-item" aria-current="page">
+              <span class="h6 fw-bold">Not Available</span> 
+          </li>     
+        </ol>
+      </nav>
 	<h2 class="text-center">{{my_faculty.User_id}} Is Not Available At</h2>
 
 	<table style="width : 90%;" class="main_table text-center">

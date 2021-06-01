@@ -152,7 +152,7 @@ a {
           transform: translateY(-30px);
 }
 
-.container.navigate a span.active {
+.breadcrumb-item.active a {
   color: #0d6efd !important;
 }
 
@@ -257,6 +257,12 @@ a {
   left: -34px;
 }
 
+/* #region  For Popover info button arrow  */
+.popover-arrow {
+  display: none !important;
+}
+
+/* #endregion */
 .accordion-button::after {
   background-image: url("../admin/details/img/minus.png") !important;
 }
@@ -332,9 +338,16 @@ a {
     -webkit-transform: translateX(25%);
             transform: translateX(25%);
   }
+  .popover-arrow {
+    position: absolute;
+    left: 0px;
+    -webkit-transform: translate3d(143px, 0px, 0px) !important;
+            transform: translate3d(143px, 0px, 0px) !important;
+  }
 }
 
-ul, #myUL {
+ul,
+#myUL {
   list-style-type: none;
 }
 

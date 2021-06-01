@@ -17,6 +17,11 @@ html {
   font-weight: 500;
 }
 
+.fas.fa-lock {
+  color: #ff4848 !important;
+  font-size: 20px;
+}
+
 .user_dash .card .nav-pills .nav-link:hover {
   color: blue !important;
 }

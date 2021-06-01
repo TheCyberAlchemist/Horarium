@@ -94,7 +94,7 @@ a {
   // padding:1.5rem .75rem !important;
 }
 .form-floating input[type="time"] {
-    width : 100% !important;
+  width: 100% !important;
 }
 .color_palette_container {
   width: 100%;
@@ -138,15 +138,16 @@ a {
 //     transform: translateX(-20%) !important;
 //   }
 
-.myform .pagination_container nav {  //pagination container
-    transform:translateX(45%);
+.myform .pagination_container nav {
+  //pagination container
+  transform: translateX(45%);
 }
 .container.navigate {
   margin-left: 40px !important;
   transform: translateY(-30px);
 }
-.container.navigate a span.active {
-  color: #0d6efd !important;
+.breadcrumb-item.active a {
+    color: #0d6efd !important;
 }
 .btn.btn-outline-success {
   color: #2dce89 !important;
@@ -234,6 +235,16 @@ a {
 }
 ///////////Can Container ENDS//////////////////
 
+/* #region  For Popover info button arrow  */
+.popover-arrow {
+//   position: absolute;
+//   transform: translate(0px, 10px) !important;
+//   top: 0px;
+display: none !important;
+}
+/* #endregion */
+
+
 ///////////Accordion Close and Open Button STARTS//////////////////
 .accordion-button::after {
   background-image: url("../admin/details/img/minus.png") !important;
@@ -313,50 +324,54 @@ a {
     font-size: 15px !important;
   }
   .myform {
-      font-size:smaller;
+    font-size: smaller;
   }
   .myform .pagination_container nav {
-      transform:translateX(25%);
+    transform: translateX(25%);
+  }
+
+  .popover-arrow {
+    position: absolute;
+    left: 0px;
+    transform: translate3d(143px, 0px, 0px) !important;
   }
 }
 
+ul,
+#myUL {
+  list-style-type: none;
+}
 
+#myUL {
+  margin: 0;
+  padding: 0;
+}
 
-ul, #myUL {
-    list-style-type: none;
-  }
-  
-  #myUL {
-    margin: 0;
-    padding: 0;
-  }
-  
-  #myUL .caret {
-    cursor: pointer;
-    -webkit-user-select: none; /* Safari 3.1+ */
-    -moz-user-select: none; /* Firefox 2+ */
-    -ms-user-select: none; /* IE 10+ */
-    user-select: none;
-  }
-  
-  #myUL .caret::before {
-    content: "\25B6";
-    color: black;
-    display: inline-block;
-    margin-right: 6px;
-  }
-  
-  #myUL .caret-down::before {
-    -ms-transform: rotate(90deg); /* IE 9 */
-    -webkit-transform: rotate(90deg); /* Safari */
-    transform: rotate(90deg);  
-  }
-  
-  #myUL .nested {
-    display: none;
-  }
-  
-  #myUL .active {
-    display: block;
-  }
-  
+#myUL .caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+
+#myUL .caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+#myUL .caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */
+  transform: rotate(90deg);
+}
+
+#myUL .nested {
+  display: none;
+}
+
+#myUL .active {
+  display: block;
+}

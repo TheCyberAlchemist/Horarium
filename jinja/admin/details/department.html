@@ -60,20 +60,36 @@
 <div id = "page_activator" activate-page="a"></div>
 <div class="main_content">
     <div class="row p-2 ">
-        <div class="container navigate">
+        <!-- <div class="container navigate">
             <a href="{{url ('admin_home')}}">
                 <i class="fas fa-home"></i>    
             </a>
-            <!-- <i class="fas fa-angle-double-right"></i> -->
             &nbsp;<b>/</b>
             <a href="{{url ('show_department')}}">
                 <span class="h6 fw-bold active">Add Department</span> 
             </a>
             {%if u_name %}
-                <i class="fas fa-angle-double-right"></i>
+                &nbsp;<b>/</b>
                 <span class="h6 fw-bold">Update Department</span> 
             {%endif %}
-        </div>
+        </div> -->
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+                <i class="fas fa-home"></i>  
+              </a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                  <a href="{{url ('show_department')}}">
+                    <span class="h6 fw-bold">Add Department</span> 
+                  </a>
+              </li>
+                {%if u_name %}
+                <li class="breadcrumb-item" aria-current="page">
+                    <span class="h6 fw-bold">Update Department</span> 
+                </li>     
+                {%endif %}
+            </ol>
+          </nav>
         <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
             <div class="card shadow-sm components-section" style="border-radius: 1rem;">
                 <!-- <div class="card-tite pl-3 pt-3">

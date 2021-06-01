@@ -6,33 +6,37 @@
   width: 95% !important;
 }
 
-.table thead tr th, .table tbody tr td {
+.table thead tr th,
+.table tbody tr td {
   font-size: 0.85rem !important;
   outline: 0;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
-.table tbody .even td, .table tbody .odd td {
+.table tbody .even td,
+.table tbody .odd td {
   border-bottom: 1px solid #b9b9b9 !important;
 }
 
-.table tbody .even td:first-child, .table tbody .odd td:first-child {
+.table tbody .even td:first-child,
+.table tbody .odd td:first-child {
   color: blue;
 }
 
-.fas.fa-edit, .fas.fa-sign-in-alt {
+.fas.fa-edit,
+.fas.fa-sign-in-alt {
   font-size: 22px !important;
   -webkit-transform: translateY(4px);
           transform: translateY(4px);
   color: grey !important;
-  -webkit-transition: .3s;
-  transition: .3s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
 .fas.fa-edit:hover {
   color: #6767ff !important;
-  -webkit-transition: .3s;
-  transition: .3s;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
 }
 
 .fas.fa-chart-line {
@@ -102,11 +106,24 @@
           box-shadow: none !important;
 }
 
-#student_details .row-details tbody tr td, #faculty_details .row-details tbody tr td {
+#student_details .row-details,
+#faculty_details .row-details {
+  text-align: center;
+  margin: 0 auto !important;
+}
+
+#student_details .row-details table,
+#faculty_details .row-details table {
+  table-layout: fixed !important;
+}
+
+#student_details .row-details tbody tr td,
+#faculty_details .row-details tbody tr td {
   border: 1px solid #b9b9b9;
 }
 
-#student_details .row-details tbody tr td ul li, #faculty_details .row-details tbody tr td ul li {
+#student_details .row-details tbody tr td ul li,
+#faculty_details .row-details tbody tr td ul li {
   list-style-type: none;
 }
 

@@ -24,21 +24,28 @@ from django.conf import settings
 import admin_V1.views as v
 import institute_V1.views as iv
 import student_V1.views as sv
+import faculty_V1.views as fv
 from django.conf.urls import handler404, handler500
 
 
 urlpatterns = [
+    ##### try #####
     path('script/', v.run_script,name = 'run_script'),
     path('try/',sv.add_student,name='try'),
     path('tryopen/',iv.open_try,name='open_try'),
-    path('admin/', admin.site.urls),
+    ##### defaults #####
+    path('',include('login_V2.urls')),
     path('Admin/',include('admin_V1.urls')),
     path('student/',include('student_V1.urls')),
     path('faculty/',include('faculty_V1.urls')),
-    path('',include('login_V2.urls')),
+    ##### feedback apis #####
+    re_path(r'api/\Z', fv.feedback.as_view()),
+    re_path(r'mandatory/\Z', fv.mandatory_feedbacks.as_view()),
+    re_path(r'ave_all/\Z', fv.average_all_questions.as_view()),
+    ##### system #####
+    path('admin/', admin.site.urls),
     re_path(r'^favicon\.ico$',RedirectView.as_view(url='/static/site_logo.ico')),
     path('media/<path:relative_path>', iv.DocumentDownload, name='document-download'),
-    # re_path(r'^a/(?P<Division_id>\d+)/$',v.algo_v1,name = 'a')
 ]
 
 urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

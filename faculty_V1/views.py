@@ -83,10 +83,14 @@ def faculty_feedback(request,Faculty_id = None) :
 		subjects_list.append({'Subject_name':str(subject_event.Subject_id),"id":subject_event.Subject_id_id})
 	# data = json.loads(data)
 	my_types = {}
+	my_types_list = []
 	for i in subject_events:
-		print(i.Subject_id.Semester_id)
-		my_types[i.pk] = Feedback_type.objects.past().filter(WEF = i.Subject_id.Semester_id.WEF_id).union(Feedback_type.objects.present().filter(WEF = i.Subject_id.Semester_id.WEF_id))
-	print(my_types)
+		# print(i.Subject_id.Semester_id)
+		my_types_filtered = Feedback_type.objects.past().filter(WEF = i.Subject_id.Semester_id.WEF_id).union(Feedback_type.objects.present().filter(WEF = i.Subject_id.Semester_id.WEF_id))
+		my_types[i.pk] = my_types_filtered
+		for j in my_types_filtered:
+			my_types_list.append({'type_name':str(j.name),'id':j.pk})
+	print(my_types_list)
 
 	questions = [
 		"Lecture or Lab Session Began and End on scheduled Time",
@@ -100,16 +104,15 @@ def faculty_feedback(request,Faculty_id = None) :
 		"I don't hesitate to ask to the Teacher if I have any doubt",
 	]
 	context = {
+		'is_admin':bool(Faculty_id),
 		'subject_events_json': json.dumps(subject_events_list),
 		'subjects_json':json.dumps(subjects_list),
 		'subject_events':subject_events,
 		'my_types':my_types,
+		'my_types_json':json.dumps(my_types_list),
 		'questions' : questions,
 	}
-	if Faculty_id:
-		return render(request,"admin/user_dash/faculty_feedback.html",context)
-	else:
-		return render(request,"Faculty/feedback.html",context)
+	return render(request,"Faculty/feedback.html",context)
 
 def monthlist_fast(dates):
     start, end = [date.strptime(_, "%Y-%m-%d") for _ in dates]
@@ -126,27 +129,59 @@ def transpose(l1):
     l2 = list(map(list, zip(*l1)))
     return l2
 
-def get_all_questions_ave_list(qs):
+def get_ave_len(qs):
 	# Q1 = Q2 = Q3 = Q4 = Q5 = Q6 = Q7 = Q8 = Q9 = []
 	Q = []
 	Questions = list(qs.values_list("Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9"))
-	ave = [[0,0] for _ in range(9)]
+	ave = [0 for _ in range(9)]
+	length = [0 for _ in range(9)]
 	# arr = np.array(Questions)
 	# arr = arr.transpose()
 	Questions = transpose(Questions)
 	for i in range(len(Questions)):
 		temp = [int(x) for x in Questions[i] if x != None]
 		if temp:
-			ave[i] = [round(sum(temp)/len(temp),2),len(temp)]
-	return ave
+			ave[i] = round(sum(temp)/len(temp),2)
+			length[i] = len(temp)
+	print("len of ave = ",len(ave) )
+	print("len of len = ",len(length))
+	return ave,length
+
+
+class average_all_questions(APIView):
+	authentication_classes = [SessionAuthentication, BasicAuthentication]
+	permission_classes = [IsAuthenticated]
+	def get(self, request, format = None):
+		labels = ['Q1', 'Q2', 'Q3', 'Q4','Q5','Q6','Q7','Q8','Q9']
+		chartLabel = 'Overall Feedback'
+		all_feedbacks = Feedback.objects.all().filter(Subject_event_id=request.GET['id'])
+		chartdata,feedback_counts = get_ave_len(all_feedbacks)
+		data ={
+			"labels":labels,
+			"chartLabel":chartLabel,
+			"chartdata":chartdata,
+			"feedback_counts":feedback_counts,
+		}
+		###################### on click ######################
+		return Response(data)
 
 class mandatory_feedbacks(APIView):
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
 	permission_classes = [IsAuthenticated]
 	def get(self, request, format = None):
-		pass
-		# (pk = request.GET['id'])
-
+		my_type = Feedback_type.objects.all().get(pk=request.GET['id'])
+		labels = ['Q1', 'Q2', 'Q3', 'Q4','Q5','Q6','Q7','Q8','Q9']
+		chartLabel = my_type.name
+		all_feedbacks = my_type.feedback_set.all()
+		chartdata,_ = get_ave_len(all_feedbacks)
+		data ={
+			"labels":labels,
+			"chartLabel":chartLabel,
+			"chartdata":chartdata,
+			"feedback_count":all_feedbacks.count(),
+		}
+		###################### on click ######################
+		return Response(data)
 
 class feedback(APIView):
 	# authentication_classes = []
@@ -181,25 +216,25 @@ class feedback(APIView):
 					labels.append(s_d.strftime("%d-%m (%a)"))
 					# print(s_d.strftime("%d-%m-%Y"))
 					day_feedback = all_feeback.filter(timestamp__date=s_d)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(day_feedback)
-					Que1.append(q1[0])
-					length1.append(q1[1])
-					Que2.append(q2[0])
-					length2.append(q2[1])
-					Que3.append(q3[0])
-					length3.append(q3[1])
-					Que4.append(q4[0])
-					length4.append(q4[1])
-					Que5.append(q5[0])
-					length5.append(q5[1])
-					Que6.append(q6[0])
-					length6.append(q6[1])
-					Que7.append(q7[0])
-					length7.append(q7[1])
-					Que8.append(q8[0])
-					length8.append(q8[1])
-					Que9.append(q9[0])
-					length9.append(q9[1])
+					[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(day_feedback)
+					Que1.append(q1)
+					length1.append(l1)
+					Que2.append(q2)
+					length2.append(l2)
+					Que3.append(q3)
+					length3.append(l3)
+					Que4.append(q4)
+					length4.append(l4)
+					Que5.append(q5)
+					length5.append(l5)
+					Que6.append(q6)
+					length6.append(l6)
+					Que7.append(q7)
+					length7.append(l7)
+					Que8.append(q8)
+					length8.append(l8)
+					Que9.append(q9)
+					length9.append(l9)
 					# print("total - {}".format(day_feedback.count()))
 					arr = list(day_feedback.values_list("average",flat=True))
 					arr = [x for x in arr if x != 0]
@@ -256,7 +291,7 @@ class feedback(APIView):
 					start_date = date.strptime('{}-{}-{}'.format(year,month_number,dates[0]),"%Y-%m-%d")
 					end_date = date.strptime('{}-{}-{} 23:59:59'.format(year,month_number,dates[1]),"%Y-%m-%d %H:%M:%S")
 					week_feedback = all_feeback.filter(timestamp__date__gte=start_date, timestamp__date__lt=end_date)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(week_feedback)
+					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_ave_len(week_feedback)
 					Que1.append(q1[0])
 					length1.append(q1[1])
 					Que2.append(q2[0])
@@ -312,7 +347,7 @@ class feedback(APIView):
 					labels.append(month_name[i.month])
 					ids.append(i.strftime("%B_%Y"))
 					month_feedback = all_feeback.filter(timestamp__month=i.month)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(month_feedback)
+					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_ave_len(month_feedback)
 					Que1.append(q1[0])
 					length1.append(q1[1])
 					Que2.append(q2[0])
@@ -371,25 +406,26 @@ class feedback(APIView):
 		for i in range(7):
 			labels.append(s_d.strftime("%d-%m (%a)"))
 			day_feedback = all_feeback.filter(timestamp__date=s_d)
-			q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_all_questions_ave_list(day_feedback)
-			Que1.append(q1[0])
-			length1.append(q1[1])
-			Que2.append(q2[0])
-			length2.append(q2[1])
-			Que3.append(q3[0])
-			length3.append(q3[1])
-			Que4.append(q4[0])
-			length4.append(q4[1])
-			Que5.append(q5[0])
-			length5.append(q5[1])
-			Que6.append(q6[0])
-			length6.append(q6[1])
-			Que7.append(q7[0])
-			length7.append(q7[1])
-			Que8.append(q8[0])
-			length8.append(q8[1])
-			Que9.append(q9[0])
-			length9.append(q9[1])
+			[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(day_feedback)
+
+			Que1.append(q1)
+			length1.append(l1)
+			Que2.append(q2)
+			length2.append(l2)
+			Que3.append(q3)
+			length3.append(l3)
+			Que4.append(q4)
+			length4.append(l4)
+			Que5.append(q5)
+			length5.append(l5)
+			Que6.append(q6)
+			length6.append(l6)
+			Que7.append(q7)
+			length7.append(l7)
+			Que8.append(q8)
+			length8.append(l8)
+			Que9.append(q9)
+			length9.append(l9)
 			arr = list(day_feedback.values_list("average",flat=True))
 			arr = [x for x in arr if x != 0]
 			day_ave = 0

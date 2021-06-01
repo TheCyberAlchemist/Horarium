@@ -1,10 +1,13 @@
-{% extends 'Faculty/base.html' %}
+{% if is_admin %}
+  {% extends 'admin/base2.html' %}
+{% else %}
+  {% extends 'Faculty/base.html' %}
+{% endif %}
 {% block title %} Feedback {% endblock %}
-
 {% block css %}
-<link type="text/css" rel="stylesheet" href="{{static ('faculty/feedback.css')}}">
-<style>
-</style>
+  <link type="text/css" rel="stylesheet" href="{{static ('faculty/feedback.css')}}">
+  <style>
+  </style>
 {% endblock %}
 
 {% block scripts %}
@@ -12,9 +15,8 @@
     integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
     crossorigin="anonymous"></script>
 <script type="application/javascript" src="{{static ('faculty/feedback.js')}}"></script>
-<script type="application/javascript" src="{{static ('faculty/myscript.js')}}"></script>
 <script type="application/javascript">
-  put_data({{ subject_events_json | safe}});
+  put_data({{ subject_events_json | safe}},{{my_types_json | safe}});
 </script>
 {% endblock %}
 {% block content %}

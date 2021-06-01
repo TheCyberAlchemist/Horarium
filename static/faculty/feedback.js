@@ -1,7 +1,9 @@
 var ENDPOINT = "./api";
+var MANDATORY = "./mandatory";
+var AVERAGE_ALL = "./ave_all";
 // Array(11).fill("rgba(255, 99, 132, 0.2)"),
 var opacity = "0.2";
-my_charts = {};
+var my_charts = {};
 function toggle_theme() {
 	var el1 = document.getElementById("light"),
 		el2 = document.getElementById("dark");
@@ -27,10 +29,20 @@ function toggle_theme() {
 		my_charts[a].render();
 	}
 }
-var subject_events;
-function put_data(subject_events_json){
+var subject_events,my_types;
+function put_data(subject_events_json,my_types_json){
 	subject_events = subject_events_json;
+	my_types = my_types_json;
 }
+var barColors = [
+	"rgba(255, 99, 132, 0.2)",
+	"rgba(255, 159, 64, 0.2)",
+	"rgba(201, 203, 207, 0.2)",
+	"rgba(153, 102, 255, 0.2)",
+	"rgba(75, 192, 192, 0.2)",
+	"rgba(54, 162, 235, 0.2)",
+	"rgba(153, 102, 255, 0.2)",
+  ];
 $(document).ready(function () {
 	// AOS.init({
 	// 	offset: 150,
@@ -43,8 +55,7 @@ $(document).ready(function () {
 	}else{
 		opacity = '0.4';
 	}
-	for (a of subject_events){
-		id_str = "day_rating__"+a['id'];
+	for (let a of subject_events){
 		my_charts[a['id']] = "asd";
 		$.ajax({
 			method: "GET",
@@ -61,32 +72,122 @@ $(document).ready(function () {
 				console.log(error_data);
 			},
 		});
-	}
-	function draw_line_graph(date,id){
-		let mandatory_chart = [];
-		var ctx = document.getElementById(id).getContext("2d");
-		mandatory_chart[event_id] = new Chart(ctx, {
-				type: "bar",
-				data: {
-					labels: labels,
-					datasets: [
-						{
-							label: chartLabel,
-							data: chartdata,
-							backgroundColor: Array(11).fill(`rgba(255, 99, 132, ${opacity})`),
-							borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
-							borderWidth: 1,
-						}
-					]
+		$.ajax({
+			method: "GET",
+			url: AVERAGE_ALL,
+			data : {
+				'id' :a['id'],
+			},
+			success: function (data) {
+				// console.log(data),
+				draw_radar_graph(data,"progress__"+a['id'])
+				let temp_data = [],temp_labels = [];
+				for (i = 0; i < data.chartdata.length; i++) {
+					//console.log(yValues[i])
+					if (data.chartdata[i] < 3) {
+					  temp_data.push(data.chartdata[i]);
+					  temp_labels.push(data.labels[i]);
+					}
 				}
-			});
+				data.chartdata = temp_data;
+				data.labels = temp_labels;
+				draw_polarArea_graph(data,"improvement__"+a['id']);
+			},
+			error: function (error_data) {
+				console.log(error_data);
+			},
+		});
 	}
+	for (let type of my_types){
+		let id_str = "mandatory_feedback__"+type['id'];
+		$.ajax({
+			method: "GET",
+			url: MANDATORY,
+			data : {
+				'id' :type['id'],
+			},
+			success: function (data) {
+				// console.log(data),
+				draw_line_graph(data,id_str);
+				// drawBarGraph(data, "day_rating1");
+			},
+			error: function (error_data) {
+				console.log(error_data);
+			},
+		});
+	}
+
+	function draw_line_graph(data,id){
+		// let mandatory_chart = [];
+		var labels = data.labels;
+		var chartLabel = data.chartLabel;
+		var chartdata = data.chartdata; 
+
+		let type_id = id.split("__")[1];
+		var ctx = document.getElementById(id).getContext("2d");
+		new Chart(ctx, {
+			type: "line",
+			data: {
+				labels: labels,
+				datasets: [
+					{
+						label: chartLabel,
+						data: chartdata,
+						// backgroundColor: Array(11).fill(),
+						borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
+						borderWidth: 1,
+						// tension: 0.01,
+					}
+				],
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				responsiveAnimationDuration: 0,
+				scales: {
+					yAxes: [
+						{
+							display : true,
+							scaleLabel : {
+								display : true,
+								labelString : 'Ratings'
+							},
+							ticks: {
+								beginAtZero: true,
+								suggestedMax: 5,
+							},
+						},
+					],
+
+					xAxes: [
+						{
+							display : true,
+							scaleLabel : {
+								display : true,
+								labelString : 'Questions'
+							},
+						},
+					],
+				},
+				tooltips: {
+					callbacks: {
+						label: function(chart_id) {
+							var avg_of = `Average of ${data.feedback_count}`;
+							return avg_of;
+						}
+					}
+				}
+			}
+		});
+	}
+
 	function drawBarGraph(data, id, recursive = false) {
 		// console.log(id);
 		let event_id = id.split("__")[1];
 		var labels = data.labels;
 		var chartLabel = data.chartLabel;
 		var chartdata = data.chartdata; 
+		console.log(data.chartdata)
 		if (recursive) {
 			my_charts[event_id].destroy();
 		}
@@ -200,9 +301,9 @@ $(document).ready(function () {
 				],
 			},
 			options: {
-                responsive: true,
-    			maintainAspectRatio: false,
-                responsiveAnimationDuration: 0,
+				responsive: true,
+				maintainAspectRatio: false,
+				responsiveAnimationDuration: 0,
 				onClick: function (evt, i) {
 					e = i[0];
 					if (ids && e) {
@@ -267,7 +368,7 @@ $(document).ready(function () {
 					callbacks: {
 							label: function(chart_id) {
 								var avg_of = "Average of ";
-								console.log(chart_id);
+								// console.log(chart_id);
 								switch (chart_id.datasetIndex) {
 									case 0:
 										return chart_id.label;
@@ -295,8 +396,93 @@ $(document).ready(function () {
 								
 							}
 						}
-					}
+				}
 			},
+		});
+	}
+
+	function draw_radar_graph(data,id){
+		var labels = data.labels;
+		var chartLabel = data.chartLabel;
+		var chartdata = data.chartdata;
+		var ctx = document.getElementById(id).getContext("2d");
+		new Chart(ctx, {
+			type: "radar",
+			data: {
+			  labels: labels,
+			  datasets: [
+				{
+				  label: chartLabel,
+				  pointHoverRadius: 20,
+				  hoverBorderDash: 100,
+				  pointHoverBorderColor: "lightgreen",
+				  tension: 0,
+				  hoverBackgroundColor: "rgba(54, 162, 235, 0.2)",
+				  pointBackgroundColor: "rgba(54, 162, 235, 0.2)",
+				  backgroundColor: "rgba(255, 99, 132, 0.2)",
+				  borderColor: "rgb(255, 99, 132)",
+				  data: chartdata,
+				},
+			  ],
+			},
+			options: {
+			  suggestedMin: 0,
+			  suggestedMax: 5,
+			  scales: {
+				r: {
+				  angleLines: {
+					display: true,
+				  },
+				  suggestedMin: 0,
+				  suggestedMax: 5,
+				},
+			  },
+			  arc: true,
+			  responsive: true,
+			  mantainAspectRatio:false,
+			  legend: { display: true },
+			  title: {
+				display: true,
+			  //   text: "progress in all the areas!",
+			  },
+			},
+		  });
+	}
+
+	function draw_polarArea_graph(data,id){
+		var labels = data.labels;
+		var chartdata = data.chartdata;
+		var ctx = document.getElementById(id).getContext("2d");
+		new Chart(ctx, {
+		type: "polarArea",
+		data: {
+		labels: labels,
+		datasets: [
+			{
+			hoverBorderColor: "purple",
+			hoverBorderWidth: 2,
+			backgroundColor: barColors,
+			data: chartdata,
+			borderColor : "hsla(0, 0%, 66%, 0.877)"
+			},
+		],
+		},
+		options: {
+		responsive: true,
+		maintainAspectRatio: false,
+		hoverBorderWidth: 100,
+		animation: {
+			animateRotate: true,
+			animateScale: true,
+		},
+		arc: true,
+		//animateScale : true,
+		legend: { display: true },
+		title: {
+			display: true,
+		//   text: "needs improvment in following questions!",
+		},
+		},
 		});
 	}
 });

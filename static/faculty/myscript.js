@@ -62,7 +62,7 @@ new Chart(ch1, {
     labels: xValues,
     datasets: [
       {
-        // label: "your progress this month!!",
+        label: "your progress this month!!",
         pointHoverRadius: 20,
         hoverBorderDash: 100,
         pointHoverBorderColor: "lightgreen",

@@ -119,7 +119,7 @@
 												<select name="Semester_id" id="semesters">
                                                     <option value="a" disabled {% if not update %} selected {% endif %}>Pick a semester </option>
                                                     {% for semester in my_semesters %}
-                                                    <option value="{{semester.id}}" {% if update and update.Semester_id==semester_id %} selected {% endif %}>
+                                                    <option value="{{semester.id}}" {% if update and update.Semester_id_id==semester.id %} selected {% endif %}>
                                                     {{semester}}</option>
                                                     {% endfor %}
                                                 </select>

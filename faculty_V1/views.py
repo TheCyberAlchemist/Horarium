@@ -1,20 +1,21 @@
-from django.shortcuts import render
-from django.core import serializers
-import json
-from datetime import timedelta as timedelta
-from datetime import datetime as date
-import calendar
-from django.db.models import Q
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
+from datetime import timedelta as timedelta
 from rest_framework.response import Response
 from calendar import monthrange,month_name
+from rest_framework.views import APIView
+from datetime import datetime as date
+from django.shortcuts import render
+from django.core import serializers
+from django.db.models import Q
+import calendar
+import json
 import math
 
 from faculty_V1.models import Faculty_details,Feedback_type,Feedback
-from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days
+from subject_V1.models import Subject_event
+from Table_V2.models import Event
 
 # Create your views here.
 
@@ -123,8 +124,6 @@ def monthlist_fast(dates):
         mlist.append(date(y, m+1, 1))
     return mlist
 
-from subject_V1.models import Subject_event
-import django.utils.timezone as tz
 def transpose(l1):
     l2 = list(map(list, zip(*l1)))
     return l2
@@ -142,9 +141,7 @@ def get_ave_len(qs):
 		temp = [int(x) for x in Questions[i] if x != None]
 		if temp:
 			ave[i] = round(sum(temp)/len(temp),2)
-			length[i] = len(temp)
-	print("len of ave = ",len(ave) )
-	print("len of len = ",len(length))
+			length[i] = len(temp)	
 	return ave,length
 
 
@@ -291,25 +288,25 @@ class feedback(APIView):
 					start_date = date.strptime('{}-{}-{}'.format(year,month_number,dates[0]),"%Y-%m-%d")
 					end_date = date.strptime('{}-{}-{} 23:59:59'.format(year,month_number,dates[1]),"%Y-%m-%d %H:%M:%S")
 					week_feedback = all_feeback.filter(timestamp__date__gte=start_date, timestamp__date__lt=end_date)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_ave_len(week_feedback)
-					Que1.append(q1[0])
-					length1.append(q1[1])
-					Que2.append(q2[0])
-					length2.append(q2[1])
-					Que3.append(q3[0])
-					length3.append(q3[1])
-					Que4.append(q4[0])
-					length4.append(q4[1])
-					Que5.append(q5[0])
-					length5.append(q5[1])
-					Que6.append(q6[0])
-					length6.append(q6[1])
-					Que7.append(q7[0])
-					length7.append(q7[1])
-					Que8.append(q8[0])
-					length8.append(q8[1])
-					Que9.append(q9[0])
-					length9.append(q9[1])
+					[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(week_feedback)
+					Que1.append(q1)
+					length1.append(l1)
+					Que2.append(q2)
+					length2.append(l2)
+					Que3.append(q3)
+					length3.append(l3)
+					Que4.append(q4)
+					length4.append(l4)
+					Que5.append(q5)
+					length5.append(l5)
+					Que6.append(q6)
+					length6.append(l6)
+					Que7.append(q7)
+					length7.append(l7)
+					Que8.append(q8)
+					length8.append(l8)
+					Que9.append(q9)
+					length9.append(l9)
 					# print("total - {}".format(week_feedback.count()))
 					arr = list(week_feedback.values_list("average",flat=True))
 					arr = [x for x in arr if x != 0]
@@ -347,25 +344,25 @@ class feedback(APIView):
 					labels.append(month_name[i.month])
 					ids.append(i.strftime("%B_%Y"))
 					month_feedback = all_feeback.filter(timestamp__month=i.month)
-					q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9 = get_ave_len(month_feedback)
-					Que1.append(q1[0])
-					length1.append(q1[1])
-					Que2.append(q2[0])
-					length2.append(q2[1])
-					Que3.append(q3[0])
-					length3.append(q3[1])
-					Que4.append(q4[0])
-					length4.append(q4[1])
-					Que5.append(q5[0])
-					length5.append(q5[1])
-					Que6.append(q6[0])
-					length6.append(q6[1])
-					Que7.append(q7[0])
-					length7.append(q7[1])
-					Que8.append(q8[0])
-					length8.append(q8[1])
-					Que9.append(q9[0])
-					length9.append(q9[1])
+					[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(month_feedback)
+					Que1.append(q1)
+					length1.append(l1)
+					Que2.append(q2)
+					length2.append(l2)
+					Que3.append(q3)
+					length3.append(l3)
+					Que4.append(q4)
+					length4.append(l4)
+					Que5.append(q5)
+					length5.append(l5)
+					Que6.append(q6)
+					length6.append(l6)
+					Que7.append(q7)
+					length7.append(l7)
+					Que8.append(q8)
+					length8.append(l8)
+					Que9.append(q9)
+					length9.append(l9)
 					# print("month {}->{}".format(i.month,month_feedback.count()))
 					arr = list(month_feedback.values_list("average",flat=True))
 					arr = [x for x in arr if x != 0]

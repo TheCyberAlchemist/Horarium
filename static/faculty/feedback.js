@@ -426,7 +426,14 @@ $(document).ready(function () {
 			  ],
 			},
 			options: {
-			  suggestedMin: 0,
+                scale : {
+                    ticks : {
+                        beginAtZero : false,
+                        max : 5,
+                        min : 0,
+                    }
+                },
+			  suggestedMin: 1,
 			  suggestedMax: 5,
 			  scales: {
 				r: {

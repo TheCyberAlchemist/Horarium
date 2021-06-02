@@ -152,18 +152,20 @@
                                             <div class="col-lg-5 col-md-12 col-sm-12 text-center">
                                                 <div class="form-floating mb-3" >
                                                     <input 	type="text" class="form-control myinputs" id="mandatory1_name" 
-															placeholder="-" autocomplete="off" name="mandatory1_name"
-															{% if update %}
-																value = "{{update.mandatory1_name}}"
-																{% if update.active %}
+															placeholder="-" autocomplete="off"
+															{%if types and types[0] %}
+																value="{{types[0].name}}"
+																{% if types[0].active == 1 %}
+																	name="mandatory1_name"
+																{% else %}
 																	disabled
 																{% endif %}
-															{% else %}
-																required
-															{% endif %}
+															{%else %}
+																name="mandatory1_name"
+															{%endif %}
 													/>
                                                     <!-- <input type="text" name="datefilter" value="" /> -->
-                                                    <label for="mandatory1_name">Mandatory Date 1 Name</label>
+                                                    <label for="mandatory1_name">Mandatory Feedback Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-5 col-md-12 col-sm-12 text-center">
@@ -191,15 +193,17 @@
                                             <div class="col-lg-5 col-md-12 col-sm-12 text-center">
                                                 <div class="form-floating mb-3" >
                                                     <input 	type="text" class="form-control myinputs" id="mandatory2_name" 
-															placeholder="-" autocomplete="off" name="mandatory2_name"
-															{% if update %}
-																value = "{{update.mandatory2_name}}"
-																{% if update.active %}
+															placeholder="-" autocomplete="off"
+															{%if types and types[1] %}
+																value="{{types[1].name}}"
+																{% if types[1].active == 1 %}
+																	name="mandatory2_name"
+																{% else %}
 																	disabled
 																{% endif %}
-															{% else %}
-																required
-															{% endif %}
+															{%else %}
+																name="mandatory2_name"
+															{%endif %}
 													/>
                                                     <!-- <input type="text" name="datefilter" value="" /> -->
                                                     <label for="mandatory2_name">Mandatory Date 2 Name</label>

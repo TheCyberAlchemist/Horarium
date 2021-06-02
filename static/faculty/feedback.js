@@ -81,16 +81,31 @@ $(document).ready(function () {
 			success: function (data) {
 				// console.log(data),
 				draw_radar_graph(data,"progress__"+a['id'])
-				let temp_data = [],temp_labels = [];
+				let temp_dict = [];
 				for (i = 0; i < data.chartdata.length; i++) {
-					//console.log(yValues[i])
-					if (data.chartdata[i] < 3) {
-					  temp_data.push(data.chartdata[i]);
-					  temp_labels.push(data.labels[i]);
+					temp_dict.push({"label":data.labels[i],"rating":data.chartdata[i]})
+				}
+				temp_dict.sort(function(a, b) {
+					return ((a.rating < b.rating) ? -1 : ((a.rating == b.rating) ? 0 : 1))
+				})
+				// console.log(temp_dict);
+				data.chartdata = [];
+				data.labels = [];
+				for(let i of temp_dict.splice(temp_dict.length-4,4)){
+					if (i.rating > 0){
+						data.chartdata.push(i.rating)
+						data.labels.push(i.label)
 					}
 				}
-				data.chartdata = temp_data;
-				data.labels = temp_labels;
+				// for (i = 0; i < data.chartdata.length; i++) {
+				// 	let data_i = data.chartdata[i]
+				// 	if (data_i < 3 && data_i > 0) {
+				// 	  temp_data.push(data_i);
+				// 	  temp_labels.push(data.labels[i]);
+				// 	}
+				// }
+				// data.chartdata = temp_data;
+				// data.labels = temp_labels;
 				draw_polarArea_graph(data,"improvement__"+a['id']);
 			},
 			error: function (error_data) {

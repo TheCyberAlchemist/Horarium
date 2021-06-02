@@ -110,8 +110,11 @@ def return_context(request):
 
 ############# deletes the objects in the data list from qs #############
 def delete_entries(qs,data):
+	' Delete from qs if exists. Data must have array of ids of items to be deleted '
 	for d in data:
-		qs.get(pk = d).delete()
+		i = qs.filter(pk = d).first()
+		if i:
+			i.delete()
 
 def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False):
 	data = serializers.serialize("json", qs)
@@ -608,7 +611,7 @@ def show_wef(request,Department_id,WEF_id=None):
 				if not start_date < mandatory1 < end_date:
 					context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
 					return render(request,'admin/details/WEF.html',context)
-				type1 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory1)
+				type1 = Feedback_type(WEF = wef,name =request.POST['mandatory1_name'],for_date=mandatory1)
 				type1.save()
 				types = Feedback_type.objects.all().filter(WEF = wef)
 				
@@ -618,7 +621,7 @@ def show_wef(request,Department_id,WEF_id=None):
 				if not start_date < mandatory2 < end_date:
 					context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
 					return render(request,'admin/details/WEF.html',context)
-				type2 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory2)
+				type2 = Feedback_type(WEF = wef,name = request.POST['mandatory2_name'],for_date=mandatory2)
 				type2.save()
 				types = Feedback_type.objects.all().filter(WEF = wef)
 			
@@ -627,12 +630,8 @@ def show_wef(request,Department_id,WEF_id=None):
 	elif request.is_ajax() and request.method == 'POST':
 		# if delete is called
 		data = json.loads(request.body)
-		for d in data:
-			wef = WEF.objects.inactive().filter(pk=d).first()
-			if wef:
-				wef.delete()
-			# qs.get(pk = d).delete()
-	
+		delete_entries(WEF.objects.inactive(),data)
+
 	elif request.method == 'POST':
 		# if add form submit
 		# print(request.POST)
@@ -646,14 +645,14 @@ def show_wef(request,Department_id,WEF_id=None):
 			if not start_date < mandatory1 < end_date:
 				context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
 				return render(request,'admin/details/WEF.html',context)
-			type1 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory1)
+			type1 = Feedback_type(WEF = wef,name = request.POST['mandatory1_name'],for_date=mandatory1)
 
 		if request.POST['mandatory2']:
 			mandatory2 = datetime.datetime.strptime(request.POST['mandatory2'], '%Y-%m-%d').date()
 			if not start_date < mandatory2 < end_date:
 				context['integrityErrors'] = "Mandatory dates must be between start_date and end_date"
 				return render(request,'admin/details/WEF.html',context)
-			type2 = Feedback_type(WEF = wef,name = "asd",for_date=mandatory2)
+			type2 = Feedback_type(WEF = wef,name = request.POST['mandatory2_name'],for_date=mandatory2)
 		
 		try:
 			wef.save()

@@ -441,7 +441,14 @@ $(document).ready(function () {
 			  ],
 			},
 			options: {
-			  suggestedMin: 0,
+                scale : {
+                    ticks : {
+                        beginAtZero : false,
+                        max : 5,
+                        min : 1,
+                    }
+                },
+			  suggestedMin: 1,
 			  suggestedMax: 5,
 			  scales: {
 				r: {
@@ -486,6 +493,13 @@ $(document).ready(function () {
 		responsive: true,
 		maintainAspectRatio: false,
 		hoverBorderWidth: 100,
+        scale : {
+            ticks : {
+                beginAtZero : false,
+                max : 5,
+                min : 1,
+            }
+        },
 		animation: {
 			animateRotate: true,
 			animateScale: true,

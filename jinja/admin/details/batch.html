@@ -136,7 +136,7 @@
                                                               <div class="col">
                                                                   <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
                                                                   <div class="form-check">
-                                                                      <input class="form-check-input" id="subject_{{subject.id}}" value="{{subject.id}}"
+                                                                      <input class="form-check-input" name="subjects_for_batch" id="subject_{{subject.id}}" value="{{subject.id}}"
                                                                       {% if update and subject in update['subjects_for_batch'].all()%}checked{% endif %} type="checkbox" value="parent">
                                                                   </div>
                                                               </div>

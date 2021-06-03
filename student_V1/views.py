@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse,Http404
 from django.core import serializers
 import json
 import datetime
@@ -105,25 +105,6 @@ def send_mandatory_email():
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Student'])
 def student_home(request):
-	if request.method == 'POST':
-		my_event = Event.objects.all().get(pk = request.POST['Event_id'])
-		my_subject_event = my_event.Subject_event_id
-		form = feedback_form(request.POST.copy())
-		# print(request.POST)
-		if form.is_valid():
-			candidate = form.save(commit=False)
-			if not one_selected(candidate) or str(my_event.Slot_id.day) != datetime.date.today().strftime("%A"):
-				# if nothing is submitted
-				# or the event is not on the same day as today
-				return render(request,"Student/student_v1.html",context)
-			candidate.Subject_event_id = my_subject_event
-			candidate.Given_by = request.user
-			if candidate.query:
-				send_regular_email(request.user,my_subject_event,my_event,request.POST['query'])
-			candidate.save()
-
-	get_all_subjects_of_student(request)
-	fill_mandatory_feedback(request)
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
@@ -134,12 +115,35 @@ def student_home(request):
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
 		'questions' : questions,
 	}
+	
 	if day:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=day))
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
 	else:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=datetime.datetime.today().strftime("%A")))
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=datetime.datetime.today().strftime("%A")))
+
+	if request.method == 'POST':
+		my_event = Event.objects.all().get(pk = request.POST['Event_id'])
+		my_subject_event = my_event.Subject_event_id
+		form = feedback_form(request.POST.copy())
+		print(form.is_valid())
+		if form.is_valid():
+			candidate = form.save(commit=False)
+			if not one_selected(candidate) or str(my_event.Slot_id.day) != datetime.date.today().strftime("%A"):
+				# if nothing is submitted
+				# or the event is not on the same day as today
+				raise Http404
+			candidate.Subject_event_id = my_subject_event
+			candidate.Given_by = request.user
+			print("asdasd")
+			if candidate.query:
+				send_regular_email(request.user,my_subject_event,my_event,request.POST['query'])
+			print(candidate," - saved")
+			# candidate.save()
+
+	# get_all_subjects_of_feedback_type(request)
+	# fill_mandatory_feedback(request)
 	return render(request,"Student/student_v1.html",context)
 
 def sendMail(request) :
@@ -170,15 +174,17 @@ class subject_serializer(serializers.python.Serializer):
 				res[i] = ""
 		self.objects.append( res )
 
-def get_all_subjects_of_student(request):
-	''' returns all the subjects to be filled for the mandatory feedback and the feedback_type in the last element'''
+def get_all_subjects_of_feedback_type(request):
+	''' returns all the subjects to be filled for the mandatory feedback and the feedback_type in the last element
+		if no present feedback_type then no data
+		else [subjects ..., feedback_type]
+	'''
 	my_subjects = []
 	student = request.user.student_details
 	my_feedback_type = Feedback_type.objects.present().filter(WEF=student.Division_id.Semester_id.WEF_id)
 	data = []
 	if my_feedback_type.count():
 		my_batches = {student.prac_batch,student.prac_batch}
-
 		all_sub = Subject_details.objects.all().filter(Semester_id = student.Division_id.Semester_id)
 		done_subjects = Feedback.objects.special().filter(Given_by=request.user,Feedback_type=my_feedback_type[0]).values_list("Subject_id")
 		remaining_subjects = all_sub.exclude(pk__in=done_subjects)
@@ -194,8 +200,8 @@ def get_all_subjects_of_student(request):
 				my_subjects.append(i)
 				continue
 		data = subject_serializer().serialize(my_subjects)
-		data.append({'feedback_type':str(my_feedback_type[0].pk)})
-		print(data)
+		data.append({'feedback_type':str(my_feedback_type[0].pk),"total_sub":all_sub.count()})
+		# print(data,Feedback.objects.special().filter(Given_by=request.user,Feedback_type=my_feedback_type[0]))
 	return JsonResponse(data, safe=False)
 
 @login_required(login_url="login")

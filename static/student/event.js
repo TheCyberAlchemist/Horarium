@@ -136,6 +136,14 @@ function get_cell(e){
 		}
 	})[0];
 }
+function get_event_cell_by_id(event_id){
+	return $("td").map(function() {
+		if (parseInt($(this).attr('event_id')) == parseInt(event_id)){
+			return $(this);
+		}
+	})[0];
+	// console.log("asd");
+}
 
 function get_counter(lect,ct,upcoming = false){	// returns list of [hr,min,sec]
 	if (upcoming){
@@ -161,9 +169,56 @@ function toggle_theme() {
     } 
 }
 
+function get_card(event){
+	var txt3 = document.createElement("div");  // Create with DOM
+	txt3.classList.add(`event-${event.pk}`);
+  	txt3.innerHTML = `
+	<div class="container text-center"> 
+		<div class="h6">Feedback For</div>
+		<button class="btn btn-outline-primary my_btn" style="width: 60%">
+			${event.name}
+		</button>
+	</div>
+	`;
+	return txt3;
+}
+
+g = 0;
+function append_card(event){
+	card = get_card(event);
+	// card.effect("highlight", {}, 3000);
+	$("#feedback_panel").append(card);
+	card.addEventListener("mouseover",function(){
+		get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);
+		// check w3school for args
+	});
+	card.addEventListener("click",function(){
+		$('#exampleModal').modal("show");
+		$("#event_id").val(event.pk);
+		remove_card(event.pk);
+	});
+	// console.log(card,typeof(card));
+	
+
+}
+
+function remove_card(event_id){
+	card = $(`.event-${event_id}`);
+	card.remove();
+}
+
+function get_event_by_id(pk){
+	for(let e of events){
+		if (e.pk == pk){
+			return e;
+		}
+	}
+
+}
 jQuery(function () {
 	let st,et;
 	var i = 0;
+	//#region  ////////////// boiler-plate //////////////
 	AOS.init({
         offset : 150,
     });
@@ -174,6 +229,54 @@ jQuery(function () {
 			// console.log("hi");
 		toggle_theme();
 	}
+	//#endregion
+	
+	//#region  ////////////// feedback //////////////
+	$("#exampleModal").on("hidden.bs.modal", function (e) {
+		// on simple feedback modal close
+		append_card(get_event_by_id($("#feedback_form #event_id").val()));
+		// console.log("modal hidden!",e);
+	});
+
+	let mandatory_subjects;
+	$.ajax({
+		type: "GET",
+		url:'./get_mandatory_subjects',
+		success: function (data){ 
+			console.log(data);
+			if (data.length>1){
+				let meta_data = data.splice(data.length-1,1);
+				mandatory_subjects = data;
+				let subj_number = mandatory_subjects.length;
+				$(".mandatory_feedback_event").show();
+				$("#sub_fraction").html(`${subj_number} / ${meta_data[0].total_sub}`);
+			}
+		}
+	});
+
+	$("#feedback_form").on('submit',function(e) {
+		$('#exampleModal').modal("hide");
+		var form = $(this);
+		e.preventDefault();
+		// console.log(form.serialize())
+		$.ajax({
+			type: "post",
+			data: form.serialize(),
+			success: function (){ 
+				$('#modal').modal('hide');
+				let event_id = $("#feedback_form #event_id").val()
+				// console.log("success");
+				if (event_id){
+					remove_card(event_id);					
+				}
+				setWithExpiry(`feedback_done-${event_id}`,true,24*3600*1000);
+				form.trigger("reset");
+			}
+		});
+	});
+	//#endregion
+	
+	//#region  ////////////// time-related stuff //////////////
 	function put_events_on_timeline(){
 		// for (let i in events){
 		// 	events[i].start_time
@@ -237,12 +340,13 @@ jQuery(function () {
 	}
 	put_events_on_timeline();
 	var progress_bar_counter = 0
-	var sec = 57;	
+	var sec = 40;	
 	var last_popped_event;
+	let first_main_call = true;
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(11,0,sec);
+		ct = new time(10,12,sec);
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;
@@ -284,16 +388,27 @@ jQuery(function () {
 		sec++;
 		/////////////////// main code /////////////////////////////		
 		// console.log(events,ct);
-		for(i in events){
+		for(let i in events){
 			// console.log(events[i]);
 			get_cell(events[i]).removeClass("td_gone");
 		}
 		for(i in events){
 			if (events[i].ongoing(ct)){		// is an event is ongoing
 				for(var j = 0;j < i ; j++){
+					// for all events that have been completed
 					get_cell(events[j])
 					.addClass("td_gone")
 					.removeClass("td_active");
+					// console.log(events[j]);
+					if(!getWithExpiry(`feedback_done-${events[j].pk}`)){
+						if(first_main_call && !events[j].is_break){
+							// get_card(events[j]);
+							append_card(events[j]);
+						}
+					}
+					// $("#myModal").on("hidden.bs.modal", function () {
+					// 	// put your default event here
+					// });
 				}
 				if (events[i].is_break){	// if a break is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
@@ -305,12 +420,14 @@ jQuery(function () {
 
 				}else{						// if a class is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
+
 					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
+						// if the event feedback form is not popped 
 						console.log(events[i].end.delta(ct).tis);
 						$('#exampleModal').modal("show");
 						$('#popped_event').html(events[i].name);
 						$("#event_id").val(events[i].pk);
-						console.log(events[i]);
+						// console.log(events[i]);
 						last_popped_event = events[i];
 					}
 					next = events[parseInt(i)+1];
@@ -354,21 +471,10 @@ jQuery(function () {
 		interval = setInterval(main, 1000);
 		$("#text").addClass("glow");
 		main();
+		first_main_call = false;
 	}
-	$("#feedback_form").on('submit',function(e) {
-		$('#exampleModal').modal("hide");
-		var form = $(this);
-		e.preventDefault();
-		console.log(form.serialize())
-		$.ajax({
-			type: "post",
-			data: form.serialize(),
-			success: function (){ 
-				form.trigger("reset");
-				// $('#modal').modal('hide');
-			}
-		});
-	});
+	//#endregion
+	
 });
 
 function setWithExpiry(key, value, ttl) {

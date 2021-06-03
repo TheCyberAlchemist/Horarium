@@ -62,11 +62,10 @@ class Subject_details(models.Model):
 			# if batch  is 0 make it 1 for the formula
 		self.load_per_week = (self.lect_per_week * lect_batch) + 2 * (self.prac_per_week * prac_batch)
 		# print(f"changing load of {self.name} to {self.load_per_week}")
-		if not save:
-			self.save()
 
 	def save(self, *args, **kwargs):	# for calculating the load before saving
-		super(Subject_details, self).save(*args, **kwargs) 
+		self.set_load()
+		super(Subject_details, self).save(*args, **kwargs)
 
 	def __str__(self):
 		return self.short

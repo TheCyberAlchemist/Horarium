@@ -25,14 +25,17 @@
       });
       //#endregion
 </script>
+      <script type = "text/javascript" 
+         src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js">
+      </script>
 
 {% endblock %} {% block content %}
 <div class="container sidebar_container">
   <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
 </div>
 <div class="container-fluid pt-4 mt-5" translate="no">
-  <div class="mandatory_feedback_event text-center">
-    <span class="h5" style="font-family: Poppins, sans-serif"> Remaining Feedbacks are 5/5 </span>
+  <div class="mandatory_feedback_event text-center" style="display:none;">
+    <span class="h5" style="font-family: Poppins, sans-serif"> Remaining Feedbacks are <span id="sub_fraction"> </span> </span>
     <span class="h5" style="font-family: Poppins, sans-serif; margin-left: 30px" id="sidebar">
       <button class="btn btn-outline-success">
         <img src="{{static ('student/survey.svg')}}" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
@@ -169,6 +172,7 @@
             <form method="post" id="feedback_form">
               {{csrf_input}}
               <input type="hidden" id="event_id" name="Event_id" />
+              <input type="hidden" id="subject_id" name="Subject_id" />
               {%for ques in questions %}
                 <div class="h5" style="font-weight: bold">{{loop.index}}. {{ques}}.</div>
                 <div class="mt-3 mb-3 pl-4 text-center" >
@@ -208,22 +212,6 @@
       <button type="button" id="closer" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body feedback_panel" id="feedback_panel">
-      <div class="container text-center">
-        <div class="h6">Feedback For</div>
-        <button class="btn btn-outline-primary" style="width: 60%">WAD</button>
-      </div>
-      <div class="container mt-3 text-center">
-        <div class="h6">Feedback For</div>
-        <button class="btn btn-success" style="width: 60%">FP</button>
-      </div>
-      <div class="container mt-3 text-center">
-        <div class="h6">Feedback For</div>
-        <button class="btn btn-outline-primary" style="width: 60%">M&M</button>
-      </div>
-      <div class="container mt-3 text-center">
-        <div class="h6">Feedback For</div>
-        <button class="btn btn-outline-primary" style="width: 60%">P&S</button>
-      </div>
       <div class="container mt-3 text-center">
         <div class="h6">Feedback For</div>
         <button class="btn btn-outline-primary" style="width: 60%">OS</button>

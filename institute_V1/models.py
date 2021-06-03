@@ -169,6 +169,7 @@ class Semester(models.Model):
 			models.UniqueConstraint(fields=['short', 'Branch_id'], name='Semester Short is Unique for Branch'),
 		]
 
+
 class Division(models.Model):
 	name = models.CharField(max_length = S_len)
 	Semester_id = models.ForeignKey(Semester,default=None,on_delete = models.CASCADE)
@@ -176,6 +177,23 @@ class Division(models.Model):
 	link = models.URLField(max_length=200, null=True, blank=True)
 	def __str__(self):
 		return self.name + " "+ str(self.Semester_id)
+	
+	def save(self, *args, **kwargs):
+		from subject_V1.models import Subject_details
+		super(Division, self).save(*args,**kwargs)
+		subjects_for_semester = self.Semester_id.subject_details_set.all()
+		for subject in subjects_for_semester:
+			subject.set_load()
+			subject.save()
+
+	def delete(self, *args, **kwargs):
+		from subject_V1.models import Subject_details
+		subjects_for_semester = self.Semester_id.subject_details_set.all()
+		super(Division, self).delete(*args, **kwargs)
+		for subject in subjects_for_semester:
+			subject.set_load()
+			subject.save()
+
 	class Meta:
 		verbose_name_plural = "Division"
 		constraints = [
@@ -201,12 +219,14 @@ class Batch(models.Model):
 		subjects_for_batch = list(self.subjects_for_batch.all())
 		for subject in subjects_for_batch:
 			subject.set_load()
+			subject.save()
 
 	def delete(self, *args, **kwargs):
 		subjects_for_batch = list(self.subjects_for_batch.all())
 		super(Batch, self).delete(*args, **kwargs)
 		for subject in subjects_for_batch:
 			subject.set_load()
+			subject.save()
 
 
 	def __str__(self):

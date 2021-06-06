@@ -31,7 +31,9 @@ def get_events_json(qs):
 			# d["link"] = this.Division_id.link
 		d["link"] = this.link
 		# print(d["link"])
+		d["faculty_short"] = str(this.Subject_event_id.Faculty_id)
 		d["resource"] = str(this.Resource_id)
+		d['color'] = this.Subject_event_id.Subject_id.color
 		del d['model'],d['fields']
 	return json.dumps(data)
 
@@ -127,12 +129,13 @@ def student_home(request):
 		my_event = Event.objects.all().get(pk = request.POST['Event_id'])
 		my_subject_event = my_event.Subject_event_id
 		form = feedback_form(request.POST.copy())
-		print(form.is_valid())
+		# print(form.is_valid())
 		if form.is_valid():
 			candidate = form.save(commit=False)
 			if not one_selected(candidate) or str(my_event.Slot_id.day) != datetime.date.today().strftime("%A"):
 				# if nothing is submitted
 				# or the event is not on the same day as today
+				print("error")
 				raise Http404
 			candidate.Subject_event_id = my_subject_event
 			candidate.Given_by = request.user
@@ -172,6 +175,7 @@ class subject_serializer(serializers.python.Serializer):
 		for i in res:
 			if not res[i]:
 				res[i] = ""
+		res['color'] = obj.color
 		self.objects.append( res )
 
 def get_all_subjects_of_feedback_type(request):
@@ -208,18 +212,22 @@ def get_all_subjects_of_feedback_type(request):
 @allowed_users(allowed_roles=['Student'])	
 def fill_mandatory_feedback(request):
 	if request.method == 'POST':
-		my_feedback_type = Feedback_type.objects.active().filter(pk = request.POST['Feedback_type']).first()
-		if my_feedback_type.active:
+		my_feedback_type = Feedback_type.objects.present().filter(pk = request.POST['Feedback_type']).first()
+		if my_feedback_type:
 			my_subject = Subject_details.objects.get(pk=request.POST['Subject_id'])
-			form = feedback_form(request.POST.copy())
+			form = mandatory_feedback_form(request.POST.copy())
 			if form.is_valid():
+				print("valid")
 				candidate = form.save(commit=False)
 				candidate.Subject_id = my_subject
 				candidate.Feedback_type = my_feedback_type
 				candidate.Given_by = request.user
 				if candidate.query:
 					send_mandatory_email(request.user,my_subject_event,my_event,request.POST['query'])
-				candidate.save()
+				# candidate.save()
+			else:
+				print(invalid)
+	return JsonResponse({})
 		
 
 # get_all_subjects_of_student()

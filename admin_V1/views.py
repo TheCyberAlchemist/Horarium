@@ -367,16 +367,13 @@ def show_batch(request,Division_id,Batch_id = None):
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def add_faculty(request,Department_id,Faculty_id=None):
-	# import timeit
 	context = return_context(request)
 	if context['institute']:
 		department = Department.objects.get(pk = Department_id)
 		context['my_department'] = department
 		context['my_branches'] = Branch.objects.filter(Department_id=department)
 		context['my_sems'] = Semester.objects.filter(Branch_id__Department_id=department)
-		# starttime = timeit.default_timer()
 		context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
-		# print("The context time :", timeit.default_timer() - starttime)
 		context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 		context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 		refresh = False
@@ -767,6 +764,9 @@ def show_not_avail(request,Faculty_id):
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def show_sub_det(request,Branch_id,Subject_id = None):
+	import timeit
+	starttime = timeit.default_timer()
+	
 	context = return_context(request)
 	my_branch = Branch.objects.get(id = Branch_id)
 	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
@@ -776,6 +776,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 		i.set_load()
 	context['my_subjects'] = my_subjects
 	context['my_branch'] = my_branch
+	print("The context time :", timeit.default_timer() - starttime)
 	if context['institute'] == my_branch.Department_id.Institute_id:	# Check if the user is in the same institute as the urls
 		context['form'] = add_subject_details()
 		if Subject_id:	# if edit is called
@@ -797,6 +798,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 					try:	# unique contraint added
 						candidate.save()
 						context['form'] = add_subject_details()		     				#Form Renewed
+						context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by("Semester_id__short")
 						return redirect('show_sub_det',Branch_id)                    #Page Renewed
 					except IntegrityError:
 						context['integrityErrors'] = "Name and Short must be unique for Semester"   #errors to integrityErrors
@@ -946,22 +948,22 @@ def show_table(request,Division_id):
 	context['my_division'] = my_division
 	context['my_semester'] = my_semester
 	Shift_id = my_division.Shift_id
-	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
 	serializer = MySerialiser()
 	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
 	timings = Timings.objects.filter(Shift_id = Shift_id)
-	subject = {}
-	for i in Subject_details.objects.filter(Semester_id = my_semester):
-		subject[i] = Subject_event.objects.filter(Subject_id=i)
+	
+	my_subjects,my_subject_events =get_division_subjects_and_events(Division_id)
+	print(my_subjects)
+	context['my_subjects'] = my_subjects
+	context['subjects_json'] = get_json(my_subjects)
+	# print(get_json(Subject_details.objects.filter(Semester_id = my_semester)),type(subject))
+	context['subject_events'] = my_subject_events.order_by("Subject_id")
+	context['subject_events_json'] = get_json(my_subject_events,time_table=True,my_division=Division_id)
 	
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
-	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
 	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
-	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
-	context['my_subjects'] = subject
-	context['subjects_json'] = get_json(subject)
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches,keep_pk=True)
@@ -976,32 +978,31 @@ from tabulate import tabulate
 
 import admin_V1.algo2 as algo
 
-def algo_context(request,Division_id):
+def get_division_subjects_and_events(Division_id):
+	'returns subjects and subject events of subjects for the division'
 	context = {}
 	my_division = Division.objects.get(pk = Division_id)
-	Shift_id = my_division.Shift_id
-	subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
-	serializer = MySerialiser()
-	my_semester = my_division.Semester_id
-	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
-	timings = Timings.objects.filter(Shift_id = Shift_id)
-	subject = {}
-	for i in Subject_details.objects.filter(Semester_id = my_semester):
-		subject[i] = Subject_event.objects.filter(Subject_id=i)
-	context["my_events"] = Event.objects.filter(Division_id=Division_id)
-	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
-	context['timings'] = timings
-	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
-	context['subject_events_json'] = get_json(Subject_event.objects.filter(Subject_id__in=subjects),time_table=True,my_division=Division_id)
-	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
-	context['subject_events'] = Subject_event.objects.filter(Subject_id__in=subjects).order_by("Subject_id")
-	context['my_subjects'] = subject
-	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
-	context['my_batches'] = my_batches
-	context['batches_json'] = get_json(my_batches)	
-	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
-	algo.put_vars(my_division)
-	return context
+	my_batches = set(Batch.objects.filter(Division_id=Division_id).order_by("name"))
+	my_subjects = []
+	all_subjects = Subject_details.objects.filter(Semester_id=my_division.Semester_id)
+	for i in all_subjects:
+		subject_batches = set(i.batch_set.all())
+		if len(subject_batches) == 0:
+			# if the subject has no batches
+			print(i," has no batches")
+			if len(i.subject_event_set.all()):
+				my_subjects.append(i)
+			continue
+		if my_batches.intersection(subject_batches):
+			# if the batches of the subject has the student's batch
+			print(i," is in batches ",my_batches.intersection(subject_batches))
+			if len(i.subject_event_set.all()):
+				my_subjects.append(i)
+			continue
+	
+	subject_events = Subject_event.objects.all().filter(Subject_id__in = my_subjects)
+
+	return my_subjects,subject_events
 
 def algo_v1(request,Division_id):
 	# delete all the prior events after taking the locked events
@@ -1032,15 +1033,15 @@ def algo_v1(request,Division_id):
 			TBD.delete()
 	for i in to_be_added:
 		TBA = [x for x in json_events if foo(x,i)]
-		print(TBA)
+		# print(TBA)
 		form = add_event(TBA[0])
 		candidate = form.save(commit=False)
 		candidate.Division_id_id = Division_id
 		form.save()
-	context = algo_context(request,Division_id)
+	algo.put_division(Division_id)
+	_,subject_events = get_division_subjects_and_events(request,Division_id)
 	locked_events = Event.objects.filter(Division_id=Division_id)
-	print(locked_events)
-	subject_events = algo.get_sorted_events(context["subject_events"],locked_events)
+	subject_events = algo.get_sorted_events(subject_events,locked_events)
 	for subject_event in subject_events:
 		prac_carried = subject_event.prac_carried
 		lect_carried = subject_event.lect_carried

@@ -1,4 +1,4 @@
-//#region  ////////////// classes & arrays //////////////
+//#region  ////////////// classes & arrays ///////////////////////
 var slots = [];
 class slot{
 	constructor(id = 0,day = 0,timing = 0,resources_filled=0){
@@ -72,7 +72,7 @@ var batches = [];
 var subjects = [];
 //#endregion
 
-//#region  ////////////// hotkeys //////////////
+//#region  ////////////// hotkeys ////////////////////////////////
 hotkeys('ctrl+z,ctrl+y', function (event, handler){
 	switch (handler.key) {
 	  case 'ctrl+z': undo();
@@ -83,7 +83,7 @@ hotkeys('ctrl+z,ctrl+y', function (event, handler){
 });
 //#endregion
 
-//#region  ////////////// get methods //////////////
+//#region  ////////////// get methods ////////////////////////////
 
 function get_prac_pair(td){
 	// console.log(td);
@@ -179,7 +179,7 @@ function get_resource_name_by_id(resource_id){
 
 //#endregion
 
-//#region  ////////////// put methods //////////////
+//#region  ////////////// put methods ////////////////////////////
 function put_json_in_table(json_data){
 	// console.table("obj-",json_data);
 	for(i in json_data){
@@ -261,7 +261,7 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 }
 //#endregion
 
-//#region  ////////////// only functions //////////////
+//#region  ////////////// only functions /////////////////////////
 
 function print(abc){
 	console.log(abc);
@@ -372,7 +372,7 @@ function open_menu_in_event_div(event_div,e){
 
 //#endregion
 
-//#region  ////////////// events manipulation //////////////
+//#region  ////////////// events manipulation ////////////////////
 
 function push_event(temp_event){
 	// check for batches in event_counter too
@@ -686,7 +686,7 @@ function lock_all_events(){
 }
 //#endregion
 
-//#region  ////////////// put lect and prac on td //////////////
+//#region  ////////////// put lect and prac on td ////////////////
 
 
 function change_to_lect_td(td,subject_batch){
@@ -833,7 +833,7 @@ function put_prac(td,subject_event_id,batch,resource_id){
 }
 //#endregion
 
-//#region  ////////////// ready function //////////////
+//#region  ////////////// ready function /////////////////////////
 global_var=0;
 $(document).ready (function () {
 	update_all_cards();
@@ -1198,7 +1198,7 @@ $(document).ready (function () {
 
 //#endregion
 
-//#region  ////////////// ajax function //////////////
+//#region  ////////////// ajax function //////////////////////////
 
 function submited(){
 	// console.log("JSON.stringify(events),1)");

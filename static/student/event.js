@@ -40,13 +40,23 @@ class time{
 
 class event_class{
 	constructor(pk,start,end,link,name = null,is_break=false,opened = false){
+	}
+	put_pk_name_is_break(pk,name=null,is_break=false){
 		this.pk = pk;
-		this.start = start;
 		this.name = name;
-		this.link = link;
-		this.end = end;
-		this.opened = opened;
 		this.is_break = is_break;
+	}
+	put_start_end_time(start,end){
+		this.start = start;
+		this.end = end;
+	}
+	put_faculty_short(faculty_short){
+		this.faculty_short= faculty_short;
+	}
+	put_link_color_opened(link,color=null,opened=null){
+		this.link = link;
+		this.color = color;
+		this.opened = opened;
 	}
 	ongoing(ct){	//	returns if the lecture is ongoing
 		let s = this.start.delta(ct).tis;	// start - ct
@@ -90,7 +100,11 @@ function put_events(e,b){
 		temp_end_time = new time();
 		temp_end_time.time = e[i].end_time.split(":");
 		opened = getWithExpiry("opened-"+e[i].pk);
-		temp_event = new event_class(e[i].pk,temp_start_time,temp_end_time,e[i].link,e[i].name,false,opened);
+		temp_event = new event_class();
+		temp_event.put_pk_name_is_break(e[i].pk,e[i].name,false);
+		temp_event.put_start_end_time(temp_start_time,temp_end_time);
+		temp_event.put_faculty_short(e[i].faculty_short)
+		temp_event.put_link_color_opened(e[i].link,e[i].color,opened);
 		events.push(temp_event);
 	}
 	for (i in b){
@@ -98,7 +112,12 @@ function put_events(e,b){
 		temp_start_time.time = b[i].start_time.split(":");
 		temp_end_time = new time();
 		temp_end_time.time = b[i].end_time.split(":");
-		temp_event = new event_class(b[i].pk,temp_start_time,temp_end_time,null,b[i].name,true);
+		temp_event = new event_class();
+		// temp_event = new event_class(b[i].pk,temp_start_time,temp_end_time,null,b[i].name,true);
+
+		temp_event.put_pk_name_is_break(b[i].pk,null,true);
+		temp_event.put_start_end_time(temp_start_time,temp_end_time);
+
 		events.push(temp_event);
 	}	
 	events.sort((a,b) => (a.start.tis > b.start.tis)? 1 : -1);
@@ -169,6 +188,40 @@ function toggle_theme() {
     } 
 }
 
+
+function pop_up_form(event=null,subject=null){
+	$("#offcanvasRight").removeClass("show");
+	if (event){
+		$(".questions input").each(function(){
+			$(this).prop('required',false);
+		});
+		$(".required_star").hide();
+		if ($("#event_id").val() != event.pk){
+			// if the same event is not opened then reset all the fields
+			$("#feedback_form").trigger("reset");
+		}
+		$('#popped_event').html(event.name);
+		$('#exampleModal').modal("show");
+		$("#event_id").val(event.pk);
+		$("#subject_id").val(null);
+	}
+	if (subject){
+		$(".questions input").each(function(){
+			$(this).prop('required',true);
+		})
+		$(".required_star").show();
+		if ($("#subject_id").val() != subject.id){
+			// if the same event is not opened then reset all the fields
+			$("#feedback_form").trigger("reset");
+		}
+		$('#popped_event').html(subject.name);
+		$('#exampleModal').modal("show");
+		$("#subject_id").val(subject.id);
+		$("#feedback_type").val(meta_data.feedback_type);
+		$("#event_id").val(null);
+	}
+}
+
 function get_card(event){
 	var txt3 = document.createElement("div");  // Create with DOM
 	txt3.classList.add(`event-${event.pk}`);
@@ -182,26 +235,32 @@ function get_card(event){
 	
     <div class="card mb-3 feedback_form_card">
         <div class="card-body">
-        <h5 class="card-title text-center"><button class="btn btn-success">${event.name}</button></h5>
-        <p class="card-text">Fill the feedback form for ${event.name} here</p>
+        <h5 class="card-title text-center">
+		<button class="btn btn-success" style="background-color:${event?.color}">
+			${event.name}
+		</button></h5>
+        <p class="card-text">Fill the feedback form for ${event.name} By ${event?.faculty_short} here</p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
     </div>`
 	return txt3;
 }
 
+
+
 g = 0;
 function append_card(event){
 	card = get_card(event);
 	// card.effect("highlight", {}, 3000);
 	$("#feedback_panel").append(card);
+
 	card.addEventListener("mouseover",function(){
 		// get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);
 		// check w3school for args
 	});
-	card.addEventListener("click",function(){
-		$('#exampleModal').modal("show");
-		$("#event_id").val(event.pk);
+	card.getElementsByTagName("button")[0].addEventListener("click",function(){
+		// console.log($("#event_id").val() , event.pk);
+		pop_up_form(event);
 		remove_card(event.pk);
 	});
 	// console.log(card,typeof(card));
@@ -209,9 +268,48 @@ function append_card(event){
 
 }
 
-function remove_card(event_id){
-	card = $(`.event-${event_id}`);
-	card.remove();
+function get_mandatory_cards(subject){
+	var txt3 = document.createElement("div");  // Create with DOM
+	txt3.classList.add(`subject-${subject.id}`);
+  	txt3.innerHTML = `
+    <div class="card mb-3 feedback_form_card">
+        <div class="card-body">
+			<h5 class="card-title text-center">
+			<button class="btn btn-success" style="background-color:${subject?.color}">
+				${subject.short}
+			</button></h5>
+			<p class="card-text">Fill the feedback form for ${subject.name} here</p>
+        </div>
+    </div>`
+	return txt3;
+}
+
+function append_mandatory_cards(sub){
+	card = get_mandatory_cards(sub);
+	// card.effect("highlight", {}, 3000);
+	$("#mandatory_panel").append(card);
+
+	card.addEventListener("mouseover",function(){
+		// get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);
+		// check w3school for args
+	});
+	card.getElementsByTagName("button")[0].addEventListener("click",function(){
+		// console.log($("#event_id").val() , event.pk);
+		pop_up_form(null,sub);
+		remove_card(null,sub.id);
+	});
+
+}
+
+function remove_card(event_id=null,subject_id=null){
+	if (event_id){
+		card = $(`.event-${event_id}`);
+		card.remove();
+	}
+	if (subject_id){
+		card = $(`.subject-${subject_id}`);
+		card.remove();
+	}
 }
 
 function get_event_by_id(pk){
@@ -222,6 +320,19 @@ function get_event_by_id(pk){
 	}
 
 }
+function get_subject_by_id(id){
+	for(let s of mandatory_subjects){
+		if (s.id == id){
+			return s;
+		}
+	}
+}
+
+let mandatory_subjects,meta_data;
+function remove_mandatory_subject(subject_id){
+	mandatory_subjects = mandatory_subjects.filter(s=>s.id !=subject_id);
+}
+// global_time = new time(10,12,56);
 jQuery(function () {
 	let st,et;
 	var i = 0;
@@ -239,24 +350,33 @@ jQuery(function () {
 	//#endregion
 	
 	//#region  ////////////// feedback //////////////
-	$("#exampleModal").on("hidden.bs.modal", function (e) {
+	$("#exampleModal").on("hidden.bs.modal", function () {
 		// on simple feedback modal close
-		append_card(get_event_by_id($("#feedback_form #event_id").val()));
+		// $("#feedback_form").trigger("reset");
+		if ($("#event_id").val())
+			append_card(get_event_by_id($("#feedback_form #event_id").val()));
+		if ($("#subject_id").val())
+			append_mandatory_cards(get_subject_by_id($("#subject_id").val()));
 		// console.log("modal hidden!",e);
 	});
 
-	let mandatory_subjects;
 	$.ajax({
 		type: "GET",
 		url:'./get_mandatory_subjects',
 		success: function (data){ 
 			console.log(data);
 			if (data.length>1){
-				let meta_data = data.splice(data.length-1,1);
+				meta_data = data.splice(data.length-1,1)[0];
 				mandatory_subjects = data;
 				let subj_number = mandatory_subjects.length;
 				$(".mandatory_feedback_event").show();
-				$("#sub_fraction").html(`${subj_number} / ${meta_data[0].total_sub}`);
+				$("#sub_fraction").html(`${subj_number} / ${meta_data.total_sub}`);
+				$("#mand-tab")
+					.show()
+					.tab('show');
+				for (let sub of mandatory_subjects){
+					append_mandatory_cards(sub);
+				}
 			}
 		}
 	});
@@ -266,20 +386,44 @@ jQuery(function () {
 		var form = $(this);
 		e.preventDefault();
 		// console.log(form.serialize())
-		$.ajax({
-			type: "post",
-			data: form.serialize(),
-			success: function (){ 
-				$('#modal').modal('hide');
-				let event_id = $("#feedback_form #event_id").val()
-				// console.log("success");
-				if (event_id){
-					remove_card(event_id);					
+		if ($("#event_id").val()){
+			$.ajax({
+				type: "post",
+				data: form.serialize(),
+				success: function (){
+					let event_id = $("#feedback_form #event_id").val()
+					// console.log("success");
+					if (event_id){
+						remove_card(event_id);					
+					}
+					setWithExpiry(`feedback_done-${event_id}`,true,24*3600*1000);
+					form.trigger("reset");
+				},
+				error:function(){
+					form.trigger("reset");
 				}
-				setWithExpiry(`feedback_done-${event_id}`,true,24*3600*1000);
-				form.trigger("reset");
-			}
-		});
+			});
+		}
+		if ($("#subject_id").val()){
+			$.ajax({
+				type: "post",
+				url:'./fill_mandatory_feedback',
+				data: form.serialize(),
+				success: function (){
+					let subject_id = $("#feedback_form #subject_id").val()
+					remove_mandatory_subject(subject_id);
+					let subj_number = mandatory_subjects.length;
+					$("#sub_fraction").html(`${subj_number} / ${meta_data[0].total_sub}`);
+					if (subject_id){
+						remove_card(null,subject_id);					
+					}
+					form.trigger("reset");
+				},
+				error:function(){
+					form.trigger("reset");
+				}
+			});
+		}
 	});
 	//#endregion
 	
@@ -347,13 +491,14 @@ jQuery(function () {
 	}
 	put_events_on_timeline();
 	var progress_bar_counter = 0
-	var sec = 40;	
+	var sec = 55;	
 	var last_popped_event;
 	let first_main_call = true;
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
 		ct = new time(10,12,sec);
+		// ct = global_time;
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;
@@ -396,7 +541,7 @@ jQuery(function () {
 		/////////////////// main code /////////////////////////////		
 		// console.log(events,ct);
 		for(let i in events){
-			// console.log(events[i]);
+			// console.log(events[i],1);
 			get_cell(events[i]).removeClass("td_gone");
 		}
 		for(i in events){
@@ -431,10 +576,7 @@ jQuery(function () {
 					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
 						// if the event feedback form is not popped 
 						console.log(events[i].end.delta(ct).tis);
-						$('#exampleModal').modal("show");
-						$('#popped_event').html(events[i].name);
-						$("#event_id").val(events[i].pk);
-						// console.log(events[i]);
+						pop_up_form(events[i]);
 						last_popped_event = events[i];
 					}
 					next = events[parseInt(i)+1];

@@ -201,15 +201,15 @@ th:nth-of-type(1) {
 .sidebar_container {
 }
 .sidebar {
-//   animation-name: sidebar;
-//   animation-duration: 1s;
-//   animation-delay: 1s;
-//   animation-iteration-count: infinite;
-transition: .3s;
+  //   animation-name: sidebar;
+  //   animation-duration: 1s;
+  //   animation-delay: 1s;
+  //   animation-iteration-count: infinite;
+  transition: 0.3s;
 }
 .sidebar:hover {
-    transform: scale(1.2);
-    transition: .3s;
+  transform: scale(1.2);
+  transition: 0.3s;
 }
 @keyframes sidebar {
   0% {
@@ -274,7 +274,7 @@ transition: .3s;
   color: $font-white;
 }
 .offcanvas-header {
-    border-bottom: 1px solid rgb(180, 180, 180);
+  border-bottom: 1px solid rgb(180, 180, 180);
 }
 /* #endregion  Offcanvas*/
 
@@ -284,21 +284,20 @@ transition: .3s;
   scrollbar-color: #abacad #f1f4f6; /* scroll thumb and track */
 }
 nav.for-feedback .nav-tabs {
-    border-bottom: none !important;
-
+  border-bottom: none !important;
 }
-nav.for-feedback .nav-tabs span{
-    background-color: transparent !important;
-    border : none !important;
-    color : $font-white;
+nav.for-feedback .nav-tabs span {
+  background-color: transparent !important;
+  border: none !important;
+  color: $font-white;
 }
 nav.for-feedback .nav-tabs span:hover {
-    border : none !important;
+  border: none !important;
 }
 nav.for-feedback .nav-tabs span.active {
-    border-bottom: 1px solid rgb(71, 71, 255) !important;
-    color : rgb(71, 71, 255) !important;
- }
+  border-bottom: 1px solid rgb(71, 71, 255) !important;
+  color: rgb(71, 71, 255) !important;
+}
 #feedback_panel .container {
   border-radius: 10px;
   padding: 1em;
@@ -317,9 +316,9 @@ nav.for-feedback .nav-tabs span.active {
 }
 #feedback_panel .feedback_form_card {
   transition: 0.3s;
-  color : $font-white;
+  color: $font-white;
   background-color: transparent;
-  border : 1px solid white;
+  border: 1px solid white;
 }
 
 #feedback_panel .feedback_form_card .btn {
@@ -466,6 +465,17 @@ nav.for-feedback .nav-tabs span.active {
   }
   .radio-inline {
     padding-right: 0px;
+  }
+  .modal .btn {
+    font-size: smaller !important;
+    margin-bottom: 5px;
+  }
+  .feedback-modal .radio-inline:nth-of-type(n) {
+    margin-right: 1px;
+    padding : 5px;
+  }
+  .modal .h5 {
+    font-size: smaller !important;
   }
 
   /* #region  Chart Settings */

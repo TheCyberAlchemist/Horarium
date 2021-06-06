@@ -394,5 +394,16 @@ nav.for-feedback .nav-tabs span.active {
     -webkit-transition: 1s;
     transition: 1s;
   }
+  .modal .btn {
+    font-size: smaller !important;
+    margin-bottom: 5px;
+  }
+  .feedback-modal .radio-inline:nth-of-type(n) {
+    margin-right: 1px !important;
+    padding : 5px !important;
+  }
+  .modal .h5 {
+    font-size: smaller !important;
+  }
 }
 /* #endregion */

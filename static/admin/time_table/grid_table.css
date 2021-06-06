@@ -148,6 +148,29 @@ p.h6 {
   border-radius: 3px !important;
 }
 
+.lect_batch_container {
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.lect_batch_container .row {
+  padding: 0 !important;
+}
+
+.lect_batch_container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
+}
+
+.lect_batch_container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+
 .btn-sm.prac_mycol.event_name {
   width: 17px;
   padding: 0 1px 0 1px !important;
@@ -175,7 +198,10 @@ p.h6 {
   background-color: #6b6b6b;
 }
 
-.locked .batch_name, .locked .batch_contents, .locked .faculty_name, .locked .resource_name {
+.locked .batch_name,
+.locked .batch_contents,
+.locked .faculty_name,
+.locked .resource_name {
   color: white !important;
 }
 

@@ -696,7 +696,8 @@ function change_to_lect_td(td,subject_batch){
 	has_batch = Boolean(subject_batch);
 	// console.log(has_batch);
 	if (has_batch){		// if lect_batch
-		colspan = (12/subject_batch.length);
+		colspan = parseInt((12/subject_batch.length));
+        string += `<div class="container-fluid lect_batch_container">`;
 		string +=  `<div class="row my-auto text-center" >`;
 		for (let i in subject_batch){
 			string +=
@@ -704,7 +705,7 @@ function change_to_lect_td(td,subject_batch){
 				<button class="event_name lect_mycol mt-2 lect_batches"></button>
 			</div>`;
 		}
-		string += `</div>`;
+		string += `</div></div>`;
 	}else{
 		string +=
 		`<div class='event_divs row p-2'>
@@ -756,7 +757,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 	let colspan;
 	has_batch = Boolean(subject_batch.length);
 	if (has_batch)
-		colspan = (12/subject_batch.length);
+		colspan = parseInt((12/subject_batch.length));
 	else 
 		colspan = 12;
 	let string = `<div class="container text-center mt-1"><div class="row text-center">`;

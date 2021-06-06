@@ -8,23 +8,26 @@ body {
 .my_container {
   // border: 1px solid black;
   margin-top: 1em;
-  height : 90vh;
+  height: 90vh;
   overflow-y: auto;
 }
 .my_container::-webkit-scrollbar {
-    scrollbar-width: thin ;
-    background-color: #f1f4f6;
+  scrollbar-width: thin;
+  background-color: #f1f4f6;
 }
 .my_container::-webkit-scrollbar-thumb {
-    scrollbar-width: thin !important;
-    background-color: #abacad !important;
-    border-radius: 3px !important;
+  scrollbar-width: thin !important;
+  background-color: #abacad !important;
+  border-radius: 3px !important;
 }
 .my_col {
   text-align: center;
   border: 1px solid black;
   height: 90px;
 }
+// .my_col.col.lect {
+//     padding : 0 !important;
+// }
 .prac_mycol {
   writing-mode: vertical-rl;
   text-orientation: upright;
@@ -91,7 +94,7 @@ body {
   border-top: none;
 }
 .prac_below_texts {
-    transform: translateX(-7px);
+  transform: translateX(-7px);
 }
 .prac_texts {
   font-size: 10px;
@@ -125,19 +128,39 @@ p.h6 {
   // margin: 0 !important;
   overflow-x: scroll;
   scrollbar-width: thin;
-  
   padding: 0 !important;
 }
+
 .prac_above .container::-webkit-scrollbar {
-    width: 7px !important;
-    height: 7px !important;
-    background-color: #f1f4f6;
-    z-index : 100 !important;
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
 }
 .prac_above .container::-webkit-scrollbar-thumb {
-    background-color: #abacad !important;
-    border-radius: 3px !important;
+  background-color: #abacad !important;
+  border-radius: 3px !important;
 }
+.lect_batch_container {
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.lect_batch_container .row {
+    padding: 0 !important;
+}
+.lect_batch_container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
+}
+.lect_batch_container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+
 .btn-sm.prac_mycol.event_name {
   width: 17px;
   padding: 0 1px 0 1px !important;
@@ -158,21 +181,24 @@ p.h6 {
 
 /* #region  Locked Events */
 .locked {
-    background-color:rgb(107, 107, 107);
-    // filter : blur(1px);
-    .batch_name, .batch_contents,.faculty_name,.resource_name {
-        color :white !important;
-    }
-    // z-index:1;
+  background-color: rgb(107, 107, 107);
+  // filter : blur(1px);
+  .batch_name,
+  .batch_contents,
+  .faculty_name,
+  .resource_name {
+    color: white !important;
+  }
+  // z-index:1;
 }
 .locked::after {
-    position: absolute;
-    content: "";
-    // z-index: 100;
-    background-image: url("../../admin/details/img/lock2.png");
-    height : 30px;
-    width : 30px;
-    transform: translate(-50%, -50px);
-    // background-color:green;
+  position: absolute;
+  content: "";
+  // z-index: 100;
+  background-image: url("../../admin/details/img/lock2.png");
+  height: 30px;
+  width: 30px;
+  transform: translate(-50%, -50px);
+  // background-color:green;
 }
 /* #endregion Locked Events */

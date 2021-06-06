@@ -32,6 +32,10 @@ b a:hover {
   font-family: "Poppins", sans-serif;
 }
 
+.navbar {
+  background-color: #010102 !important;
+}
+
 .container-fluid.pt-4 {
   background-color: #131a24 !important;
 }
@@ -115,7 +119,8 @@ th:nth-of-type(1) {
   transition: 0.2s;
 }
 
-#myProgress, #timeBar .text {
+#myProgress,
+#timeBar .text {
   color: white !important;
 }
 
@@ -204,22 +209,16 @@ th:nth-of-type(1) {
 }
 
 /* #region  Sidebar Button*/
-.sidebar_container {
-  position: relative;
+.sidebar {
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
-.sidebar {
-  position: fixed;
-  top: 20%;
-  left: 1%;
-  -webkit-animation-name: sidebar;
-          animation-name: sidebar;
-  -webkit-animation-duration: 3s;
-          animation-duration: 3s;
-  -webkit-animation-delay: 0s;
-          animation-delay: 0s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+.sidebar:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
 @-webkit-keyframes sidebar {
@@ -365,8 +364,38 @@ th:nth-of-type(1) {
   color: white !important;
 }
 
+.offcanvas-header {
+  border-bottom: 1px solid #b4b4b4;
+}
+
 /* #endregion  Offcanvas*/
 /* #region  Feedback and Agenda Panel */
+#feedback_panel {
+  scrollbar-width: thin;
+  /* "auto" or "thin" */
+  scrollbar-color: #abacad #f1f4f6;
+  /* scroll thumb and track */
+}
+
+nav.for-feedback .nav-tabs {
+  border-bottom: none !important;
+}
+
+nav.for-feedback .nav-tabs span {
+  background-color: transparent !important;
+  border: none !important;
+  color: white !important;
+}
+
+nav.for-feedback .nav-tabs span:hover {
+  border: none !important;
+}
+
+nav.for-feedback .nav-tabs span.active {
+  border-bottom: 1px solid #4747ff !important;
+  color: #4747ff !important;
+}
+
 #feedback_panel .container {
   border-radius: 10px;
   padding: 1em;
@@ -378,6 +407,25 @@ th:nth-of-type(1) {
 }
 
 #feedback_panel .container:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+#feedback_panel .feedback_form_card {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+  color: white !important;
+  background-color: transparent;
+  border: 1px solid white;
+}
+
+#feedback_panel .feedback_form_card .btn {
+  width: 90%;
+}
+
+#feedback_panel .feedback_form_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
@@ -428,21 +476,24 @@ th:nth-of-type(1) {
 }
 
 .feedback-modal .radio-inline:nth-of-type(1) {
-  border-color: #2dce89 !important;
-  margin-right: 10px;
-}
-
-.feedback-modal .radio-inline:nth-of-type(1):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(1) {
-  background-color: #2dce89 !important;
-}
-
-.feedback-modal .radio-inline:nth-of-type(2) {
   border-color: #05ff92 !important;
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(2):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(2) {
+.feedback-modal .radio-inline:nth-of-type(1):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(1) {
   background-color: #05ff92 !important;
+  color: black !important;
+}
+
+.feedback-modal .radio-inline:nth-of-type(2) {
+  border-color: #2dce89 !important;
+  margin-right: 10px;
+}
+
+.feedback-modal .radio-inline:nth-of-type(2):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(2) {
+  background-color: #2dce89 !important;
 }
 
 .feedback-modal .radio-inline:nth-of-type(3) {
@@ -450,7 +501,8 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(3):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(3) {
+.feedback-modal .radio-inline:nth-of-type(3):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(3) {
   background-color: #fff675 !important;
   color: black !important;
 }
@@ -460,7 +512,8 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(4):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(4) {
+.feedback-modal .radio-inline:nth-of-type(4):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(4) {
   background-color: #ff7d7d !important;
 }
 
@@ -469,7 +522,8 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(5):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(5) {
+.feedback-modal .radio-inline:nth-of-type(5):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(5) {
   background-color: #ff5537 !important;
 }
 

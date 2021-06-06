@@ -148,7 +148,15 @@
                 <div class="carousel-item {% if loop.index == 1 %}active{% endif %}" data-bs-interval="false">
                     <div class="card mt-2 mb-5" style="border-radius: 20px">
                         <div class="card-title mt-2 text-center">
-                        <span class="h4">Feedback For {{feedback_type.name}}</span>
+                            <div class="row pt-3">
+                                <div class="col-lg-10 col-sm-12 col-md-12">
+                                    <span class="h4">Feedback For {{feedback_type.name}}</span>
+                                </div>
+                                <div class="col-lg-2 col-sm-12 col-md-12">
+                                    <!-- <button class="btn btn-outline-success">Active &nbsp; <i class="fas fa-circle"></i></button>     -->
+                                    <button class="btn btn-outline-danger">Completed &nbsp; <i class="fas fa-circle"></i></button>    
+                                </div>
+                            </div>
                         </div>
                         <div class="card-body text-center" style="position: relative; margin: 0 auto">
                             <canvas id="mandatory_feedback__{{feedback_type.pk}}" class="bar_styling"></canvas>

@@ -1,6 +1,6 @@
 import math
 from django.core.exceptions import ObjectDoesNotExist
-from institute_V1.models import Slots,Working_days,Batch
+from institute_V1.models import Slots,Working_days,Batch,Division
 from faculty_V1.models import Not_available,Faculty_load
 from Table_V2.models import *
 
@@ -234,8 +234,8 @@ def get_point_for_lect_batch(subject_event,all_events,batch):
 			day_events = all_events.filter(Slot_id__day = day)
 		points = check_availability(slot,subject_event)
 		lect_event = day_events.filter(Slot_id = slot,Slot_id_2 = None).exclude(Batch_id = None)
-		if lect_event:
-			print(lect_event)
+		# if lect_event:
+		# 	print(lect_event)
 		if points == 0:		# if it is available
 			points += check_repetation(day_events,subject_event,batch = batch)
 			points += check_load_distribution(day_events,subject_event)
@@ -280,10 +280,12 @@ def get_point_for_lect_class(subject_event,all_events):
 ########## gets the subject_event and the batch or none to place it ##########
 
 l = []
-def put_vars(Division_id):
+def put_division(Division_id):
+	'gets the division_id and adds the related info to the file to use'
 	global WORKING_DAYS,usable_slots,l
-	WORKING_DAYS = Working_days.objects.filter(Shift_id=Division_id.Shift_id).count()
-	all_slots = Slots.objects.filter(Timing_id__Shift_id = Division_id.Shift_id).order_by("day")
+	division = Division.objects.all().filter(pk = Division_id)
+	WORKING_DAYS = Working_days.objects.filter(Shift_id=Division.Shift_id).count()
+	all_slots = Slots.objects.filter(Timing_id__Shift_id = Division.Shift_id).order_by("day")
 	usable_slots = all_slots.exclude(Timing_id__is_break = True)
 	l = []
 
@@ -317,6 +319,7 @@ def get_subject_events(Division_id,subject_event,is_prac,all_events,batch = None
 	print("Slot_id :: {} \n Point :: {}\n -----------------------------".format(best_slot,points))
 	return Event.objects.create(Slot_id = best_slot, Slot_id_2 = slot_2, Division_id_id = Division_id, Batch_id = batch, Subject_event_id = subject_event).pk
 	# return points,best_slot
+
 
 
 # if is_prac: 	# for all day events if there is same practical for same batch

@@ -262,14 +262,16 @@ jQuery(function () {
 		$.ajax({
 			type: "post",
 			data: form.serialize(),
-			success: function (){ 
-				$('#modal').modal('hide');
+			success: function (){
 				let event_id = $("#feedback_form #event_id").val()
 				// console.log("success");
 				if (event_id){
 					remove_card(event_id);					
 				}
 				setWithExpiry(`feedback_done-${event_id}`,true,24*3600*1000);
+				form.trigger("reset");
+			},
+			error:function(){
 				form.trigger("reset");
 			}
 		});

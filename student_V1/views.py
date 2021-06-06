@@ -175,6 +175,7 @@ class subject_serializer(serializers.python.Serializer):
 		for i in res:
 			if not res[i]:
 				res[i] = ""
+		res['color'] = obj.color
 		self.objects.append( res )
 
 def get_all_subjects_of_feedback_type(request):

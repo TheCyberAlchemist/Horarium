@@ -25,16 +25,12 @@
       });
       //#endregion
 </script>
-      <script type = "text/javascript" 
-         src = "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js">
-      </script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 
 {% endblock %} {% block content %}
-<div class="container sidebar_container">
-  <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
-</div>
+
 <div class="container-fluid pt-4 mt-5" translate="no">
-  <div class="mandatory_feedback_event text-center" style="display:none;">
+  <div class="mandatory_feedback_event text-center" style="display: none">
     <span class="h5" style="font-family: Poppins, sans-serif"> Remaining Feedbacks are <span id="sub_fraction"> </span> </span>
     <span class="h5" style="font-family: Poppins, sans-serif; margin-left: 30px" id="sidebar">
       <button class="btn btn-outline-success">
@@ -43,7 +39,7 @@
     </span>
   </div>
   <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
-    <div id="ct" style="white-space: nowrap;"></div>
+    <div id="ct" style="white-space: nowrap"></div>
     <div id="myBar"></div>
   </div>
   <!-- <div class="row container-fluid pl-5 pr-5" style="background-color: red;">
@@ -110,9 +106,7 @@
             <!-- if there is lecture event-->
             <td class="td_gone" event_id="{{temp_event.a.id}}">
               <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
-                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">
-                    {{temp_event.a.Subject_event_id.Subject_id}}
-                </button>
+                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">{{temp_event.a.Subject_event_id.Subject_id}}</button>
                 <div class="row">
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                     <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
@@ -174,19 +168,19 @@
               <input type="hidden" id="event_id" name="Event_id" />
               <input type="hidden" id="subject_id" name="Subject_id" />
               {%for ques in questions %}
-                <div class="h5" style="font-weight: bold">{{loop.index}}. {{ques}}.</div>
-                <div class="mt-3 mb-3 pl-4 text-center" >
-                  <input type="radio" id="5{{ques}}" value="5" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" tabindex="1"  for="5{{ques}}"> &nbsp;Strongly Agree </label>
+              <div class="h5" style="font-weight: bold">{{loop.index}}. {{ques}}.</div>
+              <div class="mt-3 mb-3 pl-4 text-center">
+                <input type="radio" id="5{{ques}}" value="5" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" tabindex="1" for="5{{ques}}"> &nbsp;Strongly Agree </label>
 
-                  <input type="radio" value="4" id="4{{ques}}" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" for="4{{ques}}"> &nbsp;Agree </label>
+                <input type="radio" value="4" id="4{{ques}}" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" for="4{{ques}}"> &nbsp;Agree </label>
 
-                  <input type="radio" value="3" id="3{{ques}}" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" for="3{{ques}}"> &nbsp;Neutral </label>
+                <input type="radio" value="3" id="3{{ques}}" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" for="3{{ques}}"> &nbsp;Neutral </label>
 
-                  <input type="radio" id="2{{ques}}" value="2" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" for="2{{ques}}"> &nbsp;Disagree </label>
+                <input type="radio" id="2{{ques}}" value="2" name="Q{{loop.index}}" />
+                <label class="radio-inline btn" for="2{{ques}}"> &nbsp;Disagree </label>
 
                 <input type="radio" value="1" id="1{{ques}}" name="Q{{loop.index}}" />
                 <label class="radio-inline btn" for="1{{ques}}"> &nbsp;Strongly Disagree </label>
@@ -208,15 +202,25 @@
 
   <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
-      <h5 id="offcanvasRightLabel">Feedbacks</h5>
+      <h5 id="offcanvasRightLabel">
+        <nav class="for-feedback">
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <span class="nav-link active mr-1" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Feedback</span>
+            <span class="nav-link" id="mand-tab" data-bs-toggle="tab" data-bs-target="#mand" type="button" role="tab" aria-controls="nav-mand" aria-selected="false">Mandatory</span>
+          </div>
+        </nav>
+      </h5>
       <button type="button" id="closer" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body feedback_panel" id="feedback_panel">
-      <div class="container mt-3 text-center">
-        <div class="h6">Feedback For</div>
-        <button class="btn btn-outline-primary" style="width: 60%">OS</button>
+    <div class="tab-content" id="nav-tabContent"  style="overflow-y: auto;">
+      <div class="tab-pane fade show active" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+        <div class="offcanvas-body feedback_panel" id="feedback_panel">
+          <!-- cards go here -->
+        </div>
       </div>
+      <div class="tab-pane fade" id="mand" role="tabpanel" aria-labelledby="nav-profile-tab"></div>
     </div>
   </div>
+
   {% endblock %}
 </div>

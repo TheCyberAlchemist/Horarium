@@ -117,7 +117,7 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac, #links, #division, #department {
+#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac, #links, #division, #department, #wef_select {
   width: 300px;
 }
 
@@ -130,8 +130,8 @@
 }
 
 @media screen and (max-width: 600px) {
-  #designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #select_fac, #shifts {
-    width: 100%;
+  #designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #select_fac, #shifts, #wef_select {
+    width: 100% !important;
     font-size: x-small;
   }
 }

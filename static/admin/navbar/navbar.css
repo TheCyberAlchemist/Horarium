@@ -138,15 +138,14 @@
   width: 100%; 
   left: 0; 
 }
+/* .navbar-nav .dropdown-menu.show {
+  transform: translateX(-20px);
+} */
 @media screen and (max-height: 300px) {
-	.nav_container ul {
+	/* .nav_container ul {
 		margin-top: 40px;
-	}
-}
-
-/*VOLT CSS*/
-.navbar-nav .dropdown-menu.show,
-.navbar-nav .dropdown-megamenu.show,
-.navbar-nav .dropdown-megamenu-md.show {
-  transform: translateX(-40px);
+	} */
+    .navbar-nav .dropdown-menu.show {
+        transform: translateX(0px) !important;
+    }
 }

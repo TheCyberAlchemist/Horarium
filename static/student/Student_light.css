@@ -27,6 +27,10 @@ b a:hover {
   text-decoration: none !important;
 }
 
+.navbar {
+  background-color: #101820ff !important;
+}
+
 .h4 {
   font-family: "Poppins", sans-serif;
 }
@@ -36,6 +40,13 @@ b a:hover {
 }
 
 /* #region  Feedback Panel */
+#feedback_panel {
+  scrollbar-width: thin;
+  /* "auto" or "thin" */
+  scrollbar-color: #abacad #f1f4f6;
+  /* scroll thumb and track */
+}
+
 #feedback_panel .container {
   border-radius: 10px;
   padding: 1em;
@@ -47,6 +58,22 @@ b a:hover {
 }
 
 #feedback_panel .container:hover {
+  -webkit-transform: scale(1.03);
+  transform: scale(1.03);
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+#feedback_panel .feedback_form_card {
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+}
+
+#feedback_panel .feedback_form_card .btn {
+  width: 90%;
+}
+
+#feedback_panel .feedback_form_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
@@ -165,22 +192,16 @@ th:nth-of-type(1) {
 
 /* #endregion */
 /* #region  Sidebar Button*/
-.sidebar_container {
-  position: relative;
+.sidebar {
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
-.sidebar {
-  position: fixed;
-  top: 20%;
-  left: 1%;
-  -webkit-animation-name: sidebar;
-          animation-name: sidebar;
-  -webkit-animation-duration: 1s;
-          animation-duration: 1s;
-  -webkit-animation-delay: 1s;
-          animation-delay: 1s;
-  -webkit-animation-iteration-count: infinite;
-          animation-iteration-count: infinite;
+.sidebar:hover {
+  -webkit-transform: scale(1.2);
+          transform: scale(1.2);
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
 @-webkit-keyframes sidebar {
@@ -287,7 +308,8 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(1):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(1) {
+.feedback-modal .radio-inline:nth-of-type(1):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(1) {
   background-color: #2dce89 !important;
 }
 
@@ -296,7 +318,8 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(2):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(2) {
+.feedback-modal .radio-inline:nth-of-type(2):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(2) {
   background-color: #05ff92 !important;
 }
 
@@ -305,7 +328,8 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(3):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(3) {
+.feedback-modal .radio-inline:nth-of-type(3):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(3) {
   background-color: #fff675 !important;
 }
 
@@ -314,7 +338,8 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(4):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(4) {
+.feedback-modal .radio-inline:nth-of-type(4):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(4) {
   background-color: #ff7d7d !important;
 }
 
@@ -323,12 +348,32 @@ th:nth-of-type(1) {
   margin-right: 10px;
 }
 
-.feedback-modal .radio-inline:nth-of-type(5):hover, .feedback-modal input[type="radio"]:checked + label:nth-of-type(5) {
+.feedback-modal .radio-inline:nth-of-type(5):hover,
+.feedback-modal input[type="radio"]:checked + label:nth-of-type(5) {
   background-color: #ff5537 !important;
 }
 
 /* #endregion */
 /* #region  Offcanvas */
+nav.for-feedback .nav-tabs {
+  border-bottom: none !important;
+}
+
+nav.for-feedback .nav-tabs span {
+  background-color: transparent !important;
+  border: none !important;
+  color: black !important;
+}
+
+nav.for-feedback .nav-tabs span:hover {
+  border: none !important;
+}
+
+nav.for-feedback .nav-tabs span.active {
+  border-bottom: 1px solid #4747ff !important;
+  color: #4747ff !important;
+}
+
 /* #endregion  Offcanvas*/
 /* #region  Chart Settings */
 .charts_container .card .card-title,
@@ -376,7 +421,8 @@ th:nth-of-type(1) {
 /* #region  Mobile Device */
 @media screen and (max-width: 600px) {
   .charts_container .card-title,
-  .charts_container .card-body, .charts_container .card-title,
+  .charts_container .card-body,
+  .charts_container .card-title,
   .charts_container .card-body .btn {
     font-size: small;
   }

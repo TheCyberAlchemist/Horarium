@@ -129,18 +129,14 @@
                                                     <legend>Batch For</legend>
                                                     <div class="" style="width:80%;margin:0 auto;">
                                                       <!-- <img class="input_icons caret" src="{{static ('admin/details/img/caret.png')}}" alt=""> -->
-                                                      <ul id="subjects">
+                                                      <ul id="subjects" class="list-inline">
                                                         {%for subject in my_subjects%}
-                                                        <li>
-                                                              <div class="row">
-                                                              <div class="col">
-                                                                  <label for="subject_{{subject.id}}"><b>{{subject}}</b></label>
-                                                                  <div class="form-check">
+                                                        <li class="list-inline-item">
+                                                                  <div class="form-check form-check-inline">
                                                                       <input class="form-check-input" name="subjects_for_batch" id="subject_{{subject.id}}" value="{{subject.id}}"
                                                                       {% if update and subject in update['subjects_for_batch'].all()%}checked{% endif %} type="checkbox" value="parent">
+                                                                      <label class="form-check-label" for="subject_{{subject.id}}">{{subject}}</label>
                                                                   </div>
-                                                              </div>
-                                                              </div>
                                                           <!-- <input type="checkbox" />{{subject}} -->
                                                         </li>
                                                         {%endfor%}

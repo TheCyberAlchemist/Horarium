@@ -148,10 +148,11 @@ $(document).ready(function () {
 					{
 						label: chartLabel,
 						data: chartdata,
-						// backgroundColor: Array(11).fill(),
-						borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
-						borderWidth: 1,
+						// backgroundColor: Array(11).fill(""),
+                        fill : false,
 						// tension: 0.01,
+                        borderColor: "rgba(75, 192, 192,.7)",
+                        borderWidth: 3,
 					}
 				],
 			},
@@ -165,7 +166,7 @@ $(document).ready(function () {
 							display : true,
 							scaleLabel : {
 								display : true,
-								labelString : 'Ratings'
+								labelString : 'Ratings',
 							},
 							ticks: {
 								beginAtZero: true,
@@ -245,8 +246,8 @@ $(document).ready(function () {
 					{
 						label: chartLabel,
 						data: chartdata,
-						backgroundColor: Array(11).fill(`rgba(255, 99, 132, ${opacity})`),
-						borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
+                        backgroundColor: Array(11).fill(`rgba(255, 116, 2, ${opacity})`), 
+						borderColor: Array(11).fill("rgba(255, 116, 2, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q1",
@@ -259,8 +260,8 @@ $(document).ready(function () {
 						label: "Q2",
 						data: data.Q2,
 						hidden: true,
-						backgroundColor: Array(11).fill(`rgba(75, 192, 192, ${opacity})`),
-						borderColor: Array(11).fill("rgba(75, 192, 192, 1)"),
+                        backgroundColor: Array(11).fill(`rgba(255, 99, 132, ${opacity})`),
+						borderColor: Array(11).fill("rgba(255, 99, 132, 1)"),
 						borderWidth: 1,
 					},{
 						label: "Q3",

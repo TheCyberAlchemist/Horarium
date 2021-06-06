@@ -173,13 +173,20 @@ function get_card(event){
 	var txt3 = document.createElement("div");  // Create with DOM
 	txt3.classList.add(`event-${event.pk}`);
   	txt3.innerHTML = `
-	<div class="container text-center"> 
+	<!--<div class="container text-center"> 
 		<div class="h6">Feedback For</div>
 		<button class="btn btn-outline-primary my_btn" style="width: 60%">
 			${event.name}
 		</button>
-	</div>
-	`;
+	</div>-->
+	
+    <div class="card mb-3 feedback_form_card">
+        <div class="card-body">
+        <h5 class="card-title text-center"><button class="btn btn-success">${event.name}</button></h5>
+        <p class="card-text">Fill the feedback form for ${event.name} here</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        </div>
+    </div>`
 	return txt3;
 }
 
@@ -189,7 +196,7 @@ function append_card(event){
 	// card.effect("highlight", {}, 3000);
 	$("#feedback_panel").append(card);
 	card.addEventListener("mouseover",function(){
-		get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);
+		// get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);
 		// check w3school for args
 	});
 	card.addEventListener("click",function(){

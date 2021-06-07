@@ -42,7 +42,7 @@
               [{{timing.return_time()}}]
             </th>
             {% set len = days|length %}
-            <th colspan="{{len}}" class="isBreak" break_id="{{timing.id}}">
+            <th colspan="{{len}}" class="isBreak align-middle" break_id="{{timing.id}}">
               <span class="h4">{{timing.name}}</span>
             </th>
             {% else %}
@@ -63,7 +63,7 @@
                 {% if temp_event.a.Slot_id_2 %}
                 <!-- if there is practical event-->
                 {% set _ = before.append(day) %}
-                <td class= "td_gone" rowspan="2" event_id = "{{temp_event.a.id}}">
+                <td class= "td_gone align-middle" rowspan="2" event_id = "{{temp_event.a.id}}">
                   <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
                     <div class="col-12 text-left">
                       <span>{{temp_event.a.Batch_id}}</span>
@@ -88,7 +88,7 @@
                 </td>
                 {% else %}
                 <!-- if there is lecture event-->
-                <td class = "td_gone" event_id = "{{temp_event.a.id}}">
+                <td class = "td_gone align-middle" event_id = "{{temp_event.a.id}}">
                   <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
                     <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"

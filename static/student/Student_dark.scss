@@ -33,43 +33,10 @@ b a:hover {
 }
 .navbar {
   background-color: rgb(1, 1, 2) !important;
+// background-color: white !important;
 }
 .container-fluid.pt-4 {
   background-color: #131a24 !important;
-}
-
-#agenda_panel .nav-item {
-  color: $font-white;
-  text-decoration: underline;
-}
-
-#agenda_panel a::after,
-#agenda_panel a::before {
-  display: none;
-}
-
-#agenda_panel {
-  color: $font-white;
-  overflow-y: auto;
-  background-color: rgba(71, 71, 71, 0.815);
-}
-
-#agenda_panel .container {
-  border-radius: 10px;
-  padding: 1em;
-  width: 90%;
-  border: 1px solid grey;
-  color: $font-white;
-  margin-bottom: 1em;
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
-
-#agenda_panel .container:hover {
-  -webkit-transform: scale(1.03);
-  transform: scale(1.03);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
 }
 
 #t1 {
@@ -201,10 +168,6 @@ th:nth-of-type(1) {
 .sidebar_container {
 }
 .sidebar {
-  //   animation-name: sidebar;
-  //   animation-duration: 1s;
-  //   animation-delay: 1s;
-  //   animation-iteration-count: infinite;
   transition: 0.3s;
 }
 .sidebar:hover {
@@ -283,6 +246,20 @@ th:nth-of-type(1) {
   scrollbar-width: thin; /* "auto" or "thin" */
   scrollbar-color: #abacad #f1f4f6; /* scroll thumb and track */
 }
+.tab-content {
+  overflow-y: auto !important;
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: #797979 #000000; /* scroll thumb and track */
+}
+.tab-content::-webkit-scrollbar {
+  width: 7px !important;
+  height: 10px !important;
+  background-color: #000000;
+}
+.tab-content::-webkit-scrollbar-thumb {
+  background-color: #797979 !important;
+  border-radius: 3px !important;
+}
 nav.for-feedback .nav-tabs {
   border-bottom: none !important;
 }
@@ -298,6 +275,7 @@ nav.for-feedback .nav-tabs span.active {
   border-bottom: 1px solid rgb(71, 71, 255) !important;
   color: rgb(71, 71, 255) !important;
 }
+
 #feedback_panel .container {
   border-radius: 10px;
   padding: 1em;
@@ -314,18 +292,21 @@ nav.for-feedback .nav-tabs span.active {
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
-#feedback_panel .feedback_form_card {
+#feedback_panel .feedback_form_card,
+#mandatory_panel .feedback_form_card {
   transition: 0.3s;
   color: $font-white;
   background-color: transparent;
   border: 1px solid white;
 }
 
-#feedback_panel .feedback_form_card .btn {
+#feedback_panel .feedback_form_card .btn,
+#mandatory_panel .feedback_form_card .btn {
   width: 90%;
 }
 
-#feedback_panel .feedback_form_card:hover {
+#feedback_panel .feedback_form_card:hover,
+#mandatory_panel .feedback_form_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
@@ -361,6 +342,9 @@ nav.for-feedback .nav-tabs span.active {
   background-color: $font-white;
 }
 /* #region  Feedback Modal Radio button */
+.required_star {
+  color: red;
+}
 .feedback-modal input[type="radio"] {
   appearance: none !important;
   display: none !important;
@@ -425,18 +409,19 @@ nav.for-feedback .nav-tabs span.active {
   }
 
   #lect .btn {
-    margin: 7px 0.5em 0 0.5em;
+    // margin: 7px 0.5em 0 0.5em;
+    margin : 10px auto 0 auto;
     padding: 5px 2px;
   }
   #prac .btn {
-    height: 50px;
+    height: 80px;
     padding: 0;
-    margin: 0 0.5em;
-    writing-mode: vertical-rl;
-    text-orientation: upright;
+    margin: 0 0.9em;
+    writing-mode: vertical-rl !important;
+    text-orientation: upright !important;
   }
   #t1 .btn {
-    font-size: 12px;
+    font-size: 11px;
   }
   #agenda_panel {
     font-size: 15px;
@@ -472,10 +457,23 @@ nav.for-feedback .nav-tabs span.active {
   }
   .feedback-modal .radio-inline:nth-of-type(n) {
     margin-right: 1px;
-    padding : 5px;
+    padding: 5px;
   }
   .modal .h5 {
     font-size: smaller !important;
+  }
+  .modal-dialog {
+    margin: 0 !important;
+  }
+  #sidebar {
+      width : 30px !important;
+      height : 30px !important;
+  }
+  .mandatory_feedback_event span.h5 {
+    font-size: smaller !important;
+  }
+  .mandatory_feedback_event {
+      margin-bottom: 20px;
   }
 
   /* #region  Chart Settings */
@@ -506,6 +504,9 @@ nav.for-feedback .nav-tabs span.active {
   .charts_container .card-title,
   .charts_container .card-text {
     margin-bottom: 0 !important;
+  }
+  .table > :not(caption) > * > * {
+      padding: 0 !important;
   }
 }
 

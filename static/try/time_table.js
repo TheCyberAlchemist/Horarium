@@ -193,6 +193,7 @@ function put_json_in_table(json_data){
 		temp_event.put_subject_event(obj.Subject_event_id);
 		temp_event.put_slots(obj.Slot_id,obj.Slot_id_2);
 		temp_event.put_batch_resource(obj.Batch_id,obj.Resource_id);
+		// console.log(obj.link);
 		temp_event.put_link_locked(obj.link,obj.locked);
 
 		// if (obj.Subject_event_id == 20)
@@ -376,7 +377,7 @@ function open_menu_in_event_div(event_div,e){
 
 function push_event(temp_event){
 	// check for batches in event_counter too
-	const debug = false; // for printing the method if 
+	const debug = true; // for printing the method if 
 	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
 	let subject_event = get_subject_event(temp_event.Subject_event_id);
 	let is_prac = Boolean(a2[1]);
@@ -1211,6 +1212,7 @@ function submited(){
 }
 
 function call_algo(){
+	// console.log(get_all_locked_events());
 	$.ajax({
 		type: "post",
 		url: "./algo/",

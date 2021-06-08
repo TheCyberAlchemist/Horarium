@@ -22,6 +22,7 @@ while not_infinite:
 		priority_list.append(subject_causing_infinite)
 
 ##############################################
+
 def get_sorted_events(subject_events,locked_events,priority_list): 
 	events = []
 	my_dict = {}

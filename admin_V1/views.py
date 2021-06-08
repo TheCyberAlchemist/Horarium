@@ -952,10 +952,13 @@ def show_table(request,Division_id):
 	my_batches = Batch.objects.filter(Division_id=Division_id).order_by("name")
 	timings = Timings.objects.filter(Shift_id = Shift_id)
 	
-	my_subjects,my_subject_events =get_division_subjects_and_events(Division_id)
+	my_subjects,my_subject_events = get_division_subjects_and_events(Division_id)
 	print(my_subjects)
-	context['my_subjects'] = my_subjects
 	context['subjects_json'] = get_json(my_subjects)
+	subj_event_dict = {}
+	for subject in my_subjects:
+		subj_event_dict[subject] = subject.subject_event_set.all()
+	context['my_subjects'] = subj_event_dict
 	# print(get_json(Subject_details.objects.filter(Semester_id = my_semester)),type(subject))
 	context['subject_events'] = my_subject_events.order_by("Subject_id")
 	context['subject_events_json'] = get_json(my_subject_events,time_table=True,my_division=Division_id)
@@ -989,13 +992,13 @@ def get_division_subjects_and_events(Division_id):
 		subject_batches = set(i.batch_set.all())
 		if len(subject_batches) == 0:
 			# if the subject has no batches
-			print(i," has no batches")
+			# print(i," has no batches")
 			if len(i.subject_event_set.all()):
 				my_subjects.append(i)
 			continue
 		if my_batches.intersection(subject_batches):
 			# if the batches of the subject has the student's batch
-			print(i," is in batches ",my_batches.intersection(subject_batches))
+			# print(i," is in batches ",my_batches.intersection(subject_batches))
 			if len(i.subject_event_set.all()):
 				my_subjects.append(i)
 			continue
@@ -1033,13 +1036,14 @@ def algo_v1(request,Division_id):
 			TBD.delete()
 	for i in to_be_added:
 		TBA = [x for x in json_events if foo(x,i)]
-		# print(TBA)
+		print(TBA)
 		form = add_event(TBA[0])
 		candidate = form.save(commit=False)
 		candidate.Division_id_id = Division_id
-		form.save()
+		print(candidate,form.is_valid())
+		# form.save()
 	algo.put_division(Division_id)
-	_,subject_events = get_division_subjects_and_events(request,Division_id)
+	_,subject_events = get_division_subjects_and_events(Division_id)
 	locked_events = Event.objects.filter(Division_id=Division_id)
 	subject_events = algo.get_sorted_events(subject_events,locked_events)
 	for subject_event in subject_events:

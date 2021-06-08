@@ -283,12 +283,12 @@ l = []
 def put_division(Division_id):
 	'gets the division_id and adds the related info to the file to use'
 	global WORKING_DAYS,usable_slots,l
-	division = Division.objects.all().filter(pk = Division_id)
-	WORKING_DAYS = Working_days.objects.filter(Shift_id=Division.Shift_id).count()
-	all_slots = Slots.objects.filter(Timing_id__Shift_id = Division.Shift_id).order_by("day")
+	division = Division.objects.all().filter(pk = Division_id).first()
+
+	WORKING_DAYS = Working_days.objects.filter(Shift_id=division.Shift_id).count()
+	all_slots = Slots.objects.filter(Timing_id__Shift_id = division.Shift_id).order_by("day")
 	usable_slots = all_slots.exclude(Timing_id__is_break = True)
 	l = []
-
 
 def get_subject_events(Division_id,subject_event,is_prac,all_events,batch = None):
 	points = 0

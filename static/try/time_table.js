@@ -702,7 +702,7 @@ function change_to_lect_td(td,subject_batch){
 		for (let i in subject_batch){
 			string +=
 			 `<div class="event_divs col-`+colspan+`" batch_for=`+subject_batch[i].pk+` data-toggle="tooltip" data-placement="bottom" title="" >
-				<button class="event_name lect_mycol mt-2 lect_batches"></button>
+				<button class="btn event_name lect_mycol mt-2 lect_batches" style="width:20px;height:55px;color:white"></button>
 			</div>`;
 		}
 		string += `</div></div>`;
@@ -766,18 +766,22 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 		for (i in subject_batch){
 			string += `
 			<div class="event_divs col-`+ colspan+`"batch_for=`+subject_batch[i].pk+`>
-				<div class="row" >
-					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
-				</div>
+				<!--<div class="row" >
+				</div>-->
 				<div class="row">
-					<div class="col mt-1">
+                <div class="col mt-1">
+                        <div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
 						<button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:transparent"></button>
-					</div>
-				</div>
-                    <div class="row ml-0 text-center prac_below_texts">
+                        <div class="row ml-0 text-center prac_below_texts">
                         <div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
                         <div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
                     </div>
+					</div>
+				</div>
+                    <!--<div class="row ml-0 text-center prac_below_texts">
+                        <div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+                        <div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+                    </div>-->
 			</div>
 			`;
 		}

@@ -6,6 +6,10 @@
 	th {
 		font-size: 0.9rem !important;
 	}
+    .fas.fa-lock {
+        color : rgb(255, 72, 72) !important;
+        font-size: 20px;
+    }
 </style>
 {% endblock %} {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
@@ -266,7 +270,7 @@
 					<div class="row text-center">
 						<div class="col-lg-10 col-sm-12">
 							<div class="h3 text-center">WEFs For {{my_department}}</div>
-						</div>
+						</div> 
 						<div class="col-lg-2 col-sm-12">
 							<a style="display: none" id="del" onclick="delete_entries()">
 								<img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete" />

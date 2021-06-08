@@ -144,27 +144,54 @@ if (header){
         <!-- #region Toolbar Buttons -->
         <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm p-0">
             <div class="container-fluid">
-              <a class="">Create Table</a>
+              <a class="">Create Table For {{my_division}}</a>
               <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0">
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Undo">
+                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-bs-toggle="tooltip" 
+                    data-bs-placement="bottom" title="Undo">
                         <i class="fas fa-undo-alt ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Redo" onclick="redo()">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Redo" onclick="redo()">
                         <i class="fas fa-redo ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Clear" onclick="clear_all_unlocked_td()">
-                        <i class="fas fa-broom ml-2 mr-3"></i>
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Lock All">
+                    <i class="fas fa-lock ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Generate" onclick="call_algo()">Generate</button>
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Unlock All">
+                    <i class="fas fa-unlock ml-2 mr-3"></i>
+                    </button>
                   </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Clear" onclick="clear_all_unlocked_td()">
+                        <i class="fas fa-eraser ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Save"> <i class="fas fa-save ml-2 mr-3"></i> </button> 
+                  </li>
+                  <li class="nav-item">
+                    <!-- Button trigger generate modal -->
+                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="modal" data-bs-placement="bottom" 
+                    data-bs-target="#generate_modal" title="Generate">Generate</button>
+
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Submit" onclick="submited()">Submit</button>
+                  </li>
+                  
                 </ul>
               </div>
             </div>
@@ -388,4 +415,71 @@ if (header){
     </ul>
 </div>
 
+
+  
+  <!-- Generate Modal -->
+  <div class="modal fade" id="generate_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="generate_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="generate_modal_label">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control myinputs" id="sub_name"
+                        placeholder="" name="sub_name" required maxlength="20"/>
+                    <label for="sub_name">Subject Name</label>
+                </div>
+              </div>
+              <div class="col-lg-12 col-md-12 col-sm-12">
+                  
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
+                    <label class="form-check-label" for="inlineCheckbox1">1</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
+                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
+                  </div>
+              <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
+                  <span>Heading</span>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">An item</li>
+                    <li class="list-group-item">A second item</li>
+                    <li class="list-group-item">A third item</li>
+                    <li class="list-group-item">A fourth item</li>
+                    <li class="list-group-item">And a fifth one</li>
+                  </ul>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <div class="row" style="width: 100%;">
+                <div class="col-lg-6 col-sm-12 col-md-12">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                </div>
+                <div class="col-lg-6 col-sm-12 col-md-12">
+                    <button type="button" class="btn btn-success" onclick="call_algo()">Generate</button>
+                </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
 {%endblock%}

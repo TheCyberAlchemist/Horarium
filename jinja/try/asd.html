@@ -1,68 +1,82 @@
 <!doctype html>
 <html>
 <head>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
-  <script src="https://unpkg.com/gixi@0.0.1/dist/gixi-min.js"></script>
-  <script type="text/javascript" src="{{static ('try/gixi.js')}}"></script>
-  <style>
-      html,body,.container,.gixies {
-        padding: 0px;
-        margin: 0px;
-        height: 100%;
-        width: 100%;
-      }
-      .container {
-        display: table;
-      }
-
-      .gixies {
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-      }
-
-      .gixi {
-        display : inline-block;
-        background-repeat: no-repeat;
-        background-position: center center;
-      }
-
-      .gixi-md {
-        margin: 0px 5%;
-        width: 100px;
-        height: 100px;
-      }
-
-      .gixi-sm {
-        display : inline-block;
-        margin: 0px 5%;
-        width: 50px;
-        height: 50px;
-        border-radius: 6px;
-        box-shadow: 0px 0px 2px #aaa;
-        padding: 10px;
-      }
-  </style>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.1.0/json2html.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+    let template = {'<>':'div','html':'${title} ${year}'};
+	function asd(){
+		// document.getElementsByClassName("response")[0].textContent = JSON.stringify(obj, undefined, 2);
+	}
+	function send_ajax(){
+		var csrftoken = Cookies.get('csrftoken');
+		function csrfSafeMethod(method) {
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		// Ensure jQuery AJAX calls set the CSRF header to prevent security errors
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader("X-CSRFToken", csrftoken);
+				}
+			}
+		});
+		var locked = [
+			{
+				"Slot_id": "2",
+				"Subject_event_id": "28",
+				"Batch_id": null,
+				"Resource_id": "1",
+				"Slot_id_2": null,
+				"locked": true,
+				"link": "asd"
+			},
+			{
+				"Slot_id": "7",
+				"Subject_event_id": "29",
+				"Batch_id": null,
+				"Resource_id": "1",
+				"Slot_id_2": null,
+				"locked": true,
+				"link": "None"
+			}
+		];
+		// {
+		// 	"Slot_id": "2",
+		// 	"Subject_event_id": "28",
+		// 	"Batch_id": null,
+		// 	"Resource_id": "1",
+		// 	"Slot_id_2": null,
+		// 	"locked": true,
+		// 	"link": "None"
+		// }
+		console.log({
+				"locked_events":JSON.stringify(locked),
+				"merging_events":{"asd":"asd"},
+			})
+		$.ajax({
+			url:"../../algo3/",
+			type: "post",
+			data: {
+				"locked_events":JSON.stringify(locked),
+				"merging_subjects":{"asd":"asd"},
+			},
+			success: function (data){
+				document.getElementsByClassName("response")[0].textContent = JSON.stringify(data, undefined, 2);
+			}
+		});
+	}
+    //native javascript
+    
+</script>
 </head>
-<body>
-<img src = "{{form.instance.display_image.url}}">
-  <form method="post" enctype="multipart/form-data">
-  {{csrf_input}}
-{{form.as_p()}}
-<input type = "text" id = "img_str" name= "img_str">
-<input type="submit" name="">
-</form>
-  <script>
-    //$('.gixi').each(function() {
-    //  $(this).gixi();
-    //});
-    var imageSize = 60;
-    var canvas = document.createElement('canvas');
-    var imageData = new GIXI(imageSize).getImage();
-	$('#img_str').val(imageData);
-    //console.log(imageData);
-	////.replace("data:image/png;base64,", "")
-    //// $(".asd").attr('value',imageData)
-  </script>
+<body onload = "asd()">
+<button onclick="send_ajax()">
+	send_ajax()
+</button>
+<pre style="font-size: 18px;" class = "response">
+</pre>
 </body>
 </html>

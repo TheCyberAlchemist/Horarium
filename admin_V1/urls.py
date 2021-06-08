@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path,re_path
-from . import views,user_dash,add_update_users
+from . import views,user_dash,add_update_users,algo3
 import faculty_V1.views as faculty_view
 urlpatterns = [
 	
@@ -64,6 +64,9 @@ urlpatterns = [
 	re_path(r'^sub_event/(?P<Subject_id>\d+)/(?P<Faculty_id>\d+)/$',views.show_sub_event,name = 'update_sub_event'),
 
 	re_path(r'^table/(?P<Division_id>\d+)/algo/$',views.algo_v1,name = 'algo'),
+
+	re_path(r'^try/algo3/$',algo3.view_func,name = 'algo3'),
+	re_path(r'^algo3/$',algo3.main.as_view(),name = 'algo3'),
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 	# path('sube/',views.show_subject_events, name = 'show_subject_events')

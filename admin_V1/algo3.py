@@ -36,6 +36,24 @@ class event_list(list):
 	def filt_slot_day(self,day):
 		'returns filtered event_list of all the (event.Slot_id.day = day)'
 		return event_list(filter(lambda x: x.Slot_id.day == day,self))
+	def get_json(self):
+		json_list = []
+		# self._current['id'] = obj._get_pk_val()
+		include_list = ["Slot_id_id","Slot_id_2_id","Subject_event_id_id","Batch_id_id","Resource_id_id","link"]
+		# print(self[0].values(include_list))
+		for ob in self:
+			# res = dict([(key, val) for key, val in ob.__dict__.items() if key in include_list]) 
+			my_dict = {}
+			for k,v in ob.__dict__.items():
+				if k in include_list:
+					if not v:
+						v = ""
+					if k.endswith("_id"):
+						k = k[:-3]
+					my_dict[k] = v
+			json_list.append(my_dict)
+		return json_list
+
 #endregion
 
 import json
@@ -56,17 +74,17 @@ def get_division_subjects_and_events(my_division):
 		if len(subject_batches) == 0:
 			# if the subject has no batches
 			# print(i," has no batches")
-			if len(i.subject_event_set.all()):
+			if len(i.subject_event_set.all().filter(active=True)):
 				my_subjects.append(i)
 			continue
 		if my_batches.intersection(subject_batches):
 			# if the batches of the subject has the student's batch
 			# print(i," is in batches ",my_batches.intersection(subject_batches))
-			if len(i.subject_event_set.all()):
+			if len(i.subject_event_set.all().filter(active=True)):
 				my_subjects.append(i)
 			continue
 	
-	subject_events = Subject_event.objects.all().filter(Subject_id__in = my_subjects)
+	subject_events = Subject_event.objects.active().filter(Subject_id__in = my_subjects)
 
 	return my_subjects,subject_events
 
@@ -87,7 +105,7 @@ def get_sorted_events(my_division,my_subj_events,locked_events,priority_list):
 	my_dict = {}
 	for subject_event in my_subj_events:
 		t = len(Not_available.objects.filter(Faculty_id = subject_event.Faculty_id))
-		t += len(Event.objects.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id).exclude(Division_id=my_division))
+		t += len(Event.objects.active().filter(Subject_event_id__Faculty_id=subject_event.Faculty_id).exclude(Division_id=my_division))
 		if locked_events:
 			t += len(locked_events.filt_faculty(subject_event.Faculty_id))
 		my_dict[subject_event] = t
@@ -132,7 +150,7 @@ class main(APIView):
 			print("one")
 			# get_sorted_events(subject_events,locked_events,priority_list)
 		data ={
-			"locked_events":locked_events_json,
+			"my_events":all_events.get_json(),
 		}
 
 		return Response(data)

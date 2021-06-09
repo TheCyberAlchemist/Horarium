@@ -28,7 +28,7 @@ def get_sorted_events(subject_events,locked_events,priority_list):
 	my_dict = {}
 	for subject_event in all_subject_events:
 		t = len(Not_available.objects.filter(Faculty_id = subject_event.Faculty_id))
-		t += len(Event.objects.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
+		t += len(Event.objects.active().filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
 		if locked_events:
 			t += len(locked_events.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
 		# t =  length of all not_available
@@ -63,5 +63,5 @@ def get_sorted_events(subject_events,locked_events,priority_list):
 # batches in that slot
 
 # for i in sorted_events:
-	points,event = get_point_event()
+	# points,event = get_point_event()
 	

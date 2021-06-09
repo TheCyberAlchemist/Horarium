@@ -109,7 +109,7 @@ def send_mandatory_email():
 def student_home(request):
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
-	my_events = Event.objects.filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
+	my_events = Event.objects.active().filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
 	day = "Monday"
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
@@ -126,7 +126,7 @@ def student_home(request):
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=datetime.datetime.today().strftime("%A")))
 
 	if request.method == 'POST':
-		my_event = Event.objects.all().get(pk = request.POST['Event_id'])
+		my_event = Event.objects.active().all().get(pk = request.POST['Event_id'])
 		my_subject_event = my_event.Subject_event_id
 		form = feedback_form(request.POST.copy())
 		# print(form.is_valid())

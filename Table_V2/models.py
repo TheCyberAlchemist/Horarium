@@ -7,6 +7,13 @@ from subject_V1.models import Subject_event
 
 ################################################
 
+class active_manager(models.Manager):
+	def active(self):
+		'Get all the events having Subject_events active in the db'
+		return super().get_queryset().filter(Subject_event_id__active=True)
+	def inactive(self):
+		'Get all the events having Subject_events having active = False in the db'
+		return super().get_queryset().filter(Subject_event_id__active=False)
 
 class Event(models.Model):
 	Slot_id = models.ForeignKey(Slots,on_delete=models.CASCADE,related_name='lecture')
@@ -16,6 +23,7 @@ class Event(models.Model):
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.CASCADE)
 	Resource_id = models.ForeignKey(Resource,on_delete=models.CASCADE,null=True,blank=True)
 	link = models.CharField(max_length=200, null=True, blank=True)
+	objects = active_manager()
 	def __str__(self):
 		if self.Slot_id_2:
 			return str(self.Slot_id) +" | " + str(self.Slot_id_2.get_time()) + " - " + str(self.Subject_event_id)	

@@ -35,7 +35,7 @@ class Subject_details(models.Model):
 		total_prac = p * self.prac_per_week
 		total_lect = l * self.lect_per_week
 		taken_lect = taken_prac = 0
-		for event in Subject_event.objects.filter(Subject_id=self):
+		for event in Subject_event.objects.active().filter(Subject_id=self):
 			taken_prac += event.prac_carried
 			taken_lect += event.lect_carried
 		remaining_prac = total_prac - taken_prac
@@ -77,13 +77,30 @@ class Subject_details(models.Model):
 			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Subject Name is Unique for Semester.')
         ]	
 
+class active_manager(models.Manager):
+	def active(self):
+		'Get all the Subject_events having active in the db'
+		return super().get_queryset().filter(active=True)
+	def inactive(self):
+		'Get all the Subject_events having active = False in the db'
+		return super().get_queryset().filter(active=False)
+
 class Subject_event(models.Model):
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)
 	Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE)
 	# link = models.URLField(max_length=200, null=True, blank=True)
 	prac_carried = models.PositiveIntegerField()
 	lect_carried = models.PositiveIntegerField()
-
+	objects = active_manager()
+	# RelatedManager
+	active = models.BooleanField(default=True)
+	start_date = models.DateField(auto_now_add=False,null=True, blank=True,default=None)
+	end_date = models.DateField(auto_now_add=False,null=True, blank=True,default=None)
+	'''
+		default is active. When WEF starts startdate and enddate are set 
+		and when it ends actve=False
+	'''
+	
 	def total_load_carried(self):
 		return (self.prac_carried * 2) + self.lect_carried
 	

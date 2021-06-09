@@ -126,7 +126,7 @@ def student_home(request):
 
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
-	my_events = Event.objects.filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
+	my_events = Event.objects.active().filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
 	day = ""
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),

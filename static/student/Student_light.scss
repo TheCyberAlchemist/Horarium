@@ -60,21 +60,37 @@ b a:hover {
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
-
-#feedback_panel .feedback_form_card{
+.tab-content {
+    overflow-y: auto !important;
+    scrollbar-width: thin; /* "auto" or "thin" */
+    scrollbar-color: #abacad #f1f4f6; /* scroll thumb and track */
+}
+.tab-content::-webkit-scrollbar {
+    width: 7px !important;
+    height: 10px !important;
+    background-color: #f1f4f6;
+  }
+  .tab-content::-webkit-scrollbar-thumb {
+    background-color: #abacad !important;
+    border-radius: 3px !important;
+  }
+#feedback_panel .feedback_form_card,#mandatory_panel .feedback_form_card {
     transition: 0.3s;
-}
-
-#feedback_panel .feedback_form_card .btn {
-  width: 90%;
-}
-
-#feedback_panel .feedback_form_card:hover {
-  -webkit-transform: scale(1.03);
-  transform: scale(1.03);
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
+    color: $font-black;
+    background-color: transparent;
+    border: 1px solid rgb(134, 134, 134);
+  }
+  
+  #feedback_panel .feedback_form_card .btn,#mandatory_panel .feedback_form_card .btn {
+    width: 90%;
+  }
+  
+  #feedback_panel .feedback_form_card:hover,#mandatory_panel .feedback_form_card:hover {
+    -webkit-transform: scale(1.03);
+    transform: scale(1.03);
+    -webkit-transition: 0.3s;
+    transition: 0.3s;
+  }
 /* #endregion */
 
 /* #region  Table Styling */
@@ -238,6 +254,9 @@ transition: .3s;
 /* #endregion Sidebar button*/
 
 /* #region  Feedback Modal Radio button */
+.required_star {
+    color : red;
+}
 .feedback-modal input[type="radio"] {
   appearance: none !important;
   display: none !important;
@@ -370,12 +389,13 @@ nav.for-feedback .nav-tabs span.active {
     padding: 5px 2px;
   }
   #prac .btn {
-    height: 50px;
+    // height: 50px;
+    height : 80px;
     padding: 0;
-    margin: 0 0.5em;
+    margin: 0 0.9em;
   }
   #t1 .btn {
-    font-size: 12px;
+    font-size: 11px;
   }
   #agenda_panel {
     font-size: 12px;
@@ -394,5 +414,32 @@ nav.for-feedback .nav-tabs span.active {
     -webkit-transition: 1s;
     transition: 1s;
   }
+  .modal .btn {
+    font-size: smaller !important;
+    margin-bottom: 5px;
+  }
+  .feedback-modal .radio-inline:nth-of-type(n) {
+    margin-right: 1px !important;
+    padding : 5px !important;
+  }
+  .modal .h5 {
+    font-size: smaller !important;
+  }
+  .modal-dialog {
+    margin: 0 !important;
+  }
+  #sidebar {
+      width : 30px !important;
+      height : 30px !important;
+  }
+  .mandatory_feedback_event span.h5 {
+    font-size: smaller !important;
+  }
+  .mandatory_feedback_event {
+      margin-bottom: 20px;
+  }
+  .table > :not(caption) > * > * {
+    padding: 0 !important;
+}
 }
 /* #endregion */

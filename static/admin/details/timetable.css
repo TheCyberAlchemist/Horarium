@@ -332,6 +332,9 @@ td {
   z-index: 10 !important;
 } */
 /* #region  context menu having lock and clear items */
+#generate_modal .list-group-item {
+    margin-bottom : 0px !important
+}
 .context-menu {
   z-index: 16;
   user-select: none;

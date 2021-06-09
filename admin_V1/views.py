@@ -972,7 +972,7 @@ def show_table(request,Division_id):
 	context['batches_json'] = get_json(my_batches,keep_pk=True)
 	# print(Slots.objects.filter( Timing_id__in = timings)[0])
 	# print(context['events_json'])
-	return render(request,"try/table.html",context)
+	return render(request,"admin/create_table/table.html",context)
 
 
 from admin_V1.algo import get_points,get_sorted_events,put_event

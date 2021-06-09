@@ -236,7 +236,7 @@ function get_card(event){
     <div class="card mb-3 feedback_form_card">
         <div class="card-body">
         <h5 class="card-title text-center">
-		<button class="btn btn-success" style="background-color:${event?.color}">
+		<button class="btn" style="background-color:${event?.color}">
 			${event.name}
 		</button></h5>
         <p class="card-text">Fill the feedback form for ${event.name} By ${event?.faculty_short} here</p>
@@ -275,10 +275,11 @@ function get_mandatory_cards(subject){
     <div class="card mb-3 feedback_form_card">
         <div class="card-body">
 			<h5 class="card-title text-center">
-			<button class="btn btn-success" style="background-color:${subject?.color}">
+			<button class="btn" style="background-color:${subject?.color}">
 				${subject.short}
 			</button></h5>
 			<p class="card-text">Fill the feedback form for ${subject.name} here</p>
+            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
     </div>`
 	return txt3;

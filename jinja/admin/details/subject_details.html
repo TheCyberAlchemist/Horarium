@@ -32,7 +32,7 @@
                         className : "all",
                     }
                 ],
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                "lengthMenu": [[25, 50, -1], [25, 50, "All"]],
                 responsive: true,
                 "dom": "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" +
                 "<'row'<'col-sm-12'tr>>" +
@@ -199,29 +199,33 @@
 							</thead>
 							<tbody>
 								{% if my_subjects %} 
-                                {% for subject in my_subjects %}
-								<tr>
-									<td class="fw-bold">{{loop.index}}</td>
-									<td class="sub_event_go fw-bold">
-										<a href="{{url ('show_sub_event' ,args=[subject.id])}}"> {{subject.name}}</a>
-									</td>
-									<td class="fw-bold">{{subject.short}}</td>
-									<td class="fw-bold">{{subject.Semester_id}}</td>
-									<td class="fw-bold">{{subject.lect_per_week}}</td>
-									<td class="fw-bold">{{subject.prac_per_week}}</td>
-									<td class="fw-bold">{{subject.load_per_week}} Hrs.</td>
-									<td class="border-0">
-										<a href="{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
-											<i class="fas fa-edit"></i>
-										</a>
-									</td>
-									<td class="border-0">
-										<div class="form-check" onclick="checkSelected()">
-											<input class="form-check-input del_input" type="checkbox" id="{{loop.index}}" name="del" value="{{subject.id}}" input_name="{{subject}}" />
-										</div>
-									</td>
-								</tr>
-								{% endfor %} {% endif %}
+									{% for subject in my_subjects %}
+										<tr {% if not subject.Semester_id.WEF_id.active %}
+												class="" style="background-color:red"
+											{% endif %}
+										>
+											<td class="fw-bold">{{loop.index}}</td>
+											<td class="sub_event_go fw-bold">
+												<a href="{{url ('show_sub_event' ,args=[subject.id])}}"> {{subject.name}}</a>
+											</td>
+											<td class="fw-bold">{{subject.short}}</td>
+											<td class="fw-bold">{{subject.Semester_id}}</td>
+											<td class="fw-bold">{{subject.lect_per_week}}</td>
+											<td class="fw-bold">{{subject.prac_per_week}}</td>
+											<td class="fw-bold">{{subject.load_per_week}} Hrs.</td>
+											<td class="border-0">
+												<a href="{{url ('update_sub_det' ,args=[my_branch.id,subject.id])}}">
+													<i class="fas fa-edit"></i>
+												</a>
+											</td>
+											<td class="border-0">
+												<div class="form-check" onclick="checkSelected()">
+													<input class="form-check-input del_input" type="checkbox" id="{{loop.index}}" name="del" value="{{subject.id}}" input_name="{{subject}}" />
+												</div>
+											</td>
+										</tr>
+									{% endfor %} 
+								{% endif %}
 							</tbody>
 						</table>
 					</div>

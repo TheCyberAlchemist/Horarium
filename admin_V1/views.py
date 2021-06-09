@@ -771,7 +771,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 	my_branch = Branch.objects.get(id = Branch_id)
 	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
 	# print("world")
-	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by("Semester_id__short")
+	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by("-Semester_id__WEF_id__active","Semester_id__short")
 	for i in my_subjects:
 		i.set_load()
 	context['my_subjects'] = my_subjects

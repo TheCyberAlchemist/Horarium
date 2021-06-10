@@ -34,13 +34,17 @@
         });
         $('input[name="wef_duration"]').on('apply.daterangepicker', function(ev, picker) {
             $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-			$("#mand1").val("");$("#mand2").val("");
-			$("#mand1").attr("min",picker.startDate.format('YYYY-MM-DD'));
-			$("#mand1").attr("max",picker.endDate.format('YYYY-MM-DD'));
-			$("#mand1").removeAttr("disabled");
-			$("#mand2").attr("min",picker.startDate.format('YYYY-MM-DD'));
-			$("#mand2").attr("max",picker.endDate.format('YYYY-MM-DD'));
-			$("#mand2").removeAttr("disabled");
+			$("#mand1").val("")
+				.attr("min",picker.startDate.format('YYYY-MM-DD'))
+				.attr("max",picker.endDate.format('YYYY-MM-DD'))
+				.removeAttr("disabled");
+			$("#mandatory1_name").removeAttr("disabled");
+
+			$("#mand2").val("")
+					.attr("min",picker.startDate.format('YYYY-MM-DD'))
+					.attr("max",picker.endDate.format('YYYY-MM-DD'))
+					.removeAttr("disabled");
+			$("#mandatory2_name").removeAttr("disabled");
 
 		});
 		

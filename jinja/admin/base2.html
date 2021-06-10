@@ -44,12 +44,11 @@
 
 	<!-- <script type="application/javascript" src="{{static ('student/navbar/navbar.js') }}"></script> -->
 	<script>
-	$('.user_icon').each(function() {
-		$(this).gixi({
-		seed: "{{request.user}}_{{request.user.pk}}",
-		size:20,
+	$(document).ready(function (){
+		$('.user_icon').each(function() {
+			$(this).gixi();
 		});
-	});
+	})
 	</script>
 	{% block scripts %}{% endblock %}
 	{# script block for all the scripts of the page #}

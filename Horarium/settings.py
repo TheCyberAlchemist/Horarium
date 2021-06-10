@@ -29,6 +29,15 @@ DEBUG = True
 ALLOWED_HOSTS = ["192.168.0.1","127.0.0.1","192.168.29.210","178.22.67.206","31.171.245.100","horarium1.herokuapp.com","horarium.pythonanywhere.com"]
 # ALLOWED_HOSTS = ['*']
 
+
+# for graph
+GRAPH_MODELS = {
+#   'all_applications': True,
+#   'group_models': True,
+    'app_labels': ["institute_V1", "subject_V1", "Table_V2"],
+}
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -47,6 +56,7 @@ INSTALLED_APPS = [
     'subject_V1',
     'admin_V1',
 
+    # 'django_extensions', # for model images
 ]
 
 MIDDLEWARE = [

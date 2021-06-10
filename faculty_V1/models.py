@@ -40,7 +40,7 @@ class Faculty_load(models.Model):
 	total_load = models.PositiveIntegerField()
 	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE)
 	def remaining_load(self):
-		all_events = Subject_event.objects.filter(Faculty_id=self.Faculty_id)
+		all_events = Subject_event.objects.active().filter(Faculty_id=self.Faculty_id)
 		total = 0
 		for i in all_events:
 			total += i.total_load_carried()

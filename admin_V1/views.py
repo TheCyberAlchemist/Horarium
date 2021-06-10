@@ -35,7 +35,7 @@ def run_script(request):
 	from login_V2.models import CustomUser
 	# subject_event = Event.objects.filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
 
-	subject_event = Subject_event.objects.filter(Faculty_id__short="TRK")[0]
+	subject_event = Subject_event.objects.active().filter(Faculty_id__short="TRK")[0]
 	# print(subject_event)
 	fri_delta = datetime.timedelta(4)
 	thu_delta = datetime.timedelta(3)
@@ -76,7 +76,7 @@ def return_context(request):
 	sems = {}
 	for key,values in branches.items():	# for all the key(department) and values(branches)
 		for value in values:			# for all the coure in branches
-			temp = Semester.objects.filter(Branch_id=value.id).order_by('short')	# find all the sems related to the branch
+			temp = Semester.objects.active().filter(Branch_id=value.id).order_by('short')	# find all the sems related to the branch
 			if temp:	# if temp is not null
 				sems[value.id] = temp		# make a key having branch id
 											# and value having all the sems related to it
@@ -125,14 +125,14 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 		elif time_table_event:
 			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
 			# print(Event.objects.filter(Slot_id_id=d['pk']).values_list("id",flat=True))
-			d['fields']['resources_filled'] = list(Event.objects.filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
+			d['fields']['resources_filled'] = list(Event.objects.active().filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
 		elif time_table:
 			d['fields']['Subject_color'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.color
 			d['fields']['Faculty_name'] = str(qs.filter(pk = d['pk'])[0].Faculty_id)
 			d['fields']['Subject_id'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.pk
 			d['fields']['Subject_name'] = str(qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id)
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
-			d['fields']['other_events'] = get_json(Event.objects.filter(Subject_event_id__Faculty_id = d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
+			d['fields']['other_events'] = get_json(Event.objects.active().filter(Subject_event_id__Faculty_id = d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
 		if not keep_pk:
 			del d['pk']
 		del d['model']
@@ -380,7 +380,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 		my_faculty = Faculty_details.objects.filter(Department_id=Department_id)
 		context['my_faculty_load'] = Faculty_load.objects.filter(Faculty_id__in=my_faculty)
 		if Faculty_id:	# if edit is called
-			context['my_subject_events'] = get_json(Subject_event.objects.filter(Faculty_id=Faculty_id),False)
+			context['my_subject_events'] = get_json(Subject_event.objects.active().filter(Faculty_id=Faculty_id),False)
 			edit = my_faculty.get(pk = Faculty_id)
 			user_form = add_user(instance = edit.User_id)
 			faculty_detail_form = faculty_details(instance = edit)
@@ -730,7 +730,7 @@ def show_not_avail(request,Faculty_id):
 	def get_slots(qs):
 		return Slots.objects.filter(pk__in = qs.values("Slot_id"))
 	faculty = Faculty_details.objects.get(pk = Faculty_id)
-	events = Event.objects.filter(Subject_event_id__Faculty_id = Faculty_id)
+	events = Event.objects.active().filter(Subject_event_id__Faculty_id = Faculty_id)
 	not_available = Not_available.objects.filter(Faculty_id=Faculty_id)
 	Shift_id = faculty.Shift_id
 	context["my_faculty"] = faculty
@@ -771,7 +771,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 	my_branch = Branch.objects.get(id = Branch_id)
 	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
 	# print("world")
-	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by("Semester_id__short")
+	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by("-Semester_id__WEF_id__active","Semester_id__short")
 	for i in my_subjects:
 		i.set_load()
 	context['my_subjects'] = my_subjects
@@ -824,7 +824,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 		return json.dumps(data)
 	context = return_context(request)
 	teachers = Faculty_details.objects.filter(pk__in = Can_teach.objects.filter(Subject_id=Subject_id).values("Faculty_id"))
-	context["Subject_event"] = Subject_event.objects.filter(Subject_id = Subject_id)
+	context["Subject_event"] = Subject_event.objects.active().filter(Subject_id = Subject_id)
 	context["my_faculty"] = teachers.exclude(pk__in = context["Subject_event"].values("Faculty_id"))
 	# print(teachers)
 	my_subject = Subject_details.objects.get(pk = Subject_id)
@@ -834,7 +834,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 	context['fac'] = return_json(teachers)
 	context['form'] = add_sub_event()
 	if Faculty_id:	# if edit is called
-		edit = Subject_event.objects.get(Faculty_id=Faculty_id, Subject_id = Subject_id)
+		edit = Subject_event.objects.active().get(Faculty_id=Faculty_id, Subject_id = Subject_id)
 		form = add_sub_event(instance = edit)
 		form.instance.Faculty_id = edit.Faculty_id
 		context['update'] = form.instance
@@ -908,7 +908,7 @@ def show_table(request,Division_id):
 	#  to start the timetable
 	context = return_context(request)
 	if request.method == "POST":
-		old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2','link'))
+		old_events_qs = list(Event.objects.active().filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2','link'))
 		json_events = json.loads(request.body)
 		new_events = set()
 		old_events = set()
@@ -930,7 +930,7 @@ def show_table(request,Division_id):
 		for i in to_be_deleted:
 			def get_str(a):
 				return str(a) if a else None
-			TBD = Event.objects.filter(Division_id=Division_id,Slot_id= get_str(i[0]))
+			TBD = Event.objects.active().filter(Division_id=Division_id,Slot_id= get_str(i[0]))
 			# print(TBD)
 			if len(TBD):
 				TBD.delete()
@@ -966,7 +966,7 @@ def show_table(request,Division_id):
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
-	context['events_json'] = serializer.serialize(Event.objects.filter(Division_id=Division_id))
+	context['events_json'] = serializer.serialize(Event.objects.active().filter(Division_id=Division_id))
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches,keep_pk=True)
@@ -1003,14 +1003,14 @@ def get_division_subjects_and_events(Division_id):
 				my_subjects.append(i)
 			continue
 	
-	subject_events = Subject_event.objects.all().filter(Subject_id__in = my_subjects)
+	subject_events = Subject_event.objects.active().all().filter(Subject_id__in = my_subjects)
 
 	return my_subjects,subject_events
 
 def algo_v1(request,Division_id):
 	# delete all the prior events after taking the locked events
 	# save all the locked events
-	old_events_qs = list(Event.objects.filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
+	old_events_qs = list(Event.objects.active().filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
 	json_events = json.loads(request.body)
 	new_events = set()
 	old_events = set()
@@ -1030,7 +1030,7 @@ def algo_v1(request,Division_id):
 	for i in to_be_deleted:
 		def get_str(a):
 			return str(a) if a else None
-		TBD = Event.objects.filter(Division_id=Division_id,Slot_id= get_str(i[0]))
+		TBD = Event.objects.active().filter(Division_id=Division_id,Slot_id= get_str(i[0]))
 		# print(TBD)
 		if len(TBD):
 			TBD.delete()
@@ -1044,7 +1044,7 @@ def algo_v1(request,Division_id):
 		# form.save()
 	algo.put_division(Division_id)
 	_,subject_events = get_division_subjects_and_events(Division_id)
-	locked_events = Event.objects.filter(Division_id=Division_id)
+	locked_events = Event.objects.active().filter(Division_id=Division_id)
 	subject_events = algo.get_sorted_events(subject_events,locked_events)
 	for subject_event in subject_events:
 		prac_carried = subject_event.prac_carried
@@ -1068,7 +1068,7 @@ def algo_v1(request,Division_id):
 					for i in range(remaining_count):
 						# print(batch,"-",subject_event)
 						# algo.get_subject_events(Division_id,subject_event,True,locked_events,batch)
-						locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events,batch))
+						locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events,batch))
 			else:
 				locked_prac_count = all_events_of_subject.count()
 				remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
@@ -1081,7 +1081,7 @@ def algo_v1(request,Division_id):
 				for i in range(remaining_count):
 					# print(subject_event,"- Class")
 					# algo.get_subject_events(Division_id,subject_event,True,locked_events)
-					locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events))
+					locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events))
 
 		if lect_carried:
 			batches = subject_event.Subject_id.batch_set.filter(batch_for = "lect")
@@ -1101,7 +1101,7 @@ def algo_v1(request,Division_id):
 					for i in range(remaining_count):
 						# print(batch,"-",subject_event)
 						# algo.get_subject_events(Division_id,subject_event,False,locked_events,batch)
-						locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events,batch))
+						locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events,batch))
 
 			else:
 				locked_lect_count = all_events_of_subject.filter(Slot_id_2=None).count()
@@ -1116,11 +1116,11 @@ def algo_v1(request,Division_id):
 				for i in range(remaining_count):
 					# print(subject_event,"- Class")
 					# algo.get_subject_events(Division_id,subject_event,False,locked_events)
-					locked_events |= Event.objects.filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events))
+					locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events))
 					
 				print(subject_event," - Class")
 	serializer = MySerialiser()
-	data = serializer.serialize(Event.objects.filter(Division_id=Division_id))
+	data = serializer.serialize(Event.objects.active().filter(Division_id=Division_id))
 	return JsonResponse(data, safe=False)
 	# return 
 	# return render(request,"try/algo_v1.html",context)
@@ -1169,8 +1169,8 @@ def csv_upload(request) :
 	# import datetime
 	# from faculty_V1.models import Feedback
 	# from login_V2.models import CustomUser
-	# subject_event = Event.objects.filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
-	# subject_event = Event.objects.filter(pk__in = [97,114,128])
+	# subject_event = Event.objects.active().filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
+	# subject_event = Event.objects.active().filter(pk__in = [97,114,128])
 	# print(request.user.pk)
 	# fri_delta = datetime.timedelta(4)
 	# thu_delta = datetime.timedelta(3)
@@ -1192,7 +1192,7 @@ def csv_upload(request) :
 
 
 
-	# for i in Event.objects.all():
+	# for i in Event.objects.active():
 	# 	if i.Slot_id_2:
 	# 		i.link = i.Batch_id.link
 	# 		i.save()

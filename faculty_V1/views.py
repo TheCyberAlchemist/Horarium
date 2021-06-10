@@ -54,7 +54,7 @@ def faculty_home(request):
 	# for i in Slots.objects.filter(day=2):
 	faculty = request.user.faculty_details
 	my_shift = faculty.Shift_id
-	my_events = Event.objects.filter(Subject_event_id__Faculty_id = faculty)
+	my_events = Event.objects.active().filter(Subject_event_id__Faculty_id = faculty)
 	day = ""
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
@@ -75,9 +75,9 @@ def faculty_feedback(request,Faculty_id = None) :
 	subject_events_list = []
 	subjects_list = []
 	if Faculty_id:	# if called by admin_dashboard
-		subject_events =  Subject_event.objects.filter(Faculty_id__User_id=Faculty_id)
+		subject_events =  Subject_event.objects.active().filter(Faculty_id__User_id=Faculty_id)
 	else:
-		subject_events =  Subject_event.objects.filter(Faculty_id=request.user.faculty_details)
+		subject_events =  Subject_event.objects.active().filter(Faculty_id=request.user.faculty_details)
 	# print(subject_events)
 	for subject_event in subject_events:
 		subject_events_list.append({'Subject_name':str(subject_event.Subject_id),"id":subject_event.pk})
@@ -188,7 +188,7 @@ class feedback(APIView):
 	def get(self, request, format = None):
 		########################## general decleration ######################
 		# print(request.GET)
-		subject_event = Subject_event.objects.get(pk = request.GET['id'])
+		subject_event = Subject_event.objects.active().get(pk = request.GET['id'])
 		# print(subject_event)
 		wef = subject_event.Subject_id.Semester_id.WEF_id
 		all_feeback  = Feedback.objects.filter(Subject_event_id = subject_event)

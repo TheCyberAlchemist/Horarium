@@ -23,6 +23,8 @@ while not_infinite:
 
 ##############################################
 
+# if there is any dead lock then check if the event on the best possible slot can be placed on any other
+
 def get_sorted_events(subject_events,locked_events,priority_list): 
 	events = []
 	my_dict = {}

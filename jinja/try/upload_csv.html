@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.1.0/json2html.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script>
+function send_ajax(){
+		var csrftoken = Cookies.get('csrftoken');
+		function csrfSafeMethod(method) {
+			// these HTTP methods do not require CSRF protection
+			return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+		}
+		// Ensure jQuery AJAX calls set the CSRF header to prevent security errors
+		$.ajaxSetup({
+			beforeSend: function(xhr, settings) {
+				if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+					xhr.setRequestHeader("X-CSRFToken", csrftoken);
+				}
+			}
+		});
+		$.ajax({
+			url:"../../csv/",
+			type: "post",
+			success: function (data){
+				document.getElementsByClassName("response")[0].textContent = JSON.stringify(data, undefined, 2);
+			}
+		});
+	}
+</script>
+<body>    
+    <form action="" method="POST" enctype="multipart/form-data">
+        {{ csrf_input }}
+        <label for="file1"> Upload a file</label>
+        <input type="file" id="file1" name="file">
+        <small>Only accepts CSV files</small>
+        <button type="submit">Upload</button>
+    </form>
+	<button onclick="send_ajax()">
+		POST
+	</button>
+	<pre style="font-size: 18px;" class = "response">
+	</pre>
+</body>
+</html>

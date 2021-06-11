@@ -59,7 +59,8 @@ div.dataTables_wrapper div.dataTables_length select {
 
 .input_icons {
   position: absolute;
-  top: 1em;
+  top: 0%;
+  left : 95%;
   height: 35px;
   width: 35px;
 }
@@ -314,6 +315,11 @@ display: none !important;
   // .table {
   //   overflow-x: scroll;
   // }
+  .input_icons {
+      left : 88%;
+      height : 30px !important;
+      width : 30px !important;
+  }
   .form-check {
     width: 10px;
     transform: translateX(10px);

@@ -1161,6 +1161,8 @@ def home(request) :
 
 def all_feedbacks(request) :
     return render(request,'admin/all_feedbacks.html')
+def csv_upload(request) :
+    return render(request,'admin/details/csv_upload.html')
 ##################### scripts #####################
 # var = []
 	# import random

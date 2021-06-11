@@ -73,6 +73,6 @@ urlpatterns = [
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 	# path('sube/',views.show_subject_events, name = 'show_subject_events')
-	
+	re_path(r'^csv_upload/$',views.csv_upload,name = 'csv_upload'),
 	# path('500/',views.error_500_view,name = '500'),
 ]

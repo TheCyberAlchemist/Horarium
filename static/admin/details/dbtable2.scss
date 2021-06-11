@@ -5,19 +5,19 @@
   width: 95% !important;
 }
 
-.table thead tr th,
-.table tbody tr td {
+.table_container .table thead tr th,
+.table_container .table tbody tr td {
   font-size: 0.85rem !important;
   outline: 0;
   font-family: "Poppins", sans-serif !important;
 }
 
-.table tbody .even td,
-.table tbody .odd td {
+.table_container .table tbody .even td,
+.table_container .table tbody .odd td {
   border-bottom: 1px solid rgb(185, 185, 185) !important;
 }
-.table tbody .even td:first-child,
-.table tbody .odd td:first-child {
+.table_container .table tbody .even td:first-child,
+.table_container .table tbody .odd td:first-child {
   //for styling the first column of table
   color: blue;
 }

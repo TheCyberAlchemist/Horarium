@@ -1,0 +1,11 @@
+E-mail,Password,First name,Last name,Roll_no,Department,Semester,Branch,Division,Practical Batch,Lecture Batch
+a@a.com,horarium,b,b,1,CSE,Sem-1,CSE,A,11,
+b@b.com,horarium,c,c,1,CSE,Sem-1,CSE,A,11,
+c@c.com,horarium,d,d,1,CSE,,CSE,A,11,
+e@e.com,,e,e,1,CSE,Sem-1,CSE,A,11,
+,horarium,f,f,1,CSE,Sem-1,CSE,A,11,
+c@c.com,horarium,f,f,1,CSE,Sem-2,CSE,A,11,
+e@e.com,horarium,f,f,1,CSE,Sem-3,CSE,A,11,
+e@e.com,horarium,f,f,1,CSE,Sem-3,,A,11,
+dev@patel.com,horarium,c,c,1,CSE,Sem-1,CSE,A,11,
+manav@mehta.com,horarium,c,c,1,CSE,Sem-1,CSE,A,11,

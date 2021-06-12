@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="{{static ('form/form2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/csv_upload.css')}}">
+<link rel="stylesheet" href="{{static ('dropzone/dropzone.css')}}">
 <style>
     td,
     th {
@@ -21,6 +22,7 @@
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
+<script type="application/javascript" src="{{static ('dropzone/dropzone.js')}}"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -482,4 +484,38 @@
                 </div>
             </div>
         </div>
+        <div class="container">
+        <form action="/file-upload" class="dropzone"style="border : 1px dashed black;background-color:grey">
+            <div class="fallback">
+              <input name="file" type="file" multiple />
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
+        </div>
+    <script>
+        $(function () {
+            Dropzone.options.frmTarget = {
+                autoProcessQueue: false,
+                url: 'upload_files.php',
+                init: function () {
+            
+                    var myDropzone = this;
+            
+                    // Update selector to match your button
+                    $("#button").click(function (e) {
+                        e.preventDefault();
+                        myDropzone.processQueue();
+                    });
+            
+                    this.on('sending', function(file, xhr, formData) {
+                        // Append all form inputs to the formData Dropzone will POST
+                        var data = $('#frmTarget').serializeArray();
+                        $.each(data, function(key, el) {
+                            formData.append(el.name, el.value);
+                        });
+                    });
+                }
+            }
+        })
+    </script>
         {% endblock %}

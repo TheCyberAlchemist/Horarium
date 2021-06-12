@@ -1,12 +1,12 @@
 E-mail,Password,First name,Last name,Roll_no,Department,Semester,Branch,Division,Practical Batch,Lecture Batch
-a@a.com,horarium,a,a,1,CSE,Sem-1,B.TECH,A,11,12
+a@a.com,horarium,a,a,1,CSE,Sem-1,B.TECH,A,11,lect-1
 b@b.com,horarium,b,b,2,CSE,Sem-1,B.TECH,A,11,
 c@c.com,horarium,c,c,3,CSE,Sem-1,B.TECH,A,11,
-d@d.com,horarium,d,d,4,CSE,Sem-1,b.tech,A,11,
-e@e.com,horarium,e,e,5,CSE,Sem-1,B.TECH,B,11,
+d@d.com,horarium,d,d,4,CSE,Sem-1,B.TECH,A,11,
+e@e.com,horarium,e,e,5,CSE,Sem-1,B.TECH,A,11,
 f@f.com,horarium,f,f,6,CSE,Sem-1,B.TECH,A,11,
 g@g.com,horarium,g,g,7,CSE,Sem-1,B.TECH,A,11,
 h@h.com,horarium,h,h,8,CSE,Sem-1,B.TECH,A,11,
 i@i.com,horarium,i,i,9,CSE,Sem-1,B.TECH,A,11,
 j@j.com,horarium,j,j,10,CSE,Sem-1,B.TECH,A,11,
-j@j.com,horarium,h,j,10,CSE,Sem-1,B.TECH,A,11,
+k@k.com,horarium,k,k,11,CSE,Sem-1,B.TECH,A,11,

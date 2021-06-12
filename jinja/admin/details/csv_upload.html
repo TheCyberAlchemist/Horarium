@@ -9,7 +9,7 @@
 <link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 <link rel="stylesheet" href="{{static ('form/form2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
-<link rel="stylesheet" href="{{static ('admin/details/csv_upload.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/csv_upload/csv_upload.css')}}">
 <style>
     td,
     th {
@@ -19,18 +19,21 @@
 {% endblock %}
 
 {%block scripts%}
-<script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+
+<script type="application/javascript" src="{{static ('admin/details/csv_upload/csv_upload.js') }}" charset="utf-8"></script>
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script type="text/javascript">
 
     $(document).ready(function () {
         $("#csv_select").select2();
     });
+
 </script>
+
 {% endblock %}
 
 {% block content %}
-<div id="page_activator" activate-page="""></div>
+<div id="page_activator" activate-page=""></div>
 <div class=" main_content">
     <div class="row p-2 ">
         <nav aria-label="breadcrumb">
@@ -49,26 +52,123 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 csv_import_container">
                     <div class="card">
-                        <div class="card-title text-center">
-                            <div class="select2_container single_select2 mt-4">
-                                <select name="csv_select" id="csv_select" required>
-                                    <option disabled selected>Select CSV Import For</option>
-                                    <option value="student">Student</option>
-                                    <option value="faculty">Faculty</option>
-                                </select>
+                        <form id="main_form">
+                            <div class="card-title text-center">
+                                <div class="select2_container single_select2 mt-4">
+                                    <select name="csv_select" id="csv_select" required>
+                                        <option disabled selected>Select CSV Import For</option>
+                                        <option value="student">Student</option>
+                                        <option value="faculty">Faculty</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="input-group">
-                                <div class="form-group files">
-                                    <label>Upload Your File </label>
-                                    <input type="file" class="form-control">
+                            <div class="card-body">
+                                <div class="input-group">
+                                    <div class="form-group files">
+                                        <label>Upload Your File </label>
+                                        <input type="file" id="csv" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <input type="submit"> asdadadasasd </input>
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <div class="container-fluid" id="error_main_container">
+            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_asdf">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="accordion accordion-flush" id="error_accordion_asdf">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="error_accordion_heading_asdf">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#error_accordion_collapse_asdf" aria-expanded="false"
+                                    aria-controls="error_accordion_collapse_asdf">
+                                    <h5>Error</h5>
+                                </button>
+                            </h2>
+                            <div id="error_accordion_collapse_asdf" class="accordion-collapse collapse"
+                                aria-labelledby="error_accordion_heading_asdf" data-bs-parent="#error_accordion_asdf">
+                                <div class="accordion-body">
+                                    <div class = "error_body"></div>
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 text-center">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
+                                                    <th class="fw-bold border-1">First Name</th>
+                                                    <th class="fw-bold border-1">Last Name</th>
+                                                    <th class="fw-bold border-1">Short Name</th>
+                                                    <th class="fw-bold border-1">Email Id</th>
+                                                    <th class="fw-bold border-1">Password</th>
+                                                    <th class="fw-bold border-1">Enrollment</th>
+                                                    <th class="fw-bold border-1">Department</th>
+                                                    <th class="fw-bold border-1">Semester</th>
+                                                    <th class="fw-bold border-1">Branch</th>
+                                                    <th class="fw-bold border-1">Division</th>
+                                                    <th class="fw-bold border-1">Practical Batch</th>
+                                                    <th class="fw-bold border-1">Lecture Batch</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-12 col-md-12 col-sm-12 mt-4 csv_header_example">
+            </div>
+
+            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_asd">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="accordion accordion-flush" id="error_accordion_asd">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="error_accordion_heading_asd">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#error_accordion_collapse_asd" aria-expanded="false"
+                                    aria-controls="error_accordion_collapse_asd">
+                                    <h5>Error</h5>
+                                </button>
+                            </h2>
+                            <div id="error_accordion_collapse_asd" class="accordion-collapse collapse"
+                                aria-labelledby="error_accordion_heading_asd" data-bs-parent="#error_accordion_asd">
+                                <div class="accordion-body">
+                                    <div class="table-responsive">
+                                        <table class="table mb-0 text-center">
+                                            <thead class="thead-light">
+                                                <tr>
+                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
+                                                    <th class="fw-bold border-1">First Name</th>
+                                                    <th class="fw-bold border-1">Last Name</th>
+                                                    <th class="fw-bold border-1">Short Name</th>
+                                                    <th class="fw-bold border-1">Email Id</th>
+                                                    <th class="fw-bold border-1">Password</th>
+                                                    <th class="fw-bold border-1">Enrollment</th>
+                                                    <th class="fw-bold border-1">Department</th>
+                                                    <th class="fw-bold border-1">Semester</th>
+                                                    <th class="fw-bold border-1">Branch</th>
+                                                    <th class="fw-bold border-1">Division</th>
+                                                    <th class="fw-bold border-1">Practical Batch</th>
+                                                    <th class="fw-bold border-1">Lecture Batch</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 mt-4 csv_header_example">
                     <div class="card p-3">
                         <div class="card-title h4">
                             Headers for CSV
@@ -127,359 +227,4 @@
 
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container-fluid">
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_0">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_0">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_0">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_0" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_0">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_0" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_0" data-bs-parent="#error_accordion_0">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_1">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_1">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_1">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_1" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_1">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_1" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_1" data-bs-parent="#error_accordion_1">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_2">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_2">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_2">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_2" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_2">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_2" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_2" data-bs-parent="#error_accordion_2">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_3">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_3">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_3">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_3" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_3">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_3" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_3" data-bs-parent="#error_accordion_3">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_4">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_4">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_4">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_4" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_4">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_4" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_4" data-bs-parent="#error_accordion_4">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_5">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_5">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_5">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_5" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_5">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_5" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_5" data-bs-parent="#error_accordion_5">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_6">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_6">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_6">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_6" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_6">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_6" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_6" data-bs-parent="#error_accordion_6">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_7">
-                <div class="card-body" style="border-radius: 1rem;">
-                    <div class="accordion accordion-flush" id="error_accordion_7">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="error_accordion_heading_7">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#error_accordion_collapse_7" aria-expanded="false"
-                                    aria-controls="error_accordion_collapse_7">
-                                    <h5>Error</h5>
-                                </button>
-                            </h2>
-                            <div id="error_accordion_collapse_7" class="accordion-collapse collapse"
-                                aria-labelledby="error_accordion_heading_7" data-bs-parent="#error_accordion_7">
-                                <div class="accordion-body">
-                                    <div class="table-responsive">
-                                        <table class="table mb-0 text-center">
-                                            <thead class="thead-light">
-                                                <tr>
-                                                    <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                                                    <th class="fw-bold border-1">First Name</th>
-                                                    <th class="fw-bold border-1">Last Name</th>
-                                                    <th class="fw-bold border-1">Short Name</th>
-                                                    <th class="fw-bold border-1">Email Id</th>
-                                                    <th class="fw-bold border-1">Password</th>
-                                                    <th class="fw-bold border-1">Enrollment</th>
-                                                    <th class="fw-bold border-1">Department</th>
-                                                    <th class="fw-bold border-1">Semester</th>
-                                                    <th class="fw-bold border-1">Branch</th>
-                                                    <th class="fw-bold border-1">Division</th>
-                                                    <th class="fw-bold border-1">Practical Batch</th>
-                                                    <th class="fw-bold border-1">Lecture Batch</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         {% endblock %}

@@ -68,11 +68,12 @@ urlpatterns = [
 	re_path(r'^try/algo3/$',algo3.view_func,name = 'view_algo3'),
 	re_path(r'^algo3/$',algo3.main.as_view(),name = 'algo3'),
 
-	re_path(r'^try/csv/$',user_csv.csv_view_func,name = 'view_csv'),
+	re_path(r'^csv_upload/$',user_csv.csv_view_func,name = 'csv_upload'),
+	re_path(r'^try/csv/$',user_csv.csv_try_view_func,name = 'view_csv'),
 	re_path(r'^csv/$',user_csv.csv_check_api.as_view(),name = 'csv'),
+	
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 	# path('sube/',views.show_subject_events, name = 'show_subject_events')
-	re_path(r'^csv_upload/$',views.csv_upload,name = 'csv_upload'),
 	# path('500/',views.error_500_view,name = '500'),
 ]

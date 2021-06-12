@@ -8,6 +8,12 @@ class add_student_form(ModelForm):
 		model = Student_details
 		fields = ["User_id","display_image"]
 
+class add_student_details(ModelForm):
+	class Meta:
+		model = Student_details
+		fields = ["roll_no","Institute_id","Division_id","prac_batch","lect_batch"]
+
+
 class feedback_form(ModelForm):
 	class Meta:
 		model = Feedback

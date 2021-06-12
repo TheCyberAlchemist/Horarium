@@ -272,14 +272,12 @@
 			<div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem">
 				<div class="card-body" style="border-radius: 1rem">
 					<div class="row text-center">
-						<div class="col-lg-10 col-sm-12">
+						<div class="col-lg-12 col-sm-12">
 							<div class="h3 text-center">WEFs For {{my_department}}</div>
+                            <a style="display: none" id="del" onclick="delete_entries()">
+                                <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete" />
+                            </a>
 						</div> 
-						<div class="col-lg-2 col-sm-12">
-							<a style="display: none" id="del" onclick="delete_entries()">
-								<img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete" />
-							</a>
-						</div>
 					</div>
 					<div class="table">
 						<table class="table nowrap responsive compact mb-0 rounded text-center" id="example">

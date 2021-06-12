@@ -146,10 +146,8 @@
             <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">
                 <div class="card-body" style="border-radius: 1rem;">
                     <div class="row text-center">
-                        <div class="col-lg-10 col-sm-12">
+                        <div class="col-lg-12 col-sm-12">
                             <div class="h3 text-center">Semesters For {{my_branch}}</div>
-                        </div>
-                        <div class="col-lg-2 col-sm-12">
                             <a style="display: none;" id="del" onclick="delete_entries()" >
                                 <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete">
                             </a>
@@ -166,7 +164,7 @@
                                     <th class="border-0 text-center">
                                         <div class="form-check" onclick="checkAll();">
                                             <input class="form-check-input" type="checkbox" value="parent"
-                                                id="parent" name="parent" style="margin-left:40%">
+                                                id="parent" name="parent">
                                         </div>
                                     </th>
                                 </tr>
@@ -198,7 +196,7 @@
                                         <td class="border-0">
                                             <div class="form-check" onclick="checkSelected()">
                                                 <input class="form-check-input del_input" type="checkbox"
-                                                id="{{loop.index}}" name="del" value="{{semester.id}}" input_name="{{semester}}" style="margin-left:40%">
+                                                id="{{loop.index}}" name="del" value="{{semester.id}}" input_name="{{semester}}">
                                             </div>
                                         </td>
                                     </tr>

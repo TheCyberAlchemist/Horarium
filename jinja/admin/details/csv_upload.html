@@ -16,6 +16,32 @@
     th {
         font-size: 10px !important;
     }
+    .dropzone_container { 
+        background-color:#E8E9EC;
+        height : 60vh;
+    }
+    .dropzone_container .dropzone{
+        background-color: white;
+        border : 2px dashed rgb(54, 54, 167);
+        position: relative;
+        height : 80%;
+
+    }
+    .dropzone_container .dropzone:hover { 
+        background-color: #E8E9EC;
+        transition:.3s
+    }
+    .sub .btn {
+        position : absolute;
+        top : 110%;
+        left : 47%;
+    }
+    @media screen and (max-width:600px){
+        .sub .btn {
+            top : 110%;
+            left : 40%;
+        }   
+    }
 </style>
 {% endblock %}
 
@@ -28,6 +54,24 @@
 
     $(document).ready(function () {
         $("#csv_select").select2();
+        Dropzone.options.frmTarget = {
+            autoProcessQueue: false,
+            url: '',
+            maxFiles : 1,
+            init: function () {
+                console.log("Ho");
+                this.on("maxfilesexceeded", function(file) {
+                    alert("You are not allowed to chose more than 1 file!");
+                    this.removeFile(file);
+                  });
+                var myDropzone = this;
+                // Update selector to match your button
+                $(".btn").click(function (e) {
+                    e.preventDefault();
+                    myDropzone.processQueue();
+                });
+            }
+        }
     });
 
 </script>
@@ -54,26 +98,44 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 csv_import_container">
                     <div class="card">
-                        <form id="main_form">
-                            <div class="card-title text-center">
-                                <div class="select2_container single_select2 mt-4">
-                                    <select name="csv_select" id="csv_select" required>
-                                        <option disabled selected>Select CSV Import For</option>
-                                        <option value="student">Student</option>
-                                        <option value="faculty">Faculty</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <div class="input-group">
-                                    <div class="form-group files">
-                                        <label>Upload Your File </label>
-                                        <input type="file" id="csv" class="form-control">
+                        <div class="card-body">
+                            <form id="main_form">
+                                <div class="card-title text-center">
+                                    <div class="select2_container single_select2 mt-4">
+                                        <select name="csv_select" id="csv_select" required>
+                                            <option disabled selected>Select CSV Import For</option>
+                                            <option value="student">Student</option>
+                                            <option value="faculty">Faculty</option>
+                                        </select>
                                     </div>
                                 </div>
+
+                                    <!-- <div class="input-group">
+                                        <div class="form-group files">
+                                            <label>Upload Your File </label>
+                                            <input type="file" id="csv" class="form-control">
+                                        </div>
+                                    </div> -->
+                            </form>
+                            <div class="dropzone_container container mt-4 p-3">
+                                <form action="/file-upload" class="dropzone">
+                                    <div class="fallback">
+                                        <input name="file" type="file" multiple />
+                                    </div>
+                                    <div class="sub container text-center">
+                                        <button class="btn btn-primary dz-button" type="submit">Submit</button>
+                                    </div>
+                                </form>
                             </div>
-                            <input type="submit"> asdadadasasd </input>
-                        </form>
+                            <div class="container errors_container mt-3">
+                            <div class="list-group">
+                                <span class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</span>
+                              </div>
+                            </div>
+
+                        </div>
+                            <!-- <input type="submit"> asdadadasasd </input> -->
+
                     </div>
                 </div>
                 
@@ -229,4 +291,5 @@
 
                     </div>
                 </div>
+                
         {% endblock %}

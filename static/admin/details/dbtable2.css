@@ -136,6 +136,10 @@
   }
   td.child {
     word-wrap: break-word !important;
+    white-space: normal !important;
+  }
+  .row.d-flex.align-items-center {
+    margin-left: 10px !important;
   }
 }
 /*# sourceMappingURL=dbtable2.css.map */

@@ -1160,29 +1160,6 @@ button:focus {
     outline: -webkit-focus-ring-color auto 5px;
 }
 
-input,
-button,
-select,
-optgroup,
-textarea {
-    margin: 0;
-    font-family: inherit;
-    font-size: inherit;
-    line-height: inherit;
-}
-
-button,
-select {
-    text-transform: none;
-}
-
-[role="button"] {
-    cursor: pointer;
-}
-
-select {
-    word-wrap: normal;
-}
 
 [list]::-webkit-calendar-picker-indicator {
     display: none;

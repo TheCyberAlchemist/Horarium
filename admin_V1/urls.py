@@ -14,10 +14,10 @@ urlpatterns = [
 	path('home/faculty_edit_called/',add_update_users.faculty_edit_called,name = "faculty_edit"),
 	path('home/student_edit_called/',add_update_users.student_edit_called,name = "student_edit"),
 
-
     re_path(r'^home2/$',views.home,name = 'home2'),
-    re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
+	re_path(r'^home2/satisfaction$',views.student_satisfaction.as_view(),name = 'student_satisfaction'),
 
+    re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
 	
 	path('home/update_student/',add_update_users.student_edit_called,name = "student_edit"),
 

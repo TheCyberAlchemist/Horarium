@@ -13,36 +13,14 @@
 </style>
 {% endblock %} {%block scripts%}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+<script type="application/javascript" src="{{static ('admin\homepage\student_satisfaction.js')}}"></script>
 <script type="text/javascript">
   $(document).ready(function () {
-    var ctx = document.getElementById("student_satisfaction").getContext("2d");
-    var myChart = new Chart(ctx, {
-      type: "line",
-      data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-        datasets: [
-          {
-            label: "# of Votes",
-            data: [12, 19, 3, 5, 2, 33],
-            backgroundColor: ["rgba(54, 162, 235, 0.2)"],
-            borderColor: ["rgba(54, 162, 235, 1)"],
-            borderWidth: 1,
-          },
-        ],
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true,
-          },
-        },
-      },
-    });
     $(".carousel").carousel({
         interval: false,
       });
       var ctx2 = document.getElementById("others").getContext("2d");
-      var myChart2 = new Chart(ctx, {
+      var myChart2 = new Chart(ctx2, {
         type: "line",
         data: {
           labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
@@ -66,6 +44,7 @@
       });
   });
 </script>
+
 {% endblock %} {% block content %}
 <div id="page_activator" activate-page="a"></div>
 <div class="main_content">

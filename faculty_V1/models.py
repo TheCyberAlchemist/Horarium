@@ -136,6 +136,9 @@ class Feedback_type(models.Model):
 
 
 class Feedback_manager(models.Manager):
+	def active(self):
+		'Get all the active feedbacks from the db (Feedback.Subject_event_id.active = True)'
+		return super().get_queryset().filter(Subject_event_id__active=True)
 	def regular(self):
 		'Get all the regular feedbacks from the db (Feedback_type = null)'
 		return super().get_queryset().filter(Feedback_type__isnull=True)
@@ -192,16 +195,9 @@ class Feedback(models.Model):
 			self.average = sum(arr)/len(arr)
 		else:
 			self.average = 0
-		self.save()
 
 	def save(self, *args, **kwargs):
-		arr = [self.Q1,self.Q2,self.Q3,self.Q4,self.Q5,self.Q6,self.Q7,self.Q8,self.Q9]
-		# arr = filter(None,arr)
-		arr = [int(x) for x in arr if x is not None]
-		if arr:
-			self.average = sum(arr)/len(arr)
-		else:
-			self.average = 0
+		self.get_ave()
 		if self.Subject_event_id:
 			self.Faculty_id = self.Subject_event_id.Faculty_id
 		super(Feedback, self).save(*args, **kwargs)

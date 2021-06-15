@@ -18,7 +18,7 @@ from .forms import *
 from faculty_V1.models import *
 from Table_V2.models import Event
 import login_V2.models as login_V2
-
+from faculty_V1.models import Feedback
 # pip install django-ajax-datatable
 # pip install pillow
 # change the a-b-c method in navtree
@@ -31,7 +31,6 @@ def run_script(request):
 	# 	Event.objects.all().last().delete()
 	import random
 	import datetime
-	from faculty_V1.models import Feedback
 	from login_V2.models import CustomUser
 	# subject_event = Event.objects.filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
 
@@ -1154,10 +1153,43 @@ def error_404_view(request,exception) :
 def error_500_view(request) :
 	return render(request,'500/500.html')
 
-# def error_404_view(request) :
-# 	return render(request,'404/404.html')
+
 def home(request) :
     return render(request,'admin/homepage/home.html')
+
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+class student_satisfaction(APIView):
+	authentication_classes = [SessionAuthentication, BasicAuthentication]
+	permission_classes = [IsAuthenticated]
+	def get(self, request, format = None):
+		satisfaction_data = []
+		all_active_feedbacks = Feedback.objects.active().order_by("timestamp")
+		date = None
+		count = 0
+		# print(all_active_feedbacks[0[]])
+		for i in all_active_feedbacks:
+			if i.timestamp.date() != date:				
+				date = i.timestamp.date()
+				total = 0
+				number = 0
+				for j in all_active_feedbacks.filter(timestamp = date):
+					if j.average != 0:
+						total += j.average
+						number += 1
+				temp_dict = {
+					"t":date,
+					"ave":round(total/number,2)
+				}
+				satisfaction_data.append(temp_dict)
+			
+		# print(satisfaction_data)
+		# print(request.user.admin_details.Institute_id)
+
+		return Response(satisfaction_data)
 
 def all_feedbacks(request) :
     return render(request,'admin/all_feedbacks.html')

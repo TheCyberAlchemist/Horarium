@@ -171,6 +171,18 @@ def check_faculty_headers(df):
 
 	return error_json
 
+def check_faculty_details(df):
+	' check student details such as Roll_no, Department, Semester, Branch, Division for empty cell '
+	error_json = {}
+	user_info_headers = ["Roll_no","Department","Semester","Branch","Division"]
+	a = df.loc[pd.isna(df["Roll_no"]) | pd.isna(df["Department"]) | pd.isna(df["Semester"]) | pd.isna(df["Branch"]) | pd.isna(df["Division"]) , :]
+	if not a.empty:
+		error_json["error_name"] = "Student details missing (Roll_no,Department,Semester,Division)"
+		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the student '''
+		error_json["table"] = a.to_html()
+		# print(a)
+		return error_json
+	return False
 #endregion
 #region //////////////////// User and email Check Functions //////////////////
 def check_user_details(df):

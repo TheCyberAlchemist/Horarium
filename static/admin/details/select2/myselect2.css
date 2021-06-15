@@ -130,7 +130,7 @@
 }
 
 @media screen and (max-width: 600px) {
-  #designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #select_fac, #shifts, #wef_select {
+  #designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #select_fac, #shifts, #wef_select, #csv_select {
     width: 100% !important;
     font-size: x-small;
   }

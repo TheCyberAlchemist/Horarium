@@ -1,22 +1,23 @@
-{%block navbar_starts%} {%endblock%} 
+{%block navbar_starts%} {%endblock%}
 <!-- content here -->
-<div class="nav_container"> 
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color:#101820FF">
-        <div class="container-fluid">
-          <a class="navbar-brand" style="font-family:'Poppins',sans-serif">
-            Horarium<div class="gixi user_icon"></div>
-          </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <div class="container sidebar_container">
-                        <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
-                      </div>
-                </li>
-              <!-- <li class="nav-item"> 
+<div class="nav_container">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
+    <div class="container-fluid">
+      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif">
+        Horarium
+        <div class="gixi user_icon"></div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <div class="container sidebar_container">
+              <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
+            </div>
+          </li>
+          <!-- <li class="nav-item"> 
                 <button class="btn btn-outline-success" id="sidebar" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" >
                 <div class="bell_wrapper" >
                     <div class="bell"> 
@@ -27,29 +28,27 @@
                   </div>
                   </button>
               </li> -->
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  {{request.user}}
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <li>
-                    <a class="dropdown-item">Hi, {{request.user}}</a>
-                  </li>
-                  <li>
-                    <div class="container" id="theme_toggler">
-                        <label id="switch" class="switch">
-                          <input type="checkbox" onchange="toggle_theme()" id="slider1">
-                          <span class="slider round"></span>
-                        </label>
-                      </div>
-                  </li>
-                  <li><hr class="dropdown-divider"></li>
-                  <li><a href="{{url ('logout')}}" class="dropdown-item" >Log Out</a></li>
-                </ul>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> {{request.user}} </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item">Hi, {{request.user}}</a>
               </li>
+              <li>
+                <div class="container" id="theme_toggler">
+                  <label id="switch" class="switch">
+                    <input type="checkbox" onchange="toggle_theme()" id="slider1" />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a href="{{url ('logout')}}" class="dropdown-item">Log Out</a></li>
             </ul>
-          </div>
-        </div>
-      </nav>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
+</div>
 {%block navbar_ends%} {%endblock%}

@@ -12,7 +12,8 @@
       }
 </style>
 {% endblock %} {%block scripts%}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
 <script type="application/javascript" src="{{static ('admin\homepage\student_satisfaction.js')}}"></script>
 <script type="text/javascript">
   $(document).ready(function () {
@@ -58,7 +59,7 @@
                 <span class="h4">Student Satisfaction Feedback </span>
               </div>
               <div class="card-body">
-                <canvas id="student_satisfaction" class="bar_styling" style="width: 80%"></canvas>
+                <canvas id="student_satisfaction" class="bar_styling" style="width: 90%"></canvas>
               </div>
             </div>
           </div>
@@ -87,7 +88,7 @@
                         <span class="h4">Feedback For WAD </span>
                       </div>
                       <div class="card-body text-center" style="position: relative; margin: 0 auto">
-                        <canvas id="student_satisfaction" class="bar_styling"></canvas>
+                        <!-- <canvas id="student_satisfaction" class="bar_styling"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -97,7 +98,7 @@
                         <span class="h4">Feedback For FP </span>
                       </div>
                       <div class="card-body text-center" style="position: relative; margin: 0 auto">
-                        <canvas id="student_satisfaction" class="bar_styling"></canvas>
+                        <!-- <canvas id="student_satisfaction" class="bar_styling"></canvas> -->
                       </div>
                     </div>
                   </div>

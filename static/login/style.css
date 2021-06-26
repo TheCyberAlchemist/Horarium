@@ -4,11 +4,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 body,
 input {
-  font-family: "Poppins", sans-serif;
   background-color: #f0f0f0;
   color: #333;
 }
@@ -17,7 +17,7 @@ input {
   position: relative;
   width: 100%;
   background-color: #fff;
-  min-height: 95vh;
+  min-height: 97vh;
   overflow: hidden;
 }
 
@@ -176,7 +176,9 @@ form.sign-in-form {
   right: 48%;
   transform: translateY(-50%);
   /* background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%); */
-  background-image: linear-gradient(-45deg, #333 0%, #333 100%);
+  /* background-image: linear-gradient(-45deg, #333 0%, #333 100%); */
+  /* background-image: linear-gradient(-45deg, #0568C1 0%, #0568C1 100%); */
+  background-image: linear-gradient(to left top, #357be3, #0093ee, #00a9f2, #00bdf0, #12cfeb);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;

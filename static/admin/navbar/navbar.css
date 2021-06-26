@@ -25,7 +25,9 @@
 .logo{
 
 }
-
+.nav-item .gixi {
+    transform : translateY(10px) !important;
+}
 .nav_items{
   list-style: none;
   float: right;

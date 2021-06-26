@@ -10,7 +10,8 @@ from institute_V1.models import *
 from django.db.models import Q
 from admin_V1.forms import add_user
 from student_V1.forms import add_student_details
-
+from faculty_V1.forms import faculty_details_csv,faculty_load
+from faculty_V1.models import *
 #region //////////////////// view_functions //////////////////
 from django.shortcuts import render,redirect
 
@@ -26,7 +27,7 @@ def csv_try_view_func(request):
 
 
 table_classes = ["table","mb-0","text-center"] # add classes for table tag here
-
+NULL_CELL_STR = "------"
 # if to_json for rows doesn't work make it to_dict with changing NAN to ""
 # clean functions
 def clear_empty_rows(df):
@@ -62,27 +63,19 @@ def check_student_details(df):
 	if not a.empty:
 		error_json["error_name"] = "Student details missing (Roll_no,Department,Semester,Division)"
 		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the student '''
-		error_json["table"] = a.to_html()
+		error_json["table"] = a.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
 		# print(a)
 		return error_json
 	return False
 
-def validate_and_make_student_details(df):
+def validate_and_make_student_details(df,my_institute):
 	'''validate the student_info (i.e. Department, Branch, Division, Batch ) and returns details 
-		and error_json details have the following fields (index,roll_no,Institute,Division,Batches)
+		and error_json details have the following fields (roll_no,Institute,Division,User-id,prac_batch,lect_batch)
 		from database models
 	'''
 	error_json = {}
 	error_json["error_name"] = "Student Detials invalid "
 	error_json["error_body"] = []
-	cache = {
-		"departments":{},
-		"branches":{},
-		"Divisions":{},
-		"Batches":{}
-	}
-	# COLUMN_NAMES=["index","roll_no","Institute_id","Division_id","prac_batch","lect_batch"]
-	error_row_list = []
 	row_list = []
 	prac_is_null = pd.isna(df['Practical Batch'])
 	lect_is_null = pd.isna(df['Lecture Batch'])
@@ -90,8 +83,7 @@ def validate_and_make_student_details(df):
 	
 	for i,row in df.iterrows():
 		# need institute division batches
-		my_department = Department.objects.all().filter(Q(short = row['Department']) |Q(name = row['Department'])).first()
-		my_institute = my_department.Institute_id if my_department else None
+		my_department = Department.objects.all().filter(Q(short = row['Department']) |Q(name = row['Department']),Institute_id=my_institute).first()
 		my_branch = my_department.branch_set.filter(Q(short = row['Branch']) | Q(name = row['Branch'])).first() if my_department else None
 		my_semester = my_branch.semester_set.filter(short = row['Semester']).first() if my_branch else None
 		my_division = my_semester.division_set.filter(name= row['Division']).first() if my_semester else None
@@ -114,7 +106,6 @@ def validate_and_make_student_details(df):
 				# if institute is empty meaning department is None
 				error_json["error_body"].append("No Department named %s" % (row("Department")))
 				error_df = error_df.append(row)
-				# error_row_list.append(row.to_frame().to_json(orient="columns"))
 			elif not my_division:
 				if not my_branch:
 					# if branch is not found
@@ -146,7 +137,9 @@ def validate_and_make_student_details(df):
 	
 	student_details = pd.DataFrame(row_list)
 	if not error_df.empty:
-		error_json["table"] = error_df.to_html(classes= table_classes)
+		error_json["error_body"] = list(dict.fromkeys(error_json["error_body"]))
+		error_df = error_df.drop_duplicates()
+		error_json["table"] = error_df.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
 		return student_details,error_json
 	
 	return student_details,False
@@ -155,6 +148,9 @@ def validate_and_make_student_details(df):
 
 #region //////////////////// Faculty Check Functions //////////////////
 def check_faculty_headers(df):
+	''' check for faculty headers ('E-mail','Password','First name','Last name','Short'
+		,'Department','Shift','Designation','Load','Can Teach')
+	'''
 	error_json = {}
 	# 
 	header_set = {
@@ -172,28 +168,101 @@ def check_faculty_headers(df):
 	return error_json
 
 def check_faculty_details(df):
-	' check student details such as Roll_no, Department, Semester, Branch, Division for empty cell '
+	' check faculty details such as Short,Department,Shift,Designation,Load for empty cell '
 	error_json = {}
-	user_info_headers = ["Roll_no","Department","Semester","Branch","Division"]
-	a = df.loc[pd.isna(df["Roll_no"]) | pd.isna(df["Department"]) | pd.isna(df["Semester"]) | pd.isna(df["Branch"]) | pd.isna(df["Division"]) , :]
+	a = df.loc[pd.isna(df["Short"]) | pd.isna(df["Department"]) | pd.isna(df["Shift"]) | 
+				pd.isna(df["Designation"]) | pd.isna(df["Load"]) 
+			,:]
 	if not a.empty:
-		error_json["error_name"] = "Student details missing (Roll_no,Department,Semester,Division)"
-		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the student '''
-		error_json["table"] = a.to_html()
+		error_json["error_name"] = "Faculty details missing (Short,Department,Shift,Designation,Load)"
+		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the Faculty '''
+		error_json["table"] = a.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
 		# print(a)
 		return error_json
 	return False
+
+def validate_and_make_faculty_details(df,my_institute):
+	'''check if the Faculty details for valid '''
+	'''
+		validate the Faculty_details (i.e. Department,Shift,Designation,Can Teach ) and returns details 
+		and error_json details have the following fields (Institute,Division,Batches)
+		from database models
+	'''
+	error_json = {}
+	error_json["error_name"] = " Faculty Detials invalid "
+	error_json["error_body"] = []
+	row_list = []
+	# prac_is_null = pd.isna(df['Practical Batch'])
+	# lect_is_null = pd.isna(df['Lecture Batch'])
+	error_df = pd.DataFrame(data=None, columns=df.columns)
+	
+	for i,row in df.iterrows():
+		my_department = Department.objects.all().filter(Q(short = row['Department']) | Q(name = row['Department']),Institute_id=my_institute).first()
+		my_shift = Shift.objects.all().filter(name = row['Shift'],Department_id=my_department).first() if my_department else None
+		my_designation,_ = Faculty_designation.objects.get_or_create(Institute_id=my_institute,designation=row['Designation'])
+		all_subjects = Subject_details.objects.all().filter(Semester_id__Branch_id__Department_id = my_department)				
+		
+		my_subjects = []
+		for i in row['Can Teach'].split(","):
+			this_subj = all_subjects.filter(Q(short = i) | Q(name = i)).first()
+			if this_subj:
+				my_subjects.append(this_subj)
+			else:	# no subject found
+				error_json["error_body"].append("No Subject named %s in %s" % (i,my_department))
+				error_df = error_df.append(row)
+
+		dict1 = {}
+		dict1.update({
+			"short" : row['Short'],
+			'Institute_id':my_institute,
+			"Department_id" : my_department,
+			"Designation_id" : my_designation,
+			"Shift_id" : my_shift,
+			'my_subjects' :my_subjects,
+		})
+		# check if none
+		# print(dict1,my_division)
+		if not all(dict1.values()):
+			# if any of the dict1 is empty
+			# print(dict1.values())
+			if not my_department:
+				# if institute is empty meaning department is None
+				error_json["error_body"].append("No Department named %s" % (row['Department']))
+				error_df = error_df.append(row)
+			elif not my_shift:
+				error_json["error_body"].append("No Shift named %s in %s" % (row['Shift'],row['Department']))
+				error_df = error_df.append(row)
+		else:
+			user = CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
+			# print(type(user))
+			dict1.update({
+				"User_id" : user,
+				'total_load' : row['Load'],
+			})	
+		row_list.append(dict1)
+	
+	faculty_details = pd.DataFrame(row_list)
+	if not error_df.empty:
+		error_json["error_body"] = list(dict.fromkeys(error_json["error_body"]))
+		error_df = error_df.drop_duplicates()
+		error_json["table"] = error_df.to_html(classes= table_classes,na_rep=NULL_CELL_STR)
+		return faculty_details,error_json
+	
+	return faculty_details,False
 #endregion
+
 #region //////////////////// User and email Check Functions //////////////////
 def check_user_details(df):
 	' check user details such as Password, E-mail, First name, Last name for empty cell '
 	error_json = {}
 	user_info_headers = ["Password","E-mail","First name","Last name"]
-	a = df.loc[pd.isna(df["Password"]) | pd.isna(df["E-mail"]) | pd.isna(df["First name"]) | pd.isna(df["Last name"]) , :]
+	a = df.loc[pd.isna(df["Password"]) | pd.isna(df["E-mail"]) | pd.isna(df["First name"]) | pd.isna(df["Last name"])]
+	# print(df.loc[pd.isna(df["Password"]) | pd.isna(df["E-mail"]) | pd.isna(df["First name"]) | pd.isna(df["Last name"])])
 	if not a.empty:
 		error_json["error_name"] = "User info is missing (Password,E-mail,First name,Last name)"
 		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the user '''
-		error_json["table"] = a.to_html(classes = table_classes)
+		pd.options.mode.chained_assignment = None
+		error_json["table"] = a.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
 		# print(a)
 		return error_json
 	return False
@@ -219,7 +288,7 @@ def check_email_for_duplication_internal(df):
 	# print(df[df.duplicated(['E-mail'],keep=False)])
 	arr = df[df.duplicated(['E-mail'],keep=False)]
 	if not arr.empty:
-		error_json["table"] = arr.to_html(classes= table_classes)
+		error_json["table"] = arr.to_html(classes= table_classes,na_rep=NULL_CELL_STR)
 		return error_json
 	return False
 
@@ -233,7 +302,7 @@ def check_email_for_duplication_external(df):
 	arr = df[df['E-mail'].isin(duplicate_list)]
 	# print(df[df['E-mail'].isin(duplicate_list)].to_json(orient="index"))
 	if not arr.empty:
-		error_json["table"] = arr.to_html(classes=table_classes)
+		error_json["table"] = arr.to_html(classes=table_classes,na_rep=NULL_CELL_STR)
 		return error_json
 	return False
 
@@ -279,7 +348,7 @@ def validate_student_csv(df):
 	try:
 		app(check_email_for_duplication_external(df))
 	except Exception as e:
-		print("Something went wrong in internal email duplication function ")
+		print("Something went wrong in external email duplication function ")
 		print(e)
 
 	# check if the Student details for valid department,branch,class,batch
@@ -293,7 +362,7 @@ def validate_student_csv(df):
 	
 	return error_list,details
 
-def validate_faculty_csv(df):
+def validate_faculty_csv(df,request):
 	'runs all the steps of validation and returns the error_json and details_df'
 	error_list = []
 	details = None
@@ -316,9 +385,32 @@ def validate_faculty_csv(df):
 	try:
 		app(check_faculty_details(df))
 	except Exception as e:
-		print("Something went wrong in student details function ")
+		print("Something went wrong in faculty details function ")
 		print(e)
 	
+	# check if the emails are duplicated in df 
+	try:
+		app(check_email_for_duplication_internal(df))
+		# print("Asdasd")
+	except Exception as e:
+		print("Something went wrong in internal email duplication function ")
+		print(e)	
+
+	# check if the emails are duplicated in database
+	try:
+		app(check_email_for_duplication_external(df))
+	except Exception as e:
+		print("Something went wrong in external email duplication function ")
+		print(e)
+	
+	# check if the Faculty details for valid Department,Shift,Designation,Load,Can Teach
+	try:
+		details,json = validate_and_make_faculty_details(df,request.user.admin_details.Institute_id)
+		app(json)
+		print(details)
+	except Exception as e:
+		print("Something went wrong in faculty details function ")
+		print(e)
 	return error_list,details
 #endregion
 
@@ -328,8 +420,8 @@ class csv_check_api(APIView):
 	def post(self, request):
 		error_list = []
 
-		# csv_file = request.FILES['file']
-		# print(csv_file)
+		csv_file = request.FILES['file']
+		print(csv_file)
 		# if not csv_file.name.endswith('.csv'):
 		# 	messages.error(request, 'THIS IS NOT A CSV FILE')
 		# 	error_list.append({"error_name":"The file must be csv"})
@@ -344,35 +436,64 @@ class csv_check_api(APIView):
 		df = clear_duplicate_rows(df)
 		# csv_type = "Student"
 		csv_type = "Faculty"
+		
 		if csv_type == "Student":
 			error_list,details = validate_student_csv(df)
-			
 			all_saved_pks = []
-			for i,row in details.iterrows():
-				student_form = add_student_details(row)
-				if student_form.is_valid():
-					user = row["User_id"]
-					# user.save()
-					candidate = student_form.save(commit=False)
-					candidate.User_id = user
-					try:
+			if not error_list:
+				for i,row in details.iterrows():
+					student_form = add_student_details(row)
+					if student_form.is_valid():
+						user = row["User_id"]
 						# user.save()
-						# all_saved_pks.append(user.pk)
-						# candidate.save()
-						# print("done safely, self destructing .. ",user.email)
-						# user.delete()
-						pass
-					except Exception as e:
-						# print("Something went wrong deleting all .. ",e)
-						# print(all_saved_pks)
-						# for i in all_saved_pks:
-						# 	CustomUser.objects.filter(pk=i).delete()
-						pass
-				print(all_saved_pks)
-		
+						candidate = student_form.save(commit=False)
+						candidate.User_id = user
+						try:
+							# user.save()
+							# all_saved_pks.append(user.pk)
+							# candidate.save()
+							# print("done safely, self destructing .. ",user.email)
+							# user.delete()
+							pass
+						except Exception as e:
+							# print("Something went wrong deleting all .. ",e)
+							# print(all_saved_pks)
+							# for j in all_saved_pks:
+							# 	CustomUser.objects.filter(pk=j).delete()
+							pass
+					print(all_saved_pks)
+			
 		elif csv_type == "Faculty":
-			error_list,details = validate_faculty_csv(df)
-
+			error_list,details = validate_faculty_csv(df,request)
+			all_saved_pks = []
+			if not error_list:
+				for i,row in details.iterrows():
+					faculty_form = faculty_details_csv(row)
+					faculty_load_form = faculty_load(row)
+					if faculty_form.is_valid() and faculty_load_form.is_valid():
+						user = row["User_id"]
+						# user.save()
+						faculty_details = faculty_form.save(commit=False)
+						faculty_details.User_id = user
+						faculty_load_candidate = faculty_load_form.save(commit=False)
+						faculty_load_candidate.Faculty_id = faculty_details
+						try:
+							user.save()
+							all_saved_pks.append(user.pk)
+							faculty_details.save()
+							faculty_load_candidate.save()
+							for subjects in row['my_subjects']:
+								Can_teach.objects.create(Faculty_id=faculty_details,Subject_id=subjects)
+							print("done safely, self destructing .. ",user.email)
+							user.delete()
+							pass
+						except Exception as e:
+							print("Something went wrong deleting all .. ",e)
+							print(all_saved_pks)
+							for j in all_saved_pks:
+								CustomUser.objects.filter(pk=j).delete()
+							pass
+					# print(all_saved_pks)
 		context = {"error_list": error_list}
 
 		return Response(context)

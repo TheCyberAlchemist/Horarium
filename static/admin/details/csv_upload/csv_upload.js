@@ -64,8 +64,19 @@ $(document).ready(function () {
 			// }
 		// });
 		
-		$("#main_form").submit(function(e) {
-			// console.log(e);
+		$("#main_submit").click(function(e) {	// for testinf
+			$.ajax({
+				url:"../csv/",
+				type : 'POST',
+				success : function(data) {
+					if (data['error_list'].length > 0) {
+						show_errors(data['error_list']);
+					}
+				}
+			});
+		})
+		$(".dropzone").submit(function(e) {
+			console.log(e);
 			e.preventDefault();
 			var formData = new FormData();
 			formData.append('file', $('#csv')[0].files[0]);			

@@ -73,8 +73,8 @@ class Subject_details(models.Model):
 	class Meta:
 		verbose_name_plural = "Subject Details"	
 		constraints = [
-            models.UniqueConstraint(fields=['short', 'Semester_id'], name='Subject Short is Unique for Semester.'),
-			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Subject Name is Unique for Semester.')
+            models.UniqueConstraint(fields=['short', 'Semester_id__Branch_id__Department_id'], name='Subject Short is Unique for Department.'),
+			models.UniqueConstraint(fields=['name', 'Semester_id__Branch_id__Department_id'], name='Subject Name is Unique for Department.')
         ]	
 
 class active_manager(models.Manager):

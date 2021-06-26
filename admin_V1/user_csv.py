@@ -419,8 +419,8 @@ class csv_check_api(APIView):
 	def post(self, request):
 		error_list = []
 		
-		# csv_file = request.FILES['file']
-		# print(csv_file)
+		csv_file = request.FILES['file']
+		print(csv_file)
 		# if not csv_file.name.endswith('.csv'):
 		# 	messages.error(request, 'THIS IS NOT A CSV FILE')
 		# 	error_list.append({"error_name":"The file must be csv"})

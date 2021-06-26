@@ -6,225 +6,85 @@
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}" />
 <link rel="stylesheet" href="{{static ('admin/details/csv_upload/csv_upload2.css')}}" />
 <style>
-  td,
-  th {
-    font-size: 10px !important;
-  }
-  
+	td,
+	th {
+		font-size: 10px !important;
+	}
 </style>
 {% endblock %} {%block scripts%}
 
 <script type="application/javascript" src="{{static ('admin/details/csv_upload/csv_upload.js') }}" charset="utf-8"></script>
-<script type="application/javascript" src="{{static ('admin/details/csv_upload/csv_upload2.js') }}" charset="utf-8"></script>
+
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script type="text/javascript">
-  $(document).ready(function () {
-    $("#csv_select").select2();
-  });
+	$(document).ready(function () {
+		$("#csv_select").select2();
+	});
 </script>
 
 {% endblock %} {% block content %}
 <div id="page_activator" activate-page=""></div>
 <div class="main_content">
-  <div class="row p-2">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item">
-          <a href="{{url ('admin_home')}}">
-            <i class="fas fa-home"></i>
-          </a>
-        </li>
-        <li class="breadcrumb-item active" aria-current="page">
-          <a>
-            <span class="h6 fw-bold">Upload CSV</span>
-          </a>
-        </li>
-      </ol>
-    </nav>
-    <div class="col-12 mb-4 m-1">
-      <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 csv_import_container">
-          <div class="card">
-            <div class="card-body">
-              <form id="main_form">
-                <div class="card-title text-center">
-                  <div class="select2_container single_select2 mt-4">
-                    <select name="csv_select" id="csv_select" required>
-                      <option disabled selected>Select CSV Import For</option>
-                      <option value="student">Student</option>
-                      <option value="faculty">Faculty</option>
-                    </select>
-                  </div>
-                </div>
-                <div class="dropbox-container container">
-                  <div class="file-upload">
-                    <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">Add CSV File</button>
+	<div class="row p-2">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="{{url ('admin_home')}}">
+						<i class="fas fa-home"></i>
+					</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					<a>
+						<span class="h6 fw-bold">Upload CSV</span>
+					</a>
+				</li>
+			</ol>
+		</nav>
+		<div class="col-12 mb-4 m-1">
+			<div class="row">
+				<div class="col-lg-12 col-md-12 col-sm-12 csv_import_container">
+					<div class="card">
+						<div class="card-body">
+							<form id="main_form">
+								<div class="card-title text-center">
+									<div class="select2_container single_select2 mt-4">
+										<select name="csv_select" id="csv_select" required>
+											<option disabled selected>Select CSV Import For</option>
+											<option value="student">Student</option>
+											<option value="faculty">Faculty</option>
+										</select>
+									</div>
+								</div>
+								<div class="dropbox-container container">
+									<div class="file-upload">
+										<div class="image-upload-wrap">
+											<input class="file-upload-input" id="csv" type="file" onchange="readURL(this);" />
+											<div class="drag-text">
+												<h3>Drag and drop a file or select add File</h3>
+											</div>
+										</div>
+										<div class="file-upload-content">
+											<div class="image-title-wrap">
+												<span class="image-title">Uploaded File</span>
+												<button type="button" onclick="removeUpload()" class="remove-image">Remove</button>
+											</div>
+										</div>
+									</div>
+								</div>
+						        <input type="submit" value="asdadadasasd"> 
+							</form>
+							<div class="container errors_container mt-3">
+								<div class="list-group">
+									<span class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
-                    <div class="image-upload-wrap">
-                      <input class="file-upload-input" type="file" onchange="readURL(this);" />
-                      <div class="drag-text">
-                        <h3>Drag and drop a file or select add File</h3>
-                      </div>
-                    </div>
-                    <div class="file-upload-content">
-                      <img class="file-upload-image" src="#" alt="your image" />
-                      <div class="image-title-wrap">
-                        <button type="button" onclick="removeUpload()" class="remove-image">Remove <span class="image-title">Uploaded Image</span></button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </form>
-              <div class="container errors_container mt-3">
-                <div class="list-group">
-                  <span class="list-group-item list-group-item-action list-group-item-danger">A simple danger list group item</span>
-                </div>
-              </div>
-            </div>
-            <!-- <input type="submit"> asdadadasasd </input> -->
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid" id="error_main_container">
-      <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_asdf">
-        <div class="card-body" style="border-radius: 1rem">
-          <div class="accordion accordion-flush" id="error_accordion_asdf">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="error_accordion_heading_asdf">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#error_accordion_collapse_asdf" aria-expanded="false" aria-controls="error_accordion_collapse_asdf">
-                  <h5>Error</h5>
-                </button>
-              </h2>
-              <div id="error_accordion_collapse_asdf" class="accordion-collapse collapse" aria-labelledby="error_accordion_heading_asdf" data-bs-parent="#error_accordion_asdf">
-                <div class="accordion-body">
-                  <div class="error_body"></div>
-                  <div class="table-responsive">
-                    <table class="table mb-0 text-center">
-                      <thead class="thead-light">
-                        <tr>
-                          <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                          <th class="fw-bold border-1">First Name</th>
-                          <th class="fw-bold border-1">Last Name</th>
-                          <th class="fw-bold border-1">Short Name</th>
-                          <th class="fw-bold border-1">Email Id</th>
-                          <th class="fw-bold border-1">Password</th>
-                          <th class="fw-bold border-1">Enrollment</th>
-                          <th class="fw-bold border-1">Department</th>
-                          <th class="fw-bold border-1">Semester</th>
-                          <th class="fw-bold border-1">Branch</th>
-                          <th class="fw-bold border-1">Division</th>
-                          <th class="fw-bold border-1">Practical Batch</th>
-                          <th class="fw-bold border-1">Lecture Batch</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem" id="error_card_asd">
-        <div class="card-body" style="border-radius: 1rem">
-          <div class="accordion accordion-flush" id="error_accordion_asd">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="error_accordion_heading_asd">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#error_accordion_collapse_asd" aria-expanded="false" aria-controls="error_accordion_collapse_asd">
-                  <h5>Error</h5>
-                </button>
-              </h2>
-              <div id="error_accordion_collapse_asd" class="accordion-collapse collapse" aria-labelledby="error_accordion_heading_asd" data-bs-parent="#error_accordion_asd">
-                <div class="accordion-body">
-                  <div class="table-responsive">
-                    <table class="table mb-0 text-center">
-                      <thead class="thead-light">
-                        <tr>
-                          <th class="border-1"><i class="fas fa-hashtag"></i></th>
-                          <th class="fw-bold border-1">First Name</th>
-                          <th class="fw-bold border-1">Last Name</th>
-                          <th class="fw-bold border-1">Short Name</th>
-                          <th class="fw-bold border-1">Email Id</th>
-                          <th class="fw-bold border-1">Password</th>
-                          <th class="fw-bold border-1">Enrollment</th>
-                          <th class="fw-bold border-1">Department</th>
-                          <th class="fw-bold border-1">Semester</th>
-                          <th class="fw-bold border-1">Branch</th>
-                          <th class="fw-bold border-1">Division</th>
-                          <th class="fw-bold border-1">Practical Batch</th>
-                          <th class="fw-bold border-1">Lecture Batch</th>
-                        </tr>
-                      </thead>
-                      <tbody></tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 mt-4 csv_header_example">
-      <div class="card p-3">
-        <div class="card-title h4">Headers for CSV</div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table mb-0 text-center">
-              <thead class="thead-light">
-                <tr>
-                  <th class="fw-bold border-1">#</th>
-                  <th class="fw-bold border-1">First Name</th>
-                  <th class="fw-bold border-1">Last Name</th>
-                  <th class="fw-bold border-1">Short Name</th>
-                  <th class="fw-bold border-1">Email Id</th>
-                  <th class="fw-bold border-1">Password</th>
-                  <th class="fw-bold border-1">Enrollment</th>
-                  <th class="fw-bold border-1">Department</th>
-                  <th class="fw-bold border-1">Semester</th>
-                  <th class="fw-bold border-1">Branch</th>
-                  <th class="fw-bold border-1">Division</th>
-                  <th class="fw-bold border-1">Practical Batch</th>
-                  <th class="fw-bold border-1">Lecture Batch</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="border-1">Umang s;dklfjadslfkjdsggo;jkreijo</td>
-                  <td class="border-1">Thakkar</td>
-                  <td class="border-1">URT</td>
-                  <td class="border-1">umang@thakkar.com</td>
-                  <td class="border-1">horarium</td>
-                  <td class="border-1">Umang</td>
-                  <td class="border-1">Thakkar</td>
-                  <td class="border-1">URT</td>
-                  <td class="border-1">umang@thakkar.com</td>
-                  <td class="border-1">horarium</td>
-                </tr>
-                <tr>
-                  <td class="border-1">Umang</td>
-                  <td class="border-1">Thakkar</td>
-                  <td class="border-1">URT</td>
-                  <td class="border-1">umang@thakkar.com</td>
-                  <td class="border-1">horarium</td>
-                </tr>
-                <tr>
-                  <td class="border-1">Umang</td>
-                  <td class="border-1">Thakkar</td>
-                  <td class="border-1">URT</td>
-                  <td class="border-1">umang@thakkar.com</td>
-                  <td class="border-1">horarium</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    {% endblock %}
-  </div>
+		{% endblock %}
+	</div>
 </div>

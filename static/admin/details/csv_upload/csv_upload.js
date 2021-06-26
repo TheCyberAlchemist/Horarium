@@ -39,7 +39,7 @@ function make_accordian(index,error_heading,error_body,table){
 		obj.find(".error_body").append(error_body);
 	}
 	else{	// if body has multiple statements
-		obj.find(".error_body").append("<ul>")
+		obj.find(".error_body").append("<ul class = '' >")
 		for (stmt of error_body){
 			obj.find(".error_body").append("<li>" + stmt + "</li>");
 		}
@@ -50,7 +50,9 @@ function make_accordian(index,error_heading,error_body,table){
 	return obj;
 }
 $(document).ready(function () {
-  console.log("asd");
+  $("#csv_select").select2();
+  
+  reset_main_form();
 
   var csrftoken = Cookies.get("csrftoken");
   function csrfSafeMethod(method) {
@@ -72,26 +74,37 @@ $(document).ready(function () {
   // 	// document.getElementsByClassName("response")[0].textContent = JSON.stringify(data, undefined, 2);
   // }
   // });
-
   $("#main_form").submit(function (e) {
-    console.log(e);
-    e.preventDefault();
-    var formData = new FormData();
-    formData.append("file", $("#csv")[0].files[0]);
-    $.ajax({
-      url: "../csv/",
-      type: "POST",
-      data: formData,
-      processData: false, // tell jQuery not to process the data
-      contentType: false, // tell jQuery not to set contentType
-      success: function (data) {
-        if (data["error_list"].length > 0) {
-          show_errors(data["error_list"]);
-        }
-      },
-    });
+	e.preventDefault();
+	let csv_type = $("#csv_select").val()
+	let my_file = $("#csv")[0].files[0]
+	if (Boolean(csv_type) && Boolean($("#csv")[0].value)){ // if csv_type is selected and file uploaded
+		var formData = new FormData();
+		formData.append("file",my_file);
+		formData.append('csv_input',csv_type);
+		$.ajax({
+			url: "../csv/",
+			type: "POST",
+			data: formData,
+			processData: false, // tell jQuery not to process the data
+			contentType: false, // tell jQuery not to set contentType
+			success: function (data) {
+				$("#error_main_container").html("");
+				console.log("here")
+				reset_main_form();
+				if (data["error_list"].length > 0) {
+					show_errors(data["error_list"]);
+				}
+			},
+		});
+	}else{
+		Swal.fire(
+			'The Internet?',
+			'That thing is still around?',
+			'question'
+		)
+	}
   });
-
   $(".image-upload-wrap").bind("dragover", function () {
     $(".image-upload-wrap").addClass("image-dropping");
   });
@@ -101,13 +114,20 @@ $(document).ready(function () {
 });
 function show_errors(error_list) {
   // make the error_body as a li
-  $("#error_main_container").html("");
   for (i in error_list) {
     let obj = make_accordian(i, error_list[i].error_name, error_list[i].error_body, error_list[i].table);
     $("#error_main_container").append(obj);
   }
 }
+function reset_main_form(){
+	$("#main_form")[0].reset();
+	$('#csv_select').trigger('change');
+
+	// $("#csv_select").val("");
+	removeUpload();
+}
 /* #region  CSV_Upload js  */
+
 function readURL(input) {
 	if (input.files && input.files[0]) {
 		var reader = new FileReader();

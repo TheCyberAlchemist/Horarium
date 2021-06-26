@@ -110,7 +110,9 @@
     border: 0;
     transition: all .2s ease;
   }
-
+#error_main_container .error_ul{
+    // background-color: red;
+}
   @media screen and (max-width: 600px) {
     .dropbox-container .file-upload {
         background-color: #ffffff;

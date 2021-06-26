@@ -36,10 +36,10 @@ function make_accordian(index,error_heading,error_body,table){
 	let obj = $('<div/>').html(s.format(index,error_heading,table)).contents();
 	obj.find("thead").addClass("thead-light");
 	if (typeof(error_body) == "string"){	// if only one statement is in body
-		obj.find(".error_body").append(error_body);
+		obj.find(".error_body").append(`<span class="list-group-item list-group-item-action list-group-item-danger mb-3">${error_body}</span>`);
 	}
 	else{	// if body has multiple statements
-		obj.find(".error_body").append("<ul class = '' >")
+		obj.find(".error_body").append("<ul class = 'error_ul list-group-item list-group-item-action list-group-item-danger mb-3' >")
 		for (stmt of error_body){
 			obj.find(".error_body").append("<li>" + stmt + "</li>");
 		}

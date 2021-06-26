@@ -16,11 +16,6 @@
 <script type="application/javascript" src="{{static ('admin/details/csv_upload/csv_upload.js') }}" charset="utf-8"></script>
 
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
-<script type="text/javascript">
-	$(document).ready(function () {
-		$("#csv_select").select2();
-	});
-</script>
 
 {% endblock %} {% block content %}
 <div id="page_activator" activate-page=""></div>
@@ -83,7 +78,65 @@
 				</div>
 			</div>
 		</div>
-
+		<div class="container-fluid" id="error_main_container">
+			
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 mt-4 csv_header_example">
+			<div class="card p-3">
+				<div class="card-title h4">Headers for CSV</div>
+				<div class="card-body">
+					<div class="table-responsive">
+						<table class="table mb-0 text-center">
+							<thead class="thead-light">
+								<tr>
+									<th class="fw-bold border-1">#</th>
+									<th class="fw-bold border-1">First Name</th>
+									<th class="fw-bold border-1">Last Name</th>
+									<th class="fw-bold border-1">Short Name</th>
+									<th class="fw-bold border-1">Email Id</th>
+									<th class="fw-bold border-1">Password</th>
+									<th class="fw-bold border-1">Enrollment</th>
+									<th class="fw-bold border-1">Department</th>
+									<th class="fw-bold border-1">Semester</th>
+									<th class="fw-bold border-1">Branch</th>
+									<th class="fw-bold border-1">Division</th>
+									<th class="fw-bold border-1">Practical Batch</th>
+									<th class="fw-bold border-1">Lecture Batch</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="border-1">Umang s;dklfjadslfkjdsggo;jkreijo</td>
+									<td class="border-1">Thakkar</td>
+									<td class="border-1">URT</td>
+									<td class="border-1">umang@thakkar.com</td>
+									<td class="border-1">horarium</td>
+									<td class="border-1">Umang</td>
+									<td class="border-1">Thakkar</td>
+									<td class="border-1">URT</td>
+									<td class="border-1">umang@thakkar.com</td>
+									<td class="border-1">horarium</td>
+								</tr>
+								<tr>
+									<td class="border-1">Umang</td>
+									<td class="border-1">Thakkar</td>
+									<td class="border-1">URT</td>
+									<td class="border-1">umang@thakkar.com</td>
+									<td class="border-1">horarium</td>
+								</tr>
+								<tr>
+									<td class="border-1">Umang</td>
+									<td class="border-1">Thakkar</td>
+									<td class="border-1">URT</td>
+									<td class="border-1">umang@thakkar.com</td>
+									<td class="border-1">horarium</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		{% endblock %}
 	</div>

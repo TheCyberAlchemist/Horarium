@@ -418,25 +418,23 @@ class csv_check_api(APIView):
 	permission_classes = [IsAuthenticated]
 	def post(self, request):
 		error_list = []
-		
 		csv_file = request.FILES['file']
-		print(csv_file)
-		# if not csv_file.name.endswith('.csv'):
-		# 	messages.error(request, 'THIS IS NOT A CSV FILE')
-		# 	error_list.append({"error_name":"The file must be csv"})
-		# 	return Response(context)
-		# df = pd.read_csv(csv_file, na_filter= True)
+
+		csv_type = request.POST['csv_input']
+		if not csv_file.name.endswith('.csv'):
+			messages.error(request, 'THIS IS NOT A CSV FILE')
+			error_list.append({"error_name":"The file must be csv"})
+			return Response(context)
+		df = pd.read_csv(csv_file, na_filter= True)
 
 		# df = pd.read_csv("admin_V1\student_details.csv", na_filter= True)
-		df = pd.read_csv("admin_V1\\faculty_details.csv", na_filter= True)
+		# df = pd.read_csv("admin_V1\\faculty_details.csv", na_filter= True)
 		
 		# clear empty rows
 		df = clear_empty_rows(df)
 		df = clear_duplicate_rows(df)
-		# csv_type = "Student"
-		csv_type = "Faculty"
 		
-		if csv_type == "Student":
+		if csv_type == "student":
 			error_list,details = validate_student_csv(df)
 			all_saved_pks = []
 			if not error_list:
@@ -462,8 +460,10 @@ class csv_check_api(APIView):
 							pass
 					print(all_saved_pks)
 			
-		elif csv_type == "Faculty":
+		elif csv_type == "faculty":
+			print("faculty csv found refining ")
 			error_list,details = validate_faculty_csv(df,request)
+			print(error_list)
 			all_saved_pks = []
 			if not error_list:
 				for i,row in details.iterrows():
@@ -493,6 +493,7 @@ class csv_check_api(APIView):
 								CustomUser.objects.filter(pk=j).delete()
 							pass
 					# print(all_saved_pks)
+		
 		context = {"error_list": error_list}
 
 		return Response(context)

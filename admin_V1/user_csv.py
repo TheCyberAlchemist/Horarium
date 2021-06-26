@@ -208,7 +208,7 @@ def validate_and_make_faculty_details(df,my_institute):
 			if this_subj:
 				my_subjects.append(this_subj)
 			else:	# no subject found
-				error_json["error_body"].append("No Subject named %s in %s" % (i,my_department))
+				error_json["error_body"].append("No Subject named <b> %s</b> in %s" % (i,my_department))
 				error_df = error_df.append(row)
 
 		dict1 = {}
@@ -218,7 +218,6 @@ def validate_and_make_faculty_details(df,my_institute):
 			"Department_id" : my_department,
 			"Designation_id" : my_designation,
 			"Shift_id" : my_shift,
-			'my_subjects' :my_subjects,
 		})
 		# check if none
 		# print(dict1,my_division)
@@ -238,6 +237,7 @@ def validate_and_make_faculty_details(df,my_institute):
 			dict1.update({
 				"User_id" : user,
 				'total_load' : row['Load'],
+				'my_subjects' :my_subjects,
 			})	
 		row_list.append(dict1)
 	
@@ -407,7 +407,6 @@ def validate_faculty_csv(df,request):
 	try:
 		details,json = validate_and_make_faculty_details(df,request.user.admin_details.Institute_id)
 		app(json)
-		print(details)
 	except Exception as e:
 		print("Something went wrong in faculty details function ")
 		print(e)
@@ -419,15 +418,15 @@ class csv_check_api(APIView):
 	permission_classes = [IsAuthenticated]
 	def post(self, request):
 		error_list = []
-
-		csv_file = request.FILES['file']
-		print(csv_file)
+		
+		# csv_file = request.FILES['file']
+		# print(csv_file)
 		# if not csv_file.name.endswith('.csv'):
 		# 	messages.error(request, 'THIS IS NOT A CSV FILE')
 		# 	error_list.append({"error_name":"The file must be csv"})
 		# 	return Response(context)
-
 		# df = pd.read_csv(csv_file, na_filter= True)
+
 		# df = pd.read_csv("admin_V1\student_details.csv", na_filter= True)
 		df = pd.read_csv("admin_V1\\faculty_details.csv", na_filter= True)
 		

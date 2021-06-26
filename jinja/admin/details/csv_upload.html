@@ -51,27 +51,9 @@
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script type="application/javascript" src="{{static ('dropzone/dropzone.js')}}"></script>
 <script type="text/javascript">
-
+        
     $(document).ready(function () {
         $("#csv_select").select2();
-        Dropzone.options.frmTarget = {
-            autoProcessQueue: false,
-            url: '',
-            maxFiles : 1,
-            init: function () {
-                console.log("Ho");
-                this.on("maxfilesexceeded", function(file) {
-                    alert("You are not allowed to chose more than 1 file!");
-                    this.removeFile(file);
-                  });
-                var myDropzone = this;
-                // Update selector to match your button
-                $(".btn").click(function (e) {
-                    e.preventDefault();
-                    myDropzone.processQueue();
-                });
-            }
-        }
     });
 
 </script>
@@ -118,7 +100,7 @@
                                     </div> -->
                             </form>
                             <div class="dropzone_container container mt-4 p-3">
-                                <form class="dropzone">
+                                <form action ="/file-upload" class="dropzone" id="my-awesome-dropzone" enctype="multipart/form-data">
                                     <div class="fallback">
                                         <input name="file" id = "csv" type="file" />
                                     </div>

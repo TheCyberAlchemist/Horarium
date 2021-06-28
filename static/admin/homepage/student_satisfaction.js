@@ -1,5 +1,5 @@
 var STUDENT_SATISFACTION_URL = "./satisfaction";
-
+var m_data;
 $(document).ready(function (){
     let dates = [];
     let avg = [];
@@ -12,8 +12,12 @@ $(document).ready(function (){
 		// },
 		success: function (data) {
 			// console.log(data);
+            m_data = data;
 			// drawBarGraph(data, "day_rating1");
-            for(let i of data) { dates.push(i['t']) }
+            for(let i of data) { 
+                // dates.push(new Date(i['t']))
+                dates.push(i['t'])
+            }
             for(let i of data) { avg.push(i['ave']) }
 
 			draw_line_graph("student_satisfaction", data);
@@ -25,48 +29,39 @@ $(document).ready(function (){
     function draw_line_graph(id,data){
         // use data for chart and see console.log 
         var ctx = document.getElementById(id).getContext("2d");
-        var timeFormat = 'DD/MM/YYYY';
+        var timeFormat = 'YYYY/MM/DD';
         var satisfaction_chart = new Chart(ctx, {
           type: "line",
           data: {
-            labels : dates,
             datasets: [
                 {
                     label: 'Avg. Satisfaction of Students ',
                     backgroundColor: 'rgba(255, 99, 132,0.1)',
                     borderColor: 'rgb(255, 199, 132)',
-                    data : avg,
+                    data : m_data,
                 }
             ]
             },
           options: {
-              tension: 0.3,
               responsive: true,
+              tension: 0.3,
               maintainAspectRatio: false,
             scales: {
                 xAxes: [{
-                    type:       "time",
-                    time: {
+                    type:"time",
+                    time:{
                         format: timeFormat,
-                        tooltipFormat: 'll'
+                        tooltipFormat: 'll',
+                        unit:"month",
                     },
                     scaleLabel: {
-                        display:     true,
+                        display:true,
                         labelString: 'Date'
                     }
                 }],
-                //   xAxes: {
-                //         type: 'time',
-                //         time: {
-                //             displayFormats: {
-                //                 quarter: 'MMM YYYY',
-                //                 tooltipFormat: 'DD/MM/YY',
-                //                 unit: 'month',				
-                //             }
-                //         }
-                //     }
-                // },
                 yAxes: [{
+                    min: 0,
+                    max: 5,
                     scaleLabel: {
                         display:     true,
                         labelString: 'value'

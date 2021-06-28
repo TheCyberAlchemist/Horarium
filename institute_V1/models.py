@@ -183,6 +183,7 @@ class Semester_WEF_manager(models.Manager):
 	def active(self):
 		'Get all the Semesters having active WEFs in the db'
 		return super().get_queryset().filter(WEF_id__active=True)
+
 	def inactive(self):
 		'Get all the Semesters having inactive WEFs in the db'
 		return super().get_queryset().filter(WEF_id__active=False)
@@ -202,12 +203,20 @@ class Semester(models.Model):
 			models.UniqueConstraint(fields=['short', 'Branch_id'], name='Semester Short is Unique for Branch'),
 		]
 
+class Division_WEF_manager(models.Manager):
+	def active(self):
+		'Get all the Division having active WEFs in the db'
+		return super().get_queryset().filter(Semester_id__WEF_id__active=True)
+	def inactive(self):
+		'Get all the Division having inactive WEFs in the db'
+		return super().get_queryset().filter(Semester_id__WEF_id__active=False)
 
 class Division(models.Model):
 	name = models.CharField(max_length = S_len)
 	Semester_id = models.ForeignKey(Semester,default=None,on_delete = models.CASCADE)
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
+	objects = Division_WEF_manager()
 	def __str__(self):
 		return "%s (%s)" % (self.name,str(self.Semester_id))
 	

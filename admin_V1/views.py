@@ -23,6 +23,9 @@ from faculty_V1.models import Feedback
 # pip install pillow
 # change the a-b-c method in navtree
 
+############# For checking apis ###############
+def api_try(request):
+	return render(request,'try/asd.html')
 ############# For running any scripts ###############
 def run_script(request):
 	# num = int (input("Enter the number of events to be deleted :: "))
@@ -146,14 +149,9 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 @allowed_users(allowed_roles=['Admin'])
 def admin_home(request):
 	context = return_context(request)
-	context['all_subjects'] = Subject_details.objects.all()
+	# context['all_subjects'] = Subject_details.objects.all()
 	return render(request,'admin/user_dash/user_dash.html',context)
 
-@login_required(login_url="login")
-@allowed_users(allowed_roles=['Admin'])
-def user_dash(request):
-	context = return_context(request)
-	return render(request,'admin/user_dash/user_dash.html',context)
 
 class get_user_ajax(View):
 	def post(self, request):
@@ -1181,8 +1179,8 @@ class student_satisfaction(APIView):
 						total += j.average
 						number += 1
 				temp_dict = {
-					"t":date,
-					"ave":round(total/number,2)
+					"x":date,
+					"y":round(total/number,2)
 				}
 				satisfaction_data.append(temp_dict)
 			

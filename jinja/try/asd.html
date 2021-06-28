@@ -5,10 +5,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/json2html/2.1.0/json2html.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 <script>
-    let template = {'<>':'div','html':'${title} ${year}'};
-	function asd(){
-		// document.getElementsByClassName("response")[0].textContent = JSON.stringify(obj, undefined, 2);
-	}
 	function send_ajax(){
 		var csrftoken = Cookies.get('csrftoken');
 		function csrfSafeMethod(method) {
@@ -52,16 +48,27 @@
 		// 	"locked": true,
 		// 	"link": "None"
 		// }
-		console.log({
-				"locked_events":JSON.stringify(locked),
-				"merging_events":{"asd":"asd"},
-			})
+		//console.log({
+		//		"locked_events":JSON.stringify(locked),
+		//		"merging_events":{"asd":"asd"},
+		//	})
+		//API_URL = "../user_dash/1/student_edit_called/"
+		API_URL = "../user_dash/1/update_student/"
 		$.ajax({
-			url:"../../algo3/",
+			url:API_URL,
 			type: "post",
 			data: {
-				"locked_events":JSON.stringify(locked),
-				"merging_subjects":{"asd":"asd"},
+				"first_name": "Manav",
+				"last_name": "manav",
+				"email": "manav@mehta.com",
+				"roll_no": "22",
+				"Institute_id": 1,
+				"Division_id": 4,
+				"prac_batch": 7,
+				"lect_batch": null
+				
+				//"pk":15,//for student
+				//"pk":13,//for faculty
 			},
 			success: function (data){
 				document.getElementsByClassName("response")[0].textContent = JSON.stringify(data, undefined, 2);
@@ -72,11 +79,12 @@
     
 </script>
 </head>
-<body onload = "asd()">
-<button onclick="send_ajax()">
+<body>
+<button onclick="send_ajax()" class="button">
 	send_ajax()
 </button>
 <pre style="font-size: 18px;" class = "response">
 </pre>
 </body>
+
 </html>

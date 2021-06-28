@@ -40,10 +40,10 @@ function make_accordian(index,error_heading,error_body,table){
 	}
 	else{	// if body has multiple statements
 		obj.find(".error_body").append("<ul class = 'error_ul list-group-item list-group-item-action list-group-item-danger mb-3' >")
+
 		for (stmt of error_body){
-			obj.find(".error_body").append("<li>" + stmt + "</li>");
-		}
-		obj.find(".error_body").append("</ul>")
+			obj.find(".error_ul").append("<li>" + stmt + "</li>");
+		}		
 	}
 	a.push(error_body);
 	obj.find("th").addClass("fw-bold border-1");
@@ -126,7 +126,7 @@ function reset_main_form(){
 	// $("#csv_select").val("");
 	removeUpload();
 }
-/* #region  CSV_Upload js  */
+//#region  CSV_Upload js
 
 function readURL(input) {
 	if (input.files && input.files[0]) {
@@ -154,4 +154,4 @@ function removeUpload() {
 }
   
 
-/* #endregion */
+//#endregion

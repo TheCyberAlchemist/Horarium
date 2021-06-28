@@ -13,148 +13,118 @@
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#flush-collapseOne" aria-expanded="false"
                     aria-controls="flush-collapseOne">
-                    <h5>{% if update %}Update{% else %}Add{% endif %} Faculty
-                    </h5>
+                <h5>Update/Add Faculty</h5>
                 </button>
             </h2>
-            <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+            <div id="flush-collapseOne" class="accordion-collapse collapse"
+                aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-                <form class="myform" method="POST">
-                    {{csrf_input}}
-                    <div id="first_page" style="display: block;">
-                        <div class="row mb-3 mx-lg-5 mx-sm-0">
-                            <!--////////////////Form Goes here///////////-->
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                {% if not update %}
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control myinputs" id="fname"
-                                        placeholder="-" name="first_name" required
-                                        autocomplete="off">
-                                    <label for="fname">First Name</label>
-                                </div>
-                                {% else %}
-                                <div class="form-floating mb-3">
-                                    <div class="container" id="first_name">
-                                        {{update[0].first_name}}
+                    <form class="myform" method="POST">
+                        {{csrf_input}}
+                        <div id="first_page" style="display: block;">
+                            <div class="row mb-3 mx-lg-5 mx-sm-0">
+                                <!--////////////////Form Goes here///////////-->
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control myinputs" id="fname"
+                                            placeholder="-" name="first_name" required
+                                            autocomplete="off">
+                                        <label for="fname">First Name</label>
                                     </div>
                                 </div>
-                                {% endif %}
-                            </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                {% if not update %}
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control myinputs" id="lname"
-                                        placeholder="-" name="last_name" required
-                                        autocomplete="off">
-                                    <label for="lname">Last Name</label>
-                                </div>
-                                {% else %}
-                                <div class="form-floating mb-3">
-                                    <div class="container" id="last_name">
-                                        {{update[0].last_name}}
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control myinputs" id="lname"
+                                            placeholder="-" name="last_name" required
+                                            autocomplete="off">
+                                        <label for="lname">Last Name</label>
                                     </div>
                                 </div>
-                                {% endif %}
-                            </div>
 
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control myinputs" id="short"
-                                        placeholder="-" name="short" required autocomplete="off" {%
-                                        if update %}value="{{update[1].short}}" {% endif %}>
-                                    <label for="short">Short Name</label>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                {% if not update %}
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control myinputs" id="email"
-                                        placeholder="-" name="email" required autocomplete="off">
-                                    <label for="email">Email ID</label>
-                                </div>
-                                {% else %}
-                                <div class="form-floating mb-3">
-                                    <div class="container" id="last_name">
-                                        {{update[0].email}}
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control myinputs" id="short"
+                                            placeholder="-" name="short" required autocomplete="off" >
+                                        <label for="short">Short Name</label>
                                     </div>
                                 </div>
-                                {% endif %}
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-floating mb-3 d-flex">
-                                    <input type="password" class="form-control myinputs"
-                                        id="myinput1" name="password1" required placeholder="-" autocomplete="off">
-                                    <label for="password1">Password</label>
-                                    <span id="eye_double" onclick="visibility1(parent)">
-                                        <i class="fa fa-eye fa-lg" id="hide1"
-                                            aria-hidden="true"></i>
-                                        <i class="fa fa-eye-slash fa-lg" id="hide2"
-                                            aria-hidden="true"></i>
-                                    </span>
+
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="text" class="form-control myinputs" id="email"
+                                            placeholder="-" name="email" required autocomplete="off">
+                                        <label for="email">Email ID</label>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12">
-                                <div class="form-floating mb-3 d-flex">
-                                    <input type="password" class="form-control myinputs"
-                                        id="myinput2" name="password2" required placeholder="-" autocomplete="off">
-                                    <label for="password2">Confirm Password</label>
-                                    <span id="eye_double" onclick="visibility2(parent)">
-                                        <i class="fa fa-eye fa-lg" id="hide3"
-                                            aria-hidden="true"></i>
-                                        <i class="fa fa-eye-slash fa-lg" id="hide4"
-                                            aria-hidden="true"></i>
-                                    </span>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control myinputs"
+                                            id="myinput1" name="password1" required autocomplete="off">
+                                        <label for="password1">Password</label>
+                                        <span id="eye_double" onclick="visibility1(parent)">
+                                            <i class="fa fa-eye fa-lg" id="hide1"
+                                                aria-hidden="true"></i>
+                                            <i class="fa fa-eye-slash fa-lg" id="hide2"
+                                                aria-hidden="true"></i>
+                                        </span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="container mt-4" style="width:80%;">
-                                <button type="submit" class="btn btn-outline-success"
-                                    style="width:100%">Submit</button>
+                                <div class="col-lg-6 col-md-12 col-sm-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="password" class="form-control myinputs"
+                                            id="myinput2" name="password2" required autocomplete="off">
+                                        <label for="password2">Confirm Password</label>
+                                        <span id="eye_double" onclick="visibility2(parent)">
+                                            <i class="fa fa-eye fa-lg" id="hide3"
+                                                aria-hidden="true"></i>
+                                            <i class="fa fa-eye-slash fa-lg" id="hide4"
+                                                aria-hidden="true"></i>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="container mt-4" style="width:80%;">
+                                    <button type="submit" class="btn btn-outline-success"
+                                        style="width:100%">Submit</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="second_page" style="display: none;">
-                        <div class="row mb-3 mx-lg-5 mx-sm-0">
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-floating mb-3">
-                                    <input type="number" class="form-control myinputs" id="load"
-                                        placeholder="-" name="total_load" required
-                                        autocomplete="off" {% if update
-                                        %}value={{update[2].total_load}}{% endif %}>
-                                    <label for="load">Total Load of Faculty(in hrs)</label>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 text-center">
-                                <div class="form-floating mb-3">
-                                    <div class="select2_container double_select2">
-                                        <select name="Designation_id" id="designations">
-                                            <option disabled {% if not update %}selected{% endif %}>
-                                                Select Designation</option>
-                                            {% for designation in designations %}
-                                            <option value="{{designation.id}}" {% if update and
-                                                designation.id==update[1].Designation_id_id%}selected{%
-                                                endif %}>
-                                                {{designation}}
-                                            </option>
-                                            {%endfor%}
-                                        </select>
+                        <div id="second_page" style="display: none;">
+                            <div class="row mb-3 mx-lg-5 mx-sm-0">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-floating mb-3">
+                                        <input type="number" class="form-control myinputs" id="load"
+                                            placeholder="-" name="total_load" required
+                                            autocomplete="off">
+                                        <label for="load">Total Load of Faculty(in hrs)</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6 col-md-12 col-sm-12 text-center">
-                                <div class="form-floating mb-3">
-                                    <div class="select2_container double_select2">
-                                        <select name="Shift_id" id="shifts">
-                                            <option disabled {% if not update %}selected{% endif %}>
-                                                Select Shift</option>
-                                            {% for shift in my_shifts %}
-                                            <option value="{{shift.id}}" {% if update and
-                                                shift.id==update[1].Shift_id_id%}selected{% endif
-                                                %}>
-                                                {{shift}}
-                                            </option>
-                                            {%endfor%}
+                                <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+                                    <div class="form-floating mb-3">
+                                        <div class="select2_container double_select2">
+                                            <select name="Designation_id" id="designations">
+                                                <option disabled >
+                                                    Select Designation</option>
+                                                {% for designation in designations %}
+                                                <option value="{{designation.id}}" >
+                                                    {{designation}}
+                                                </option>
+                                                {%endfor%}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-12 col-sm-12 text-center">
+                                    <div class="form-floating mb-3">
+                                        <div class="select2_container double_select2">
+                                            <select name="Shift_id" id="shifts">
+                                                <option disabled >
+                                                    Select Shift</option>
+                                                {% for shift in my_shifts %}
+                                                <option value="{{shift.id}}">
+                                                    {{shift}}
+                                                </option>
+                                                {%endfor%}
                                         </select>
                                     </div>
                                 </div>
@@ -166,57 +136,49 @@
                         <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="form-floating">
                             <div class="can_container">
-                            {% for department in departments %}
-                            <div department-id="{{department.id}}" >
-                                <ul class="branches pt-3">
-                                {%for department_id,branches_val in branches.items()%}
-                                    {% if department_id == department.id %}
-                                    {% for branch in branches_val %}
+                                <ul id="branches" class="pt-3">
+                                    {%for branch in my_branches%}
                                         <li class="branch">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input"
-                                                id="branch_{{branch.id}}">
-                                            <label
-                                                for="branch_{{branch.id}}">{{branch}}</label>
-                                        </div>
-                                        <ul class="semesters dir">
-                                            {%for branch_id,sem_val in sems.items() %}
-                                                {% if branch_id == branch.id %}
-                                                {% for sem in sem_val %}
+                                            <div class="form-check">
+                                                <input type="checkbox" class="form-check-input"
+                                                    id="branch_{{branch.id}}">
+                                                <label for="branch_{{branch.id}}">{{branch}}</label>
+                                            </div>
+                                            <ul id="semesters" class="dir">
+                                                {%for sem in my_sems %}
                                                     {% if sem.Branch_id == branch %}
-                                                    <li>
-                                                        <div class="form-check">
-                                                            <input type="checkbox"
-                                                                class="form-check-input"
-                                                                id="sem_{{sem.id}}">
-                                                            <label
-                                                                for="sem_{{sem.id}}">{{sem}}</label>
-                                                        </div>
-                                                        <ul id="subjects">
-                                                        {%for subject in all_subjects%}
-                                                            {% if subject.Semester_id == sem %}
-                                                            <li>
-                                                                <div class="form-check">
-                                                                    <input class="form-check-input" name="subject" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}" {% if update and subject.id in update[3]%}checked{% endif %} />
-                                                                    <label for="subject_{{subject.id}}">{{subject}}</label>
-                                                                </div>
-                                                            </li>
-                                                            {% endif %}
-                                                        {%endfor%}
-                                                        </ul>
-                                                    </li>
+                                                        <li>
+                                                            <div class="form-check">
+                                                                <input type="checkbox"
+                                                                    class="form-check-input"
+                                                                    id="sem_{{sem.id}}">
+                                                                <label
+                                                                    for="sem_{{sem.id}}">{{sem}}</label>
+                                                            </div>
+                                                            <ul id="subjects">
+                                                                {% for subject in my_subjects %}
+                                                                    {% if subject.Semester_id == sem %}
+                                                                        <li>
+                                                                            <div class="form-check">
+                                                                                <input class="form-check-input"
+                                                                                    name="subject"
+                                                                                    type="checkbox"
+                                                                                    id="subject_{{subject.id}}"
+                                                                                    value="{{subject.id}}"/>
+                                                                                <label
+                                                                                    for="subject_{{subject.id}}">{{subject}}</label>
+                                                                            </div>
+                                                                        </li>
+                                                                    {% endif %}
+                                                                {%endfor%}
+                                                            </ul>
+                                                        </li>
                                                     {% endif %}
-                                                {% endfor %}
-                                                {% endif %}
-                                            {%endfor%}
-                                        </ul>
+                                                {%endfor%}
+                                            </ul>
                                         </li>
-                                    {% endfor %}
-                                    {% endif %}
-                                {%endfor%}
+                                    {%endfor%}
                                 </ul>
-                            </div>
-                            {% endfor %}
                             </div>
                         </div>
                         </div>

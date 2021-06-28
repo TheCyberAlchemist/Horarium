@@ -14,7 +14,7 @@ aria-labelledby="pills-student-tab">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#flush-collapseOne" aria-expanded="false"
                         aria-controls="flush-collapseOne">
-                        <h5>{% if u_short %}Update{% else %}Add{% endif %} Student</h5>
+                        <h5>Update/Add Student</h5>
                     </button>
                 </h2>
                 <div id="flush-collapseOne" class="accordion-collapse collapse"
@@ -27,78 +27,71 @@ aria-labelledby="pills-student-tab">
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control myinputs" id="first_name"
-                                            placeholder="-" name="first_name" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required />
+                                            placeholder="-" name="first_name"   class ="form_input"  required />
                                         <label for="first_name">First Name</label>
                                     </div>
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control myinputs" id="last_name"
-                                            placeholder="-" name="last_name" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required />
+                                            placeholder="-" name="last_name"   class ="form_input"  required />
                                         <label for="last_name">Last Name</label>
                                     </div>
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
                                         <input type="text" class="form-control myinputs" id="email"
-                                            placeholder="-" name="email" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required/>
+                                            placeholder="-" name="email"   class ="form_input"  required/>
                                         <label for="email">Email Id</label>
                                     </div>
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
                                         <input type="number" class="form-control myinputs" id="en_no"
-                                            placeholder="-" name="en_no" required/>
+                                            placeholder="-" name="roll_no" required/>
                                         <label for="en_no">Enrollment Number</label>
                                     </div>
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
                                         <input type="password" class="form-control myinputs" id="pwd"
-                                            placeholder="-" name="pwd" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required autocomplete="off"/>
+                                            placeholder="-" name="password1"   class ="form_input"  required autocomplete="off"/>
                                         <label for="pwd">Password</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
                                         <input type="password" class="form-control myinputs" id="cpwd"
-                                            placeholder="-" name="cpwd" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required autocomplete="off"/>
+                                            placeholder="-" name="password2"   class ="form_input"  required autocomplete="off"/>
                                         <label for="cpwd">Confirm Password</label>
                                     </div>
-                                </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="batch_for" id="department" style="width:100%">
-                                            <option disabled selected>Select Department</option>
-                                            <option value="">CSE</option>
-                                            <option value="">IT</option>
-                                        </select>
-                                  </div>
-                                </div>   
-                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                    <div class="select2_container single_select2 mt-3">
-                                        <select name="batch_for" id="division" style="width:100%">
+                                        <select name="Division_id" id="division" style="width:100%">
                                             <option disabled selected>Select Division</option>
-                                            <option value="">Class A</option>
-                                            <option value="">Class B</option>
+                                            {% for division in my_divisions %}
+                                                <option value="{{division.pk}}">{{division}}</option>
+                                            {% endfor %}
                                         </select>
                                   </div>
                                 </div>  
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="batch_for" id="batch_for_lect" style="width:100%">
+                                        <select name="lect_batch" id="batch_for_lect" style="width:100%">
                                             <option disabled selected>Select Lecture Batch</option>
-                                            <option value="" >Batch-1</option>
-                                            <option value="" >Batch-2</option>
+                                            {% for batch in my_lect_batches %}
+                                                <option value="{{batch.pk}}">{{batch}} [{{batch.Division_id}}]</option>
+                                            {% endfor %}
                                         </select>
                                   </div>
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="batch_for" id="batch_for_prac" style="width:100%">
+                                        <select name="prac_batch" id="batch_for_prac" style="width:100%">
                                             <option disabled selected>Select Practical Batch</option>
-                                            <option value="">Batch-1</option>
-                                            <option value="">Batch-2</option>
+                                            {% for batch in my_prac_batches %}
+                                                <option value="{{batch.pk}}">{{batch}} [{{batch.Division_id}}]</option>
+                                            {% endfor %}
                                         </select>
                                   </div>
                                 </div>    

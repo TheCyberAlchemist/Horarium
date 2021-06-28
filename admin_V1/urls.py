@@ -3,23 +3,26 @@ from django.urls import path,re_path
 from . import views,user_dash,add_update_users,algo3,user_csv
 import faculty_V1.views as faculty_view
 urlpatterns = [
-	
+	re_path(r'^try/$',views.api_try,name = 'try'),
+
 	path(r'home/',views.admin_home,name = 'admin_home'),
+
+	re_path(r'^user_dash/(?P<Department_id>\d+)/$',add_update_users.user_dash,name = 'user_dash'),
+	
+	re_path(r'^user_dash/(?P<Department_id>\d+)/student_edit_called/$',add_update_users.student_edit_called,name = "student_edit"),
+	re_path(r'^user_dash/(?P<Department_id>\d+)/faculty_edit_called/$',add_update_users.faculty_edit_called,name = "faculty_edit"),
+
+	re_path(r'^user_dash/(?P<Department_id>\d+)/update_student/$',add_update_users.add_student,name = "student_edit"),
 
 	re_path(r'^home/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	re_path(r'^home/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
 
 	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
+    re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
 
-	path('home/faculty_edit_called/',add_update_users.faculty_edit_called,name = "faculty_edit"),
-	path('home/student_edit_called/',add_update_users.student_edit_called,name = "student_edit"),
 
     re_path(r'^home2/$',views.home,name = 'home2'),
 	re_path(r'^home2/satisfaction$',views.student_satisfaction.as_view(),name = 'student_satisfaction'),
-
-    re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
-	
-	path('home/update_student/',add_update_users.student_edit_called,name = "student_edit"),
 
 
 	re_path(r'^department/$',views.show_department,name = 'show_department'),
@@ -69,7 +72,6 @@ urlpatterns = [
 	re_path(r'^algo3/$',algo3.main.as_view(),name = 'algo3'),
 
 	re_path(r'^csv_upload/$',user_csv.csv_view_func,name = 'csv_upload'),
-	re_path(r'^try/csv/$',user_csv.csv_try_view_func,name = 'view_csv'),
 	re_path(r'^csv/$',user_csv.csv_check_api.as_view(),name = 'csv'),
 	
 	# re_path("/algo",views.algo_v1,name = "algo"),

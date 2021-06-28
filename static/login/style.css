@@ -4,7 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 body,
@@ -390,8 +390,9 @@ form.sign-in-form {
   form {
     padding: 0 1.5rem;
   }
-  
-
+  .signin-signup {
+      margin-top : 20px;
+  }
   .image {
     display: none;
   }
@@ -403,7 +404,7 @@ form.sign-in-form {
   }
 
   .login_container:before {
-    bottom: 72%;
+    bottom: 76%;
     left: 50%;
   }
 

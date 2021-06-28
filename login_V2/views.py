@@ -48,7 +48,7 @@ def login_page(request):
 			message = "Email or Password is Incorrect."
 			context['message'] = message
 			# print(message)
-	return render(request, 'login_V2/login/login.html', context)
+	return render(request, 'login_V2/login/login2.html', context)
 
 
 def logout_user(request):

@@ -93,6 +93,13 @@
 }
 
 @media screen and (max-width: 600px) {
+    .main_content .table_container {
+        width: 100% !important;
+      }
+      .main_content.user_dash .table_container {
+        width: 100% !important;
+      }
+      
   table.dataTable > tbody > tr.child span.dtr-title {
     min-width: auto !important;
   }

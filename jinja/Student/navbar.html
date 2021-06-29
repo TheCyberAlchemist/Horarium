@@ -1,11 +1,21 @@
 {%block navbar_starts%} {%endblock%}
 <!-- content here -->
+<style>
+    .gixi {
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: center center;
+        margin: 0px 5%;
+        width: 20px;
+        height: 20px;
+    }
+</style>
+
 <div class="nav_container">
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
     <div class="container-fluid">
       <a class="navbar-brand" style="font-family: 'Poppins', sans-serif">
         Horarium
-        <div class="gixi user_icon"></div>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -46,9 +56,15 @@
               <li><a href="{{url ('logout')}}" class="dropdown-item">Log Out</a></li>
             </ul>
           </li>
+          <li class="nav-item ml-1">
+            <span class="gixi user_icon" data-gixisize="20" data-gixiseed="{{request.user}}_{{request.user.pk}}"></span>
+          </li>
         </ul>
       </div>
     </div>
   </nav>
 </div>
+<script>
+    
+</script>
 {%block navbar_ends%} {%endblock%}

@@ -9,7 +9,10 @@ html {
   background-color: #f1f4f6 !important;
   padding-top: 30px !important;
 }
-
+.form_container .components-section{
+    width: 80%; 
+    margin: 0 auto;
+}
 .form-control.myinputs {
   border-top: none !important;
   border-right: none !important;
@@ -315,6 +318,11 @@ display: none !important;
   // .table {
   //   overflow-x: scroll;
   // }
+  
+.form_container .components-section {
+    width: 100%; 
+    margin: 0 auto;
+}
   .input_icons {
       left : 88%;
       height : 30px !important;

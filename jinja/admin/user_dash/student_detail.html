@@ -1,9 +1,11 @@
 <div class="tab-pane fade show" id="pills-student" role="tabpanel"
 aria-labelledby="pills-student-tab">
 <div class="container mb-4">
-    <button class="btn btn-success w-100">
-        <a href="{{url ('csv_upload')}}">Import CSV </a>
-    </button>
+    <a href="{{url ('csv_upload')}}">
+        <button class="btn btn-success w-100">
+            Import CSV 
+        </button>
+    </a>
 </div>
 <!-- #region Student Form -->
 <div class="card shadow-sm components-section mb-4" style="border-radius: 1rem;">
@@ -12,16 +14,17 @@ aria-labelledby="pills-student-tab">
             <div class="accordion-item">
                 <h2 class="accordion-header" id="flush-headingOne">
                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#flush-collapseOne" aria-expanded="false"
-                        aria-controls="flush-collapseOne">
-                        <h5>Update/Add Student</h5>
+                        data-bs-target="#student_form_accordian" aria-expanded="false"
+                        aria-controls="student_form_accordian">
+                        <h5><span id = "student_form_status">Add</span> Student</h5>
                     </button>
                 </h2>
-                <div id="flush-collapseOne" class="accordion-collapse collapse"
+                <div id="student_form_accordian" class="accordion-collapse collapse"
                     aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
                         <form class="myform" id="student_form" method = "POST">
                             {{csrf_input}}
+                            <input type="hidden" name="pk">
                             <div class="row mb-3 mx-lg-5 mx-sm-0">
                                 <!--////////////////Form Goes here///////////-->
                                 <div class="col-lg-6 col-md-12 col-sm-12">
@@ -54,15 +57,15 @@ aria-labelledby="pills-student-tab">
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control myinputs" id="pwd"
-                                            placeholder="-" name="password1"   class ="form_input"  required autocomplete="off"/>
+                                        <input type="text" class="form-control myinputs password" id="pwd"
+                                            placeholder="-" name="password1"  required autocomplete="off"/>
                                         <label for="pwd">Password</label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
-                                        <input type="password" class="form-control myinputs" id="cpwd"
-                                            placeholder="-" name="password2"   class ="form_input"  required autocomplete="off"/>
+                                        <input type="text" class="form-control myinputs password" id="cpwd"
+                                            placeholder="-" name="password2" required autocomplete="off"/>
                                         <label for="cpwd">Confirm Password</label>
                                     </div>
                                 </div>
@@ -102,23 +105,11 @@ aria-labelledby="pills-student-tab">
                                 </div>
                             </div>
                         </form>
-                        {% if integrityErrors %}
-                            <div class="errors_container">
-                                <p>
-                                {{integrityErrors}}
-                                </p>
+                        <div class="container errors_container mt-3">
+                            <div class="list-group">
+                                <span id = "student_form_error" class="list-group-item list-group-item-action list-group-item-danger"></span>
                             </div>
-                        {% endif %}
-                        {% if errors %}
-                            <div class="errors_container">
-                                <p>
-                                {{errors}}
-                                </p>
-                            </div>
-                            <script>
-                                show_error("{{errors}}")
-                            </script>
-                        {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

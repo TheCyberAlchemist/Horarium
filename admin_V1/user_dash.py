@@ -83,7 +83,8 @@ class student_user_table(AjaxDatatableView):
 		student_details = obj.student_details
 		fields = {
 			'Division':student_details.Division_id,
-			'Batch':student_details.Batch_id,
+			'lect_batch':student_details.lect_batch,
+			'prac_batch':student_details.prac_batch,
 		}
 		fields['Semester'] = fields['Division'].Semester_id
 		fields['Branch'] = fields['Semester'].Branch_id

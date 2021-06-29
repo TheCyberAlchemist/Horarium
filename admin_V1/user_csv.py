@@ -50,8 +50,9 @@ def check_student_headers(df):
 	# print(header_set,set(df.head(0)))
 	if header_set != set(df.head(0)):
 		# if the header is not as needed
-		error_json['error_name'] = "Headers not properly formated"
-		error_json['error_body'] = '''The header of the file need to follow the format of 'E-mail','Password','First name','Last name','Roll_no','Department','Semester','Branch','Division','Practical Batch','Lecture Batch' '''
+		error_json['error_name'] = "Proper headers not Found!"
+		error_json['error_body'] = ['The header of the file need to follow the format as mentioned :',
+									'E-mail','Password','First name','Last name','Roll_no','Department','Semester','Branch','Division','Practical Batch','Lecture Batch']
 
 	return error_json
 
@@ -61,8 +62,9 @@ def check_student_details(df):
 	user_info_headers = ["Roll_no","Department","Semester","Branch","Division"]
 	a = df.loc[pd.isna(df["Roll_no"]) | pd.isna(df["Department"]) | pd.isna(df["Semester"]) | pd.isna(df["Branch"]) | pd.isna(df["Division"]) , :]
 	if not a.empty:
-		error_json["error_name"] = "Student details missing (Roll_no,Department,Semester,Division)"
-		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the student '''
+		error_json["error_name"] = "Student details missing!"
+		error_json["error_body"] = [' The mentioned fields must be filled in order to save the student :',
+									'(Roll_no,Department,Semester,Division)']
 		error_json["table"] = a.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
 		# print(a)
 		return error_json
@@ -74,7 +76,7 @@ def validate_and_make_student_details(df,my_institute):
 		from database models
 	'''
 	error_json = {}
-	error_json["error_name"] = "Student Detials invalid "
+	error_json["error_name"] = "Student Detials invalid! "
 	error_json["error_body"] = []
 	row_list = []
 	prac_is_null = pd.isna(df['Practical Batch'])
@@ -102,9 +104,9 @@ def validate_and_make_student_details(df,my_institute):
 			# if any of the dict1 is empty
 
 			# print(dict1.values())
-			if not my_institute:
+			if not my_department:
 				# if institute is empty meaning department is None
-				error_json["error_body"].append("No Department named %s" % (row("Department")))
+				error_json["error_body"].append("No Department named %s" % (row["Department"]))
 				error_df = error_df.append(row)
 			elif not my_division:
 				if not my_branch:
@@ -162,8 +164,9 @@ def check_faculty_headers(df):
 	# print(header_set,set(df.head(0)))
 	if header_set != set(df.head(0)):
 		# if the header is not as needed
-		error_json['error_name'] = "Headers not properly formated"
-		error_json['error_body'] = '''The header of the file need to follow the format of 'E-mail','Password','First name','Last name','Short','Department','Shift','Designation','Load','Can Teach' '''
+		error_json['error_name'] = "Proper headers not Found!"
+		error_json['error_body'] = ['The header of the file need to follow the format as mentioned :',
+									'E-mail','Password','First name','Last name','Short','Department','Shift','Designation','Load','Can Teach']
 
 	return error_json
 
@@ -174,8 +177,9 @@ def check_faculty_details(df):
 				pd.isna(df["Designation"]) | pd.isna(df["Load"]) 
 			,:]
 	if not a.empty:
-		error_json["error_name"] = "Faculty details missing (Short,Department,Shift,Designation,Load)"
-		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the Faculty '''
+		error_json["error_name"] = "Faculty details missing! "
+		error_json["error_body"] = [' The mentioned fields must be filled in order to save the student :',
+									'(Short,Department,Shift,Designation,Load)']
 		error_json["table"] = a.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
 		# print(a)
 		return error_json
@@ -189,7 +193,7 @@ def validate_and_make_faculty_details(df,my_institute):
 		from database models
 	'''
 	error_json = {}
-	error_json["error_name"] = " Faculty Detials invalid "
+	error_json["error_name"] = " Faculty Detials invalid! "
 	error_json["error_body"] = []
 	row_list = []
 	# prac_is_null = pd.isna(df['Practical Batch'])
@@ -263,8 +267,8 @@ def check_user_details(df):
 	a = df.loc[pd.isna(df["Password"]) | pd.isna(df["E-mail"]) | pd.isna(df["First name"]) | pd.isna(df["Last name"])]
 	# print(df.loc[pd.isna(df["Password"]) | pd.isna(df["E-mail"]) | pd.isna(df["First name"]) | pd.isna(df["Last name"])])
 	if not a.empty:
-		error_json["error_name"] = "User info is missing (Password,E-mail,First name,Last name)"
-		error_json["error_body"] = ''' The mentioned fields must be filled in order to save the user '''
+		error_json["error_name"] = "User Details is missing!"
+		error_json["error_body"] = [' The mentioned fields must be filled in order to save the user ',"\t(Password,E-mail,First name,Last name)"]
 		pd.options.mode.chained_assignment = None
 		error_json["table"] = a.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
 		# print(a)
@@ -286,7 +290,7 @@ def check_user_details(df):
 def check_email_for_duplication_internal(df):
 	'Checks if there is email duplication in the file '
 	error_json = {}
-	error_json["error_name"] = "Email duplication found in the file. "
+	error_json["error_name"] = "Email duplication found in the file! "
 	error_json["error_body"] = ''' Emails of the following rows have been found to be same in the file. '''
 	df = df.sort_values("E-mail")
 	# print(df[df.duplicated(['E-mail'],keep=False)])
@@ -301,7 +305,7 @@ def check_email_for_duplication_external(df):
 	error_json = {}
 	same_email_users = CustomUser.objects.all().filter(email__in=df['E-mail'].tolist())	
 	duplicate_list = list(same_email_users.values_list("email",flat=True))
-	error_json["error_name"] = "Email duplication found in the database. "
+	error_json["error_name"] = "Email duplication found in the database! "
 	error_json["error_body"] = ''' Emails of the following rows have been found to be same in the database '''
 	arr = df[df['E-mail'].isin(duplicate_list)]
 	# print(df[df['E-mail'].isin(duplicate_list)].to_json(orient="index"))
@@ -313,7 +317,8 @@ def check_email_for_duplication_external(df):
 #endregion
 
 #region //////////////////// Main validation functions //////////////////
-def validate_student_csv(df):
+import traceback
+def validate_student_csv(df,request):
 	'runs all the steps of validation and returns the error_json and details_df'
 	error_list = []
 	details = None
@@ -357,10 +362,11 @@ def validate_student_csv(df):
 
 	# check if the Student details for valid department,branch,class,batch
 	try:
-		details,json = validate_and_make_student_details(df)
+		details,json = validate_and_make_student_details(df,request.user.admin_details.Institute_id)
 		app(json)
 	except Exception as e:
-		print("Something went wrong in  function ")
+		print("Something went wrong in student details function ")
+		traceback.print_exc()
 		print(e)
 	#endregion
 	
@@ -439,7 +445,7 @@ class csv_check_api(APIView):
 		df = clear_duplicate_rows(df)
 		
 		if csv_type == "student":
-			error_list,details = validate_student_csv(df)
+			error_list,details = validate_student_csv(df,request)
 			all_saved_pks = []
 			if not error_list:
 				for i,row in details.iterrows():

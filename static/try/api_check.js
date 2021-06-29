@@ -1,4 +1,18 @@
-JSON_DATA = "csrfmiddlewaretoken=TsZ9bEbtrk0d59n3UO0kzKhCHHzCWwgkuXOnV2V8ExBpxzRCmVOpIwc7qjW1HJGv&first_name=asd&last_name=asd&email=em%40asd.com&roll_no=12345678&password1=thispassword&password2=thispassword&Division_id=5&lect_batch=47&prac_batch=12"
+JSON_DATA = {
+		"first_name": "Dharmesh",
+		"last_name": "Darji",
+		"email": "ddharmesh@darji.com",
+		"password1":"thatismyname",
+		"password2":"thatismyname",
+		"short": "DSD",
+		"Designation_id": 1,
+		"Shift_id": 6,
+		"Department_id": 1,
+		"total_load": 100,
+		"can_teach": [
+			11,12
+		]
+	}
 		//"first_name": "Manav",
 		//"last_name": "manav",
 		//"email": "manav@mehta1.com",
@@ -14,7 +28,7 @@ JSON_DATA = "csrfmiddlewaretoken=TsZ9bEbtrk0d59n3UO0kzKhCHHzCWwgkuXOnV2V8ExBpxzR
 		//"pk":13,//for faculty
 
 //API_URL = "../user_dash/1/faculty_edit_called/"
-API_URL = "../user_dash/1/add_update_student/"
+API_URL = "../user_dash/1/add_update_faculty/"
 function send_ajax(){
 	var csrftoken = Cookies.get('csrftoken');
 	function csrfSafeMethod(method) {

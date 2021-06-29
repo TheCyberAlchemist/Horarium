@@ -8,7 +8,7 @@ import json
 from .views import return_context
 from institute_V1.models import *
 from faculty_V1.models import *
-from .forms import update_user_name,student_details,add_user,faculty_details,faculty_load
+from .forms import update_user_name_email,student_details,add_user,faculty_details,faculty_load
 from login_V2.models import CustomUser
 
 def update_student(request):
@@ -30,14 +30,14 @@ def faculty_edit_called(request,Department_id):
 			# Check if the user is in the same institute
 			return HttpResponse(status=500)
 		update_data = {
+			'pk':faculty.pk,
 			'first_name':faculty.first_name,
 			'last_name':faculty.last_name,
 			'email':faculty.email,
 			"short":faculty_det.short,
 			"Designation_id":faculty_det.Designation_id_id,
 			"Shift_id":faculty_det.Shift_id_id,
-			"Department_id":faculty_det.Department_id_id,
-			"Faculty_load":faculty_load.total_load,
+			"total_load":faculty_load.total_load,
 			"can_teach":can_teach_subject_ids,
 		}
 		print(update_data)
@@ -56,11 +56,11 @@ def student_edit_called(request,Department_id):
 			# Check if the user is in the same institute
 			return HttpResponse(status=500)
 		update_data = {
+			'pk':student.pk,
 			'first_name':student.first_name,
 			'last_name':student.last_name,
 			'email':student.email,
 			"roll_no":student_det.roll_no,
-			"Institute_id": student_det.Institute_id_id,
 			"Division_id": student_det.Division_id_id,
 			"prac_batch": student_det.prac_batch_id,
 			"lect_batch": student_det.lect_batch_id,
@@ -70,10 +70,12 @@ def student_edit_called(request,Department_id):
 
 def add_update_student(request,Department_id):
 	if request.method == 'POST':
-		user_obj = CustomUser.objects.all().filter(email=request.POST.get("email")).first()
+		user_obj = None
+		if request.POST.get('pk'):
+			user_obj = CustomUser.objects.all().filter(pk=request.POST.get('pk')).first()
 		if user_obj:
 			# if update is called (if the user-email doesn't exist)
-			name_form = update_user_name(request.POST,instance=user_obj)
+			name_form = update_user_name_email(request.POST,instance=user_obj)
 			details_form = student_details(request.POST,instance=user_obj.student_details)
 			print("\nEdit is called 📥")
 		else:
@@ -86,9 +88,9 @@ def add_update_student(request,Department_id):
 			details = details_form.save(commit=False)
 			# region check if the batches selected are in the same divisions
 			if details.prac_batch and not details.prac_batch.Division_id == details.Division_id:
-				return JsonResponse({'error':'The batches selected are not in the same division'}, status=500)
+				return JsonResponse({'error':'<ul class=\"errorlist\"><li>Practical Batch<ul class=\"errorlist\"><li>The practical batches selected are not in the same division.</li></ul></li></ul>'}, status=500)
 			elif details.lect_batch and not details.lect_batch.Division_id == details.Division_id:
-				return JsonResponse({'error':'The batches selected are not in the same division'})
+				return JsonResponse({'error':'<ul class=\"errorlist\"><li>Lecture Batch<ul class=\"errorlist\"><li>The lecture batches selected are not in the same division.</li></ul></li></ul>'}, status=500)
 			# endregion
 			if not user_obj: # if add is called
 				group = Group.objects.get(name='Student')
@@ -102,7 +104,7 @@ def add_update_student(request,Department_id):
 			# name_form.save()
 			# user.groups.add(group)
 			# details.save()
-
+			print("Save has been Successfull ✅✅")			
 			return JsonResponse({'success':'Saved ✅✅'})
 		else:
 			if name_form.is_valid():
@@ -115,15 +117,18 @@ def add_update_student(request,Department_id):
 			else:
 				print("details form is not valid❌")
 				print(details_form.errors)
-			return JsonResponse({'error':'Not saved❌'})
+			return JsonResponse({'error':details_form.errors.as_ul() + name_form.errors.as_ul()},status=500)
 
 
 def add_update_faculty(request,Department_id):
 	if request.method == 'POST':
-		user_obj = CustomUser.objects.all().filter(email=request.POST.get("email")).first()
+		user_obj = None
+		if request.POST.get('pk'):
+			user_obj = CustomUser.objects.all().filter(pk=request.POST.get('pk')).first()
+		# user_obj = CustomUser.objects.all().filter(email=request.POST.get("email")).first()
 		if user_obj:
 			# if edit is called (if the user-email doesn't exist)
-			name_form = update_user_name(request.POST,instance=user_obj)
+			name_form = update_user_name_email(request.POST,instance=user_obj)
 			details_form = faculty_details(request.POST,instance=user_obj.faculty_details)
 			load_form = faculty_load(request.POST,instance=user_obj.faculty_details.faculty_load)
 			print("Edit is called 📥")
@@ -152,7 +157,8 @@ def add_update_faculty(request,Department_id):
 				old_load_obj = Faculty_load.objects.get(Faculty_id=details)
 				load_carried = old_load_obj.load_carried()
 				if load.total_load < load_carried:
-					return JsonResponse({'error':'The total load cannot be less than the load carried (Current Load :: {load_carried})'})
+					'<ul class=\"errorlist\"><li>password2<ul class=\"errorlist\"><li>The password is too similar to the first name.</li><li>This password is too short. It must contain at least 8 characters.</li><li>This password is too common.</li></ul></li></ul>'
+					return JsonResponse({'error':'<ul class=\"errorlist\"><li>Total Load<ul class=\"errorlist\"><li>The total load cannot be less than the load carried (Current Load :: {load_carried})</li></ul></li></ul>'},status=500)
 				# endregion
 				print("Save can be executed ..... ✅✅")
 
@@ -161,15 +167,16 @@ def add_update_faculty(request,Department_id):
 				# details_form.save()
 				# load_form.save()
 				old_can_teach = set(Can_teach.objects.filter(Faculty_id=details).values_list("Subject_id",flat = True))
-				new_can_teach = set(list(map(int,request.POST.getlist('can_teach[]'))))
+				new_can_teach = set(list(map(int,request.POST.getlist('can_teach'))))
 				to_be_deleted = old_can_teach.difference(new_can_teach)
 				to_be_added = new_can_teach.difference(old_can_teach)
 
 				for i in to_be_deleted:
-					print("deleted - ",Can_teach.objects.filter(Subject_id= i))
-					Can_teach.objects.filter(Subject_id_id= i).delete()
+					print("deleted - ",Can_teach.objects.filter(Faculty_id=details,Subject_id= i))
+					# Can_teach.objects.filter(Subject_id_id= i).delete()
 				for i in to_be_added:
 					a = Can_teach(Faculty_id = details,Subject_id_id=i)
+					print("added - ",a)
 					# a.save()
 				print("Save has been Successfull ..... ✅✅")
 			else:

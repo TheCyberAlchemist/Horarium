@@ -20,7 +20,7 @@ aria-labelledby="pills-student-tab">
                 <div id="flush-collapseOne" class="accordion-collapse collapse"
                     aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                     <div class="accordion-body">
-                        <form class="myform" method = "POST">
+                        <form class="myform" id="student_form" method = "POST">
                             {{csrf_input}}
                             <div class="row mb-3 mx-lg-5 mx-sm-0">
                                 <!--////////////////Form Goes here///////////-->
@@ -47,7 +47,7 @@ aria-labelledby="pills-student-tab">
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="form-floating mb-3">
-                                        <input type="number" class="form-control myinputs" id="en_no"
+                                        <input type="text" class="form-control myinputs" id="en_no"
                                             placeholder="-" name="roll_no" required/>
                                         <label for="en_no">Enrollment Number</label>
                                     </div>
@@ -65,32 +65,33 @@ aria-labelledby="pills-student-tab">
                                             placeholder="-" name="password2"   class ="form_input"  required autocomplete="off"/>
                                         <label for="cpwd">Confirm Password</label>
                                     </div>
+                                </div>
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="Division_id" id="division" style="width:100%">
-                                            <option disabled selected>Select Division</option>
+                                        <select name="Division_id" id="division" class="select2_input" style="width:100%">
+                                            <option disabled selected value="-1">Select Division</option>
                                             {% for division in my_divisions %}
-                                                <option value="{{division.pk}}">{{division}}</option>
+                                                <option value="{{division.pk}}">{{division}} - {{division.Semester_id.Branch_id}}</option>
                                             {% endfor %}
                                         </select>
                                   </div>
                                 </div>  
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="lect_batch" id="batch_for_lect" style="width:100%">
-                                            <option disabled selected>Select Lecture Batch</option>
+                                        <select name="lect_batch" id="batch_for_lect" class="select2_input" style="width:100%">
+                                            <option disabled selected value="-1">Select Lecture Batch</option>
                                             {% for batch in my_lect_batches %}
-                                                <option value="{{batch.pk}}">{{batch}} [{{batch.Division_id}}]</option>
+                                                <option value="{{batch.pk}}">{{batch}} [{{batch.Division_id}} - {{batch.Division_id.Semester_id.Branch_id}}]</option>
                                             {% endfor %}
                                         </select>
                                   </div>
                                 </div>   
                                 <div class="col-lg-6 col-md-12 col-sm-12">
                                     <div class="select2_container single_select2 mt-3">
-                                        <select name="prac_batch" id="batch_for_prac" style="width:100%">
-                                            <option disabled selected>Select Practical Batch</option>
+                                        <select name="prac_batch" id="batch_for_prac" class="select2_input" style="width:100%">
+                                            <option disabled selected value="-1">Select Practical Batch</option>
                                             {% for batch in my_prac_batches %}
-                                                <option value="{{batch.pk}}">{{batch}} [{{batch.Division_id}}]</option>
+                                                <option value="{{batch.pk}}">{{batch}} [{{batch.Division_id}}  - {{batch.Division_id.Semester_id.Branch_id}}]</option>
                                             {% endfor %}
                                         </select>
                                   </div>

@@ -25,7 +25,7 @@ from faculty_V1.models import Feedback
 
 ############# For checking apis ###############
 def api_try(request):
-	return render(request,'try/asd.html')
+	return render(request,'try/api_try.html')
 ############# For running any scripts ###############
 def run_script(request):
 	# num = int (input("Enter the number of events to be deleted :: "))

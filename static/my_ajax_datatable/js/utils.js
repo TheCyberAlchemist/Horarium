@@ -84,13 +84,13 @@ window.AjaxDatatableViewUtils = (function() {
 
         var column = table.api().column(index);
         var old_value = column.search();
-        console.log('Request to search value %o in column %o (current value: %o)', value, index, old_value);
+        // console.log('Request to search value %o in column %o (current value: %o)', value, index, old_value);
         if (value != old_value) {
-            console.log('searching ...');
+            // console.log('searching ...');
             column.search(value).draw();
         }
         else {
-            console.log('skipped');
+            // console.log('skipped');
         }
     };
 
@@ -143,7 +143,6 @@ window.AjaxDatatableViewUtils = (function() {
                                 .addClass('search_box')
                                 .attr('value', item.initialSearchValue ? item.initialSearchValue : '')
                             let placeholder_title = item.placeholder ? item.placeholder : item.title;
-                            // console.log(item);
                             html = $(`<div class="bg-light rounded rounded-pill shadow-sm search_container"><div class="input-group">`).append(input).html();
                             var html1 = `<div class="bg-light rounded rounded-pill shadow-sm">
                             <div class="input-group">
@@ -221,7 +220,7 @@ window.AjaxDatatableViewUtils = (function() {
 
     function _bind_row_tools(table, url, full_row_select)
     {
-        console.log('*** _bind_row_tools()');
+        // console.log('*** _bind_row_tools()');
 
         if (full_row_select) {
 
@@ -339,7 +338,7 @@ window.AjaxDatatableViewUtils = (function() {
 
 
     function after_table_initialization(table, data, url, full_row_select) {
-        console.log('*** after_table_initialization()');
+        // console.log('*** after_table_initialization()');
         _bind_row_tools(table, url, full_row_select);
         _setup_column_filters(table, data);
     }
@@ -417,7 +416,7 @@ window.AjaxDatatableViewUtils = (function() {
                       if (extra_data) {
                           Object.assign(data, extra_data);
                       }
-                      console.log("data tx: %o", data);
+                    //   console.log("data tx: %o", data);
                       $.ajax({
                           type: 'POST',
                           url: url,
@@ -427,7 +426,7 @@ window.AjaxDatatableViewUtils = (function() {
                           crossDomain: false,
                           headers: {'X-CSRFToken': getCookie('csrftoken')}
                       }).done(function(data, textStatus, jqXHR) {
-                          console.log('data rx: %o', data);
+                        //   console.log('data rx: %o', data);
                         //   console.log(data.data);
                           callback(data);
 

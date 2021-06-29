@@ -12,7 +12,11 @@ urlpatterns = [
 	re_path(r'^user_dash/(?P<Department_id>\d+)/student_edit_called/$',add_update_users.student_edit_called,name = "student_edit"),
 	re_path(r'^user_dash/(?P<Department_id>\d+)/faculty_edit_called/$',add_update_users.faculty_edit_called,name = "faculty_edit"),
 
-	re_path(r'^user_dash/(?P<Department_id>\d+)/update_student/$',add_update_users.add_student,name = "student_edit"),
+	re_path(r'^user_dash/(?P<Department_id>\d+)/add_update_student/$',add_update_users.add_update_student,name = "student_edit"),
+	re_path(r'^user_dash/(?P<Department_id>\d+)/add_update_faculty/$',add_update_users.add_update_faculty,name = "faculty_edit"),
+
+	re_path(r'^user_dash/(?P<Department_id>\d+)/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
+	re_path(r'^user_dash/(?P<Department_id>\d+)/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
 
 	re_path(r'^home/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	re_path(r'^home/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),

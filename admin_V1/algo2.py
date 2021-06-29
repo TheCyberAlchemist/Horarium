@@ -84,15 +84,15 @@ def check_availability(slot,subject_event):
 
 def check_load_distribution(day_events,subject_event,is_prac = False):
 	# returns -3(delta) if the load is more then the average load per day
-	same_events = day_events.filter(Subject_event_id__Faculty_id = subject_event.Faculty_id)
+	faculty_details = subject_event.Faculty_id
+	same_events = day_events.filter(Subject_event_id__Faculty_id = faculty_details)
 	todays_load = 0
 	for event in same_events:
 		if event.Slot_id_2:
 			todays_load += 2
 		else:
 			todays_load += 1
-	faculty_load = Faculty_load.objects.get(Faculty_id = subject_event.Faculty_id)
-	ave_load = math.ceil((faculty_load.total_load - faculty_load.remaining_load())/WORKING_DAYS)
+	ave_load = math.ceil((faculty_load.total_load - faculty_details.faculty_load.remaining_load())/WORKING_DAYS)
 	delta = todays_load - ave_load + (2 if is_prac else 1)
 	if delta > 0:
 		return -LOAD_IS_MORE*delta

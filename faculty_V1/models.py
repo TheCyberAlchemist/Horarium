@@ -38,13 +38,20 @@ class Faculty_details(models.Model):
 # make fac id onetoone in load
 class Faculty_load(models.Model):
 	total_load = models.PositiveIntegerField()
-	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE)
+	Faculty_id = models.OneToOneField(Faculty_details,on_delete=models.CASCADE)
 	def remaining_load(self):
 		all_events = Subject_event.objects.active().filter(Faculty_id=self.Faculty_id)
 		total = 0
 		for i in all_events:
 			total += i.total_load_carried()
 		return self.total_load - total
+	def load_carried(self):
+		all_events = Subject_event.objects.active().filter(Faculty_id=self.Faculty_id)
+		total = 0
+		for i in all_events:
+			total += i.total_load_carried()
+		return total
+
 	def __str__(self):
 		return str(self.Faculty_id) + " - " + str(self.total_load) + " hrs"
 	class Meta:

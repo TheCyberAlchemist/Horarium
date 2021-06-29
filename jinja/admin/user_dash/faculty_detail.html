@@ -19,7 +19,7 @@
             <div id="flush-collapseOne" class="accordion-collapse collapse"
                 aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
-                    <form class="myform" method="POST">
+                    <form class="myform" id="faculty_form" method="POST">
                         {{csrf_input}}
                         <div id="first_page" style="display: block;">
                             <div class="row mb-3 mx-lg-5 mx-sm-0">
@@ -102,8 +102,8 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12 text-center">
                                     <div class="form-floating mb-3">
                                         <div class="select2_container double_select2">
-                                            <select name="Designation_id" id="designations">
-                                                <option disabled >
+                                            <select name="Designation_id" class="select2_input" id="designations">
+                                                <option disabled selected value="-1">
                                                     Select Designation</option>
                                                 {% for designation in designations %}
                                                 <option value="{{designation.id}}" >
@@ -117,8 +117,8 @@
                                 <div class="col-lg-6 col-md-12 col-sm-12 text-center">
                                     <div class="form-floating mb-3">
                                         <div class="select2_container double_select2">
-                                            <select name="Shift_id" id="shifts">
-                                                <option disabled >
+                                            <select name="Shift_id" class="select2_input" id="shifts">
+                                                <option disabled selected value="-1">
                                                     Select Shift</option>
                                                 {% for shift in my_shifts %}
                                                 <option value="{{shift.id}}">
@@ -130,76 +130,76 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div id="third_page" style="display:none">
-                    <div class="row mb-3 mx-lg-5 mx-sm-0">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                        <div class="form-floating">
-                            <div class="can_container">
-                                <ul id="branches" class="pt-3">
-                                    {%for branch in my_branches%}
-                                        <li class="branch">
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input"
-                                                    id="branch_{{branch.id}}">
-                                                <label for="branch_{{branch.id}}">{{branch}}</label>
-                                            </div>
-                                            <ul id="semesters" class="dir">
-                                                {%for sem in my_sems %}
-                                                    {% if sem.Branch_id == branch %}
-                                                        <li>
-                                                            <div class="form-check">
-                                                                <input type="checkbox"
-                                                                    class="form-check-input"
-                                                                    id="sem_{{sem.id}}">
-                                                                <label
-                                                                    for="sem_{{sem.id}}">{{sem}}</label>
-                                                            </div>
-                                                            <ul id="subjects">
-                                                                {% for subject in my_subjects %}
-                                                                    {% if subject.Semester_id == sem %}
-                                                                        <li>
-                                                                            <div class="form-check">
-                                                                                <input class="form-check-input"
-                                                                                    name="subject"
-                                                                                    type="checkbox"
-                                                                                    id="subject_{{subject.id}}"
-                                                                                    value="{{subject.id}}"/>
-                                                                                <label
-                                                                                    for="subject_{{subject.id}}">{{subject}}</label>
-                                                                            </div>
-                                                                        </li>
-                                                                    {% endif %}
-                                                                {%endfor%}
-                                                            </ul>
-                                                        </li>
-                                                    {% endif %}
-                                                {%endfor%}
-                                            </ul>
-                                        </li>
-                                    {%endfor%}
-                                </ul>
+                        </div>
+                        <div id="third_page" style="display:none">
+                            <div class="row mb-3 mx-lg-5 mx-sm-0">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-floating">
+                                    <div class="can_container">
+                                        <ul id="branches" class="pt-3">
+                                            {%for branch in my_branches%}
+                                                <li class="branch">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="branch_{{branch.id}}">
+                                                        <label for="branch_{{branch.id}}">{{branch}}</label>
+                                                    </div>
+                                                    <ul id="semesters" class="dir">
+                                                        {%for sem in my_sems %}
+                                                            {% if sem.Branch_id == branch %}
+                                                                <li>
+                                                                    <div class="form-check">
+                                                                        <input type="checkbox"
+                                                                            class="form-check-input"
+                                                                            id="sem_{{sem.id}}">
+                                                                        <label
+                                                                            for="sem_{{sem.id}}">{{sem}}</label>
+                                                                    </div>
+                                                                    <ul id="subjects">
+                                                                        {% for subject in my_subjects %}
+                                                                            {% if subject.Semester_id == sem %}
+                                                                                <li>
+                                                                                    <div class="form-check">
+                                                                                        <input class="form-check-input"
+                                                                                            name="subject"
+                                                                                            type="checkbox"
+                                                                                            id="subject_{{subject.id}}"
+                                                                                            value="{{subject.id}}"/>
+                                                                                        <label
+                                                                                            for="subject_{{subject.id}}">{{subject}}</label>
+                                                                                    </div>
+                                                                                </li>
+                                                                            {% endif %}
+                                                                        {%endfor%}
+                                                                    </ul>
+                                                                </li>
+                                                            {% endif %}
+                                                        {%endfor%}
+                                                    </ul>
+                                                </li>
+                                            {%endfor%}
+                                        </ul>
+                                    </div>
+                                </div>
+                                </div>
+                                <div class="container mt-4" style="width:80%;">
+                                    <button type="submit" class="btn btn-outline-success"
+                                        style="width:100%">Submit</button>
+                                </div>
                             </div>
                         </div>
-                        </div>
-                        <div class="container mt-4" style="width:80%;">
-                            <button type="submit" class="btn btn-outline-success"
-                                style="width:100%">Submit</button>
-                        </div>
-                    </div>
-                    </div>
                 
-                    <div class="container text-center">
-                        <div class="pagination_container ">
-                        <nav style="transform: translateX(45%)"> 
-                            <ul class="pagination">
-                                <li class="page-item" ><a class="page-link" id="first">1</a></li>
-                                <li class="page-item" ><a class="page-link" id="second">2</a></li>
-                                <li class="page-item" ><a class="page-link" id="third">3</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                </div>
+                        <div class="container text-center">
+                            <div class="pagination_container ">
+                                <nav style="transform: translateX(45%)"> 
+                                    <ul class="pagination">
+                                        <li class="page-item" ><a class="page-link" id="first">1</a></li>
+                                        <li class="page-item" ><a class="page-link" id="second">2</a></li>
+                                        <li class="page-item" ><a class="page-link" id="third">3</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
                 </form>
                 {% if integrityErrors %}
                     <div class="errors_container">

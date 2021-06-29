@@ -200,16 +200,20 @@ def validate_and_make_faculty_details(df,my_institute):
 		my_department = Department.objects.all().filter(Q(short = row['Department']) | Q(name = row['Department']),Institute_id=my_institute).first()
 		my_shift = Shift.objects.all().filter(name = row['Shift'],Department_id=my_department).first() if my_department else None
 		my_designation,_ = Faculty_designation.objects.get_or_create(Institute_id=my_institute,designation=row['Designation'])
-		all_subjects = Subject_details.objects.all().filter(Semester_id__Branch_id__Department_id = my_department)				
-		
+		all_subjects = Subject_details.objects.all().filter(Semester_id__Branch_id__Department_id = my_department)
 		my_subjects = []
 		for i in row['Can Teach'].split(","):
-			this_subj = all_subjects.filter(Q(short = i) | Q(name = i)).first()
-			if this_subj:
-				my_subjects.append(this_subj)
-			else:	# no subject found
-				error_json["error_body"].append("No Subject named <b> %s</b> in %s" % (i,my_department))
+			this_subj = all_subjects.filter(Q(short = i) | Q(name = i))
+			if this.subj.count() > 1: # if more then one subject of same name in department
+				error_json["error_body"].append("More then one subjects named %s in %s.Please insert the subject manually in user Dashbord." % (i,row['Department']))
 				error_df = error_df.append(row)
+			else:
+				this_subj = this_subj.first()
+				if this_subj:
+					my_subjects.append(this_subj)
+				else:	# no subject found
+					error_json["error_body"].append("No Subject named <b> %s</b> in %s" % (i,my_department))
+					error_df = error_df.append(row)
 
 		dict1 = {}
 		dict1.update({

@@ -71,10 +71,10 @@ class Subject_details(models.Model):
 		return self.short
 
 	class Meta:
-		verbose_name_plural = "Subject Details"	
+		verbose_name_plural = "Subject Details"
 		constraints = [
-            models.UniqueConstraint(fields=['short', 'Semester_id__Branch_id__Department_id'], name='Subject Short is Unique for Department.'),
-			models.UniqueConstraint(fields=['name', 'Semester_id__Branch_id__Department_id'], name='Subject Name is Unique for Department.')
+			models.UniqueConstraint(fields=['short', 'Semester_id'], name='Subject Short is Unique for Semester.'),
+			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Subject Name is Unique for Semester.')
         ]	
 
 class active_manager(models.Manager):
@@ -100,7 +100,8 @@ class Subject_event(models.Model):
 		default is active. When WEF starts startdate and enddate are set 
 		and when it ends actve=False
 	'''
-	
+	# add a function to count the load remaining from the Event table and use distince(Slot_id)
+	# this will be usefull for timetable algo when the batches will be mearged
 	def total_load_carried(self):
 		return (self.prac_carried * 2) + self.lect_carried
 	

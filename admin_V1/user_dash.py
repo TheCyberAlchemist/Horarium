@@ -72,6 +72,8 @@ class student_user_table(AjaxDatatableView):
 		if not request.user.is_authenticated:
 			raise PermissionDenied
 		queryset = self.model.objects.filter(student_details__pk__isnull=False)
+		if self.kwargs['Department_id']:
+			queryset = queryset.filter(student_details__Division_id__Semester_id__Branch_id__Department_id_id = self.kwargs['Department_id'])
 		# queryset = self.model.objects.all()
 		return queryset
 
@@ -173,9 +175,11 @@ class faculty_user_table(AjaxDatatableView):
 	def get_initial_queryset(self, request=None):
 		if not request.user.is_authenticated:
 			raise PermissionDenied
-		queryset = self.model.objects.filter(faculty_details__pk__isnull=False)
+		qs = self.model.objects.filter(faculty_details__pk__isnull=False)
+		if self.kwargs['Department_id']:
+			qs = qs.filter(faculty_details__Department_id_id=self.kwargs['Department_id'])
 		# queryset = self.model.objects.all()
-		return queryset
+		return qs
 
 	def render_row_details(self, pk, request=None):
 		obj = self.model.objects.get(pk=pk)

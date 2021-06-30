@@ -331,7 +331,7 @@ form.sign-in-form {
   }
 
   .panel h3 {
-    font-size: 1.2rem;
+    font-size: 1.7rem;
   }
 
   .panel p {
@@ -391,7 +391,7 @@ form.sign-in-form {
     padding: 0 1.5rem;
   }
   .signin-signup {
-      margin-top : 20px;
+      margin-top : 30px;
   }
   .image {
     display: none;
@@ -402,12 +402,17 @@ form.sign-in-form {
   .login_container {
     padding: 1.5rem;
   }
-
+  .login_container {
+      min-height: 0 !important;
+  }
   .login_container:before {
-    bottom: 76%;
+    bottom: 70%;
     left: 50%;
   }
-
+  .login_btn.me {
+    padding: 0;
+    margin-top : -20px;
+  }
   .login_container.sign-up-mode:before {
     bottom: 28%;
     left: 50%;

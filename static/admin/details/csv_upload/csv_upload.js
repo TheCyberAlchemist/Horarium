@@ -99,9 +99,9 @@ $(document).ready(function () {
 		});
 	}else{
 		Swal.fire(
-			'The Internet?',
-			'That thing is still around?',
-			'question'
+			'Oh! This should not happen',
+			'Try uploading the file or fill the details again',
+			'info'
 		)
 	}
   });

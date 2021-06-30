@@ -126,21 +126,21 @@
                                 </div>
                                 </form>
                                 {% if integrityErrors %}
-                                <div class="errors_container">
-                                    <p>
-                                        {{integrityErrors}}
-                                    </p>
-                                </div>
+                                    <div class="list-group">
+                                        <span class="list-group-item list-group-item-action list-group-item-danger">
+                                            {{integrityErrors}}
+                                        </span>
+                                    </div>
                                 {% endif %}
                                 {% if errors %}
-                                <div class="errors_container">
-                                    <p>
-                                        {{errors}}
-                                    </p>
-                                </div>
-                                <script>
-                                    show_error("{{errors}}")
-                                </script>
+                                    <div class="list-group">
+                                        <span class="list-group-item list-group-item-action list-group-item-danger">
+                                            {{errors}}
+                                        </span>
+                                    </div>
+                                    <script>
+                                        show_error("{{errors}}")
+                                    </script>
                                 {% endif %}
                             </div>
                         </div>

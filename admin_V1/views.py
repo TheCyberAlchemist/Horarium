@@ -229,7 +229,7 @@ def show_department(request,Department_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Short Name and Name must be unique for Institute*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors.as_text()
+					context['errors'] = form.errors.as_ul()
 					print(context['errors'])
 		return render(request,"admin/details/department.html",context)
 	else:
@@ -270,7 +270,7 @@ def show_semester(request,Branch_id,Semester_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Short must be unique for Branch*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors
+					context['errors'] = form.errors.as_ul()
 		return render(request,"admin/details/semester.html",context)
 	else:
 		raise redirect(get_home_page(request.user))
@@ -311,7 +311,7 @@ def show_division(request,Semester_id,Division_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Division Name is Unique for Semester*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors
+					context['errors'] = form.errors.as_ul()
 		return render(request,"admin/details/division.html",context)
 	else:
 		raise redirect(get_home_page(request.user))
@@ -357,7 +357,7 @@ def show_batch(request,Division_id,Batch_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Name must be unique for Division*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors
+					context['errors'] = form.errors.as_ul()
 		return render(request,"admin/details/batch.html",context)
 	else:
 		raise redirect(get_home_page(request.user))
@@ -454,7 +454,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 				else:
 					user.delete()
 			else:
-				context['errors'] = [user_form.errors,faculty_detail_form.errors,faculty_load_form.errors]
+				context['errors'] = [user_form.errors.as_ul(),faculty_detail_form.errors.as_ul(),faculty_load_form.errors.as_ul()]
 	else:
 		return redirect(get_home_page(request.user))
 
@@ -567,7 +567,7 @@ def show_branch(request,Department_id,Branch_id=None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Name and Short must be unique for Department*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors
+					context['errors'] = form.errors.as_ul()
 		
 		return render(request,"admin/details/branch.html",context)
 	else:
@@ -702,7 +702,7 @@ def show_shift(request,Department_id,Shift_id = None):
 					except BaseException:
 						context['integrityErrors'] = "*End time must be Greater than Start time*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors
+					context['errors'] = form.errors.as_ul()
 			return render(request,"admin/details/shift.html",context)
 	else:
 		return redirect(get_home_page(request.user))
@@ -802,7 +802,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "Name and Short must be unique for Semester"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors
+					context['errors'] = form.errors.as_ul()
 		return render(request,"admin/details/subject_details.html",context)
 	else:
 		raise redirect(get_home_page(request.user))
@@ -858,7 +858,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 				except IntegrityError:
 					context['integrityErrors'] = "*Subject can have only one Unique Faculty.*"   #errors to integrityErrors
 			else:
-				context['errors'] = form.errors
+				context['errors'] = form.errors.as_ul()
 	return render(request,"admin/details/subject_events.html",context)
 
 
@@ -892,7 +892,7 @@ def show_resource(request,Resource_id = None):
 					except IntegrityError:
 						context['integrityErrors'] = "*Name must be unique for Institute*"   #errors to integrityErrors
 				else:
-					context['errors'] = form.errors.as_text()
+					context['errors'] = form.errors.as_ul()
 					print(context['errors'])
 		print(context['my_resources'])
 		return render(request,"admin/details/resources.html",context)

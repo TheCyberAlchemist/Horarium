@@ -150,7 +150,7 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 def admin_home(request):
 	context = return_context(request)
 	# context['all_subjects'] = Subject_details.objects.all()
-	return render(request,'admin/user_dash/user_dash.html',context)
+	return render(request,'admin/homepage/home.html',context)
 
 
 class get_user_ajax(View):
@@ -1007,8 +1007,11 @@ def get_division_subjects_and_events(Division_id):
 def algo_v1(request,Division_id):
 	# delete all the prior events after taking the locked events
 	# save all the locked events
+	print("here at algo view .. ✅")
 	old_events_qs = list(Event.objects.active().filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
-	json_events = json.loads(request.body)
+	json_events = []
+	if request:
+		json_events = json.loads(request.body)
 	new_events = set()
 	old_events = set()
 	for l in json_events:

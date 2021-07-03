@@ -26,7 +26,7 @@ urlpatterns = [
 
 
     re_path(r'^home2/$',views.home,name = 'home2'),
-	re_path(r'^home2/satisfaction$',views.student_satisfaction.as_view(),name = 'student_satisfaction'),
+	re_path(r'^home/satisfaction$',views.student_satisfaction.as_view(),name = 'student_satisfaction'),
 
 
 	re_path(r'^department/$',views.show_department,name = 'show_department'),

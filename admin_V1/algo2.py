@@ -92,7 +92,7 @@ def check_load_distribution(day_events,subject_event,is_prac = False):
 			todays_load += 2
 		else:
 			todays_load += 1
-	ave_load = math.ceil((faculty_load.total_load - faculty_details.faculty_load.remaining_load())/WORKING_DAYS)
+	ave_load = math.ceil(faculty_details.faculty_load.load_carried()/WORKING_DAYS)
 	delta = todays_load - ave_load + (2 if is_prac else 1)
 	if delta > 0:
 		return -LOAD_IS_MORE*delta
@@ -284,7 +284,7 @@ def put_division(Division_id):
 	'gets the division_id and adds the related info to the file to use'
 	global WORKING_DAYS,usable_slots,l
 	division = Division.objects.all().filter(pk = Division_id).first()
-
+	print(Division_id,Division.objects.all())
 	WORKING_DAYS = Working_days.objects.filter(Shift_id=division.Shift_id).count()
 	all_slots = Slots.objects.filter(Timing_id__Shift_id = division.Shift_id).order_by("day")
 	usable_slots = all_slots.exclude(Timing_id__is_break = True)

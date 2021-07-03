@@ -208,21 +208,21 @@ def add_update_faculty(request,Department_id):
 			else:
 				print("User form is not valid❌")
 				print(name_form.errors)
-				return JsonResponse({'error':'User Not saved❌'})
+				
 			
 			if details_form.is_valid():
 				print("Details form is valid ✅")
 			else:
 				print("Details form is not valid❌")
 				print(name_form.errors)
-				return JsonResponse({'error':'Details Not saved❌'})
+				
 			
 			if load_form.is_valid():
 				print("Load form is valid ✅")
 			else:
 				print("Load form is not valid❌")
 				print(load_form.errors)
-				return JsonResponse({'error':'Load Not saved❌'})
+			return JsonResponse({'error':details_form.errors.as_ul() + name_form.errors.as_ul() + load_form.errors.as_ul()},status=500)
 
 
 from pprint import pprint

@@ -5,10 +5,8 @@
 <link rel="stylesheet" href="{{static ('admin/homepage/homepage.css')}}" />
 <style>
     canvas {
-        max-height: 40vh !important;
+        max-height: 70vh !important;
         min-height: 40vh !important;
-        max-width: 60vw !important;
-        min-width: 60vw !important;
       }
 </style>
 {% endblock %} {%block scripts%}
@@ -21,29 +19,6 @@
     $(".carousel").carousel({
         interval: false,
       });
-      var ctx2 = document.getElementById("others").getContext("2d");
-      var myChart2 = new Chart(ctx2, {
-        type: "line",
-        data: {
-          labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
-          datasets: [
-            {
-              label: "# of Votes",
-              data: [12, 19, 3, 5, 2, 33],
-              backgroundColor: ["rgba(54, 162, 235, 0.2)"],
-              borderColor: ["rgba(54, 162, 235, 1)"],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
-          },
-        },
-      });
   });
 </script>
 
@@ -51,20 +26,20 @@
 <div id="page_activator" activate-page="a"></div>
 <div class="main_content">
   <div class="row py-0 px-3">
-    <div class="col-lg-8">
+    <div class="col-lg-12">
       <div class="row">
         <div class="col-12">
           <div class="chart" style="position: relative">
-            <div class="card mt-2 mb-5" style="border-radius: 20px">
+            <div class="card mt-0 mb-5" style="border-radius: 20px">
               <div class="card-title mt-2">
                 <span class="h4">Student Satisfaction Feedback </span>
               </div>
               <div class="card-body">
-                <canvas id="student_satisfaction" class="bar_styling" style="width: 90%"></canvas>
+                <canvas id="student_satisfaction" class="bar_styling" style="width: 100%"></canvas>
               </div>
             </div>
           </div>
-          <div class="col-12">
+          <!-- <div class="col-12">
             <div id="carouselExampleDark" class="carousel carousel-dark slide" style="margin: 0 auto">
                 <div class="carousel-indicators">
                   <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -89,7 +64,6 @@
                         <span class="h4">Feedback For WAD </span>
                       </div>
                       <div class="card-body text-center" style="position: relative; margin: 0 auto">
-                        <!-- <canvas id="student_satisfaction" class="bar_styling"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -99,7 +73,6 @@
                         <span class="h4">Feedback For FP </span>
                       </div>
                       <div class="card-body text-center" style="position: relative; margin: 0 auto">
-                        <!-- <canvas id="student_satisfaction" class="bar_styling"></canvas> -->
                       </div>
                     </div>
                   </div>
@@ -113,11 +86,11 @@
                   <span class="visually-hidden">Next</span>
                 </button>
               </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
-    <div class="col-lg-4 sticky-top">
+    <!-- <div class="col-lg-4 sticky-top">
       <div class="card notification_panel">
         <div class="card-title text-center mt-3">
           <a class="fw-bold border-bottom border-light" style="color: black">Notifications</a>
@@ -127,7 +100,6 @@
             <a href="" class="list-group-item list-group-item-action border-bottom border-light">
               <div class="row align-items-center">
                 <div class="col-auto">
-                  <!-- Avatar -->
                   <img alt="Image placeholder" src="../../assets/img/team/profile-picture-1.jpg" class="user-avatar lg-avatar rounded-circle" />
                 </div>
                 <div class="col ps-0 ms-2">
@@ -146,7 +118,6 @@
             <a href="" class="list-group-item list-group-item-action border-bottom border-light">
               <div class="row align-items-center">
                 <div class="col-auto">
-                  <!-- Avatar -->
                   <img alt="Image placeholder" src="../../assets/img/team/profile-picture-2.jpg" class="user-avatar lg-avatar rounded-circle" />
                 </div>
                 <div class="col ps-0 ms-2">
@@ -165,7 +136,6 @@
             <a href="" class="list-group-item list-group-item-action border-bottom border-light">
               <div class="row align-items-center">
                 <div class="col-auto">
-                  <!-- Avatar -->
                   <img alt="Image placeholder" src="../../assets/img/team/profile-picture-3.jpg" class="user-avatar lg-avatar rounded-circle" />
                 </div>
                 <div class="col ps-0 m-2">
@@ -184,7 +154,7 @@
             <a href="" class="list-group-item list-group-item-action border-bottom border-light">
               <div class="row align-items-center">
                 <div class="col-auto">
-                  <!-- Avatar -->
+
                   <img alt="Image placeholder" src="../../assets/img/team/profile-picture-4.jpg" class="user-avatar lg-avatar rounded-circle" />
                 </div>
                 <div class="col ps-0 ms-2">
@@ -203,7 +173,6 @@
             <a href="" class="list-group-item list-group-item-action border-bottom border-light">
               <div class="row align-items-center">
                 <div class="col-auto">
-                  <!-- Avatar -->
                   <img alt="Image placeholder" src="../../assets/img/team/profile-picture-5.jpg" class="user-avatar lg-avatar rounded-circle" />
                 </div>
                 <div class="col ps-0 ms-2">
@@ -225,7 +194,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
   {% endblock %}
 </div>

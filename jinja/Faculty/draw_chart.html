@@ -1,5 +1,8 @@
 {% block draw_chart %}
 <style type="text/css">
+    *{
+        font-family: 'Poppins', sans-serif !important;
+    }
   canvas.bar_styling {
     min-width: 70vw !important;
     min-height: 70vh !important;
@@ -110,7 +113,7 @@
             <span class="h6">Needs improvement in following questions</span>
           </div>
           <div class="card-body" style="margin-top: -30px">
-            <canvas id="improvement__{{event.pk}}" style="width: 646px; height: 350px"></canvas>
+            <canvas id="improvement__{{event.pk}}" style="width: 646px; max-height: 350px"></canvas>
           </div>
         </div>
       </div>

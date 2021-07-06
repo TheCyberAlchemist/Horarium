@@ -76,5 +76,11 @@ def register_page(request):
 def about(request) :
 	return render(request,'about/about.html')
 
-def user_settings(request) :
-    return render(request,'AccountSetting/user_settings1.html')
+def admin_settings(request) :
+    return render(request,'AccountSetting/admin_settings.html')
+    
+def student_settings(request) :
+    return render(request,'AccountSetting/student_settings.html')
+
+def faculty_settings(request) :
+    return render(request,'AccountSetting/faculty_settings.html')

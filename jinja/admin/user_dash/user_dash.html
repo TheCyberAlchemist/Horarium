@@ -101,6 +101,23 @@
 {% block content %}
 <div id = "page_activator" activate-page="{{my_department}}.b"></div>
 <div class="main_content user_dash">
+    <nav aria-label="breadcrumb" class="mt-3">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+            <i class="fas fa-home"></i>  
+          </a></li>
+          <li class="breadcrumb-item active" aria-current="page">
+              <a href="{{url ('show_department')}}">
+                <span class="h6 fw-bold">User Dashboard</span> 
+              </a>
+          </li>
+            {%if u_name %}
+            <li class="breadcrumb-item" aria-current="page">
+                <span class="h6 fw-bold">Update User </span> 
+            </li>     
+            {%endif %}
+        </ol>
+      </nav>
     <div class="card m-lg-4 m-md-4 m-sm-0 m-xs-0 components-section" style="border-radius: 1rem;">
         <div class="card-title text-center" style="margin:0 auto">
             <ul class="nav nav-pills mt-4" id="pills-tab" role="tablist">

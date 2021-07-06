@@ -1,0 +1,79 @@
+{% extends 'admin/base2.html' %} {% block title%} Profile Settings {% endblock %} {% block css%}
+<link type="text/css" rel="stylesheet" href="{{static ('AccountSettings/user_settings.css')}}" />
+<style type="text/css"></style>
+{%endblock%} {%block scripts%} {%endblock%} {%block content%}
+<div class="main_content">
+  <div class="container-fluid">
+    <div class="row gutters">
+      <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-auto">
+        <div class="card">
+          <div class="card-body">
+            <div class="account-settings">
+              <div class="user-profile">
+                <div class="user-avatar">
+                  <img class="gixi user_icon img-raised img-fluid" data-gixisize="40" data-gixiseed="{{request.user}}_{{request.user.pk}}" />
+                </div>
+                <h5 class="user-name">{{request.user}}</h5>
+                <h6 class="user-email">{{request.user.email}}</h6>
+              </div>
+              <div class="about">
+                <!-- <h5 class="mb-2 text-primary">About</h5>
+                                <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p> -->
+                <img src="{{static ('AccountSettings/settings.png') }}" class="" style="height: 100%; width: 100%" alt="Settings" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+        <div class="card h-100">
+          <div class="card-body">
+            <form action="" method="POST" class="user_settings_form">
+              {{csrf_input}}
+              <div class="row gutters">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                  <h6 class="mb-3 text-primary">Details</h6>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control myinputs" id="institute" value="ICT" name="institute" disabled />
+                    <label for="institute">Institute</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control myinputs" id="email" value="yogesh@gmail.com" name="email" disabled />
+                    <label for="email">Email</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control myinputs" id="role" value="Admin" name="role" disabled />
+                    <label for="role">Role</label>
+                  </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 container text-center">
+                  <div class="form-floating mb-3">
+                    <input type="file" class="form-control myinputs file" id="profile-img" name="profile-img" />
+                    <label for="profile-img">Upload Profile Image</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row gutters">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                    <a href="{{url ('reset_password')}}">
+                        <button class="btn btn-primary w-100">Reset Password</button>
+                    </a>
+                </div>  
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                    <button type="submit" id="submit" name="submit" class="btn btn-primary w-100">Update</button>
+                </div> 
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

@@ -32,10 +32,10 @@ $(document).ready(function (){
         var timeFormat = 'YYYY/MM/DD';
         var background_1 = ctx.createLinearGradient(0, 0, 0, 600);
         var border_1 = ctx.createLinearGradient(0, 0, 0, 600);
-        background_1.addColorStop(0, 'rgba(0, 0, 255,0.4)');
-        background_1.addColorStop(1, 'rgba(255, 0, 0,0.4)');
-        border_1.addColorStop(0, 'rgba(102, 0, 255,1)');
-        border_1.addColorStop(1, 'rgba(255, 80, 80,1)');
+        background_1.addColorStop(0, 'rgba(2,244, 38,0.4)');
+        background_1.addColorStop(1, 'rgba(244, 253, 5,0.4)');
+        border_1.addColorStop(0, 'rgba(2,244, 38,1)');
+        border_1.addColorStop(1, 'rgba(244, 127, 2,1)');
 
         var satisfaction_chart = new Chart(ctx, {
           type: "line",
@@ -47,6 +47,11 @@ $(document).ready(function (){
                     borderColor: 'rgba(28, 255, 0,1)',*/
                     backgroundColor: background_1,
                     borderColor : border_1,
+                    pointBorderWidth: 5,
+                    pointHoverRadius: 2.5,
+                    pointHoverBorderWidth: 4,
+                    pointRadius: 2,
+                    borderWidth: 4,
                     data : m_data,
                 }
             ]
@@ -55,6 +60,9 @@ $(document).ready(function (){
               responsive: true,
               tension: 0.3,
               maintainAspectRatio: false,
+              animation: {
+                easing: "easeInOutBack"
+                },
             scales: {
                 xAxes: [{
                     type:"time",

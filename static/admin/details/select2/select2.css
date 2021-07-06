@@ -187,8 +187,8 @@ $font_size : 2em;
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
-	background-color: #e4e4e4;
-	border: 1px solid #aaa;
+	/* background-color: #e4e4e4;
+	border: 1px solid #aaa; */
 	border-radius: 4px;
 	display: inline-block;
 	margin-left: 5px;
@@ -248,7 +248,7 @@ $font_size : 2em;
 }
 
 .select2-container--default.select2-container--focus .select2-selection--multiple {
-	border: solid black 1px;
+	/* border: solid black 1px; */
     outline: none;
     transition: 1s;
 }

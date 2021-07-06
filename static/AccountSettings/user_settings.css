@@ -1,145 +1,54 @@
-html *{
-    -webkit-font-smoothing: antialiased;
-}
-
-
-/* .name h6 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-} */
-
-
-.main-raised {
-    margin:100px 30px 0;
-    border-radius: 6px;
-    box-shadow: 0 16px 24px 2px rgba(0,0,0,.14), 0 6px 30px 5px rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
-}
-
-.main {
-    background: #FFF;
-    position: relative;
-    z-index: 3;
-}
-
-.profile-page .profile {
+.account-settings {
+    font-family: "Poppins", sans-serif !important;
+  }
+  .account-settings .user-profile {
     text-align: center;
-}
-
-.profile-page .profile img {
-    max-width: 160px;
-    width: 100%;
-    margin: 0 auto;
-    -webkit-transform: translate3d(0,-50%,0);
-    -moz-transform: translate3d(0,-50%,0);
-    -o-transform: translate3d(0,-50%,0);
-    -ms-transform: translate3d(0,-50%,0);
-    transform: translate3d(0,-50%,0);
-}
-
-.img-raised {
-    box-shadow: 0 5px 15px -8px rgba(0,0,0,.24), 0 8px 10px -5px rgba(0,0,0,.2);
-}
-
-.rounded-circle {
-    border-radius: 50%!important;
-}
-
-.img-fluid, .img-thumbnail {
-    max-width: 100%;
-    height: auto;
-}
-
-.title {
-    margin-top: 30px;
-    margin-bottom: 25px;
-    min-height: 32px;
-    color: #3C4858;
-    font-weight: 700;
-    font-family: "Roboto Slab","Times New Roman",serif;
-}
-
-.profile-page .description {
-    margin: 1.071rem auto 0;
-    max-width: 600px;
-    color: #999;
-    font-weight: 300;
-}
-
-/* p {
-    font-size: 14px;
-    margin: 0 0 10px;
-} */
-
-/* .profile-page .profile-tabs {
-    margin-top: 4.284rem;
-} */
-
-.nav-pills, .nav-tabs {
+  }
+  .account-settings .user-profile .user-avatar {
+    margin: -2rem auto 0 auto;
+  }
+  .account-settings .user-profile .user-avatar img {
+    width: 80px !important;
+    height: 60px !important;
+  }
+  .account-settings .user-profile h5.user-name {
+    margin: 1.6rem 0 0.5rem 0;
+  }
+  .account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: blue;
+  }
+  .account-settings .about {
+    margin: 1rem 0 0 0;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .card {
+    background: #272e48;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
     border: 0;
-    border-radius: 3px;
-    padding: 0 15px;
-}
-
-.nav .nav-item {
-    position: relative;
-    margin: 0 2px;
-}
-
-.nav-pills.nav-pills-icons .nav-item .nav-link {
-    border-radius: 4px;
-}
-
-.nav-pills .nav-item .nav-link.active {
-    color: #fff;
-    background-color: #9c27b0;
-    box-shadow: 0 5px 20px 0 rgba(0,0,0,.2), 0 13px 24px -11px rgba(156,39,176,.6);
-}
-
-.nav-pills .nav-item .nav-link {
-    line-height: 24px;
-    font-size: 12px;
-    font-weight: 500;
-    min-width: 100px;
-    color: #555;
-    transition: all .3s;
-    border-radius: 30px;
-    padding: 10px 15px;
-    text-align: center;
-}
-
-.nav-pills .nav-item .nav-link:not(.active):hover {
-    background-color: rgba(200,200,200,.2);
-}
-
-
-.nav-pills .nav-item i {
-    display: block;
-    font-size: 30px;
-    padding: 15px 0;
-}
-
-.tab-space {
-    padding: 20px 0 50px;
-}
-
-.profile-page .gallery {
-    margin-top: 3.213rem;
-    padding-bottom: 50px;
-}
-
-.profile-page .gallery img {
-    width: 100%;
-    margin-bottom: 2.142rem;
-}
-
-.profile-page .profile .name{
-    margin-top: -80px;
-}
-
-img.rounded {
-    border-radius: 6px!important;
-}
-
-.tab-content>.active {
-    display: block;
-}
+    margin-bottom: 1rem;
+  }
+  .form-control {
+    border: 1px solid #596280;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: 0.825rem;
+    background: #1a233a;
+    color: #bcd0f7;
+  }
+  .form-floating > .form-control:focus ~ label,
+  .form-floating > .form-control:not(:placeholder-shown) ~ label,
+  .form-floating > .form-select ~ label {
+    opacity: 0.65 !important;
+    transform: scale(0.85) translateY(-1rem) translateX(-0.1rem) !important;
+  }
+  .file.form-control:disabled,
+  .file.form-control:read-only {
+    background-color: #fff !important;
+  }

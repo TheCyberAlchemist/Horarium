@@ -8,12 +8,13 @@
   border: none;
 }
 
+/* #region  Single Select2 Style */
 .myform .select2_container.single_select2 {
   border-width: 1px;
   width: 100%;
   text-align: center;
-  -webkit-transition: .1s;
-  transition: .1s;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
 }
 
 .select2-container .select2-selection--single {
@@ -117,7 +118,19 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #batch_for_lect, #batch_for_prac, #links, #division, #department, #wef_select {
+#designations,
+#day1,
+#day2,
+#batches,
+#slot_naming,
+#semesters,
+#resources,
+#batch_for_lect,
+#batch_for_prac,
+#links,
+#division,
+#department,
+#wef_select {
   width: 300px;
 }
 
@@ -125,12 +138,55 @@
   width: 300px;
 }
 
-#select_fac, #csv_select {
+#select_fac,
+#csv_select {
   width: 500px;
 }
 
+/* #endregion */
+/* #region  Multiple Select2  */
+.myform .select2_container.multiple_select2 {
+  border-width: 1px;
+  width: 100%;
+  text-align: center;
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
+}
+
+.select2-search.select2-search--inline,
+.select2-search.select2-search--inline input {
+  display: inline-block;
+  width: 100% !important;
+}
+
+.select2-search.select2-search--inline input:focus {
+  border: 1px none !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background-color: transparent !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 4px !important;
+}
+
+.multiple_select2 .select2-selection__rendered {
+  border: none !important;
+  width: 100% !important;
+}
+
+/* #endregion */
 @media screen and (max-width: 600px) {
-  #designations, #day1, #day2, #batches, #slot_naming, #semesters, #resources, #select_fac, #shifts, #wef_select, #csv_select {
+  #designations,
+  #day1,
+  #day2,
+  #batches,
+  #slot_naming,
+  #semesters,
+  #resources,
+  #select_fac,
+  #shifts,
+  #wef_select,
+  #csv_select {
     width: 100% !important;
     font-size: x-small;
   }

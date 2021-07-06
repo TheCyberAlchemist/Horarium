@@ -160,6 +160,9 @@ $(document).ready(function () {
 				responsive: true,
 				maintainAspectRatio: false,
 				responsiveAnimationDuration: 0,
+                animation : {
+                    easing: "easeInOutBack"
+                },
 				scales: {
 					yAxes: [
 						{

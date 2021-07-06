@@ -153,7 +153,7 @@ class faculty_user_table(AjaxDatatableView):
 		# 	'searchable': False,
 		# 	'orderable':False,
 		# }, # load showing
-		{'name': 'Feedback', 'visible': True,'searchable': False, 'orderable': False},
+		{'name': 'Not Available', 'visible': True,'searchable': False, 'orderable': False},
 		{'name': 'Edit', 'visible': True,'searchable': False, 'orderable': False},
 		{
 			'name':'Delete_faculty',
@@ -196,6 +196,9 @@ class faculty_user_table(AjaxDatatableView):
 		html = '<table class="row-details">'
 		for key in fields:
 		    html += '<tr><td class="fw-bold">%s</td><td class="fw-bold">%s</td></tr>' % (key, fields[key])
+		html += '<tr><td class="fw-bold">Feedback</td><td class="fw-bold"><ul>'
+		html += ''' <a href="%s"><i class="fas fa-chart-line" style="font-size:25px"></i></a>'''%(reverse('faculty_feedback',args=[obj.pk]))
+		html+='</ul></td></tr>'
 		html += '<tr><td class="fw-bold">Subject Events</td><td class="fw-bold"><ul>'
 		for event in sub_events:
 			html += '<li stlye="font-weight:600">%s (%s)</li>' % (event[0],event[1])
@@ -215,7 +218,7 @@ class faculty_user_table(AjaxDatatableView):
 			obj.id
 		)
 		# row["Load"] = Faculty_load.objects.get(Faculty_id=obj.faculty_details).total_load
-		row['Feedback'] = ''' <a href="%s"><i class="fas fa-chart-line" style="font-size:25px"></i></a>'''%(reverse('faculty_feedback',args=[obj.pk]))
+		row['Not Available'] = ''' <a href="%s"><i class="fas fa-sign-in-alt" style="font-size:25px"></i></a>'''%(reverse('show_not_avail',args=[obj.faculty_details.pk]))
 		row['Delete_faculty'] ='''<div class="form-check" onclick="checkSelected('del1')">
 							<input class="form-check-input del1_input" type="checkbox"
 							name="del1" value="%s" input_name="%s">

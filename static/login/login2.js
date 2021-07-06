@@ -61,6 +61,24 @@ $submit.click(function() {
 	
 	if(completed) {
 		$submit.css('pointer-events', 'none');
+		// setTimeout(function() {
+		// 	formAnim.faceDirection(4);
+		// 	$input.val('');
+		// 	completed = false;
+
+		// 	setTimeout(function() {
+		// 		$submit.css('pointer-events', '');
+		// 		formAnim.resetClasses();
+		// 	}, 2000);
+		// }, 1000);
+	} else {
+		// setTimeout(function() {
+		// 	formAnim.faceDirection(5);
+
+		// 	setTimeout(function() {
+		// 		formAnim.resetClasses();
+		// 	}, 2000);
+		// }, 1000);
 	}
 });
 

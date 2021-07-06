@@ -22,11 +22,6 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <div class="container sidebar_container">
-              <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
-            </div>
-          </li>
           <!-- <li class="nav-item"> 
                 <button class="btn btn-outline-success" id="sidebar" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" >
                 <div class="bell_wrapper" >
@@ -38,6 +33,9 @@
                   </div>
                   </button>
               </li> -->
+            <li class="nav-item mr-3">
+                <span class="gixi user_icon" data-gixisize="20" data-gixiseed="{{request.user}}_{{request.user.pk}}"></span>
+            </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> {{request.user}} </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -56,8 +54,10 @@
               <li><a href="{{url ('logout')}}" class="dropdown-item">Log Out</a></li>
             </ul>
           </li>
-          <li class="nav-item ml-1">
-            <span class="gixi user_icon" data-gixisize="20" data-gixiseed="{{request.user}}_{{request.user.pk}}"></span>
+          <li class="nav-item">
+            <div class="container sidebar_container">
+              <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
+            </div>
           </li>
         </ul>
       </div>

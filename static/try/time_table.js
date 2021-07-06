@@ -282,8 +282,17 @@ function arraysEqual(a1,a2) {
     return JSON.stringify(a1)==JSON.stringify(a2);
 }
 
+function uniq_slot_id(a) {
+	var seen = {};
+	return a.filter(function(item) {
+		return seen.hasOwnProperty(item.Slot_id) ? false : (seen[item.Slot_id] = true);
+	});
+}
+
+
 function update_card(subject_event,is_prac) {
 	let event_arr = events.filter(e => e.Subject_event_id==subject_event.id && Boolean(e.Slot_id_2) == is_prac);
+	event_arr = uniq_slot_id(event_arr);
 	let remaining,event_load;
 	if (is_prac){
 		remaining = subject_event.prac_carried - event_arr.length;
@@ -296,7 +305,6 @@ function update_card(subject_event,is_prac) {
 	}
 	let subject_card = event_load.parentsUntil("#accordion");
 	let subject_load = subject_card.find(".total_remaining_load");
-	// let subject_card.find(".remaining_load");
 	total_load = 0;
 	subject_card.find(".remaining_load").each(function() {
 		total_load += parseInt($(this).html());
@@ -306,9 +314,22 @@ function update_card(subject_event,is_prac) {
 	subject_load.html(total_load);
 }
 
+function update_all_cards() {
+	for(let j in subject_events){
+		// update_card(subject_events[j],)
+		// console.log(subject_events[j]);
+		if (subject_events[j].prac_carried){
+			update_card(subject_events[j],true);
+		}if(subject_events[j].lect_carried){
+			update_card(subject_events[j],false);
+		}
+	}
+}
+
 function subject_event_has_load_remaining(subject_event_id,is_prac=false){
 	let subject_event = get_subject_event(subject_event_id);
 	let event_arr = events.filter(e => e.Subject_event_id==subject_event_id && Boolean(e.Slot_id_2) == is_prac);
+	event_arr = uniq_slot_id(event_arr);
 	total_similar_events = event_arr.length;
 	if (total_similar_events){
 		// event_arr
@@ -394,15 +415,22 @@ function push_event(temp_event){
 	for(var i = events.length - 1;i >= 0 ;i--){
 		let a1 = [events[i].Slot_id,events[i].Slot_id_2];
 		if ( arraysEqual(a1,a2) && events[i].Subject_event_id == temp_event.Subject_event_id){
-			if (debug){
-				console.log(events[i]);
-				console.log("duplicate");
+			let b1 = events[i].Batch_id
+			let b2 = temp_event.Batch_id
+			if (b1 == b2){
+				if (debug){
+					console.log(events[i]);
+					console.log("duplicate");
+				}
+				return false;
+			}else{
+				if (debug)
+					console.log("multiple batch write prac1(b1)-prac1(b2)");
 			}
-			return false;
 		}else if (intersects(a1,a2)){
 			// if there is overwritting 
-			b1 = events[i].Batch_id
-			b2 = temp_event.Batch_id
+			let b1 = events[i].Batch_id
+			let b2 = temp_event.Batch_id
 			if (b1 == b2){
 				// if lect-lect or prac(b1)-prac(b1)
 				if (debug)
@@ -410,6 +438,7 @@ function push_event(temp_event){
 				events.splice(i,1);
 				clear_td(get_cell(a1[0]));
 				clear_td(get_cell(a1[1]));
+				update_all_cards();
 			}else{
 				if (b1 && b2){
 					// if both not null prac(b1)-prac(b2)
@@ -429,11 +458,6 @@ function push_event(temp_event){
 		}
 	}
 	events.push(temp_event);
-	let caller = push_event.caller.name
-	if (caller != "put_json_in_table" && caller != "undo" && caller != "redo"){	
-		// if not called by put_event (i.e. regular push)
-		push_into_action(new event_action("added",temp_event));
-	}
 	update_card(subject_event,is_prac);
 	return true;
 }
@@ -443,43 +467,49 @@ function undo(){
 	// let last_action = actions[actions.length - 1];
 	if (!last_action)	// if no undo is here
 		return false;
-	let my_event = last_action.event;
+	// my_event is an array
+	let my_events = last_action.event;
+	console.assert(Array.isArray(my_events),"The event is not array here ",console.stack);
 	let temp_events;
 	switch(last_action.type){
 		case "removed":
-			if (push_event(my_event)){
-				let td = get_cell(my_event.Slot_id);
-				if (my_event.Slot_id_2){
-					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
-					if (!td.html()){
-						change_to_prac_td(td,subject_batch);
+			// for adding the event if possible
+			for (my_event of my_events){
+				if (push_event(my_event)){
+					let td = get_cell(my_event.Slot_id);
+					if (my_event.Slot_id_2){
+						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
+						if (!td.html()){
+							change_to_prac_td(td,subject_batch);
+						}
+						put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
+					}else{	// if lect 
+						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
+						if (!td.html()){
+							change_to_lect_td(td,subject_batch);
+						}
+						put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
 					}
-					put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
-				}else{	// if lect 
-					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
-					if (!td.html()){
-						change_to_lect_td(td,subject_batch);
-					}
-					put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
 				}
-				undo_actions.push(new event_action("added",my_event));
 			}
+			undo_actions.push(new event_action("added",my_events));
 			break;
 		case "added":
+			// handles itself wery well without having an array of events to undo
+			my_event = my_events[0];
 			temp_events = events.filter(e=> e.Slot_id != my_event.Slot_id || e.Subject_event_id != my_event.Subject_event_id);
-			// console.log(my_event);
 			if (my_event.locked){
 				alert("the event is locked.")
+				break;
 			}
 			totally_clear_all(false);
-			// console.log(my_event,temp_events);
-			// events = temp_events;
 			put_json_in_table(temp_events);
-			// console.table(events);
-			undo_actions.push(new event_action("removed",my_event));
+
+			undo_actions.push(new event_action("removed",my_events));
+
 			break;
 		case "cleared_unlocked":
-			temp_events = my_event;
+			temp_events = my_events;
 			// console.log(temp_events);
 			put_json_in_table(temp_events);
 			undo_actions.push(new event_action("put_all_unlocked",temp_events));
@@ -491,7 +521,7 @@ function undo(){
 function push_into_action(action,is_redo = false){
 	actions.push(action);
 	if (is_redo)	// if not called by redo related functions
-	return;
+		return;
 	undo_actions = [];
 	// console.trace();
 	// console.log("new action occured !!"); 
@@ -504,46 +534,51 @@ function redo(){
 	// let last_undo = undo_actions[undo_actions.length - 1];
 	if (!last_undo)	// if no undo is here
 		return false;
-	let my_event = last_undo.event;
+	let my_events = last_undo.event;
+	console.assert(Array.isArray(my_events),"The event is not array here ",console.stack);
 	let temp_events,cleared;
 	switch(last_undo.type){
 		case "added":
-			temp_events = events.filter(e=> e.Slot_id != my_event.Slot_id || e.Subject_event_id != my_event.Subject_event_id);
-			cleared = clear_all_unlocked_td(my_event,push_action=false,is_redo=true);
-			console.log(cleared);
-			// events = temp_events;
-			if (cleared){
-				put_json_in_table(temp_events);
-				push_into_action(new event_action("removed",my_event),true);
-			}else{
-				undo_actions.push(last_undo);
-			}
-			// console.table(events);
-			break;
-		case "removed":
-			if (push_event(my_event)){
-				let td = get_cell(my_event.Slot_id);
-				if (my_event.Slot_id_2){
-					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
-					if (!td.html()){
-						change_to_prac_td(td,subject_batch);
-					}
-					put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
-				}else{	// if lect 
-					let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
-					if (!td.html()){
-						change_to_lect_td(td,subject_batch);
-					}
-					put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
-				}
-				push_into_action(new event_action("added",my_event),true)
-			}	
-			break;
-		case "put_all_unlocked":
+			my_event = my_events[0];
+			// handles itself well without array of events
+			let temp_events = events.filter(e=> e.Slot_id != my_event.Slot_id || e.Subject_event_id != my_event.Subject_event_id);
 			cleared = clear_all_unlocked_td(my_event,push_action=false,is_redo=true);
 			// console.log(cleared);
 			if (cleared){
-				push_into_action(new event_action("cleared_unlocked",my_event),true);
+				put_json_in_table(temp_events);
+				push_into_action(new event_action("removed",my_events),true);
+			}else{
+				undo_actions.push(last_undo); // if any event is locked push the action 
+			}
+			break;
+		case "removed":
+			// for adding the event if possible
+			for (my_event of my_events){
+				if (push_event(my_event)){
+					let td = get_cell(my_event.Slot_id);
+					if (my_event.Slot_id_2){
+						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
+						if (!td.html()){
+							change_to_prac_td(td,subject_batch);
+						}
+						put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
+					}else{	// if lect 
+						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
+						if (!td.html()){
+							change_to_lect_td(td,subject_batch);
+						}
+						put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
+					}
+				}
+			}
+			console.log("in redo removed :: ",my_events);
+			push_into_action(new event_action("added",my_events),true)
+			break;
+		case "put_all_unlocked":
+			cleared = clear_all_unlocked_td(s,push_action=false,is_redo=true);
+			// console.log(cleared);
+			if (cleared){
+				push_into_action(new event_action("cleared_unlocked",my_events),true);
 			}else{
 				undo_actions.push(last_undo);
 			}
@@ -566,7 +601,7 @@ function clear_td(td,totally_clear_all=false){		// refresh the td
 	if (td.length){
 		if (!totally_clear_all && td.hasClass("locked"))
 			return;
-		if (totally_clear_all )
+		if (totally_clear_all)
 			td.removeClass("locked");
 		td.html("");
 		if(td.hasClass("prac")){
@@ -595,19 +630,6 @@ function clear_batch_div(td,batch){
 	// change as needed
 }
 
-
-function update_all_cards() {
-	for(let j in subject_events){
-		// update_card(subject_events[j],)
-		// console.log(subject_events[j]);
-		if (subject_events[j].prac_carried){
-			update_card(subject_events[j],true);
-		}if(subject_events[j].lect_carried){
-			update_card(subject_events[j],false);
-		}
-	}
-}
-
 // get the event logic to clear unlocked from the redo 
 function totally_clear_all(push_action = true){
 	for(let i in events){
@@ -617,6 +639,7 @@ function totally_clear_all(push_action = true){
 	}
 	if (push_action)
 		push_into_action(new event_action("totally_cleared",events));
+		// this is never used 
 	events = [];
 	update_all_cards();
 	return true;	
@@ -644,7 +667,7 @@ function clear_all_unlocked_td(my_events = false,push_action = true,is_redo=fals
 		update_all_cards();
 	}
 	let latest_my_events = [];
-	if (my_events > 1){
+	if (my_events.length > 1){
 		for(i in my_events){
 			for (j in events){
 				if (my_events[i].Subject_event_id == events[j].Subject_event_id && my_events[i].Slot_id == events[j].Slot_id){
@@ -908,10 +931,10 @@ $(document).ready (function () {
 			}
 			// console.log(this_event[0].Subject_event_id)
 			events = events.filter(e=>e != this_event[0]);
-			// console.log("hi");
+			console.log("hi",this_event);
 			// global_var = [get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac()]
 			update_card(get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac());
-			push_into_action(new event_action("removed",this_event[0]));
+			push_into_action(new event_action("removed",this_event));
 		}else
 			console.log("No event found 😢");
 	})
@@ -1116,28 +1139,34 @@ $(document).ready (function () {
 		const subject_event_id = $("#event_form").attr("subject_event_id");
 		const td = get_cell(slot_id);
 
-		const batch = $("#batches").val();
+		const batches = $("#batches").val();
 		const resource = $("#resources").val();
 		const resource_id = $("#resources").find(':selected').val();
 		const subject_batch = get_batches(subject_event_id,is_prac);
 		const link = $("#links").val();
 
-		if (resource && Boolean(batch) === Boolean(subject_batch)){ // validation
+		if (/*resource && */Boolean(batches) === Boolean(subject_batch)){ 
+			// validation of resource and batch if present
 			let temp_event = new event_class();
 			if (is_prac){
 				const slot_pair = get_prac_pair(td)
+				let temp_pushed_events = [];
 				if (subject_batch){	// if prac_batch
-					temp_event.put_subject_event(subject_event_id);
-					temp_event.put_slots(String(get_slot_by_td(slot_pair[0]).id),String(get_slot_by_td(slot_pair[1]).id));
-					temp_event.put_batch_resource(batch,resource);
-					temp_event.put_link_locked(link);
-
-					if (push_event(temp_event)){
-						if (!td.html()){
-							change_to_prac_td(td,subject_batch);
+					for(batch of batches){
+						temp_event.put_subject_event(subject_event_id);
+						temp_event.put_slots(String(get_slot_by_td(slot_pair[0]).id),String(get_slot_by_td(slot_pair[1]).id));
+						temp_event.put_link_locked(link);
+						temp_event.put_batch_resource(batch,resource);
+						if (push_event(temp_event)){
+							temp_pushed_events.push(temp_event);
+							if (!td.html()){
+								change_to_prac_td(td,subject_batch);
+							}
+							put_prac(td,subject_event_id,batch,resource_id);
 						}
-						put_prac(td,subject_event_id,batch,resource_id);
+						temp_event = new event_class();
 					}
+					push_into_action(new event_action("added",temp_pushed_events));
 				}else{			// if prac_class
 					temp_event.put_subject_event(subject_event_id);
 					temp_event.put_slots(String(get_slot_by_td(slot_pair[0]).id),String(get_slot_by_td(slot_pair[1]).id));
@@ -1145,6 +1174,7 @@ $(document).ready (function () {
 					temp_event.put_link_locked(link);
 
 					if (push_event(temp_event)){
+						push_into_action(new event_action("added",temp_event));
 						if (!td.html()){
 							change_to_prac_td(td,subject_batch);
 						}
@@ -1152,19 +1182,23 @@ $(document).ready (function () {
 					}
 				}
 			}else if(!is_prac){
+				let temp_pushed_events = [];
 				if (subject_batch){	// if lect_batch
-
-					temp_event.put_subject_event(subject_event_id);
-					temp_event.put_slots(slot_id);
-					temp_event.put_batch_resource(batch,resource);
-					temp_event.put_link_locked(link);
-
-					if (push_event(temp_event)){
-						if (!td.html()){
-							change_to_lect_td(td,subject_batch);
+					for(batch of batches){
+						temp_event.put_subject_event(subject_event_id);
+						temp_event.put_slots(slot_id);
+						temp_event.put_batch_resource(batch,resource);
+						temp_event.put_link_locked(link);
+						if (push_event(temp_event)){
+							temp_pushed_events.push(temp_event);
+							if (!td.html()){
+								change_to_lect_td(td,subject_batch);
+							}
+							put_lect(td,subject_event_id,resource_id,batch);
 						}
-						put_lect(td,subject_event_id,resource_id,batch);
+						temp_event = new event_class();
 					}
+					push_into_action(new event_action("added",temp_pushed_events));
 				}else{				// if lect_class
 					
 					temp_event.put_subject_event(subject_event_id);
@@ -1173,6 +1207,7 @@ $(document).ready (function () {
 					temp_event.put_link_locked(link);
 
 					if (push_event(temp_event)){
+						push_into_action(new event_action("added",temp_event));
 						if (!td.html()){
 							change_to_lect_td(td,null);
 						}

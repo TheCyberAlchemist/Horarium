@@ -950,7 +950,7 @@ def show_table(request,Division_id):
 	timings = Timings.objects.filter(Shift_id = Shift_id)
 	
 	my_subjects,my_subject_events = get_division_subjects_and_events(Division_id)
-	print(my_subjects)
+	# print(my_subjects)
 	context['subjects_json'] = get_json(my_subjects)
 	subj_event_dict = {}
 	for subject in my_subjects:
@@ -963,7 +963,7 @@ def show_table(request,Division_id):
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
 	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
-	context['events_json'] = serializer.serialize(Event.objects.active().filter(Division_id=Division_id))
+	context['events_json'] = {"my_events":serializer.serialize(Event.objects.active().filter(Division_id=Division_id))}
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches
 	context['batches_json'] = get_json(my_batches,keep_pk=True)
@@ -972,11 +972,10 @@ def show_table(request,Division_id):
 	return render(request,"admin/create_table/table.html",context)
 
 
-from admin_V1.algo import get_points,get_sorted_events,put_event
 
 from tabulate import tabulate
 
-import admin_V1.algo2 as algo
+from .algos import algo2 as algo
 
 def get_division_subjects_and_events(Division_id):
 	'returns subjects and subject events of subjects for the division'
@@ -1007,7 +1006,6 @@ def get_division_subjects_and_events(Division_id):
 def algo_v1(request,Division_id):
 	# delete all the prior events after taking the locked events
 	# save all the locked events
-	print("here at algo view .. ✅")
 	old_events_qs = list(Event.objects.active().filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
 	json_events = []
 	if request:
@@ -1041,10 +1039,11 @@ def algo_v1(request,Division_id):
 		candidate = form.save(commit=False)
 		candidate.Division_id_id = Division_id
 		print(candidate,form.is_valid())
-		# form.save()
+		form.save()
 	algo.put_division(Division_id)
 	_,subject_events = get_division_subjects_and_events(Division_id)
 	locked_events = Event.objects.active().filter(Division_id=Division_id)
+	# print(locked_events)
 	subject_events = algo.get_sorted_events(subject_events,locked_events)
 	for subject_event in subject_events:
 		prac_carried = subject_event.prac_carried
@@ -1059,10 +1058,9 @@ def algo_v1(request,Division_id):
 				for batch in batches:
 					locked_prac_count = all_events_of_subject.filter(Batch_id = batch).count()
 					remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
-					prac_remaining = subject_event.prac_carried - locked_subject_event.count()
+					faculty_max_remaining = subject_event.prac_carried - locked_subject_event.count()
 					# get the capability of the faculty to take this event
-
-					remaining_count = remaining_count if remaining_count<prac_remaining else prac_remaining
+					remaining_count = min( remaining_count,faculty_max_remaining)
 					# if the faculty has no capicity then have the highest capability be remaining count
 					
 					for i in range(remaining_count):
@@ -1072,10 +1070,10 @@ def algo_v1(request,Division_id):
 			else:
 				locked_prac_count = all_events_of_subject.count()
 				remaining_count = prac_per_week-locked_prac_count	# get the practicals remaining after locking
-				prac_remaining = subject_event.prac_carried - locked_subject_event.count()
+				faculty_max_remaining = subject_event.prac_carried - locked_subject_event.count()
 				# get the capability of the faculty to take this event
 
-				remaining_count = remaining_count if remaining_count<prac_remaining else prac_remaining
+				remaining_count = min( remaining_count,faculty_max_remaining)
 				# if the faculty has no capicity then have the highest capability be remaining count
 				
 				for i in range(remaining_count):
@@ -1092,10 +1090,10 @@ def algo_v1(request,Division_id):
 					locked_lect_count = all_events_of_subject.filter(Batch_id = batch).count()
 
 					remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
-					lect_remaining = subject_event.lect_carried - locked_subject_event.count()
+					faculty_max_remaining = subject_event.lect_carried - locked_subject_event.count()
 					# get the capability of the faculty to take this event
-
-					remaining_count = remaining_count if remaining_count < lect_remaining else lect_remaining
+					
+					remaining_count = min( remaining_count,faculty_max_remaining)
 					# if the faculty has no capicity then have the highest capability be remaining count
 					
 					for i in range(remaining_count):
@@ -1106,11 +1104,11 @@ def algo_v1(request,Division_id):
 			else:
 				locked_lect_count = all_events_of_subject.filter(Slot_id_2=None).count()
 				remaining_count = lect_per_week-locked_lect_count	# get the practicals remaining after locking
-				lect_remaining = subject_event.lect_carried - locked_subject_event.count()
+				faculty_max_remaining = subject_event.lect_carried - locked_subject_event.count()
 				# get the capability of the faculty to take this event
-				print(f"locked_lect_count- {locked_lect_count}\nremaining_count-{remaining_count}\nlect_remaining-{lect_remaining}")
+				# print(f"locked_lect_count- {locked_lect_count}\nremaining_count-{remaining_count}\nfaculty_max_remaining-{faculty_max_remaining}")
 
-				remaining_count = remaining_count if remaining_count<lect_remaining else lect_remaining
+				remaining_count = min( remaining_count,faculty_max_remaining)
 				# if the faculty has no capicity then have the highest capability be remaining count
 				
 				for i in range(remaining_count):
@@ -1120,7 +1118,8 @@ def algo_v1(request,Division_id):
 					
 				print(subject_event," - Class")
 	serializer = MySerialiser()
-	data = serializer.serialize(Event.objects.active().filter(Division_id=Division_id))
+	
+	data = {"my_events":serializer.serialize(Event.objects.active().filter(Division_id=Division_id))}
 	return JsonResponse(data, safe=False)
 	# return 
 	# return render(request,"try/algo_v1.html",context)

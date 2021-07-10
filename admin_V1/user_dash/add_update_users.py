@@ -5,10 +5,10 @@ from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render,redirect
 import json
 
-from .views import return_context
+from admin_V1.views import return_context
 from institute_V1.models import *
 from faculty_V1.models import *
-from .forms import update_user_name_email,student_details,add_user,faculty_details,faculty_load
+from admin_V1.forms import update_user_name_email,student_details,add_user,faculty_details,faculty_load
 from login_V2.models import CustomUser
 
 def update_student(request):

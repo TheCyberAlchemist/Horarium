@@ -107,7 +107,7 @@ class Subject_event(models.Model):
 	
 	def __str__(self):
 		self.Subject_id.get_prac_lect()
-		return str(self.pk) + " "+ self.Subject_id.short + " by " + str(self.Faculty_id)
+		return self.Subject_id.short + " by " + str(self.Faculty_id)
 
 	class Meta:
 		verbose_name_plural = "Subject events"

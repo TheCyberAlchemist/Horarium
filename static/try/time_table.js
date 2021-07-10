@@ -182,52 +182,102 @@ function get_resource_name_by_id(resource_id){
 //#region  ////////////// put methods ////////////////////////////
 function put_json_in_table(json_data){
 	// console.table("obj-",json_data);
-	for(i in json_data){
-		let obj = json_data[i];
-		td = get_cell(obj.Slot_id);
-		if (td.hasClass("locked")){ // if the slot is locked
-			// console.log(td);
-			continue;
-		}
-		temp_event = new event_class();
-		temp_event.put_subject_event(obj.Subject_event_id);
-		temp_event.put_slots(obj.Slot_id,obj.Slot_id_2);
-		temp_event.put_batch_resource(obj.Batch_id,obj.Resource_id);
-		// console.log(obj.link);
-		temp_event.put_link_locked(obj.link,obj.locked);
-
-		// if (obj.Subject_event_id == 20)
-		// 	console.log(temp_event);
-		let resource = obj.Resource_id;
-		if (temp_event.Slot_id_2){	// if it is a practical		
-			// print(temp_event);
-			if (push_event(temp_event)){
-				// console.log(td);
-				if (!td.html()){
-					change_to_prac_td(td,get_batches(obj.Subject_event_id,true));
+	if (!json_data["my_events"]){
+		//#region for algo2 and all the other functions
+			for(i in json_data){
+				let obj = json_data[i];
+				td = get_cell(obj.Slot_id);
+				if (td.hasClass("locked")){ // if the slot is locked
+					// console.log(td);
+					continue;
 				}
-				put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
-			}
-		}else{	
-			if (push_event(temp_event)){
-				if (!td.html()){
-					change_to_lect_td(td,get_batches(obj.Subject_event_id,false));
+				temp_event = new event_class();
+				temp_event.put_subject_event(obj.Subject_event_id);
+				temp_event.put_slots(obj.Slot_id,obj.Slot_id_2);
+				temp_event.put_batch_resource(obj.Batch_id,obj.Resource_id);
+				// console.log(obj.link);
+				temp_event.put_link_locked(obj.link,obj.locked);
+				// if (obj.Subject_event_id == 20)
+				// 	console.log(temp_event);
+				let resource = obj.Resource_id;
+				if (temp_event.Slot_id_2){	// if it is a practical		
+					// print(temp_event);
+					if (push_event(temp_event)){
+						// console.log(td);
+						if (!td.html()){
+							change_to_prac_td(td,get_batches(obj.Subject_event_id,true));
+						}
+						put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
+					}
+				}else{	
+					if (push_event(temp_event)){
+						if (!td.html()){
+							change_to_lect_td(td,get_batches(obj.Subject_event_id,false));
+						}
+						put_lect(td,obj.Subject_event_id,resource,obj.Batch_id);
+					}
 				}
-				put_lect(td,obj.Subject_event_id,resource,obj.Batch_id);
-			}
-		}
-		if (obj.locked){
-			let cell = get_cell(temp_event.Slot_id);
-			// let locking_events = events.filter(e=> e.Slot_id == obj.Slot_id || e.Slot_id_2 == obj.Slot_id);
-			if (temp_event.Slot_id_2){
-				get_prac_pair(cell).forEach(e=>e.addClass("locked"))
-			}
-			else{
-				console.log(cell.hasClass("locked"));
-				cell.addClass("locked");
-			}
-		}
+				if (obj.locked){
+					let cell = get_cell(temp_event.Slot_id);
+					// let locking_events = events.filter(e=> e.Slot_id == obj.Slot_id || e.Slot_id_2 == obj.Slot_id);
+					if (temp_event.Slot_id_2){
+						get_prac_pair(cell).forEach(e=>e.addClass("locked"))
+					}
+					else{
+						console.log(cell.hasClass("locked"));
+						cell.addClass("locked");
+					}
+				}
 
+			}
+		//#endregion
+	}else{
+		//#region for algo3
+			let events_json = json_data["my_events"];
+			for(i in events_json){
+				let obj = events_json[i];
+				td = get_cell(obj.Slot_id);
+				if (td.hasClass("locked")){ // if the slot is locked
+					// console.log(td);
+					continue;
+				}
+				temp_event = new event_class();
+				temp_event.put_subject_event(obj.Subject_event_id);
+				temp_event.put_slots(obj.Slot_id,obj.Slot_id_2);
+				temp_event.put_batch_resource(obj.Batch_id,obj.Resource_id);
+				temp_event.put_link_locked(obj.link,obj.locked);
+				let resource = obj.Resource_id;
+				if (temp_event.Slot_id_2){	// if it is a practical		
+					// print(temp_event);
+					if (push_event(temp_event)){
+						// console.log(td);
+						if (!td.html()){
+							change_to_prac_td(td,get_batches(obj.Subject_event_id,true));
+						}
+						put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
+					}
+				}else{	
+					if (push_event(temp_event)){
+						if (!td.html()){
+							change_to_lect_td(td,get_batches(obj.Subject_event_id,false));
+						}
+						put_lect(td,obj.Subject_event_id,resource,obj.Batch_id);
+					}
+				}
+				if (obj.locked){
+					let cell = get_cell(temp_event.Slot_id);
+					// let locking_events = events.filter(e=> e.Slot_id == obj.Slot_id || e.Slot_id_2 == obj.Slot_id);
+					if (temp_event.Slot_id_2){
+						get_prac_pair(cell).forEach(e=>e.addClass("locked"))
+					}
+					else{
+						console.log(cell.hasClass("locked"));
+						cell.addClass("locked");
+					}
+				}
+
+			}
+		//#endregion	
 	}
 }
 
@@ -283,6 +333,7 @@ function arraysEqual(a1,a2) {
 }
 
 function uniq_slot_id(a) {
+	"Returns the arr of unique events"
 	var seen = {};
 	return a.filter(function(item) {
 		return seen.hasOwnProperty(item.Slot_id) ? false : (seen[item.Slot_id] = true);
@@ -292,15 +343,15 @@ function uniq_slot_id(a) {
 
 function update_card(subject_event,is_prac) {
 	let event_arr = events.filter(e => e.Subject_event_id==subject_event.id && Boolean(e.Slot_id_2) == is_prac);
-	event_arr = uniq_slot_id(event_arr);
+	let event_arr_len = Math.max(event_arr.length,uniq_slot_id(event_arr).length)
 	let remaining,event_load;
 	if (is_prac){
-		remaining = subject_event.prac_carried - event_arr.length;
+		remaining = subject_event.prac_carried - event_arr_len;
 		event_load = $(`[subject_event_id = ${subject_event.id}][is_prac = ${is_prac}] .remaining_load`);
 		event_load.html(remaining);
 		// subject_card.html() += parseInt(subject_card.html())
 	}else{
-		remaining = subject_event.lect_carried - event_arr.length;
+		remaining = subject_event.lect_carried - event_arr_len;
 		event_load = $(`[subject_event_id = ${subject_event.id}][is_lect = "true"] .remaining_load`).html(remaining);
 	}
 	let subject_card = event_load.parentsUntil("#accordion");
@@ -324,6 +375,13 @@ function update_all_cards() {
 			update_card(subject_events[j],false);
 		}
 	}
+}
+
+function clear_form(form){
+	form.trigger("reset");
+	form.find("select").each(function(){
+		$(this).val("-1").trigger("change");
+	});
 }
 
 function subject_event_has_load_remaining(subject_event_id,is_prac=false){
@@ -575,7 +633,7 @@ function redo(){
 			push_into_action(new event_action("added",my_events),true)
 			break;
 		case "put_all_unlocked":
-			cleared = clear_all_unlocked_td(s,push_action=false,is_redo=true);
+			cleared = clear_all_unlocked_td(my_events,push_action=false,is_redo=true);
 			// console.log(cleared);
 			if (cleared){
 				push_into_action(new event_action("cleared_unlocked",my_events),true);
@@ -626,7 +684,8 @@ function clear_batch_div(td,batch){
     resource_div.html("");
     button.html("");
     button.css({backgroundColor:"transparent"});
-    console.log(faculty_div,resource_div,button);
+    // console.log(faculty_div,resource_div,button);
+	console.log(batch_div);
 	// change as needed
 }
 
@@ -931,7 +990,6 @@ $(document).ready (function () {
 			}
 			// console.log(this_event[0].Subject_event_id)
 			events = events.filter(e=>e != this_event[0]);
-			console.log("hi",this_event);
 			// global_var = [get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac()]
 			update_card(get_subject_event(this_event[0].Subject_event_id),this_event[0].is_prac());
 			push_into_action(new event_action("removed",this_event));
@@ -947,7 +1005,6 @@ $(document).ready (function () {
 			batch_id = null;
 		}
 		const this_event = events.filter(e=> e.Slot_id == slot_id && e.Batch_id == batch_id);
-		
 		if (this_event.length == 1){
 			$("#batches").next(".select2-container").hide(); // hide batch 
 			const slot = slots.filter(e=>e.id == slot_id);
@@ -959,7 +1016,8 @@ $(document).ready (function () {
 				$("#resources option[value='"+String(slot.resources_filled[i])+"']").prop('disabled', 'disabled');
 			}
 			//give default values 
-			console.log(this_event)
+			// console.log(this_event)
+
 			let Resource_id= this_event[0].Resource_id ? String(this_event[0].Resource_id) : "-1";
 			$("#resources").val(Resource_id).trigger("change");
 			// $("#resources option[value=-1]").prop('disabled', 'disabled');
@@ -973,15 +1031,68 @@ $(document).ready (function () {
 			}else{
 				left = rect.right - 10;
 			}
-
+			if (this_event[0].is_prac()){
+				$("#event_form").attr("is_prac",true);
+			}else{
+				$("#event_form").removeAttr("is_prac");
+			}
+			$("#event_form").attr("slot_id",this_event[0].Slot_id);
+			$("#event_form").attr("subject_event_id",this_event[0].Subject_event_id);
+			// console.log("1");
 			$("#event_form").toggle(100).css({
 				top: top + "px",
 				left: left + "px"
 			});
-
+			$("#edit_submit").parent().show();
+			$("#aform").parent().hide();
 		}else
 			console.log("No event found 😢");
 	});
+	
+	$("#edit_submit").click(function(){
+		const slot_id = $("#clear_td").attr("slot_id");
+		let batch_id = $("#clear_td").attr("batch_id");
+		if ( batch_id === "false"){
+			batch_id = null;
+		}
+		const this_event = events.filter(e=> e.Slot_id == slot_id && e.Batch_id == batch_id);
+		if (this_event.length == 1){
+			const resource = $("#resources").val();
+			const link = $("#links").val();
+			this_event[0].Resource_id = resource;
+			this_event[0].link = link;
+			/////////
+			my_event = this_event[0]
+			let td = get_cell(my_event.Slot_id);
+			console.log(td,my_event);
+			if (my_event.Batch_id){	
+				// if we need to clear only the batch div
+				clear_batch_div(td,my_event.Batch_id)
+			}else{
+				// if we need to clear the whole td
+				clear_td(td)
+			}
+
+			if (my_event.Slot_id_2){
+				let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
+				if (!td.html()){
+					change_to_prac_td(td,subject_batch);
+				}
+				put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
+			}else{	// if lect 
+				let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
+				if (!td.html()){
+					change_to_lect_td(td,subject_batch);
+				}
+				put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
+			}
+
+		}else{
+			console.log("No event found 😢");
+		}
+		$("#edit_submit").parent().hide();
+		$("#event_form").hide();
+	})
 	///////////////////////////// draggable/droppable ///////////////////////
 
 	$(".draggable").draggable({
@@ -1075,6 +1186,7 @@ $(document).ready (function () {
 				$("#resources option").prop('disabled', false);
 				// all the options are enabled and then the filled resources are disabled 
 				$("#batches").next(".select2-container").show();
+				$("#aform").parent().show();
 				$("#batches option").prop('disabled', true);
 				$("#resources option[value=-1]").prop('disabled', 'disabled');
 
@@ -1138,14 +1250,13 @@ $(document).ready (function () {
 		const is_prac = $("#event_form").attr("is_prac");
 		const subject_event_id = $("#event_form").attr("subject_event_id");
 		const td = get_cell(slot_id);
-
-		const batches = $("#batches").val();
 		const resource = $("#resources").val();
 		const resource_id = $("#resources").find(':selected').val();
 		const subject_batch = get_batches(subject_event_id,is_prac);
+		const batches = $("#batches").val();
 		const link = $("#links").val();
 
-		if (/*resource && */Boolean(batches) === Boolean(subject_batch)){ 
+		if (/*resource && */Boolean(batches.length) === Boolean(subject_batch)){ 
 			// validation of resource and batch if present
 			let temp_event = new event_class();
 			if (is_prac){
@@ -1218,6 +1329,7 @@ $(document).ready (function () {
 				return;
 			// console.table(events);
 		}else{
+			console.log("Error in saving the data ")
 			return;
 		}
 		$("#event_form").hide();
@@ -1251,16 +1363,55 @@ function submited(){
 }
 
 function call_algo(){
-	// console.log(get_all_locked_events());
+	console.log(get_all_locked_events());
+	//#region for algo2
+	// $.ajax({
+	// 	type: "post",
+	// 	url: "./algo3/",
+	// 	data: JSON.stringify(get_all_locked_events()),
+	// 	success: function (data){
+	// 		clear_all_unlocked_td();
+	// 		// console.log(events);
+	// 		put_json_in_table(data);
+	//   }
+  	// });
+	//#endregion
+	//#region for algo3
 	$.ajax({
 		type: "post",
-		url: "./algo/",
-		data: JSON.stringify(get_all_locked_events()),
+		url: "./algo3/",
+		data: {
+			"locked_events":JSON.stringify(get_all_locked_events()),
+			"merging_events":get_form_json()
+		},
 		success: function (data){
 			clear_all_unlocked_td();
 			// console.log(events);
 			put_json_in_table(data);
 	  }
-  });
+  	});
+	//#endregion
 }
+function get_form_json(){
+	unique = []
+	obj = {}
+	$.each( $('#batch_mearging input:checkbox'), function(){
+		var myname= this.name;
+		if( $.inArray( myname, unique ) < 0 ){
+			if ($(`[name=${myname}]:checked`).length){
+				unique.push(myname);
+			}
+		}
+	});
+	for(inp_name of unique){
+		arr = []
+		$(`#batch_mearging [name=${inp_name}]:checked`).each(function(){
+			arr.push($(this).val());
+		})
+
+		obj[inp_name] = arr
+	}
+	return JSON.stringify(obj)
+}
+
 //#endregion

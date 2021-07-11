@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
-
+from django.db.models import Q
 ################################################
 import datetime
 
@@ -181,8 +181,8 @@ class WEF(models.Model):
 
 class Semester_WEF_manager(models.Manager):
 	def active(self):
-		'Get all the Semesters having active WEFs in the db'
-		return super().get_queryset().filter(WEF_id__active=True)
+		'Get all the Semesters having active WEFs or future WEFs in the db'
+		return super().get_queryset().filter(Q(WEF_id__active=True) |Q(WEF_id__start_date__gte=datetime.datetime.today()))
 
 	def inactive(self):
 		'Get all the Semesters having inactive WEFs in the db'
@@ -191,7 +191,7 @@ class Semester_WEF_manager(models.Manager):
 class Semester(models.Model):
 	short = models.CharField(max_length = 20)
 	Branch_id = models.ForeignKey(Branch,default=None,on_delete = models.CASCADE)
-	WEF_id = models.ForeignKey(WEF,on_delete=models.RESTRICT,null=True,blank=True)
+	WEF_id = models.ForeignKey(WEF,on_delete=models.SET_NULL,null=True,blank=True)
 	objects = Semester_WEF_manager()	
 	
 	def __str__(self):

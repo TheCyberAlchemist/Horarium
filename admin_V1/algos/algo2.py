@@ -140,7 +140,7 @@ def check_other_events_for_slot(all_events,slot,subject_event,batch=None,slot_be
 def is_better_slot(points,best_pair,this_slot):
 	if points > best_pair[0]:	# if slot is better
 		return True
-	if points == best_pair[0]:	# if slot has same points as best one
+	if points == best_pair[0] and points != -math.inf:	# if slot has same points as best one
 		if best_pair[1].Timing_id.start_time > this_slot.Timing_id.start_time:
 			# if the given slot is earlier
 			return True
@@ -284,7 +284,7 @@ def put_division(Division_id):
 	'gets the division_id and adds the related info to the file to use'
 	global WORKING_DAYS,usable_slots,l
 	division = Division.objects.all().filter(pk = Division_id).first()
-	print(Division_id,Division.objects.all())
+	# print(Division_id,Division.objects.all())
 	WORKING_DAYS = Working_days.objects.filter(Shift_id=division.Shift_id).count()
 	all_slots = Slots.objects.filter(Timing_id__Shift_id = division.Shift_id).order_by("day")
 	usable_slots = all_slots.exclude(Timing_id__is_break = True)

@@ -1,4 +1,4 @@
-E-mail,Password,First name,Last name,Roll_no,Department,Semester,Branch,Division,Practical Batch,Lecture Batch
+E-mail,Password,name,Last name,Roll_no,Department,Semester,Branch,Division,Practical Batch,Lecture Batch
 a@a.com,horarium,b,b,1,CSE,Sem-1,CSE,A,11,
 b@b.com,horarium,c,c,1,CSE,Sem-1,CSE,A,11,
 c@c.com,horarium,d,d,1,CSE,,CSE,A,11,

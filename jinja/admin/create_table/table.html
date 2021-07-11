@@ -43,6 +43,7 @@
 <script src="{{static ('try/time_table.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script>
+    console.log({{ events_json| safe}});
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
     $(document).ready(function (){
         $("#resources").select2();
@@ -122,7 +123,7 @@ if (header){
             <select id="batches" multiple="multiple">
                 <option disabled selected value=-1>Select the batch </option>
                 {% for batch in my_batches %}
-                <option value="{{batch.id}}">{{batch}}</option>
+                    <option value="{{batch.id}}">{{batch}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -133,6 +134,9 @@ if (header){
             </div>
             <div class="col-6">
                 <button type="button" id="aform" class="btn btn-outline-success">Submit</button>
+            </div>
+            <div class="col-6" style="display: none;">
+                <button type="button" id="edit_submit" class="btn btn-outline-success">Submit</button>
             </div>
         </div>
     </form>
@@ -173,7 +177,7 @@ if (header){
                   </li>
                   <li class="nav-item">
                     <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Clear" onclick="clear_all_unlocked_td()">
+                    title="Clear" id = "clear_all_unlocked" onclick="clear_all_unlocked_td()">
                         <i class="fas fa-eraser ml-2 mr-3"></i>
                     </button>
                   </li>
@@ -294,7 +298,7 @@ if (header){
                     {% endfor %}
                     {% else %}
                     {% for day in working_days %}
-                    <div class="col my_col lect droppable"></div>
+                        <div class="col my_col lect droppable" id="{{timing.pk}}_{{loop.index}}"></div>
                     {% endfor %}
                     {% endif %}
                 </div>
@@ -422,62 +426,62 @@ if (header){
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="generate_modal_label">Modal title</h5>
+          <h5 class="modal-title" id="generate_modal_label">Select Batches to merge</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
-          <div class="row">
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="sub_name"
-                        placeholder="" name="sub_name" required maxlength="20"/>
-                    <label for="sub_name">Subject Name</label>
+        <div class="modal-body" id = "batch_mearging">
+            {% for subject in my_subjects %}
+                {%set prac_batches = my_batches.filter(batch_for="prac",subjects_for_batch = subject)%}
+                {%set lect_batches = my_batches.filter(batch_for="lect",subjects_for_batch = subject)%}
+                {%if prac_batches %}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control myinputs" id="sub_name"
+                                placeholder="" name="sub_name" required maxlength="20"/>
+                            <label for="sub_name">{{subject}} Practical</label>
+                        </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            {% for batch in prac_batches %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="{{subject.id}}" type="checkbox" id="inlineCheckbox{{loop.index}}" value="{{batch.id}}">
+                                    <label class="form-check-label" for="inlineCheckbox{{loop.index}}">{{batch}}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {%if lect_batches %}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control myinputs" id="sub_name"
+                                placeholder="" name="sub_name" required maxlength="20"/>
+                            <label for="sub_name">{{subject}} Lecture</label>
+                        </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            {% for batch in lect_batches %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="{{subject.id}}" type="checkbox" id="inlineCheckbox{{loop.index}}" value="{{batch.id}}">
+                                    <label class="form-check-label" for="inlineCheckbox{{loop.index}}">{{batch}}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="modal-footer">
+                <div class="row" style="width: 100%;">
+                    <div class="col-lg-6 col-sm-12 col-md-12">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-md-12">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="call_algo()">Generate</button>
+                    </div>
                 </div>
-              </div>
-              <div class="col-lg-12 col-md-12 col-sm-12">
-                  
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                    <label class="form-check-label" for="inlineCheckbox1">1</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                    <label class="form-check-label" for="inlineCheckbox2">lorem</label>
-                  </div>
-              <div class="col-lg-12 col-md-12 col-sm-12 mt-4">
-                  <span>Heading</span>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item">An item</li>
-                    <li class="list-group-item">A second item</li>
-                    <li class="list-group-item">A third item</li>
-                    <li class="list-group-item">A fourth item</li>
-                    <li class="list-group-item">And a fifth one</li>
-                  </ul>
             </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-            <div class="row" style="width: 100%;">
-                <div class="col-lg-6 col-sm-12 col-md-12">
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                </div>
-                <div class="col-lg-6 col-sm-12 col-md-12">
-                    <button type="button" class="btn btn-success" onclick="call_algo()">Generate</button>
-                </div>
-            </div>
-        </div>
       </div>
     </div>
   </div>

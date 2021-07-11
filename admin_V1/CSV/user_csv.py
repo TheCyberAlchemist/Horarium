@@ -12,6 +12,7 @@ from admin_V1.forms import add_user
 from student_V1.forms import add_student_details
 from faculty_V1.forms import faculty_details_csv,faculty_load
 from faculty_V1.models import *
+from institute_V1.models import Semester
 #region //////////////////// view_functions //////////////////
 from django.shortcuts import render,redirect
 
@@ -208,16 +209,34 @@ def validate_and_make_faculty_details(df,my_institute):
 		my_subjects = []
 		for i in row['Can Teach'].split(","):
 			this_subj = all_subjects.filter(Q(short = i) | Q(name = i))
-			if this.subj.count() > 1: # if more then one subject of same name in department
-				error_json["error_body"].append("More then one subjects named %s in %s.Please insert the subject manually in user Dashbord." % (i,row['Department']))
+			# print(this_subj)
+			if this_subj.count() > 1: # if more then one subject of same name in department
+				print("here at multiple subject")
+				# error_json["error_body"].append("More then one subjects named %s in %s.Please insert the subject manually in user Dashbord." % (i,row['Department']))
+				error_json["error_body"].append("More then one subjects named %s in %s.Please insert the <b>semester name</b> after the name. <br> <b> eg. : sub(Sem-1)</b>" % (i,row['Department']))
 				error_df = error_df.append(row)
 			else:
 				this_subj = this_subj.first()
 				if this_subj:
 					my_subjects.append(this_subj)
-				else:	# no subject found
-					error_json["error_body"].append("No Subject named <b> %s</b> in %s" % (i,my_department))
-					error_df = error_df.append(row)
+				else:	# no subject  of name i
+					print("here at no subject")
+					if "(" and ")" in i:
+						# if multiple subjects of same name and sub(Sem-1)
+						temp = i.split("(")
+						sub_name = temp[0]
+						sem = temp[1].split(")")[0]
+						# print(,Semester.objects.all().get(short=sem),all_subjects)
+						this_subj = all_subjects.filter(Q(short = sub_name) | Q(name = sub_name),Semester_id = Semester.objects.all().get(short=sem))
+						print(sub_name,sem,this_subj)
+						if this_subj.count() == 1:
+							my_subjects.append(this_subj.first())
+						elif this_subj.count() == 0:
+							error_json["error_body"].append("No Subject named <b> %s</b> in %s" % (sub_name,sem))
+							error_df = error_df.append(row)
+					else:
+						error_json["error_body"].append("No Subject named <b> %s</b> in %s" % (i,my_department))
+						error_df = error_df.append(row)
 
 		dict1 = {}
 		dict1.update({
@@ -493,8 +512,8 @@ class csv_check_api(APIView):
 							faculty_load_candidate.save()
 							for subjects in row['my_subjects']:
 								Can_teach.objects.create(Faculty_id=faculty_details,Subject_id=subjects)
-							print("done safely, self destructing .. ",user.email)
-							user.delete()
+							# print("done safely, self destructing .. ",user.email)
+							# user.delete()
 							pass
 						except Exception as e:
 							print("Something went wrong deleting all .. ",e)

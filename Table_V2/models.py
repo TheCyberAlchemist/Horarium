@@ -25,8 +25,12 @@ class Event(models.Model):
 	link = models.CharField(max_length=200, null=True, blank=True)
 	objects = active_manager()
 	def __str__(self):
-		if self.Slot_id_2:
-			return str(self.Slot_id) +" | " + str(self.Slot_id_2.get_time()) + " - " + str(self.Subject_event_id)	
-		return str(self.Slot_id) + " - " + str(self.Subject_event_id)
+		try:
+			if self.Slot_id_2 and self.Slot_id_2_id != -1:
+				return str(self.Slot_id) +" | " + str(self.Slot_id_2.get_time()) + " - " + str(self.Subject_event_id)	
+			if self.Slot_id:
+				return str(self.Slot_id) + " - " + str(self.Subject_event_id)
+		except:
+			return str(self.Batch_id) + " - " + str(self.Subject_event_id)
 	class Meta:
 		verbose_name_plural = "Event"

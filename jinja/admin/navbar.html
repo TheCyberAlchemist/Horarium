@@ -52,7 +52,7 @@
 <div class="navtree_wrapper scroll" style="display:none;" id="show_tree">
   <ul>
     <li class="noline">
-      <label class="not_data institute">{{institute}}</label>
+      <label for="home" class="not_data institute">{{institute}}</label>
       <ul>
         <li>
           <label for="a" class="not_data"><a href={{url ('show_department')}}>Department Details</a></label>
@@ -130,14 +130,12 @@
                           <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.a" class="not_data"><a href={{url
                               ('show_batch' ,args=[value3.id])}}>Batch Details</a></label>
                         </li>
-                        {% for key4,values4 in batches.items() %}{% if key4 == value3.id %}{% for value4 in values4 %}
-                        <li><label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}">{{value4}}</label>
-                          <input id="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}" type="checkbox"
-                            checked>
-                          <ul>
-                            <span class="more">&hellip;</span>
-                          </ul>
-                        </li>{% endfor %}{% endif %}{% endfor %}
+                        <!--{% for key4,values4 in batches.items() %}{% if key4 == value3.id %}{% for value4 in values4 %}
+                          <li>
+                          <label for="{{department}}.{{value1}}.{{value2}}.{{value3}}.{{value4}}">{{value4}}</label>
+                          </li>
+                        {% endfor %}-->
+                          {% endif %}{% endfor %}
                       </ul>
                     </li>{% endfor %}{% endif %}{% endfor %}
                   </ul>

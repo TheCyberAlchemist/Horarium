@@ -100,15 +100,18 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control myinputs" id="short"
-                                                        placeholder="-" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class ="form_input"  required maxlength="20"/>
+                                                        placeholder="-" name="short" {% if u_short %}value = "{{u_short.short}}"{% endif %} class ="form_input"  required maxlength="20"/>
                                                     <label for="short">Semester Name</label>
                                                 </div>
                                             </div> 
                                             <div class="col-lg-6 col-md-12 col-sm-12 my-auto">
                                                 <div class="form-floating text-center">
-                                                    <select name="wef_select" id="wef_select">
-                                                        <option value="1" disabled selected>Select WEF</option>
-                                                        <option value="numbers">WEF-1</option>
+                                                    <select name="WEF_id" id="wef_select">
+                                                        <option value="1" disabled {% if not u_short %}selected{% endif %}>Select WEF</option>
+                                                        {% for wef in my_branch.Department_id.wef_set.all()%}
+                                                            
+                                                            <option value="{{wef.id}}" {% if u_short and u_short.WEF_id == wef %}selected{% endif %}>{{wef}}</option>
+                                                        {%endfor%}
                                                     </select>
                                                 </div>
                                             </div>  
@@ -175,6 +178,7 @@
                                         <td class="border-0 fw-bold">{{loop.index}}</td>
                                         <td class="border-0 fw-bold">{{semester.short}}</td>
                                         <td class="border-0 fw-bold text-center">        
+                                        {% if semester.WEF_id%}
                                             <div class="row d-flex align-items-center">
                                                 <div class="col-12 col-xl-2 px-0">
                                                     {%set per = semester.WEF_id.get_percent_completed() %}
@@ -187,6 +191,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        {% else %}
+                                            No WEF Found
+                                        {% endif %}
                                         </td>
                                         <td class="border-0">
                                             <a href = "{{url ('update_semester' ,args=[my_branch.id,semester.id])}}">

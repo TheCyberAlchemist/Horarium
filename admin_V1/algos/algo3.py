@@ -258,7 +258,7 @@ def check_other_events_for_slot(all_events,slot,subject_event,batch=None,slot_be
 				return OTHER_EVENT_SLOT
 			if e[0].Slot_id_2 and (not e[0].Batch_id or e.filt_batch(batch)) :	
 				# if the event is a practical and the batch is empty  or
-				# if the event does not have a batch i.e. not div_prac
+				# if the event does not have a batch i.e. not class prac
 				# print("{}--{}".format(e,e.filter(Batch_id=batch)))
 				return OTHER_EVENT_SLOT
 	else:	# if lecture
@@ -268,7 +268,9 @@ def check_other_events_for_slot(all_events,slot,subject_event,batch=None,slot_be
 			if e[0].Slot_id_2:		# if there is a prac event
 				return OTHER_EVENT_SLOT
 			if batch:	# if there is a batch_lect
-				if e.filt_batch(batch):
+				if not e[0].Slot_id_2 and (not e[0].Batch_id or e.filt_batch(batch)):
+					# if the event is a lecture and the batch is empty  or
+					# if the event does not have a batch i.e. not class lect
 					return OTHER_EVENT_SLOT
 			else:	# if there is a class_lect
 				return OTHER_EVENT_SLOT
@@ -278,10 +280,12 @@ def check_prac_on_prac(events_on_slot,batch_list):
 	if events_on_slot and events_on_slot[0].Batch_id:
 		# if there is a events_on_slot
 		# and others having a batch
+		if not events_on_slot[0].Slot_id_2:
+			print(events_on_slot)
 		for event in events_on_slot:
 			if event.Batch_id in batch_list:
 				# if event batch having same batch as batch_list
-				return 0
+				return OTHER_EVENT_SLOT
 		return PRAC_ON_PRAC
 	return 0
 
@@ -399,7 +403,7 @@ def get_point_for_lect_batch(subject_event,all_events,batch_list):
 			day = slot.day
 			day_slots = usable_slots.filter(day = day)
 			day_events = all_events.filt_slot_day(day)
-		lect_event_on_slot = day_events.filt_lect().filt_slot(slot).filt_batch(None)
+		lect_event_on_slot = day_events.filt_lect().filt_slot(slot)
 
 		points = check_availability(slot,subject_event)
 		if points == 0:		# if it is available
@@ -415,6 +419,9 @@ def get_point_for_lect_batch(subject_event,all_events,batch_list):
 				points += temp_points
 			else:		# if something is wrong in the above loop
 				raise Exception("There is an exception here in lecture batch")
+			if subject_event.Subject_id.short == "BDA" and slot.day.Days_id.name == "Thursday":
+				print("here at lect_batc")
+				print(lect_event_on_slot,batch_list)
 			points += check_prac_on_prac(lect_event_on_slot,batch_list)
 		if is_better_slot(points,best_pair,slot):	# if it is better slot
 			best_pair[0] = points
@@ -692,7 +699,7 @@ class main(APIView):
 						# print([subject_event,"Class","Lecture"])
 						# points,best_slot = get_point_for_lect_class(subject_event,all_events)
 						results_list.append([subject_event, batch_list,"Lecture",best_slot,None,points])
-				print("Slot_id :: {} \n Point :: {}\n -----------------------------".format(best_slot,points))
+				# print(" Subject_event :: {} \n Slot_id :: {} \n Point :: {}\n -----------------------------".format(subject_event,best_slot,points))
 
 
 			infinite = False

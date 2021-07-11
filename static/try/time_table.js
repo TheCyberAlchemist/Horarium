@@ -117,15 +117,37 @@ function get_subject_event(id){
 	}
 }
 
-function get_batches(subject_event_id,is_prac=false){	// get all the batches that consist the subject event(P/L)
+function get_batches(subject_event_id,is_prac=false){	
+	// get all the batches that consist the subject event(P/L)
 	let subject_id = get_subject_event(subject_event_id).subject_id;
 	let temp = [];
-	for (i in batches){
-		let batch = batches[i].fields;
-		if((is_prac && batch.batch_for == "prac") || (!is_prac && batch.batch_for == "lect")){
-			// if the related subject prac or lect has the batch
-			if (batch.subjects_for_batch.includes(subject_id))
-				temp.push(batches[i]);
+
+	// for (i in batches){
+	// 	let batch = batches[i].fields;
+	// 	if((is_prac && batch.batch_for == "prac") || (!is_prac && batch.batch_for == "lect")){
+	// 		// if the related subject prac or lect has the batch
+	// 		if (batch.subjects_for_batch.includes(subject_id))
+	// 			temp.push(batches[i]);
+	// 	}
+	// }
+	// this is only good if the batches for the subjects
+	if (is_prac){
+		for (b in batches){
+			let batch = batches[b].fields;
+			if (batch.subjects_for_batch.includes(subject_id)){
+				temp = batches.filter(e=>e.fields.batch_for=="prac")
+				break
+			}
+		}
+	}else{
+		// if (batch.subjects_for_batch.includes(subject_id)&& e.fields.subjects_for_batch.includes(subject_id))
+		for (b in batches){
+			let batch = batches[b].fields;
+			if (batch.subjects_for_batch.includes(subject_id) && batch.batch_for == "lect"){
+				console.log(batch)
+				temp = batches.filter(e=>e.fields.batch_for=="lect")
+				break
+			}
 		}
 	}
 	if (temp.length){
@@ -181,7 +203,7 @@ function get_resource_name_by_id(resource_id){
 
 //#region  ////////////// put methods ////////////////////////////
 function put_json_in_table(json_data){
-	// console.table("obj-",json_data);
+	console.table("obj-",json_data);
 	if (!json_data["my_events"]){
 		//#region for algo2 and all the other functions
 			for(i in json_data){
@@ -310,6 +332,24 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 	// console.table(events);
 	// console.table(subjects);
 }
+
+function put_event_in_td(my_event,td){
+	// gets the event and td and auto-calls the respective change_to function
+	if (my_event.Slot_id_2){
+		let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
+		if (!td.html()){
+			change_to_prac_td(td,subject_batch);
+		}
+		put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
+	}else{	// if lect 
+		let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
+		if (!td.html()){
+			change_to_lect_td(td,subject_batch);
+		}
+		put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
+	}
+}
+
 //#endregion
 
 //#region  ////////////// only functions /////////////////////////
@@ -343,7 +383,8 @@ function uniq_slot_id(a) {
 
 function update_card(subject_event,is_prac) {
 	let event_arr = events.filter(e => e.Subject_event_id==subject_event.id && Boolean(e.Slot_id_2) == is_prac);
-	let event_arr_len = Math.max(event_arr.length,uniq_slot_id(event_arr).length)
+	let event_arr_len = uniq_slot_id(event_arr).length
+	// let event_arr_len = Math.max(event_arr.length,uniq_slot_id(event_arr).length)
 	let remaining,event_load;
 	if (is_prac){
 		remaining = subject_event.prac_carried - event_arr_len;
@@ -535,19 +576,7 @@ function undo(){
 			for (my_event of my_events){
 				if (push_event(my_event)){
 					let td = get_cell(my_event.Slot_id);
-					if (my_event.Slot_id_2){
-						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
-						if (!td.html()){
-							change_to_prac_td(td,subject_batch);
-						}
-						put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
-					}else{	// if lect 
-						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
-						if (!td.html()){
-							change_to_lect_td(td,subject_batch);
-						}
-						put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
-					}
+					put_event_in_td(my_event,td);
 				}
 			}
 			undo_actions.push(new event_action("added",my_events));
@@ -614,19 +643,7 @@ function redo(){
 			for (my_event of my_events){
 				if (push_event(my_event)){
 					let td = get_cell(my_event.Slot_id);
-					if (my_event.Slot_id_2){
-						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
-						if (!td.html()){
-							change_to_prac_td(td,subject_batch);
-						}
-						put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
-					}else{	// if lect 
-						let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
-						if (!td.html()){
-							change_to_lect_td(td,subject_batch);
-						}
-						put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
-					}
+					put_event_in_td(my_event,td);
 				}
 			}
 			console.log("in redo removed :: ",my_events);
@@ -1059,12 +1076,11 @@ $(document).ready (function () {
 		if (this_event.length == 1){
 			const resource = $("#resources").val();
 			const link = $("#links").val();
-			this_event[0].Resource_id = resource;
+			this_event[0].Resource_id = resource==-1?null:resource ;
 			this_event[0].link = link;
 			/////////
 			my_event = this_event[0]
 			let td = get_cell(my_event.Slot_id);
-			console.log(td,my_event);
 			if (my_event.Batch_id){	
 				// if we need to clear only the batch div
 				clear_batch_div(td,my_event.Batch_id)
@@ -1073,19 +1089,7 @@ $(document).ready (function () {
 				clear_td(td)
 			}
 
-			if (my_event.Slot_id_2){
-				let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
-				if (!td.html()){
-					change_to_prac_td(td,subject_batch);
-				}
-				put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
-			}else{	// if lect 
-				let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
-				if (!td.html()){
-					change_to_lect_td(td,subject_batch);
-				}
-				put_lect(td,my_event.Subject_event_id,my_event.Resource_id,my_event.Batch_id);
-			}
+			put_event_in_td(my_event,td);
 
 		}else{
 			console.log("No event found 😢");
@@ -1251,7 +1255,9 @@ $(document).ready (function () {
 		const subject_event_id = $("#event_form").attr("subject_event_id");
 		const td = get_cell(slot_id);
 		const resource = $("#resources").val();
-		const resource_id = $("#resources").find(':selected').val();
+		let temp = $("#resources").find(':selected').val();
+		const resource_id = temp==-1?null:temp
+		
 		const subject_batch = get_batches(subject_event_id,is_prac);
 		const batches = $("#batches").val();
 		const link = $("#links").val();

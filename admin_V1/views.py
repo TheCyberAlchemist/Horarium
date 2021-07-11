@@ -245,7 +245,7 @@ def show_semester(request,Branch_id,Semester_id = None):
 		if Semester_id:	# if edit is called
 			edit = semesters.get(pk=Semester_id)
 			form = create_semester(instance = edit)
-			context['u_short'] = form.instance.short
+			context['u_short'] = form.instance
 
 		context['my_semesters'] = semesters
 		context['my_branch'] = my_branch
@@ -571,7 +571,8 @@ def show_branch(request,Department_id,Branch_id=None):
 	else:
 		return redirect(get_home_page(request.user))
 
-
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
 def show_wef(request,Department_id,WEF_id=None):
 	context = return_context(request)
 	context['my_department'] = Department.objects.get(id=Department_id)
@@ -624,7 +625,11 @@ def show_wef(request,Department_id,WEF_id=None):
 	elif request.is_ajax() and request.method == 'POST':
 		# if delete is called
 		data = json.loads(request.body)
-		delete_entries(WEF.objects.inactive(),data)
+		try :
+			delete_entries(WEF.objects.inactive(),data)
+		except:
+			# make an exception here and send the message to front
+			pass
 
 	elif request.method == 'POST':
 		# if add form submit
@@ -766,7 +771,7 @@ def show_sub_det(request,Branch_id,Subject_id = None):
 	
 	context = return_context(request)
 	my_branch = Branch.objects.get(id = Branch_id)
-	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id)
+	context['my_semesters'] = Semester.objects.filter(Branch_id = Branch_id).order_by("-WEF_id__active")
 	# print("world")
 	my_subjects = Subject_details.objects.filter(Semester_id__in=context['my_semesters']).order_by("-Semester_id__WEF_id__active","Semester_id__short")
 	for i in my_subjects:

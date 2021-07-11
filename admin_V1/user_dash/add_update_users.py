@@ -245,7 +245,7 @@ def user_dash(request,Department_id):
 	department = Department.objects.get(pk = Department_id)
 	context['my_department'] = department
 	context['my_branches'] = Branch.objects.filter(Department_id=department)
-	context['my_sems'] = Semester.objects.filter(Branch_id__Department_id=department)
+	context['my_sems'] = Semester.objects.filter(Branch_id__Department_id=department).order_by("short")
 	context['my_subjects'] = Subject_details.objects.filter(Semester_id__in=context['my_sems'])
 	context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 	context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)

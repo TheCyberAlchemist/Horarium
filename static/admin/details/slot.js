@@ -185,13 +185,14 @@ function get_remainder(){
   temp_slot = new slot();
   temp_slot.start_time = slots[slots.length-1].end_time;
   temp_slot.end_time = shift_end_time;
-let min = temp_slot.duration();
-  if (!min){
+  let min = temp_slot.duration();
+  let time_str = 'Remaining Time -> ';
+  if (!min){  // if 0 min is left
+    $("#get_remainder").html(time_str + "0 min");
     return;
   }
   let hr = parseInt(min/60);
   min = (min%60);
-  let time_str = 'Remaining Time -> '
   if (hr){
     if (hr > 1)
       time_str += hr + " hrs "
@@ -204,6 +205,7 @@ let min = temp_slot.duration();
     else
       time_str += min + " min "
   }
+  // console.log(time_str)
   $("#get_remainder").html(time_str);
   return temp_slot.duration();
 }
@@ -419,7 +421,6 @@ jQuery(function () {
     // $('#slot_form').hide();
     $('#edit').hide();
     $('#add_row').show();
-
     get_remainder();
   });
 

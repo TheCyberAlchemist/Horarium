@@ -64,6 +64,8 @@ class Subject_details(models.Model):
 		# print(f"changing load of {self.name} to {self.load_per_week}")
 
 	def save(self, *args, **kwargs):	# for calculating the load before saving
+		if not self.id:
+			super(Subject_details, self).save(*args, **kwargs)	
 		self.set_load()
 		super(Subject_details, self).save(*args, **kwargs)
 

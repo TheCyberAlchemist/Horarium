@@ -211,7 +211,7 @@
 							<tbody>
 								{% if my_subjects %} 
 									{% for subject in my_subjects %}
-										<tr {% if not subject.Semester_id.WEF_id.active %}
+										<tr {% if not subject.Semester_id in subject.Semester_id.__class__.objects.active() %}
 												class="" style="background-color:#e9ecef"
 											{% endif %}
 										>

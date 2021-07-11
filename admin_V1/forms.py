@@ -30,7 +30,7 @@ class create_feedback_type(ModelForm):
 class create_semester(ModelForm):
 	class Meta:
 		model = Semester
-		fields = ['short']
+		fields = ['short',"WEF_id"]
 
 
 class create_division(ModelForm):

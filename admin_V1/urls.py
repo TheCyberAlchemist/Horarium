@@ -78,6 +78,8 @@ urlpatterns = [
 	re_path(r'^csv_upload/$',user_csv.csv_view_func,name = 'csv_upload'),
 	re_path(r'^csv/$',user_csv.csv_check_api.as_view(),name = 'csv'),
 	
+    re_path(r'^print_table/$',views.print_table,name = 'print_table'),
+
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 	# path('sube/',views.show_subject_events, name = 'show_subject_events')

@@ -1,6 +1,5 @@
 {% block draw_chart %}
 {%block css%}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" referrerpolicy="no-referrer" />
 <style type="text/css">
     *{
         font-family: 'Poppins', sans-serif !important;
@@ -19,9 +18,22 @@
       max-height: 70vw !important;
       transition: 0s !important;
     }
+    .feedback_question_button {
+        position: fixed !important;
+        top : 30%;
+        left : 1%;
+        transform: translate(-30%,-1%);
+        z-index : 100;
+    }
 </style>
 {% endblock %}
+{% block scripts %}
+<script src="https://kit.fontawesome.com/3999aa88c0.js" crossorigin="anonymous"></script>
+{%endblock %}
 <div class="container-fluid pt-4 mt-5">
+    <button type="button" class="btn btn-primary feedback_question_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <i class="fas fa-question"></i>
+      </button>
   <!-- <canvas id="month_rating"></canvas>
     <canvas id="week_rating"></canvas>
     <canvas id="day_rating" ></canvas>
@@ -197,7 +209,7 @@
       </div>
     </div>
   </div>-->
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button>
+
 
   <!-- #region Feedback Questions -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -211,12 +223,12 @@
                 {%for ques in questions %}
                     <div class="h6" style="font-weight: bold">Q{{loop.index}}. {{ques}}.</div>
                 {%endfor%}
+                <div class="container p-0">
+                    <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">Close</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="modal-footer text-center">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         </div>
       </div>
     </div>

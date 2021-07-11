@@ -1007,7 +1007,9 @@ def get_division_subjects_and_events(Division_id):
 def algo_v1(request,Division_id):
 	# delete all the prior events after taking the locked events
 	# save all the locked events
-	print("here at algo view .. ✅")
+	import timeit
+	starttime = timeit.default_timer()
+
 	old_events_qs = list(Event.objects.active().filter(Division_id=Division_id).values_list('Slot_id', 'Subject_event_id', 'Batch_id', 'Resource_id', 'Slot_id_2'))
 	json_events = []
 	if request:
@@ -1121,6 +1123,7 @@ def algo_v1(request,Division_id):
 				print(subject_event," - Class")
 	serializer = MySerialiser()
 	data = serializer.serialize(Event.objects.active().filter(Division_id=Division_id))
+	print("The context time :", timeit.default_timer() - starttime)
 	return JsonResponse(data, safe=False)
 	# return 
 	# return render(request,"try/algo_v1.html",context)
@@ -1195,6 +1198,8 @@ class student_satisfaction(APIView):
 def all_feedbacks(request) :
     return render(request,'admin/all_feedbacks.html')
 	
+def print_table(request) :
+    return render(request,'admin/print_table/print_table.html')
 ##################### scripts #####################
 # var = []
 	# import random

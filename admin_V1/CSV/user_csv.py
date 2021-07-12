@@ -2,6 +2,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth.models import Group
 import pandas as pd
 import numpy as np
 from django.contrib.auth.models import Group
@@ -105,7 +106,6 @@ def validate_and_make_student_details(df,my_institute):
 		# print(dict1,my_division)
 		if not all(dict1.values()):
 			# if any of the dict1 is empty
-
 			# print(dict1.values())
 			if not my_department:
 				# if institute is empty meaning department is None

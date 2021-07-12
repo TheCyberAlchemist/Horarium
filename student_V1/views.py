@@ -95,7 +95,7 @@ def send_regular_email(user,my_subject_event,my_event,query):
 			subject, #subject
 			body, #message
 			from_email = None, # from email 
-			recipient_list = ['horarium@tecrave.in'] # to email
+			recipient_list = ['horaium@tecrave.in'] # to email
 		)
 	# print(subject,body)
 
@@ -110,7 +110,7 @@ def student_home(request):
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.active().filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
-	day = "Monday"
+	# day = "Monday"
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,

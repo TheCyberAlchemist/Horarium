@@ -72,7 +72,8 @@ def check_student_details(df):
 	return False
 
 def validate_and_make_student_details(df,my_institute):
-	'''validate the student_info (i.e. Department, Branch, Division, Batch ) and returns details 
+	'''
+		validate the student_info (i.e. Department, Branch, Division, Batch ) and returns details 
 		and error_json details have the following fields (roll_no,Institute,Division,User-id,prac_batch,lect_batch)
 		from database models
 	'''
@@ -119,7 +120,13 @@ def validate_and_make_student_details(df,my_institute):
 					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))				
 				error_df = error_df.append(row)
 		else:
-			user = CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
+			user = add_user({
+				"email":row['E-mail'],
+				"first_name":row['First name'],
+				"last_name":row['Last name'],
+				"password1":row['Password'],
+				"password2":row['Password'],
+			}).save(commit=False)
 			# print(type(user))
 			dict1.update({
 				"User_id" : user,
@@ -259,7 +266,14 @@ def validate_and_make_faculty_details(df,my_institute):
 				error_json["error_body"].append("No Shift named %s in %s" % (row['Shift'],row['Department']))
 				error_df = error_df.append(row)
 		else:
-			user = CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
+			user = add_user({
+				"email":row['E-mail'],
+				"first_name":row['First name'],
+				"last_name":row['Last name'],
+				"password1":row['Password'],
+				"password2":row['Password'],
+			}).save(commit=False)
+			# CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
 			# print(type(user))
 			dict1.update({
 				"User_id" : user,
@@ -487,7 +501,7 @@ class csv_check_api(APIView):
 							for j in all_saved_pks:
 								CustomUser.objects.filter(pk=j).delete()
 							pass
-					print(all_saved_pks)
+					# print(all_saved_pks)
 			
 		elif csv_type == "faculty":
 			print("faculty csv found refining ")

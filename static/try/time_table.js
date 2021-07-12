@@ -117,20 +117,12 @@ function get_subject_event(id){
 	}
 }
 
-function get_batches(subject_event_id,is_prac=false){	
-	// get all the batches that consist the subject event(P/L)
+function get_respective_lect_prac_batch(subject_event_id,is_prac=false){	
+	// if the subject has batch it returns the practical or lecture batches
+	// only for change to lect and prac td
 	let subject_id = get_subject_event(subject_event_id).subject_id;
 	let temp = [];
 
-	// for (i in batches){
-	// 	let batch = batches[i].fields;
-	// 	if((is_prac && batch.batch_for == "prac") || (!is_prac && batch.batch_for == "lect")){
-	// 		// if the related subject prac or lect has the batch
-	// 		if (batch.subjects_for_batch.includes(subject_id))
-	// 			temp.push(batches[i]);
-	// 	}
-	// }
-	// this is only good if the batches for the subjects
 	if (is_prac){
 		for (b in batches){
 			let batch = batches[b].fields;
@@ -156,6 +148,24 @@ function get_batches(subject_event_id,is_prac=false){
 	return false;
 }
 
+function get_batches_for_subject_event(subject_event_id,is_prac=false){
+	// get all the batches that consist the subject event(P/L)
+	let subject_id = get_subject_event(subject_event_id).subject_id;
+	let temp = [];
+
+	for (i in batches){
+		let batch = batches[i].fields;
+		if((is_prac && batch.batch_for == "prac") || (!is_prac && batch.batch_for == "lect")){
+			// if the related subject prac or lect has the batch
+			if (batch.subjects_for_batch.includes(subject_id))
+				temp.push(batches[i]);
+		}
+	}
+	if (temp.length){
+		return temp;
+	}
+	return false;
+}
 
 function get_event_index_by_slot(slot){
 	for(i in events){
@@ -227,14 +237,14 @@ function put_json_in_table(json_data){
 					if (push_event(temp_event)){
 						// console.log(td);
 						if (!td.html()){
-							change_to_prac_td(td,get_batches(obj.Subject_event_id,true));
+							change_to_prac_td(td,get_respective_lect_prac_batch(obj.Subject_event_id,true));
 						}
 						put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
 					}
 				}else{	
 					if (push_event(temp_event)){
 						if (!td.html()){
-							change_to_lect_td(td,get_batches(obj.Subject_event_id,false));
+							change_to_lect_td(td,get_respective_lect_prac_batch(obj.Subject_event_id,false));
 						}
 						put_lect(td,obj.Subject_event_id,resource,obj.Batch_id);
 					}
@@ -274,14 +284,14 @@ function put_json_in_table(json_data){
 					if (push_event(temp_event)){
 						// console.log(td);
 						if (!td.html()){
-							change_to_prac_td(td,get_batches(obj.Subject_event_id,true));
+							change_to_prac_td(td,get_respective_lect_prac_batch(obj.Subject_event_id,true));
 						}
 						put_prac(td,obj.Subject_event_id,obj.Batch_id,resource);
 					}
 				}else{	
 					if (push_event(temp_event)){
 						if (!td.html()){
-							change_to_lect_td(td,get_batches(obj.Subject_event_id,false));
+							change_to_lect_td(td,get_respective_lect_prac_batch(obj.Subject_event_id,false));
 						}
 						put_lect(td,obj.Subject_event_id,resource,obj.Batch_id);
 					}
@@ -336,13 +346,13 @@ function put_data(slots_json,sub_events_json,batches,old_events_json,subjects_js
 function put_event_in_td(my_event,td){
 	// gets the event and td and auto-calls the respective change_to function
 	if (my_event.Slot_id_2){
-		let subject_batch = get_batches(my_event.Subject_event_id,is_prac=true);
+		let subject_batch = get_respective_lect_prac_batch(my_event.Subject_event_id,is_prac=true);
 		if (!td.html()){
 			change_to_prac_td(td,subject_batch);
 		}
 		put_prac(td,my_event.Subject_event_id,my_event.Batch_id,my_event.Resource_id);
 	}else{	// if lect 
-		let subject_batch = get_batches(my_event.Subject_event_id,is_prac=false);
+		let subject_batch = get_respective_lect_prac_batch(my_event.Subject_event_id,is_prac=false);
 		if (!td.html()){
 			change_to_lect_td(td,subject_batch);
 		}
@@ -808,7 +818,7 @@ function change_to_lect_td(td,subject_batch){
 		string += `</div></div>`;
 	}else{
 		string +=
-		`<div class='event_divs row p-2'>
+		`<div class='event_divs' batch_for = "class" row p-2'>
 			<div class='col-12'>
 				<button class='event_name btn mt-1 mb-1' style = 'color:white;'></button>
 			</div>
@@ -887,7 +897,7 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 		}
 	}else{	// put "class" instead of batch_id
 		string += `
-			<div class="event_divs col-`+ colspan+`"batch_for = class>
+			<div class="event_divs" batch_for = class>
 				<div class="row" >
 					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`"></div>
 				</div>
@@ -1137,7 +1147,10 @@ $(document).ready (function () {
 				$(".droppable").each(function(){
 					var cellIndex = $(this).index();
 					var td_below = $(this).closest('.my_row').next().children().eq(cellIndex);
-					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td")|| td_below.hasClass("isBreak") || !td_below.length || (($(this).hasClass("filled") || td_below.hasClass("filled")) && !$(this).hasClass("prac"))){ 
+					if ($(this).hasClass("not_available_td") || td_below.hasClass("not_available_td")
+						|| td_below.hasClass("isBreak") || !td_below.length 
+						|| (($(this).hasClass("filled") || td_below.hasClass("filled")
+						) && !$(this).hasClass("prac"))){ 
 						// if below is not available or filled or is break then not viable
 						if (!($(this).hasClass("available_td") || $(this).hasClass("isBreak")))
 							$(this).addClass("not_available_td");
@@ -1151,7 +1164,13 @@ $(document).ready (function () {
 				});
 			}else{
 				$(".droppable").each(function(){
-					if ($(this).hasClass("filled")){
+					if ($(this).hasClass("filled") && $(this).hasClass("prac")){
+						// if the cell has a practical in it
+						$(this).addClass("not_available_td");
+					}
+					else if($(this).find(".event_divs").attr("batch_for") == "class"){
+						// if lecture then 
+						// if the lect is for class
 						$(this).addClass("not_available_td");
 					}
 				});
@@ -1194,7 +1213,7 @@ $(document).ready (function () {
 				$("#batches option").prop('disabled', true);
 				$("#resources option[value=-1]").prop('disabled', 'disabled');
 
-				let subject_batches = get_batches(subject_event_id,is_prac);
+				let subject_batches = get_batches_for_subject_event(subject_event_id,is_prac);
 
 				for (i in slot.resources_filled){
 					$("#resources option[value='"+String(slot.resources_filled[i])+"']").prop('disabled', 'disabled');
@@ -1258,7 +1277,8 @@ $(document).ready (function () {
 		let temp = $("#resources").find(':selected').val();
 		const resource_id = temp==-1?null:temp
 		
-		const subject_batch = get_batches(subject_event_id,is_prac);
+		const subject_batch = get_batches_for_subject_event(subject_event_id,is_prac);
+		const type_batch = get_respective_lect_prac_batch(subject_event_id,is_prac);
 		const batches = $("#batches").val();
 		const link = $("#links").val();
 
@@ -1277,7 +1297,7 @@ $(document).ready (function () {
 						if (push_event(temp_event)){
 							temp_pushed_events.push(temp_event);
 							if (!td.html()){
-								change_to_prac_td(td,subject_batch);
+								change_to_prac_td(td,type_batch);
 							}
 							put_prac(td,subject_event_id,batch,resource_id);
 						}
@@ -1293,7 +1313,7 @@ $(document).ready (function () {
 					if (push_event(temp_event)){
 						push_into_action(new event_action("added",temp_event));
 						if (!td.html()){
-							change_to_prac_td(td,subject_batch);
+							change_to_prac_td(td,[]);
 						}
 						put_prac(td,subject_event_id,null,resource_id);
 					}
@@ -1309,7 +1329,7 @@ $(document).ready (function () {
 						if (push_event(temp_event)){
 							temp_pushed_events.push(temp_event);
 							if (!td.html()){
-								change_to_lect_td(td,subject_batch);
+								change_to_lect_td(td,type_batch);
 							}
 							put_lect(td,subject_event_id,resource_id,batch);
 						}

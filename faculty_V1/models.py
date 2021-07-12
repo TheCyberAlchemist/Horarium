@@ -25,6 +25,7 @@ class Faculty_designation(models.Model):
 		]
 
 class Faculty_details(models.Model):
+	#  on delete called we can check if there is an active event and then only delete
 	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE,null=True)
 	short = models.CharField(max_length = S_len)
 	Designation_id = models.ForeignKey(Faculty_designation,on_delete=models.RESTRICT)

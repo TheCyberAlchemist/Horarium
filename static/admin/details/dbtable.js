@@ -70,7 +70,7 @@ function checkSelected(id = "del"){
 	}
 }
 
-function delete_entries(id = false) {
+function delete_entries(id = false,reload = true) {
 	if (id){	// if faculty in user_details
 		var checked = $('input[name="del1"]:checked').map(function () {return this.value;}).get();
 		var inner_html = $('input[name="del1"]:checked').map(function () {return this.attributes.input_name.value;}).get().toString().split(',');
@@ -122,7 +122,8 @@ function delete_entries(id = false) {
 						data: state,
 						success: function () {
 							// reload page after success of post
-							setTimeout(() => {  location.reload(); }, 1000);
+							if (reload)
+								setTimeout(() => {  location.reload(); }, 1000);
 						},
 					});
 				}

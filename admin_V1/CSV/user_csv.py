@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 import pandas as pd
 import numpy as np
+from django.contrib.auth.models import Group
 
 from login_V2.models import CustomUser
 from institute_V1.models import *
@@ -120,6 +121,7 @@ def validate_and_make_student_details(df,my_institute):
 					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))				
 				error_df = error_df.append(row)
 		else:
+			user = None
 			user_form = add_user({
 				"email":row['E-mail'],
 				"first_name":row['First name'],
@@ -272,6 +274,7 @@ def validate_and_make_faculty_details(df,my_institute):
 				error_json["error_body"].append("No Shift named %s in %s" % (row['Shift'],row['Department']))
 				error_df = error_df.append(row)
 		else:
+			user = None
 			user_form = add_user({
 				"email":row['E-mail'],
 				"first_name":row['First name'],
@@ -493,7 +496,9 @@ class csv_check_api(APIView):
 			error_list,details = validate_student_csv(df,request)
 			all_saved_pks = []
 			if not error_list:
+				group = Group.objects.get(name='Student')
 				for i,row in details.iterrows():
+					print(".",end="")
 					student_form = add_student_details(row)
 					if student_form.is_valid():
 						user = row["User_id"]
@@ -502,6 +507,7 @@ class csv_check_api(APIView):
 						candidate.User_id = user
 						try:
 							user.save()
+							user.groups.add(group)
 							all_saved_pks.append(user.pk)
 							candidate.save()
 							# print("done safely, self destructing .. ",user.email)
@@ -521,7 +527,9 @@ class csv_check_api(APIView):
 			print(error_list)
 			all_saved_pks = []
 			if not error_list:
+				group = Group.objects.get(name='Faculty')
 				for i,row in details.iterrows():
+					print(".",end="")
 					faculty_form = faculty_details_csv(row)
 					faculty_load_form = faculty_load(row)
 					if faculty_form.is_valid() and faculty_load_form.is_valid():
@@ -533,6 +541,7 @@ class csv_check_api(APIView):
 						faculty_load_candidate.Faculty_id = faculty_details
 						try:
 							user.save()
+							user.groups.add(group)
 							all_saved_pks.append(user.pk)
 							faculty_details.save()
 							faculty_load_candidate.save()

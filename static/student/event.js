@@ -492,13 +492,13 @@ jQuery(function () {
 	}
 	put_events_on_timeline();
 	var progress_bar_counter = 0
-	var sec = 55;	
+	// var sec = 55;	
 	var last_popped_event;
 	let first_main_call = true;
 	function main(){
 		var d = new Date();
-		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(10,12,sec);
+		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		// ct = new time(10,12,sec);
 		// ct = global_time;
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
@@ -538,7 +538,7 @@ jQuery(function () {
 			}
 			
 		}
-		sec++;
+		// sec++;
 		/////////////////// main code /////////////////////////////		
 		// console.log(events,ct);
 		for(let i in events){

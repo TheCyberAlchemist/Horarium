@@ -475,17 +475,17 @@ class csv_check_api(APIView):
 						candidate = student_form.save(commit=False)
 						candidate.User_id = user
 						try:
-							# user.save()
-							# all_saved_pks.append(user.pk)
-							# candidate.save()
+							user.save()
+							all_saved_pks.append(user.pk)
+							candidate.save()
 							# print("done safely, self destructing .. ",user.email)
 							# user.delete()
 							pass
 						except Exception as e:
-							# print("Something went wrong deleting all .. ",e)
-							# print(all_saved_pks)
-							# for j in all_saved_pks:
-							# 	CustomUser.objects.filter(pk=j).delete()
+							print("Something went wrong deleting all .. ",e)
+							print(all_saved_pks)
+							for j in all_saved_pks:
+								CustomUser.objects.filter(pk=j).delete()
 							pass
 					print(all_saved_pks)
 			

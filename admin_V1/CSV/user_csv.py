@@ -2,6 +2,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth.models import Group
 import pandas as pd
 import numpy as np
 
@@ -104,7 +105,6 @@ def validate_and_make_student_details(df,my_institute):
 		# print(dict1,my_division)
 		if not all(dict1.values()):
 			# if any of the dict1 is empty
-
 			# print(dict1.values())
 			if not my_department:
 				# if institute is empty meaning department is None
@@ -120,6 +120,7 @@ def validate_and_make_student_details(df,my_institute):
 					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))				
 				error_df = error_df.append(row)
 		else:
+	
 			user_form = add_user({
 				"email":row['E-mail'],
 				"first_name":row['First name'],
@@ -132,7 +133,7 @@ def validate_and_make_student_details(df,my_institute):
 			else:
 				for key in user_form.errors:
 					error_json["error_body"].append("Error in Password : %s" % (user_form.errors[key]))
-				error_df = error_df.append(row)
+					error_df = error_df.append(row)
 			# print(type(user))
 			dict1.update({
 				"User_id" : user,
@@ -284,7 +285,7 @@ def validate_and_make_faculty_details(df,my_institute):
 			else:
 				for key in user_form.errors:
 					error_json["error_body"].append("Error in Password : %s" % (user_form.errors[key]))
-				error_df = error_df.append(row)
+					error_df = error_df.append(row)
 			# CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
 			# print(type(user))
 			dict1.update({
@@ -521,6 +522,7 @@ class csv_check_api(APIView):
 			print(error_list)
 			all_saved_pks = []
 			if not error_list:
+				group = Group.objects.get(name='Faculty')
 				for i,row in details.iterrows():
 					faculty_form = faculty_details_csv(row)
 					faculty_load_form = faculty_load(row)
@@ -533,6 +535,7 @@ class csv_check_api(APIView):
 						faculty_load_candidate.Faculty_id = faculty_details
 						try:
 							user.save()
+							user.groups.add(group)
 							all_saved_pks.append(user.pk)
 							faculty_details.save()
 							faculty_load_candidate.save()

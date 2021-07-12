@@ -152,7 +152,6 @@ def add_update_faculty(request,Department_id):
 
 				load.Faculty_id = details
 
-			
 			if user_obj: # if update
 				# region # check if the new load is >= load carried 
 				old_load_obj = Faculty_load.objects.get(Faculty_id=details)
@@ -272,5 +271,6 @@ def user_dash(request,Department_id):
 					)
 				)
 				,data)
+
 
 	return render(request,'admin/user_dash/user_dash.html',context)

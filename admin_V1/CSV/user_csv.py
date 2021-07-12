@@ -127,10 +127,12 @@ def validate_and_make_student_details(df,my_institute):
 				"password1":row['Password'],
 				"password2":row['Password'],
 			})
-			# if not user_form.is_valid() :
-			print(user_form.errors)
-			print(user_form.instance.first_name, row['Password'])
-			user = user_form.save(commit=False)
+			if user_form.is_valid():
+				user = user_form.save(commit=False)
+			else:
+				for key in user_form.errors:
+					error_json["error_body"].append("Error in Password : %s" % (user_form.errors[key]))
+					error_df = error_df.append(row)
 			# print(type(user))
 			dict1.update({
 				"User_id" : user,
@@ -270,13 +272,19 @@ def validate_and_make_faculty_details(df,my_institute):
 				error_json["error_body"].append("No Shift named %s in %s" % (row['Shift'],row['Department']))
 				error_df = error_df.append(row)
 		else:
-			user = add_user({
+			user_form = add_user({
 				"email":row['E-mail'],
 				"first_name":row['First name'],
 				"last_name":row['Last name'],
 				"password1":row['Password'],
 				"password2":row['Password'],
-			}).save(commit=False)
+			})
+			if user_form.is_valid():
+				user = user_form.save(commit=False)
+			else:
+				for key in user_form.errors:
+					error_json["error_body"].append("Error in Password : %s" % (user_form.errors[key]))
+					error_df = error_df.append(row)
 			# CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
 			# print(type(user))
 			dict1.update({

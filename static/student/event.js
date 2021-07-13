@@ -240,7 +240,7 @@ function get_card(event){
 			${event.name}
 		</button></h5>
         <p class="card-text">Fill the feedback form for ${event.name} By ${event?.faculty_short} here</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        // <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
     </div>`
 	return txt3;
@@ -279,7 +279,7 @@ function get_mandatory_cards(subject){
 				${subject.short}
 			</button></h5>
 			<p class="card-text">Fill the feedback form for ${subject.name} here</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            // <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
         </div>
     </div>`
 	return txt3;

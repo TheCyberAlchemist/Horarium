@@ -1,0 +1,207 @@
+// .table_and_card {
+//     display: grid;
+//     grid-template-columns: 20% 80%;
+// }
+body {
+  font-family: "Poppins", sans-serif !important;
+}
+.my_container {
+  // border: 1px solid black;
+  margin-top: 1em;
+  height: 90vh;
+  overflow-y: auto;
+}
+.my_container::-webkit-scrollbar {
+  scrollbar-width: thin;
+  background-color: #f1f4f6;
+}
+.my_container::-webkit-scrollbar-thumb {
+  scrollbar-width: thin !important;
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+.my_col {
+  text-align: center;
+  border: 1px solid black;
+  height: 90px;
+}
+// .my_col.col.lect {
+//     padding : 0 !important;
+// }
+.prac_mycol {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: smaller !important;
+  // padding:0 1px 0 1px !important;
+  height: 110px !important;
+  letter-spacing: 0 !important;
+}
+.my_row.row_header .my_col {
+  padding-top: 10px;
+}
+.my_row.row_header .my_col {
+  font-weight: bold;
+  height: 50px;
+}
+.my_col.lect .h6 {
+  // position: absolute;
+  // top : 50%;
+  // left : 50%;
+  // transform: translate(-50%,-50%);
+  margin-top: 25px;
+}
+.my_col.lect.droppable .btn,
+.my_col.lect.droppable .col-6 {
+  font-size: smaller;
+}
+.my_row {
+  position: relative;
+}
+.my_col.isBreak {
+  border-right: none;
+  border-left: none;
+}
+.break_last .isBreak div {
+  position: absolute;
+  padding-top: 20%;
+  // background-color: green;
+}
+
+.break_last .isBreak:nth-child(2) {
+  // background-color: red;
+  border-left: 1px solid black;
+}
+.break_last .isBreak:last-child {
+  // background-color: red;
+  border-right: 1px solid black;
+}
+
+.break_last {
+  border-right: 1px solid white;
+}
+.break_first {
+  border-left: 1px solid white;
+}
+.my_col.prac {
+  height: 90px;
+}
+.my_col.prac.prac_above {
+  border-bottom: none;
+  z-index: 13;
+}
+.my_col.prac_above .event_divs:nth-of-type(1) {
+    padding-left: 1.1rem !important;
+}
+.my_col.prac.prac_below {
+  // border-bottom: 1px solid white;
+  border-top: none;
+}
+.prac_below_texts {
+  transform: translateX(-7px);
+}
+.prac_texts {
+  font-size: 10px;
+  // margin-top: 10px;
+}
+.btn-sm {
+  font-size: small;
+  height: 110px;
+  position: inherit !important ;
+  // z-index: -1;
+}
+.btn {
+  width: 90%;
+}
+.batch_contents:first-child {
+  margin-left: -9px;
+  transform: translate(-10px, 55px);
+}
+.batch_contents:not(:first-child) {
+  transform: translate(14px, 55px);
+}
+.batch_contents {
+  // margin-left: -9px;
+  // transform: translate(-10px, 55px);
+  // margin-top: 3em;
+}
+p.h6 {
+  font-size: 0.8rem !important;
+}
+.prac_above .container {
+  // margin: 0 !important;
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  padding: 0 !important;
+}
+
+.prac_above .container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
+}
+.prac_above .container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+.lect_batch_container {
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.lect_batch_container .row {
+    padding: 0 !important;
+}
+.lect_batch_container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
+}
+.lect_batch_container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+
+.btn-sm.prac_mycol.event_name {
+  width: 17px;
+  padding: 0 1px 0 1px !important;
+  writing-mode: rl;
+}
+
+//////////////////////for lecture batches ///////////////////////////
+.lect_batches {
+  font-size: x-small !important;
+  padding: 0 1px 0 1px !important;
+  letter-spacing: 0 !important;
+  height: 70px !important;
+}
+.lect_mycol {
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* #region  Locked Events */
+.locked {
+  background-color: rgb(107, 107, 107);
+  // filter : blur(1px);
+  .batch_name,
+  .batch_contents,
+  .faculty_name,
+  .resource_name {
+    color: white !important;
+  }
+  // z-index:1;
+}
+.locked::after {
+  position: absolute;
+  content: "";
+  // z-index: 100;
+  background-image: url("../../admin/details/img/lock2.png");
+  height: 30px;
+  width: 30px;
+  transform: translate(-50%, -50px);
+  // background-color:green;
+}
+/* #endregion Locked Events */

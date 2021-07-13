@@ -1,0 +1,102 @@
+$input_font_size : 19px;
+$selected_placeholder_font_size : 16px;
+$form_bgcolor : #222235;
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.mytbody{
+    margin: 0 auto;
+    color: white;
+}
+// .mytable{
+//     text-align: center;
+//     justify-content: center;
+//     // padding: 2em;
+//     align-items: center;
+//     background-color: green;
+//     margin: 0 auto; 
+//     width: auto;
+// }
+// .mytbody tr{
+//     padding: .5em;
+//     transition: 3s;
+// }
+// .mytbody tr td{
+//     padding: 1em;
+//     border: 1px solid black; 
+// }
+label{
+    color: white;
+}
+// .mytable_container{
+//     margin: 0 auto;
+//     // padding: 1em;
+//     text-align: center;
+//     justify-content: center;
+//     align-items: center;
+//     width: 80%;
+//     background-color: black;
+// }
+.add_row{
+    margin: 1em auto;
+    
+    border: 1px solid #e12eca;
+    outline: none;
+    font-size: 15px;
+    background: transparent;
+    padding: 10px;
+}
+.add_row:hover {
+    background-color: #e12eca;
+}
+.slot_form{
+    // padding: 0px 0 0 10em;
+    background-color: $form_bgcolor;
+    border-radius: 10px;
+    // display: none;
+}
+.slot_input_container {
+    border-bottom: .15em solid #b9b9b9;
+    border-width: .15em;
+    margin: 0 auto 1.7em auto;
+    position: relative;
+    transition: .3s;
+    // background-color: red;
+}
+.slot_input_container:hover {
+    border-bottom: .15em solid #ffffff;
+    transition: .1s;
+}
+.slot_form .slot_input_container input {
+    background: transparent;
+    width: 100%;
+    font-size: $input_font_size;
+    outline: none;
+    border: none;
+}
+.slot_form_container input:focus + .form_input_label .text,
+.slot_form_container input:valid + .form_input_label .text{
+  top:-.7em;
+  left: .5px;
+  transition: .2s;
+  font-size: $selected_placeholder_font_size;
+  color: rgb(185, 184, 184);
+}
+.slot_input_container_single {
+    width: 70%;
+}
+.slot_input_container_double {
+    width: 70%;
+    margin: 0 auto 2em auto;
+}
+.slot_input_container_double_1 {
+    width: 30%;
+    clear: right;
+    float: left;
+}
+.slot_input_container_double_2 {
+    width: 30%;
+}

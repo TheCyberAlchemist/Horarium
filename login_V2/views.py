@@ -38,9 +38,9 @@ def login_page(request):
 		if user is not None:
 			page = get_home_page(user)
 			if page:
-				print("---------------------------------------")
-				print(user, " -- Logged in")
-				print("---------------------------------------")
+				# print("---------------------------------------")
+				# print(user, " -- Logged in")
+				# print("---------------------------------------")
 				login(request, user)
 				return redirect(page)
 			else:
@@ -51,8 +51,8 @@ def login_page(request):
 			context['message'] = message
 			forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
 			ip = request.META.get('REMOTE_ADDR')
-			print(ip)
-			print(email, password)
+			# print(ip)
+			# print(email, password)
 			make_password(password)
 			AuditEntry.objects.create(
 			    action='user_login_failed',

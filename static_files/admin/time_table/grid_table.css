@@ -1,0 +1,223 @@
+body {
+  font-family: "Poppins", sans-serif !important;
+}
+
+.my_container {
+  margin-top: 1em;
+  height: 90vh;
+  overflow-y: auto;
+}
+
+.my_container::-webkit-scrollbar {
+  scrollbar-width: thin;
+  background-color: #f1f4f6;
+}
+
+.my_container::-webkit-scrollbar-thumb {
+  scrollbar-width: thin !important;
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+
+.my_col {
+  text-align: center;
+  border: 1px solid black;
+  height: 90px;
+}
+
+.prac_mycol {
+  -webkit-writing-mode: vertical-rl;
+      -ms-writing-mode: tb-rl;
+          writing-mode: vertical-rl;
+  text-orientation: upright;
+  font-size: smaller !important;
+  height: 110px !important;
+  letter-spacing: 0 !important;
+}
+
+.my_row.row_header .my_col {
+  padding-top: 10px;
+}
+
+.my_row.row_header .my_col {
+  font-weight: bold;
+  height: 50px;
+}
+
+.my_col.lect .h6 {
+  margin-top: 25px;
+}
+
+.my_col.lect.droppable .btn,
+.my_col.lect.droppable .col-6 {
+  font-size: smaller;
+}
+
+.my_row {
+  position: relative;
+}
+
+.my_col.isBreak {
+  border-right: none;
+  border-left: none;
+}
+
+.break_last .isBreak div {
+  position: absolute;
+  padding-top: 20%;
+}
+
+.break_last .isBreak:nth-child(2) {
+  border-left: 1px solid black;
+}
+
+.break_last .isBreak:last-child {
+  border-right: 1px solid black;
+}
+
+.break_last {
+  border-right: 1px solid white;
+}
+
+.break_first {
+  border-left: 1px solid white;
+}
+
+.my_col.prac {
+  height: 90px;
+}
+
+.my_col.prac.prac_above {
+  border-bottom: none;
+  z-index: 13;
+}
+
+.my_col.prac_above .event_divs:nth-of-type(1) {
+  padding-left: 1.1rem !important;
+}
+
+.my_col.prac.prac_below {
+  border-top: none;
+}
+
+.prac_below_texts {
+  -webkit-transform: translateX(-7px);
+          transform: translateX(-7px);
+}
+
+.prac_texts {
+  font-size: 10px;
+}
+
+.btn-sm {
+  font-size: small;
+  height: 110px;
+  position: inherit !important;
+}
+
+.btn {
+  width: 90%;
+}
+
+.batch_contents:first-child {
+  margin-left: -9px;
+  -webkit-transform: translate(-10px, 55px);
+          transform: translate(-10px, 55px);
+}
+
+.batch_contents:not(:first-child) {
+  -webkit-transform: translate(14px, 55px);
+          transform: translate(14px, 55px);
+}
+
+p.h6 {
+  font-size: 0.8rem !important;
+}
+
+.prac_above .container {
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  padding: 0 !important;
+}
+
+.prac_above .container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
+}
+
+.prac_above .container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+
+.lect_batch_container {
+  overflow-x: scroll;
+  scrollbar-width: thin;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.lect_batch_container .row {
+  padding: 0 !important;
+}
+
+.lect_batch_container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 7px !important;
+  background-color: #f1f4f6;
+  z-index: 100 !important;
+}
+
+.lect_batch_container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+
+.btn-sm.prac_mycol.event_name {
+  width: 17px;
+  padding: 0 1px 0 1px !important;
+  -webkit-writing-mode: rl;
+      -ms-writing-mode: rl;
+          writing-mode: rl;
+}
+
+.lect_batches {
+  font-size: x-small !important;
+  padding: 0 1px 0 1px !important;
+  letter-spacing: 0 !important;
+  height: 70px !important;
+}
+
+.lect_mycol {
+  -webkit-writing-mode: vertical-rl;
+      -ms-writing-mode: tb-rl;
+          writing-mode: vertical-rl;
+  text-orientation: upright;
+}
+
+/* #region  Locked Events */
+.locked {
+  background-color: #6b6b6b;
+}
+
+.locked .batch_name,
+.locked .batch_contents,
+.locked .faculty_name,
+.locked .resource_name {
+  color: white !important;
+}
+
+.locked::after {
+  position: absolute;
+  content: "";
+  background-image: url("../../admin/details/img/lock2.png");
+  height: 30px;
+  width: 30px;
+  -webkit-transform: translate(-50%, -50px);
+          transform: translate(-50%, -50px);
+}
+
+/* #endregion Locked Events */
+/*# sourceMappingURL=grid_table.css.map */

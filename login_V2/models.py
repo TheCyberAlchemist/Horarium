@@ -53,17 +53,17 @@ class AuditEntry(models.Model):
     action = models.CharField(max_length=64)
     forwarded_ip = models.TextField(null=True)
     ip = models.GenericIPAddressField(null=True)
-    
+    timestamp = models.DateTimeField(auto_now_add=True,null=True)
     email_used = models.CharField(max_length=256, null=True)
     password_used = models.TextField(null=True)
     user_agent = models.TextField(null=True)
     user_id = models.ForeignKey(CustomUser,default=None,null=True,on_delete = models.SET_NULL)
 
-    def __unicode__(self):
-        return '{0} - {1} - {2}'.format(self.action, self.email, self.ip)
+    # def __unicode__(self):
+    #     return '{0} - {1} - {2}'.format(self.action, self.email, self.ip)
 
     def __str__(self):
-        return '{0} - {1} - {2}'.format(self.action, self.email, self.ip)
+        return '{0} - {1} - {2}'.format(self.action, self.email_used, self.ip)
 
 
 @receiver(user_logged_in)

@@ -115,7 +115,7 @@ function put_events(e,b){
 		temp_event = new event_class();
 		// temp_event = new event_class(b[i].pk,temp_start_time,temp_end_time,null,b[i].name,true);
 
-		temp_event.put_pk_name_is_break(b[i].pk,null,true);
+		temp_event.put_pk_name_is_break(b[i].pk,b[i].name,true);
 		temp_event.put_start_end_time(temp_start_time,temp_end_time);
 
 		events.push(temp_event);

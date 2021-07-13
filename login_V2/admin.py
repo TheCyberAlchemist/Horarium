@@ -23,5 +23,11 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
 
+from .models import AuditEntry
+
+@admin.register(AuditEntry)
+class AuditEntryAdmin(admin.ModelAdmin):
+    list_display = ['action', 'email_used', 'ip',]
+    list_filter = ['action','email_used']
 
 admin.site.register(get_user_model(), CustomUserAdmin)

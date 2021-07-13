@@ -2,10 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.contrib.auth.hashers import make_password
 ################################################
 from .forms import UserAdminCreationForm
 from institute_V1.models import Institute, Department, Branch, Semester, Division, Batch
 from .decorators import unauthenticated_user, get_home_page
+from .models import AuditEntry
 ################################################
 
 from django.contrib.auth.views import PasswordContextMixin, PasswordResetForm
@@ -47,7 +49,19 @@ def login_page(request):
 		else:
 			message = "Email or Password is Incorrect."
 			context['message'] = message
+			forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+			ip = request.META.get('REMOTE_ADDR')
+			print(ip)
 			print(email, password)
+			make_password(password)
+			AuditEntry.objects.create(
+			    action='user_login_failed',
+			    forwarded_ip=forwarded_ip,
+			    ip=ip,
+			    email_used=email,
+			    user_agent= type(request.META['HTTP_USER_AGENT']),
+				password_used = make_password(password)
+			)
 	return render(request, 'login_V2/login/login2.html', context)
 
 

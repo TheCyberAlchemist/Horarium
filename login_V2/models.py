@@ -68,10 +68,8 @@ class AuditEntry(models.Model):
 
 @receiver(user_logged_in)
 def user_logged_in_callback(sender, request, user, **kwargs):  
-    print("---------------------------------------")
     forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
     ip = request.META.get('REMOTE_ADDR')
-    print("---------------------------------------")
     AuditEntry.objects.create(
         action='user_logged_in',
         forwarded_ip=forwarded_ip,
@@ -97,9 +95,9 @@ def user_logged_out_callback(sender, request, user, **kwargs):
     )
 
 
-@receiver(user_login_failed)
-def user_login_failed_callback(sender, credentials, **kwargs):
-    pass
+# @receiver(user_login_failed)
+# def user_login_failed_callback(sender, credentials, **kwargs):
+#     pass
     # forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
     # ip = request.META.get('REMOTE_ADDR')
     # print(ip,credentials['password'])

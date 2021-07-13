@@ -98,7 +98,7 @@ th:nth-of-type(1) {
 }
 
 .td_active {
-  background-color: rgba(71, 71, 71, 0.815);
+  background-color: #0a101a !important;
 }
 
 .glow {

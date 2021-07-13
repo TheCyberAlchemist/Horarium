@@ -162,7 +162,7 @@ def sendMail(request) :
 			message_name, #subject
 			message, #message
 			message_email, # from email 
-			['devmpatel19@gnu.ac.in'] # to email
+			['tecrave@horarium.in'] # to email
 		)
 		return render(request,'Student/submitted.html',{'message':message})	
 	else : 

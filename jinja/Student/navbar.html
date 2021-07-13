@@ -1,22 +1,20 @@
 {%block navbar_starts%} {%endblock%}
 <!-- content here -->
 <style>
-    .gixi {
-        display: inline-block;
-        background-repeat: no-repeat;
-        background-position: center center;
-        margin: 0px 5%;
-        width: 20px;
-        height: 20px;
-    }
+  .gixi {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0px 5%;
+    width: 20px;
+    height: 20px;
+  }
 </style>
 
 <div class="nav_container">
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
     <div class="container-fluid">
-      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif">
-        Horarium
-      </a>
+      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif"> Horarium </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -33,9 +31,11 @@
                   </div>
                   </button>
               </li> -->
-            <li class="nav-item mr-3">
-                <span class="gixi user_icon" data-gixisize="20" data-gixiseed="{{request.user}}_{{request.user.pk}}"></span>
-            </li>
+          <li class="nav-item my-auto">
+            <div class="container sidebar_container">
+              <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="30px" width="30px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
+            </div>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> {{request.user}} </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -54,17 +54,16 @@
               <li><a href="{{url ('logout')}}" class="dropdown-item">Log Out</a></li>
             </ul>
           </li>
-          <li class="nav-item my-auto">
-            <div class="container sidebar_container">
-              <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="30px" width="30px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
-            </div>
+          <li class="nav-item mr-3">
+            <span class="gixi user_icon" data-gixisize="20" data-gixiseed="{{request.user}}_{{request.user.pk}}"></span>
+          </li>
+          <li class="nav-item mr-3">
+            <a href="/about" class="nav-link active s">About Us</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 </div>
-<script>
-    
-</script>
+<script></script>
 {%block navbar_ends%} {%endblock%}

@@ -3,6 +3,12 @@ from django.contrib.auth.admin import UserAdmin
 # from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 
+from institute_V1.models import *
+# for i in Department.objects.all():
+print(Department.objects.all())
+for i in Department.objects.all():
+    i.save(using='users')
+
 
 class CustomUserAdmin(UserAdmin):
     """Define admin model for custom User model with no username field."""

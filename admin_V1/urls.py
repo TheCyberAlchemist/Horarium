@@ -10,6 +10,7 @@ urlpatterns = [
 	re_path(r'^try/$',views.api_try,name = 'try'),
 
 	path(r'home/',views.admin_home,name = 'admin_home'),
+	path('settings/',views.admin_settings,name="admin_settings"),
 
 	re_path(r'^user_dash/(?P<Department_id>\d+)/$',add_update_users.user_dash,name = 'user_dash'),
 	
@@ -22,7 +23,7 @@ urlpatterns = [
 	re_path(r'^user_dash/(?P<Department_id>\d+)/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	re_path(r'^user_dash/(?P<Department_id>\d+)/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
 
-	re_path(r'^csv_upload/$',user_csv.csv_view_func,name = 'csv_upload'),
+	re_path(r'^csv_upload/(?P<Department_id>\d+)/$',user_csv.csv_view_func,name = 'csv_upload'),
 	re_path(r'^csv/$',user_csv.csv_check_api.as_view(),name = 'csv'),
 
 	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),

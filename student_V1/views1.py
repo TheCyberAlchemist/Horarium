@@ -142,6 +142,7 @@ def student_home(request):
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))
 	return render(request,"Student/student_v1.html",context)
 
+
 def sendMail(request) :
 	if request.method == "POST" :
 		message_name = request.POST['message_name']

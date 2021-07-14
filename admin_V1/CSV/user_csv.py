@@ -15,12 +15,15 @@ from student_V1.forms import add_student_details
 from faculty_V1.forms import faculty_details_csv,faculty_load
 from faculty_V1.models import *
 from institute_V1.models import Semester
+from admin_V1.views import return_context
 #region //////////////////// view_functions //////////////////
 from django.shortcuts import render,redirect
 
-def csv_view_func(request):
+def csv_view_func(request,Department_id):
 	# return render(request,"try/upload_csv.html")
-	return render(request,'admin/details/csv_upload.html')
+	context = return_context(request)
+	context["my_department"] = Department.objects.all().filter(pk = Department_id).first()
+	return render(request,'admin/details/csv_upload.html',context)
 
 def csv_try_view_func(request):
 	return render(request,"try/upload_csv.html")

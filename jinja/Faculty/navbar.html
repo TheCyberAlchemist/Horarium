@@ -12,7 +12,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link s" href="{{url ('faculty_feedback')}}">Feedbacks</a>
+                    <a class="nav-link" href="{{url ('faculty_feedback')}}">Feedbacks</a>
                 </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -20,7 +20,7 @@
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                   <li>
-                    <a class="dropdown-item">Hi, {{request.user}}</a>
+                    <a href = "{{url ("faculty_settings")}}" class="dropdown-item">{{request.user}}</a>
                   </li>
                   <li>
                     <div class="container" id="theme_toggler">

@@ -99,8 +99,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Horarium.wsgi.application'
 
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
@@ -171,10 +171,7 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
-# print(STATIC_ROOT)
-
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# print(MEDIA_ROOT)
 AUTH_USER_MODEL = 'login_V2.CustomUser'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'

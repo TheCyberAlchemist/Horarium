@@ -40,7 +40,7 @@
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> {{request.user}} </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
               <li>
-                <a class="dropdown-item">Hi, {{request.user}}</a>
+                <a class="dropdown-item" href="{{url ("student_settings")}}" >{{request.user}}</a>
               </li>
               <li>
                 <div class="container" id="theme_toggler">

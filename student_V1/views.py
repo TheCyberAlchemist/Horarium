@@ -4,16 +4,17 @@ from django.core import serializers
 import json
 import datetime
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
 
 from student_V1.forms import * 
 from subject_V1.models import Subject_details,Subject_event
 from student_V1.models import Student_details
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
+from django.contrib.auth.decorators import login_required
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days,Batch
 from faculty_V1.models import Feedback,Feedback_type
+
 
 def get_events_json(qs):
 	data = serializers.serialize("json", qs)
@@ -149,6 +150,28 @@ def student_home(request):
 	# get_all_subjects_of_feedback_type(request)
 	# fill_mandatory_feedback(request)
 	return render(request,"Student/student_v1.html",context)
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
+def student_settings(request) :
+	user = request.user
+	student = user.student_details
+	context = {
+		"my_institute":student.Institute_id,
+		"my_email":user.email,
+		"my_division":student.Division_id.name,
+		"my_semester":student.Division_id.Semester_id,
+		"my_department":student.Division_id.Semester_id.Branch_id.Department_id,
+		"my_batches": f"{student.prac_batch} | {student.lect_batch}"
+	}
+	if request.method == 'POST':
+		password1 = request.POST.get('password1')
+		password2 = request.POST.get('password2')
+		if password1 == password2:
+			print("same")
+
+	return render(request,'AccountSetting/student_settings.html',context)
+
 
 def sendMail(request) :
 	if request.method == "POST" :

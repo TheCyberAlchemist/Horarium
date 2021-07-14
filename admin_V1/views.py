@@ -152,6 +152,16 @@ def admin_home(request):
 	# context['all_subjects'] = Subject_details.objects.all()
 	return render(request,'admin/homepage/home.html',context)
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
+def admin_settings(request) :
+	user = request.user
+	context = return_context(request)
+	context["my_institute"] = user.admin_details.Institute_id
+	context["my_email"] = user.email
+
+	return render(request,'AccountSetting/admin_settings.html',context)
+    
 
 class get_user_ajax(View):
 	def post(self, request):

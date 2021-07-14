@@ -7,7 +7,7 @@ from django.contrib.auth.hashers import make_password
 from .forms import UserAdminCreationForm
 from institute_V1.models import Institute, Department, Branch, Semester, Division, Batch
 from .decorators import unauthenticated_user, get_home_page
-from .models import AuditEntry
+from .models import AuditEntry,CustomUser
 ################################################
 
 from django.contrib.auth.views import PasswordContextMixin, PasswordResetForm
@@ -65,11 +65,12 @@ def login_page(request):
 			context['message'] = message
 			forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
 			ip = request.META.get('REMOTE_ADDR')
-			# print(ip)
-			# print(email, password)
-			# make_password(password)
+			if CustomUser.objects.filter(email=email).first():
+				fail_str = "Password Wrong!"
+			else:
+				fail_str = "E-mail Wrong!"
 			AuditEntry.objects.create(
-			    action='user_login_failed',
+			    action=fail_str,
 			    forwarded_ip=forwarded_ip,
 			    ip=ip,
 			    email_used=email,

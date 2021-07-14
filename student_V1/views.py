@@ -5,6 +5,7 @@ import json
 import datetime
 from django.db.models import Q
 from django.core.mail import send_mail
+from django.contrib.auth.hashers import check_password
 
 from student_V1.forms import * 
 from subject_V1.models import Subject_details,Subject_event
@@ -167,8 +168,12 @@ def student_settings(request) :
 	if request.method == 'POST':
 		password1 = request.POST.get('password1')
 		password2 = request.POST.get('password2')
-		if password1 == password2:
-			print("same")
+		current_password = request.POST.get('current_password')
+		if password1 and current_password and password2:
+			if password1 == password2 and check_password(current_password,request.user.password):
+				pass
+				# password changed
+
 
 	return render(request,'AccountSetting/student_settings.html',context)
 

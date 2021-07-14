@@ -1,0 +1,392 @@
+.main_content,
+html {
+  background-color: #f1f4f6 !important;
+  padding-top: 60px !important;
+}
+
+.user_dash.main_content,
+html {
+  background-color: #f1f4f6 !important;
+  padding-top: 30px !important;
+}
+.form_container .components-section{
+    width: 80%; 
+    margin: 0 auto;
+}
+.form-control.myinputs {
+  border-top: none !important;
+  border-right: none !important;
+  border-left: none !important;
+  border-bottom: 1px solid #ced4da !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  transition: 0.1s;
+}
+
+.form-control.myinputs:focus {
+  border-bottom: 1px solid #0d6efd !important;
+}
+.form-control.myinputs:focus + label {
+  color: #0d6efd !important;
+  transition: 0.1s;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+  margin: 0 !important;
+}
+// input[type="time"] {
+//     width: 100%;
+//     border: none !important;
+// }
+.input-group {
+  border: none !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+.form-control.myinputs:focus {
+  outline: none !important;
+}
+div.dataTables_wrapper div.dataTables_length select {
+  width: 80px;
+}
+.legend {
+  position: absolute;
+  top: -18px;
+  background-color: transparent;
+}
+
+.input_icons {
+  position: absolute;
+  top: 0%;
+  left : 95%;
+  height: 35px;
+  width: 35px;
+}
+a {
+  text-decoration: none !important;
+}
+.form_hider {
+  position: absolute;
+  left: 96%;
+  top: 4.5%;
+  height: 30px;
+  width: 30px;
+  transition: 0.2s;
+}
+.form_hider:hover {
+  transform: rotate(180deg);
+  height: 35px;
+  width: 35px;
+  transition: 0.2s;
+}
+.form-check-input {
+  width: 1.5em !important;
+  height: 1.56em !important;
+  outline: none !important;
+  box-shadow: none !important;
+  //   border : 1px solid #e12eca !important;
+}
+.form-check-input:checked {
+  //   background-color : #e12eca !important;
+}
+.form-floating > label {
+  // padding:1.5rem .75rem !important;
+}
+.form-floating input[type="time"] {
+  width: 100% !important;
+}
+.color_palette_container {
+  width: 100%;
+  // display: grid;
+  // grid-template-columns: repeat(auto-fit,50px);
+  // column-gap: 1.4em;
+}
+.colors {
+  height: 50px;
+  width: 50px;
+  border-radius: 7px;
+  transition: 0.1s;
+  margin-bottom: 0.6em;
+  margin-right: 10px;
+  border: none;
+}
+
+.colors:hover {
+  transform: scale(1.3);
+  transition: 0.1s;
+  opacity: 0.8;
+  border-radius: 30px;
+  // border: 4px solid #fff;
+}
+.color_palette_container input {
+  display: none;
+  appearance: none;
+}
+.accordion-button {
+  padding: 0.5rem 1.25rem !important;
+  background-color: transparent !important;
+}
+
+// .main_content .table_container .form-check {
+//   width : 10px !important;
+//   transform: translateX(-50%) !important;
+// }
+
+// .main_content.user_dash .table_container .form-check {
+//     width : 10px !important;
+//     transform: translateX(-20%) !important;
+//   }
+
+.myform .pagination_container nav {
+  //pagination container
+  transform: translateX(45%);
+}
+.container.navigate {
+  margin-left: 40px !important;
+  transform: translateY(-30px);
+}
+.breadcrumb-item.active a {
+    color: #0d6efd !important;
+}
+.btn.btn-outline-success {
+  color: #2dce89 !important;
+  border-color: #2dce89 !important;
+}
+.btn.btn-success {
+  background-color: #2dce89 !important;
+  border-color: #2dce89 !important;
+}
+.btn.btn.btn-success:hover {
+  background-color: #04a55f !important;
+  border-color: #04a55f !important;
+}
+.btn.btn-outline-success:hover {
+  background-color: #2dce89 !important;
+  color: #fff !important;
+}
+
+/*//////////////////Can Teach//////////////////*/
+.can_container {
+  font-size: 15px;
+  position: relative;
+  overflow-y: auto;
+  height: 250px;
+  padding-top: 20px;
+  scrollbar-width: thin; /* "auto" or "thin" */
+  scrollbar-color: #abacad #f1f4f6; /* scroll thumb and track */
+}
+.can_container::-webkit-scrollbar {
+  width: 7px !important;
+  height: 10px !important;
+  background-color: #f1f4f6;
+}
+.can_container::-webkit-scrollbar-thumb {
+  background-color: #abacad !important;
+  border-radius: 3px !important;
+}
+
+.can_container .form-check {
+  transform: translateY(-3px);
+}
+.can_container .form-check-input {
+  height: 20px !important;
+  width: 20px !important;
+  transform: translateX(-10px);
+}
+.can_container .form-check label {
+  transform: translateX(-10px);
+}
+.can_container ul {
+  border-left: 1px solid rgb(255, 0, 0);
+  margin-left: 7px;
+  transform: translateY(-15px);
+}
+.can_container #branches {
+  border-left: none;
+}
+.can_container .branch {
+  margin-top: -15px;
+}
+.can_container .dir {
+  // margin-top: -15px;
+}
+.can_container #branches .branch::before {
+  content: "";
+  position: absolute;
+  background-color: black;
+  width: 0px;
+  height: 0px;
+  top: 15px;
+  left: -50px;
+}
+.can_container ul li {
+  position: relative;
+  list-style: none !important;
+}
+.can_container ul li::before {
+  content: "";
+  position: absolute;
+  background-color: black !important;
+  width: 33px;
+  height: 2px;
+  top: 10px;
+  left: -34px;
+}
+///////////Can Container ENDS//////////////////
+
+/* #region  For Popover info button arrow  */
+.popover-arrow {
+//   position: absolute;
+//   transform: translate(0px, 10px) !important;
+//   top: 0px;
+display: none !important;
+}
+/* #endregion */
+
+
+///////////Accordion Close and Open Button STARTS//////////////////
+.accordion-button::after {
+  background-image: url("../admin/details/img/minus.png") !important;
+}
+.accordion-button.collapsed::after {
+  background-image: url("../admin/details/img/plus2.png") !important;
+  transform: scale(1.7) !important;
+}
+.accordion-button:not(.collapsed) {
+  box-shadow: none !important;
+}
+////////////Accordion Close and Open Button ENDS //////////////
+
+////////////Subject Details <a> tag styling STARTS //////////////
+.sub_event_go a {
+  color: #0d6efd !important;
+  //   text-decoration: underline !important;
+}
+.sub_event_go a:hover {
+  color: #0d31fd !important;
+}
+////////////Subject Details <a> tag styling ENDS //////////////
+
+///////////////////Swal Styling ///////////////////
+.swal2-container .swal2-modal {
+  //for modal styling
+}
+
+.swal2-container .swal2-modal .swal2-header {
+  //for styling of header
+}
+.swal2-container .swal2-modal .swal2-content div ul li {
+  list-style-type: none;
+}
+.swal2-container .swal2-modal .swal2-actions .swal2-cancel {
+  ////for buttons
+  margin-right: 10px;
+}
+#csv_modal.modal .modal-content {
+}
+///////////////////////////Slot Modal Styling STARTS////////////////
+
+.day_line::after {
+  content: "";
+  position: absolute;
+  height: 1px;
+  transform: translate(-18px, 18px);
+  width: 85px;
+  background-color: black;
+}
+@media screen and (min-width: 576px) {
+  #slotModal .modal-dialog {
+    max-width: 900px !important;
+  }
+  #slotModal .modal-footer {
+    border-top: none !important;
+  }
+  #slotModal .modal-header {
+    border-bottom: none !important;
+  }
+  #day1 {
+    margin-bottom: 20px;
+  }
+}
+///////////////////////////Slot Modal Styling ENDS//////////////////
+@media screen and (max-width: 600px) {
+  // .table {
+  //   overflow-x: scroll;
+  // }
+  
+.form_container .components-section {
+    width: 100%; 
+    margin: 0 auto;
+}
+  .input_icons {
+      left : 88%;
+      height : 30px !important;
+      width : 30px !important;
+  }
+  .form-check {
+    width: 10px;
+    transform: translateX(10px);
+  }
+  tr.child {
+    text-align: left;
+  }
+  .fas.fa-hashtag {
+    font-size: 15px !important;
+  }
+  .myform {
+    font-size: smaller;
+  }
+  .myform .pagination_container nav {
+    transform: translateX(25%);
+  }
+
+  .popover-arrow {
+    position: absolute;
+    left: 0px;
+    transform: translate3d(143px, 0px, 0px) !important;
+  }
+}
+
+ul,
+#myUL {
+  list-style-type: none;
+}
+
+#myUL {
+  margin: 0;
+  padding: 0;
+}
+
+#myUL .caret {
+  cursor: pointer;
+  -webkit-user-select: none; /* Safari 3.1+ */
+  -moz-user-select: none; /* Firefox 2+ */
+  -ms-user-select: none; /* IE 10+ */
+  user-select: none;
+}
+
+#myUL .caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+#myUL .caret-down::before {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Safari */
+  transform: rotate(90deg);
+}
+
+#myUL .nested {
+  display: none;
+}
+
+#myUL .active {
+  display: block;
+}

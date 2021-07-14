@@ -1,0 +1,191 @@
+<link rel="stylesheet" href="{{static ('admin/time_table/loading2.css')}}" />
+<script>
+  function toggle_loading() {
+    if ($(".loading_animation_container").is(":visible")) {
+      $(".main_content").css("filter", "blur(0px)");
+    } else {
+      $(".main_content").css("filter", "blur(4px)");
+    }
+    $(".loading_animation_container").toggle();
+    // $(".svg").toggle();
+  }
+  $(document).ajaxStart(function () {
+    // alert("start");
+    toggle_loading();
+  });
+  $(document).ajaxStop(function () {
+    // alert("All AJAX requests completed");
+    toggle_loading();
+  });
+</script>
+<div class="container loading_animation_container">
+  <div class="image-container">
+    <div class="h1Container">
+      <div class="cube h1 w1 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w1 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w1 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w2 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w2 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w2 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w3 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w3 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h1 w3 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+    </div>
+
+    <div class="h2Container">
+      <div class="cube h2 w1 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w1 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w1 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w2 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w2 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w2 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w3 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w3 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h2 w3 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+    </div>
+
+    <div class="h3Container">
+      <div class="cube h3 w1 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w1 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w1 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w2 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w2 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w2 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w3 l1">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w3 l2">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+
+      <div class="cube h3 w3 l3">
+        <div class="face top"></div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+      </div>
+    </div>
+  </div>
+</div>

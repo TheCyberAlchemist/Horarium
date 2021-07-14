@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db import IntegrityError
+from django.db.models import Q
 ################################################
+import datetime
+
 N_len = 50
 S_len = 10
 
@@ -21,6 +24,7 @@ class Institute(models.Model):
 class Resource(models.Model):
 	name = models.CharField(max_length = N_len)
 	block = models.CharField(max_length = N_len)
+
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
 	def __str__(self):
 		return self.name
@@ -87,30 +91,160 @@ class Branch(models.Model):
 			models.UniqueConstraint(fields=['short', 'Department_id'], name='BranchShort is Unique for Department'),
 		]
 
+class WEF_manager(models.Manager):
+	def active(self):
+		'Get all the active WEFs in the db'
+		return super().get_queryset().filter(active=True)
+	def inactive(self):
+		'Get all the inactive WEFs in the db'
+		return super().get_queryset().filter(active=False)
+
+class WEF(models.Model):
+	Department_id = models.ForeignKey(Department,default=None,on_delete = models.CASCADE)
+	name = models.CharField(max_length=N_len)
+	start_date = models.DateField(auto_now_add=False)
+	end_date = models.DateField(auto_now_add=False)
+	active = models.BooleanField(default=False)
+	objects = WEF_manager()
+
+	def __str__(self):
+		return "{} ({})".format(self.name,self.get_range())
+	
+	def get_start_date(self):
+		return self.start_date.strftime("%d/%m/%Y")
+
+	def get_end_date(self):
+		return self.end_date.strftime("%d/%m/%Y")
+
+	def get_percent_completed(self):
+		# if it is still going
+		import time	
+		t = lambda dt:time.mktime(dt.timetuple())
+		def percent(start_time, end_time, current_time):
+			total = t(end_time) - t(start_time)
+			current = t(current_time) - t(start_time)
+			return int((100.0 * current) / total)
+		per = percent(self.start_date,self.end_date,datetime.datetime.now())
+		if per < 0 :
+			return 0
+		if per > 100:
+			return 100
+		return per
+
+	def get_range(self):
+		'return formated date range as dd/mm/yyyy - dd/mm/yyyy'
+		return "%s - %s"%(self.start_date.strftime("%d/%m/%Y"),self.end_date.strftime("%d/%m/%Y"))
+	
+	def update(self,today):		
+		# active= True if today is between start and end
+		if self.start_date <= today < self.end_date:
+			if not self.active: # if it was inactive and now is switched
+				from subject_V1.models import Subject_event
+				active_subj_events = Subject_event.objects.active().filter(Subject_id__Semester_id__in = self.semester_set.all())
+				# get all the active subj_events and 
+				# add the start_date and end_date to subject_events
+				for i in active_subj_events:
+					i.start_date = self.start_date
+					i.end_date = self.end_date
+					i.save()
+				self.active = True
+		else:
+			if self.active: # if it was active and now is switched
+				from subject_V1.models import Subject_event
+				active_subj_events = Subject_event.objects.active().filter(Subject_id__Semester_id__in = self.semester_set.all())
+				# get all the active subj_events and 
+				# make subject_event.active = False
+				for i in active_subj_events:
+					i.active = False
+					i.save()
+				# change the subject_event__active to False
+				pass
+				self.active = False
+			
+	@staticmethod
+	def update_all_WEF():
+		today = datetime.date.today()
+		for i in WEF.objects.all():
+			i.save()
+
+	def save(self,*args, **kwargs):
+		self.update(datetime.date.today())
+		super(WEF,self).save(*args,**kwargs)
+
+	class Meta:
+		verbose_name_plural = "WEF"
+
+# from django_q.tasks import schedule
+
+# schedule('WEF.update_all_WEF', name=None, schedule_type='M',
+# 	minutes=None, repeats=-1, next_run=datetime.datetime.now()+datetime.timedelta(minutes=1), q_options=None)
+
+class Semester_WEF_manager(models.Manager):
+	def active(self):
+		'Get all the Semesters having active WEFs or future WEFs in the db'
+		return super().get_queryset().filter(Q(WEF_id__active=True) |Q(WEF_id__start_date__gte=datetime.datetime.today()))
+
+	def inactive(self):
+		'Get all the Semesters having inactive WEFs in the db'
+		return super().get_queryset().filter(WEF_id__active=False)
+
 class Semester(models.Model):
 	short = models.CharField(max_length = 20)
 	Branch_id = models.ForeignKey(Branch,default=None,on_delete = models.CASCADE)
+	WEF_id = models.ForeignKey(WEF,on_delete=models.SET_NULL,null=True,blank=True)
+	objects = Semester_WEF_manager()	
+	
 	def __str__(self):
 		return self.short
+	
 	class Meta:
 		verbose_name_plural = "Semester"
 		constraints = [
 			models.UniqueConstraint(fields=['short', 'Branch_id'], name='Semester Short is Unique for Branch'),
 		]
 
+class Division_WEF_manager(models.Manager):
+	def active(self):
+		'Get all the Division having active WEFs in the db'
+		return super().get_queryset().filter(Semester_id__WEF_id__active=True)
+	def inactive(self):
+		'Get all the Division having inactive WEFs in the db'
+		return super().get_queryset().filter(Semester_id__WEF_id__active=False)
+
 class Division(models.Model):
 	name = models.CharField(max_length = S_len)
 	Semester_id = models.ForeignKey(Semester,default=None,on_delete = models.CASCADE)
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
+	objects = Division_WEF_manager()
 	def __str__(self):
-		return self.name + " "+ str(self.Semester_id)
+		return "%s (%s)" % (self.name,str(self.Semester_id))
+	
+	def save(self, *args, **kwargs):
+		from subject_V1.models import Subject_details
+		super(Division, self).save(*args,**kwargs)
+		subjects_for_semester = self.Semester_id.subject_details_set.all()
+		for subject in subjects_for_semester:
+			subject.set_load()
+			subject.save()
+
+	def delete(self, *args, **kwargs):
+		from subject_V1.models import Subject_details
+		subjects_for_semester = self.Semester_id.subject_details_set.all()
+		super(Division, self).delete(*args, **kwargs)
+		for subject in subjects_for_semester:
+			subject.set_load()
+			subject.save()
+
 	class Meta:
 		verbose_name_plural = "Division"
 		constraints = [
 			models.UniqueConstraint(fields=['name', 'Semester_id'], name='Division Name is Unique for Semester'),
 		]
 
+
+# import subject_V1.models.Subject_details as subject
+from subject_V1.models import Subject_details
 class Batch(models.Model):
 	BATCH_FOR = (
 		('lect', 'Lecture'),
@@ -120,13 +254,32 @@ class Batch(models.Model):
 	batch_for = models.CharField(max_length = 4 ,choices=BATCH_FOR)
 	Division_id = models.ForeignKey(Division,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
+	subjects_for_batch = models.ManyToManyField(Subject_details)
+
+	def save(self, *args, **kwargs):
+		super(Batch, self).save(*args,**kwargs)
+		subjects_for_batch = list(self.subjects_for_batch.all())
+		for subject in subjects_for_batch:
+			subject.set_load()
+			subject.save()
+
+	def delete(self, *args, **kwargs):
+		subjects_for_batch = list(self.subjects_for_batch.all())
+		super(Batch, self).delete(*args, **kwargs)
+		for subject in subjects_for_batch:
+			subject.set_load()
+			subject.save()
+
+
 	def __str__(self):
 		return self.name
+
 	class Meta:
 		verbose_name_plural = "Batch"
 		constraints = [
 			models.UniqueConstraint(fields=['name', 'Division_id'], name='BatchName is Unique for Division'),
 		]
+
 
 class Timings(models.Model):
 	name = models.CharField(max_length = 20)
@@ -162,3 +315,7 @@ class Slots(models.Model):
 		return " [ " + self.Timing_id.return_time() +" ]"
 	class Meta:
 		verbose_name_plural = "Slots"
+
+class try_model(models.Model):
+	user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,null=True,blank=True)
+	display_image = models.ImageField(null=True, blank=True)

@@ -1,4 +1,6 @@
 {
-    "python.linting.enabled": false
+    "python.linting.enabled": false,
+    "jupyter.jupyterServerType": "local",
+    "git.ignoreLimitWarning": true
     // "python.pythonPath": "C:\\Python38\\python.exe"
 }

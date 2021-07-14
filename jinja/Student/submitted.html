@@ -1,0 +1,14 @@
+{% extends 'Student/base.html' %}
+{% block title %} Submitted {% endblock %}
+
+{% block content %}
+
+<form method="POSt">
+    {{csrf_input}}
+    <span style="color: black;">Message Name</span><input type="text" name="message_name" style="color: black;">
+    <span style="color: black;">Message from </span><input type="text" name="message_email" style="color: black;">
+    <span style="color: black;">message </span><input type="text" name="message" style="color: black;">
+    <input type="submit" value="submit">
+</form>
+<h1 style="color: black;"> {{message}} </h1>
+{% endblock %}

@@ -1,0 +1,56 @@
+* {
+  padding: 0;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+#navbar {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+.clocks_container {
+  position: relative;
+  height: 100vh;
+  text-align: center;
+  vertical-align: middle;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.clocks {
+  height: 200px;
+  width: 200px;
+}
+
+.clocks_even {
+  height: 300px;
+  width: 300px;
+}
+
+.card-text, .card-title, .card-body {
+  color: black;
+}
+
+.card-img-top {
+  height: 150px;
+  width: 150px;
+  margin: 0 auto;
+}
+
+@media only screen and (max-width: 600px) {
+  .clocks {
+    height: 100px;
+    width: 100px;
+  }
+  .clocks_even {
+    height: 100px;
+    width: 100px;
+  }
+}
+/*# sourceMappingURL=about.css.map */

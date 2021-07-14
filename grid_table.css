@@ -67,4 +67,15 @@
 .col-4.batch_contents {
   margin-top: 2.5em;
 }
+
+p.h6 {
+  font-size: 0.9rem !important;
+}
+
+.lect_batches {
+  font-size: x-small;
+  padding: 0 1px 0 1px;
+  height: 70px;
+  letter-spacing: 0;
+}
 /*# sourceMappingURL=grid_table.css.map */

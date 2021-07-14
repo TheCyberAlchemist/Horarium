@@ -1,0 +1,33 @@
+* {
+    font-family: "Poppins", sans-serif !important;
+  }
+.avatar .gixi {
+    
+      transform: translateY(-50%);
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0px 5%;
+    width: 60px !important;
+    height: 60px !important;
+  }
+  .user_setting_form .btn,.user_setting_form span {
+    font-size: 0.875rem !important;
+  }
+  .card.shadow-sm.components-section { 
+    -webkit-box-shadow: -3px -1px 21px -13px rgb(202,202,202);
+    -moz-box-shadow: -3px -1px 21px -13px rgb(202,202,202);
+  box-shadow: -3px -1px 21px -13px rgb(202, 202, 202) !important;
+  }
+  .card-body {
+    border-radius: 1rem;
+    max-height:250px;
+    overflow-y:auto;
+  }
+  .card-footer {
+      background-color: transparent !important;
+      border-top: none !important;
+  }
+  .table {
+      border : 1px solid rgb(207, 207, 207)
+  }

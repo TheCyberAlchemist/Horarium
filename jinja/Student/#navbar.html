@@ -1,0 +1,43 @@
+{%block navbar_starts%} {%endblock%} 
+<!-- content here -->
+<nav id="navbar" class="navbar navbar-expand-lg sticky-top navbar-dark"
+  style="padding: 0.1rem 1rem;font-family : poppins,sans-serif ">
+  <a class="navbar-brand" style="font-size : 25px;" id="navbar-brand">Horarium</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link">About Us</a>
+      </li>
+      <li class="nav-item active">
+        <div class="dropdown show">
+          <!-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Dropdown link
+                </a> -->
+          <a class="nav-link dropdown-toggle" href="#" tabindex="-1" aria-disabled="true" role="button"
+            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user}}</a>
+
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+
+            <div class="container" id="theme_toggler">
+              <label id="switch" class="switch">
+                <input type="checkbox" onchange="toggle_theme()" id="slider1">
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <!-- </a> -->
+            <a class="dropdown-item text-center" href="{{url ('logout')}}" style="background-color :#333">
+              <img src="{{static ('admin/details/img/power_light.png')}}" alt="" style="height: 30px;width:30px"
+                class="text-center">
+            </a>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+{%block navbar_ends%} {%endblock%}

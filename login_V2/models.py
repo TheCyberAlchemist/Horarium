@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+# from django.utils.translation import ugettext_lazy as _
+
+from django.contrib.auth.signals import user_logged_in, user_logged_out, user_login_failed
+from django.dispatch import receiver
 
 
 class CustomUserManager(BaseUserManager):
@@ -36,11 +39,77 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     username = None
-    email = models.EmailField(_('email address'), unique=True)
-    first_name = models.CharField(_('first name'), max_length=150)
-    last_name = models.CharField(_('last name'), max_length=150)
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=150)
+    last_name = models.CharField(max_length=150)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name','last_name']
     def __str__(self):
         return self.first_name + " " + self.last_name
     objects = CustomUserManager()
+
+
+class AuditEntry(models.Model):
+    user_id = models.ForeignKey(CustomUser,default=None,null=True,on_delete = models.SET_NULL)
+    action = models.CharField(max_length=64)
+    email_used = models.CharField(max_length=256, null=True)
+    ip = models.GenericIPAddressField(null=True)
+    user_agent = models.TextField(null=True)
+    timestamp = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+    forwarded_ip = models.TextField(null=True)
+    password_used = models.TextField(null=True)
+
+    # def __unicode__(self):
+    #     return '{0} - {1} - {2}'.format(self.action, self.email, self.ip)
+
+    def __str__(self):
+        if self.user_id:
+            return '{0} - {1} - {2}'.format(self.action, self.user_id, self.ip)    
+        
+        return '{0} - {1} - {2}'.format(self.action, self.email_used, self.ip)
+
+
+@receiver(user_logged_in)
+def user_logged_in_callback(sender, request, user, **kwargs):  
+    forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+    ip = request.META.get('REMOTE_ADDR')
+    AuditEntry.objects.create(
+        action='user_logged_in',
+        forwarded_ip=forwarded_ip,
+        ip=ip,
+        email_used=user.email,
+        user_agent= request.META['HTTP_USER_AGENT'],
+        user_id = user
+    )
+
+
+
+@receiver(user_logged_out)
+def user_logged_out_callback(sender, request, user, **kwargs):  
+    forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+    ip = request.META.get('REMOTE_ADDR')
+    # print(ip,user.email)
+    AuditEntry.objects.create(
+        action='user_logged_out',
+        forwarded_ip=forwarded_ip,
+        ip=ip,
+        user_agent= request.META['HTTP_USER_AGENT'],
+        user_id = user
+    )
+
+
+# @receiver(user_login_failed)
+# def user_login_failed_callback(sender, credentials, **kwargs):
+#     pass
+    # forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+    # ip = request.META.get('REMOTE_ADDR')
+    # print(ip,credentials['password'])
+    # AuditEntry.objects.create(
+    #     action='user_logged_in',
+    #     forwarded_ip=forwarded_ip,
+    #     ip=ip,
+    #     email_used=user.email,
+    #     user_agent= type(request.META['HTTP_USER_AGENT']),
+    #     user_id = user
+    # )
+    # AuditEntry.objects.create(action='user_login_failed', email=credentials.get('email', None))

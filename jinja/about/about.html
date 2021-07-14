@@ -1,0 +1,77 @@
+{% extends 'login_V2/login_base.html' %} {% block title %}Developers{% endblock title %} {% block css %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.3/css/all.css" integrity="sha384-SZXxX4whJ79/gErwcOYf+zWLeJdY/qpuqC4cAa9rOGUstPomtqpuNWT9wdPEn2fk" crossorigin="anonymous">
+<style>
+    
+  body {
+    font-family: "Poppins", sans-serif !important;
+  }
+  .main_content {
+    padding-top: 60px !important;
+  }
+  .card {
+    transform : scale(1);
+    transition: .3s;  
+    
+  }
+  .card:hover {
+    transform : scale(1.04);
+    transition: .3s;
+  }
+</style>
+{% endblock css %} {% block scripts %}
+<script type="application/javascript" src="{{static ('admin/jquery-3.5.1.js') }}"></script>
+<script type="application/javascript" src="https://kit.fontawesome.com/64d58efce2.js" crossorigin="anonymous"></script>
+
+<script>
+  $(document).ready(function () {});
+</script>
+{% endblock scripts %} {% block content %}
+<div class="main_content container text-center">
+  <h2 class="font-weight-bold mb-2">Our Developers</h2>
+  <!-- <p class="font-italic text-muted mb-4">Ma</p> -->
+
+  <div class="row pb-5 mb-4">
+    <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
+      <!-- Card-->
+      <div class="card rounded shadow-sm border-0">
+        <div class="card-body p-0">
+          <div class="bg-primary px-5 py-4 text-center card-img-top">
+            <img src="{{static ('Us/dev.jpg')}}" alt="..." width="200" class="rounded-circle mb-2 img-thumbnail d-block mx-auto" />
+            <h5 class="text-white mb-0">Dev M. Patel</h5>
+            <p class="small text-white mb-0">The Vision</p>
+          </div>
+          <div class="p-4 d-flex justify-content-center">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item">
+                <small class="text-muted">Follow Me on <a href="https://www.instagram.com/dmp_06/" target="_blank"><i class="fab fa-instagram"></i></a></small> <br>
+                <small class="text-muted">Connect with me on <a href="https://www.linkedin.com/in/dev-patel-52524519b/" target="_blank"><i class="fab fa-linkedin"></i></a></small>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
+      <!-- Card-->
+      <div class="card rounded shadow-sm border-0">
+        <div class="card-body p-0">
+          <div class="bg-primary px-5 py-4 text-center card-img-top">
+            <img src="{{static ('Us/yogesh.jpeg')}}" alt="..." width="200" class="rounded-circle mb-2 img-thumbnail d-block mx-auto" />
+            <h5 class="text-white mb-0">Yogesh Rathod</h5>
+            <p class="small text-white mb-0">The Executioner</p>
+          </div>
+          <div class="p-4 d-flex justify-content-center">
+            <ul class="list-inline mb-0">
+              <li class="list-inline-item">
+                <small class="text-muted">Follow Me on <a href="https://www.instagram.com/yogeshrathod2508/" target="_blank"><i class="fab fa-instagram"></i></a></small> <br>
+                <small class="text-muted">Connect with me on <a href="https://www.linkedin.com/in/yogesh-rathod-4214111a0/" target="_blank"><i class="fab fa-linkedin"></i></a></small>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr class="mt-5">
+    <span class="text-center">Made with 💖 from India </span>
+  </div>
+  {% endblock content %}

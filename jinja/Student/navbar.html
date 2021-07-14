@@ -1,43 +1,69 @@
-{%block navbar_starts%} {%endblock%} 
+{%block navbar_starts%} {%endblock%}
 <!-- content here -->
-<nav id="navbar" class="navbar navbar-expand-lg sticky-top navbar-dark"
-  style="padding: 0.1rem 1rem;font-family : poppins,sans-serif ">
-  <a class="navbar-brand" style="font-size : 25px;" id="navbar-brand">Horarium</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<style>
+  .gixi {
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-position: center center;
+    margin: 0px 5%;
+    width: 20px;
+    height: 20px;
+  }
+</style>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link">About Us</a>
-      </li>
-      <li class="nav-item active">
-        <div class="dropdown show">
-          <!-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown link
-                </a> -->
-          <a class="nav-link dropdown-toggle" href="#" tabindex="-1" aria-disabled="true" role="button"
-            id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{request.user}}</a>
-
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-
-            <div class="container" id="theme_toggler">
-              <label id="switch" class="switch">
-                <input type="checkbox" onchange="toggle()" id="slider1">
-                <span class="slider round"></span>
-              </label>
+<div class="nav_container">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
+    <div class="container-fluid">
+      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif"> Horarium </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+          <!-- <li class="nav-item"> 
+                <button class="btn btn-outline-success" id="sidebar" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" >
+                <div class="bell_wrapper" >
+                    <div class="bell"> 
+                      <div class="anchor material-icons layer-1">notifications_active</div>
+                      <div class="anchor material-icons layer-2">notifications</div>
+                      <div class="anchor material-icons layer-3">notifications</div>
+                    </div>
+                  </div>
+                  </button>
+              </li> -->
+          <li class="nav-item my-auto">
+            <div class="container sidebar_container">
+              <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="30px" width="30px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
             </div>
-            <!-- </a> -->
-            <a class="dropdown-item text-center" href="{{url ('logout')}}" style="background-color :#333">
-              <img src="{{static ('admin/details/img/power_light.png')}}" alt="" style="height: 30px;width:30px"
-                class="text-center">
-            </a>
-          </div>
-        </div>
-      </li>
-    </ul>
-  </div>
-</nav>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> {{request.user}} </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li>
+                <a class="dropdown-item" href="{{url ("student_settings")}}" >{{request.user}}</a>
+              </li>
+              <li>
+                <div class="container" id="theme_toggler">
+                  <label id="switch" class="switch">
+                    <input type="checkbox" onchange="toggle_theme()" id="slider1" />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a href="{{url ('logout')}}" class="dropdown-item">Log Out</a></li>
+            </ul>
+          </li>
+          <li class="nav-item mr-3">
+            <span class="gixi user_icon" data-gixisize="20" data-gixiseed="{{request.user}}_{{request.user.pk}}"></span>
+          </li>
+          <li class="nav-item mr-3">
+            <a href="/about" class="nav-link active s">About Us</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</div>
+<script></script>
 {%block navbar_ends%} {%endblock%}

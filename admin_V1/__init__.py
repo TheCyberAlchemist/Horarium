@@ -1,0 +1,1 @@
+default_app_config = 'admin_V1.apps.AdminV1Config'

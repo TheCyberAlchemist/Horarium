@@ -1,0 +1,242 @@
+{% extends 'admin/base.html' %}
+{% block title%} Home
+{% endblock %}
+
+{% block css%}
+<style>
+  #db_table td,
+  #db_table th {
+    padding: 0 !important;
+  }
+
+  .delete_panel h1 {
+    margin-bottom: 0 !important;
+  }
+  .home.nav li.active{
+    background-color: red;
+    border : none !important;
+  }
+  .active {
+    border : none !important;
+  }
+  .home.nav {
+    border-bottom: none;
+  }
+</style>
+{% endblock %}
+
+{%block scripts %}
+<script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            {% if u_name %}
+                $('#flush-collapseOne').collapse("show");
+            {% endif %}
+            let table = $('#example').dataTable({
+                "columnDefs" : [{
+                    "targets" : [3,4],
+                    "orderable" : false,
+                    },
+                    {responsivePriority: 1, targets: 2},
+                    {responsivePriority: 2, targets: 1},
+                    {
+                        targets : [3,4],
+                        className : "all",
+                    }
+                ],
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "./get_user_ajax",
+                    "type": "POST"
+                },
+                "columns": [
+                    { "data": "user" },
+                    { "data": "user" },
+                    { "data": "invoice_number" },
+                    { "data": "date_transaction" },
+                    { "data": "total_price" },
+                    { "data": "category" },
+                    { "data": "status" }
+                ],
+                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                responsive: true,
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block content %}
+
+
+<ul class="nav nav-tabs home">
+  <li class="active"><a data-toggle="tab" href="#fac">Faculty</a></li>
+  <li class="active"><a data-toggle="tab" href="#stu">Student</a></li>
+</ul>
+
+<div class="tab-content">
+  <div id="fac" class="tab-pane fade in active" style="border:none">
+
+    <div class="table_container">
+      <div class="table_search_box">
+        <input type="text" id="myinput" name="" placeholder="Search..." onkeyup="searchFun()">
+      </div>
+      <table id="example">
+        <thead>
+          <tr>
+            <div class="delete_panel">
+              <h1>Faculty</h1>
+              <a style="display: none;" id="del" onclick="delete_entries()">
+                <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete">
+              </a>
+            </div>
+            <th>#</th>
+            <th>Name</th>
+            <th>Designation</th>
+            <th>Department</th>
+            <th>Branch</th>
+            <th>Semester</th>
+            <th>Edit</th>
+            <th>
+              <div class="checkboxes" onclick="checkAll();">
+                <input type="checkbox" id="parent" name="parent" value="parent">
+                <label for="parent"></label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <td>1</td>
+          <td>parambatur ChinnaSwami MutuSwami </td>
+          <td>HOD</td>
+          <td>CSE</td>
+          <td>BTECH</td>
+          <td>III</td>
+          <td>
+            <a href="">
+              <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+            </a>
+          </td>
+          <td>
+            <div class="checkboxes" onclick="checkSelected()">
+              <input type="checkbox" class="del_input" id="" name="del" value="">
+              <label for=""></label>
+            </div>
+          </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="stu" class="tab-pane fade" style="border:none">
+    <div class="table_container">
+      <div class="table_search_box">
+        <input type="text" id="myinput" name="" placeholder="Search..." onkeyup="searchFun()">
+      </div>
+      <table id="db_table">
+        <thead>
+          <tr>
+            <div class="delete_panel">
+              <h1>Student</h1>
+              <a style="display: none;" id="del" onclick="delete_entries()">
+                <img class="action_icons" src="{{static ('admin/details/img/delete.png')}}" alt="delete" title="Delete">
+              </a>
+            </div>
+            <th>#</th>
+            <th>Name</th>
+            <th>Department</th>
+            <th>Branch</th>
+            <th>Semester</th>
+            <th>Edit</th>
+            <th>
+              <div class="checkboxes" onclick="checkAll();">
+                <input type="checkbox" id="parent" name="parent" value="parent">
+                <label for="parent"></label>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td>Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td>
+              <a href="">
+                <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+              </a>
+            </td>
+            <td>
+              <div class="checkboxes" onclick="checkSelected()">
+                <input type="checkbox" class="del_input" id="" name="del" value="">
+                <label for=""></label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>VenuGopala Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td>
+              <a href="">
+                <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+              </a>
+            </td>
+            <td>
+              <div class="checkboxes" onclick="checkSelected()">
+                <input type="checkbox" class="del_input" id="" name="del" value="">
+                <label for=""></label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Parambatur ChinnaSwami MutuSwami VenuGopala Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td>
+              <a href="">
+                <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+              </a>
+            </td>
+            <td>
+              <div class="checkboxes" onclick="checkSelected()">
+                <input type="checkbox" class="del_input" id="" name="del" value="">
+                <label for=""></label>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>1</td>
+            <td>Prabhakarna SriPalaWardhana Atapattu JayaSuriya LaxmanSivramKrishna ShivaVenkata RajShekhara Sriniwasana
+              Trichipalli YekyaParampeel Parambatur ChinnaSwami MutuSwami VenuGopala Iyer</td>
+            <td>CSE</td>
+            <td>BTECH</td>
+            <td>1</td>
+            <td>
+              <a href="">
+                <img class="action_icons" src="{{static ('admin/details/img/pen.png')}}" alt="pen" title="Edit">
+              </a>
+            </td>
+            <td>
+              <div class="checkboxes" onclick="checkSelected()">
+                <input type="checkbox" class="del_input" id="" name="del" value="">
+                <label for=""></label>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -7,6 +7,7 @@
 .col{
 	border:2px solid black;
 }
+
 </style>
 {{this_subject_event}}
 <script src="{{static ('admin/jquery-3.5.1.js') }}"></script>
@@ -42,19 +43,24 @@ function get_cell(slot_id){
 	return td;
 }
 put_data({{slots_json | safe}});
-console.log({{points_json | safe}},slots)
+//console.log({{points_json | safe}},slots);
 $(document).ready (function () {
-    for (let i in {{points_json | safe}}){
-        td = get_cell(i);
-        if (td){
-            td.html(String({{points_json | safe}}[i]))
-            //if ({{points_json | safe}}[i])
-            //    td.html(String({{points_json | safe}}[i]));
-            //    //td.css("background-color","red")
-            //else
-            //    td.css("background-color","green")
-        }
-    }
+    $("[day=36]").css("background-color","yellow");
+    $("[day=41]").css("background-color","lightblue");
+    $("[day=42]").css("background-color","cyan");
+    $("[day=43]").css("background-color","green");
+    $("[day=44]").css("background-color","orange");
+//    for (let i in {{points_json | safe}}){
+//        td = get_cell(i);
+//        if (td){
+//            td.html(td.html()+"<br>" + String({{points_json | safe}}[i]))
+//            //if ({{points_json | safe}}[i])
+//            //    td.html(String({{points_json | safe}}[i]));
+//            //    //td.css("background-color","red")
+//            //else
+//            //    td.css("background-color","green")
+//        }
+//    }
 });
 </script>
 <div class="container my_container my_table_new">
@@ -89,17 +95,16 @@ $(document).ready (function () {
                 {% set vars = {'foo': False} %}
                 {% for event in my_events %}
                     {% if event.Slot_id.Timing_id.id == timing.id and event.Slot_id.day == day%}
-                        <div class="col my_col lect droppable">{{event.Subject_event_id}}</div>
+                        <div class="col my_col lect droppable {{day.id}}" day={{day.id}}>{{event.Subject_event_id}}</div>
                         {% if vars.update({'foo': True}) %} {% endif %}
                     {% elif event.Slot_id_2 and event.Slot_id_2.Timing_id.id == timing.id and event.Slot_id.day == day%}
-                        <div class="col my_col lect droppable">{{event.Subject_event_id}}</div>
+                        <div class="col my_col lect droppable {{day.id}}" day={{day.id}}>{{event.Subject_event_id}}</div>
                         {% if vars.update({'foo': True}) %} {% endif %}
                     {% endif %}
                 {% endfor %}
                 {% if not vars['foo'] %}
-                    <div class="col my_col lect droppable"></div>
+                    <div class="col my_col lect droppable {{day.id}}" day={{day.id}}></div>
                 {% endif %}
-
             {% endfor %}
             {% endif %}
         </div>

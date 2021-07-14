@@ -1,179 +1,81 @@
-{% extends 'admin/base.html' %}
-{% block title %}Batch{% endblock title %}
-{% block css %}
-<link rel="stylesheet" href="{{static ('admin/details/timetable.css') }}">
-<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
-<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<style>
-	.not_available_td {
-		background-color: red;
-	}
+<!doctype html>
+<html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+  <script src="https://unpkg.com/gixi@0.0.1/dist/gixi-min.js"></script>
+  <script type="text/javascript" src="{{static ('try/gixi.js')}}"></script>
+  <style>
+      html,body,.container,.gixies {
+        padding: 0px;
+        margin: 0px;
+        height: 100%;
+        width: 100%;
+      }
+      .container {
+        display: table;
+      }
 
-	.available_td {
-		background-color: green;
-	}
+      .gixies {
+        display: table-cell;
+        vertical-align: middle;
+        text-align: center;
+      }
 
-	.here {
-		background-color: blue;
-	}
-</style>
-{%endblock%}
-{% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"
-	integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg=="
-	crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
-	integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
-	crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-<script src="{{static ('try/time_table.js') }}"></script>
-<script>
-	put_data({{ slots_json| safe}}, {{ subject_events_json| safe}});
-	$("#resources").select2();
-	$("#batches").select2();
-	$("#accordion").accordion({
-		animate: {
-			duration: 200
-		}
-		});
-</script>
-{%endblock%}
-{% block content %}
+      .gixi {
+        display : inline-block;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
 
-<form id="event_form" style="display:none" class="event_form">
-	<div class="select2_container single_select2">
-		<select id="resources">
-			<option disabled selected value = -1>Select the room </option>
-			{% for resource in resources %}
-			<option value="{{resource.id}}">{{resource}}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<div class="select2_container single_select2">
-		<select id="batches">
-			<option disabled selected>Select the batch </option>
-			{% for batch in batches %}
-			<option value="{{batch.id}}">{{batch}}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<button type="button" id="cancel">cancel</button>
-	<button type="button" id="aform">Submit</button>
+      .gixi-md {
+        margin: 0px 5%;
+        width: 100px;
+        height: 100px;
+      }
+
+      .gixi-sm {
+        display : inline-block;
+        margin: 0px 5%;
+        width: 50px;
+        height: 50px;
+        border-radius: 6px;
+        box-shadow: 0px 0px 2px #aaa;
+        padding: 10px;
+      }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <div class="gixies">
+      <div class="gixi gixi-md"></div>
+        <div class="gixi gixi-md"></div>
+          <div class="gixi gixi-md"></div>
+          <div><br /><br /></div>
+          <div class="gixi gixi-sm"></div>
+            <div class="gixi gixi-sm"></div>
+              <div class="gixi gixi-sm"></div>
+                <div class="gixi gixi-sm"></div>
+  </div>
+</div>
+  <form method="post">
+  {{csrf_input}}
+<!-- <input type="image" class = "asd" name="assd"> -->
+<input type="file"  accept="image/*" name="asd" class = "asd" id="file">
+<input type = "text" id = "img_str" name= "img_str">
+<input type="submit" name="">
 </form>
-	<div class="card-container" >
-		<div class="card-list">
-
-		{% for subject_event in subject_events %}
-			{% if subject_event.lect_carried%}
-			<div class="draggable" subject_event_id="{{subject_event.id}}">
-				<article class="card" style="background-color:{{subject_event.Subject_id.color}}">
-					<header class="card-header">
-						<h2>{{subject_event.Subject_id}}</h2>
-					</header>
-					<div class="author-name">
-						By {{subject_event.Faculty_id}}
-					</div>
-				</article>
-			</div>
-			{% endif %}
-			{% if subject_event.prac_carried%}
-				<div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
-					<article class="card">
-						<header class="card-header">
-							<h2>{{subject_event.Subject_id}} prac</h2>
-						</header>
-						<div class="author-name">
-							By {{subject_event.Faculty_id}}
-						</div>
-					</article>
-				</div>
-			{% endif %}
-		{% endfor %}
-		</div>
-
-	</div>
-	<table style="width:1000px;" class="main_table">
-		<thead>
-			<th colspan="{{batch_number}}">
-				Time
-			</th>
-			{% for day in working_days %}
-			<!--for all days in database-->
-			<th colspan="{{batch_number}}">
-				{{day.Days_id}}
-			</th>
-			{% endfor %}
-		</thead>
-		<tbody class="table_time">
-			{% for timing in timings %}
-			<!--for all time periods in database-->
-			<tr timing_id={{timing.id}}>
-				{% if timing.is_break %}
-				<th class="time" colspan="{{batch_number}}">
-					<p>
-						{{timing.name}}<br>
-						[{{timing.return_time()}}]
-					</p>
-				</th>
-				{% set len = working_days|length %}
-				<th colspan="{{len}}" class="isBreak text-center">
-					<h3>{{timing.name}}</h3>
-				</th>
-				{% else %}
-				<th class="time" colspan="{{batch_number}}">
-					<p>
-						{{timing.name}}<br>
-						[{{timing.return_time()}}]
-					</p>
-				</th>
-				{% for day in working_days %}
-				<td class="droppable">
-					<!-- working td for the whole table -->
-					<!-- add html of td from student.html -->
-					<div class="tt_grid">
-						<div class="grid_heading"></div>
-						<div class="event_btn"></div>
-						<div class="grid_footer">
-							<div class="faculty_name"></div>
-							<div class="resource_name"></div>
-						</div>
-					</div>
-				</td>
-				{% endfor %}
-				{% endif %}
-			</tr>
-			{% endfor %}
-			<tr>
-				<td></td>
-				<td class="gridder">
-					<div class="batch1">
-						<button class="event_btn">hello</button><br>
-						<span>gmbdss</span>
-						<span>305</span>
-					</div>
-					<div class="batch1">
-						<button class="event_btn">DBMS-1</button><br>
-						<span>url</span>
-						<span>df</span>
-					</div>
-					<div class="batch1">
-						<button class="event_btn">hi</button><br>
-						<span>url</span>
-						<span>df</span>
-					</div>
-				</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
-			
-		</tbody>
-	</table>
-	{{csrf_input}}
-	<button onclick="submited()">ksdJSDHkjdhadjhADH</button>
-
-	{%endblock%}
+  <script>
+    $('.gixi').each(function() {
+      $(this).gixi();
+    });
+    var imageSize = 300;
+    var canvas = document.createElement('canvas');
+    var imageData = new GIXI(imageSize).getImage();
+	$('#img_str').val(imageData);
+    console.log(imageData);
+	//.replace("data:image/png;base64,", "")
+    // $(".asd").attr('value',imageData)
+  </script>
+</body>
+</html>

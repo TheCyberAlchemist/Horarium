@@ -1,0 +1,72 @@
+{%extends 'admin/navbar.html'%}
+{%block navbar_starts%}
+<!DOCTYPE html>
+<html> 
+<head>
+	<title>{% block title %} {% endblock %} | Horarium</title>
+	{# title block for printing the name of the page  #}
+	{% block css %} {% endblock %}
+	<!-- <link rel="stylesheet" href="{{static ('Bootstrap/bootstrap.min.css')}}"> -->
+	<!--//////////////////////////VOLT CSS FILES////////////////-->
+	<link type="text/css" rel="stylesheet" href="{{static ('Volt/volt.css')}}">
+	<link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.css" />
+	<link type="text/css" rel="stylesheet" href="{{static ('form/form2.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{static ('admin/base2.css')}}">
+    <link type="text/css" type="text/css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+    <link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+	<style>
+        .main_content {
+            overflow-x: hidden !important;
+        }
+	.gixi {
+      display: inline-block;
+      background-repeat: no-repeat;
+      background-position: center center;
+      margin: 0px 5%;
+      width: 20px;
+      height: 20px;
+    }
+	</style>
+	{# scripts start here #}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+	<script type="text/javascript" src="{{static ('try/gixi-min.js')}}"></script>
+	<script type="application/javascript" src="{{static ('admin/navbar/navbar.js') }}" charset="utf-8"></script>
+	<script type="application/javascript" src="{{static ('form/form.js')}}" charset="utf-8"></script>
+	<script type="text/javascript" src="{{static ('Popper/popper.min.js')}}"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.24/fh-3.1.8/r-2.2.7/sc-2.0.3/sl-1.3.3/datatables.min.js"></script>
+	<script type="application/javascript" src="{{static ('cookie.min.js')}}"></script>
+	<!--<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous"></script>
+	<script type="application/javascript" src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
+	<script type="application/javascript" src="{{static ('Popper/popper.min.js') }}"></script> -->
+
+	<!-- <script type="application/javascript" src="{{static ('student/navbar/navbar.js') }}"></script> -->
+	<script>
+	$(document).ready(function (){
+		$('.user_icon').each(function() {
+			$(this).gixi();
+		});
+	})
+	</script>
+	{% block scripts %}{% endblock %}
+	{# script block for all the scripts of the page #}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="padding-top: 0px">
+{%endblock%}
+
+{%block navbar_ends%}
+{% block content %}
+
+{% endblock %}
+{# content block for the main contents of the body #}
+</body>
+</html>
+{% endblock %}

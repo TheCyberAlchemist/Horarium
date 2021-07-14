@@ -1,0 +1,54 @@
+.account-settings {
+    font-family: "Poppins", sans-serif !important;
+  }
+  .account-settings .user-profile {
+    text-align: center;
+  }
+  .account-settings .user-profile .user-avatar {
+    margin: -2rem auto 0 auto;
+  }
+  .account-settings .user-profile .user-avatar img {
+    width: 80px !important;
+    height: 60px !important;
+  }
+  .account-settings .user-profile h5.user-name {
+    margin: 1.6rem 0 0.5rem 0;
+  }
+  .account-settings .user-profile h6.user-email {
+    margin: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: blue;
+  }
+  .account-settings .about {
+    margin: 1rem 0 0 0;
+    font-size: 0.8rem;
+    text-align: center;
+  }
+  .card {
+    background: #272e48;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    border: 0;
+    margin-bottom: 1rem;
+  }
+  .form-control {
+    border: 1px solid #596280;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    font-size: 0.825rem;
+    background: #1a233a;
+    color: #bcd0f7;
+  }
+  .form-floating > .form-control:focus ~ label,
+  .form-floating > .form-control:not(:placeholder-shown) ~ label,
+  .form-floating > .form-select ~ label {
+    opacity: 0.65 !important;
+    transform: scale(0.85) translateY(-1rem) translateX(-0.1rem) !important;
+  }
+  .file.form-control:disabled,
+  .file.form-control:read-only {
+    background-color: #fff !important;
+  }

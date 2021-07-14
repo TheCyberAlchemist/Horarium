@@ -1,0 +1,489 @@
+{% extends 'admin/base2.html' %}
+{% block title %}Create Table{% endblock title %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{static ('admin/details/timetable.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('admin/time_table/grid_table.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+<style>
+    .not_available_td {
+        background-color: red;
+    }
+    .available_td {
+        background-color: green;
+    }
+    .here {
+        background-color: blue;
+    }
+    .select2-container--default .select2-results__option--disabled{
+        display: none;
+    }
+    body { 
+        user-select : none !important;
+    }
+    .fas {
+        color : black !important;
+    }
+</style>
+{%endblock%}
+{% block scripts %}
+
+<script src="{{static ('Popper/popper.min.js') }}"></script>
+<script src="{{static ('hotkeys.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+    integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"
+    integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA=="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script src="{{static ('try/time_table.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+    console.log({{ events_json| safe}});
+    put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
+    $(document).ready(function (){
+        $("#resources").select2();
+        $("#batches").select2();
+        $("#links").select2({
+            tags: true
+        });
+    })
+
+var header = document.getElementById("myHeader");
+if (header){
+    window.onscroll = function() {myFunction()};
+    var sticky = header.offsetTop;
+    function myFunction() {
+        if (window.pageYOffset > sticky) {
+            header.classList.add("sticky");
+        } else {
+            header.classList.remove("sticky");
+        }
+    }
+}
+
+
+</script>
+{%endblock%}
+{% block content %}
+<div id = "page_activator" activate-page="{{my_semester.Branch_id.Department_id}}.{{my_semester.Branch_id}}.{{my_semester}}.{{my_division}}.b"></div>
+{%include "admin/details/loading2.html" %}
+<div class="modal fade" id="confirm_modal" role="dialog" aria-labelledby="confirm_modal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirm_modal">Locked events found !</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Do you want to delete locked events ?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="close" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" id="delete" class="btn btn-primary" data-dismiss="modal">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="kaibhi" style="display: none;">
+</div>
+<div class="container">
+    <form id="event_form" class="event_form">
+        <div class="select2_container single_select2 mb-3">
+            <select id="resources">
+                <option disabled selected value=-1>Select the room </option>
+                {% for resource in resources %}
+                    <option value="{{resource.id}}">{{resource}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    
+        <div class="select2_container single_select2 mb-3">
+            <select id="links">
+                <option disabled selected value=-1>Select the link </option>
+                <option value="">--------------------</option>
+                {% if my_division.link %}
+                    <option value="{{my_division.link}}">{{my_division.name}}-[{{my_division.link}}]</option>
+                {% endif %}
+                {% for batch in my_batches %}
+                    {% if batch.link %}
+                        <option value="{{batch.link}}">{{batch}}-[{{batch.link}}]</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="select2_container single_select2" style="margin-top: 1em;">
+            <select id="batches" multiple="multiple">
+                <option disabled selected value=-1>Select the batch </option>
+                {% for batch in my_batches %}
+                    <option value="{{batch.id}}">{{batch}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <br>
+        <div class="row text-center">
+            <div class="col-6">
+                <button type="button" id="cancel" class="btn btn-outline-danger">Cancel</button>
+            </div>
+            <div class="col-6">
+                <button type="button" id="aform" class="btn btn-outline-success">Submit</button>
+            </div>
+            <div class="col-6" style="display: none;">
+                <button type="button" id="edit_submit" class="btn btn-outline-success">Submit</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div class="main_content" style="margin-top:-20px;">
+    <div class="container-fluid toolbar p-1" >
+        <!-- #region Toolbar Buttons -->
+        <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm p-0">
+            <div class="container-fluid">
+              <a class="">Create Table For {{my_division}}</a>
+              <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0">
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-bs-toggle="tooltip" 
+                    data-bs-placement="bottom" title="Undo">
+                        <i class="fas fa-undo-alt ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Redo" onclick="redo()">
+                        <i class="fas fa-redo ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Lock All">
+                    <i class="fas fa-lock ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Unlock All">
+                    <i class="fas fa-unlock ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Clear" id = "clear_all_unlocked" onclick="clear_all_unlocked_td()">
+                        <i class="fas fa-eraser ml-2 mr-3"></i>
+                    </button>
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Save"> <i class="fas fa-save ml-2 mr-3"></i> </button> 
+                  </li>
+                  <li class="nav-item">
+                    <!-- Button trigger generate modal -->
+                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="modal" data-bs-placement="bottom" 
+                    data-bs-target="#generate_modal" title="Generate">Generate</button>
+
+                  </li>
+                  <li class="nav-item">
+                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+                    title="Submit" onclick="submited()">Submit</button>
+                  </li>
+                  
+                </ul>
+              </div>
+            </div>
+        </nav>
+        <hr class="mt-1">
+        <!-- #endregion -->
+        <div class="table_and_card mt-0 row">
+            <!-- #region Card Container -->
+            <div class="card-container col-2">
+                <div class="card-list">
+                    <div id="accordion">
+                        {% for subject in my_subjects %}
+                        <div class="card" style="width:150px">
+                            <div class="card-header item" id="{{subject.id}}">
+                                <h3><button class="btn collapsed" style="background-color:{{subject.color}};color:white"
+                                        data-toggle="collapse" data-target="#a{{loop.index}}" aria-expanded="false"
+                                        aria-controls="a{{loop.index}}">
+                                        {{subject}}
+                                    </button></h3>
+                                <div class="cards_left text-center total_remaining_load">0</div>
+                            </div>
+                            {%set a = loop.index%}
+                            {%for subject_event in my_subjects[subject]%}
+                            {% if subject_event.lect_carried%}
+                            <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                <div class="draggable" subject_event_id="{{subject_event.id}}" is_lect="true">
+                                    <div class="card s ml-2 mr-0 text-center"
+                                        style="background-color:{{subject_event.Subject_id.color}}">
+                                        <div class="card-body p-0">
+                                            <h6 class="card-title text-left">{{subject_event.Subject_id}}</h6>
+                                            <h6 class="card-text text-right mr-2 mt-3" style="font-size:smaller">By
+                                                {{subject_event.Faculty_id}}</h6>
+                                        </div>
+                                        <div class="remaining_load cards_left text-center">0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% if subject_event.prac_carried%}
+                            <div id="a{{a}}" class="collapse" aria-labelledby="{{subject.id}}" data-parent="#accordion">
+                                <div class="draggable" subject_event_id="{{subject_event.id}}" is_prac="true">
+                                    <div class="card s ml-2 mr-0 text-center"
+                                        style="background-color:{{subject_event.Subject_id.color}}">
+                                        <div class="card-body p-0">
+                                            <h6 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h6>
+                                            <h6 class="card-text text-right mr-2 mt-3" style="font-size:small">By
+                                                {{subject_event.Faculty_id}}</h6>
+                                        </div>
+                                        <div class="remaining_load cards_left text-center">0
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <!-- <div class="card" style="background-color: #ff3333;">
+                    <div class="card-body p-0">
+                        <h4 class="card-title text-left">DBMS prac</h4>
+                        <h6 class="card-text text-right mr-2">By URT</h6>
+                    </div>
+                </div> -->
+                    
+                    <div class="container text-center">
+                        <button class="btn btn-outline-success" onclick="submited()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <!-- #endregion Card Container-->
+            <!-- #region Table Container -->
+            <div class="container my_container my_table_new col-9">
+                <div class="row my_row row_header">
+                    <div class="col my_col align-middle"> <span class="h6 fw-bold">Time</span></div>
+                    {% for day in working_days %}
+                    <div class="col my_col fw-bold"> <span class="h6 fw-bold">{{day.Days_id}}</span> </div>
+                    {%endfor%}
+                </div>
+                {% for timing in timings %}
+                <div class="row my_row" timing_id={{timing.id}}>
+                    <!-- <div class="row"></div> -->
+                    <div class="col my_col lect">
+                        <p class="h6 fw-bold">
+                            {{timing.name}}<br>
+                            [{{timing.return_time()}}]
+                        </p>
+                    </div>
+                    {% if timing.is_break %}
+                    {% set len = working_days|length %}
+                    {% for day in working_days %}
+                    <div class="col my_col isBreak">
+                        {%if loop.index==1%}
+                        <div class="h4" style="{%if len == 6%}transform:translateX(350px){%else%}transform:translateX(300px){%endif%}">
+                            {{timing.name}}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% for day in working_days %}
+                        <div class="col my_col lect droppable" id="{{timing.pk}}_{{loop.index}}"></div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                {%endfor%}
+                <!-- <div class="row my_row">
+                    <div class="col my_col lect">10:00</div>
+                    <div class="col my_col prac prac_above">
+                        <div class="container text-center">
+                            <div class="row text-center" style="overflow-x: auto;">
+                                <div class="col" style="margin-right:5px">
+                                    <div class="row">
+                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col mt-1">
+                                            <button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:red">DBMS</button>
+                                        </div>
+                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
+                                    </div>
+                                </div>
+                                <div class="col" style="margin-right:5px">
+                                    <div class="row">
+                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col" style="margin-right:5px">
+                                    <div class="row">
+                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col" style="margin-right:5px">
+                                    <div class="row">
+                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
+                                        
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
+                                        </div>
+                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col my_col prac prac_below">
+                        <div class="container text-center">
+                            <div class="row">
+                                <div class="col-4 batch_contents">
+                                    <div class="row">
+                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                                    </div>
+                                </div>
+                                <div class="col-4 batch_contents">
+                                    <div class="row">
+                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                                    </div>
+                                </div>
+                                <div class="col-4 batch_contents">
+                                    <div class="row">
+                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
+                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col my_col lect"></div>
+                    <div class="col my_col lect try_button"></div>
+                    <div class="col my_col prac">
+                        <div class="row p-2">
+                            <div class="col-12">
+                                <button class="btn btn-primary mt-1">Hello</button>
+                            </div>
+                            <div class="col-6 text-left">URT</div>
+                            <div class="col-6 text-right">305</div>
+                        </div>
+                    </div>
+                </div> -->
+            </div>
+            <!-- #endregion Table Container-->
+        </div>
+    </div>
+</div>
+
+{{csrf_input}}
+<!-- <button onclick="submited() " class="btn-sm btn-primary">ksdJSDHkjdhadjhADH</button> -->
+<div class='context-menu' style="display:none; position: absolute;">
+    <ul>
+        <li style="list-style-type: none">
+            <!-- <span class='clear_td'></span>&nbsp; -->
+            <div class='clear_td' id="clear_td" >Clear</div>
+        </li>
+        <li style="list-style-type: none">
+            <!-- <span class='clear_td'></span>&nbsp; -->
+            <div class='clear_td' id="edit_event" >Edit</div>
+        </li>
+    </ul>
+</div>
+
+
+  
+  <!-- Generate Modal -->
+  <div class="modal fade" id="generate_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="generate_modal_label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="generate_modal_label">Select Batches to merge</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id = "batch_mearging">
+            {% for subject in my_subjects %}
+                {%set prac_batches = my_batches.filter(batch_for="prac",subjects_for_batch = subject)%}
+                {%set lect_batches = my_batches.filter(batch_for="lect",subjects_for_batch = subject)%}
+                {%if prac_batches %}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control myinputs" id="sub_name"
+                                placeholder="" name="sub_name" required maxlength="20"/>
+                            <label for="sub_name">{{subject}} Practical</label>
+                        </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            {% for batch in prac_batches %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="{{subject.id}}" type="checkbox" id="inlineCheckbox{{loop.index}}" value="{{batch.id}}">
+                                    <label class="form-check-label" for="inlineCheckbox{{loop.index}}">{{batch}}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+                {%if lect_batches %}
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control myinputs" id="sub_name"
+                                placeholder="" name="sub_name" required maxlength="20"/>
+                            <label for="sub_name">{{subject}} Lecture</label>
+                        </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            {% for batch in lect_batches %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" name="{{subject.id}}" type="checkbox" id="inlineCheckbox{{loop.index}}" value="{{batch.id}}">
+                                    <label class="form-check-label" for="inlineCheckbox{{loop.index}}">{{batch}}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <div class="modal-footer">
+                <div class="row" style="width: 100%;">
+                    <div class="col-lg-6 col-sm-12 col-md-12">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                    </div>
+                    <div class="col-lg-6 col-sm-12 col-md-12">
+                        <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="call_algo()">Generate</button>
+                    </div>
+                </div>
+            </div>
+      </div>
+    </div>
+  </div>
+  
+{%endblock%}

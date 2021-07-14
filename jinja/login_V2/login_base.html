@@ -5,9 +5,17 @@
 <head>
 	<title>{% block title %} {% endblock %} | Horarium</title>
 	{# title block for printing the name of the page  #}
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 	{% block css %} {% endblock %}
-	<link rel="stylesheet" href="{{static ('admin/base.css')}}">
-	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet"> 
+	<!-- <link rel="stylesheet" href="{{static ('student/base.css')}}"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link type="text/css" rel="preconnect" href="https://fonts.gstatic.com">
+	<link type="text/css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+	<!-- <link rel="stylesheet" href="{{static ('student/navbar/navbar.css')}}" /> -->
+    <link rel="stylesheet" href="{{static ('admin/navbar/navbar.css') }}">
+
 </head>
 <body>
 {%endblock%}
@@ -18,10 +26,11 @@
 {% endblock %}
 {# content block for the main contents of the body #}
 </body>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="{{static ('student/BootStrap/MyDash/static/navbar.js') }}"></script>
+
 {% block scripts %}
 {% endblock %}
 {# script block for all the scripts of the page #}
+<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 </html>
 {% endblock %}

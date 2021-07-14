@@ -3,8 +3,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
 
-from institute_V1.models import Department,Branch,Semester,Division,Batch,Shift,Resource
-from faculty_V1.models import Faculty_details,Faculty_designation,Faculty_load,Can_teach
+from institute_V1.models import *
+from faculty_V1.models import *
 from subject_V1.models import Subject_details,Subject_event
 from student_V1.models import Student_details
 from institute_V1.models import Timings
@@ -22,11 +22,15 @@ class create_branch(ModelForm):
 		model = Branch
 		fields = ['name','short']
 
+class create_feedback_type(ModelForm):
+	class Meta:
+		model = Feedback_type
+		fields = ['name','for_date']
 
 class create_semester(ModelForm):
 	class Meta:
 		model = Semester
-		fields = ['short']
+		fields = ['short',"WEF_id"]
 
 
 class create_division(ModelForm):
@@ -38,7 +42,7 @@ class create_division(ModelForm):
 class create_batch(ModelForm):
 	class Meta:
 		model = Batch
-		fields = ['name','batch_for','link']
+		fields = ['name','batch_for','link','subjects_for_batch']
 
 
 class faculty_details(ModelForm):
@@ -46,6 +50,10 @@ class faculty_details(ModelForm):
 		model = Faculty_details
 		fields = ['short','Shift_id','Designation_id']
 
+class faculty_details_csv(ModelForm):
+	class Meta:
+		model = Faculty_details
+		fields = ['short','Shift_id','Designation_id','Department_id']
 
 class faculty_load(ModelForm):
 	class Meta:
@@ -59,15 +67,17 @@ class add_user(UserCreationForm):
 		fields = ['first_name','last_name','email','password1','password2']
 
 
+class update_user_name_email(ModelForm):
+	class Meta:
+		model = get_user_model()
+		fields = ['first_name','last_name','email']
+
+
 class add_resource(ModelForm):
 	class Meta:
 		model = Resource
 		fields = ["name","block"]
 
-# class update_user_by_admin(AbstractUser):
-# 	class Meta:
-# 		# model = get_user_model()
-# 		fields = ['first_name','last_name']
 
 class add_subject_details(ModelForm):
 	class Meta:
@@ -88,7 +98,7 @@ class update_sub_event(ModelForm):
 class student_details(ModelForm):
 	class Meta:
 		model = Student_details
-		fields = ('roll_no','Division_id','Batch_id',)
+		fields = ('roll_no','Division_id','prac_batch','lect_batch')
 
 
 class shift(ModelForm):
@@ -104,6 +114,7 @@ class timing(ModelForm):
 
 
 class add_event(ModelForm):
+	
 	class Meta:
 		model = Event
-		fields = ("Slot_id","Slot_id_2","Batch_id","Subject_event_id","Resource_id")
+		fields = ("Slot_id","Slot_id_2","Batch_id","Subject_event_id","Resource_id","link")

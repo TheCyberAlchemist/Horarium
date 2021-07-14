@@ -1,0 +1,26 @@
+removed as a template
+
+
+{% extends 'admin/base2.html' %}
+{% block title %} Feedback {% endblock %}
+{% block css %}
+	<link type="text/css" rel="stylesheet" href="{{static ('faculty/feedback.css')}}">
+	<!-- <link id="light" rel="stylesheet" href="{{static ('student/Student_light.css')}}" disabled=true/>
+		<link id="dark" rel="stylesheet" href="{{static ('student/Student_dark.css')}}"  /> -->
+	<style>
+	</style>
+{% endblock %}
+
+{% block scripts %}
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"
+		integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw=="
+		crossorigin="anonymous"></script>
+		<!-- <script type="application/javascript" src="{{static ('AOS/aos.js')}}"></script>	 -->
+	<script type="application/javascript" src="{{static ('faculty/feedback.js')}}"></script>
+	<script type="application/javascript">
+	put_data({{ subject_events_json | safe}}); 
+	</script>
+{% endblock %}
+{% block content %}
+	{%include 'Faculty/draw_chart.html' %}
+{% endblock %}

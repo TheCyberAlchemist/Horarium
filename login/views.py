@@ -46,5 +46,4 @@ def register(request):
 def home(request):
 	context = {
 	}
-	print("hii")
 	return render(request,'table',context)

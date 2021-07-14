@@ -1,0 +1,54 @@
+<script>
+function toggle_loading(){
+	if ($(".image-container").is(":visible")){
+		$(".main_content").css("filter","blur(0px)");
+	}else{
+		$(".main_content").css("filter","blur(4px)");
+	}
+	$(".image-container").toggle();
+	// $(".svg").toggle();
+	
+}
+$(document).ajaxStart(function(){
+    // alert("start");
+    toggle_loading();
+});
+$(document).ajaxStop(function(){
+    // alert("All AJAX requests completed");
+    toggle_loading();
+    });
+</script>
+<div class="image-container">
+    <p class="image-holder">
+    <img src="{{ static ('Hourglass.gif')}}" />
+    </p>
+</div>
+<style>
+div.image-container {
+    display:none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    bottom: 0;
+    z-index: 999999;
+    text-align: center;
+}
+
+.image-holder {
+    position:absolute;
+    left: 50%; 
+    top: 50%;
+    width: 100px;
+    height: 100px;
+}
+
+.image-holder img 
+{
+    width: 100%;
+    margin-left: -50%;
+    margin-top: -50%;   
+}
+</style>

@@ -17,7 +17,8 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
-
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 
 def tried(request):
 	sems = Semester.objects.all()
@@ -26,6 +27,19 @@ def tried(request):
 	}
 	return render(request, "try/dbtable2.html", context)
 
+
+def check_password(password,user):
+	'returns array of errors if password not suitable else returns True'
+	a = 1
+	try:
+		a = validate_password(password,user)
+	except ValidationError as e:
+		return e
+	except e:
+		return ["Some error occured."]
+	if a == None:
+		return True
+	return ["Some error occured."]
 
 @unauthenticated_user
 def login_page(request):
@@ -38,9 +52,9 @@ def login_page(request):
 		if user is not None:
 			page = get_home_page(user)
 			if page:
-				# print("---------------------------------------")
-				# print(user, " -- Logged in")
-				# print("---------------------------------------")
+				print("---------------------------------------")
+				print(user, " -- Logged in")
+				print("---------------------------------------")
 				login(request, user)
 				return redirect(page)
 			else:
@@ -53,13 +67,13 @@ def login_page(request):
 			ip = request.META.get('REMOTE_ADDR')
 			# print(ip)
 			# print(email, password)
-			make_password(password)
+			# make_password(password)
 			AuditEntry.objects.create(
 			    action='user_login_failed',
 			    forwarded_ip=forwarded_ip,
 			    ip=ip,
 			    email_used=email,
-			    user_agent= type(request.META['HTTP_USER_AGENT']),
+			    user_agent= request.META['HTTP_USER_AGENT'],
 				password_used = make_password(password)
 			)
 	return render(request, 'login_V2/login/login2.html', context)
@@ -89,12 +103,3 @@ def register_page(request):
 
 def about(request) :
 	return render(request,'about/about.html')
-
-def admin_settings(request) :
-    return render(request,'AccountSetting/admin_settings.html')
-    
-def student_settings(request) :
-    return render(request,'AccountSetting/student_settings.html')
-
-def faculty_settings(request) :
-    return render(request,'AccountSetting/faculty_settings.html')

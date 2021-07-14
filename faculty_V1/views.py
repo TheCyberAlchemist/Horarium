@@ -12,8 +12,10 @@ import calendar
 import json
 import math
 
-from faculty_V1.models import Faculty_details,Feedback_type,Feedback
+from faculty_V1.models import Faculty_details,Feedback_type,Feedback,Can_teach
 from institute_V1.models import Slots,Timings,Shift,Working_days
+from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
+from django.contrib.auth.decorators import login_required
 from subject_V1.models import Subject_event
 from Table_V2.models import Event
 
@@ -49,7 +51,8 @@ def get_break_json(qs,):
 		del d['model'],d['fields']
 	return json.dumps(data)
 
-
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Faculty'])
 def faculty_home(request):
 	# for i in Slots.objects.filter(day=2):
 	faculty = request.user.faculty_details
@@ -70,6 +73,23 @@ def faculty_home(request):
 	
 	return render(request,"Faculty/faculty_v1.html",context)
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Faculty'])
+def faculty_settings(request) :
+	user = request.user
+	faculty = user.faculty_details
+	context = {
+		"my_email":user.email,
+		"my_institute":faculty.Institute_id,
+		"my_department":faculty.Department_id,
+		"my_designation":faculty.Designation_id,
+		"my_load":faculty.faculty_load,
+	}
+	for can_teach in Can_teach.objects.all().filter(Faculty_id=faculty):
+		subj_str +=  f"{can_teach.Subject_id} ,"
+	subj_str = subj_str[0,-1]
+	context["my_subjects"] = subj_str
+	return render(request,'AccountSetting/faculty_settings.html')
 
 def faculty_feedback(request,Faculty_id = None) :
 	subject_events_list = []

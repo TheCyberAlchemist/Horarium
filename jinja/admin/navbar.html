@@ -35,7 +35,8 @@
                   {{request.user}}
                 </a>
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <li><a class="dropdown-item">Hi, {{request.user}}</a></li>
+                    <li><a href = "{{url ("admin_settings")}}" class="dropdown-item">{{request.user}}
+                    </a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a href="{{url ('logout')}}" class="dropdown-item" >Log Out</a></li>
                 </ul>

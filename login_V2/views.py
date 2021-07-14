@@ -76,7 +76,7 @@ def login_page(request):
 			    user_agent= request.META['HTTP_USER_AGENT'],
 				password_used = make_password(password)
 			)
-	return render(request, 'login_V2/login/login2.html', context)
+	return render(request, 'login_V2/login/login.html', context)
 
 
 def logout_user(request):

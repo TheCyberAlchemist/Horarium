@@ -80,16 +80,18 @@ def faculty_settings(request) :
 	faculty = user.faculty_details
 	context = {
 		"my_email":user.email,
-		"my_institute":faculty.Institute_id,
+		"my_institute":faculty.Department_id.Institute_id,
 		"my_department":faculty.Department_id,
 		"my_designation":faculty.Designation_id,
 		"my_load":faculty.faculty_load,
 	}
+	subj_str = ""
 	for can_teach in Can_teach.objects.all().filter(Faculty_id=faculty):
 		subj_str +=  f"{can_teach.Subject_id} ,"
-	subj_str = subj_str[0,-1]
+	if len(subj_str) > 2 :
+		subj_str = subj_str[0:-1]
 	context["my_subjects"] = subj_str
-	return render(request,'AccountSetting/faculty_settings.html')
+	return render(request,'AccountSetting/faculty_settings.html')	
 
 def faculty_feedback(request,Faculty_id = None) :
 	subject_events_list = []

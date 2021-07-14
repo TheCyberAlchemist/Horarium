@@ -39,9 +39,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"> {{request.user}} </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <li>
-                <a class="dropdown-item" href="{{url ("student_settings")}}" >{{request.user}}</a>
-              </li>
+              
               <li>
                 <div class="container" id="theme_toggler">
                   <label id="switch" class="switch">
@@ -51,7 +49,12 @@
                 </div>
               </li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a href="{{url ('logout')}}" class="dropdown-item">Log Out</a></li>
+              <li>
+                <a class="dropdown-item text-center">{{request.user}}</a>
+                <!-- <a class="dropdown-item" href="{{url ("student_settings")}}" >{{request.user}}</a> -->
+              </li>
+              <li><hr class="dropdown-divider" /></li>
+              <li><a href="{{url ('logout')}}" class="dropdown-item text-center">Log Out</a></li>
             </ul>
           </li>
           <li class="nav-item mr-3">

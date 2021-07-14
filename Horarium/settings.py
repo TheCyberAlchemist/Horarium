@@ -99,8 +99,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Horarium.wsgi.application'
 
 
-# CSRF_COOKIE_SECURE = True
-# SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases

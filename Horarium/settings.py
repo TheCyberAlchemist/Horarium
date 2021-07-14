@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n9#2^qt+=6^+xf2dl2*87t_gw$sz!87hx6*-#7y62q^*z4^low'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ["192.168.0.102","127.0.0.1","192.168.29.210","178.22.67.206","31.171.245.100","horarium1.herokuapp.com","horarium.pythonanywhere.com"]
 ALLOWED_HOSTS = ['*',"65.2.33.205"]
@@ -171,10 +171,10 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
-print(STATIC_ROOT)
+# print(STATIC_ROOT)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-print(MEDIA_ROOT)
+# print(MEDIA_ROOT)
 AUTH_USER_MODEL = 'login_V2.CustomUser'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
@@ -188,3 +188,17 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'horarium1@gmail.com'
 EMAIL_HOST_PASSWORD = '{hintuteslaClock'
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.hostinger.in'
+# EMAIL_PORT = 465
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'horarium1@tecrave.in'
+# EMAIL_HOST_PASSWORD = 'Horarium123@tecrave'
+
+# EMAIL_USE_SSL = True
+
+# from django.core.mail import send_mail
+
+# send_mail('subject', 'body of the message', 'Horarium <horarium@tecrave.in>', ['horarium1@gmail.com'])

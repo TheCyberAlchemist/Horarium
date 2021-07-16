@@ -1,6 +1,5 @@
 .select2-container {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -13,14 +12,12 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
-  -webkit-transition: 0.1s;
   transition: 0.1s;
 }
 
 .select2-container .select2-selection--single {
   border-radius: 40px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   cursor: pointer;
   display: block;
   height: 40px;
@@ -29,7 +26,6 @@
    -ms-user-select: none;
        user-select: none;
   -webkit-user-select: none;
-  -webkit-transition: 1s;
   transition: 1s;
 }
 
@@ -48,15 +44,13 @@
 
 .select2-dropdown {
   border-radius: 4px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: block;
   font-size: smaller;
   position: absolute;
   background-color: #ffffff;
   border: 1px solid #ced4da;
   z-index: 1061;
-  -webkit-transition: 2s;
   transition: 2s;
 }
 
@@ -149,7 +143,6 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
-  -webkit-transition: 0.1s;
   transition: 0.1s;
 }
 
@@ -177,18 +170,17 @@
 /* #endregion */
 @media screen and (max-width: 600px) {
   #designations,
-  #day1,
-  #day2,
-  #batches,
-  #slot_naming,
-  #semesters,
-  #resources,
-  #select_fac,
-  #shifts,
-  #wef_select,
-  #csv_select {
+#day1,
+#day2,
+#batches,
+#slot_naming,
+#semesters,
+#resources,
+#select_fac,
+#shifts,
+#wef_select,
+#csv_select {
     width: 100% !important;
     font-size: x-small;
   }
-}
-/*# sourceMappingURL=myselect2.css.map */
+}/*# sourceMappingURL=myselect2.css.map */

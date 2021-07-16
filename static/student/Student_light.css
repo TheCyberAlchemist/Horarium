@@ -2,7 +2,6 @@
 * {
   padding: 0;
   margin: 0;
-  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -53,14 +52,11 @@ b a:hover {
   width: 90%;
   border: 1px solid #2dce89;
   margin-bottom: 1em;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
 #feedback_panel .container:hover {
-  -webkit-transform: scale(1.03);
   transform: scale(1.03);
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
@@ -84,7 +80,6 @@ b a:hover {
 }
 
 #feedback_panel .feedback_form_card, #mandatory_panel .feedback_form_card {
-  -webkit-transition: 0.3s;
   transition: 0.3s;
   color: black !important;
   background-color: transparent;
@@ -96,9 +91,7 @@ b a:hover {
 }
 
 #feedback_panel .feedback_form_card:hover, #mandatory_panel .feedback_form_card:hover {
-  -webkit-transform: scale(1.03);
   transform: scale(1.03);
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
@@ -135,19 +128,16 @@ th:nth-of-type(1) {
 }
 
 #prac .btn {
-  height: 90px;
+  height: 7rem;
 }
 
 .table .btn {
   width: auto;
-  -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 
 .table .btn:hover {
-  -webkit-transform: scale(1.1);
   transform: scale(1.1);
-  -webkit-transition: 0.2s;
   transition: 0.2s;
 }
 
@@ -174,7 +164,6 @@ th:nth-of-type(1) {
     background-color: white;
   }
 }
-
 /* #endregion */
 /* #region modal button Styling */
 .radio-inline {
@@ -186,7 +175,6 @@ th:nth-of-type(1) {
 }
 
 .modal_btn.btn {
-  -webkit-transition: 0.3s;
   transition: 0.3s;
   border: 1px solid #50a6f7;
 }
@@ -210,110 +198,76 @@ th:nth-of-type(1) {
 /* #endregion */
 /* #region  Sidebar Button*/
 .sidebar {
-  -webkit-transition: .3s;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .sidebar:hover {
-  -webkit-transform: scale(1.2);
-          transform: scale(1.2);
-  -webkit-transition: .3s;
-  transition: .3s;
+  transform: scale(1.2);
+  transition: 0.3s;
 }
 
 @-webkit-keyframes sidebar {
-  0%,
-  13.32%,
-  20.01%,
-  40%,
-  46.67%,
-  93.32% {
+  0%, 13.32%, 20.01%, 40%, 46.67%, 93.32% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
   25% {
     background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(-20deg);
     transition: 0.3s;
   }
   50% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
   75% {
     background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(-20deg);
     transition: 0.3s;
   }
   100% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
 }
 
 @keyframes sidebar {
-  0%,
-  13.32%,
-  20.01%,
-  40%,
-  46.67%,
-  93.32% {
+  0%, 13.32%, 20.01%, 40%, 46.67%, 93.32% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
   25% {
     background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(-20deg);
     transition: 0.3s;
   }
   50% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
   75% {
     background-color: yellow;
-    -webkit-transform: rotate(-20deg);
-            transform: rotate(-20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(-20deg);
     transition: 0.3s;
   }
   100% {
     background-color: red;
-    -webkit-transform: rotate(20deg);
-            transform: rotate(20deg);
-    -webkit-transition: 0.3s;
+    transform: rotate(20deg);
     transition: 0.3s;
   }
 }
-
 /* #endregion Sidebar button*/
 /* #region  Feedback Modal Radio button */
 .required_star {
   color: red;
 }
 
-.feedback-modal input[type="radio"] {
+.feedback-modal input[type=radio] {
   -webkit-appearance: none !important;
      -moz-appearance: none !important;
           appearance: none !important;
@@ -330,7 +284,7 @@ th:nth-of-type(1) {
 }
 
 .feedback-modal .radio-inline:nth-of-type(1):hover,
-.feedback-modal input[type="radio"]:checked + label:nth-of-type(1) {
+.feedback-modal input[type=radio]:checked + label:nth-of-type(1) {
   background-color: #2dce89 !important;
 }
 
@@ -340,7 +294,7 @@ th:nth-of-type(1) {
 }
 
 .feedback-modal .radio-inline:nth-of-type(2):hover,
-.feedback-modal input[type="radio"]:checked + label:nth-of-type(2) {
+.feedback-modal input[type=radio]:checked + label:nth-of-type(2) {
   background-color: #05ff92 !important;
 }
 
@@ -350,7 +304,7 @@ th:nth-of-type(1) {
 }
 
 .feedback-modal .radio-inline:nth-of-type(3):hover,
-.feedback-modal input[type="radio"]:checked + label:nth-of-type(3) {
+.feedback-modal input[type=radio]:checked + label:nth-of-type(3) {
   background-color: #fff675 !important;
 }
 
@@ -360,7 +314,7 @@ th:nth-of-type(1) {
 }
 
 .feedback-modal .radio-inline:nth-of-type(4):hover,
-.feedback-modal input[type="radio"]:checked + label:nth-of-type(4) {
+.feedback-modal input[type=radio]:checked + label:nth-of-type(4) {
   background-color: #ff7d7d !important;
 }
 
@@ -370,7 +324,7 @@ th:nth-of-type(1) {
 }
 
 .feedback-modal .radio-inline:nth-of-type(5):hover,
-.feedback-modal input[type="radio"]:checked + label:nth-of-type(5) {
+.feedback-modal input[type=radio]:checked + label:nth-of-type(5) {
   background-color: #ff5537 !important;
 }
 
@@ -442,33 +396,40 @@ nav.for-feedback .nav-tabs span.active {
 /* #region  Mobile Device */
 @media screen and (max-width: 600px) {
   .charts_container .card-title,
-  .charts_container .card-body,
-  .charts_container .card-title,
-  .charts_container .card-body .btn {
+.charts_container .card-body,
+.charts_container .card-title,
+.charts_container .card-body .btn {
     font-size: small;
   }
+
   #t1 {
     width: 100%;
     font-size: 10px;
   }
+
   #t1 th {
     padding: 5px 2px;
   }
+
   #lect .btn {
     margin: 7px 0.5em 0 0.5em;
     padding: 5px 2px;
   }
+
   #prac .btn {
     height: 80px;
     padding: 0;
     margin: 0 0.9em;
   }
+
   #t1 .btn {
     font-size: 11px;
   }
+
   #agenda_panel {
     font-size: 12px;
   }
+
   #agenda_panel .container {
     border-radius: 10px;
     padding: 0.7em;
@@ -477,40 +438,46 @@ nav.for-feedback .nav-tabs span.active {
     margin-bottom: 1em;
     border: 1px solid grey;
   }
+
   #text,
-  #text2 {
+#text2 {
     font-size: 15px;
-    -webkit-transition: 1s;
     transition: 1s;
   }
+
   .modal .btn {
     font-size: smaller !important;
     margin-bottom: 5px;
   }
+
   .feedback-modal .radio-inline:nth-of-type(n) {
     margin-right: 1px !important;
     padding: 5px !important;
   }
+
   .modal .h5 {
     font-size: smaller !important;
   }
+
   .modal-dialog {
     margin: 0 !important;
   }
+
   #sidebar {
     width: 30px !important;
     height: 30px !important;
   }
+
   .mandatory_feedback_event span.h5 {
     font-size: smaller !important;
   }
+
   .mandatory_feedback_event {
     margin-bottom: 20px;
   }
+
   .table > :not(caption) > * > * {
     padding: 0 !important;
   }
 }
-
-/* #endregion */
-/*# sourceMappingURL=Student_light.css.map */
+/* #endregion *//*# sourceMappingURL=Student_light.css.map */

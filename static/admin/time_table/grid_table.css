@@ -26,10 +26,10 @@ body {
 }
 
 .prac_mycol {
-  -webkit-writing-mode: vertical-rl;
-      -ms-writing-mode: tb-rl;
-          writing-mode: vertical-rl;
-  text-orientation: upright;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+  -webkit-text-orientation: upright;
+          text-orientation: upright;
   font-size: smaller !important;
   height: 110px !important;
   letter-spacing: 0 !important;
@@ -92,17 +92,12 @@ body {
   z-index: 13;
 }
 
-.my_col.prac_above .event_divs:nth-of-type(1) {
-  padding-left: 1.1rem !important;
-}
-
 .my_col.prac.prac_below {
   border-top: none;
 }
 
 .prac_below_texts {
-  -webkit-transform: translateX(-7px);
-          transform: translateX(-7px);
+  transform: translateX(-7px);
 }
 
 .prac_texts {
@@ -121,13 +116,11 @@ body {
 
 .batch_contents:first-child {
   margin-left: -9px;
-  -webkit-transform: translate(-10px, 55px);
-          transform: translate(-10px, 55px);
+  transform: translate(-10px, 55px);
 }
 
 .batch_contents:not(:first-child) {
-  -webkit-transform: translate(14px, 55px);
-          transform: translate(14px, 55px);
+  transform: translate(14px, 55px);
 }
 
 p.h6 {
@@ -135,9 +128,23 @@ p.h6 {
 }
 
 .prac_above .container {
+  white-space: nowrap;
+  overflow-y: hidden;
   overflow-x: scroll;
   scrollbar-width: thin;
   padding: 0 !important;
+}
+
+.col.my_col.droppable.ui-droppable.prac.prac_above.filled .container .row {
+  position: absolute;
+}
+
+.col.my_col.droppable.ui-droppable.prac.prac_above.filled .container .row:last-child {
+  padding-right: 15px !important;
+}
+
+.col.my_col.droppable.ui-droppable.prac.prac_above.filled .container .row .event_divs {
+  display: inline-block !important;
 }
 
 .prac_above .container::-webkit-scrollbar {
@@ -178,9 +185,8 @@ p.h6 {
 .btn-sm.prac_mycol.event_name {
   width: 17px;
   padding: 0 1px 0 1px !important;
-  -webkit-writing-mode: rl;
-      -ms-writing-mode: rl;
-          writing-mode: rl;
+  -ms-writing-mode: rl;
+      writing-mode: rl;
 }
 
 .lect_batches {
@@ -191,17 +197,16 @@ p.h6 {
 }
 
 .lect_mycol {
-  -webkit-writing-mode: vertical-rl;
-      -ms-writing-mode: tb-rl;
-          writing-mode: vertical-rl;
-  text-orientation: upright;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+  -webkit-text-orientation: upright;
+          text-orientation: upright;
 }
 
 /* #region  Locked Events */
 .locked {
   background-color: #6b6b6b;
 }
-
 .locked .batch_name,
 .locked .batch_contents,
 .locked .faculty_name,
@@ -215,9 +220,7 @@ p.h6 {
   background-image: url("../../admin/details/img/lock2.png");
   height: 30px;
   width: 30px;
-  -webkit-transform: translate(-50%, -50px);
-          transform: translate(-50%, -50px);
+  transform: translate(-50%, -50px);
 }
 
-/* #endregion Locked Events */
-/*# sourceMappingURL=grid_table.css.map */
+/* #endregion Locked Events *//*# sourceMappingURL=grid_table.css.map */

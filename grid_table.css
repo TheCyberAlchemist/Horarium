@@ -1,8 +1,7 @@
 * {
   padding: 0;
   margin: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 .my_container {
@@ -15,10 +14,10 @@
 }
 
 .prac_mycol {
-  -webkit-writing-mode: vertical-rl;
-      -ms-writing-mode: tb-rl;
-          writing-mode: vertical-rl;
-  text-orientation: upright;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+  -webkit-text-orientation: upright;
+          text-orientation: upright;
 }
 
 .my_row.row_header .my_col {
@@ -77,5 +76,4 @@ p.h6 {
   padding: 0 1px 0 1px;
   height: 70px;
   letter-spacing: 0;
-}
-/*# sourceMappingURL=grid_table.css.map */
+}/*# sourceMappingURL=grid_table.css.map */

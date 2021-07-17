@@ -4,6 +4,8 @@
     
   body {
     font-family: "Poppins", sans-serif !important;
+	background-color: #131a24 !important;
+	color : white 
   }
   .main_content {
     padding-top: 60px !important;
@@ -16,6 +18,10 @@
   .card:hover {
     transform : scale(1.04);
     transition: .3s;
+  }
+  .main_content,.about_section {
+    
+	background-color:#131a24 !important
   }
 </style>
 {% endblock css %} {% block scripts %}
@@ -30,7 +36,7 @@
   <h2 class="font-weight-bold mb-2">Our Developers</h2>
   <!-- <p class="font-italic text-muted mb-4">Ma</p> -->
 
-  <div class="row pb-5 mb-4">
+  <div class="row pb-5 mb-4 about_section">
     <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
       <!-- Card-->
       <div class="card rounded shadow-sm border-0">

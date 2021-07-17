@@ -288,8 +288,13 @@ class Timings(models.Model):
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	is_break = models.BooleanField(default=False)
 	def return_time(self):
-		s_min = "00" if self.start_time.minute == 0 else str(self.start_time.minute)
-		e_min = "00" if self.end_time.minute == 0 else str(self.end_time.minute)
+		def get_minutes(min):
+			if min < 10:
+				return f'0{min}'
+			return f'{min}'
+		s_min = get_minutes(self.start_time.minute)
+		e_min = get_minutes(self.end_time.minute)
+
 		return str(self.start_time.hour) + ":"+ s_min + " - " + str(self.end_time.hour) + ":"+ e_min 
 	def __str__(self):
 		return self.name + " [ " + self.return_time() +" ]"

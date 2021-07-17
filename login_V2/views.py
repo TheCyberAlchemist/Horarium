@@ -104,3 +104,32 @@ def register_page(request):
 
 def about(request) :
 	return render(request,'about/about.html')
+
+# for i in Institute.objects.using("horarium").all():
+#     i.save(using="default")
+
+# for i in  Resource.objects.using("horarium").all():
+#     # print(i)
+#     i.save(using="default")
+
+# for i in Department.objects.using("horarium").all():
+#     print(i)
+#     # i.save(using="default")
+#     # print(f"Saved :: {i}")
+# for i in WEF.objects.using("horarium").all():
+#     print(i)
+#     # i.save(using="default")
+#     # print(f"Saved :: {i}")
+
+# from django.contrib.contenttypes.models import ContentType
+# auth_app = [ct.model_class() for ct in ContentType.objects.filter(app_label="auth")]
+# g = auth_app[0]
+# for i in g.objects.using("horarium").all():
+# 	print(i)
+# 	i.save(using="default")
+
+# ContentType.objects.filter(app_label="auth")
+# login_app = [ct.model_class() for ct in ContentType.objects.filter(app_label="login_V2")]
+# for i in login_app:
+# 	for j in i.objects.using("horarium").all():
+# 		j.save(using='default')

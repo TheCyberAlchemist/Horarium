@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n9#2^qt+=6^+xf2dl2*87t_gw$sz!87hx6*-#7y62q^*z4^low'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ["192.168.0.102","127.0.0.1","192.168.29.210","178.22.67.206","31.171.245.100","horarium1.herokuapp.com","horarium.pythonanywhere.com"]
 ALLOWED_HOSTS = ['*',"65.2.33.205"]
@@ -106,20 +106,28 @@ WSGI_APPLICATION = 'Horarium.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   },
 }
 # DATABASES = {
 #     'default': {
+#          'ENGINE': 'django.db.backends.mysql',
+#          'NAME': 'mysqlhorarium',
+#          'HOST': '127.0.0.1',
+#          'PORT': '3306',
+#          'USER': 'root',
+#          'PASSWORD': '',
+#     },
+#     'horarium': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'none',
+#         'NAME': 'horarium',
 #         'HOST': '127.0.0.1',
 #         'PORT': '3306',
 #         'USER': 'root',
-#         'PASSWORD': 'root',
-#     }
+#         'PASSWORD': '',
+#      }
 # }
 
 # Password validation

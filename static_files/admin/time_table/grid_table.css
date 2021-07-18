@@ -26,10 +26,10 @@ body {
 }
 
 .prac_mycol {
-  -webkit-writing-mode: vertical-rl;
-      -ms-writing-mode: tb-rl;
-          writing-mode: vertical-rl;
-  text-orientation: upright;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+  -webkit-text-orientation: upright;
+          text-orientation: upright;
   font-size: smaller !important;
   height: 110px !important;
   letter-spacing: 0 !important;
@@ -101,8 +101,7 @@ body {
 }
 
 .prac_below_texts {
-  -webkit-transform: translateX(-7px);
-          transform: translateX(-7px);
+  transform: translateX(-7px);
 }
 
 .prac_texts {
@@ -121,13 +120,11 @@ body {
 
 .batch_contents:first-child {
   margin-left: -9px;
-  -webkit-transform: translate(-10px, 55px);
-          transform: translate(-10px, 55px);
+  transform: translate(-10px, 55px);
 }
 
 .batch_contents:not(:first-child) {
-  -webkit-transform: translate(14px, 55px);
-          transform: translate(14px, 55px);
+  transform: translate(14px, 55px);
 }
 
 p.h6 {
@@ -178,9 +175,8 @@ p.h6 {
 .btn-sm.prac_mycol.event_name {
   width: 17px;
   padding: 0 1px 0 1px !important;
-  -webkit-writing-mode: rl;
-      -ms-writing-mode: rl;
-          writing-mode: rl;
+  -ms-writing-mode: rl;
+      writing-mode: rl;
 }
 
 .lect_batches {
@@ -191,17 +187,16 @@ p.h6 {
 }
 
 .lect_mycol {
-  -webkit-writing-mode: vertical-rl;
-      -ms-writing-mode: tb-rl;
-          writing-mode: vertical-rl;
-  text-orientation: upright;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
+  -webkit-text-orientation: upright;
+          text-orientation: upright;
 }
 
 /* #region  Locked Events */
 .locked {
   background-color: #6b6b6b;
 }
-
 .locked .batch_name,
 .locked .batch_contents,
 .locked .faculty_name,
@@ -215,9 +210,7 @@ p.h6 {
   background-image: url("../../admin/details/img/lock2.png");
   height: 30px;
   width: 30px;
-  -webkit-transform: translate(-50%, -50px);
-          transform: translate(-50%, -50px);
+  transform: translate(-50%, -50px);
 }
 
-/* #endregion Locked Events */
-/*# sourceMappingURL=grid_table.css.map */
+/* #endregion Locked Events *//*# sourceMappingURL=grid_table.css.map */

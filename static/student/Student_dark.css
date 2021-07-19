@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+/* #region  Universal selectors */
 * {
   padding: 0;
   margin: 0;
@@ -31,14 +32,18 @@ b a:hover {
   font-family: "Poppins", sans-serif;
 }
 
+/* #endregion */
+/* #region  Navbar */
 .navbar {
   background-color: #010102 !important;
 }
 
+/* #endregion */
 .container-fluid.pt-4 {
   background-color: #131a24 !important;
 }
 
+/* #region  TimeTable */
 #t1 {
   text-align: center;
   width: 100%;
@@ -83,11 +88,6 @@ th:nth-of-type(1) {
   transition: 0.2s;
 }
 
-#myProgress,
-#timeBar .text {
-  color: white !important;
-}
-
 .table .btn:hover {
   transform: scale(1.1);
   transition: 0.2s;
@@ -95,6 +95,13 @@ th:nth-of-type(1) {
 
 .td_active {
   background-color: #0a101a !important;
+}
+
+/* #endregion */
+/* #region  Progress Bar */
+#myProgress,
+#timeBar .text {
+  color: white !important;
 }
 
 .glow {
@@ -118,27 +125,13 @@ th:nth-of-type(1) {
     color: white !important;
   }
 }
-#querybox {
-  background-color: #18181d;
-  color: white !important;
-}
-
+/* #endregion */
 .radio-inline {
   padding-right: 20px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-
-.modal_btn.btn {
-  transition: 0.3s;
-  border: 1px solid #50a6f7;
-  color: white !important;
-}
-
-.modal_btn:hover {
-  background-color: #4da9ff;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -288,8 +281,8 @@ th:nth-of-type(1) {
   }
 }
 /* #endregion Sidebar button*/
-/* #region  Offcanvas */
-.offcanvas {
+/* #region  Feedback Panel & Offcanvas */
+.offcanvas.feedback_panel {
   background-color: #101820 !important;
   color: white !important;
 }
@@ -298,9 +291,7 @@ th:nth-of-type(1) {
   border-bottom: 1px solid #b4b4b4;
 }
 
-/* #endregion  Offcanvas*/
-/* #region  Feedback and Agenda Panel */
-#feedback_panel {
+#feedback_body {
   scrollbar-width: thin;
   /* "auto" or "thin" */
   scrollbar-color: #abacad #f1f4f6;
@@ -345,7 +336,7 @@ nav.for-feedback .nav-tabs span.active {
   color: #4747ff !important;
 }
 
-#feedback_panel .container {
+#feedback_body .container {
   border-radius: 10px;
   padding: 1em;
   width: 90%;
@@ -354,12 +345,12 @@ nav.for-feedback .nav-tabs span.active {
   transition: 0.3s;
 }
 
-#feedback_panel .container:hover {
+#feedback_body .container:hover {
   transform: scale(1.03);
   transition: 0.3s;
 }
 
-#feedback_panel .feedback_form_card,
+#feedback_body .feedback_form_card,
 #mandatory_panel .feedback_form_card {
   transition: 0.3s;
   color: white !important;
@@ -367,49 +358,28 @@ nav.for-feedback .nav-tabs span.active {
   border: 1px solid white;
 }
 
-#feedback_panel .feedback_form_card .btn,
+#feedback_body .feedback_form_card .btn,
 #mandatory_panel .feedback_form_card .btn {
   width: 90%;
 }
 
-#feedback_panel .feedback_form_card:hover,
+#feedback_body .feedback_form_card:hover,
 #mandatory_panel .feedback_form_card:hover {
   transform: scale(1.03);
   transition: 0.3s;
 }
 
-/* #endregion */
 .mandatory_feedback_event {
   color: white !important;
 }
 
-/*//////////////////////////Feedback Card////////////////////////////// */
-.charts_container .card .card-title,
-.charts_container .card .card-text {
-  font-family: "Poppins", sans-serif;
-}
-
-.charts_container .row .card {
-  background-color: #dde0ee;
-  font-family: "Poppins", sans-serif;
-  color: black !important;
-  border-radius: 14px;
-}
-
-.charts_container .row .chart .card {
-  background-color: #dde0ee !important;
-}
-
-#text {
-  /*Text for Upcoming events */
+/* #endregion  Feedback Panel & Offcanvas*/
+/* #region  Feedback Modal Radio button */
+#querybox {
+  background-color: #18181d;
   color: white !important;
 }
 
-.btn-close {
-  background-color: white !important;
-}
-
-/* #region  Feedback Modal Radio button */
 .required_star {
   color: red;
 }
@@ -478,7 +448,36 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 /* #endregion */
+/* #region  Feedback Charts & Card */
+.charts_container .card .card-title,
+.charts_container .card .card-text {
+  font-family: "Poppins", sans-serif;
+}
+
+.charts_container .row .card {
+  background-color: #dde0ee;
+  font-family: "Poppins", sans-serif;
+  color: black !important;
+  border-radius: 14px;
+}
+
+.charts_container .row .chart .card {
+  background-color: #dde0ee !important;
+}
+
+#text {
+  /*Text for Upcoming events */
+  color: white !important;
+}
+
+.btn-close {
+  background-color: white !important;
+}
+
+/* #endregion */
+/* #region  Mobile Devices */
 @media screen and (max-width: 600px) {
+  /* #region  Timetable */
   #t1 {
     width: 100%;
     font-size: 10px;
@@ -507,6 +506,7 @@ nav.for-feedback .nav-tabs span.active {
     font-size: 11px;
   }
 
+  /* #endregion */
   #agenda_panel {
     font-size: 15px;
   }
@@ -613,4 +613,5 @@ nav.for-feedback .nav-tabs span.active {
     padding: 0 !important;
   }
 }
+/* #endregion */
 /* #endregion *//*# sourceMappingURL=Student_dark.css.map */

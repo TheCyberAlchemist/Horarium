@@ -32,7 +32,7 @@
         $("#day2").select2();
         $("#slot_naming").select2();
         {% if u_short %}
-        $('#slot_form_accordion').collapse("show");
+        	$('#slot_form_accordion').collapse("show");
         {% endif %}
     });
 </script>
@@ -191,9 +191,9 @@
 
 
 
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#slotModal">
+    <!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#slotModal">
         Launch demo modal
-    </button>
+    </button>-->
 
     <!-- Modal -->
     <div class="modal fade" id="slotModal" aria-labelledby="slotModalLabel" aria-hidden="true" data-bs-keyboard="false" data-bs-backdrop="static">
@@ -283,5 +283,4 @@
             </div>
         </div>
     </div>
-</div>
 {% endblock %}

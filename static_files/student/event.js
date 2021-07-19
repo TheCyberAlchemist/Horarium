@@ -1,5 +1,6 @@
 var events = [],breaks= [];
-INTERVAL = 5;
+const INTERVAL = 5;
+const HOUR_VALUE = 3600 * 1000; 
 class time{
 	constructor(hrs = 0,min = 0 ,sec= 0){
 		this.hrs = hrs;
@@ -333,8 +334,32 @@ let mandatory_subjects,meta_data;
 function remove_mandatory_subject(subject_id){
 	mandatory_subjects = mandatory_subjects.filter(s=>s.id !=subject_id);
 }
+
+function open_pop_up(link){
+	popUp = window.open(link, '_blank');
+	if (popUp == null || typeof(popUp)=='undefined') { 	
+		if (!getWithExpiry("link not opened pop-up allow")){	
+			pop_up_warning();
+			setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+		}
+		//alert('Please disable your pop-up blocker and click the "Open" link again.');
+	}
+}
+function pop_up_warning(){
+	Swal.fire(
+		'<strong>Please allow pop-up</strong>',
+		'Allow pop-ups so we can open your links automatically on time.',
+		'warning'
+	)
+}
 // global_time = new time(10,12,56);
 jQuery(function () {
+	//#region  ////////////// pop-up allowance //////////////
+	if (!getWithExpiry("pop-up info")){
+		pop_up_warning();
+		setWithExpiry("pop-up info",true,1000 * HOUR_VALUE);
+	}
+	//#endregion
 	let st,et;
 	var i = 0;
 	//#region  ////////////// boiler-plate //////////////
@@ -397,7 +422,7 @@ jQuery(function () {
 					if (event_id){
 						remove_card(event_id);					
 					}
-					setWithExpiry(`feedback_done-${event_id}`,true,24*3600*1000);
+					setWithExpiry(`feedback_done-${event_id}`,true,24*HOUR_VALUE);
 					form.trigger("reset");
 				},
 				error:function(){
@@ -586,9 +611,10 @@ jQuery(function () {
 					get_cell(events[i]).addClass("td_active");
 					if (!events[i].opened){
 						if(parseInt(i) == 0 || (parseInt(i) != 0 && (events[parseInt(i)-1].link != events[i].link || (events[parseInt(i)-1].link == events[i].link && !(events[parseInt(i)-1].opened)) ))){
-							window.open(events[i].link, '_blank')
+							// window.open(events[i].link, '_blank')
+							open_pop_up(events[i].link);
 							events[i].opened = true;
-							setWithExpiry("opened-"+events[i].pk,true,6*3600*1000);
+							setWithExpiry("opened-"+events[i].pk,true,6*HOUR_VALUE);
 						}
 					}
 					// console.log("This lecture is :: ",get_cell(events[i]));

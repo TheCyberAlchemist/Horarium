@@ -142,11 +142,10 @@ def student_home(request):
 				raise Http404
 			candidate.Subject_event_id = my_subject_event
 			candidate.Given_by = request.user
-			print("asdasd")
 			if candidate.query:
 				send_regular_email(request.user,my_subject_event,my_event,request.POST['query'])
 			print(candidate," - saved")
-			# candidate.save()
+			candidate.save()
 
 	# get_all_subjects_of_feedback_type(request)
 	# fill_mandatory_feedback(request)
@@ -290,6 +289,6 @@ def add_student(request):
 		# 	# print(form)
 		if form.is_valid():
 			form.save()
-			print("here")
+			# print("here")
 		
 	return render(request,'/try/asd.html',{'form':form})

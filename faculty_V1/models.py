@@ -193,7 +193,8 @@ class Feedback(models.Model):
 		if self.Subject_event_id:
 			return str(self.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by) + " at " + str(self.timestamp)
 		else:
-			return "Mandatory %s from %s at %s" % (self.Subject_id.name,self.Given_by,self.timestamp)
+			if self.Subject_id:
+				return "Mandatory %s from %s at %s" % (self.Subject_id.name,self.Given_by,self.timestamp)
 
 	def get_ave(self):
 		arr = [self.Q1,self.Q2,self.Q3,self.Q4,self.Q5,self.Q6,self.Q7,self.Q8,self.Q9]

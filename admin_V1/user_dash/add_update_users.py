@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import Group
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render,redirect
+from django.db.models import Q
 import json
 
 from admin_V1.views import return_context
@@ -250,5 +251,26 @@ def user_dash(request,Department_id):
 	context['my_shifts'] = Shift.objects.filter(Department_id=Department_id)
 	context['designations'] = Faculty_designation.objects.filter(Institute_id=department.Institute_id) | Faculty_designation.objects.filter(Institute_id=None)
 	# endregion
+	def delete_entries(qs,data):
+		' Delete from qs if exists. Data must have array of ids of items to be deleted '
+		for d in data:
+			i = qs.filter(pk = d).first()
+			print(i)
+			if i:
+				i.delete()
+
+	if request.method == 'POST':
+		if request.is_ajax():	# if delete is called
+			data = json.loads(request.body)
+			delete_entries(
+				CustomUser.objects.all().filter(
+					Q(student_details__pk__isnull=False,
+						student_details__Division_id__Semester_id__Branch_id__Department_id = department
+					) 
+					|Q(faculty_details__pk__isnull=False,
+						faculty_details__Department_id_id = department
+					)
+				)
+				,data)
 
 	return render(request,'admin/user_dash/user_dash.html',context)

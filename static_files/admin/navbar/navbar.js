@@ -68,6 +68,10 @@ l = 0;
 function activate(){
   for_name = $("#page_activator").attr("activate-page");
   label = $('[for="'+for_name+'"]');
+  if (for_name =="home"){
+    label.addClass("active");
+    return
+  }
   if(label.length){
     do{
       ///////// for inputs /////////      

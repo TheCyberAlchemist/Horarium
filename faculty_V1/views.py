@@ -150,7 +150,7 @@ def transpose(l1):
     l2 = list(map(list, zip(*l1)))
     return l2
 
-def get_ave_len(qs):
+def get_ave_len(qs,debug = False):
 	# Q1 = Q2 = Q3 = Q4 = Q5 = Q6 = Q7 = Q8 = Q9 = []
 	Q = []
 	Questions = list(qs.values_list("Q1","Q2","Q3","Q4","Q5","Q6","Q7","Q8","Q9"))
@@ -163,7 +163,11 @@ def get_ave_len(qs):
 		temp = [int(x) for x in Questions[i] if x != None]
 		if temp:
 			ave[i] = round(sum(temp)/len(temp),2)
-			length[i] = len(temp)	
+			length[i] = len(temp)
+			if debug:
+				print(round(sum(temp)/len(temp),2),len(temp))
+	if debug:
+		print(ave,length)
 	return ave,length
 
 

@@ -97,7 +97,7 @@ def send_regular_email(user,my_subject_event,my_event,query):
 			subject, #subject
 			body, #message
 			from_email = None, # from email 
-			recipient_list = ['horaium@tecrave.in'] # to email
+			recipient_list = ['horarium@tecrave.in'] # to email
 		)
 	# print(subject,body)
 
@@ -142,7 +142,6 @@ def student_home(request):
 				raise Http404
 			candidate.Subject_event_id = my_subject_event
 			candidate.Given_by = request.user
-			print("asdasd")
 			if candidate.query:
 				send_regular_email(request.user,my_subject_event,my_event,request.POST['query'])
 			print(candidate," - saved")
@@ -290,6 +289,6 @@ def add_student(request):
 		# 	# print(form)
 		if form.is_valid():
 			form.save()
-			print("here")
+			# print("here")
 		
 	return render(request,'/try/asd.html',{'form':form})

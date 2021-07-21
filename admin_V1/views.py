@@ -1191,10 +1191,11 @@ class student_satisfaction(APIView):
 				date = i.timestamp.date()
 				total = 0
 				number = 0
-				for j in all_active_feedbacks.filter(timestamp = date):
+				for j in all_active_feedbacks.filter(timestamp__date = date):
 					if j.average != 0:
 						total += j.average
 						number += 1
+				# print(total,number,all_active_feedbacks)
 				temp_dict = {
 					"x":date,
 					"y":round(total/number,2)

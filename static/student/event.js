@@ -253,7 +253,7 @@ g = 0;
 function append_card(event){
 	card = get_card(event);
 	// card.effect("highlight", {}, 3000);
-	$("#feedback_panel").append(card);
+	$("#feedback_body").append(card);
 
 	card.addEventListener("mouseover",function(){
 		// get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);

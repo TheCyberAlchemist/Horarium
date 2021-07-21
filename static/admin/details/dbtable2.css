@@ -1,3 +1,4 @@
+/* #region  Table Container for all tables and User_dash Table */
 .main_content .table_container {
   width: 85% !important;
 }
@@ -6,10 +7,12 @@
   width: 95% !important;
 }
 
+/* #endregion */
 .dtr-data a {
   color: #0d6efd !important;
 }
 
+/* #region  Table <td>, <th> styling */
 .table_container .table thead tr th,
 .table_container .table tbody tr td {
   font-size: 0.85rem !important;
@@ -27,6 +30,8 @@
   color: blue;
 }
 
+/* #endregion */
+/* #region  FontAwesome Fonts styling */
 .fas.fa-edit,
 .fas.fa-sign-in-alt {
   font-size: 22px !important;
@@ -48,6 +53,18 @@
   color: black !important;
 }
 
+/* #endregion */
+/* #region  Delete entries button image styling */
+.input_icons {
+  position: absolute;
+  top: 0%;
+  left: 95%;
+  height: 35px;
+  width: 35px;
+}
+
+/* #endregion */
+/* #region  Searchbox in DataTable */
 .search_box .form-control:focus {
   box-shadow: none !important;
   outline: none !important;
@@ -98,6 +115,8 @@
   box-shadow: none !important;
 }
 
+/* #endregion */
+/* #region Inner Table in Datatable Styling */
 #student_details .row-details,
 #faculty_details .row-details {
   text-align: center;
@@ -119,6 +138,8 @@
   list-style-type: none;
 }
 
+/* #endregion */
+/* #region  Mobile Devices */
 @media screen and (max-width: 600px) {
   .main_content .table_container {
     width: 100% !important;
@@ -144,4 +165,5 @@
   .row.d-flex.align-items-center {
     margin-left: 10px !important;
   }
-}/*# sourceMappingURL=dbtable2.css.map */
+}
+/* #endregion *//*# sourceMappingURL=dbtable2.css.map */

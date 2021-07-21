@@ -2,8 +2,10 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.contrib.auth.models import Group
 import pandas as pd
 import numpy as np
+from django.contrib.auth.models import Group
 
 from login_V2.models import CustomUser
 from institute_V1.models import *
@@ -13,12 +15,15 @@ from student_V1.forms import add_student_details
 from faculty_V1.forms import faculty_details_csv,faculty_load
 from faculty_V1.models import *
 from institute_V1.models import Semester
+from admin_V1.views import return_context
 #region //////////////////// view_functions //////////////////
 from django.shortcuts import render,redirect
 
-def csv_view_func(request):
+def csv_view_func(request,Department_id):
 	# return render(request,"try/upload_csv.html")
-	return render(request,'admin/details/csv_upload.html')
+	context = return_context(request)
+	context["my_department"] = Department.objects.all().filter(pk = Department_id).first()
+	return render(request,'admin/details/csv_upload.html',context)
 
 def csv_try_view_func(request):
 	return render(request,"try/upload_csv.html")
@@ -72,7 +77,8 @@ def check_student_details(df):
 	return False
 
 def validate_and_make_student_details(df,my_institute):
-	'''validate the student_info (i.e. Department, Branch, Division, Batch ) and returns details 
+	'''
+		validate the student_info (i.e. Department, Branch, Division, Batch ) and returns details 
 		and error_json details have the following fields (roll_no,Institute,Division,User-id,prac_batch,lect_batch)
 		from database models
 	'''
@@ -103,7 +109,6 @@ def validate_and_make_student_details(df,my_institute):
 		# print(dict1,my_division)
 		if not all(dict1.values()):
 			# if any of the dict1 is empty
-
 			# print(dict1.values())
 			if not my_department:
 				# if institute is empty meaning department is None
@@ -119,7 +124,20 @@ def validate_and_make_student_details(df,my_institute):
 					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))				
 				error_df = error_df.append(row)
 		else:
-			user = CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
+			user = None
+			user_form = add_user({
+				"email":row['E-mail'],
+				"first_name":row['First name'],
+				"last_name":row['Last name'],
+				"password1":row['Password'],
+				"password2":row['Password'],
+			})
+			if user_form.is_valid():
+				user = user_form.save(commit=False)
+			else:
+				for key in user_form.errors:
+					error_json["error_body"].append("Error in Password : %s" % (user_form.errors[key]))
+					error_df = error_df.append(row)
 			# print(type(user))
 			dict1.update({
 				"User_id" : user,
@@ -259,7 +277,21 @@ def validate_and_make_faculty_details(df,my_institute):
 				error_json["error_body"].append("No Shift named %s in %s" % (row['Shift'],row['Department']))
 				error_df = error_df.append(row)
 		else:
-			user = CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
+			user = None
+			user_form = add_user({
+				"email":row['E-mail'],
+				"first_name":row['First name'],
+				"last_name":row['Last name'],
+				"password1":row['Password'],
+				"password2":row['Password'],
+			})
+			if user_form.is_valid():
+				user = user_form.save(commit=False)
+			else:
+				for key in user_form.errors:
+					error_json["error_body"].append("Error in Password : %s" % (user_form.errors[key]))
+					error_df = error_df.append(row)
+			# CustomUser(email=row['E-mail'],first_name=row['First name'],last_name=row['Last name'],password=row['Password'])
 			# print(type(user))
 			dict1.update({
 				"User_id" : user,
@@ -467,7 +499,9 @@ class csv_check_api(APIView):
 			error_list,details = validate_student_csv(df,request)
 			all_saved_pks = []
 			if not error_list:
+				group = Group.objects.get(name='Student')
 				for i,row in details.iterrows():
+					print(".",end="")
 					student_form = add_student_details(row)
 					if student_form.is_valid():
 						user = row["User_id"]
@@ -475,19 +509,20 @@ class csv_check_api(APIView):
 						candidate = student_form.save(commit=False)
 						candidate.User_id = user
 						try:
-							# user.save()
-							# all_saved_pks.append(user.pk)
-							# candidate.save()
+							user.save()
+							user.groups.add(group)
+							all_saved_pks.append(user.pk)
+							candidate.save()
 							# print("done safely, self destructing .. ",user.email)
 							# user.delete()
 							pass
 						except Exception as e:
-							# print("Something went wrong deleting all .. ",e)
-							# print(all_saved_pks)
-							# for j in all_saved_pks:
-							# 	CustomUser.objects.filter(pk=j).delete()
+							print("Something went wrong deleting all .. ",e)
+							print(all_saved_pks)
+							for j in all_saved_pks:
+								CustomUser.objects.filter(pk=j).delete()
 							pass
-					print(all_saved_pks)
+					# print(all_saved_pks)
 			
 		elif csv_type == "faculty":
 			print("faculty csv found refining ")
@@ -495,7 +530,9 @@ class csv_check_api(APIView):
 			print(error_list)
 			all_saved_pks = []
 			if not error_list:
+				group = Group.objects.get(name='Faculty')
 				for i,row in details.iterrows():
+					print(".",end="")
 					faculty_form = faculty_details_csv(row)
 					faculty_load_form = faculty_load(row)
 					if faculty_form.is_valid() and faculty_load_form.is_valid():
@@ -507,6 +544,7 @@ class csv_check_api(APIView):
 						faculty_load_candidate.Faculty_id = faculty_details
 						try:
 							user.save()
+							user.groups.add(group)
 							all_saved_pks.append(user.pk)
 							faculty_details.save()
 							faculty_load_candidate.save()

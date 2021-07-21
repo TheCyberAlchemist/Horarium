@@ -23,5 +23,12 @@ class CustomUserAdmin(UserAdmin):
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
 
+from .models import AuditEntry
+
+@admin.register(AuditEntry)
+class AuditEntryAdmin(admin.ModelAdmin):
+    list_display = ['user_id','action','email_used']
+    list_filter = ['action','email_used',"timestamp"]
+    readonly_fields = ('timestamp',)
 
 admin.site.register(get_user_model(), CustomUserAdmin)

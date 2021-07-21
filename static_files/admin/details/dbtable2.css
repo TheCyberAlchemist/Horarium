@@ -1,0 +1,147 @@
+.main_content .table_container {
+  width: 85% !important;
+}
+
+.main_content.user_dash .table_container {
+  width: 95% !important;
+}
+
+.dtr-data a {
+  color: #0d6efd !important;
+}
+
+.table_container .table thead tr th,
+.table_container .table tbody tr td {
+  font-size: 0.85rem !important;
+  outline: 0;
+  font-family: "Poppins", sans-serif !important;
+}
+
+.table_container .table tbody .even td,
+.table_container .table tbody .odd td {
+  border-bottom: 1px solid #b9b9b9 !important;
+}
+
+.table_container .table tbody .even td:first-child,
+.table_container .table tbody .odd td:first-child {
+  color: blue;
+}
+
+.fas.fa-edit,
+.fas.fa-sign-in-alt {
+  font-size: 22px !important;
+  transform: translateY(4px);
+  color: grey !important;
+  transition: 0.3s;
+}
+
+.fas.fa-edit:hover {
+  color: #6767ff !important;
+  transition: 0.3s;
+}
+
+.fas.fa-chart-line {
+  color: grey !important;
+}
+
+.fas.fa-hashtag {
+  color: black !important;
+}
+
+.search_box .form-control:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border: none !important;
+}
+
+.search_box .form-control {
+  box-shadow: none !important;
+  border: 0 !important;
+  height: 30px !important;
+  margin-top: 5px !important;
+}
+
+.search_box .form-control-underlined {
+  border-width: 0;
+  border-bottom-width: 1px;
+  border-radius: 0;
+  padding-left: 0;
+}
+
+.search_box .form-control::-moz-placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_box .form-control:-ms-input-placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_box .form-control::placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_container {
+  width: 200px !important;
+  height: 25px !important;
+}
+
+.search_container .input-group .input-group-append .btn {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+#student_details .row-details,
+#faculty_details .row-details {
+  text-align: center;
+  margin: 0 auto !important;
+}
+
+#student_details .row-details table,
+#faculty_details .row-details table {
+  table-layout: fixed !important;
+}
+
+#student_details .row-details tbody tr td,
+#faculty_details .row-details tbody tr td {
+  border: 1px solid #b9b9b9;
+}
+
+#student_details .row-details tbody tr td ul li,
+#faculty_details .row-details tbody tr td ul li {
+  list-style-type: none;
+}
+
+@media screen and (max-width: 600px) {
+  .main_content .table_container {
+    width: 100% !important;
+  }
+
+  .main_content.user_dash .table_container {
+    width: 100% !important;
+  }
+
+  table.dataTable > tbody > tr.child span.dtr-title {
+    min-width: auto !important;
+  }
+
+  .table.responsive {
+    table-layout: fixed !important;
+  }
+
+  td.child {
+    word-wrap: break-word !important;
+    white-space: normal !important;
+  }
+
+  .row.d-flex.align-items-center {
+    margin-left: 10px !important;
+  }
+}/*# sourceMappingURL=dbtable2.css.map */

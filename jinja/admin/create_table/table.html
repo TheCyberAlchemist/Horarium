@@ -25,6 +25,9 @@
     .fas {
         color : black !important;
     }
+	.items:not(:first-child) {
+
+	}
 </style>
 {%endblock%}
 {% block scripts %}
@@ -429,20 +432,20 @@ if (header){
           <h5 class="modal-title" id="generate_modal_label">Select Batches to merge</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body" id = "batch_mearging">
+        <div class="modal-body" id = "batch_mearging" style="overflow-y:auto;height:70vh">
             {% for subject in my_subjects %}
                 {%set prac_batches = my_batches.filter(batch_for="prac",subjects_for_batch = subject)%}
                 {%set lect_batches = my_batches.filter(batch_for="lect",subjects_for_batch = subject)%}
                 {%if prac_batches %}
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 items">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control myinputs" id="sub_name"
-                                placeholder="" name="sub_name" required maxlength="20"/>
+                                placeholder="" name="sub_name" required maxlength="20" disabled/>
                             <label for="sub_name">{{subject}} Practical</label>
                         </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 items">
                             {% for batch in prac_batches %}
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="{{subject.id}}" type="checkbox" id="inlineCheckbox{{loop.index}}" value="{{batch.id}}">
@@ -454,14 +457,14 @@ if (header){
                 {% endif %}
                 {%if lect_batches %}
                     <div class="row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 items">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control myinputs" id="sub_name"
-                                placeholder="" name="sub_name" required maxlength="20"/>
+                                placeholder="" name="sub_name" required maxlength="20" disabled/>
                             <label for="sub_name">{{subject}} Lecture</label>
                         </div>
                         </div>
-                        <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-12 col-md-12 col-sm-12 items">
                             {% for batch in lect_batches %}
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" name="{{subject.id}}" type="checkbox" id="inlineCheckbox{{loop.index}}" value="{{batch.id}}">
@@ -472,6 +475,7 @@ if (header){
                     </div>
                 {% endif %}
             {% endfor %}
+      </div>
             <div class="modal-footer">
                 <div class="row" style="width: 100%;">
                     <div class="col-lg-6 col-sm-12 col-md-12">
@@ -482,7 +486,6 @@ if (header){
                     </div>
                 </div>
             </div>
-      </div>
     </div>
   </div>
   

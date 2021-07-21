@@ -12,6 +12,9 @@
           }*/
     </style>
 {% endblock %}
+{% block scripts %}
+
+{% endblock %}
 <!-- content here -->
 <!-- <nav id="navbar" class="navbar navbar-expand-lg sticky-top"
   style="padding: 0.1rem 1rem;background-color:#101820FF">
@@ -31,9 +34,9 @@
 </nav>  -->
 
 <div class="nav_container">
-  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #010102">
     <div class="container-fluid">
-      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif"> 
+      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif" href="/"> 
           Horarium
         <!-- <img src="{{static ('logo/clock_for_black_background.svg') }}" alt="" style="width:60px;height:60px"> -->
       </a>
@@ -45,7 +48,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
             <li class="nav-item">
-                <a class="active nav-link s">About Us</a>
+                <a class="active nav-link s" href="/about">About Us</a>
             </li>
         </ul>
       </div>

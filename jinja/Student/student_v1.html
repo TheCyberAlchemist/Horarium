@@ -26,7 +26,7 @@
       //#endregion
 </script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {% endblock %} {% block content %}
 
 <div class="container-fluid pt-4 mt-5" translate="no">
@@ -34,7 +34,7 @@
     <span class="h5" style="font-family: Poppins, sans-serif"> Remaining Feedbacks are <span id="sub_fraction"> </span> </span>
     <span class="h5" style="font-family: Poppins, sans-serif; margin-left: 10px">
       <!-- <button class="btn btn-outline-success"> -->
-        <img src="{{static ('student/survey.svg')}}" id="sidebar" height="40px" width="40px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
+        <img src="{{static ('student/survey.svg')}}" id="sidebar" height="30px" width="30px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
       <!-- </button> -->
     </span>
   </div>
@@ -149,7 +149,7 @@
         </div> -->
 
     <!-- Button trigger modal -->
-    <button type="button" class="btn modal_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button>
+    <!-- <button type="button" class="btn modal_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Launch demo modal</button> -->
 
     <!-- Modal -->
 
@@ -203,7 +203,7 @@
     </div>
   </div>
 
-  <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas feedback_panel offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
     <div class="offcanvas-header">
       <h5 id="offcanvasRightLabel">
         <nav class="for-feedback">
@@ -217,7 +217,7 @@
     </div>
     <div class="tab-content" id="nav-tabContent"  style="overflow-y: auto;">
       <div class="tab-pane fade show active" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
-        <div class="offcanvas-body feedback_panel" id="feedback_panel">
+        <div class="offcanvas-body feedback_body" id="feedback_body">
           <!-- cards go here -->
         </div>
       </div>

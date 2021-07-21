@@ -1,7 +1,13 @@
+@charset "UTF-8";
+/* #region  Main content containing FORM and TABLE */
 .main_content,
 html {
   background-color: #f1f4f6 !important;
   padding-top: 60px !important;
+}
+
+a {
+  text-decoration: none !important;
 }
 
 .user_dash.main_content,
@@ -10,11 +16,21 @@ html {
   padding-top: 30px !important;
 }
 
+.legend {
+  position: absolute;
+  top: -18px;
+  background-color: transparent;
+}
+
+/* #endregion */
+/* #region  Form Container */
 .form_container .components-section {
   width: 80%;
   margin: 0 auto;
 }
 
+/* #endregion */
+/* #region  Form Inputs  */
 .form-control.myinputs {
   border-top: none !important;
   border-right: none !important;
@@ -22,9 +38,7 @@ html {
   border-bottom: 1px solid #ced4da !important;
   border-radius: 0 !important;
   outline: none !important;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
-  -webkit-transition: 0.1s;
+  box-shadow: none !important;
   transition: 0.1s;
 }
 
@@ -34,12 +48,11 @@ html {
 
 .form-control.myinputs:focus + label {
   color: #0d6efd !important;
-  -webkit-transition: 0.1s;
   transition: 0.1s;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
@@ -50,67 +63,30 @@ input[type="number"]::-webkit-outer-spin-button {
   border: none !important;
   border-radius: 0 !important;
   outline: none !important;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .form-control.myinputs:focus {
   outline: none !important;
 }
 
-div.dataTables_wrapper div.dataTables_length select {
-  width: 80px;
-}
-
-.legend {
-  position: absolute;
-  top: -18px;
-  background-color: transparent;
-}
-
-.input_icons {
-  position: absolute;
-  top: 0%;
-  left: 95%;
-  height: 35px;
-  width: 35px;
-}
-
-a {
-  text-decoration: none !important;
-}
-
-.form_hider {
-  position: absolute;
-  left: 96%;
-  top: 4.5%;
-  height: 30px;
-  width: 30px;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-}
-
-.form_hider:hover {
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-  height: 35px;
-  width: 35px;
-  -webkit-transition: 0.2s;
-  transition: 0.2s;
-}
-
 .form-check-input {
   width: 1.5em !important;
   height: 1.56em !important;
   outline: none !important;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
 
-.form-floating input[type="time"] {
+.form-floating input[type=time] {
   width: 100% !important;
 }
 
+/* #endregion */
+div.dataTables_wrapper div.dataTables_length select {
+  width: 80px;
+}
+
+/* #region  Subject Colours Styling*/
 .color_palette_container {
   width: 100%;
 }
@@ -119,7 +95,6 @@ a {
   height: 50px;
   width: 50px;
   border-radius: 7px;
-  -webkit-transition: 0.1s;
   transition: 0.1s;
   margin-bottom: 0.6em;
   margin-right: 10px;
@@ -127,9 +102,7 @@ a {
 }
 
 .colors:hover {
-  -webkit-transform: scale(1.3);
-          transform: scale(1.3);
-  -webkit-transition: 0.1s;
+  transform: scale(1.3);
   transition: 0.1s;
   opacity: 0.8;
   border-radius: 30px;
@@ -142,26 +115,25 @@ a {
           appearance: none;
 }
 
-.accordion-button {
-  padding: 0.5rem 1.25rem !important;
-  background-color: transparent !important;
-}
-
+/* #endregion */
+/* #region  Faculty Detail Page Pagination */
 .myform .pagination_container nav {
-  -webkit-transform: translateX(45%);
-          transform: translateX(45%);
+  transform: translateX(45%);
 }
 
+/* #endregion */
+/* #region  Breadcrumbs */
 .container.navigate {
   margin-left: 40px !important;
-  -webkit-transform: translateY(-30px);
-          transform: translateY(-30px);
+  transform: translateY(-30px);
 }
 
 .breadcrumb-item.active a {
   color: #0d6efd !important;
 }
 
+/* #endregion */
+/* #region  Success Button  */
 .btn.btn-outline-success {
   color: #2dce89 !important;
   border-color: #2dce89 !important;
@@ -182,7 +154,8 @@ a {
   color: #fff !important;
 }
 
-/*//////////////////Can Teach//////////////////*/
+/* #endregion */
+/* #region  Can Teach */
 .can_container {
   font-size: 15px;
   position: relative;
@@ -207,27 +180,23 @@ a {
 }
 
 .can_container .form-check {
-  -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
+  transform: translateY(-3px);
 }
 
 .can_container .form-check-input {
   height: 20px !important;
   width: 20px !important;
-  -webkit-transform: translateX(-10px);
-          transform: translateX(-10px);
+  transform: translateX(-10px);
 }
 
 .can_container .form-check label {
-  -webkit-transform: translateX(-10px);
-          transform: translateX(-10px);
+  transform: translateX(-10px);
 }
 
 .can_container ul {
   border-left: 1px solid red;
   margin-left: 7px;
-  -webkit-transform: translateY(-15px);
-          transform: translateY(-15px);
+  transform: translateY(-15px);
 }
 
 .can_container #branches {
@@ -263,27 +232,34 @@ a {
   left: -34px;
 }
 
-/* #region  For Popover info button arrow  */
+/* #endregion */
+/* #region  For bootstrap Popover info button arrow  */
 .popover-arrow {
   display: none !important;
 }
 
 /* #endregion */
+/* #region Form Accordion Close and Open Button */
+.accordion-button {
+  padding: 0.5rem 1.25rem !important;
+  background-color: transparent !important;
+}
+
 .accordion-button::after {
   background-image: url("../admin/details/img/minus.png") !important;
 }
 
 .accordion-button.collapsed::after {
   background-image: url("../admin/details/img/plus2.png") !important;
-  -webkit-transform: scale(1.7) !important;
-          transform: scale(1.7) !important;
+  transform: scale(1.7) !important;
 }
 
 .accordion-button:not(.collapsed) {
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
 
+/* #endregion */
+/* #region Subject Details <a> tag styling  */
 .sub_event_go a {
   color: #0d6efd !important;
 }
@@ -292,6 +268,8 @@ a {
   color: #0d31fd !important;
 }
 
+/* #endregion */
+/* #region  SWAL Styling */
 .swal2-container .swal2-modal .swal2-content div ul li {
   list-style-type: none;
 }
@@ -300,12 +278,13 @@ a {
   margin-right: 10px;
 }
 
+/* #endregion */
+/* #region  Slot Modal Styling */
 .day_line::after {
   content: "";
   position: absolute;
   height: 1px;
-  -webkit-transform: translate(-18px, 18px);
-          transform: translate(-18px, 18px);
+  transform: translate(-18px, 18px);
   width: 85px;
   background-color: black;
 }
@@ -314,53 +293,62 @@ a {
   #slotModal .modal-dialog {
     max-width: 900px !important;
   }
+
   #slotModal .modal-footer {
     border-top: none !important;
   }
+
   #slotModal .modal-header {
     border-bottom: none !important;
   }
+
   #day1 {
     margin-bottom: 20px;
   }
 }
-
+/* #endregion */
+/* #region  Mobile Device */
 @media screen and (max-width: 600px) {
   .form_container .components-section {
     width: 100%;
     margin: 0 auto;
   }
+
   .input_icons {
     left: 88%;
     height: 30px !important;
     width: 30px !important;
   }
+
   .form-check {
     width: 10px;
-    -webkit-transform: translateX(10px);
-            transform: translateX(10px);
+    transform: translateX(10px);
   }
+
   tr.child {
     text-align: left;
   }
+
   .fas.fa-hashtag {
     font-size: 15px !important;
   }
+
   .myform {
     font-size: smaller;
   }
+
   .myform .pagination_container nav {
-    -webkit-transform: translateX(25%);
-            transform: translateX(25%);
+    transform: translateX(25%);
   }
+
   .popover-arrow {
     position: absolute;
     left: 0px;
-    -webkit-transform: translate3d(143px, 0px, 0px) !important;
-            transform: translate3d(143px, 0px, 0px) !important;
+    transform: translate3d(143px, 0px, 0px) !important;
   }
 }
-
+/* #endregion */
+/* #region  Collapsible Can Teach TRY */
 ul,
 #myUL {
   list-style-type: none;
@@ -383,7 +371,7 @@ ul,
 }
 
 #myUL .caret::before {
-  content: "\25B6";
+  content: "▶";
   color: black;
   display: inline-block;
   margin-right: 6px;
@@ -391,7 +379,6 @@ ul,
 
 #myUL .caret-down::before {
   /* IE 9 */
-  -webkit-transform: rotate(90deg);
   /* Safari */
   transform: rotate(90deg);
 }
@@ -403,4 +390,5 @@ ul,
 #myUL .active {
   display: block;
 }
-/*# sourceMappingURL=form2.css.map */
+
+/* #endregion *//*# sourceMappingURL=form2.css.map */

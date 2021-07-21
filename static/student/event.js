@@ -1,5 +1,6 @@
 var events = [],breaks= [];
-INTERVAL = 5;
+const INTERVAL = 5;
+const HOUR_VALUE = 3600 * 1000; 
 class time{
 	constructor(hrs = 0,min = 0 ,sec= 0){
 		this.hrs = hrs;
@@ -115,7 +116,7 @@ function put_events(e,b){
 		temp_event = new event_class();
 		// temp_event = new event_class(b[i].pk,temp_start_time,temp_end_time,null,b[i].name,true);
 
-		temp_event.put_pk_name_is_break(b[i].pk,null,true);
+		temp_event.put_pk_name_is_break(b[i].pk,b[i].name,true);
 		temp_event.put_start_end_time(temp_start_time,temp_end_time);
 
 		events.push(temp_event);
@@ -240,7 +241,7 @@ function get_card(event){
 			${event.name}
 		</button></h5>
         <p class="card-text">Fill the feedback form for ${event.name} By ${event?.faculty_short} here</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
         </div>
     </div>`
 	return txt3;
@@ -252,7 +253,7 @@ g = 0;
 function append_card(event){
 	card = get_card(event);
 	// card.effect("highlight", {}, 3000);
-	$("#feedback_panel").append(card);
+	$("#feedback_body").append(card);
 
 	card.addEventListener("mouseover",function(){
 		// get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);
@@ -279,7 +280,7 @@ function get_mandatory_cards(subject){
 				${subject.short}
 			</button></h5>
 			<p class="card-text">Fill the feedback form for ${subject.name} here</p>
-            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+            <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
         </div>
     </div>`
 	return txt3;
@@ -333,8 +334,33 @@ let mandatory_subjects,meta_data;
 function remove_mandatory_subject(subject_id){
 	mandatory_subjects = mandatory_subjects.filter(s=>s.id !=subject_id);
 }
-// global_time = new time(10,12,56);
+
+function open_pop_up(link){
+	popUp = window.open(link, '_blank');
+	if (popUp == null || typeof(popUp)=='undefined') { 	
+		if (!getWithExpiry("link not opened pop-up allow")){	
+			pop_up_warning();
+			setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+		}
+		//alert('Please disable your pop-up blocker and click the "Open" link again.');
+	}
+}
+function pop_up_warning(){
+	Swal.fire(
+		'<strong>Please allow pop-up</strong>',
+		'Allow pop-ups so we can open your links automatically on time.',
+		'warning'
+	)
+}
+var sec = 55;
+global_time = new time(10,54,56);
 jQuery(function () {
+	//#region  ////////////// pop-up allowance //////////////
+	if (!getWithExpiry("pop-up info")){
+		pop_up_warning();
+		setWithExpiry("pop-up info",true,1000 * HOUR_VALUE);
+	}
+	//#endregion
 	let st,et;
 	var i = 0;
 	//#region  ////////////// boiler-plate //////////////
@@ -388,39 +414,58 @@ jQuery(function () {
 		e.preventDefault();
 		// console.log(form.serialize())
 		if ($("#event_id").val()){
+			let event_id = $("#feedback_form #event_id").val()
 			$.ajax({
 				type: "post",
 				data: form.serialize(),
-				success: function (){
-					let event_id = $("#feedback_form #event_id").val()
-					// console.log("success");
+				beforeSend: function() {
+					// setting a timeout
 					if (event_id){
-						remove_card(event_id);					
+						remove_card(event_id);
+						$("#event_id").val("");
+						// remove event_id val so that the card is not appended in the backend
 					}
-					setWithExpiry(`feedback_done-${event_id}`,true,24*3600*1000);
+				},
+				success: function (){
+					// console.log("success");
+					setWithExpiry(`feedback_done-${event_id}`,true,24*HOUR_VALUE);
 					form.trigger("reset");
 				},
 				error:function(){
+					if (event_id){
+						append_card(get_event_by_id(event_id))
+						$("#event_id").val(event_id);
+						// add event_id so that it can be made as it was
+					}
 					form.trigger("reset");
 				}
 			});
 		}
 		if ($("#subject_id").val()){
+			let subject_id = $("#feedback_form #subject_id").val()
 			$.ajax({
 				type: "post",
 				url:'./fill_mandatory_feedback',
 				data: form.serialize(),
+				beforeSend: function() {
+					// setting a timeout
+					if (subject_id){
+						remove_card(null,event_id);					
+						$("#subject_id").val("");
+						// remove subject_id val so that the card is not appended in the backend
+					}
+				},
 				success: function (){
-					let subject_id = $("#feedback_form #subject_id").val()
 					remove_mandatory_subject(subject_id);
 					let subj_number = mandatory_subjects.length;
 					$("#sub_fraction").html(`${subj_number} / ${meta_data[0].total_sub}`);
-					if (subject_id){
-						remove_card(null,subject_id);					
-					}
 					form.trigger("reset");
 				},
 				error:function(){
+					if (subject_id){
+						append_mandatory_cards(get_subject_by_id(subject_id));
+						$("#subject_id").val(subject_id);
+					}
 					form.trigger("reset");
 				}
 			});
@@ -492,14 +537,13 @@ jQuery(function () {
 	}
 	put_events_on_timeline();
 	var progress_bar_counter = 0
-	var sec = 55;	
 	var last_popped_event;
 	let first_main_call = true;
 	function main(){
 		var d = new Date();
 		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		ct = new time(10,12,sec);
-		// ct = global_time;
+		// ct = new time(10,12,sec);
+		ct = global_time;
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;
@@ -576,7 +620,7 @@ jQuery(function () {
 
 					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
 						// if the event feedback form is not popped 
-						console.log(events[i].end.delta(ct).tis);
+						// console.log(events[i].end.delta(ct).tis);
 						pop_up_form(events[i]);
 						last_popped_event = events[i];
 					}
@@ -586,9 +630,10 @@ jQuery(function () {
 					get_cell(events[i]).addClass("td_active");
 					if (!events[i].opened){
 						if(parseInt(i) == 0 || (parseInt(i) != 0 && (events[parseInt(i)-1].link != events[i].link || (events[parseInt(i)-1].link == events[i].link && !(events[parseInt(i)-1].opened)) ))){
-							window.open(events[i].link, '_blank')
+							// window.open(events[i].link, '_blank')
+							open_pop_up(events[i].link);
 							events[i].opened = true;
-							setWithExpiry("opened-"+events[i].pk,true,6*3600*1000);
+							setWithExpiry("opened-"+events[i].pk,true,6*HOUR_VALUE);
 						}
 					}
 					// console.log("This lecture is :: ",get_cell(events[i]));

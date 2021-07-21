@@ -4,16 +4,18 @@ from django.core import serializers
 import json
 import datetime
 from django.db.models import Q
-from django.contrib.auth.decorators import login_required
 from django.core.mail import send_mail
+from django.contrib.auth.hashers import check_password
 
 from student_V1.forms import * 
 from subject_V1.models import Subject_details,Subject_event
 from student_V1.models import Student_details
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
+from django.contrib.auth.decorators import login_required
 from Table_V2.models import Event
 from institute_V1.models import Slots,Timings,Shift,Working_days,Batch
 from faculty_V1.models import Feedback,Feedback_type
+
 
 def get_events_json(qs):
 	data = serializers.serialize("json", qs)
@@ -95,7 +97,7 @@ def send_regular_email(user,my_subject_event,my_event,query):
 			subject, #subject
 			body, #message
 			from_email = None, # from email 
-			recipient_list = ['devmpatel19@gnu.ac.in'] # to email
+			recipient_list = ['horarium@tecrave.in'] # to email
 		)
 	# print(subject,body)
 
@@ -110,7 +112,8 @@ def student_home(request):
 	student = request.user.student_details
 	my_shift = student.Division_id.Shift_id
 	my_events = Event.objects.active().filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
-	day = "Monday"
+	# day = "Monday"
+	day = None
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
@@ -139,15 +142,40 @@ def student_home(request):
 				raise Http404
 			candidate.Subject_event_id = my_subject_event
 			candidate.Given_by = request.user
-			print("asdasd")
 			if candidate.query:
 				send_regular_email(request.user,my_subject_event,my_event,request.POST['query'])
 			print(candidate," - saved")
-			# candidate.save()
+			candidate.save()
 
 	# get_all_subjects_of_feedback_type(request)
 	# fill_mandatory_feedback(request)
 	return render(request,"Student/student_v1.html",context)
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
+def student_settings(request) :
+	user = request.user
+	student = user.student_details
+	context = {
+		"my_institute":student.Institute_id,
+		"my_email":user.email,
+		"my_division":student.Division_id.name,
+		"my_semester":student.Division_id.Semester_id,
+		"my_department":student.Division_id.Semester_id.Branch_id.Department_id,
+		"my_batches": f"{student.prac_batch} | {student.lect_batch}"
+	}
+	if request.method == 'POST':
+		password1 = request.POST.get('password1')
+		password2 = request.POST.get('password2')
+		current_password = request.POST.get('current_password')
+		if password1 and current_password and password2:
+			if password1 == password2 and check_password(current_password,request.user.password):
+				pass
+				# password changed
+
+
+	return render(request,'AccountSetting/student_settings.html',context)
+
 
 def sendMail(request) :
 	if request.method == "POST" :
@@ -161,7 +189,7 @@ def sendMail(request) :
 			message_name, #subject
 			message, #message
 			message_email, # from email 
-			['devmpatel19@gnu.ac.in'] # to email
+			['tecrave@horarium.in'] # to email
 		)
 		return render(request,'Student/submitted.html',{'message':message})	
 	else : 
@@ -261,6 +289,6 @@ def add_student(request):
 		# 	# print(form)
 		if form.is_valid():
 			form.save()
-			print("here")
+			# print("here")
 		
 	return render(request,'/try/asd.html',{'form':form})

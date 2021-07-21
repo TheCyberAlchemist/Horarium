@@ -1,7 +1,7 @@
 <div class="tab-pane fade show active" id="pills-faculty" role="tabpanel" aria-labelledby="pills-faculty-tab">
     <!-- #region Faculty Form  -->
     <div class="container mb-4">
-    <a href="{{url ('csv_upload')}}">
+    <a href="{{url ('csv_upload',args=[my_department.id])}}">
         <button class="btn btn-success w-100">
             Import CSV 
         </button>
@@ -73,10 +73,6 @@
                                             id="myinput2" name="password2" placeholder="-" required autocomplete="off">
                                         <label for="password2">Confirm Password</label>
                                     </div>
-                                </div>
-                                <div class="container mt-4" style="width:80%;">
-                                    <button type="submit" class="btn btn-outline-success"
-                                        style="width:100%">Submit</button>
                                 </div>
                             </div>
                         </div>

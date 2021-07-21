@@ -16,7 +16,6 @@ from django.core.mail import send_mail
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
@@ -100,24 +99,35 @@ TEMPLATES = [
 WSGI_APPLICATION = 'Horarium.wsgi.application'
 
 
+#CSRF_COOKIE_SECURE = True
+#SESSION_COOKIE_SECURE = True
+
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
+   'default': {
+       'ENGINE': 'django.db.backends.sqlite3',
+       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   },
 }
 # DATABASES = {
 #     'default': {
+#          'ENGINE': 'django.db.backends.mysql',
+#          'NAME': 'mysqlhorarium',
+#          'HOST': '127.0.0.1',
+#          'PORT': '3306',
+#          'USER': 'root',
+#          'PASSWORD': '',
+#     },
+#     'horarium': {
 #         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'none',
+#         'NAME': 'horarium',
 #         'HOST': '127.0.0.1',
 #         'PORT': '3306',
 #         'USER': 'root',
-#         'PASSWORD': 'root',
-#     }
+#         'PASSWORD': '',
+#      }
 # }
 
 # Password validation
@@ -162,13 +172,13 @@ USE_TZ = False
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = '/Horarium/static/'
 MEDIA_URL = '/media/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'abc')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_files')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'login_V2.CustomUser'
 
@@ -183,3 +193,17 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'horarium1@gmail.com'
 EMAIL_HOST_PASSWORD = '{hintuteslaClock'
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.hostinger.in'
+# EMAIL_PORT = 465
+# EMAIL_USE_TLS = True
+# EMAIL_HOST_USER = 'horarium1@tecrave.in'
+# EMAIL_HOST_PASSWORD = 'Horarium123@tecrave'
+
+# EMAIL_USE_SSL = True
+
+# from django.core.mail import send_mail
+
+# send_mail('subject', 'body of the message', 'Horarium <horarium@tecrave.in>', ['horarium1@gmail.com'])

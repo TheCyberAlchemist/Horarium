@@ -42,6 +42,7 @@ def allowed_users(allowed_roles=[]):
                     user_groups_set.add(group.name)
             allowed_roles_set = set(allowed_roles)
             if user_groups_set & allowed_roles_set:
+                # print(request.user,"here")
                 return view_func(request,*args,**kwargs)
             else:
                 logout(request)

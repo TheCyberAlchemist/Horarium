@@ -102,9 +102,9 @@ def add_update_student(request,Department_id):
 
 			print("save can be executed ✅✅")
 
-			# name_form.save()
-			# user.groups.add(group)
-			# details.save()
+			name_form.save()
+			user.groups.add(group)
+			details.save()
 			print("Save has been Successfull ✅✅")			
 			return JsonResponse({'success':'Saved ✅✅'})
 		else:
@@ -152,7 +152,6 @@ def add_update_faculty(request,Department_id):
 
 				load.Faculty_id = details
 
-			
 			if user_obj: # if update
 				# region # check if the new load is >= load carried 
 				old_load_obj = Faculty_load.objects.get(Faculty_id=details)
@@ -163,10 +162,10 @@ def add_update_faculty(request,Department_id):
 				# endregion
 				print("Save can be executed ..... ✅✅")
 
-				# user.save()
-				# user.groups.add(group)
-				# details_form.save()
-				# load_form.save()
+				user.save()
+				user.groups.add(group)
+				details_form.save()
+				load_form.save()
 				old_can_teach = set(Can_teach.objects.filter(Faculty_id=details).values_list("Subject_id",flat = True))
 				new_can_teach = set(list(map(int,request.POST.getlist('can_teach'))))
 				to_be_deleted = old_can_teach.difference(new_can_teach)
@@ -182,9 +181,9 @@ def add_update_faculty(request,Department_id):
 				print("Save has been Successfull ..... ✅✅")
 			else:
 				print("Save can be executed ..... ✅✅")
-				# user.save()
-				# details_form.save()
-				# load_form.save()
+				user.save()
+				details_form.save()
+				load_form.save()
 				can_teach_obj_list = []
 				error_in_can_teach = False
 				for i in request.POST.getlist('can_teach[]'):
@@ -195,12 +194,12 @@ def add_update_faculty(request,Department_id):
 						error_in_can_teach = True
 						break
 				if error_in_can_teach:
-					# user.delete()
+					user.delete()
 					print("Save was not Successfull ❌")
 					return JsonResponse({'error':'We have some problems back here please refresh the page.'})
 				else:
-					# for can_teach_obj in can_teach_obj_list:
-					# 	can_teach_obj.save()
+					for can_teach_obj in can_teach_obj_list:
+						can_teach_obj.save()
 					print("Save has been Successfull ✅✅")
 			return JsonResponse({'success':'Saved ✅✅'})
 		else:

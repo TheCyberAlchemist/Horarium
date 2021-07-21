@@ -4,11 +4,11 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Poppins", sans-serif !important;
 }
 
 body,
 input {
+font-family: "Poppins", sans-serif !important;
   background-color: #f0f0f0;
   color: #333;
 }
@@ -138,7 +138,7 @@ form.sign-in-form {
 .login_btn {
   /* width: 150px; */
   padding: 0 20px;
-  background-color: #5995fd;
+  background-color: #3d83fd;
   border: none;
   outline: none;
   height: 49px;
@@ -177,8 +177,10 @@ form.sign-in-form {
   transform: translateY(-50%);
   /* background-image: linear-gradient(-45deg, #4481eb 0%, #04befe 100%); */
   /* background-image: linear-gradient(-45deg, #333 0%, #333 100%); */
-  /* background-image: linear-gradient(-45deg, #0568C1 0%, #0568C1 100%); */
-  background-image: linear-gradient(to left top, #357be3, #0093ee, #00a9f2, #00bdf0, #12cfeb);
+  /* background-image: linear-gradient(-45deg, #0568C1 0%, #2697fa 100%); */
+  /* background-image: linear-gradient(to right top, #0568c1, #0061d5, #0058e6, #004bf4, #0038ff); */
+  /* background-image: linear-gradient(to right top, #a005c1, #486efd, #00a1ff, #00c8ff, #00e9ff); */
+  background-image: linear-gradient(to left bottom, #086afd, #005cfa, #004cf6, #003bf1, #1225eb);
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
@@ -391,13 +393,17 @@ form.sign-in-form {
     padding: 0 1.5rem;
   }
   .signin-signup {
-      margin-top : 30px;
+      margin-top : 70px;
   }
   .image {
     display: none;
   }
   .panel .content {
     padding: 0.5rem 1rem;
+    font-size: x-small !important;
+  }
+  .panel .content h3 {
+      font-size: medium !important;
   }
   .login_container {
     padding: 1.5rem;
@@ -406,7 +412,7 @@ form.sign-in-form {
       min-height: 0 !important;
   }
   .login_container:before {
-    bottom: 70%;
+    bottom: 75%;
     left: 50%;
   }
   .login_btn.me {

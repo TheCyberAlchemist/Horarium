@@ -146,7 +146,7 @@ def student_home(request):
 			if candidate.query:
 				send_regular_email(request.user,my_subject_event,my_event,request.POST['query'])
 			print(candidate," - saved")
-			# candidate.save()
+			candidate.save()
 
 	# get_all_subjects_of_feedback_type(request)
 	# fill_mandatory_feedback(request)

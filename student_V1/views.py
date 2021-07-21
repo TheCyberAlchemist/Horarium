@@ -97,7 +97,7 @@ def send_regular_email(user,my_subject_event,my_event,query):
 			subject, #subject
 			body, #message
 			from_email = None, # from email 
-			recipient_list = ['horaium@tecrave.in'] # to email
+			recipient_list = ['horarium@tecrave.in'] # to email
 		)
 	# print(subject,body)
 

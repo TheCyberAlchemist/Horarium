@@ -26,6 +26,7 @@
       {% endif %}
       $(document).ready(function() {
         $("#select_fac").select2();
+		$("#select_co_fac").select2();
         {% if update %}
             $("#flush-collapseOne").collapse("show");
         {% endif %}
@@ -110,19 +111,38 @@
                                         <div class="row mb-3 mx-lg-5 mx-sm-0">
                                             <!--////////////////Form Goes here///////////-->
                                             {%if update%}
-                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
                                                         <input type="text" class="form-control myinputs" id="name"
                                                             placeholder="-" name="name" required autocomplete="off" disabled value = "{{update.Faculty_id.User_id}}">
                                                         <label for="name">Faculty Name</label>
                                                     </div>
+                                                </div>
+												<div class="col-lg-6 col-md-12 col-sm-12">
+                                                    <div class="form-floating mb-3">
+                                                        <input type="text" class="form-control myinputs" id="co_faculty_name"
+                                                            placeholder="-" name="co_faculty_name" required autocomplete="off" disabled value = "">
+                                                        <label for="co_faculty_name">Co-Faculty Name</label>
+                                                    </div>
                                                 </div>                                            
                                             {% endif %}
 
                                             {%if not update%}
-                                                <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+                                                <div class="col-lg-6 col-md-12 col-sm-12 text-center">
                                                     <select name="Faculty_id" id="select_fac" >
                                                         <option value="a" disabled selected>Select Faculty </option>
+                                                        {% if not update %}
+                                                        {% for faculty in my_faculty %}
+                                                            <option value="{{faculty.id}}">{{faculty.User_id}} ({{faculty.short}})</option>
+                                                        {% endfor %}
+                                                        {% else %}
+                                                        <option value="{{update.Faculty_id_id}}" selected >{{update.Faculty_id.User_id}} ({{update.Faculty_id.short}})</option>
+                                                        {% endif %}
+                                                    </select>
+                                                </div>
+												<div class="col-lg-6 col-md-12 col-sm-12 text-center">
+                                                    <select name="Co_Faculty_id" id="select_co_fac" >
+                                                        <option value="a" disabled selected>Select Co-Faculty </option>
                                                         {% if not update %}
                                                         {% for faculty in my_faculty %}
                                                             <option value="{{faculty.id}}">{{faculty.User_id}} ({{faculty.short}})</option>

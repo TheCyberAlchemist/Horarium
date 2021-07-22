@@ -133,7 +133,8 @@
 }
 
 #select_fac,
-#csv_select {
+#csv_select,
+#select_co_fac {
   width: 500px;
 }
 

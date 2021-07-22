@@ -163,7 +163,7 @@ def add_update_faculty(request,Department_id):
 				print("Save can be executed ..... ✅✅")
 
 				user.save()
-				user.groups.add(group)
+				# user.groups.add(group)
 				details_form.save()
 				load_form.save()
 				old_can_teach = set(Can_teach.objects.filter(Faculty_id=details).values_list("Subject_id",flat = True))
@@ -177,7 +177,7 @@ def add_update_faculty(request,Department_id):
 				for i in to_be_added:
 					a = Can_teach(Faculty_id = details,Subject_id_id=i)
 					print("added - ",a)
-					# a.save()
+					a.save()
 				print("Save has been Successfull ..... ✅✅")
 			else:
 				print("Save can be executed ..... ✅✅")

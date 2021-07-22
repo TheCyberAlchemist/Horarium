@@ -36,7 +36,6 @@ class Faculty_details(models.Model):
 	class Meta:
 		verbose_name_plural = "Faculty Details"
 
-# make fac id onetoone in load
 class Faculty_load(models.Model):
 	total_load = models.PositiveIntegerField()
 	Faculty_id = models.OneToOneField(Faculty_details,on_delete=models.CASCADE)
@@ -192,9 +191,12 @@ class Feedback(models.Model):
 	def __str__(self):
 		if self.Subject_event_id:
 			return str(self.Subject_event_id.Faculty_id) +" from "+ str(self.Given_by) + " at " + str(self.timestamp)
-		else:
-			if self.Subject_id:
-				return "Mandatory %s from %s at %s" % (self.Subject_id.name,self.Given_by,self.timestamp)
+		elif self.Subject_id:
+			return "Mandatory %s from %s at %s" % (self.Subject_id.name,self.Given_by,self.timestamp)
+		try:
+			return "Feedback for faculty %s -- Deleted Subject" % (self.Subject_event_id.Faculty_id)
+		except:
+			pass
 
 	def get_ave(self):
 		arr = [self.Q1,self.Q2,self.Q3,self.Q4,self.Q5,self.Q6,self.Q7,self.Q8,self.Q9]

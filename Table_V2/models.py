@@ -14,6 +14,9 @@ class active_manager(models.Manager):
 	def inactive(self):
 		'Get all the events having Subject_events having active = False in the db'
 		return super().get_queryset().filter(Subject_event_id__active=False)
+	def filter_faculty(self,Faculty_object):
+		'get all the Subject_event having the Faculty_object as Faculty_id or Co_faculty_id'
+		return super().get_queryset().filter(Q(Subject_event_id__Co_faculty_id=Faculty_object)|Q(Subject_event_id__Faculty_id=Faculty_object))
 
 class Event(models.Model):
 	Slot_id = models.ForeignKey(Slots,on_delete=models.CASCADE,related_name='lecture')

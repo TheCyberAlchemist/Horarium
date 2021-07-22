@@ -322,6 +322,7 @@ function get_event_by_id(pk){
 	}
 
 }
+
 function get_subject_by_id(id){
 	for(let s of mandatory_subjects){
 		if (s.id == id){
@@ -471,6 +472,19 @@ jQuery(function () {
 			});
 		}
 	});
+	var ds = new Date();
+	ct = new time(ds.getHours(),ds.getMinutes(),ds.getSeconds());
+	if (events.every(x => x.gone(ct))){ // if all events are over on load
+		for (let event of events){
+			if(!getWithExpiry(`feedback_done-${event.pk}`)){
+				if(!event.is_break){
+					// get_card(events[j]);
+					append_card(event);
+				}
+			}
+		}
+	}
+
 	//#endregion
 	
 	//#region  ////////////// time-related stuff //////////////
@@ -541,9 +555,9 @@ jQuery(function () {
 	let first_main_call = true;
 	function main(){
 		var d = new Date();
-		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
 		// ct = new time(10,12,sec);
-		ct = global_time;
+		// ct = global_time;
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;
@@ -648,8 +662,6 @@ jQuery(function () {
 				// console.log("This lecture is :: ",get_cell(events[i]));
 				// console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
 				break;
-			}else if(events[i].gone(ct) && i != events.length-1){
-				continue;
 			}else if (events[i].gone(ct) && i == events.length-1){
 				for(var j = 0;j < i ; j++){
 					get_cell(events[j]).addClass("td_gone");

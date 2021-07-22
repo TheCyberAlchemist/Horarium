@@ -89,7 +89,7 @@ $(document).ready ( function (){
 			data: $("#faculty_form").serialize(), // serializes the form's elements.
 			success: function(data)
 			{
-				// clear_form($("#student_form"));
+				clear_form($("#faculty_form"));
 				console.log(data);
 			},
 			error: function (data) {

@@ -135,53 +135,58 @@
     <!-- #endregion -->
 <hr>
     <!-- #region Mandatory Feedbacks Chart -->
-    <div class="row">
-      <div class="col-12">
-        <div id="mandatory_feedback_carousal" class="carousel carousel-dark slide" style="margin: 0 auto">
-          <div class="carousel-indicators">
-            {% for feedback_type in my_types[event.pk] %}
-                <button type="button" data-bs-target="#mandatory_feedback_carousal"
-                        data-bs-slide-to="{{loop.index - 1}}" aria-label="Slide {{loop.index}}"
-                        {% if loop.index == 1 %}
-                            class="active" aria-current="true"
-                        {% endif %}
-                >
-                </button>
-            {% endfor %}
-          </div>
-            <div class="carousel-inner">
-          	{% for feedback_type in my_types[event.pk] %}
-                <div class="carousel-item {% if loop.index == 1 %}active{% endif %}" data-bs-interval="false">
-                    <div class="card mt-2 mb-5" style="border-radius: 20px">
-                        <div class="card-title mt-2 text-center">
-                            <div class="row pt-3">
-                                <div class="col-lg-10 col-sm-12 col-md-12">
-                                    <span class="h4">Feedback For {{feedback_type.name}}</span>
-                                </div>
-                                <div class="col-lg-2 col-sm-12 col-md-12">
-                                    <!-- <button class="btn btn-outline-success">Active &nbsp; <i class="fas fa-circle"></i></button>     -->
-                                    <button class="btn btn-outline-danger">Completed &nbsp; <i class="fas fa-circle"></i></button>    
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body text-center" style="position: relative; margin: 0 auto">
-                            <canvas id="mandatory_feedback__{{feedback_type.pk}}" class="bar_styling"></canvas>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#mandatory_feedback_carousal" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#mandatory_feedback_carousal" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
-      </div>
-    </div>
+	{% if my_types[event.pk]%}
+		<div class="row">
+		<div class="col-12">
+			<div id="mandatory_feedback_carousal" class="carousel carousel-dark slide" style="margin: 0 auto">
+			<div class="carousel-indicators">
+				{% for feedback_type in my_types[event.pk] %}
+					<button type="button" data-bs-target="#mandatory_feedback_carousal"
+							data-bs-slide-to="{{loop.index - 1}}" aria-label="Slide {{loop.index}}"
+							{% if loop.index == 1 %}
+								class="active" aria-current="true"
+							{% endif %}
+					>
+					</button>
+				{% endfor %}
+			</div>
+				<div class="carousel-inner">
+				{% for feedback_type in my_types[event.pk] %}
+					<div class="carousel-item {% if loop.index == 1 %}active{% endif %}" data-bs-interval="false">
+						<div class="card mt-2 mb-5" style="border-radius: 20px">
+							<div class="card-title mt-2 text-center">
+								<div class="row pt-3">
+									<div class="col-lg-10 col-sm-12 col-md-12">
+										<span class="h4">Feedback For {{feedback_type.name}}</span>
+									</div>
+									<div class="col-lg-2 col-sm-12 col-md-12">
+										{% if feedback_type.active == 0 %}
+											<button class="btn btn-outline-success">Active &nbsp; <i class="fas fa-circle"></i></button>
+										{% else %}
+											<button class="btn btn-outline-danger">Completed &nbsp; <i class="fas fa-circle"></i></button>    
+										{% endif %}
+									</div>
+								</div>
+							</div>
+							<div class="card-body text-center" style="position: relative; margin: 0 auto">
+								<canvas id="mandatory_feedback__{{feedback_type.pk}}" class="bar_styling"></canvas>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#mandatory_feedback_carousal" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#mandatory_feedback_carousal" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+			</div>
+		</div>
+		</div>
+	{% endif %}
     <!-- #endregion -->
   </div>
   {% endfor %}

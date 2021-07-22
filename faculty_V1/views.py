@@ -97,6 +97,7 @@ def faculty_feedback(request,Faculty_id = None) :
 	subject_events_list = []
 	subjects_list = []
 	if Faculty_id:	# if called by admin_dashboard
+		# get the faculty_id from the user_id and then filter by function
 		subject_events =  Subject_event.objects.active().filter(Faculty_id__User_id=Faculty_id)
 	else:
 		subject_events =  Subject_event.objects.active().filter(Faculty_id=request.user.faculty_details)
@@ -217,7 +218,7 @@ class feedback(APIView):
 		subject_event = Subject_event.objects.active().get(pk = request.GET['id'])
 		# print(subject_event)
 		wef = subject_event.Subject_id.Semester_id.WEF_id
-		all_feeback  = Feedback.objects.filter(Subject_event_id = subject_event)
+		all_feedback  = Feedback.objects.filter(Subject_event_id = subject_event)
 		list_of_months = monthlist_fast([str(wef.start_date),str(wef.end_date)])
 		Que1 ,Que2 ,Que3 ,Que4 ,Que5 ,Que6 ,Que7 ,Que8 ,Que9 = ([] for i in range(9))
 		length1 ,length2 ,length3 ,length4 ,length5 ,length6 ,length7 ,length8 ,length9 = ([] for i in range(9))
@@ -238,7 +239,7 @@ class feedback(APIView):
 				for i in range(7):
 					labels.append(s_d.strftime("%d-%m (%a)"))
 					# print(s_d.strftime("%d-%m-%Y"))
-					day_feedback = all_feeback.filter(timestamp__date=s_d)
+					day_feedback = all_feedback.filter(timestamp__date=s_d)
 					[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(day_feedback)
 					Que1.append(q1)
 					length1.append(l1)
@@ -313,7 +314,7 @@ class feedback(APIView):
 					dates = i.split('-')
 					start_date = date.strptime('{}-{}-{}'.format(year,month_number,dates[0]),"%Y-%m-%d")
 					end_date = date.strptime('{}-{}-{} 23:59:59'.format(year,month_number,dates[1]),"%Y-%m-%d %H:%M:%S")
-					week_feedback = all_feeback.filter(timestamp__date__gte=start_date, timestamp__date__lt=end_date)
+					week_feedback = all_feedback.filter(timestamp__date__gte=start_date, timestamp__date__lt=end_date)
 					[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(week_feedback)
 					Que1.append(q1)
 					length1.append(l1)
@@ -369,7 +370,7 @@ class feedback(APIView):
 				for i in list_of_months:
 					labels.append(month_name[i.month])
 					ids.append(i.strftime("%B_%Y"))
-					month_feedback = all_feeback.filter(timestamp__month=i.month)
+					month_feedback = all_feedback.filter(timestamp__month=i.month)
 					[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(month_feedback)
 					Que1.append(q1)
 					length1.append(l1)
@@ -428,7 +429,7 @@ class feedback(APIView):
 		# s_d = date.strptime(start_date, '%Y-%m-%d')
 		for i in range(7):
 			labels.append(s_d.strftime("%d-%m (%a)"))
-			day_feedback = all_feeback.filter(timestamp__date=s_d)
+			day_feedback = all_feedback.filter(timestamp__date=s_d)
 			[q1 , q2 , q3 , q4 , q5 , q6 , q7 , q8 , q9],[l1, l2, l3, l4, l5, l6, l7, l8, l9] = get_ave_len(day_feedback)
 
 			Que1.append(q1)

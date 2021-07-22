@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Q
 
 ################################################
 
@@ -7,19 +8,6 @@ from institute_V1.models import Semester,Division
 
 N_len = 50
 S_len = 10
-# class Subject_manager(models.Manager):
-# 	def get(self, *args, **kwargs):
-# 		qs = super(Subject_manager, self).get( *args, **kwargs)
-# 		# for i in qs:
-# 		qs.set_load(False)
-# 		return qs
-	
-# 	def filter(self, *args, **kwargs):
-# 		qs = super(Subject_manager, self).filter( *args, **kwargs)
-# 		for i in qs:
-# 			i.set_load(False)
-# 		return qs
-
 
 class Subject_details(models.Model):
 	Semester_id = models.ForeignKey(Semester,on_delete=models.RESTRICT)
@@ -86,10 +74,14 @@ class active_manager(models.Manager):
 	def inactive(self):
 		'Get all the Subject_events having active = False in the db'
 		return super().get_queryset().filter(active=False)
+	def filter_faculty(self,Faculty_object):
+		'get all the Subject_event having the Faculty_object as Faculty_id or Co_faculty_id'
+		return super().get_queryset().filter(Q(Co_faculty_id=Faculty_object)|Q(Faculty_id=Faculty_object))
 
 class Subject_event(models.Model):
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)
-	Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE)
+	Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE,related_name='main_faculty')
+	Co_Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE,null=True,blank=True,related_name='co_faculty')
 	# link = models.URLField(max_length=200, null=True, blank=True)
 	prac_carried = models.PositiveIntegerField()
 	lect_carried = models.PositiveIntegerField()

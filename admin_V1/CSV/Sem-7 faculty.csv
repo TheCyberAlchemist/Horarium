@@ -1,0 +1,8 @@
+﻿E-mail,Password,First name,Last name,Short,Department,Shift,Designation,Load,Can Teach
+tp@horarium.com,thispassword,Tanvi,Puri,TP,CSE,Morning,Proffesor,20,CD
+sgb@horarium.com,thispassword,Sulabh,Bhat,SGB,CSE,Morning,Proffesor,20,"ABDA,BDAD"
+bmj@horarium.com,thispassword,BM,J,BMJ,CSE,Morning,Proffesor,20,"CCE,CDAD"
+v3@horarium.com,thispassword,V,3,V3,CSE,Morning,Proffesor,20,CCS
+uds@horarium.com,thispassword,Umang,Shukla,UDS,CSE,Morning,Proffesor,20,SIEM
+urt@horarium.com,thispassword,Umang,Thakkar,URT,CSE,Morning,Proffesor,20,IoT
+,,,,,,,,,

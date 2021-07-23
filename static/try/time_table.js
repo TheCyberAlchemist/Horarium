@@ -136,7 +136,7 @@ function get_respective_lect_prac_batch(subject_event_id,is_prac=false){
 		for (b in batches){
 			let batch = batches[b].fields;
 			if (batch.subjects_for_batch.includes(subject_id) && batch.batch_for == "lect"){
-				console.log(batch)
+				// console.log(batch)
 				temp = batches.filter(e=>e.fields.batch_for=="lect")
 				break
 			}
@@ -213,7 +213,7 @@ function get_resource_name_by_id(resource_id){
 
 //#region  ////////////// put methods ////////////////////////////
 function put_json_in_table(json_data){
-	console.table("obj-",json_data);
+	// console.table("obj-",json_data);
 	if (!json_data["my_events"]){
 		//#region for algo2 and all the other functions
 			for(i in json_data){
@@ -435,11 +435,16 @@ function clear_form(form){
 	});
 }
 
-function subject_event_has_load_remaining(subject_event_id,is_prac=false){
+function subject_event_has_load_remaining(event_obj,is_prac=false){
+	let subject_event_id = event_obj.Subject_event_id;
 	let subject_event = get_subject_event(subject_event_id);
 	let event_arr = events.filter(e => e.Subject_event_id==subject_event_id && Boolean(e.Slot_id_2) == is_prac);
 	event_arr = uniq_slot_id(event_arr);
+	// only get the number of prac or lecture taken without considering batches events on same slot
+	event_arr = event_arr.filter(e => e.Slot_id != event_obj.Slot_id)
+	// remove the events on the same slot too as to not consider it
 	total_similar_events = event_arr.length;
+	// console.log(total_similar_events)
 	if (total_similar_events){
 		// event_arr
 		if (event_arr[0].Slot_id_2){	// if it was a practical
@@ -507,7 +512,7 @@ function open_menu_in_event_div(event_div,e){
 
 function push_event(temp_event){
 	// check for batches in event_counter too
-	const debug = true; // for printing the method if 
+	const debug = false; // for printing the method if 
 	let a2 = [temp_event.Slot_id,temp_event.Slot_id_2];
 	let subject_event = get_subject_event(temp_event.Subject_event_id);
 	let is_prac = Boolean(a2[1]);
@@ -517,7 +522,7 @@ function push_event(temp_event){
 		return false;
 	}
 
-	if (!subject_event_has_load_remaining(temp_event.Subject_event_id,is_prac) || !subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac)){
+	if (!subject_event_has_load_remaining(temp_event,is_prac) || !subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac)){
 		console.log("max_filled",subject_has_load_for_batch(subject_event.subject_id,temp_event.Batch_id,is_prac));
 		return false;
 	}
@@ -1387,9 +1392,28 @@ function submited(){
 		}
 	});
 }
+function functABC() {
+	console.log("asd")
+  return new Promise(function(resolve, reject) {
+	$.ajax({
+		type: "post",
+		url: "./algo3/",
+		data: {
+			"locked_events":JSON.stringify(get_all_locked_events()),
+			"merging_events":get_form_json()
+		},
+		success: function (data){
+			clear_all_unlocked_td();
+			put_json_in_table(data);
+			console.log("returned data :- ",data);
+	  }
+  	});
+  });
+}
+
 
 function call_algo(){
-	console.log(get_all_locked_events());
+	// console.log(get_all_locked_events());
 	//#region for algo2
 	// $.ajax({
 	// 	type: "post",
@@ -1403,19 +1427,14 @@ function call_algo(){
   	// });
 	//#endregion
 	//#region for algo3
-	$.ajax({
-		type: "post",
-		url: "./algo3/",
-		data: {
-			"locked_events":JSON.stringify(get_all_locked_events()),
-			"merging_events":get_form_json()
-		},
-		success: function (data){
-			clear_all_unlocked_td();
-			// console.log(events);
-			put_json_in_table(data);
-	  }
-  	});
+	functABC().then(function(data) {
+		// Run this when your request was successful
+		console.log(data)
+	}).catch(function(err) {
+		// Run this when promise was rejected via reject()
+		console.log(err)
+	})
+
 	//#endregion
 }
 function get_form_json(){

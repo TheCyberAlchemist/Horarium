@@ -616,6 +616,7 @@ class main(APIView):
 						# if the current batch is in mearging batches
 						event_type = "prac" if is_prac else "lect"
 						batch_list = list(Batch.objects.filter(pk__in=mearging_batches,batch_for=event_type))
+						# print(batch_list,mearging_batches,template)
 				
 				if is_prac:		# if the subject_event is practical
 					if batch_list:	# if there is a batch for us to put it in
@@ -707,11 +708,20 @@ class main(APIView):
 						# print([subject_event,"Class","Lecture"])
 						# points,best_slot = get_point_for_lect_class(subject_event,all_events)
 						results_list.append([subject_event, batch_list,"Lecture",best_slot,None,points])
-				# print(" Subject_event :: {} \n Slot_id :: {} \n Point :: {}\n -----------------------------".format(subject_event,best_slot,points))
+				print(" Subject_event :: {} \n Slot_id :: {} \n Point :: {}\n -----------------------------".format(subject_event,best_slot,points))
+				# print(".",end="")
 			else:	# if the all events are placed
 					# if break is not called
 				infinite = False
+			if infinite:
+				print("---------------------")
+				print("❌❌❌ Infinite condition reached ♾♾ ❌❌❌")
+				print(f"\nPriority List is -- {priority_list}")
+				print("---------------------")
+
 		print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Points"],tablefmt="grid"))
+		# print(len(all_events))
+		# print(pprint(all_events))
 		data ={
 			"my_events":all_events.get_json(),
 		}

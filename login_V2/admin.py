@@ -28,7 +28,7 @@ from .models import AuditEntry
 @admin.register(AuditEntry)
 class AuditEntryAdmin(admin.ModelAdmin):
     list_display = ['user_id','action','email_used']
-    list_filter = ['action','email_used',"timestamp"]
+    list_filter = ['action',"timestamp",'email_used']
     readonly_fields = ('timestamp',)
 
 admin.site.register(get_user_model(), CustomUserAdmin)

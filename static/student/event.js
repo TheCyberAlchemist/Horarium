@@ -471,6 +471,18 @@ jQuery(function () {
 			});
 		}
 	});
+	var ds = new Date();
+	ct = new time(ds.getHours(),ds.getMinutes(),ds.getSeconds());
+	if (events.every(x => x.gone(ct))){ // if all events are over on load
+		for (let event of events){
+			if(!getWithExpiry(`feedback_done-${event.pk}`)){
+				if(!event.is_break){
+					// get_card(events[j]);
+					append_card(event);
+				}
+			}
+		}
+	}
 	//#endregion
 	
 	//#region  ////////////// time-related stuff //////////////

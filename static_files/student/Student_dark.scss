@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
 $font-black: black !important;
 $font-white: white !important;
+/* #region  Universal selectors */
 * {
   padding: 0;
   margin: 0;
@@ -31,14 +32,20 @@ b a:hover {
 .h4 {
   font-family: "Poppins", sans-serif;
 }
+/* #endregion */
+
+/* #region  Navbar */
 .navbar {
   background-color: rgb(1, 1, 2) !important;
-// background-color: white !important;
+  // background-color: white !important;
 }
+/* #endregion */
+
 .container-fluid.pt-4 {
   background-color: #131a24 !important;
 }
 
+/* #region  TimeTable */
 #t1 {
   text-align: center;
   width: 100%;
@@ -83,10 +90,6 @@ th:nth-of-type(1) {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-#myProgress,
-#timeBar .text {
-  color: $font-white;
-}
 .table .btn:hover {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
@@ -96,6 +99,14 @@ th:nth-of-type(1) {
 
 .td_active {
   background-color: #0a101a !important;
+}
+
+/* #endregion */
+
+/* #region  Progress Bar */
+#myProgress,
+#timeBar .text {
+  color: $font-white;
 }
 
 .glow {
@@ -119,26 +130,15 @@ th:nth-of-type(1) {
     color: $font-white;
   }
 }
-#querybox {
-  background-color: #18181d;
-  color: $font-white;
-}
+
+/* #endregion */
+
 .radio-inline {
   padding-right: 20px;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-}
-.modal_btn.btn {
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-  border: 1px solid #50a6f7;
-  color: $font-white;
-}
-
-.modal_btn:hover {
-  background-color: #4da9ff;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -231,18 +231,15 @@ th:nth-of-type(1) {
 
 /* #endregion Sidebar button*/
 
-/* #region  Offcanvas */
-.offcanvas {
+/* #region  Feedback Panel & Offcanvas */
+.offcanvas.feedback_panel {
   background-color: rgb(16, 24, 32) !important;
   color: $font-white;
 }
 .offcanvas-header {
   border-bottom: 1px solid rgb(180, 180, 180);
 }
-/* #endregion  Offcanvas*/
-
-/* #region  Feedback and Agenda Panel */
-#feedback_panel {
+#feedback_body {
   scrollbar-width: thin; /* "auto" or "thin" */
   scrollbar-color: #abacad #f1f4f6; /* scroll thumb and track */
 }
@@ -276,7 +273,7 @@ nav.for-feedback .nav-tabs span.active {
   color: rgb(71, 71, 255) !important;
 }
 
-#feedback_panel .container {
+#feedback_body .container {
   border-radius: 10px;
   padding: 1em;
   width: 90%;
@@ -286,13 +283,13 @@ nav.for-feedback .nav-tabs span.active {
   transition: 0.3s;
 }
 
-#feedback_panel .container:hover {
+#feedback_body .container:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
   transition: 0.3s;
 }
-#feedback_panel .feedback_form_card,
+#feedback_body .feedback_form_card,
 #mandatory_panel .feedback_form_card {
   transition: 0.3s;
   color: $font-white;
@@ -300,12 +297,12 @@ nav.for-feedback .nav-tabs span.active {
   border: 1px solid white;
 }
 
-#feedback_panel .feedback_form_card .btn,
+#feedback_body .feedback_form_card .btn,
 #mandatory_panel .feedback_form_card .btn {
   width: 90%;
 }
 
-#feedback_panel .feedback_form_card:hover,
+#feedback_body .feedback_form_card:hover,
 #mandatory_panel .feedback_form_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
@@ -313,35 +310,17 @@ nav.for-feedback .nav-tabs span.active {
   transition: 0.3s;
 }
 
-/* #endregion */
-
 .mandatory_feedback_event {
   color: $font-white;
 }
-/*//////////////////////////Feedback Card////////////////////////////// */
-.charts_container .card .card-title,
-.charts_container .card .card-text {
-  font-family: "Poppins", sans-serif;
-}
-.charts_container .row .card {
-  background-color: rgb(221, 224, 238);
-  font-family: "Poppins", sans-serif;
-  color: $font-black;
-  border-radius: 14px;
-}
-.charts_container .row .chart .card {
-  background-color: rgb(221, 224, 238) !important;
-}
+/* #endregion  Feedback Panel & Offcanvas*/
 
-#text {
-  /*Text for Upcoming events */
+/* #region  Feedback Modal Radio button */
+
+#querybox {
+  background-color: #18181d;
   color: $font-white;
 }
-
-.btn-close {
-  background-color: $font-white;
-}
-/* #region  Feedback Modal Radio button */
 .required_star {
   color: red;
 }
@@ -399,7 +378,34 @@ nav.for-feedback .nav-tabs span.active {
 }
 /* #endregion */
 
+/* #region  Feedback Charts & Card */
+.charts_container .card .card-title,
+.charts_container .card .card-text {
+  font-family: "Poppins", sans-serif;
+}
+.charts_container .row .card {
+  background-color: rgb(221, 224, 238);
+  font-family: "Poppins", sans-serif;
+  color: $font-black;
+  border-radius: 14px;
+}
+.charts_container .row .chart .card {
+  background-color: rgb(221, 224, 238) !important;
+}
+
+#text {
+  /*Text for Upcoming events */
+  color: $font-white;
+}
+
+.btn-close {
+  background-color: $font-white;
+}
+/* #endregion */
+
+/* #region  Mobile Devices */
 @media screen and (max-width: 600px) {
+  /* #region  Timetable */
   #t1 {
     width: 100%;
     font-size: 10px;
@@ -410,7 +416,7 @@ nav.for-feedback .nav-tabs span.active {
 
   #lect .btn {
     // margin: 7px 0.5em 0 0.5em;
-    margin : 10px auto 0 auto;
+    margin: 10px auto 0 auto;
     padding: 5px 2px;
   }
   #prac .btn {
@@ -423,6 +429,8 @@ nav.for-feedback .nav-tabs span.active {
   #t1 .btn {
     font-size: 11px;
   }
+  /* #endregion */
+
   #agenda_panel {
     font-size: 15px;
   }
@@ -466,14 +474,14 @@ nav.for-feedback .nav-tabs span.active {
     margin: 0 !important;
   }
   #sidebar {
-      width : 30px !important;
-      height : 30px !important;
+    width: 30px !important;
+    height: 30px !important;
   }
   .mandatory_feedback_event span.h5 {
     font-size: smaller !important;
   }
   .mandatory_feedback_event {
-      margin-bottom: 20px;
+    margin-bottom: 20px;
   }
 
   /* #region  Chart Settings */
@@ -509,8 +517,9 @@ nav.for-feedback .nav-tabs span.active {
     margin-bottom: 0 !important;
   }
   .table > :not(caption) > * > * {
-      padding: 0 !important;
+    padding: 0 !important;
   }
 }
 
+/* #endregion */
 /* #endregion */

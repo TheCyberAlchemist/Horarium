@@ -1,49 +1,52 @@
 {% extends 'admin/base2.html' %}
-{% block title%} User dash
-{% endblock %}
+{% block title%} User dash {% endblock %}
 
 {% block css%}
 
 <style>
-    td,
-    th {
-        font-size: .9rem !important;
-    }
-    .user_dash .nav-item.s { 
-        display: table-cell; 
-        position: relative; 
-      }
-      .user_dash .nav-link.s {
-        text-decoration: none;
-        display: inline-block;
-        position: relative;
-        outline: none;
-        border-radius:0;
-      }
-      .user_dash .nav-link.s:after {    
-        background: none repeat scroll 0 0 transparent;
-        bottom: 0;
-        content: "";
-        display: block;
-        height: 2px;
-        left: 50%;
-        position: absolute;
-        background: black;
-        transition: width 0.3s ease 0s, left 0.3s ease 0s;
-        width: 0;
-      }
-      .user_dash .nav-link.s:hover:after { 
-        width: 100%; 
-        left: 0; 
-      }
-      table.row-details {
-          table-layout: fixed;
-      }
-      @media screen and (max-height: 300px) {
-          .user_dash ul {
-              margin-top: 40px;
-          }
-      }
+	td,th {
+		font-size: .9rem !important;
+	}
+
+	.user_dash .nav-item.s {
+		display: table-cell;
+		position: relative;
+	}
+
+	.user_dash .nav-link.s {
+		text-decoration: none;
+		display: inline-block;
+		position: relative;
+		outline: none;
+		border-radius: 0;
+	}
+
+	.user_dash .nav-link.s:after {
+		background: none repeat scroll 0 0 transparent;
+		bottom: 0;
+		content: "";
+		display: block;
+		height: 2px;
+		left: 50%;
+		position: absolute;
+		background: black;
+		transition: width 0.3s ease 0s, left 0.3s ease 0s;
+		width: 0;
+	}
+
+	.user_dash .nav-link.s:hover:after {
+		width: 100%;
+		left: 0;
+	}
+
+	table.row-details {
+		table-layout: fixed;
+	}
+	@media screen and (max-height: 300px) {
+		.user_dash ul {
+			margin-top: 40px;
+		}
+	}
 </style>
 
 {% endblock %}
@@ -52,7 +55,7 @@
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js')}}"></script>
 
 <script type="text/javascript"
-    src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.js"></script>
+	src="https://cdn.datatables.net/v/bs4-4.1.1/jq-3.3.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.js"></script>
 <script type="text/javascript" src="{{ static ('my_ajax_datatable/js/utils.js') }}"></script>
 
 <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
@@ -64,92 +67,94 @@
 <script type="application/javascript" src="{{static ('form/faculty_details.js') }}" charset="utf-8"></script>
 
 <script type="application/javascript">
-    $(document).ready(function() {
-        $("#pills-faculty-tab").css({"border-bottom" : "1px solid blue",});
-        $(".nav-pills .nav-item").click(function() {
-            if($("#pills-student").hasClass("active")) {
-                $("#pills-faculty-tab").css({"border-bottom" : "1px solid blue"});
-                $("#pills-student-tab").css({"border-bottom" : "none"});
-            }
-            else {
-                $("#pills-faculty-tab").css({"border-bottom" : "none"});
-                $("#pills-student-tab").css({"border-bottom" : "1px solid blue"});
-            }
-        });
-        $("#designations").select2({
-            tags : true
-          });
-          $("#shifts").select2();
-          $("#batch_for_lect").select2({placeholder: "Select a Lecture batch"});
-          $("#batch_for_prac").select2({placeholder: "Select a Practical batch"});
-          $("#department").select2();
-          $('#division').select2({placeholder: "Select a Division"});
-          //For Can Teach Container
-          var toggler = $("#myUL .caret");
-          var i;
-          
-          for (i = 0; i < toggler.length; i++) {
-            toggler[i].addEventListener("click", function() {
-              this.parentElement.querySelector(".nested").classList.toggle("active");
-              this.classList.toggle("caret-down");
-            });
-          }
-    });
+	$(document).ready(function () {
+		$("#pills-faculty-tab").css({ "border-bottom": "1px solid blue", });
+		$(".nav-pills .nav-item").click(function () {
+			if ($("#pills-student").hasClass("active")) {
+				$("#pills-faculty-tab").css({ "border-bottom": "1px solid blue" });
+				$("#pills-student-tab").css({ "border-bottom": "none" });
+			}
+			else {
+				$("#pills-faculty-tab").css({ "border-bottom": "none" });
+				$("#pills-student-tab").css({ "border-bottom": "1px solid blue" });
+			}
+		});
+		$("#designations").select2({
+			tags: true
+		});
+		$("#shifts").select2();
+		$("#batch_for_lect").select2({ placeholder: "Select a Lecture batch" });
+		$("#batch_for_prac").select2({ placeholder: "Select a Practical batch" });
+		$("#department").select2();
+		$('#division').select2({ placeholder: "Select a Division" });
+		
+		//For Can Teach Container
+		var toggler = document.getElementsByClassName("caret");
+		var i;
+		for (i = 0; i < toggler.length; i++) {
+			toggler[i].addEventListener("click", function () {
+				this.parentElement.parentElement.querySelector(".nested").classList.toggle("active");
+				this.classList.toggle("caret-down");
+			});
+		}
+	});
 </script>
 {% endblock %}
 
 {% block content %}
-<div id = "page_activator" activate-page="{{my_department}}.b"></div>
+<div id="page_activator" activate-page="{{my_department}}.b"></div>
 <div class="main_content user_dash">
-    <nav aria-label="breadcrumb" class="mt-3">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
-            <i class="fas fa-home"></i>  
-          </a></li>
-          <li class="breadcrumb-item active" aria-current="page">
-              <a href="{{url ('show_department')}}">
-                <span class="h6 fw-bold">User Dashboard</span> 
-              </a>
-          </li>
-            {%if u_name %}
-            <li class="breadcrumb-item" aria-current="page">
-                <span class="h6 fw-bold">Update User </span> 
-            </li>     
-            {%endif %}
-        </ol>
-      </nav>
-    <div class="card m-lg-4 m-md-4 m-sm-0 m-xs-0 components-section" style="border-radius: 1rem;">
-        <div class="card-title text-center" style="margin:0 auto">
-            <ul class="nav nav-pills mt-4" id="pills-tab" role="tablist">
-                <li class="nav-item mr-2" role="presentation">
-                    <button class="nav-link active s h4" id="pills-faculty-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-faculty" type="button" role="tab" aria-controls="pills-faculty"
-                        aria-selected="true">Faculties</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link s h4" id="pills-student-tab" data-bs-toggle="pill"
-                        data-bs-target="#pills-student" type="button" role="tab" aria-controls="pills-student"
-                        aria-selected="false">Students</button>
-                </li>
-            </ul>
-        </div>
-        <hr class="ml-5 mr-5">
-        <div class="card-body">
-        <!-- <div class="gixi float-start" data-gixiseed="asdads"></div> -->
-        <div class="container-fluid p-0 p-lg-1 p-md-1 table_container">
-            <div class="tab-content" id="pills-tabContent">
-                
-                <!-- #region Faculty Form And Table -->
-                {%include "admin/user_dash/faculty_detail.html" %}
-                <!-- #endregion Faculty Form And Table-->
-                
-                <!-- #region Student Form and Table -->
-                {%include "admin/user_dash/student_detail.html" %}
-                <!-- #endregion Student Form and Table-->
-            </div>
-        </div>
-        </div>
-    </div>
+	<nav aria-label="breadcrumb" class="mt-3">
+		<ol class="breadcrumb">
+			<li class="breadcrumb-item">
+				<a href="{{url ('admin_home')}}">
+					<i class="fas fa-home"></i>
+				</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				<a href="{{url ('show_department')}}">
+					<span class="h6 fw-bold">User Dashboard</span>
+				</a>
+			</li>
+			{%if u_name %}
+			<li class="breadcrumb-item" aria-current="page">
+				<span class="h6 fw-bold">Update User </span>
+			</li>
+			{%endif %}
+		</ol>
+	</nav>
+	<div class="card m-lg-4 m-md-4 m-sm-0 m-xs-0 components-section" style="border-radius: 1rem;">
+		<div class="card-title text-center" style="margin:0 auto">
+			<ul class="nav nav-pills mt-4" id="pills-tab" role="tablist">
+				<li class="nav-item mr-2" role="presentation">
+					<button class="nav-link active s h4" id="pills-faculty-tab" data-bs-toggle="pill"
+						data-bs-target="#pills-faculty" type="button" role="tab" aria-controls="pills-faculty"
+						aria-selected="true">Faculties</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link s h4" id="pills-student-tab" data-bs-toggle="pill"
+						data-bs-target="#pills-student" type="button" role="tab" aria-controls="pills-student"
+						aria-selected="false">Students</button>
+				</li>
+			</ul>
+		</div>
+		<hr class="ml-5 mr-5">
+		<div class="card-body">
+			<!-- <div class="gixi float-start" data-gixiseed="asdads"></div> -->
+			<div class="container-fluid p-0 p-lg-1 p-md-1 table_container">
+				<div class="tab-content" id="pills-tabContent">
+
+					<!-- #region Faculty Form And Table -->
+					{%include "admin/user_dash/faculty_detail.html" %}
+					<!-- #endregion Faculty Form And Table-->
+
+					<!-- #region Student Form and Table -->
+					{%include "admin/user_dash/student_detail.html" %}
+					<!-- #endregion Student Form and Table-->
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}
 

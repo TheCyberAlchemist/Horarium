@@ -110,6 +110,12 @@ th:nth-of-type(1) {
   border-radius: 5px;
 }
 
+.glow-safari {
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+  border-radius: 5px;
+}
+
 .container#text {
   padding-bottom: 0;
   margin-top: 3em;
@@ -122,6 +128,16 @@ th:nth-of-type(1) {
   }
   to {
     background-color: #464646;
+    color: white !important;
+  }
+}
+@-webkit-keyframes glow-safari {
+  from {
+    background-color: red;
+    color: white !important;
+  }
+  to {
+    background-color: #f80b0b;
     color: white !important;
   }
 }

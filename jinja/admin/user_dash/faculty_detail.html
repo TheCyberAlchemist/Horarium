@@ -123,49 +123,43 @@
                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-floating">
                                     <div class="can_container">
-                                        <ul id="branches" class="pt-3">
-                                            {%for branch in my_branches%}
-                                                <li class="branch">
-                                                    <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input"
-                                                            id="branch_{{branch.id}}">
-                                                        <label for="branch_{{branch.id}}">{{branch}}</label>
-                                                    </div>
-                                                    <ul id="semesters" class="dir">
-                                                        {%for sem in my_sems %}
-                                                            {% if sem.Branch_id == branch %}
-                                                                <li>
-                                                                    <div class="form-check">
-                                                                        <input type="checkbox"
-                                                                            class="form-check-input"
-                                                                            id="sem_{{sem.id}}">
-                                                                        <label
-                                                                            for="sem_{{sem.id}}">{{sem}}</label>
-                                                                    </div>
-                                                                    <ul id="subjects">
-                                                                        {% for subject in my_subjects %}
-                                                                            {% if subject.Semester_id == sem %}
-                                                                                <li>
-                                                                                    <div class="form-check">
-                                                                                        <input class="form-check-input"
-                                                                                            name="can_teach"
-                                                                                            type="checkbox"
-                                                                                            id="subject_{{subject.id}}"
-                                                                                            value="{{subject.id}}"/>
-                                                                                        <label
-                                                                                            for="subject_{{subject.id}}">{{subject}}</label>
-                                                                                    </div>
-                                                                                </li>
-                                                                            {% endif %}
-                                                                        {%endfor%}
-                                                                    </ul>
-                                                                </li>
-                                                            {% endif %}
-                                                        {%endfor%}
-                                                    </ul>
-                                                </li>
-                                            {%endfor%}
-                                        </ul>
+                                        <ul id="branches">
+											{%for branch in my_branches%}
+												<li>
+													<div class="form-check">
+														<span class="caret"></span>
+														<input type="checkbox" class="form-check-input" id="branch_{{branch.id}}">
+														<label for="branch_{{branch.id}}">{{branch}}</label>
+													</div>
+													<ul class="nested" id="semesters">
+														{%for sem in my_sems %}
+															{% if sem.Branch_id == branch %}
+																<li>
+																	<div class="form-check">
+																		<span class="caret"></span>
+																		<input type="checkbox" class="form-check-input" id="sem_{{sem.id}}">
+																		<label for="sem_{{sem.id}}">{{sem}}</label>
+																	</div>
+																	<ul class="nested subjects" id="subjects">
+																		{% for subject in my_subjects %}
+																		{% if subject.Semester_id == sem %}
+																		<li>
+																			<div class="form-check">
+																				<!-- <span class="caret"></span> -->
+																				<input class="form-check-input" name="can_teach" type="checkbox" id="subject_{{subject.id}}" value="{{subject.id}}"/>
+																				<label for="subject_{{subject.id}}">{{subject}}</label>
+																			</div>
+																		</li>
+																		{%endif%}
+																		{% endfor %}
+																	</ul>
+																</li>
+															{%endif %}
+														{%endfor%}
+													</ul>
+												</li>
+											{%endfor%}
+										</ul>
                                     </div>
                                 </div>
                                 </div>

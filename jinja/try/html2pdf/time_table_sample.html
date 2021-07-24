@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+  font-size: 20px;
+}
+th, td {
+  padding: 5px;
+  text-align: left;    
+}
+@page {
+	size: a4 landscape;
+	margin: 1cm;
+}
+</style>
+</head>
+<body>
+
+<h2>Cell that spans two rows</h2>
+<p>To make a cell span more than one row, use the rowspan attribute.</p>
+
+<table style="width:100%">
+	<thead>
+		<tr>
+			<th scope="col">Time</th>
+			<th scope="col">Monday</th>
+			<th scope="col">Tuesday</th>
+			<th scope="col">Wednesday</th>
+			<th scope="col">Thursday</th>
+			<th scope="col">Friday</th>
+			<th scope="col">Saturday</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<th scope="row">
+				<div>1</div>
+				<div>07:25 - 08:20</div>
+			</th>
+			<td>{{asd}}</td>
+			<td>{{asd}}</td>
+			<td>{{asd}}</td>
+			<td>{{asd}}</td>
+			<td>{{asd}}</td>
+			<td>{{asd}}</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				<div>1</div>
+				<div>07:25 - 08:20</div>
+			</th>
+			<td>fgh</td>
+			<td rowspan="2">fgh</td>
+			<td>fgh</td>
+			<td>fgh</td>
+			<td>fgh</td>
+			<td>fgh</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				<div>1</div>
+				<div>07:25 - 08:20</div>
+			</th>
+			<td>jkl</td>
+			<td>jkl</td>
+			<td>jkl</td>
+			<td rowspan="2">jkl</td>
+			<td>jkl</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				<div>1</div>
+				<div>07:25 - 08:20</div>
+			</th>
+			<td>qwe</td>
+			<td>qwe</td>
+			<td>qwe</td>
+			<td>qwe</td>
+			<td>qwe</td>
+		</tr>
+  
+  </tbody>
+</table>
+
+</body>
+</html>

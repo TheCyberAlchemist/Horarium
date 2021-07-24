@@ -82,6 +82,7 @@ urlpatterns = [
 
 	
     re_path(r'^print_table/$',views.print_table,name = 'print_table'),
+	re_path(r'^print_table2/$',views.GeneratePdf.as_view(),name = 'print_table2'),
 
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),

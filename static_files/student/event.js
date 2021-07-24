@@ -253,7 +253,7 @@ g = 0;
 function append_card(event){
 	card = get_card(event);
 	// card.effect("highlight", {}, 3000);
-	$("#feedback_panel").append(card);
+	$("#feedback_body").append(card);
 
 	card.addEventListener("mouseover",function(){
 		// get_event_cell_by_id(event.pk).effect("highlight", {}, 3000);
@@ -471,6 +471,18 @@ jQuery(function () {
 			});
 		}
 	});
+	var ds = new Date();
+	ct = new time(ds.getHours(),ds.getMinutes(),ds.getSeconds());
+	if (events.every(x => x.gone(ct))){ // if all events are over on load
+		for (let event of events){
+			if(!getWithExpiry(`feedback_done-${event.pk}`)){
+				if(!event.is_break){
+					// get_card(events[j]);
+					append_card(event);
+				}
+			}
+		}
+	}
 	//#endregion
 	
 	//#region  ////////////// time-related stuff //////////////
@@ -541,9 +553,9 @@ jQuery(function () {
 	let first_main_call = true;
 	function main(){
 		var d = new Date();
-		// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
 		// ct = new time(10,12,sec);
-		ct = global_time;
+		// ct = global_time;
 		/////////////////// progress-bar /////////////////////////////
 		if (progress_bar_counter % 60 == 0){
 			myvar = 0;

@@ -503,7 +503,6 @@ jQuery(function () {
 			}
 		}
 	}
-
 	//#endregion
 	
 	//#region  ////////////// time-related stuff //////////////

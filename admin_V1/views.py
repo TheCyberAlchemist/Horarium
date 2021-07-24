@@ -933,8 +933,8 @@ def show_table(request,Division_id):
 		# print(old_events)
 		to_be_added = new_events.difference(old_events)
 		to_be_deleted = old_events.difference(new_events)
-		print(to_be_added)
-		print(to_be_deleted)
+		# print(to_be_added)
+		# print(to_be_deleted)
 		def foo(x,i):
 			if tuple(map(str, x.values())) == i:
 				return True
@@ -1049,11 +1049,11 @@ def algo_v1(request,Division_id):
 			TBD.delete()
 	for i in to_be_added:
 		TBA = [x for x in json_events if foo(x,i)]
-		print(TBA)
+		# print(TBA)
 		form = add_event(TBA[0])
 		candidate = form.save(commit=False)
 		candidate.Division_id_id = Division_id
-		print(candidate,form.is_valid())
+		# print(candidate,form.is_valid())
 		form.save()
 	algo.put_division(Division_id)
 	_,subject_events = get_division_subjects_and_events(Division_id)

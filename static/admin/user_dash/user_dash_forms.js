@@ -72,6 +72,7 @@ $(document).ready ( function (){
 			data: $("#student_form").serialize(), // serializes the form's elements.
 			success: function(data)
 			{
+				$(".accordion-button").click()
 				clear_form($("#student_form"));
 			},
 			error: function (data) {
@@ -89,8 +90,9 @@ $(document).ready ( function (){
 			data: $("#faculty_form").serialize(), // serializes the form's elements.
 			success: function(data)
 			{
+				$(".accordion-button").click()
 				clear_form($("#faculty_form"));
-				console.log(data);
+				// console.log(data);
 			},
 			error: function (data) {
 				console.log(data.responseJSON);

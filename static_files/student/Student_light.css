@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+/* #region  Universal Selectors */
 * {
   padding: 0;
   margin: 0;
@@ -26,27 +27,49 @@ b a:hover {
   text-decoration: none !important;
 }
 
-.navbar {
-  background-color: #101820ff !important;
-}
-
 .h4 {
   font-family: "Poppins", sans-serif;
 }
 
+/* #endregion */
+/* #region  Navbar */
+.navbar {
+  background-color: #101820ff !important;
+}
+
+/* #endregion */
 .container-fluid.pt-4 {
   background-color: #fff;
 }
 
 /* #region  Feedback Panel */
-#feedback_panel {
+nav.for-feedback .nav-tabs {
+  border-bottom: none !important;
+}
+
+nav.for-feedback .nav-tabs span {
+  background-color: transparent !important;
+  border: none !important;
+  color: black !important;
+}
+
+nav.for-feedback .nav-tabs span:hover {
+  border: none !important;
+}
+
+nav.for-feedback .nav-tabs span.active {
+  border-bottom: 1px solid #4747ff !important;
+  color: #4747ff !important;
+}
+
+#feedback_body {
   scrollbar-width: thin;
   /* "auto" or "thin" */
   scrollbar-color: #abacad #f1f4f6;
   /* scroll thumb and track */
 }
 
-#feedback_panel .container {
+#feedback_body .container {
   border-radius: 10px;
   padding: 1em;
   width: 90%;
@@ -55,7 +78,7 @@ b a:hover {
   transition: 0.3s;
 }
 
-#feedback_panel .container:hover {
+#feedback_body .container:hover {
   transform: scale(1.03);
   transition: 0.3s;
 }
@@ -79,18 +102,21 @@ b a:hover {
   border-radius: 3px !important;
 }
 
-#feedback_panel .feedback_form_card, #mandatory_panel .feedback_form_card {
+#feedback_body .feedback_form_card,
+#mandatory_panel .feedback_form_card {
   transition: 0.3s;
   color: black !important;
   background-color: transparent;
   border: 1px solid #868686;
 }
 
-#feedback_panel .feedback_form_card .btn, #mandatory_panel .feedback_form_card .btn {
+#feedback_body .feedback_form_card .btn,
+#mandatory_panel .feedback_form_card .btn {
   width: 90%;
 }
 
-#feedback_panel .feedback_form_card:hover, #mandatory_panel .feedback_form_card:hover {
+#feedback_body .feedback_form_card:hover,
+#mandatory_panel .feedback_form_card:hover {
   transform: scale(1.03);
   transition: 0.3s;
 }
@@ -329,27 +355,6 @@ th:nth-of-type(1) {
 }
 
 /* #endregion */
-/* #region  Offcanvas */
-nav.for-feedback .nav-tabs {
-  border-bottom: none !important;
-}
-
-nav.for-feedback .nav-tabs span {
-  background-color: transparent !important;
-  border: none !important;
-  color: black !important;
-}
-
-nav.for-feedback .nav-tabs span:hover {
-  border: none !important;
-}
-
-nav.for-feedback .nav-tabs span.active {
-  border-bottom: 1px solid #4747ff !important;
-  color: #4747ff !important;
-}
-
-/* #endregion  Offcanvas*/
 /* #region  Chart Settings */
 .charts_container .card .card-title,
 .charts_container .card .card-text {

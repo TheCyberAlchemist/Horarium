@@ -280,8 +280,6 @@ def check_prac_on_prac(events_on_slot,batch_list):
 	if events_on_slot and events_on_slot[0].Batch_id:
 		# if there is a events_on_slot
 		# and others having a batch
-		if not events_on_slot[0].Slot_id_2:
-			print(events_on_slot)
 		for event in events_on_slot:
 			if event.Batch_id in batch_list:
 				# if event batch having same batch as batch_list
@@ -618,6 +616,7 @@ class main(APIView):
 						# if the current batch is in mearging batches
 						event_type = "prac" if is_prac else "lect"
 						batch_list = list(Batch.objects.filter(pk__in=mearging_batches,batch_for=event_type))
+						# print(batch_list,mearging_batches,template)
 				
 				if is_prac:		# if the subject_event is practical
 					if batch_list:	# if there is a batch for us to put it in
@@ -634,6 +633,9 @@ class main(APIView):
 										Subject_event_id = subject_event
 									)
 								)
+						else:
+							priority_list.append(subject_event)
+							break
 						# print(template.Subject_event_id,template.Slot_id_2_id,template.Division_id,template.Batch_id)
 						# print(batch_list.remove(template.Batch_id))
 						for batch in batch_list:
@@ -642,7 +644,6 @@ class main(APIView):
 								events_template.remove(other_event_templates)
 
 						results_list.append([subject_event, batch_list,"Practical",best_slot,slot_2,points])
-
 						# print([subject_event, batch_list,"Practical"])
 						# points,best_slot,slot_2 = get_point_for_prac_batch(subject_event,all_events,batch)
 						# print(subject_event,best_slot)
@@ -659,6 +660,9 @@ class main(APIView):
 									Subject_event_id = subject_event
 								)
 							)
+						else:
+							priority_list.append(subject_event)
+							break
 						results_list.append([subject_event, batch_list,"Practical",best_slot,slot_2,points])
 						# print([subject_event,"Class","Practical"])
 						# points,best_slot,slot_2 = get_point_for_prac_class(subject_event,all_events)
@@ -677,7 +681,9 @@ class main(APIView):
 										Subject_event_id = subject_event
 									)
 								)
-						
+						else:
+							priority_list.append(subject_event)
+							break
 						for batch in batch_list:
 							if batch != template.Batch_id:
 								other_event_templates = events_template.filt_batch(batch).filt_lect().filt_sub(subject_event.Subject_id)[0]
@@ -696,18 +702,26 @@ class main(APIView):
 									Subject_event_id = subject_event
 								)
 							)
+						else: # if the event could not be placed
+							priority_list.append(subject_event)
+							break
 						# print([subject_event,"Class","Lecture"])
 						# points,best_slot = get_point_for_lect_class(subject_event,all_events)
 						results_list.append([subject_event, batch_list,"Lecture",best_slot,None,points])
-				# print(" Subject_event :: {} \n Slot_id :: {} \n Point :: {}\n -----------------------------".format(subject_event,best_slot,points))
+				print(" Subject_event :: {} \n Slot_id :: {} \n Point :: {}\n -----------------------------".format(subject_event,best_slot,points))
+				# print(".",end="")
+			else:	# if the all events are placed
+					# if break is not called
+				infinite = False
+			if infinite:
+				print("---------------------")
+				print("❌❌❌ Infinite condition reached ♾♾ ❌❌❌")
+				print(f"\nPriority List is -- {priority_list}")
+				print("---------------------")
 
-
-			infinite = False
-			# print("one")
-			# get_sorted_events(subject_events,locked_events,priority_list)
-			# print(tabulate(l,headers=["Subject_event","Batch","type"],tablefmt="grid"))
-			# pprint(all_events)
 		print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Points"],tablefmt="grid"))
+		# print(len(all_events))
+		# print(pprint(all_events))
 		data ={
 			"my_events":all_events.get_json(),
 		}

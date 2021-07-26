@@ -1221,7 +1221,7 @@ from django.views.generic import View
 from django.template.loader import get_template
  
 #import render_to_pdf from util.py 
-from .utils import render_to_pdf 
+# from .utils import render_to_pdf 
  
 #Creating our view, it is a class based view
 class GeneratePdf(View):

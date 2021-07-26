@@ -84,6 +84,11 @@ th, td {
   
   </tbody>
 </table>
-
+{% if not print %}
+	<form method="post">
+		{{csrf_input}}
+		<input class="bg-primary btn" type="submit" value="Print">
+	</form>
+{% endif %}
 </body>
 </html>

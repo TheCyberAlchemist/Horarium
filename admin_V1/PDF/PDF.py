@@ -78,16 +78,15 @@ def export_pdf(request):
 	a = pdfkit.from_string(html_string,False,configuration=config,css=css)
 	print(type(a))	
 
-	response = HttpResponse(content_type='application/pdf')
+	response = HttpResponse(a,content_type='application/pdf')
 	response['Content-Disposition'] = 'attachment; filename=asd.pdf'
 	response['Content-Transfer-Encoding'] = "binary"
 	
-	with tempfile.NamedTemporaryFile(delete=True) as output:
-		output.write(a)
-		output.flush()
-		output = open(temp_file_path,'rb')
-		response.write(output.read())
-		
+	# with tempfile.NamedTemporaryFile(delete=True) as output:
+	# 	output.write(a)
+	# 	output.flush()
+	# 	o = open(output.name,'rb')
+	# 	response.write(o.read())
 	# remove(temp_file_path)
 	return response
 

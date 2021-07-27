@@ -1214,6 +1214,10 @@ def print_table(request) :
     # return render(request,'admin/print_table/print_table.html')
 	return render(request,'try/html2pdf/time_table_sample.html')
 
+def print4(request) :
+    # return render(request,'admin/print_table/print_table.html')
+	return render(request,'try/html2pdf/time_table_sample.html')
+
 from django.http import HttpResponse
 from django.views.generic import View
  

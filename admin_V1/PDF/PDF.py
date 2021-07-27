@@ -71,11 +71,22 @@ def export_pdf(request):
 	path_to_admin_pdf = path.join(settings.BASE_DIR,"admin_V1","PDF")
 	config = pdfkit.configuration(wkhtmltopdf=path.join(path_to_admin_pdf,"wkhtmltopdf","bin","wkhtmltopdf.exe"))
 	html_string = render_to_string("try/html2pdf/time_table_sample.html",{"asd":"data"})
-	
+	options = {
+	'margin-top': '0cm',
+	'margin-right': '0cm',
+	'margin-bottom': '0cm',
+	'margin-left': '0cm',
+	'encoding': "UTF-8",
+	'custom-header' : [
+		('Accept-Encoding', 'gzip')
+	],
+	'no-outline': None
+	}
 	# print(settings.STATIC_ROOT)
 	temp_file_path = path.join(path_to_admin_pdf,'temp.pdf')
 	css = [path.join(settings.STATIC_ROOT,"Bootstrap","bootstrap.min.css")]
-	a = pdfkit.from_string(html_string,False,configuration=config,css=css)
+	# a = pdfkit.from_string(html_string,False,configuration=config,css=css)
+	a = pdfkit.from_string(html_string,False,configuration=config,css=css,options=options)
 	print(type(a))	
 
 	response = HttpResponse(a,content_type='application/pdf')

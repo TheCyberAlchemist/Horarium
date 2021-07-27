@@ -83,7 +83,7 @@ $(document).ready(function () {
 		formData.append("file",my_file);
 		formData.append('csv_input',csv_type);
 		$.ajax({
-			url: "../csv/",
+			url: "../../csv/",
 			type: "POST",
 			data: formData,
 			processData: false, // tell jQuery not to process the data

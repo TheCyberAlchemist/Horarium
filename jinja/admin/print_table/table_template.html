@@ -1,0 +1,103 @@
+<style>
+	table {
+	border-collapse: collapse;
+	   width: 100%;
+	}
+	table, th, td {
+	border: 1px solid black;
+	}
+</style>
+<br><br><br><br><br><br>
+
+<table id="t1" class="table">
+	<thead>
+		<tr>
+		<th colspan="{{unit_col}}">Time</th>
+		{% for day in days %}
+			<th colspan="{{unit_col}}">{{day.Days_id}}</th>
+		{% endfor %}
+		</tr>
+	</thead>
+	<tbody>
+		{%set slot_2_arr=[]%}
+		{% for timing in timings %}
+			<!--for all time periods in database-->
+			<tr>
+			{% if timing.is_break %}
+				<th class="align-middle" colspan="{{unit_col}}">
+					{{timing.name}}<br />
+					[{{timing.return_time()}}]
+				</th>
+				{% set len = days|length %}
+				<th  colspan="{{unit_col*len}}" class="isBreak align-middle" break_id="{{timing.id}}">
+					<span class="h4">{{timing.name}}</span>
+				</th>
+			{% else %}
+				<th class="align-middle" colspan="{{unit_col}}">
+					{{timing.name}}<br />
+					[{{timing.return_time()}}]
+				</th>
+				{% for day in days %} 
+					{% if day not in slot_2_arr %} 
+						{% set slot_events = [] %}
+						{%set slot_events = events.filter(Slot_id__day = day,Slot_id__Timing_id = timing) %}
+						{% if slot_events %}
+							<!-- if there is an event-->
+							{% if slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
+								<!-- if there is batch practical event-->
+									{% set _ = slot_2_arr.append(day) %}
+								{% for batch in prac_batches %}
+									<td colspan="{{prac_batch_col}}" class="td_gone align-middle" rowspan="2">
+										{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
+										{% if temp_event %}
+											{{temp_event.Subject_event_id.Subject_id}}
+										{% endif %}
+									</td>
+								{% endfor %}
+
+							{% elif slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
+								<!-- if there is class practical event-->
+								<td colspan="{{unit_col}}" class="td_gone align-middle" rowspan="2" >
+									{% set temp_event = slot_events.first() %}
+									{% if temp_event %}
+										{{temp_event.Subject_event_id.Subject_id}}
+									{% endif %}
+								</td>
+							{% elif not slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
+								<!-- if there is batch lecture event-->
+								{% for batch in lect_batches %}
+									<td colspan="{{lect_batch_col}}" class="td_gone" >
+										{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
+										{% if temp_event %}
+											{{temp_event.Subject_event_id.Subject_id}}
+										{% endif %}
+									</td>
+								{% endfor %}
+							{% elif not slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
+								<!-- if there is class lecture event-->
+								<td colspan="{{unit_col}}" class="td_gone" >
+									{% set temp_event = slot_events.first() %}
+									{% if temp_event %}
+										{{temp_event.Subject_event_id.Subject_id}}
+									{% endif %}
+								</td>
+							{% endif %}
+						{% else %}
+							<!-- if there is no event-->
+							<td colspan="{{unit_col}}">None</td>
+						{% endif %} 
+					{% else %} 
+						{% set _ = slot_2_arr.pop(slot_2_arr.index(day))%} 
+					{% endif %} 
+				{% endfor %} 
+			{% endif %}
+			</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% if not print %}
+	<form method="post">
+		{{csrf_input}}
+		<input class="bg-primary btn" type="submit" value="Print">
+	</form>
+{% endif %}

@@ -81,12 +81,12 @@ urlpatterns = [
 
 	re_path(r'^try/algo3/$',algo3.view_func,name = 'view_algo3'),
 
-	
+	path("table_template",PDF.table_template,name="table_template"),
     re_path(r'^print_table/$',PDF.export_pdf,name = 'print_table'),
 	re_path(r'^print_table2/$',views.GeneratePdf.as_view(),name = 'print_table2'),
 
 	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_pdf,name = 'select_batch'),
-	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table3/$',PDF.GeneratePdf.as_view(),name = 'print_table3'),
+	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table/$',PDF.table_template,name = 'print_table3'),
 
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),

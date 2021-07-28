@@ -101,7 +101,10 @@ def table_template(request,Division_id):
 	unit_col = lcm(lect_batch_count,prac_batch_count)
 	lect_batch_col = unit_col/lect_batch_count if lect_batch_count else unit_col
 	prac_batch_col = unit_col/prac_batch_count if prac_batch_count else unit_col
+	prac_str = ','.join([str(batch.name) for batch in prac_batches])
+	lect_str = ','.join([str(batch.name) for batch in lect_batches])
 	context = {
+		'my_division' : Division_id,
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
@@ -110,11 +113,10 @@ def table_template(request,Division_id):
 		'unit_col': unit_col,
 		"lect_batch_col": lect_batch_col,
 		"prac_batch_col": prac_batch_col,
+		'file_name' : f"{Division_id.name} ({prac_str}) ({lect_str})",
 	}
 	if request.method == "POST":	# if print is called
 		context['print'] = True
-		prac_str = ','.join([str(batch.name) for batch in prac_batches])
-		lect_str = ','.join([str(batch.name) for batch in lect_batches])
 		return export_pdf(template,f"{Division_id.name} ({prac_str}) ({lect_str})",context)
 	return render(request,template,context)
 

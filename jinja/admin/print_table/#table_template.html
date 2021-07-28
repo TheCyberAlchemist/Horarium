@@ -1,33 +1,3 @@
-{% macro td_table(temp_event) -%}
-<table class="inner my-auto">
-	<tr style="vertical-align: top">
-		<td colspan="2" class="m-0 p-0">
-			{% if temp_event.Batch_id %}
-				<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
-			{% else %}
-				<div class="batch-name w-100" style="text-align: left">&nbsp;</div>
-			{% endif %}
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="m-0 p-0">
-			<div class="event-name w-100" style="margin: 0 auto">{{temp_event.Subject_event_id.Subject_id}}</div>
-		</td>
-	</tr>
-	<tr style="vertical-align: bottom">
-		<td class="m-0 p-0">
-			{% if temp_event.Resource_id %}
-				<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
-			{% else %}
-				<div class="resource-name text-left m-0 p-0" style="text-align: left">&nbsp;</div>
-			{% endif %}
-		</td>
-		<td class="m-0 p-0">
-			<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
-		</td>
-	</tr>
-</table>
-{%- endmacro -%}
 <!DOCTYPE html>
 <html>
 
@@ -36,7 +6,6 @@
 		integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous" />
 	<meta name="pdfkit-page-size" content="Legal" />
 	<meta name="pdfkit-orientation" content="Landscape" />
-	<title>Print Table | Horarium</title>
 <style>
 	html, body {
 		width: 297mm;
@@ -81,18 +50,12 @@
 		.inner_table td {
 			/* margin: 0 auto;
 			padding: .2rem 
-			vertical-align: middle;
+			vertical-align: middle;*/
 			font-size: 1rem;
 			/*max-height : 5vh*/
 		}
 		.batch-name, .faculty-name,.resource-name {
 			font-size: smaller
-		}
-		.resource-name,.batch-name{
-			padding-left:2px !important
-		}
-		.faculty-name {
-			padding-right:2px !important;
 		}
 		.prac_td .event-name {
 			/*writing-mode: vertical-rl;*/
@@ -111,6 +74,7 @@
 		.prac_td .batch-name {
 			/*height: 15%;*/
 		}
+
 		/*.prac_td .col-4:not(:last-of-type){
 			border-right: 1px solid black;
 		}*/
@@ -118,11 +82,6 @@
 		@page {
 			size: a4 landscape;
 			margin: 0cm;
-		}
-		@media print {
-			.btn {
-				display: none;
-			}
 		}
 		@media screen, print{
 			/*html, body {
@@ -177,12 +136,6 @@
 			 .event-name {
 				word-break: break-word;
 			}
-			.resource-name{
-				padding-left:2px
-			}
-			.faculty-name {
-				padding-right:2px;
-			}
 	
 			.prac_td .batch-name {
 				/*height: 15%;*/
@@ -195,17 +148,9 @@
 <table id="t1" class=" main_table" style="position: relative;page-break-inside: avoid;">
 	<thead>
 		<tr>
-			{% set len = days|length %}
-			<th colspan="{{unit_col*len + unit_col}}" >
-				<h3 class="text-center">
-					{{file_name}}
-				</h3>
-			</th>
-		</tr>
-		<tr>
-		<th colspan="{{unit_col}}" class="m-0 p-0 text-center">Time</th>
+		<th colspan="{{unit_col}}" class="m-0 p-0">Time</th>
 		{% for day in days %}
-			<th colspan="{{unit_col}}" class="m-0 p-0 text-center">{{day.Days_id}}</th>
+			<th colspan="{{unit_col}}" class="m-0 p-0">{{day.Days_id}}</th>
 		{% endfor %}
 		</tr>
 	</thead>
@@ -219,6 +164,7 @@
 					{{timing.name}}<br />
 					[{{timing.return_time()}}]
 				</th>
+				{% set len = days|length %}
 				<th  colspan="{{unit_col*len}}" class="isBreak my-auto text-center p-0" break_id="{{timing.id}}">
 					<span class="h4 text-center">{{timing.name}}</span>
 				</th>
@@ -241,7 +187,28 @@
 										{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
 										{% if temp_event %}
 											<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-											{{td_table(temp_event)}}
+											<table class="inner my-auto">
+												<tr style="vertical-align: top">
+													<td colspan="2" class="m-0 p-0">
+														<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2" class="m-0 p-0">
+														<div class="event-name w-100" style="margin: 0 auto">{{temp_event.Subject_event_id.Subject_id}}</div>
+													</td>
+												</tr>
+												<tr style="vertical-align: bottom">
+													<td class="m-0 p-0">
+														{% if temp_event.Resource_id %}
+															<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
+														{% endif %}
+													</td>
+													<td class="m-0 p-0">
+														<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
+													</td>
+												</tr>
+											</table>
 										{% endif %}
 									</td>
 								{% endfor %}
@@ -252,7 +219,30 @@
 									{% set temp_event = slot_events.first() %}
 									{% if temp_event %}
 										<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-										{{td_table(temp_event)}}
+										<table class="inner my-auto">
+											<tr style="vertical-align: top">
+												<td colspan="2" class="m-0 p-0">
+													{%if temp_event.Batch_id %}
+														<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
+													{% endif %}
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" class="m-0 p-0">
+													<div class="event-name w-100" style="margin: 0 auto">{{temp_event.Subject_event_id.Subject_id}}</div>
+												</td>
+											</tr>
+											<tr style="vertical-align: bottom">
+												<td class="m-0 p-0">
+													{% if temp_event.Resource_id %}
+														<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
+													{% endif %}
+												</td>
+												<td class="m-0 p-0">
+													<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
+												</td>
+											</tr>
+										</table>
 									{% endif %}
 								</td>
 							{% elif not slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
@@ -262,7 +252,28 @@
 										{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
 										{% if temp_event %}
 											<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-											{{td_table(temp_event)}}
+											<table class="inner my-auto">
+												<tr style="vertical-align: top">
+													<td colspan="2" class="m-0 p-0">
+														<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
+													</td>
+												</tr>
+												<tr>
+													<td colspan="2" class="m-0 p-0">
+														<div class="event-name w-100" style="margin: 0 auto">{{temp_event.Subject_event_id.Subject_id}}</div>
+													</td>
+												</tr>
+												<tr style="vertical-align: bottom">
+													<td class="m-0 p-0">
+														{% if temp_event.Resource_id %}
+															<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
+														{% endif %}
+													</td>
+													<td class="m-0 p-0">
+														<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
+													</td>
+												</tr>
+											</table>
 										{% endif %}
 									</td>
 								{% endfor %}
@@ -272,7 +283,36 @@
 									{% set temp_event = slot_events.first() %}
 									{% if temp_event %}
 										<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-										{{td_table(temp_event)}}
+										<table class="inner my-auto">
+											<tr style="vertical-align: top">
+												<td colspan="2" class="m-0 p-0">
+													{%if temp_event.Batch_id %}
+														<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
+													{%else%}
+														<div class="batch-name w-100" style="text-align: left">&nbsp;</div>
+													{% endif %}
+
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" class="m-0 p-0">
+													<div class="event-name w-100 text-center" style="margin: 0 auto">{{temp_event.Subject_event_id.Subject_id}}</div>
+												</td>
+											</tr>
+											<tr style="vertical-align: bottom">
+												<td class="m-0 p-0">
+													{% if temp_event.Resource_id %}
+														<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
+													{%else%}
+														<div class="resource-name text-left m-0 p-0" style="text-align: left">123</div>
+													{% endif %}
+
+												</td>
+												<td class="m-0 p-0">
+													<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
+												</td>
+											</tr>
+										</table>
 									{% endif %}
 								</td>
 							{% endif %}
@@ -310,8 +350,10 @@
 		{% endfor %}
 	</tbody>
 </table>
-<div class="container-fluid text-center">
-	<button class="btn btn-primary mt-2 w-75" onclick="document.title='asd';window.print();return false">Print</button>
-</div>
+{% if not print %}
+	<form method="post">
+		{{csrf_input}}
+		<input class="bg-primary btn" type="submit" value="Print">
+	</form>
+{% endif %}
 </body>
-</html>

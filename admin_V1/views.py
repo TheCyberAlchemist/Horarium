@@ -969,7 +969,7 @@ def show_table(request,Division_id):
 	context['subjects_json'] = get_json(my_subjects)
 	subj_event_dict = {}
 	for subject in my_subjects:
-		subj_event_dict[subject] = subject.subject_event_set.all()
+		subj_event_dict[subject] = subject.subject_event_set.filter(active=True)
 	context['my_subjects'] = subj_event_dict
 	# print(get_json(Subject_details.objects.filter(Semester_id = my_semester)),type(subject))
 	context['subject_events'] = my_subject_events.order_by("Subject_id")

@@ -186,7 +186,9 @@ if (header){
                   </li>
                   <li class="nav-item">
                     <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Save"> <i class="fas fa-save ml-2 mr-3"></i> </button> 
+                    title="Print"> 
+					<a href="{{url('select_batch',args=[my_division.id])}}"><i class="fas fa-print ml-2 mr-3"></i> </a>
+				</button> 
                   </li>
                   <li class="nav-item">
                     <!-- Button trigger generate modal -->
@@ -265,9 +267,7 @@ if (header){
                     </div>
                 </div> -->
                     
-                    <div class="container text-center">
-                        <button class="btn btn-outline-success" onclick="submited()">Submit</button>
-                    </div>
+                    
                 </div>
             </div>
             <!-- #endregion Card Container-->

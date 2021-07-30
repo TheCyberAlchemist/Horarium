@@ -106,6 +106,8 @@ def register_page(request):
 def about(request) :
 	return render(request,'about/about.html')
 
+def landing(request) :
+	return render(request,'landingpage/homepage.html')
 # for i in Institute.objects.using("horarium").all():
 #     i.save(using="default")
 

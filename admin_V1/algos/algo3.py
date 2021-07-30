@@ -2,6 +2,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.db.models import Q
 
 import json
 import math
@@ -36,34 +37,44 @@ def view_func(request):
 class event_list(list):
 	'event_list is class for event class list'
 	def filt_faculty(self,Faculty):
-		'returns filtered event_list of all the (event.Subject_event_id.Faculty_id = Faculty)'
+		'returns filtered event_list of all the (`event.Subject_event_id.Faculty_id` = `Faculty`)'
 		return event_list(filter(lambda x: x.Subject_event_id.Faculty_id == Faculty,self))
 	def filt_sub_event(self,sub_event):
-		'returns filtered event_list of all the (event.Subject_event_id = sub_events)'
+		'returns filtered event_list of all the (`event.Subject_event_id` = `sub_events`)'
 		return event_list(filter(lambda x: x.Subject_event_id == sub_event,self))
 	def filt_sub(self,sub):
-		'returns filtered event_list of all the (event.Subject_event_id.Subject_id = sub)'
+		'returns filtered event_list of all the (`event.Subject_event_id.Subject_id` = `sub`)'
 		return event_list(filter(lambda x: x.Subject_event_id.Subject_id == sub,self))
 	def filt_slot(self,slot):
-		'returns filtered event_list of all the (event.Slot_id = slot)'
+		'returns filtered event_list of all the (`event.Slot_id` = `slot`)'
 		return event_list(filter(lambda x: x.Slot_id == slot,self))
 	def filt_slot_2(self,slot):
-		'returns filtered event_list of all the (event.Slot_id_2 = slot)'
+		'returns filtered event_list of all the (`event.Slot_id_2` = `slot`)'
 		return event_list(filter(lambda x: x.Slot_id_2 == slot,self))
 	def filt_batch(self,batch = None):
-		'''returns filtered event_list of all the (event.Batch_id = batch)'''
+		'''returns filtered event_list of all the (`event.Batch_id` = `batch`)'''
 		return event_list(filter(lambda x: x.Batch_id == batch,self))
 	def filt_prac(self):
-		'returns filtered event_list of all the practical events (bool(event.Slot_id_2) == True)'
+		'returns filtered event_list of all the practical events (`bool(event.Slot_id_2)` == `True`)'
 		return event_list(filter(lambda x: bool(x.Slot_id_2_id),self))
 	def filt_lect(self):
-		'returns filtered event_list of all the lecture events (bool(event.Slot_id_2) == False)'
+		'returns filtered event_list of all the lecture events (`bool(event.Slot_id_2)` == `False`)'
 		# print(self)
 		return event_list(filter(lambda x: bool(x.Slot_id_2_id) == False,self))
 	def filt_slot_day(self,day):
-		'returns filtered event_list of all the (event.Slot_id.day = day)'
+		'returns filtered event_list of all the (`event.Slot_id.day` = `day`)'
 		return event_list(filter(lambda x: x.Slot_id.day == day,self))
 	def get_json(self):
+		'''get the json of all the objects in the list in the fromat :: 
+			{
+				"Slot_id_id",
+				"Slot_id_2_id",
+				"Subject_event_id_id",
+				"Batch_id_id",
+				"Resource_id_id",
+				"link"
+			}
+		'''
 		json_list = []
 		# self._current['id'] = obj._get_pk_val()
 		include_list = ["Slot_id_id","Slot_id_2_id","Subject_event_id_id","Batch_id_id","Resource_id_id","link"]
@@ -81,6 +92,7 @@ class event_list(list):
 			json_list.append(my_dict)
 		return json_list
 	def count(self):
+		'returns the number of objects in the list'
 		return len(self)
 #endregion
 
@@ -130,7 +142,7 @@ def get_sorted_events(my_division,my_subj_events,locked_events,priority_list):
 	my_dict = {}
 	for subject_event in my_subj_events:
 		t = len(Not_available.objects.filter(Faculty_id = subject_event.Faculty_id))
-		t += len(Event.objects.active().filter(Subject_event_id__Faculty_id=subject_event.Faculty_id).exclude(Division_id=my_division))
+		t += len(Event.objects.filter_faculty(subject_event.Faculty_id).exclude(Division_id=my_division))
 		if locked_events:
 			t += len(locked_events.filt_faculty(subject_event.Faculty_id))
 		my_dict[subject_event] = t
@@ -232,8 +244,11 @@ def check_other_events_for_faculty(slot,all_events,subject_event,is_prac=False):
 	'sees if there is another event of the same faculty for the slot in other divisions and in all_slots'
 	# print(slot)	
 	# for other divisions
-	e = Event.objects.filter(Slot_id = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first()
-	e = Event.objects.filter(Slot_id_2 = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first() if not e else e
+	# e = Event.objects.filter(Slot_id = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first()
+	# e = Event.objects.filter(Slot_id_2 = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first() if not e else e
+	# print(e)
+	e = Event.objects.filter_faculty(subject_event.Faculty_id).filter(Q(Slot_id = slot)|Q(Slot_id_2 = slot)).exclude(Division_id=my_division).first()
+	print(e)
 	if e:
 		return OTHER_EVENT_FACULTY
 	###############

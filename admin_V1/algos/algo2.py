@@ -22,7 +22,7 @@ def get_sorted_events(all_subject_events,locked_events):
 	my_dict = {}
 	for subject_event in all_subject_events:
 		t = len(Not_available.objects.filter(Faculty_id = subject_event.Faculty_id))
-		t += len(Event.objects.active().filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
+		t += len(Event.objects.filter_faculty(subject_event.Faculty_id))
 		if locked_events:
 			t += len(locked_events.filter(Subject_event_id__Faculty_id=subject_event.Faculty_id))
 		my_dict[subject_event] = t

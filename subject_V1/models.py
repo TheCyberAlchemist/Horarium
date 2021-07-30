@@ -74,14 +74,14 @@ class active_manager(models.Manager):
 	def inactive(self):
 		'Get all the Subject_events having active = False in the db'
 		return super().get_queryset().filter(active=False)
-	def filter_faculty(self,Faculty_object):
-		'get all the Subject_event having the Faculty_object as Faculty_id or Co_faculty_id'
-		return super().get_queryset().filter(Q(Co_faculty_id=Faculty_object)|Q(Faculty_id=Faculty_object))
+	def filter_faculty(self,Faculty_object,active=True,**kwargs):
+		'get all the `active`(default) or `inactive` Subject_event having the Faculty_object as Faculty_id or Co_faculty_id'
+		return super().get_queryset().filter(Q(Co_faculty_id=Faculty_object)|Q(Faculty_id=Faculty_object),active=active)
 
 class Subject_event(models.Model):
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)
 	Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE,related_name='main_faculty')
-	Co_Faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE,null=True,blank=True,related_name='co_faculty')
+	Co_faculty_id = models.ForeignKey("faculty_V1.Faculty_details",on_delete=models.CASCADE,null=True,blank=True,related_name='co_faculty')
 	# link = models.URLField(max_length=200, null=True, blank=True)
 	prac_carried = models.PositiveIntegerField()
 	lect_carried = models.PositiveIntegerField()
@@ -107,4 +107,6 @@ class Subject_event(models.Model):
 		verbose_name_plural = "Subject events"
 		constraints = [
 			models.UniqueConstraint(fields=['Faculty_id', 'Subject_id'], name='Subject can have only one Unique Faculty.'),
+			models.UniqueConstraint(fields=['Faculty_id', 'Co_faculty_id'], name='Co-faculty and Faculty need to be Unique.'),
+			models.UniqueConstraint(fields=['Co_faculty_id', 'Subject_id'], name='Subject can have only one Unique Co-faculty.'),
 		]

@@ -93,6 +93,7 @@ def add_update_student(request,Department_id):
 			elif details.lect_batch and not details.lect_batch.Division_id == details.Division_id:
 				return JsonResponse({'error':'<ul class=\"errorlist\"><li>Lecture Batch<ul class=\"errorlist\"><li>The lecture batches selected are not in the same division.</li></ul></li></ul>'}, status=500)
 			# endregion
+			user = None
 			if not user_obj: # if add is called
 				group = Group.objects.get(name='Student')
 				user = name_form.save(commit=False)
@@ -103,7 +104,8 @@ def add_update_student(request,Department_id):
 			print("save can be executed ✅✅")
 
 			name_form.save()
-			user.groups.add(group)
+			if user: # if add is called 
+				user.groups.add(group)
 			details.save()
 			print("Save has been Successfull ✅✅")			
 			return JsonResponse({'success':'Saved ✅✅'})
@@ -182,6 +184,7 @@ def add_update_faculty(request,Department_id):
 			else:
 				print("Save can be executed ..... ✅✅")
 				user.save()
+				user.groups.add(group)
 				details_form.save()
 				load_form.save()
 				can_teach_obj_list = []
@@ -257,6 +260,9 @@ def user_dash(request,Department_id):
 			print(i)
 			if i:
 				i.delete()
+				# i.first_name += "1"
+				# i.save()
+				# print(i," - will be deleted ❌")
 
 	if request.method == 'POST':
 		if request.is_ajax():	# if delete is called

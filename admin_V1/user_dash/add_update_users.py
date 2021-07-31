@@ -178,7 +178,7 @@ def add_update_faculty(request,Department_id):
 					# Can_teach.objects.filter(Subject_id_id= i).delete()
 				for i in to_be_added:
 					a = Can_teach(Faculty_id = details,Subject_id_id=i)
-					print("added - ",a)
+					print("added can teach - ",a)
 					a.save()
 				print("Save has been Successfull ..... ✅✅")
 			else:
@@ -189,7 +189,7 @@ def add_update_faculty(request,Department_id):
 				load_form.save()
 				can_teach_obj_list = []
 				error_in_can_teach = False
-				for i in request.POST.getlist('can_teach[]'):
+				for i in request.POST.getlist('can_teach'):
 					try:
 						can_teach_obj_list.append(Can_teach(Faculty_id = details,Subject_id_id = i))
 					except Exception as e:
@@ -202,6 +202,7 @@ def add_update_faculty(request,Department_id):
 					return JsonResponse({'error':'We have some problems back here please refresh the page.'})
 				else:
 					for can_teach_obj in can_teach_obj_list:
+						print("added can teach - ",can_teach_obj)
 						can_teach_obj.save()
 					print("Save has been Successfull ✅✅")
 			return JsonResponse({'success':'Saved ✅✅'})

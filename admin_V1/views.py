@@ -130,7 +130,7 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 			d['fields']['resources_filled'] = list(Event.objects.active().filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
 		elif time_table:
 			d['fields']['Subject_color'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.color
-			d['fields']['Faculty_name'] = str(qs.filter(pk = d['pk'])[0].Faculty_id)
+			d['fields']['Faculty_name'] = qs.filter(pk = d['pk'])[0].get_faculty_name()
 			d['fields']['Subject_id'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.pk
 			d['fields']['Subject_name'] = str(qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id)
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
@@ -838,10 +838,9 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 	teachers = Faculty_details.objects.filter(pk__in = Can_teach.objects.filter(Subject_id=Subject_id).values("Faculty_id"))
 	context["Subject_event"] = Subject_event.objects.active().filter(Subject_id = Subject_id)
 	context["my_faculty"] = teachers.exclude(
-										Q(pk__in = context["Subject_event"].values("Faculty_id")) |
+										Q(pk__in = context["Subject_event"].values("Faculty_id")) &
 										Q(pk__in = context["Subject_event"].values("Co_faculty_id"))
 									)
-	# print(teachers)
 	my_subject = Subject_details.objects.get(pk = Subject_id)
 	context["remaining_lect"],context["remaining_prac"] = my_subject.remaining_lect_prac()
 	context["my_subject"] = my_subject

@@ -232,7 +232,7 @@ if (header){
                                         <div class="card-body p-0">
                                             <h6 class="card-title text-left">{{subject_event.Subject_id}}</h6>
                                             <h6 class="card-text text-right mr-2 mt-3" style="font-size:smaller">By
-                                                {{subject_event.Faculty_id}}</h6>
+                                                {{subject_event.get_faculty_name()}}</h6>
                                         </div>
                                         <div class="remaining_load cards_left text-center">0
                                         </div>
@@ -248,7 +248,7 @@ if (header){
                                         <div class="card-body p-0">
                                             <h6 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h6>
                                             <h6 class="card-text text-right mr-2 mt-3" style="font-size:small">By
-                                                {{subject_event.Faculty_id}}</h6>
+                                                {{subject_event.get_faculty_name()}}</h6>
                                         </div>
                                         <div class="remaining_load cards_left text-center">0
                                         </div>

@@ -96,12 +96,16 @@ class Subject_event(models.Model):
 	'''
 	# add a function to count the load remaining from the Event table and use distince(Slot_id)
 	# this will be usefull for timetable algo when the batches will be mearged
+	def get_faculty_name(self):
+		if self.Co_faculty_id:
+			return f"{str(self.Faculty_id)}/{str(self.Co_faculty_id)}"
+		return f"{str(self.Faculty_id)}"
 	def total_load_carried(self):
 		return (self.prac_carried * 2) + self.lect_carried
 	
 	def __str__(self):
 		self.Subject_id.get_prac_lect()
-		return self.Subject_id.short + " by " + str(self.Faculty_id)
+		return self.Subject_id.short + " by " + self.get_faculty_name()
 
 	class Meta:
 		verbose_name_plural = "Subject events"

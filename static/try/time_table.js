@@ -126,7 +126,7 @@ function get_respective_lect_prac_batch(subject_event_id,is_prac=false){
 	if (is_prac){
 		for (b in batches){
 			let batch = batches[b].fields;
-			if (batch.subjects_for_batch.includes(subject_id)){
+			if (batch.subjects_for_batch.includes(subject_id) && batch.batch_for == "prac"){
 				temp = batches.filter(e=>e.fields.batch_for=="prac")
 				break
 			}
@@ -875,46 +875,51 @@ function change_to_prac_td(td,subject_batch) {	// change td to prac td
 		colspan = parseInt((12/subject_batch.length));
 	else 
 		colspan = 12;
-	let string = `<div class="container text-center mt-1"><div class="row text-center">`;
+	let string = `<div class="container text-center mt-1">`;
 	
 	if (has_batch){	
+		string += `<div class="row text-center">`
 		for (i in subject_batch){
 			string += `
 			<div class="event_divs col-`+ colspan+`"batch_for=`+subject_batch[i].pk+`>
 				<!--<div class="row" >
 				</div>-->
 				<div class="row">
-                <div class="col mt-1">
+                	<div class="col mt-1">
                         <div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
-						<button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:transparent"></button>
+						<button class="btn-sm prac_mycol event_name border-0" style="color:white;background-color:transparent"></button>
                         <div class="row ml-0 text-center prac_below_texts">
-                        <div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
-                        <div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
-                    </div>
+							<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+							<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+                    	</div>
 					</div>
 				</div>
-                    <!--<div class="row ml-0 text-center prac_below_texts">
-                        <div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
-                        <div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
-                    </div>-->
+				<!--<div class="row ml-0 text-center prac_below_texts">
+					<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+					<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+				</div>-->
 			</div>
 			`;
 		}
 	}else{	// put "class" instead of batch_id
+		console.log("here in class prac");
 		string += `
-			<div class="event_divs" batch_for = class>
-				<div class="row" >
-					<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`"></div>
+		<div class="row" style="width:100%">
+			<div class="event_divs col-`+ colspan+`" batch_for = class>
+				<div class="row" style="width:100%;padding-right:0px !important;">
+					<div class="col mt-2" style="width: 100%;">
+						<div class="col p-0 pt-1 prac_texts batch_name"> &nbsp;</div>
+						<button class="btn-sm prac_mycol event_name border-0" style="width:auto;padding:10px !important;color:white;background-color:transparent"></button>
+						<div class="ml-0 text-center prac_below_texts">
+							<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+							<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+                    	</div>
+					</div>					
 				</div>
-				<div class="row">
-					<div class="col mt-2">
-						<button class="btn-sm prac_mycol event_name border-0"style="color:white;"></button>
-					</div>
-				</div>
-                <div class="row ml-0 text-center prac_below_texts">
+                <!--<div class="row ml-0 text-center prac_below_texts">
                     <div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
                     <div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
-                </div>
+                </div>-->
 			</div>
 			`;
 	}
@@ -1402,11 +1407,16 @@ function functABC() {
 			"locked_events":JSON.stringify(get_all_locked_events()),
 			"merging_events":get_form_json()
 		},
+		
 		success: function (data){
 			clear_all_unlocked_td();
 			put_json_in_table(data);
 			console.log("returned data :- ",data);
-	  }
+	  	},
+		error: function (data){
+			console.log("Error :- ",data.responseJSON);
+			// set swal2 here
+		}
   	});
   });
 }

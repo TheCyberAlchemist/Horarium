@@ -141,18 +141,7 @@
                                                         {% endif %}
                                                     </select>
                                                 </div>
-												<div class="col-lg-6 col-md-12 col-sm-12 text-center">
-                                                    <select name="Co_Faculty_id" id="select_co_fac" >
-                                                        <option value="a" disabled selected>Select Co-Faculty </option>
-                                                        {% if not update %}
-                                                        {% for faculty in my_faculty %}
-                                                            <option value="{{faculty.id}}">{{faculty.User_id}} ({{faculty.short}})</option>
-                                                        {% endfor %}
-                                                        {% else %}
-                                                        <option value="{{update.Faculty_id_id}}" selected >{{update.Faculty_id.User_id}} ({{update.Faculty_id.short}})</option>
-                                                        {% endif %}
-                                                    </select>
-                                                </div>    
+												
                                             {% endif %}         
 
 											{%if update %}
@@ -169,11 +158,9 @@
                                                     </div>
                                                 </div>                                            
                                             {% endif %}
-											
-
                                             {%if not update%}
                                                 <div class="col-lg-6 col-md-12 col-sm-12 text-center">
-                                                    <select name="Co_Faculty_id" id="select_co_fac">
+                                                    <select name="Co_faculty_id" id="select_co_fac">
                                                         <option value="a" disabled selected>Select Co-Faculty </option>
                                                         {% if not update %}
                                                         {% for faculty in my_faculty %}
@@ -184,7 +171,7 @@
                                                         {% endif %}
                                                     </select>
                                                 </div>    
-                                            {% endif %}            
+                                            {% endif %}
 
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
@@ -261,8 +248,8 @@
                             <thead class="thead-light">
                                 <tr>
                                     <th class="border-0"><i class="fas fa-hashtag"></i></th>
-                                    <th class="border-0 fw-bold">Name</th>
-                                    <th class="border-0 fw-bold">Short</th>
+                                    <th class="border-0 fw-bold">Faculty</th>
+                                    <th class="border-0 fw-bold">Co-Faculty</th>
                                     <th class="border-0 fw-bold">Practicals</th>
                                     <th class="border-0 fw-bold">Lectures</th>
                                     <th class="border-0 fw-bold">Total Hrs.</th>
@@ -279,8 +266,8 @@
                                 {% for event in Subject_event %}
                                 <tr>
                                     <td clas="fw-bold">{{loop.index}}</td>
-                                    <td class="fw-bold">{{event.Faculty_id.User_id}}</td>
                                     <td class="fw-bold">{{event.Faculty_id.short}}</td>
+                                    <td class="fw-bold">{{event.Co_faculty_id.short}}</td>
                                     <td class="fw-bold">{{event.prac_carried}}</td>
                                     <td class="fw-bold">{{event.lect_carried}}</td>
                                     <td class="fw-bold">{{event.total_load_carried()}} Hrs.</td>

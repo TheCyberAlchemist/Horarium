@@ -27,3 +27,13 @@ class Student_details(models.Model):
 		return self.User_id.first_name
 	class Meta:
 		verbose_name_plural = "Student Details"
+
+class Student_logs(models.Model):
+	user_id = models.ForeignKey(get_user_model(),default=None,null=True,on_delete = models.SET_NULL)
+	action = models.CharField(max_length=64)
+	Division_id = models.ForeignKey(Division,default=None,null=True,on_delete = models.SET_NULL)
+	timestamp = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+	ip = models.GenericIPAddressField(null=True)
+	def __str__(self):
+		if self.user_id:
+			return '{0} - {1} - {2}'.format(self.user_id, self.action, self.ip)

@@ -9,7 +9,7 @@ from django.contrib.auth.hashers import check_password
 
 from student_V1.forms import * 
 from subject_V1.models import Subject_details,Subject_event
-from student_V1.models import Student_details
+from student_V1.models import Student_details,Student_logs
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from django.contrib.auth.decorators import login_required
 from Table_V2.models import Event
@@ -110,8 +110,9 @@ def send_mandatory_email():
 @allowed_users(allowed_roles=['Student'])
 def student_home(request):
 	student = request.user.student_details
-	my_shift = student.Division_id.Shift_id
-	my_events = Event.objects.active().filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=student.Division_id)
+	my_division = student.Division_id
+	my_shift = my_division.Shift_id
+	my_events = Event.objects.active().filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=my_division)
 	# day = "Monday"
 	day = None
 	context = {
@@ -120,7 +121,6 @@ def student_home(request):
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
 		'questions' : questions,
 	}
-	
 	if day:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=day))
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=day))
@@ -149,6 +149,13 @@ def student_home(request):
 
 	# get_all_subjects_of_feedback_type(request)
 	# fill_mandatory_feedback(request)
+	ip = request.META.get('REMOTE_ADDR')
+	Student_logs.objects.create(
+		user_id = request.user,
+		action='Student Details called',
+		Division_id = my_division,
+		ip=ip,
+	)
 	return render(request,"Student/student_v1.html",context)
 
 @login_required(login_url="login")
@@ -159,9 +166,9 @@ def student_settings(request) :
 	context = {
 		"my_institute":student.Institute_id,
 		"my_email":user.email,
-		"my_division":student.Division_id.name,
-		"my_semester":student.Division_id.Semester_id,
-		"my_department":student.Division_id.Semester_id.Branch_id.Department_id,
+		"my_division":my_division.name,
+		"my_semester":my_division.Semester_id,
+		"my_department":my_division.Semester_id.Branch_id.Department_id,
 		"my_batches": f"{student.prac_batch} | {student.lect_batch}"
 	}
 	if request.method == 'POST':

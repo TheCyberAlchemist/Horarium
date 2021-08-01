@@ -93,6 +93,7 @@ def add_update_student(request,Department_id):
 			elif details.lect_batch and not details.lect_batch.Division_id == details.Division_id:
 				return JsonResponse({'error':'<ul class=\"errorlist\"><li>Lecture Batch<ul class=\"errorlist\"><li>The lecture batches selected are not in the same division.</li></ul></li></ul>'}, status=500)
 			# endregion
+			user = None
 			if not user_obj: # if add is called
 				group = Group.objects.get(name='Student')
 				user = name_form.save(commit=False)
@@ -103,7 +104,8 @@ def add_update_student(request,Department_id):
 			print("save can be executed ✅✅")
 
 			name_form.save()
-			user.groups.add(group)
+			if user: # if add is called 
+				user.groups.add(group)
 			details.save()
 			print("Save has been Successfull ✅✅")			
 			return JsonResponse({'success':'Saved ✅✅'})
@@ -176,17 +178,18 @@ def add_update_faculty(request,Department_id):
 					# Can_teach.objects.filter(Subject_id_id= i).delete()
 				for i in to_be_added:
 					a = Can_teach(Faculty_id = details,Subject_id_id=i)
-					print("added - ",a)
+					print("added can teach - ",a)
 					a.save()
 				print("Save has been Successfull ..... ✅✅")
 			else:
 				print("Save can be executed ..... ✅✅")
 				user.save()
+				user.groups.add(group)
 				details_form.save()
 				load_form.save()
 				can_teach_obj_list = []
 				error_in_can_teach = False
-				for i in request.POST.getlist('can_teach[]'):
+				for i in request.POST.getlist('can_teach'):
 					try:
 						can_teach_obj_list.append(Can_teach(Faculty_id = details,Subject_id_id = i))
 					except Exception as e:
@@ -199,6 +202,7 @@ def add_update_faculty(request,Department_id):
 					return JsonResponse({'error':'We have some problems back here please refresh the page.'})
 				else:
 					for can_teach_obj in can_teach_obj_list:
+						print("added can teach - ",can_teach_obj)
 						can_teach_obj.save()
 					print("Save has been Successfull ✅✅")
 			return JsonResponse({'success':'Saved ✅✅'})
@@ -257,6 +261,9 @@ def user_dash(request,Department_id):
 			print(i)
 			if i:
 				i.delete()
+				# i.first_name += "1"
+				# i.save()
+				# print(i," - will be deleted ❌")
 
 	if request.method == 'POST':
 		if request.is_ajax():	# if delete is called

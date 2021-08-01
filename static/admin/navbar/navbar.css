@@ -102,8 +102,9 @@
 
 .nav_container .nav-link,.navbar-brand {
   font-family: 'Poppins', sans-serif !important;
-  font-weight: 800 !important;
-  color : #b3bcc4 !important;
+  font-weight: 600 !important;
+  /* color : #b3bcc4 !important; */
+  color : #fff !important;
   user-select: none !important;
 }
 .nav-link:hover {

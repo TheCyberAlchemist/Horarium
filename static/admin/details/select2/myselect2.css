@@ -12,7 +12,7 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
-  transition: 0.1s;
+  transition: 0s;
 }
 
 .select2-container .select2-selection--single {
@@ -26,7 +26,7 @@
    -ms-user-select: none;
        user-select: none;
   -webkit-user-select: none;
-  transition: 1s;
+  transition: 0s;
 }
 
 .select2-search input {
@@ -51,7 +51,7 @@
   background-color: #ffffff;
   border: 1px solid #ced4da;
   z-index: 1061;
-  transition: 2s;
+  transition: 0s;
 }
 
 .select2-container .select2-selection--single .select2-selection__rendered {
@@ -133,7 +133,12 @@
 }
 
 #select_fac,
-#csv_select {
+#csv_select,
+#csv_select_update,
+#csv_add_update,
+#select_co_fac,
+#prac_batches,
+#lect_batches {
   width: 500px;
 }
 
@@ -143,13 +148,22 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
-  transition: 0.1s;
+  transition: 0s;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+  cursor: default;
+  padding-left: 22px;
+  padding-right: 5px;
+}
+
+.select2-container--default.select2-container--focus.select2-selection--multiple {
+  border: 1px solid #ced4da !important;
 }
 
 .select2-search.select2-search--inline,
 .select2-search.select2-search--inline input {
   display: inline-block;
-  width: 100% !important;
 }
 
 .select2-search.select2-search--inline input:focus {
@@ -179,8 +193,19 @@
 #select_fac,
 #shifts,
 #wef_select,
-#csv_select {
+#csv_select,
+#csv_add_update,
+#prac_batches,
+#lect_batches {
     width: 100% !important;
     font-size: x-small;
+  }
+
+  .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
+    width: 100% !important;
+  }
+
+  .select2.select2-container.select2-container--default.select2-container--focus {
+    width: 100% !important;
   }
 }/*# sourceMappingURL=myselect2.css.map */

@@ -1,0 +1,80 @@
+td,
+th {
+  font-size: 0.9rem !important;
+  border: 1px solid black !important;
+  height: 100px;
+}
+
+.table {
+  table-layout: fixed !important;
+}
+
+.myrow .mycol:not(:last-of-type) {
+  border-right: 1px solid black;
+}
+
+.myrow {
+  --bs-gutter-x: 1rem !important;
+  --bs-gutter-y: 0rem !important;
+  height: 100%;
+}
+
+.faculty_name {
+  height: 30%;
+  text-align: left;
+}
+
+.event_name {
+  height: 40%;
+  text-align: center;
+  transform: translateY(15%);
+  left: 50%;
+}
+
+.batch_name {
+  height: 30%;
+  text-align: right;
+}
+
+.faculty_name span {
+  position: absolute;
+  left: 13%;
+}
+
+.event_name span {
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  transform: translate(-50%, -5%);
+}
+
+.batch_name span {
+  position: absolute;
+  left: 70%;
+  top: 90%;
+}
+
+.mydiv {
+  position: relative;
+  height: 100%;
+  padding: 1%;
+}
+
+.faculty {
+  height: 30%;
+  text-align: left;
+}
+
+.event {
+  height: 40%;
+  text-align: center;
+}
+
+.batch {
+  height: 30%;
+  text-align: right;
+}
+
+.faculty span, .batch span, .event span {
+  vertical-align: middle;
+}/*# sourceMappingURL=print_table.css.map */

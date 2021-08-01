@@ -1,0 +1,160 @@
+{% extends 'admin/base2.html' %} {% block title%} Print Table {% endblock %} {% block css%}
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/print_table/print_table.css')}}">
+<style>
+
+</style>
+{% endblock %} {%block scripts%}
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.22/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function () {
+    $("#mybutton").click(function () {
+      html2canvas($("#tbl")[0], {
+        onrendered: function (canvas) {
+          var data = canvas.toDataURL();
+          var docDefinition = {
+            content: [
+              {
+                image: data,
+                width: 500,
+              },
+            ],
+          };
+          pdfMake.createPdf(docDefinition).download("sample.pdf");
+        },
+      });
+    });
+  });
+</script>
+{% endblock %} {% block content %}
+<div id="page_activator" activate-page="a"></div>
+<div class="main_content">
+  <div class="container-fluid" style="background-color: white">
+    <table id="table">
+      <tr>
+        <span class="h3 mb-4">Time Table For CLASS-A</span>
+      </tr>
+      <tr>
+        <table class="table" id="tbl">
+          <thead>
+            <tr>
+              <th scope="col">Time</th>
+              <th scope="col">Monday</th>
+              <th scope="col">Tuesday</th>
+              <th scope="col">Wednesday</th>
+              <th scope="col">Thursday</th>
+              <th scope="col">Friday</th>
+              <th scope="col">Saturday</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">
+                <div class="container text-center">1</div>
+                <div class="container text-center">07:25 - 08:20</div>
+              </th>
+              <th scope="row" style="padding : 0">
+                <div class="row no-gutters myrow">
+                  <div class="col-4 mycol m-0">
+                    <div class="container" style="">TRK</div>
+                    <div class="container" style="text-align: center">FP</div>
+                    <div class="container" style="text-align: right">42</div>
+                  </div>
+                  <div class="col-4 mycol m-0">
+                    <div class="container" style="">TRK</div>
+                    <div class="container" style="text-align: center">FP</div>
+                    <div class="container" style="text-align: right">42</div>
+                  </div>
+                  <div class="col-4 mycol m-0">
+                    <div class="container" style="">TRK</div>
+                    <div class="container" style="text-align: center">FP</div>
+                    <div class="container" style="text-align: right">42</div>
+                  </div>
+                </div>
+              </th>
+              <th scope="row" rowspan="1" class="p-0">
+                <div class="row no-gutters myrow">
+                  <div class="col-6 mycol m-0">
+                    <div class="p-0 faculty_name">
+                        <span style=""> TRK </span>
+                    </div>
+                    <div class="p-0 event_name">
+                        <span> FP </span>
+                    </div>
+                    <div class="p-0 batch_name">
+                        <span> 42 </span>
+                    </div>
+                  </div>
+                  <div class="col-6 mycol m-0">
+                    <div class="p-0 faculty_name">
+                        <span style=""> TRK </span>
+                    </div>
+                    <div class="p-0 event_name">
+                        <span> FP </span>
+                    </div>
+                    <div class="p-0 batch_name">
+                        <span> 42 </span>
+                    </div>
+                  </div>
+                </div>
+              </th>
+              <th scope="row" rowspan="2" class="p-0">
+                  <div class="row">
+                      <div class="col-4">
+                          <div class="mydiv">
+                      <div class="faculty"><span>UDS</span></div>
+                      <div class="event"><span>OS</span></div>
+                      <div class="batch"><span>43</span></div>
+                  </div>
+                      </div>
+                      <div class="col-4">
+                          <div class="mydiv">
+                      <div class="faculty"><span>UDS</span></div>
+                      <div class="event"><span>OS</span></div>
+                      <div class="batch"><span>43</span></div>
+                  </div>
+                      </div>
+                      <div class="col-4">
+                          <div class="mydiv">
+                      <div class="faculty"><span>UDS</span></div>
+                      <div class="event"><span>OS</span></div>
+                      <div class="batch"><span>43</span></div>
+                  </div>
+                      </div>
+                  </div>
+                  <!-- <div class="mydiv">
+                      <div class="faculty"><span>UDS</span></div>
+                      <div class="event"><span>OS</span></div>
+                      <div class="batch"><span>43</span></div>
+                  </div> -->
+              </th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+              <th scope="row"></th>
+            </tr>
+          </tbody>
+        </table>
+      </tr>
+    </table>
+    <button class="btn btn-primary" id="mybutton">Export AS PDF</button>
+  </div>
+</div>
+{% endblock %}

@@ -6,15 +6,17 @@
 <link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
 <style>
     .not_available_td {
-        background-color: red;
+        background-color: #d41d30;
     }
     .available_td {
         background-color: green;
     }
     .here {
-        background-color: blue;
+        background-color: #0d6efd;
     }
     .select2-container--default .select2-results__option--disabled{
         display: none;
@@ -186,7 +188,9 @@ if (header){
                   </li>
                   <li class="nav-item">
                     <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Save"> <i class="fas fa-save ml-2 mr-3"></i> </button> 
+                    title="Print"> 
+					<a href="{{url('select_batch',args=[my_division.id])}}"><i class="fas fa-print ml-2 mr-3"></i> </a>
+				</button> 
                   </li>
                   <li class="nav-item">
                     <!-- Button trigger generate modal -->
@@ -230,7 +234,7 @@ if (header){
                                         <div class="card-body p-0">
                                             <h6 class="card-title text-left">{{subject_event.Subject_id}}</h6>
                                             <h6 class="card-text text-right mr-2 mt-3" style="font-size:smaller">By
-                                                {{subject_event.Faculty_id}}</h6>
+                                                {{subject_event.get_faculty_name()}}</h6>
                                         </div>
                                         <div class="remaining_load cards_left text-center">0
                                         </div>
@@ -246,7 +250,7 @@ if (header){
                                         <div class="card-body p-0">
                                             <h6 class="card-title text-left">{{subject_event.Subject_id}} PRAC</h6>
                                             <h6 class="card-text text-right mr-2 mt-3" style="font-size:small">By
-                                                {{subject_event.Faculty_id}}</h6>
+                                                {{subject_event.get_faculty_name()}}</h6>
                                         </div>
                                         <div class="remaining_load cards_left text-center">0
                                         </div>
@@ -265,9 +269,7 @@ if (header){
                     </div>
                 </div> -->
                     
-                    <div class="container text-center">
-                        <button class="btn btn-outline-success" onclick="submited()">Submit</button>
-                    </div>
+                    
                 </div>
             </div>
             <!-- #endregion Card Container-->

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous" />
+	<meta name="pdfkit-page-size" content="Legal" />
+	<meta name="pdfkit-orientation" content="Landscape" />
+	<style>
+	html{
+/*width: 100%;
+height: 100%;*/
+padding: 0;
+margin: 0;
+}
+		.main_table {
+			/*width: 50%;*/
+			table-layout: fixed;
+		}
+
+		.inner {
+			width: 100%;
+			height : 100%;
+		}
+
+		.inner,
+		.inner td,
+		.inner th {
+			border: none !important;
+		}
+
+		.main_table,
+		.main_table th,
+		.main_table td {
+			border: 1px solid black;
+			border-collapse: collapse;
+			/*height: 60px;*/
+		}
+
+		.main_table th,
+		.inner_table th .main_table td,
+		.inner_table td {
+			/* margin: 0 auto;
+			padding: .2rem 
+			vertical-align: middle;*/
+			font-size: 1rem;
+			/*max-height : 5vh*/
+		}
+
+		.prac_td .event-name {
+			/*writing-mode: vertical-rl;*/
+			/*height: 6rem;
+			text-orientation: upright;
+			letter-spacing: -2px;*/
+			/*vertical-align: middle;*/
+		}
+
+		 .event-name {
+			word-break: break-word;
+		}
+
+		.prac_td .batch-name {
+			/*height: 15%;*/
+		}
+
+		/*.prac_td .col-4:not(:last-of-type){
+			border-right: 1px solid black;
+		}*/
+
+		@page {
+			size: a4 landscape;
+			margin: 0cm;
+		}
+		@media screen, print{
+			.main_table {
+				border: 1px solid orange;
+				margin-top:100px;
+				width: 100%;				
+				table-layout: fixed;
+			}
+	
+			.inner {
+				width: 100%;
+				height : 100%;
+			}
+	
+			.inner,
+			.inner td,
+			.inner th {
+				border: none !important;
+			}
+	
+			.main_table,
+			.main_table th,
+			.main_table td {
+				border: 1px solid orange;
+				border-collapse: collapse;
+				/*height: 60px;*/
+			}
+	
+			.main_table th,
+			.inner_table th .main_table td,
+			.inner_table td {
+				/* margin: 0 auto;
+				padding: .2rem 
+				vertical-align: middle;*/
+				font-size: 1rem;
+				/*max-height : 5vh*/
+			}
+	
+			.prac_td .event-name {
+				/*writing-mode: vertical-rl;*/
+				/*height: 6rem;
+				text-orientation: upright;
+				letter-spacing: -2px;*/
+				/*vertical-align: middle;*/
+			}
+	
+			 .event-name {
+				word-break: break-word;
+			}
+	
+			.prac_td .batch-name {
+				/*height: 15%;*/
+			}
+
+		}
+	</style>
+</head>
+
+<body>
+	<h2>Cell that spans two rows</h2>
+	<p>To make a cell span more than one row, use the rowspan attribute.</p>
+
+	<div class="container-fluid">
+		<table style="" class="table main_table">
+			<thead>
+				<!-- <tr class="text-center">
+					<th scope="col">Time</th>
+					<th scope="col">Monday</th>
+					<th scope="col">Tuesday</th>
+					<th scope="col">Wednesday</th>
+					<th scope="col">Thursday</th>
+					<th scope="col">Friday</th>
+					<th scope="col">Saturday</th>
+				</tr> -->
+			</thead>
+			<tbody>
+				<!-- <tr class="text-center">
+					<th scope="row" class="my-auto">
+						<div>1</div>
+						<div>07:25 - 08:20</div>
+					</th>
+					<td class="lect_td">
+						<div class="container m-0 p-0">
+							<div class="batch-name w-100 text-left">41</div>
+							<div class="event-name w-100">Calculus</div>
+							<div class="resource-name w-100">304</div>
+							<div class="faculty-name w-100" >URT</div>
+						</div>
+					</td>
+					<td>{{asd}}</td>
+					<td>{{asd}}</td>
+					<td>{{asd}}</td>
+					<td>{{asd}}</td>
+					<td>{{asd}}</td>
+				</tr>
+				<tr class="text-center">
+					<th scope="row">
+						<div>1</div>
+						<div>07:25 - 08:20</div>
+					</th>
+					<td>fgh</td>
+					<td rowspan="2" class="m-0 p-0 prac_td">
+						<div class="row p-0 m-0">
+							<div class="col-4 p-0">
+								<div class="batch-name w-100">41</div>
+								<div class="event-name w-100">Calculus</div>
+								<div class="resource-name w-100">304</div>
+								<div class="faculty-name w-100" >URT</div>
+							</div>
+							<div class="col-4 p-0">
+								<div class="batch-name w-100">41</div>
+								<div class="event-name w-100">M&M</div>
+								<div class="resource-name w-100">304</div>
+								<div class="faculty-name w-100" >URT</div>
+							</div>
+							<div class="col-4 p-0">
+								<div class="batch-name w-100">41</div>
+								<div class="event-name w-100">AC</div>
+								<div class="resource-name w-100">304</div>
+								<div class="faculty-name w-100" >URT</div>
+							</div>
+						</div>
+					</td>
+					<td>fgh</td>
+					<td>fgh</td>
+					<td>fgh</td>
+					<td>fgh</td>
+				</tr>
+				<tr class="text-center">
+					<th scope="row">
+						<div>1</div>
+						<div>07:25 - 08:20</div>
+					</th>
+					<td>jkl</td>
+					<td>jkl</td>
+					<td>jkl</td>
+					<td rowspan="2">jkl</td>
+					<td>jkl</td>
+				</tr>
+				<tr class="text-center">
+					<th scope="row">
+						<div>1</div>
+						<div>07:25 - 08:20</div>
+					</th>
+					<td>qwe</td>
+					<td>qwe</td>
+					<td>qwe</td>
+					<td>qwe</td>
+					<td>qwe</td>
+				</tr> -->
+				<tr class="text-center">
+					<td colspan="6" class="m-0 p-0">1</td>
+					<td colspan="6" class="m-0 p-0">1</td>
+					<td colspan="6" class="m-0 p-0">1</td>
+					<td colspan="2" rowspan="2" class="m-0 p-0" style="vertical-align:middle;height:100%">
+						<table class="inner my-auto">
+							<tr style="vertical-align: top">
+								<td colspan="2">
+									<div class="batch-name w-100" style="text-align: left">42</div>
+									<!-- 42 -->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="event-name w-100" style="margin: 0 auto">M&M</div>
+								</td>
+							</tr>
+							<tr style="vertical-align: bottom">
+								<td>
+									<div class="resource-name text-left m-0 p-0" style="text-align: left">404</div>
+								</td>
+								<td>
+									<div class="faculty-name text-right m-0 p-0" style="text-align: right">IBM</div>
+								</td>
+							</tr>
+						</table>
+						<!-- <div class="batch-name w-100" style="height: 10%; text-align: left; padding-left: 6px">41</div>
+						<div class="event-name w-100" style="height: 60%; margin: 0 auto">AC</div>
+						<div class="resource-name text-left d-flex" style="height: 20%; float: left; padding-left: 5px">
+							304</div>
+						<div class="faculty-name text-right" style="height: 20%; text-align: right; padding-right: 5px">
+							URT</div> -->
+					</td>
+					<td colspan="2" rowspan="2" class="p-0 m-0" style="vertical-align:middle">
+						<table class="inner my-auto">
+							<tr style="vertical-align: top">
+								<td colspan="2">
+									<div class="batch-name w-100" style="text-align: left">42</div>
+									<!-- 42 -->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="event-name w-100" style="margin: 0 auto">ESFP</div>
+								</td>
+							</tr>
+							<tr style="vertical-align: bottom">
+								<td>
+									<div class="resource-name text-left m-0 p-0" style="text-align: left">404</div>
+								</td>
+								<td>
+									<div class="faculty-name text-right m-0 p-0" style="text-align: right">IBM</div>
+								</td>
+							</tr>
+						</table>
+						<!-- <div class="batch-name w-100" style="text-align:left;padding-left:6px">42</div>
+						<div class="event-name w-100" style="margin:0 auto">ESFP</div>
+						<div class="resource-name text-left d-flex" style="float:left;padding-left:5px">404</div>
+						<div class="faculty-name text-right" style="text-align: right;padding-right: 5px;">IBM</div> -->
+					</td>
+					<td colspan="2" rowspan="2" class="p-0 m-0" style="vertical-align:middle">
+						<table class="inner my-auto">
+							<tr style="vertical-align: top">
+								<td colspan="2">
+									<div class="batch-name w-100" style="text-align: left">42</div>
+									<!-- 42 -->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="event-name w-100" style="margin: 0 auto">ESFP</div>
+								</td>
+							</tr>
+							<tr style="vertical-align: bottom">
+								<td>
+									<div class="resource-name text-left m-0 p-0" style="text-align: left">404</div>
+								</td>
+								<td>
+									<div class="faculty-name text-right m-0 p-0" style="text-align: right">IBM</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td colspan="6">1</td>
+					<td colspan="6">1</td>
+				</tr>
+				<tr class="text-center">
+					<td colspan="6" class="m-0 p-0">1</td>
+					<td colspan="6" class="m-0 p-0">1</td>
+					<td colspan="6" class="m-0 p-0">1</td>
+					<td colspan="2" rowspan="2" class="m-0 p-0" style="vertical-align:middle;height:100%">
+						<table class="inner my-auto">
+							<tr style="vertical-align: top">
+								<td colspan="2">
+									<div class="batch-name w-100" style="text-align: left">42</div>
+									<!-- 42 -->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="event-name w-100" style="margin: 0 auto">M&M</div>
+								</td>
+							</tr>
+							<tr style="vertical-align: bottom">
+								<td>
+									<div class="resource-name text-left m-0 p-0" style="text-align: left">404</div>
+								</td>
+								<td>
+									<div class="faculty-name text-right m-0 p-0" style="text-align: right">IBM</div>
+								</td>
+							</tr>
+						</table>
+						<!-- <div class="batch-name w-100" style="height: 10%; text-align: left; padding-left: 6px">41</div>
+						<div class="event-name w-100" style="height: 60%; margin: 0 auto">AC</div>
+						<div class="resource-name text-left d-flex" style="height: 20%; float: left; padding-left: 5px">
+							304</div>
+						<div class="faculty-name text-right" style="height: 20%; text-align: right; padding-right: 5px">
+							URT</div> -->
+					</td>
+					<td colspan="2" rowspan="2" class="p-0 m-0" style="vertical-align:middle">
+						<table class="inner my-auto">
+							<tr style="vertical-align: top">
+								<td colspan="2">
+									<div class="batch-name w-100" style="text-align: left">42</div>
+									<!-- 42 -->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="event-name w-100" style="margin: 0 auto">ESFP</div>
+								</td>
+							</tr>
+							<tr style="vertical-align: bottom">
+								<td>
+									<div class="resource-name text-left m-0 p-0" style="text-align: left">404</div>
+								</td>
+								<td>
+									<div class="faculty-name text-right m-0 p-0" style="text-align: right">IBM</div>
+								</td>
+							</tr>
+						</table>
+						<!-- <div class="batch-name w-100" style="text-align:left;padding-left:6px">42</div>
+						<div class="event-name w-100" style="margin:0 auto">ESFP</div>
+						<div class="resource-name text-left d-flex" style="float:left;padding-left:5px">404</div>
+						<div class="faculty-name text-right" style="text-align: right;padding-right: 5px;">IBM</div> -->
+					</td>
+					<td colspan="2" rowspan="2" class="p-0 m-0" style="vertical-align:middle">
+						<table class="inner my-auto">
+							<tr style="vertical-align: top">
+								<td colspan="2">
+									<div class="batch-name w-100" style="text-align: left">42</div>
+									<!-- 42 -->
+								</td>
+							</tr>
+							<tr>
+								<td colspan="2">
+									<div class="event-name w-100" style="margin: 0 auto">ESFP</div>
+								</td>
+							</tr>
+							<tr style="vertical-align: bottom">
+								<td>
+									<div class="resource-name text-left m-0 p-0" style="text-align: left">404</div>
+								</td>
+								<td>
+									<div class="faculty-name text-right m-0 p-0" style="text-align: right">IBM</div>
+								</td>
+							</tr>
+						</table>
+					</td>
+					<td colspan="6">1</td>
+					<td colspan="6">1</td>
+				</tr>
+				<tr class="text-center">
+					<td colspan="3">1</td>
+					<td colspan="3">1</td>
+					<td colspan="6">1</td>
+					<td colspan="6">1</td>
+					<td colspan="6">1</td>
+					<td colspan="6">1</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+
+</html>

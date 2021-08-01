@@ -88,7 +88,7 @@ class add_subject_details(ModelForm):
 class add_sub_event(ModelForm):
 	class Meta:
 		model = Subject_event
-		fields = ["Faculty_id","lect_carried", "prac_carried"]
+		fields = ["Faculty_id","Co_faculty_id","lect_carried", "prac_carried"]
 
 class update_sub_event(ModelForm):
 	class Meta:

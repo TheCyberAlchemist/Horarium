@@ -57,7 +57,7 @@ def faculty_home(request):
 	# for i in Slots.objects.filter(day=2):
 	faculty = request.user.faculty_details
 	my_shift = faculty.Shift_id
-	my_events = Event.objects.active().filter(Subject_event_id__Faculty_id = faculty)
+	my_events = Event.objects.filter_faculty(faculty)
 	day = ""
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
@@ -98,9 +98,9 @@ def faculty_feedback(request,Faculty_id = None) :
 	subjects_list = []
 	if Faculty_id:	# if called by admin_dashboard
 		# get the faculty_id from the user_id and then filter by function
-		subject_events =  Subject_event.objects.active().filter(Faculty_id__User_id=Faculty_id)
+		subject_events =  Subject_event.objects.active().filter(Q(Faculty_id__User_id=Faculty_id)|Q(Co_faculty_id__User_id=Faculty_id))
 	else:
-		subject_events =  Subject_event.objects.active().filter(Faculty_id=request.user.faculty_details)
+		subject_events =  Subject_event.objects.filter_faculty(request.user.faculty_details)
 	# print(subject_events)
 	for subject_event in subject_events:
 		subject_events_list.append({'Subject_name':str(subject_event.Subject_id),"id":subject_event.pk})

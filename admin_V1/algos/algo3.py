@@ -1,7 +1,15 @@
+#region //////////////////// Debug switches //////////////////
+SORTING_DEBUG = False
+MAIN_DEBUG = 1
+#endregion
+
+
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
+from django.http import JsonResponse,HttpResponse
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from django.db.models import Q
 
 import json
 import math
@@ -36,34 +44,54 @@ def view_func(request):
 class event_list(list):
 	'event_list is class for event class list'
 	def filt_faculty(self,Faculty):
-		'returns filtered event_list of all the (event.Subject_event_id.Faculty_id = Faculty)'
-		return event_list(filter(lambda x: x.Subject_event_id.Faculty_id == Faculty,self))
+		'returns filtered event_list of all the (`event.Subject_event_id.Faculty_id or Co_faculty_id` = `Faculty`)'
+		return event_list(filter(lambda x: x.Subject_event_id.Faculty_id == Faculty or x.Subject_event_id.Co_faculty_id == Faculty ,self))
 	def filt_sub_event(self,sub_event):
-		'returns filtered event_list of all the (event.Subject_event_id = sub_events)'
+		'returns filtered event_list of all the (`event.Subject_event_id` = `sub_events`)'
 		return event_list(filter(lambda x: x.Subject_event_id == sub_event,self))
 	def filt_sub(self,sub):
-		'returns filtered event_list of all the (event.Subject_event_id.Subject_id = sub)'
+		'returns filtered event_list of all the (`event.Subject_event_id.Subject_id` = `sub`)'
 		return event_list(filter(lambda x: x.Subject_event_id.Subject_id == sub,self))
 	def filt_slot(self,slot):
-		'returns filtered event_list of all the (event.Slot_id = slot)'
+		'returns filtered event_list of all the (`event.Slot_id` = `slot`)'
 		return event_list(filter(lambda x: x.Slot_id == slot,self))
 	def filt_slot_2(self,slot):
-		'returns filtered event_list of all the (event.Slot_id_2 = slot)'
+		'returns filtered event_list of all the (`event.Slot_id_2` = `slot`)'
 		return event_list(filter(lambda x: x.Slot_id_2 == slot,self))
 	def filt_batch(self,batch = None):
-		'''returns filtered event_list of all the (event.Batch_id = batch)'''
+		'''returns filtered event_list of all the (`event.Batch_id` = `batch`)'''
 		return event_list(filter(lambda x: x.Batch_id == batch,self))
 	def filt_prac(self):
-		'returns filtered event_list of all the practical events (bool(event.Slot_id_2) == True)'
+		'returns filtered event_list of all the practical events (`bool(event.Slot_id_2)` == `True`)'
 		return event_list(filter(lambda x: bool(x.Slot_id_2_id),self))
 	def filt_lect(self):
-		'returns filtered event_list of all the lecture events (bool(event.Slot_id_2) == False)'
+		'returns filtered event_list of all the lecture events (`bool(event.Slot_id_2)` == `False`)'
 		# print(self)
 		return event_list(filter(lambda x: bool(x.Slot_id_2_id) == False,self))
 	def filt_slot_day(self,day):
-		'returns filtered event_list of all the (event.Slot_id.day = day)'
+		'returns filtered event_list of all the (`event.Slot_id.day` = `day`)'
 		return event_list(filter(lambda x: x.Slot_id.day == day,self))
+	def distinct(self):
+		'returns all the distinct events from the event list'
+		unique = []
+		distinct = []
+		for elem in self:
+			if [str(elem.Slot_id),str(elem.Batch_id)] not in unique:
+				unique.append([str(elem.Slot_id),str(elem.Batch_id)])
+				distinct.append(elem)
+		print(distinct)
+		return event_list(distinct)
 	def get_json(self):
+		'''get the json of all the objects in the list in the fromat :: 
+			{
+				"Slot_id_id",
+				"Slot_id_2_id",
+				"Subject_event_id_id",
+				"Batch_id_id",
+				"Resource_id_id",
+				"link"
+			}
+		'''
 		json_list = []
 		# self._current['id'] = obj._get_pk_val()
 		include_list = ["Slot_id_id","Slot_id_2_id","Subject_event_id_id","Batch_id_id","Resource_id_id","link"]
@@ -81,6 +109,7 @@ class event_list(list):
 			json_list.append(my_dict)
 		return json_list
 	def count(self):
+		'returns the number of objects in the list'
 		return len(self)
 #endregion
 
@@ -112,12 +141,13 @@ def get_division_subjects_and_events(my_division):
 
 	return my_subjects,subject_events
 
-def get_locked_events(locked_events_json,Division_id):
+def get_locked_events(locked_events,Division_id):
 	'get the event_list of all the locked events'
 	main_list = event_list()
-	if locked_events_json:
-		for i in locked_events_json:
-			del i['locked']
+	if locked_events:
+		for i in locked_events:
+			if i.get('locked'):
+				del i['locked']
 			form = add_event(i)
 			candidate = form.save(commit=False)
 			candidate.Division_id_id = Division_id
@@ -126,13 +156,28 @@ def get_locked_events(locked_events_json,Division_id):
 
 def get_sorted_events(my_division,my_subj_events,locked_events,priority_list): 
 	'returns the sorted and prioritized list of subject_events'
+	# print(locked_events)
 	sorted_subj_events = []
 	my_dict = {}
 	for subject_event in my_subj_events:
-		t = len(Not_available.objects.filter(Faculty_id = subject_event.Faculty_id))
-		t += len(Event.objects.active().filter(Subject_event_id__Faculty_id=subject_event.Faculty_id).exclude(Division_id=my_division))
+		not_avail_qs = Not_available.objects.filter(Faculty_id__in = [subject_event.Faculty_id,subject_event.Co_faculty_id])
+		other_event_qs = Event.objects.filter_faculty(subject_event.Faculty_id).exclude(Division_id=my_division)
+		t = not_avail_qs.count()
+		t += other_event_qs.count()
 		if locked_events:
-			t += len(locked_events.filt_faculty(subject_event.Faculty_id))
+			faculty_locked_event_qs = locked_events.filt_faculty(subject_event.Faculty_id)
+			co_faculty_locked_event_qs = locked_events.filt_faculty(subject_event.Co_faculty_id)
+			locked_event_qs = event_list(faculty_locked_event_qs+co_faculty_locked_event_qs).distinct()
+			t += locked_event_qs.count()
+		if SORTING_DEBUG:
+			print(" ------------- Sorting ----------- \n")
+			print(f"subject_event :: {subject_event}\n")
+			print(f"Not_available objs :: {not_avail_qs}\n")
+			print(f"Other events for faculty :: {other_event_qs}\n")
+			if locked_events:
+				print(f"Locked events :: {locked_event_qs}\n")
+			print(f"Total count :: {t}\n\n")
+
 		my_dict[subject_event] = t
 
 	my_dict = sorted(my_dict.items(), key=lambda item: item[1], reverse=True)
@@ -156,6 +201,119 @@ def get_slot_below(slot,day_slots):
 		return next_slot
 	return False
 
+def get_events_template(sorted_sub_events,events_template):
+	for subject_event in sorted_sub_events:
+		prac_carried = subject_event.prac_carried
+		lect_carried = subject_event.lect_carried
+		all_events_of_subject = events_template.filt_sub(subject_event.Subject_id)
+		# print(all_events_of_subject)
+		d = False
+		if prac_carried:	# if the faculty has practicals here
+			batches = subject_event.Subject_id.batch_set.filter(batch_for = "prac")
+			subject_prac_per_week = subject_event.Subject_id.prac_per_week
+			if batches:
+				# print(batches)
+				for batch_list in batches:
+					locked_prac_for_subject_event = events_template.filt_sub_event(subject_event).filt_prac()
+					locked_prac_count_for_batch = all_events_of_subject.filt_batch(batch_list).count()
+
+					remaining_count = subject_prac_per_week-locked_prac_count_for_batch	
+					# the practicals remaining for the batch after locking
+					faculty_max_remaining = subject_event.prac_carried - locked_prac_for_subject_event.count()
+					# the maximum number of practicals faculty can take
+
+					remaining_count = min(remaining_count,faculty_max_remaining)
+					# the remaining number of practicals that can be taken for batch and subject_event
+					if d:
+						print(f"locked_prac_count_for_batch- {locked_prac_count_for_batch}\nremaining_count-{remaining_count}\nfaculty_max_remaining-{faculty_max_remaining}")
+					
+					for i in range(remaining_count):
+						temp_eve = Event(
+										Slot_id_2_id = -1,
+										Division_id = my_division,
+										Batch_id = batch_list,
+										Subject_event_id = subject_event
+									)
+						events_template.append(temp_eve)
+						if d:
+							print("Practical - ",batch_list,"-",subject_event)
+						# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events,batch))
+			else:
+				locked_prac_for_subject_event = events_template.filt_sub_event(subject_event).filt_prac()
+
+				locked_prac_count = all_events_of_subject.filt_prac().count()
+
+				remaining_count = subject_prac_per_week-locked_prac_count	
+				# the practicals remaining after locking
+
+				faculty_max_remaining = subject_event.prac_carried - locked_prac_for_subject_event.count()
+				# the maximum number of practicals faculty can take
+
+				remaining_count = min(remaining_count,faculty_max_remaining)
+				# the remaining number of practicals that can be taken for subject_event
+				
+				for i in range(remaining_count):
+					temp_eve = Event(
+									Slot_id_2_id = -1,
+									Division_id = my_division,
+									Subject_event_id = subject_event
+								)
+					events_template.append(temp_eve)
+					if d:
+						print("Practical - ",subject_event,"- Class")
+					# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events))
+
+		if lect_carried:
+			batches = subject_event.Subject_id.batch_set.filter(batch_for = "lect")
+			locked_lect_for_subject_event = events_template.filt_sub_event(subject_event).filt_lect()
+			subject_lect_per_week = subject_event.Subject_id.lect_per_week
+			if batches:		# if the subject has a batch
+				for batch_list in batches:
+					locked_lect_count_for_batch = all_events_of_subject.filt_batch(batch_list).count()
+
+					remaining_count = subject_lect_per_week-locked_lect_count_for_batch	
+					# the lectures remaining after locking
+					faculty_max_remaining = subject_event.lect_carried - locked_lect_for_subject_event.count()
+					# the maximum number of lectures faculty can take
+					
+					remaining_count = min(remaining_count,faculty_max_remaining)
+					# if the faculty has no capicity then have the highest capability be remaining count
+					
+					for i in range(remaining_count):
+						temp_eve = Event(
+									Division_id = my_division,
+									Batch_id = batch_list,
+									Subject_event_id = subject_event
+								)
+						events_template.append(temp_eve)
+						if d:
+							print("Lecture - ",batch_list,"-",subject_event)
+						# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events,batch))
+
+			else:
+				locked_lect_count = all_events_of_subject.filt_lect().count()
+
+				remaining_count = subject_lect_per_week-locked_lect_count
+				# the lectures remaining after locking
+				faculty_max_remaining = subject_event.lect_carried - locked_lect_for_subject_event.count()
+				# get the capability of the faculty to take this event
+				
+				# print(f"locked_lect_count- {locked_lect_count}\nremaining_count-{remaining_count}\nfaculty_max_remaining-{faculty_max_remaining}")
+
+				remaining_count = min(remaining_count,faculty_max_remaining)
+				# if the faculty has no capicity then have the highest capability be remaining count
+				
+				for i in range(remaining_count):
+					temp_eve = Event(
+									Division_id = my_division,
+									Subject_event_id = subject_event
+								)
+					events_template.append(temp_eve)
+					if d:
+						print("Lecture - ",subject_event,"- Class")
+					# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events))
+	return events_template
+
 #endregion
 
 #region //////////////////// other functions //////////////////
@@ -178,6 +336,26 @@ def fill_global_vars(Division_id):
 	all_slots = Slots.objects.filter(Timing_id__Shift_id = division.Shift_id).order_by("day")
 	usable_slots = all_slots.exclude(Timing_id__is_break = True)
 	l = []
+
+def append_priority_list(priority_list,event):
+	'returns `False` if total infinite condition else returns `appended priority list`'
+	if event in priority_list:
+		if priority_list[-1] == event: # total infinite condition
+			return False
+		priority_list.remove(event)
+	priority_list.append(event)
+	return priority_list
+
+def get_batch_list(batch_list,mearging_batches,is_prac):
+	'returns the list of all the `mearging batches` if needed else returns the batch_list as it is'
+	if batch_list and mearging_batches:
+		# if the subject has mearging batches
+		if str(batch_list[0].id) in mearging_batches:
+			# if the current batch is in mearging batches
+			event_type = "prac" if is_prac else "lect"
+			batch_list = list(Batch.objects.filter(pk__in=mearging_batches,batch_for=event_type))
+	return batch_list
+
 #endregion
 
 #region //////////////////// check_functions //////////////////
@@ -204,7 +382,7 @@ def check_repetation(day_events,subject_event,is_prac = False,batch = None):
 
 def check_availability(slot,subject_event):
 	'returns -inf if the faculty is not available at that spot'
-	if Not_available.objects.filter(Faculty_id=subject_event.Faculty_id,Slot_id=slot).first():
+	if Not_available.objects.filter(Faculty_id__in=[subject_event.Faculty_id,subject_event.Co_faculty_id],Slot_id=slot).first():
 		return NOT_AVAILABLE
 	else:
 		return 0
@@ -232,8 +410,10 @@ def check_other_events_for_faculty(slot,all_events,subject_event,is_prac=False):
 	'sees if there is another event of the same faculty for the slot in other divisions and in all_slots'
 	# print(slot)	
 	# for other divisions
-	e = Event.objects.filter(Slot_id = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first()
-	e = Event.objects.filter(Slot_id_2 = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first() if not e else e
+	# e = Event.objects.filter(Slot_id = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first()
+	# e = Event.objects.filter(Slot_id_2 = slot,Subject_event_id__Faculty_id = subject_event.Faculty_id).exclude(Division_id=my_division).first() if not e else e
+	# print(e)
+	e = Event.objects.filter_faculty(subject_event.Faculty_id).filter(Q(Slot_id = slot)|Q(Slot_id_2 = slot)).exclude(Division_id=my_division).first()
 	if e:
 		return OTHER_EVENT_FACULTY
 	###############
@@ -463,6 +643,13 @@ class main(APIView):
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
 	permission_classes = [IsAuthenticated]
 	def post(self, request, Division_id=None):
+		total_infinite_condition =1
+		if total_infinite_condition:
+			data = {
+				'error':"The algo could not find any solution for the current state of lectures."
+			}
+			return JsonResponse(data, status=500)
+
 		import timeit
 		starttime = timeit.default_timer()
 		if not Division_id:
@@ -478,146 +665,31 @@ class main(APIView):
 		# print(mearging_obj)
 		# return Response()
 		infinite = True
+		total_infinite_condition = False
 		priority_list = []
-		
 		# append the priority list by the sub_events causing -inf
+		
 		while infinite:
 			l = []
 			results_list = []
 			all_events = event_list()		
 			events_template = event_list()
-			sorted_sub_events = get_sorted_events(my_division,my_sub_events,all_events,priority_list)
-			#region make events_template
-			for subject_event in sorted_sub_events:
-				prac_carried = subject_event.prac_carried
-				lect_carried = subject_event.lect_carried
-				all_events_of_subject = events_template.filt_sub(subject_event.Subject_id)
-				# print(all_events_of_subject)
-				d = False
-				if prac_carried:	# if the faculty has practicals here
-					batches = subject_event.Subject_id.batch_set.filter(batch_for = "prac")
-					subject_prac_per_week = subject_event.Subject_id.prac_per_week
-					if batches:
-						# print(batches)
-						for batch_list in batches:
-							locked_prac_for_subject_event = events_template.filt_sub_event(subject_event).filt_prac()
-							locked_prac_count_for_batch = all_events_of_subject.filt_batch(batch_list).count()
-
-							remaining_count = subject_prac_per_week-locked_prac_count_for_batch	
-							# the practicals remaining for the batch after locking
-							faculty_max_remaining = subject_event.prac_carried - locked_prac_for_subject_event.count()
-							# the maximum number of practicals faculty can take
-
-							remaining_count = min(remaining_count,faculty_max_remaining)
-							# the remaining number of practicals that can be taken for batch and subject_event
-							if False:
-								print(f"locked_prac_count_for_batch- {locked_prac_count_for_batch}\nremaining_count-{remaining_count}\nfaculty_max_remaining-{faculty_max_remaining}")
-							
-							for i in range(remaining_count):
-								temp_eve = Event(
-												Slot_id_2_id = -1,
-												Division_id = my_division,
-												Batch_id = batch_list,
-												Subject_event_id = subject_event
-											)
-								events_template.append(temp_eve)
-								if d:
-									print("Practical - ",batch_list,"-",subject_event)
-								# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events,batch))
-					else:
-						locked_prac_for_subject_event = events_template.filt_sub_event(subject_event).filt_prac()
-
-						locked_prac_count = all_events_of_subject.filt_prac().count()
-
-						remaining_count = subject_prac_per_week-locked_prac_count	
-						# the practicals remaining after locking
-
-						faculty_max_remaining = subject_event.prac_carried - locked_prac_for_subject_event.count()
-						# the maximum number of practicals faculty can take
-
-						remaining_count = min(remaining_count,faculty_max_remaining)
-						# the remaining number of practicals that can be taken for subject_event
-						
-						for i in range(remaining_count):
-							temp_eve = Event(
-											Slot_id_2_id = -1,
-											Division_id = my_division,
-											Subject_event_id = subject_event
-										)
-							events_template.append(temp_eve)
-							if d:
-								print("Practical - ",subject_event,"- Class")
-							# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,True,locked_events))
-
-				if lect_carried:
-					batches = subject_event.Subject_id.batch_set.filter(batch_for = "lect")
-					locked_lect_for_subject_event = events_template.filt_sub_event(subject_event).filt_lect()
-					subject_lect_per_week = subject_event.Subject_id.lect_per_week
-					if batches:		# if the subject has a batch
-						for batch_list in batches:
-							locked_lect_count_for_batch = all_events_of_subject.filt_batch(batch_list).count()
-
-							remaining_count = subject_lect_per_week-locked_lect_count_for_batch	
-							# the lectures remaining after locking
-							faculty_max_remaining = subject_event.lect_carried - locked_lect_for_subject_event.count()
-							# the maximum number of lectures faculty can take
-							
-							remaining_count = min(remaining_count,faculty_max_remaining)
-							# if the faculty has no capicity then have the highest capability be remaining count
-							
-							for i in range(remaining_count):
-								temp_eve = Event(
-											Division_id = my_division,
-											Batch_id = batch_list,
-											Subject_event_id = subject_event
-										)
-								events_template.append(temp_eve)
-								if d:
-									print("Lecture - ",batch_list,"-",subject_event)
-								# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events,batch))
-
-					else:
-						locked_lect_count = all_events_of_subject.filt_lect().count()
-
-						remaining_count = subject_lect_per_week-locked_lect_count
-						# the lectures remaining after locking
-						faculty_max_remaining = subject_event.lect_carried - locked_lect_for_subject_event.count()
-						# get the capability of the faculty to take this event
-						
-						# print(f"locked_lect_count- {locked_lect_count}\nremaining_count-{remaining_count}\nfaculty_max_remaining-{faculty_max_remaining}")
-
-						remaining_count = min(remaining_count,faculty_max_remaining)
-						# if the faculty has no capicity then have the highest capability be remaining count
-						
-						for i in range(remaining_count):
-							temp_eve = Event(
-											Division_id = my_division,
-											Subject_event_id = subject_event
-										)
-							events_template.append(temp_eve)
-							if d:
-								print("Lecture - ",subject_event,"- Class")
-							# locked_events |= Event.objects.active().filter(pk=algo.get_subject_events(Division_id,subject_event,False,locked_events))
-			#endregion
+			sorted_sub_events = get_sorted_events(my_division,my_sub_events,get_locked_events(locked_events_json,Division_id),priority_list)
+			
+			events_template = get_events_template(sorted_sub_events,events_template)
+			
 			for locked_event in get_locked_events(locked_events_json,Division_id):
 				all_events,events_template = append_event_list(all_events,locked_event,events_template)
 			
 			while events_template:
-				# print(events_template[0])
 				template = events_template.pop(0)
 				is_prac = bool(template.Slot_id_2_id)
-				batch_list = [template.Batch_id] if template.Batch_id else None
 				subject_event = template.Subject_event_id
-				mearging_batches = mearging_obj.get(str(subject_event.Subject_id_id))
 
-				if mearging_batches:
-					# if the subject has mearging batches
-					if batch_list and str(batch_list[0].id) in mearging_batches:
-						# if the current batch is in mearging batches
-						event_type = "prac" if is_prac else "lect"
-						batch_list = list(Batch.objects.filter(pk__in=mearging_batches,batch_for=event_type))
-						# print(batch_list,mearging_batches,template)
-				
+				batch_list = [template.Batch_id] if template.Batch_id else None
+				mearging_batches = mearging_obj.get(str(subject_event.Subject_id_id))
+				batch_list = get_batch_list(batch_list,mearging_batches,is_prac)
+								
 				if is_prac:		# if the subject_event is practical
 					if batch_list:	# if there is a batch for us to put it in
 						l.append([subject_event, batch_list,"Practical"])
@@ -634,7 +706,9 @@ class main(APIView):
 									)
 								)
 						else:
-							priority_list.append(subject_event)
+							priority_list = append_priority_list(priority_list,subject_event)
+							if not priority_list: # if total infinite condition
+								total_infinite_condition = True
 							break
 						# print(template.Subject_event_id,template.Slot_id_2_id,template.Division_id,template.Batch_id)
 						# print(batch_list.remove(template.Batch_id))
@@ -661,7 +735,9 @@ class main(APIView):
 								)
 							)
 						else:
-							priority_list.append(subject_event)
+							priority_list = append_priority_list(priority_list,subject_event)
+							if not priority_list: # if total infinite condition
+								total_infinite_condition = True
 							break
 						results_list.append([subject_event, batch_list,"Practical",best_slot,slot_2,points])
 						# print([subject_event,"Class","Practical"])
@@ -682,7 +758,9 @@ class main(APIView):
 									)
 								)
 						else:
-							priority_list.append(subject_event)
+							priority_list = append_priority_list(priority_list,subject_event)
+							if not priority_list: # if total infinite condition
+								total_infinite_condition = True
 							break
 						for batch in batch_list:
 							if batch != template.Batch_id:
@@ -703,25 +781,41 @@ class main(APIView):
 								)
 							)
 						else: # if the event could not be placed
-							priority_list.append(subject_event)
+							priority_list = append_priority_list(priority_list,subject_event)
+							if not priority_list: # if total infinite condition
+								total_infinite_condition = True
 							break
 						# print([subject_event,"Class","Lecture"])
 						# points,best_slot = get_point_for_lect_class(subject_event,all_events)
 						results_list.append([subject_event, batch_list,"Lecture",best_slot,None,points])
-				print(" Subject_event :: {} \n Slot_id :: {} \n Point :: {}\n -----------------------------".format(subject_event,best_slot,points))
-				# print(".",end="")
+				
+				if MAIN_DEBUG:
+					print(" Subject_event :: {} \n Slot_id :: {} \n Point :: {}\n -----------------------------".format(subject_event,best_slot,points))
+			
 			else:	# if the all events are placed
 					# if break is not called
 				infinite = False
 			if infinite:
-				print("---------------------")
-				print("❌❌❌ Infinite condition reached ♾♾ ❌❌❌")
-				print(f"\nPriority List is -- {priority_list}")
-				print("---------------------")
-
-		print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Points"],tablefmt="grid"))
-		# print(len(all_events))
-		# print(pprint(all_events))
+				if total_infinite_condition: 	# total infinite condition
+					print("---------------------")
+					print("❌❌❌ Total Infinite condition has been reached ♾♾ ❌❌❌")
+					print("---------------------")
+					break
+				else:							# simple infinite condition
+					print("---------------------")
+					print("❌❌❌ Infinite condition reached ♾♾ ❌❌❌")
+					print(f"\nPriority List is -- {priority_list}")
+					print("---------------------")
+		if MAIN_DEBUG:
+			print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Points"],tablefmt="grid"))
+		
+		total_infinite_condition =1
+		if total_infinite_condition:
+			data = {
+				'error':"The algo could not find any solution for the current state of lectures."
+			}
+			return JsonResponse(data, status=500)
+		
 		data ={
 			"my_events":all_events.get_json(),
 		}

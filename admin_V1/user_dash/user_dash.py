@@ -186,7 +186,7 @@ class faculty_user_table(AjaxDatatableView):
 		obj = self.model.objects.get(pk=pk)
 		# fields = [f for f in self.model._meta.get_fields() if f.concrete]
 		faculty_details = obj.faculty_details
-		sub_events = list(Subject_event.objects.active().filter(Faculty_id=faculty_details).values_list('Subject_id__name','Subject_id__Semester_id__short'))
+		sub_events = list(Subject_event.objects.filter_faculty(faculty_details).values_list('Subject_id__name','Subject_id__Semester_id__short'))
 		fields = {
 			"Load":Faculty_load.objects.get(Faculty_id=faculty_details).total_load,
 			'Department':faculty_details.Department_id,

@@ -3,7 +3,7 @@ from django.http import HttpResponse,JsonResponse
 from django.views.generic import View
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from django.contrib.auth.decorators import login_required
-from django.contrib import messages
+from django.db.models import Q
 import json
 from django.db import IntegrityError
 from django.core.serializers.json import DjangoJSONEncoder
@@ -37,7 +37,7 @@ def run_script(request):
 	from login_V2.models import CustomUser
 	# subject_event = Event.objects.filter(Subject_event_id__Faculty_id__short="TRK").values("pk")
 
-	subject_event = Subject_event.objects.active().filter(Faculty_id__short="TRK")[0]
+	subject_event = Subject_event.objects.active().filter(Q(Faculty_id__short="TRK") | Q(Co_faculty_id__short="TRK")).first()
 	# print(subject_event)
 	fri_delta = datetime.timedelta(4)
 	thu_delta = datetime.timedelta(3)
@@ -130,11 +130,11 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 			d['fields']['resources_filled'] = list(Event.objects.active().filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
 		elif time_table:
 			d['fields']['Subject_color'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.color
-			d['fields']['Faculty_name'] = str(qs.filter(pk = d['pk'])[0].Faculty_id)
+			d['fields']['Faculty_name'] = qs.filter(pk = d['pk'])[0].get_faculty_name()
 			d['fields']['Subject_id'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.pk
 			d['fields']['Subject_name'] = str(qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id)
 			d['fields']['not_available'] = list(Not_available.objects.filter(Faculty_id=d['fields']['Faculty_id']).values_list("Slot_id",flat=True))
-			d['fields']['other_events'] = get_json(Event.objects.active().filter(Subject_event_id__Faculty_id = d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
+			d['fields']['other_events'] = get_json(Event.objects.filter_faculty(d['fields']['Faculty_id']).exclude(Division_id=my_division),my_division=my_division,keep_pk=False)
 		if not keep_pk:
 			del d['pk']
 		del d['model']
@@ -387,7 +387,7 @@ def add_faculty(request,Department_id,Faculty_id=None):
 		my_faculty = Faculty_details.objects.filter(Department_id=Department_id)
 		context['my_faculty_load'] = Faculty_load.objects.filter(Faculty_id__in=my_faculty)
 		if Faculty_id:	# if edit is called
-			context['my_subject_events'] = get_json(Subject_event.objects.active().filter(Faculty_id=Faculty_id),False)
+			context['my_subject_events'] = get_json(Subject_event.objects.filter_faculty(Faculty_id),False)
 			edit = my_faculty.get(pk = Faculty_id)
 			user_form = add_user(instance = edit.User_id)
 			faculty_detail_form = faculty_details(instance = edit)
@@ -742,7 +742,7 @@ def show_not_avail(request,Faculty_id):
 	def get_slots(qs):
 		return Slots.objects.filter(pk__in = qs.values("Slot_id"))
 	faculty = Faculty_details.objects.get(pk = Faculty_id)
-	events = Event.objects.active().filter(Subject_event_id__Faculty_id = Faculty_id)
+	events = Event.objects.filter_faculty(Faculty_id)
 	not_available = Not_available.objects.filter(Faculty_id=Faculty_id)
 	Shift_id = faculty.Shift_id
 	context["my_faculty"] = faculty
@@ -837,8 +837,10 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 	context = return_context(request)
 	teachers = Faculty_details.objects.filter(pk__in = Can_teach.objects.filter(Subject_id=Subject_id).values("Faculty_id"))
 	context["Subject_event"] = Subject_event.objects.active().filter(Subject_id = Subject_id)
-	context["my_faculty"] = teachers.exclude(pk__in = context["Subject_event"].values("Faculty_id"))
-	# print(teachers)
+	context["my_faculty"] = teachers.exclude(
+										Q(pk__in = context["Subject_event"].values("Faculty_id")) &
+										Q(pk__in = context["Subject_event"].values("Co_faculty_id"))
+									)
 	my_subject = Subject_details.objects.get(pk = Subject_id)
 	context["remaining_lect"],context["remaining_prac"] = my_subject.remaining_lect_prac()
 	context["my_subject"] = my_subject
@@ -969,7 +971,7 @@ def show_table(request,Division_id):
 	context['subjects_json'] = get_json(my_subjects)
 	subj_event_dict = {}
 	for subject in my_subjects:
-		subj_event_dict[subject] = subject.subject_event_set.all()
+		subj_event_dict[subject] = subject.subject_event_set.filter(active=True)
 	context['my_subjects'] = subj_event_dict
 	# print(get_json(Subject_details.objects.filter(Semester_id = my_semester)),type(subject))
 	context['subject_events'] = my_subject_events.order_by("Subject_id")
@@ -1210,6 +1212,31 @@ class student_satisfaction(APIView):
 def all_feedbacks(request) :
     return render(request,'admin/all_feedbacks.html')
 	
+def print_table(request) :
+    # return render(request,'admin/print_table/print_table.html')
+	return render(request,'try/html2pdf/time_table_sample.html')
+
+def print4(request) :
+    # return render(request,'admin/print_table/print_table.html')
+	return render(request,'try/html2pdf/time_table_sample.html')
+
+from django.http import HttpResponse
+from django.views.generic import View
+ 
+#importing get_template from loader
+from django.template.loader import get_template
+ 
+#import render_to_pdf from util.py 
+# from .utils import render_to_pdf 
+ 
+#Creating our view, it is a class based view
+class GeneratePdf(View):
+	def get(self, request, *args, **kwargs):
+		#getting the template
+		pdf = render_to_pdf('try/html2pdf/time_table_sample.html',{"asd":"data"})
+			#rendering the template
+		return HttpResponse(pdf, content_type='application/pdf')
+
 ##################### scripts #####################
 # var = []
 	# import random

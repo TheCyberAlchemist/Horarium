@@ -158,12 +158,16 @@ def student_home(request):
 	)
 	return render(request,"Student/student_v1.html",context)
 
-@login_required(login_url="login")
-@allowed_users(allowed_roles=['Student'])
+# @login_required(login_url="login")
+# @allowed_users(allowed_roles=['Student'])
 def student_settings(request) :
-	user = request.user
+	# user = request.user
+	from login_V2.models import CustomUser
+	user = CustomUser.objects.get(id=15)
 	student = user.student_details
+	my_division = student.Division_id
 	context = {
+		'my_email':user.email,
 		"my_institute":student.Institute_id,
 		"my_email":user.email,
 		"my_division":my_division.name,
@@ -171,16 +175,6 @@ def student_settings(request) :
 		"my_department":my_division.Semester_id.Branch_id.Department_id,
 		"my_batches": f"{student.prac_batch} | {student.lect_batch}"
 	}
-	if request.method == 'POST':
-		password1 = request.POST.get('password1')
-		password2 = request.POST.get('password2')
-		current_password = request.POST.get('current_password')
-		if password1 and current_password and password2:
-			if password1 == password2 and check_password(current_password,request.user.password):
-				pass
-				# password changed
-
-
 	return render(request,'AccountSetting/student_settings.html',context)
 
 

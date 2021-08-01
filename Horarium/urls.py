@@ -25,8 +25,10 @@ import admin_V1.views as v
 import institute_V1.views as iv
 import student_V1.views as sv
 import faculty_V1.views as fv
+import login_V2.views as lv
 from django.conf.urls import handler404, handler500
 
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     ##### try #####
@@ -38,6 +40,12 @@ urlpatterns = [
     path('Admin/',include('admin_V1.urls')),
     path('student/',include('student_V1.urls')),
     path('faculty/',include('faculty_V1.urls')),
+	path('reset_user_password/',lv.reset_user_password,name='reset_user_password'),
+	
+	path('reset_password',auth_views.PasswordResetView.as_view(template_name="2.html"), name="reset_password_setting"),
+    path('reset_password_sent',auth_views.PasswordResetDoneView.as_view(template_name="login_V2/ForgotPassword/forgot_email_sent.html"), name="password_reset_done"),
+    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name="login_V2/ForgotPassword/forgot_password.html"), name="password_reset_confirm"),
+    path('reset_password_complete',auth_views.PasswordResetCompleteView.as_view(template_name="login_V2/ForgotPassword/password_reset_complete.html"), name="password_reset_complete"),
     ##### feedback apis #####
     re_path(r'api/\Z', fv.feedback.as_view()),
     re_path(r'mandatory/\Z', fv.mandatory_feedbacks.as_view()),

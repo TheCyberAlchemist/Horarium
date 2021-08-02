@@ -17,8 +17,9 @@ $font_size1: 1em;
   // padding-left : 20em;
   text-align: center;
   // position: relative;
-  transition: 0.1s;
+  transition: 0s;
 }
+
 .select2-container .select2-selection--single {
   //width of select box
   border-radius: 40px;
@@ -29,7 +30,7 @@ $font_size1: 1em;
   font-size: $font_size1;
   user-select: none;
   -webkit-user-select: none;
-  transition: 1s;
+  transition: 0s;
 }
 .select2-search input {
   //backcolor of search
@@ -60,7 +61,7 @@ $font_size1: 1em;
   // left: -100000px;
   // width: 100%;
   z-index: 1061;
-  transition: 2s;
+  transition: 0s;
 }
 .select2-container .select2-selection--single .select2-selection__rendered {
   // -------------- padding and styling of selected option
@@ -147,7 +148,10 @@ $font_size1: 1em;
 #select_fac,
 #csv_select,
 #csv_select_update,
-#select_co_fac {
+#csv_add_update,
+#select_co_fac,
+#prac_batches,
+#lect_batches {
   width: 500px;
 }
 /* #endregion */
@@ -158,13 +162,23 @@ $font_size1: 1em;
     // border: 1px solid #ced4da;
     width: 100%;
     text-align: center;
-    transition: 0.1s;
+    transition: 0s;
   }
+  .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+	  //for the selected options shown in input box
+	cursor: default;
+	padding-left: 22px;
+	padding-right: 5px
+}
+.select2-container--default.select2-container--focus.select2-selection--multiple {
+	border : 1px solid #ced4da !important
+
+}
   .select2-search.select2-search--inline,
   .select2-search.select2-search--inline input {
     //search input box styling for multiple select
     display: inline-block;
-    width: 100% !important;
+    // width: 100% !important;
   }
   .select2-search.select2-search--inline input:focus {
       border : 1px none !important;
@@ -193,9 +207,19 @@ $font_size1: 1em;
   #select_fac,
   #shifts,
   #wef_select,
-  #csv_select {
+  #csv_select,
+  #csv_add_update,
+  #prac_batches,
+  #lect_batches {
     width: 100% !important;
     font-size: x-small;
     // margin: 0em 0em 0em 10em;
   }
+  .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
+	  //The first span tag in select tag
+	width: 100% !important;
+}
+.select2.select2-container.select2-container--default.select2-container--focus {
+	width: 100% !important;
+}
 }

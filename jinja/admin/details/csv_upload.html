@@ -16,7 +16,12 @@
 <script type="application/javascript" src="{{static ('admin/details/csv_upload/csv_upload.js') }}" charset="utf-8"></script>
 
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
-
+<script> 
+$(function() {
+	$("#csv_select").select2();
+	$("#csv_add_update").select2();
+})
+</script>
 {% endblock %} {% block content %}
 <div id = "page_activator" activate-page="{{my_department}}.b"></div>
 <div class="main_content">
@@ -50,7 +55,7 @@
 									<div class="row no-gutters">
 										<div class="col-lg-6 col-md-12 col-sm-12">
 											<div class="select2_container single_select2 mt-4">
-												<select name="csv_select" id="csv_select" required>
+												<select name="csv_add_update" id="csv_add_update" required>
 													<option disabled selected>Add or update</option>
 													<option value="add">Add</option>
 													<option value="update">Update</option>

@@ -5,6 +5,7 @@
 <link rel="stylesheet" type="text/css" href="{{static ('admin/time_table/grid_table.css') }}">
 <link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
 <link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
 <style>
     .not_available_td {
@@ -54,25 +55,56 @@ $(document).ready(function (){
 {%endblock%}
 {% block content %}
 <div id = "page_activator" activate-page=""></div>
-<form method="get" action="./print_table/">
-	<div class="select2_container single_select2" style="margin-top: 1em;">
-		<select id="prac_batches" multiple="multiple" name ="prac_batch">
-			<option disabled selected value=-1>Select the batch </option>
-			{% for batch in my_prac_batches %}
-				<option value="{{batch.id}}">{{batch}}</option>
-			{% endfor %}
-		</select>
+<div class="main_content">
+	<div class="row p-2">
+		<nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+                <i class="fas fa-home"></i>  
+              </a></li>
+              <li class="breadcrumb-item active" aria-current="page">
+                <a href="">
+                    <span class="h6 fw-bold">Add Batch</span> 
+                </a>
+              </li>
+                {%if update %}
+                <li class="breadcrumb-item" aria-current="page">
+                    <span class="h6 fw-bold">Update Batch</span> 
+                </li>     
+                {%endif %}
+            </ol>
+          </nav>
+		  <div class="container-fluid">
+			<h3 class="container-fluid">Print Table</h3>
+			<form method="get" action="./print_table/">
+				<div class="row no-gutters text-center">
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<div class="select2_container" style="margin-top: 1em;">
+							<select id="prac_batches" multiple="multiple" name ="prac_batch">
+							<option disabled selected value=-1>Select practical batches </option>
+							{% for batch in my_prac_batches %}
+								<option value="{{batch.id}}">{{batch}}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<div class="select2_container single_select2" style="margin-top: 1em;">
+							<select id="lect_batches" multiple="multiple" name ="lect_batch">
+								<option disabled selected value=-1>Select lecture batches </option>
+								{% for batch in my_lect_batches %}
+								<option value="{{batch.id}}">{{batch}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid mt-3 text-center">
+					<button class="btn btn-outline-success" type="submit">Submit</button>
+				</div>		
+			</form>
+		</div>
 	</div>
-
-	<div class="select2_container single_select2" style="margin-top: 1em;">
-		<select id="lect_batches" multiple="multiple" name ="lect_batch">
-			<option disabled selected value=-1>Select the batch </option>
-			{% for batch in my_lect_batches %}
-			<option value="{{batch.id}}">{{batch}}</option>
-			{% endfor %}
-		</select>
-	</div>
-	<input type="submit">
-</form>
+</div>
 
 {%endblock%}

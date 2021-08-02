@@ -139,6 +139,7 @@ form.sign-in-form {
   /* width: 150px; */
   padding: 0 20px;
   background-color: #3d83fd;
+  /* background-color: #099; */
   border: none;
   outline: none;
   height: 49px;
@@ -181,6 +182,8 @@ form.sign-in-form {
   /* background-image: linear-gradient(to right top, #0568c1, #0061d5, #0058e6, #004bf4, #0038ff); */
   /* background-image: linear-gradient(to right top, #a005c1, #486efd, #00a1ff, #00c8ff, #00e9ff); */
   background-image: linear-gradient(to left bottom, #086afd, #005cfa, #004cf6, #003bf1, #1225eb);
+  /* background: linear-gradient(45deg, #066 0%, #099 100%); */
+  /* background: #099; */
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;

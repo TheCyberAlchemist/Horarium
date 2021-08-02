@@ -198,8 +198,8 @@ $font_size : 2em;
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
 	cursor: default;
-	padding-left: 2px;
-	padding-right: 5px
+	/* padding-left: 2px;
+	padding-right: 5px */
 }
 
 .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {

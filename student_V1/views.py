@@ -8,8 +8,8 @@ from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
 
 from student_V1.forms import * 
+from student_V1.models import *
 from subject_V1.models import Subject_details,Subject_event
-from student_V1.models import Student_details,Student_logs
 from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from django.contrib.auth.decorators import login_required
 from Table_V2.models import Event
@@ -207,6 +207,8 @@ class subject_serializer(serializers.python.Serializer):
 		res['color'] = obj.color
 		self.objects.append( res )
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
 def get_all_subjects_of_feedback_type(request):
 	''' returns all the subjects to be filled for the mandatory feedback and the feedback_type in the last element
 		if no present feedback_type then no data
@@ -236,6 +238,51 @@ def get_all_subjects_of_feedback_type(request):
 		data.append({'feedback_type':str(my_feedback_type[0].pk),"total_sub":all_sub.count()})
 		# print(data,Feedback.objects.special().filter(Given_by=request.user,Feedback_type=my_feedback_type[0]))
 	return JsonResponse(data, safe=False)
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
+def delete_sticky_notes(request):
+	student = request.user.student_details
+	if request.method == 'POST':
+		note = Sticky_notes.objects.all().filter(Student_id=student,pk=request.POST.get('pk'))
+		if note:
+			note.delete()
+	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
+	notes_arr = []
+	for note in my_notes:
+		notes_arr.append({
+			'pk': note.pk,
+			'title': note.title,
+			'body': note.body,
+		})
+	print(my_notes)
+	return JsonResponse(notes_arr, safe=False)
+
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
+def get_put_sticky_notes(request):
+	student = request.user.student_details
+	if request.method == 'POST':
+		print(request.POST)
+		form = add_sticky_note(request.POST)
+		if form.is_valid():
+			print("Sticky_note form is valid ✅")
+			note = form.save(commit=False)
+			note.Student_id = student
+			note.save()
+
+		# return JsonResponse(notes_arr, safe=False)
+	# if request.method == 'GET':
+	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
+	notes_arr = []
+	for note in my_notes:
+		notes_arr.append({
+			'pk': note.pk,
+			'title': note.title,
+			'body': note.body,
+		})
+	print(my_notes)
+	return JsonResponse(notes_arr, safe=False)
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Student'])	

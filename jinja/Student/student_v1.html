@@ -1,4 +1,6 @@
 {% extends 'Student/base.html' %} {% block title %} Student {% endblock %} {% block scripts %}
+<script type="application/javascript" src="{{static ('student/event.js')}}"></script>
+<script type="application/javascript" src="{{static ('student/sticky_note.js')}}"></script>
 <script>
   put_events({{ events_json | safe}}, {{ break_json | safe}});
     //#region CSS when the feedback popup opens and closes
@@ -27,7 +29,7 @@
 </script>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script type="application/javascript" src="{{static ('cookie.min.js')}}"></script>
 {% endblock %} {% block content %}
 
 <div class="container-fluid pt-4 mt-5" translate="no">
@@ -51,6 +53,11 @@
       4:00:00
     </div>
   </div> -->
+	<form id="sticky_note_form" method = "get" >
+		<input type="text" placeholder = "title" id="title_input">
+		<input type="text" placeholder = "body" id="body_input">
+		<input type="submit" >
+	</form>
   <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500"></div>
   <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000"></div>
   <div class="row">
@@ -209,15 +216,21 @@
       <h5 id="offcanvasRightLabel">
         <nav class="for-feedback">
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<span class="nav-link active mr-1" id="sticky_notes-tab" data-bs-toggle="tab" data-bs-target="#sticky_note" type="button" role="tab" aria-controls="nav-home" >Notes</span>
+			<span class="nav-link mr-1" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="nav-home" >Feedback</span>
             <span class="nav-link" id="mand-tab" data-bs-toggle="tab" data-bs-target="#mand" type="button" role="tab" aria-controls="nav-mand" aria-selected="false" style="display:none;">Mandatory</span>
-            <span class="nav-link active mr-1" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="nav-home" >Feedback</span>
           </div>
         </nav>
       </h5>
       <button type="button" id="closer" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="tab-content" id="nav-tabContent"  style="overflow-y: auto;">
-      <div class="tab-pane fade show active" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
+		<div class="tab-pane fade show active" id="sticky_note" role="tabpanel" aria-labelledby="sticky_notes-tab">
+			<div class="offcanvas-body sticky_notes_body" id="sticky_notes_body">
+				<!-- cards go here -->
+			</div>
+		</div>
+      <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
         <div class="offcanvas-body feedback_body" id="feedback_body">
           <!-- cards go here -->
         </div>
@@ -229,6 +242,5 @@
       </div>
     </div>
   </div>
-
   {% endblock %}
 </div>

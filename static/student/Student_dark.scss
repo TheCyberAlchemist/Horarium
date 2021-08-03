@@ -273,18 +273,18 @@ th:nth-of-type(1) {
   background-color: #797979 !important;
   border-radius: 3px !important;
 }
-nav.for-feedback .nav-tabs {
+nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
-nav.for-feedback .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs span {
   background-color: transparent !important;
   border: none !important;
   color: $font-white;
 }
-nav.for-feedback .nav-tabs span:hover {
+nav.for-feedback-and-sticky .nav-tabs span:hover {
   border: none !important;
 }
-nav.for-feedback .nav-tabs span.active {
+nav.for-feedback-and-sticky .nav-tabs span.active {
   border-bottom: 1px solid rgb(71, 71, 255) !important;
   color: rgb(71, 71, 255) !important;
 }
@@ -306,7 +306,8 @@ nav.for-feedback .nav-tabs span.active {
   transition: 0.3s;
 }
 #feedback_body .feedback_form_card,
-#mandatory_panel .feedback_form_card {
+#mandatory_panel .feedback_form_card,
+#sticky_note .sticky_card {
   transition: 0.3s;
   color: $font-white;
   background-color: transparent;
@@ -319,7 +320,8 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card:hover,
-#mandatory_panel .feedback_form_card:hover {
+#mandatory_panel .feedback_form_card:hover,
+#sticky_note .sticky_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
@@ -330,6 +332,16 @@ nav.for-feedback .nav-tabs span.active {
   color: $font-white;
 }
 /* #endregion  Feedback Panel & Offcanvas*/
+
+/* #region  Sticky note  */
+#sticky_note .sticky_card:first-of-type {
+	margin-top: 1em;
+  }
+  #sticky_note #sticky_note_form .myinputs{
+	background-color: transparent !important;
+	color : $font-white
+  }
+/* #endregion */
 
 /* #region  Feedback Modal Radio button */
 

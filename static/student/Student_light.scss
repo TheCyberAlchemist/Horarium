@@ -30,8 +30,8 @@ b a:hover {
   text-decoration: none !important;
 }
 .h4 {
-	font-family: "Poppins", sans-serif;
-  }
+  font-family: "Poppins", sans-serif;
+}
 /* #endregion */
 
 /* #region  Navbar */
@@ -47,22 +47,23 @@ b a:hover {
 /* #region  Feedback Panel */
 .offcanvas.feedback_panel {
 }
-nav.for-feedback .nav-tabs {
+nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
-nav.for-feedback .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs span {
   background-color: transparent !important;
   border: none !important;
   color: $font-black;
 }
-nav.for-feedback .nav-tabs span:hover {
+nav.for-feedback-and-sticky .nav-tabs span:hover {
   border: none !important;
 }
-nav.for-feedback .nav-tabs span.active {
+nav.for-feedback-and-sticky .nav-tabs span.active {
   border-bottom: 1px solid rgb(71, 71, 255) !important;
   color: rgb(71, 71, 255) !important;
 }
-#feedback_body {
+#feedback_body,
+.sticky_notes_body {
   scrollbar-width: thin; /* "auto" or "thin" */
   scrollbar-color: #abacad #f1f4f6; /* scroll thumb and track */
 }
@@ -97,7 +98,8 @@ nav.for-feedback .nav-tabs span.active {
   border-radius: 3px !important;
 }
 #feedback_body .feedback_form_card,
-#mandatory_panel .feedback_form_card {
+#mandatory_panel .feedback_form_card,
+#sticky_note .sticky_card {
   transition: 0.3s;
   color: $font-black;
   background-color: transparent;
@@ -110,11 +112,18 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card:hover,
-#mandatory_panel .feedback_form_card:hover {
+#mandatory_panel .feedback_form_card:hover,
+#sticky_note .sticky_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
   transition: 0.3s;
+}
+/* #endregion */
+
+/* #region  Sticky note  */
+#sticky_note .sticky_card:first-of-type {
+  margin-top: 1em;
 }
 /* #endregion */
 

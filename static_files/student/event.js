@@ -189,7 +189,6 @@ function toggle_theme() {
     } 
 }
 
-
 function pop_up_form(event=null,subject=null){
 	$("#offcanvasRight").removeClass("show");
 	if (event){
@@ -322,6 +321,7 @@ function get_event_by_id(pk){
 	}
 
 }
+
 function get_subject_by_id(id){
 	for(let s of mandatory_subjects){
 		if (s.id == id){
@@ -355,6 +355,26 @@ function pop_up_warning(){
 var sec = 55;
 global_time = new time(10,54,56);
 jQuery(function () {
+
+	//#region  ////////////// Browser Agent //////////////
+
+	let userAgentString = navigator.userAgent;
+	// Detect Chrome
+	let chromeAgent = userAgentString.indexOf("Chrome") > -1;
+	// Detect Safari
+	let safariAgent = userAgentString.indexOf("Safari") > -1;
+	//Detect Firefox
+	let firefoxAgent = userAgentString.indexOf("Firefox") > -1;
+	
+	console.log("firefox : " +firefoxAgent+" Chrome : " +chromeAgent+" Safari : " +safariAgent)
+	// Discard Safari since it also matches Chrome
+	if ((chromeAgent) && (safariAgent)) safariAgent = false;
+	if(firefoxAgent) {
+		$("body").addClass("safari");
+	}
+	console.log(firefoxAgent,chromeAgent,safariAgent)
+	//#endregion
+	
 	//#region  ////////////// pop-up allowance //////////////
 	if (!getWithExpiry("pop-up info")){
 		pop_up_warning();
@@ -660,13 +680,15 @@ jQuery(function () {
 				// console.log("This lecture is :: ",get_cell(events[i]));
 				// console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
 				break;
-			}else if(events[i].gone(ct) && i != events.length-1){
-				continue;
 			}else if (events[i].gone(ct) && i == events.length-1){
 				for(var j = 0;j < i ; j++){
 					get_cell(events[j]).addClass("td_gone");
 				}
-				$("#text").removeClass("glow");
+				if($("body").hasClass("safari")) {
+					$("#text").removeClass("glow-safari");
+				}else {
+					$("#text").removeClass("glow");
+				}
 				// console.log(events[i]);
 				clearInterval(interval);
 				$("#text").html("No upcoming lectures ... ");
@@ -676,7 +698,11 @@ jQuery(function () {
 	}
 	if (events.length){		
 		interval = setInterval(main, 1000);
-		$("#text").addClass("glow");
+		if($("body").hasClass("safari")) {
+			$("#text").addClass("glow-safari");
+		}else {
+			$("#text").addClass("glow");
+		}
 		main();
 		first_main_call = false;
 	}

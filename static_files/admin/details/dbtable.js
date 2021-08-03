@@ -122,8 +122,15 @@ function delete_entries(id = false,reload = true) {
 						data: state,
 						success: function () {
 							// reload page after success of post
-							if (reload)
+							if (reload){
 								setTimeout(() => {  location.reload(); }, 1000);
+							}else{
+								table = $('table.datatables');
+								table.DataTable().ajax.reload(null, false);
+								// console.log(table);
+								setTimeout(() => {  Swal.close() }, 1000);
+							}
+
 						},
 					});
 				}

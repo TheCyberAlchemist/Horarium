@@ -16,18 +16,16 @@ function get_sticky_note(pk,title,body){
 	txt3.classList.add(`note_id_${pk}`);
 	txt3.classList.add(`sticky_note`);
   	txt3.innerHTML = `	
-    <div class="card mb-3 feedback_form_card">
+    <div class="card mb-3 sticky_card">
+		<h5 class="card-title text-center mt-1" style="font-weight: bold">${title}</h5>
         <div class="card-body">
-        <h5 class="card-title text-center">
-		<button class="delete_note"  pk = "${pk}" style="background-color:red">
-			delete
-		</button></h5>
-		<button class="btn" style="background-color:#066">
-			${title}
-		</button></h5>
-        <p class="card-text">${replaceURLs(body)}</p>
-        <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
-        </div>
+			<div class="container-fluid text-center mb-3">
+				<p class="card-text">${replaceURLs(body)}</p>
+			<!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
+			</div>
+		<div class="container-fluid text-center">
+			<button class="delete_note btn btn-danger w-75" pk = "${pk}">Move to trash</button>
+		</div>
     </div>`
 	return txt3;
 }

@@ -333,21 +333,21 @@ th:nth-of-type(1) {
   border-radius: 3px !important;
 }
 
-nav.for-feedback .nav-tabs {
+nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
 
-nav.for-feedback .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs span {
   background-color: transparent !important;
   border: none !important;
   color: white !important;
 }
 
-nav.for-feedback .nav-tabs span:hover {
+nav.for-feedback-and-sticky .nav-tabs span:hover {
   border: none !important;
 }
 
-nav.for-feedback .nav-tabs span.active {
+nav.for-feedback-and-sticky .nav-tabs span.active {
   border-bottom: 1px solid #4747ff !important;
   color: #4747ff !important;
 }
@@ -367,7 +367,8 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card,
-#mandatory_panel .feedback_form_card {
+#mandatory_panel .feedback_form_card,
+#sticky_note .sticky_card {
   transition: 0.3s;
   color: white !important;
   background-color: transparent;
@@ -380,7 +381,8 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card:hover,
-#mandatory_panel .feedback_form_card:hover {
+#mandatory_panel .feedback_form_card:hover,
+#sticky_note .sticky_card:hover {
   transform: scale(1.03);
   transition: 0.3s;
 }
@@ -390,6 +392,24 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 /* #endregion  Feedback Panel & Offcanvas*/
+/* #region  Sticky note  */
+#sticky_note .sticky_card:first-of-type {
+  margin-top: 1em;
+}
+
+#sticky_note #sticky_note_form .myinputs,
+#sticky_note #sticky_note_form .textarea {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+/* #endregion */
+/* #region  Swal buttons  */
+.swal2-confirm.swal2-styled.swal2-default-outline {
+  background-color: #2dce89 !important;
+}
+
+/* #endregion */
 /* #region  Feedback Modal Radio button */
 #querybox {
   background-color: #18181d;

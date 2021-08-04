@@ -8,10 +8,6 @@ from django.contrib.auth import get_user_model
 ################################################
 
 N_len = 50
-class WEF(models.Manager):
-	def get_queryset(self):
-		return super().get_queryset().filter(WEF__is_active = True)
-
 
 class Student_details(models.Model):
 	User_id = models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
@@ -28,6 +24,16 @@ class Student_details(models.Model):
 	class Meta:
 		verbose_name_plural = "Student Details"
 
+class Sticky_notes(models.Model):
+	Student_id = models.ForeignKey(Student_details,on_delete=models.CASCADE)
+	title = models.TextField()
+	body = models.TextField()
+	timestamp = models.DateTimeField(auto_now_add=True,null=True,blank=True)
+
+	def __str__(self):
+		return f"{str(self.Student_id)} -> {str(self.title)}"
+	class Meta:
+		verbose_name_plural = "Sticky Notes"
 class Student_logs(models.Model):
 	user_id = models.ForeignKey(get_user_model(),default=None,null=True,on_delete = models.SET_NULL)
 	action = models.CharField(max_length=64)
@@ -37,3 +43,5 @@ class Student_logs(models.Model):
 	def __str__(self):
 		if self.user_id:
 			return '{0} - {1} - {2}'.format(self.user_id, self.action, self.ip)
+	class Meta:
+		verbose_name_plural = "Student Logs"

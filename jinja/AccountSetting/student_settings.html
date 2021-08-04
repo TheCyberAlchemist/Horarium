@@ -28,7 +28,7 @@
       <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
         <div class="card h-100">
           <div class="card-body">
-            <form action="" method="POST" class="user_settings_form">
+            <form action="{{url ('reset_password')}}"  method="POST">
               {{csrf_input}}
               <div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="email" value="{{request.user.email}}" name="email" disabled />
+                    <input type="text" class="form-control myinputs" id="email" value="{{my_email}}" name="email" disabled />
                     <label for="email">Email</label>
                   </div>
                 </div>
@@ -86,19 +86,19 @@
                 </div> -->
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="form-floating mb-3">
-                      <input type="password" class="form-control myinputs" id="currentpass" name="currentpass"placeholder="-" />
+                      <input type="password" class="form-control myinputs" id="currentpass" name="current_password" placeholder="-" />
                       <label for="currentpass">Current Password</label>
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control myinputs" id="pass" name="pass" placeholder="-"/>
+                    <input type="password" class="form-control myinputs" id="pass" name="password1" placeholder="-"/>
                     <label for="pass">New Password</label>
                   </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="password" class="form-control myinputs" id="cpass" name="confirmpass"placeholder="-"/>
+                    <input type="password" class="form-control myinputs" id="cpass" name="password2"placeholder="-"/>
                     <label for="cpass">Confirm Password</label>
                   </div>
                 </div>
@@ -106,13 +106,11 @@
 
               <div class="row gutters">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 text-center">
-                  <a href="{{url ('reset_password')}}">
-                    <button class="btn btn-primary w-50">Reset Password</button>
-                  </a>
+                    <button type="submit" class="btn btn-primary w-50">Reset Password</button>
                 </div>
-                <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                <!--<div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
                   <button type="submit" id="submit" name="submit" class="btn btn-primary w-100">Update</button>
-                </div> -->
+                </div>-->
               </div>
             </form>
           </div>

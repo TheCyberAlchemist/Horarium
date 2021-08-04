@@ -1,10 +1,10 @@
 from django.contrib import admin
-from .models import Student_details,Student_logs
+from .models import *
 from login_V2.admin import Show_unique_users
 # Register your models here.
 
 admin.site.register(Student_details)
-
+admin.site.register(Sticky_notes)
 
 @admin.register(Student_logs)
 class AuditEntryAdmin(admin.ModelAdmin):

@@ -13,7 +13,7 @@ from django.http import HttpResponse
 from django.views.generic import View
  
 #import render_to_pdf from util.py 
-from .utils import render_to_pdf 
+# from .utils import render_to_pdf 
 from pprint import pprint
 
 class GeneratePdf(View):
@@ -62,12 +62,7 @@ def select_batch_for_pdf(request,Division_id):
 #endregion
 
 #region //////////////////// weasy_print //////////////////
-from django.template.loader import render_to_string
-# from weasyprint import HTML
-import pdfkit
-import tempfile
-from os import path,remove
-from django.conf import settings
+
 def lcm(x, y):
 	# choose the greater number
 	x = 1 if not x else x
@@ -120,29 +115,31 @@ def table_template(request,Division_id):
 		return export_pdf(template,f"{Division_id.name} ({prac_str}) ({lect_str})",context)
 	return render(request,template,context)
 
-def export_pdf(template_name,file_name,context):
-	path_to_admin_pdf = path.join(settings.BASE_DIR,"admin_V1","PDF")
-	config = pdfkit.configuration(wkhtmltopdf=path.join(path_to_admin_pdf,"wkhtmltopdf","bin","wkhtmltopdf.exe"))
-	html_string = render_to_string(template_name,context)
+# from django.template.loader import render_to_string
+# # from weasyprint import HTML
+# import pdfkit
+# import tempfile
+# from os import path,remove
+# from django.conf import settings
+# def export_pdf(template_name,file_name,context):
+# 	path_to_admin_pdf = path.join(settings.BASE_DIR,"admin_V1","PDF")
+# 	config = pdfkit.configuration(wkhtmltopdf=path.join(path_to_admin_pdf,"wkhtmltopdf","bin","wkhtmltopdf.exe"))
+# 	html_string = render_to_string(template_name,context)
 	
-	temp_file_path = path.join(path_to_admin_pdf,'temp.pdf')
-	css = [path.join(settings.STATIC_ROOT,"Bootstrap","bootstrap.min.css")]
-	pdf_binary_object = pdfkit.from_string(html_string,False,configuration=config,css=css)
+# 	temp_file_path = path.join(path_to_admin_pdf,'temp.pdf')
+# 	css = [path.join(settings.STATIC_ROOT,"Bootstrap","bootstrap.min.css")]
+# 	pdf_binary_object = pdfkit.from_string(html_string,False,configuration=config,css=css)
 
-	response = HttpResponse(pdf_binary_object,content_type='application/pdf')
-	response['Content-Disposition'] = f'attachment; filename={file_name}.pdf'
-	response['Content-Transfer-Encoding'] = "binary"
+# 	response = HttpResponse(pdf_binary_object,content_type='application/pdf')
+# 	response['Content-Disposition'] = f'attachment; filename={file_name}.pdf'
+# 	response['Content-Transfer-Encoding'] = "binary"
 	
-	# with tempfile.NamedTemporaryFile(delete=True) as output:
-	# 	output.write(a)
-	# 	output.flush()
-	# 	o = open(output.name,'rb')
-	# 	response.write(o.read())
-	# remove(temp_file_path)
-	return response
+# 	# with tempfile.NamedTemporaryFile(delete=True) as output:
+# 	# 	output.write(a)
+# 	# 	output.flush()
+# 	# 	o = open(output.name,'rb')
+# 	# 	response.write(o.read())
+# 	# remove(temp_file_path)
+# 	return response
 
 #endregion
-# print(export_pdf())
-# in template we could keep the download buttton in {% if print %}
-# this could be donw so that when we initially load the page as preview we keem print = faculty_settings
-# when we are converting the page to pdf we send print = true hence only the table will be printed

@@ -1399,7 +1399,7 @@ function submited(){
 }
 function functABC() {
 	console.log("asd")
-  	return new Promise(function(resolve, reject) {
+  return new Promise(function(resolve, reject) {
 	$.ajax({
 		type: "post",
 		url: "./algo3/",

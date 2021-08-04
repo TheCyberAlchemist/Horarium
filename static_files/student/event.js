@@ -189,6 +189,7 @@ function toggle_theme() {
     } 
 }
 
+
 function pop_up_form(event=null,subject=null){
 	$("#offcanvasRight").removeClass("show");
 	if (event){
@@ -373,8 +374,7 @@ jQuery(function () {
 		$("body").addClass("safari");
 	}
 	console.log(firefoxAgent,chromeAgent,safariAgent)
-	//#endregion
-	
+
 	//#region  ////////////// pop-up allowance //////////////
 	if (!getWithExpiry("pop-up info")){
 		pop_up_warning();

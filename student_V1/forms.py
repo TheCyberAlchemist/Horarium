@@ -1,13 +1,8 @@
 from django.forms import ModelForm
 
-from .models import *
+from .models import Student_details
 from faculty_V1.models import Feedback
 
-class add_sticky_note(ModelForm):
-	class Meta:
-		model = Sticky_notes
-		fields = ["title","body"]
-		
 class add_student_form(ModelForm):
 	class Meta:
 		model = Student_details

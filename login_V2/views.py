@@ -80,19 +80,6 @@ def login_page(request):
 			)
 	return render(request, 'login_V2/login/login.html', context)
 
-def reset_user_password(request):
-	if request.method == 'POST':
-		password1 = request.POST.get('password1')
-		password2 = request.POST.get('password2')
-		current_password = request.POST.get('current_password')
-		print(request.POST.get('password1'),request.POST.get('password2'))
-		if password1 and current_password and password2:
-			if password1 == password2 and check_password(current_password,request.user.password):
-				print("The passwords are correct")
-				pass
-				# password changed
-
-
 
 def logout_user(request):
 	print("---------------------------------------")

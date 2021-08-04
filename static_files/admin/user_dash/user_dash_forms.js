@@ -74,8 +74,6 @@ $(document).ready ( function (){
 			{
 				$(".accordion-button").click()
 				clear_form($("#student_form"));
-				table = $('table.datatables');
-				table.DataTable().ajax.reload(null, false);
 			},
 			error: function (data) {
 				console.log(data.responseJSON);
@@ -94,8 +92,6 @@ $(document).ready ( function (){
 			{
 				$(".accordion-button").click()
 				clear_form($("#faculty_form"));
-				table = $('table.datatables');
-				table.DataTable().ajax.reload(null, false);
 				// console.log(data);
 			},
 			error: function (data) {

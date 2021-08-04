@@ -21,10 +21,11 @@ function get_sticky_note(pk,title,body){
         <div class="card-body">
 			<div class="container-fluid text-center mb-3">
 				<p class="card-text">${replaceURLs(body)}</p>
-			<!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
 			</div>
-		<div class="container-fluid text-center">
-			<button class="delete_note btn btn-danger w-75" pk = "${pk}">Move to trash</button>
+		<div class="row no-gutters text-center">
+			<div class="col-6 text-muted my-auto"style="text-align: left"><!-- Added at --></div>
+			<div class="col-6"><button class="delete_note btn btn-danger w-100" pk = "${pk}">Move to trash</button></div>
+			
 		</div>
     </div>`
 	return txt3;
@@ -59,7 +60,7 @@ function populate_notes_body(all_notes){
 		append_sticky_note(d)
 	}
 	if (!all_notes.length){
-		append_sticky_note({'title':'Your Note','body':'You can write your text in here ','pk':-1})
+		append_sticky_note({'title':'Your Note','body':'You can write your text in here. Also append any links like www.google.com','pk':-1})
 	}
 }
 
@@ -92,7 +93,7 @@ function delete_note(asd){
 			});
 			Swal.fire({
 				title:'Deleted!',
-				html: 'Your file has been deleted.',
+				html: 'Your note has been deleted.',
 				icon: 'success',
 				showConfirmButton: false,
 				timer: 1000

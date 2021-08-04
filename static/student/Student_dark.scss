@@ -36,7 +36,7 @@ b a:hover {
 
 /* #region  Navbar */
 .navbar {
-//   background-color: rgb(1, 1, 2) !important;
+  //   background-color: rgb(1, 1, 2) !important;
   background-color: #131a24 !important;
 }
 /* #endregion */
@@ -115,10 +115,10 @@ th:nth-of-type(1) {
   border-radius: 5px;
 }
 .glow-safari {
-	-webkit-animation: glow 1s ease-in-out infinite alternate;
-	animation: glow 1s ease-in-out infinite alternate;
-	border-radius: 5px;
-  }
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+  border-radius: 5px;
+}
 
 .container#text {
   padding-bottom: 0;
@@ -137,15 +137,15 @@ th:nth-of-type(1) {
 }
 
 @-webkit-keyframes glow-safari {
-	from {
-	  background-color: rgb(255, 0, 0);
-	  color: $font-white;
-	}
-	to {
-	  background-color: #f80b0b;
-	  color: $font-white;
-	}
+  from {
+    background-color: rgb(255, 0, 0);
+    color: $font-white;
   }
+  to {
+    background-color: #f80b0b;
+    color: $font-white;
+  }
+}
 
 /* #endregion */
 
@@ -335,12 +335,20 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 
 /* #region  Sticky note  */
 #sticky_note .sticky_card:first-of-type {
-	margin-top: 1em;
-  }
-  #sticky_note #sticky_note_form .myinputs{
-	background-color: transparent !important;
-	color : $font-white
-  }
+  margin-top: 1em;
+}
+#sticky_note #sticky_note_form .myinputs,
+#sticky_note #sticky_note_form .textarea {
+  background-color: transparent !important;
+  color: $font-white;
+}
+/* #endregion */
+
+/* #region  Swal buttons  */
+.swal2-confirm.swal2-styled.swal2-default-outline {
+	//Swal confirm button
+	background-color: #2dce89 !important
+}
 /* #endregion */
 
 /* #region  Feedback Modal Radio button */

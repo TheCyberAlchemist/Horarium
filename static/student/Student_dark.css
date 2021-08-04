@@ -397,9 +397,16 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
   margin-top: 1em;
 }
 
-#sticky_note #sticky_note_form .myinputs {
+#sticky_note #sticky_note_form .myinputs,
+#sticky_note #sticky_note_form .textarea {
   background-color: transparent !important;
   color: white !important;
+}
+
+/* #endregion */
+/* #region  Swal buttons  */
+.swal2-confirm.swal2-styled.swal2-default-outline {
+  background-color: #2dce89 !important;
 }
 
 /* #endregion */

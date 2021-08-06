@@ -161,9 +161,9 @@ def student_home(request):
 # @login_required(login_url="login")
 # @allowed_users(allowed_roles=['Student'])
 def student_settings(request) :
-	# user = request.user
-	from login_V2.models import CustomUser
-	user = CustomUser.objects.get(id=15)
+	user = request.user
+	# from login_V2.models import CustomUser
+	# user = CustomUser.objects.get(id=15)
 	student = user.student_details
 	my_division = student.Division_id
 	context = {

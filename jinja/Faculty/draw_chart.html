@@ -9,6 +9,7 @@
         min-height: 70vh !important;
         max-height: 70vh !important;
         max-width: 80vw !important;
+		margin: 0 auto !important;
     }
     .chartjs-render-monitor {
     animation: chartjs-render-animation 0s;
@@ -20,19 +21,19 @@
     }
     .feedback_question_button {
         position: fixed !important;
-        top : 30%;
+        top : 25%;
         left : 1%;
-        transform: translate(-30%,-1%);
+        transform: translate(-25%,-1%);
         z-index : 100;
     }
 </style>
 {% endblock %}
 {% block scripts %}
-<script src="https://kit.fontawesome.com/3999aa88c0.js" crossorigin="anonymous"></script>
+<!-- <script src="https://kit.fontawesome.com/3999aa88c0.js" crossorigin="anonymous"></script> -->
 {%endblock %}
-<div class="container-fluid pt-4 mt-5">
+<div class="container-fluid pt-4 mt-3">
     <button type="button" class="btn btn-primary feedback_question_button" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        <i class="fas fa-question"></i>
+        ?
       </button>
   <!-- <canvas id="month_rating"></canvas>
     <canvas id="week_rating"></canvas>
@@ -214,7 +215,7 @@
       </div>
     </div>
   </div>-->
-  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Show all questions</button>
+  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Show all questions</button> -->
 
   <!-- #region Feedback Questions -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

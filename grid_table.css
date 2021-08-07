@@ -16,8 +16,7 @@
 .prac_mycol {
   -ms-writing-mode: tb-rl;
       writing-mode: vertical-rl;
-  -webkit-text-orientation: upright;
-          text-orientation: upright;
+  text-orientation: upright;
 }
 
 .my_row.row_header .my_col {

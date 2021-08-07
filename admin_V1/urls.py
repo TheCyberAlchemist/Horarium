@@ -89,6 +89,8 @@ urlpatterns = [
 	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_pdf,name = 'select_batch'),
 	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table/$',PDF.table_template,name = 'print_table3'),
 
+    re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
+
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
 	# path('sube/',views.show_subject_events, name = 'show_subject_events')

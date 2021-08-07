@@ -28,8 +28,7 @@ body {
 .prac_mycol {
   -ms-writing-mode: tb-rl;
       writing-mode: vertical-rl;
-  -webkit-text-orientation: upright;
-          text-orientation: upright;
+  text-orientation: upright;
   font-size: smaller !important;
   height: 110px !important;
   letter-spacing: 0 !important;
@@ -199,8 +198,7 @@ p.h6 {
 .lect_mycol {
   -ms-writing-mode: tb-rl;
       writing-mode: vertical-rl;
-  -webkit-text-orientation: upright;
-          text-orientation: upright;
+  text-orientation: upright;
 }
 
 /* #region  Locked Events */

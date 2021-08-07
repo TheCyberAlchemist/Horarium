@@ -40,7 +40,7 @@ body {
 	bottom: 15px;
 	z-index: 996;
 	/* background: #5846f9; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	width: 40px;
 	height: 40px;
 	border-radius: 4px;
@@ -55,7 +55,7 @@ body {
   
   .back-to-top:hover {
 	/* background: #7b27d8; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	color: #fff;
   }
   
@@ -157,7 +157,7 @@ body {
   #hero {
 	width: 100%;
 	height: 100vh;
-	background: linear-gradient(45deg, #099 0%, #066 100%), url("../img/hero-bg.jpg") center center no-repeat;
+	background: linear-gradient(45deg, #066 0%, #004d4d 100%), url("../img/hero-bg.jpg") center center no-repeat;
   
 	background-size: cover;
   }
@@ -307,7 +307,7 @@ body {
 	width: 50px;
 	height: 3px;
 	/* background: #5846f9; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	bottom: 0;
 	left: calc(50% - 25px);
   }
@@ -367,13 +367,13 @@ body {
 	transition: 0.5s;
 	color: #fff;
 	/* background: linear-gradient(45deg, #5846f9 0%, #7b27d8 100%); */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	position: relative;
   }
   
   .about .content .read-more:hover {
 	/* background: linear-gradient(180deg, #5846f9 0%, #7b27d8 100%); */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
   }
   
   .about .content .read-more i {
@@ -387,7 +387,7 @@ body {
   --------------------------------------------------------------*/
   .counts {
 	/* background: linear-gradient(90deg, rgba(88, 70, 249, 0.5) 0%, rgba(123, 39, 216, 0.5) 100%), url("../img/counts-bg.png") center center no-repeat; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	padding: 80px 0 60px 0;
   }
   
@@ -687,7 +687,7 @@ body {
   .portfolio #portfolio-flters li:hover, .portfolio #portfolio-flters li.filter-active {
 	color: #fff;
 	/* background: #5846f9; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
   }
   
   .portfolio #portfolio-flters li:last-child {
@@ -704,7 +704,7 @@ body {
   .portfolio .portfolio-wrap::before {
 	content: "";
 	/* background: rgba(88, 70, 249, 0.8); */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	position: absolute;
 	left: 30px;
 	right: 30px;
@@ -921,7 +921,7 @@ body {
   
   .pricing .btn-buy {
 	/* background: linear-gradient(42deg, #5846f9 0%, #7b27d8 100%); */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	display: inline-block;
 	padding: 10px 35px;
 	border-radius: 4px;
@@ -936,13 +936,13 @@ body {
   
   .pricing .btn-buy:hover {
 	/* background: linear-gradient(180deg, #5846f9 0%, #7b27d8 100%); */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
   }
   
   .pricing .featured h3 {
 	color: #fff;
 	/* background: #5846f9; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
   }
   
   .pricing .advanced {
@@ -955,7 +955,7 @@ body {
 	font-size: 14px;
 	padding: 1px 0 3px 0;
 	/* background: #5846f9; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	color: #fff;
   }
   
@@ -964,7 +964,7 @@ body {
   --------------------------------------------------------------*/
   .faq {
 	/* background: linear-gradient(42deg, #5846f9 0%, #7b27d8 100%); */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
   }
   
   .faq .section-title h2, .faq .section-title p {
@@ -1069,7 +1069,7 @@ body {
   .contact .info-box i {
 	font-size: 32px;
 	/* color: #5846f9; */
-	color :linear-gradient(45deg, #099 0%, #066 100%);
+	color :linear-gradient(45deg, #066 0%, #004d4d 100%);
 	border-radius: 50%;
 	padding: 8px;
   }
@@ -1156,7 +1156,7 @@ body {
   
   .contact .php-email-form button[type="submit"] {
 	/* background: #5846f9; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	border: 0;
 	padding: 10px 24px;
 	color: #fff;
@@ -1166,7 +1166,7 @@ body {
   
   .contact .php-email-form button[type="submit"]:hover {
 	/* background: #7b27d8; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
   }
   
   @-webkit-keyframes animate-loading {
@@ -1247,7 +1247,7 @@ body {
 	color: #fff;
 	font-size: 14px;
 	/* background: linear-gradient(45deg, rgba(86, 58, 250, 0.9) 0%, rgba(116, 15, 214, 0.9) 100%), url("../img/hero-bg.jpg") center center no-repeat; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	background-size: cover;
   }
   
@@ -1359,7 +1359,7 @@ body {
 	font-size: 16px;
 	padding: 0 20px;
 	/* background: rgba(123, 39, 216, 0.8); */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
 	color: #fff;
 	transition: 0.3s;
 	border-radius: 0 5px 5px 0;
@@ -1368,7 +1368,7 @@ body {
   
   #footer .footer-newsletter form input[type="submit"]:hover {
 	/* background: #5846f9; */
-	background : linear-gradient(45deg, #099 0%, #066 100%);
+	background : linear-gradient(45deg, #066 0%, #004d4d 100%);
   }
   
   #footer .copyright-wrap {

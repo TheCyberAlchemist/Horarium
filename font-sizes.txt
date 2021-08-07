@@ -1,0 +1,27 @@
+------Font size : as it is ------
+columns = 8(Including time column)
+rows = 11(excluding monday,tuesday,...)
+
+------Font size : small for th, td ------
+------Font size : x-small for event-name ------
+columns = 8(Including time column)
+rows = 11(excluding monday,tuesday,...)
+
+------Font size : small for th, td ------
+------Font size : x-small for event-name ------
+columns = 8(Including time column)
+rows = 15(excluding monday,tuesday,...)
+
+------Font size : x-small for th, td ------
+------Font size : x-small for event-name ------
+columns = 8(Including time column)
+rows = 18(excluding monday,tuesday,...)
+
+
+
+
+
+
+
+
+

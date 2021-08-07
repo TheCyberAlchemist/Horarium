@@ -1,8 +1,9 @@
 {% extends 'admin/base2.html' %} {% block title%} Profile Settings {% endblock %} {% block css%}
 <link type="text/css" rel="stylesheet" href="{{static ('AccountSettings/user_settings.css')}}" />
-<style type="text/css"></style>
+<style type="text/css">
+</style>
 {%endblock%} {%block scripts%} {%endblock%} {%block content%}
-<div class="main_content">
+<div class="main_content" style="padding-top: 0px !important;">
   <div class="container-fluid">
     <div class="row gutters">
       <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-auto">
@@ -52,22 +53,22 @@
                     <label for="role">Role</label>
                   </div>
                 </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 container text-center">
+                <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 container text-center">
                   <div class="form-floating mb-3">
                     <input type="file" class="form-control myinputs file" id="profile-img" name="profile-img" />
                     <label for="profile-img">Upload Profile Image</label>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="row gutters">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <a href="{{url ('reset_password')}}">
                         <button class="btn btn-primary w-100">Reset Password</button>
                     </a>
                 </div>  
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
+                <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6">
                     <button type="submit" id="submit" name="submit" class="btn btn-primary w-100">Update</button>
-                </div> 
+                </div>  -->
             </div>
             </form>
           </div>

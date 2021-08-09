@@ -8,6 +8,7 @@ admin.site.register(Sticky_notes)
 
 @admin.register(Student_logs)
 class AuditEntryAdmin(admin.ModelAdmin):
-    list_display = ['user_id','Division_id','ip']
-    list_filter = ["timestamp",Show_unique_users]
-    readonly_fields = ('timestamp',)
+	search_fields=('user_id__first_name','user_id__last_name')
+	list_display = ['user_id','Division_id','ip']
+	list_filter = ["timestamp",Show_unique_users]
+	readonly_fields = ('timestamp',)

@@ -136,6 +136,9 @@ function put_events(e,b){
 			break;
 		}
 	}
+	if (!events.length){ // if no event today
+		$(".timeline_and_text").hide();
+	}
 	// console.table(events);
 }
 

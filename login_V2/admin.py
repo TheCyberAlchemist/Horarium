@@ -56,7 +56,7 @@ class Show_unique_users(admin.SimpleListFilter):
 		if self.value() == 'Yes':
 			user_ids = set()
 			pks = set()
-			for i in queryset:
+			for i in queryset.order_by('-timestamp'):
 				if i.user_id not in user_ids:
 					pks.add(i.pk)
 					user_ids.add(i.user_id)

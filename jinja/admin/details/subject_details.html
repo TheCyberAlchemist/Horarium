@@ -132,7 +132,7 @@
 												<h3 class="h4 mt-1 mb-3 text-center">Select Colour for <span style="color:blue">{{update.name}}</span></h3>
                                                 {%endif%}
 												<div class="color_palette_container text-center">
-													{%set colors = ["#7377a5","#ffbf00","#00b3b3","#ff8080","#d65c7a","#66cc66","#33cccc","#3333ff","#ff3333"]%} 
+													{%set colors = ["#7377a5","#ffbf00","#00b3b3","#ff8080","#d65c7a","#66cc66","#33cccc","#0098fd","#bb2aff","#ff8717","#104e18","#69ff66","#666bff"]%} 
                                                     {% for c in colors %} 
                                                     <input type="radio" name="color" id="rad{{loop.index}}" value="{{c}}" {% if update and update.color==c%}checked{% endif %}>
 													<label for="rad{{loop.index}}">

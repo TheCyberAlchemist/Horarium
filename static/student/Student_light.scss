@@ -50,10 +50,14 @@ b a:hover {
 nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
-nav.for-feedback-and-sticky .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs .span {
   background-color: transparent !important;
   border: none !important;
   color: $font-black;
+}
+nav.for-feedback-and-sticky .nav-tabs .badge.new {
+	font-size: 0.55em;
+	vertical-align: middle
 }
 nav.for-feedback-and-sticky .nav-tabs span:hover {
   border: none !important;
@@ -461,3 +465,14 @@ th:nth-of-type(1) {
   }
 }
 /* #endregion */
+
+/* #region  Bigger Monitors (> 1024) */
+@media screen and (max-width: 1700px) and (min-width: 1025px) {
+	#prac .btn {
+	  height: 130px !important;
+	  padding: 0;
+	  margin: 0 0.1em;
+	}
+  }
+  /* #endregion */
+  

@@ -40,6 +40,7 @@ html {
   outline: none !important;
   box-shadow: none !important;
   transition: 0.1s;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .form-control.myinputs:focus {

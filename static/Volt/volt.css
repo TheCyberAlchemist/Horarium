@@ -27061,7 +27061,7 @@ label {
 
 a, .text-action {
     color: #262B40;
-    transition: all 0.2s ease;
+    /* transition: all 0.2s ease; */
 }
 
 a:hover, .text-action:hover {

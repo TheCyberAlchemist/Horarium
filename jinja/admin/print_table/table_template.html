@@ -34,6 +34,9 @@
 <head>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-wEmeIV1mKuiNpC+IOBjI7aAzPcEZeedi5yW5f2yOq55WWLwNGmvvx4Um1vskeMj0" crossorigin="anonymous" />
+		<link type="text/css" rel="stylesheet" href="{{static ('Volt/volt.css')}}">
+		<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.24/b-1.7.0/fh-3.1.8/r-2.2.7/datatables.min.css" />
+
 	<meta name="pdfkit-page-size" content="Legal" />
 	<meta name="pdfkit-orientation" content="Landscape" />
 	<title>Print Table | Horarium</title>
@@ -123,6 +126,9 @@
 		.btn {
 			display: none;
 		}
+		nav.breadcrumb_nav {
+			display: none;
+		}
 	}
 	@media screen, print{
 		/*html, body {
@@ -193,6 +199,23 @@
 </head>
 <body class="container-fluid" style="position:relative">
 	<div id = "page_activator" activate-page="{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.b"></div>
+	<nav aria-label="breadcrumb" class="breadcrumb_nav">
+		<ol class="breadcrumb">
+		  <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+			<i class="fas fa-home"></i>  
+		  </a></li>
+		  <li class="breadcrumb-item active" aria-current="page">
+			<a href="">
+				<span class="h6 fw-bold">Create Table</span> 
+			</a>
+		  </li>
+		  <li class="breadcrumb-item active" aria-current="page">
+			<a>
+				<span class="h6 fw-bold">Print Table</span> 
+			</a>
+		  </li>
+		</ol>
+	  </nav>
 	<table id="t1" class=" main_table" style="position: relative;page-break-inside: avoid;">
 		<thead>
 			<tr>
@@ -311,7 +334,7 @@
 			{% endfor %}
 		</tbody>
 		<tfoot>
-			<tr style="">
+			<tr>
 				<td colspan="{{unit_col*len + unit_col}}" style="font-size:x-small;text-align: left;border:none">
 					WEF ({{my_division.Semester_id.WEF_id.get_range()}}) - Made By Horarium 
 				</td>
@@ -321,5 +344,7 @@
 	<div class="container-fluid text-center">
 		<button class="btn btn-primary mt-2 w-75" onclick="document.title='asd';window.print();return false">Print</button>
 	</div>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+	<script src="https://kit.fontawesome.com/3999aa88c0.js" crossorigin="anonymous"></script>
 </body>
 </html>

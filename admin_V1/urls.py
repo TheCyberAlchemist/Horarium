@@ -56,7 +56,6 @@ urlpatterns = [
 	re_path(r'^batch/(?P<Division_id>\d+)/$',views.show_batch,name = 'show_batch'),
 	re_path(r'^batch/(?P<Division_id>\d+)/(?P<Batch_id>\d+)/$',views.show_batch,name = 'update_batch'),
 	
-	re_path(r'^table/(?P<Division_id>\d+)/$',views.show_table,name = 'show_table'),
 	re_path(r'^not_avail/(?P<Faculty_id>\d+)/$',views.show_not_avail,name = 'show_not_avail'),
 
 	re_path(r'^shift/(?P<Department_id>\d+)/$',views.show_shift,name = 'show_shift'),
@@ -76,6 +75,7 @@ urlpatterns = [
 	re_path(r'^sub_event/(?P<Subject_id>\d+)/$',views.show_sub_event,name = 'show_sub_event'),
 	re_path(r'^sub_event/(?P<Subject_id>\d+)/(?P<Faculty_id>\d+)/$',views.show_sub_event,name = 'update_sub_event'),
 
+	re_path(r'^table/(?P<Division_id>\d+)/$',views.show_table,name = 'show_table'),
 	re_path(r'^table/(?P<Division_id>\d+)/algo/$',views.algo_v1,name = 'algo'),
 	re_path(r'^table/(?P<Division_id>\d+)/algo3/$',algo3.main.as_view(),name = 'algo3'),
 

@@ -65,17 +65,19 @@
    */
   const scrollto = (el) => {
     let header = select('#header')
-    let offset = header.offsetHeight
+	if (header && header.length){
+		let offset = header.offsetHeight
 
-    if (!header.classList.contains('header-scrolled')) {
-      offset -= 16
-    }
+		if (!header.classList.contains('header-scrolled')) {
+		offset -= 16
+		}
 
-    let elementPos = select(el).offsetTop
-    window.scrollTo({
-      top: elementPos - offset,
-      behavior: 'smooth'
-    })
+		let elementPos = select(el).offsetTop
+		window.scrollTo({
+		top: elementPos - offset,
+		behavior: 'smooth'
+		})
+	}
   }
 
   /**
@@ -264,3 +266,56 @@
   });
 
 })()
+
+$(document).ready (function () {
+	console.log("Asd");
+	//#region ///////////////// Ajax setup
+
+	var csrftoken = Cookies.get('csrftoken');
+	function csrfSafeMethod(method) {
+		// these HTTP methods do not require CSRF protection
+		return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+	// Ensure jQuery AJAX calls set the CSRF header to prevent security errors
+	$.ajaxSetup({
+		beforeSend: function(xhr, settings) {
+			if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+				xhr.setRequestHeader("X-CSRFToken", csrftoken);
+			}
+		}
+	});
+	//#endregion
+	
+	
+	$("#contact_us_form").on('submit',function(e) {
+		e.preventDefault();
+		var form = $(this);
+		$("#send_message").prop('disabled', true);
+		setTimeout(function(){
+			console.log($(this).find(':input[type="submit"]'));
+			$("#send_message").prop('disabled', false);
+		}, 4000);
+		$('.sent-message').hide();
+		form[0].querySelector('.loading').classList.add('d-block');
+
+		$.ajax({
+			type: "post",
+			data: form.serialize(),
+			success: function (){
+				console.log("success");
+				form[0].querySelector('.loading').classList.remove('d-block');
+				$('.sent-message').show();
+				form.trigger("reset");
+			},
+			error:function(){			
+				console.log("error");
+				displayError("An error occurred. Please try again.")
+				function displayError(error) {
+					form[0].querySelector('.loading').classList.remove('d-block');
+					form[0].querySelector('.error-message').innerHTML = error;
+					form[0].querySelector('.error-message').classList.add('d-block');
+				}
+			}
+		});
+	});
+})

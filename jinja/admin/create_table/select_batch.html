@@ -63,15 +63,10 @@ $(document).ready(function (){
                 <i class="fas fa-home"></i>  
               </a></li>
               <li class="breadcrumb-item active" aria-current="page">
-                <a href="">
-                    <span class="h6 fw-bold">Create Table</span> 
-                </a>
-              </li>
-			  <li class="breadcrumb-item active" aria-current="page">
-                <a href="">
-                    <span class="h6 fw-bold">Select Batches</span> 
-                </a>
-              </li>
+				<a href="{{url ('show_table',args=[my_division.id]) }}">
+					<span class="h6 fw-bold">Create Table</span> 
+				</a>
+			  </li>
             </ol>
           </nav>
 		  <div class="container-fluid">

@@ -10,7 +10,6 @@
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
 <link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
 <link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
-<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
 <style>
     td,
@@ -24,7 +23,6 @@
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
 <script type="text/javascript" src="{{static ('admin/details/slot.js') }}"></script>
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 <script type="text/javascript">
     set_shift("{{my_shift.start_time}}", "{{my_shift.end_time}}", "{{old_data}}");
     activate("{{my_shift.Department_id}}.d.{{my_shift}}");
@@ -36,7 +34,6 @@
         {% if u_short %}
         	$('#slot_form_accordion').collapse("show");
         {% endif %}
-		$('input.timepicker').timepicker({'forceRoundTime': true});
     });
 </script>
 {% endblock %}
@@ -96,14 +93,14 @@
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="timepicker form-control myinputs" placeholder="-"
+                                                    <input type="time" class="form-control myinputs" placeholder="-"
                                                         name="start_time" id="start_time" disabled />
                                                     <label for="start_time">Start Time</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="timepicker form-control myinputs" placeholder="-"
+                                                    <input type="time" class="form-control myinputs" placeholder="-"
                                                         name="end_time" id="end_time" />
                                                     <label for="end_time">End Time</label>
                                                 </div>

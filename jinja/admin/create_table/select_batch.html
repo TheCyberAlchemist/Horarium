@@ -54,7 +54,7 @@ $(document).ready(function (){
 </script>
 {%endblock%}
 {% block content %}
-<div id = "page_activator" activate-page=""></div>
+<div id = "page_activator" activate-page="{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.b"></div>
 <div class="main_content">
 	<div class="row p-2">
 		<nav aria-label="breadcrumb">

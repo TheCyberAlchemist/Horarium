@@ -1,32 +1,32 @@
 {% macro td_table(temp_event) -%}
-<table class="inner my-auto">
-	<tr style="vertical-align: top">
-		<td colspan="2" class="m-0 p-0">
-			{% if temp_event.Batch_id %}
-				<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
-			{% else %}
-				<div class="batch-name w-100" style="text-align: left">&nbsp;</div>
-			{% endif %}
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2" class="m-0 p-0">
-			<div class="event-name w-100" style="margin: 0 auto">{{temp_event.Subject_event_id.Subject_id}}</div>
-		</td>
-	</tr>
-	<tr style="vertical-align: bottom">
-		<td class="m-0 p-0">
-			{% if temp_event.Resource_id %}
-				<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
-			{% else %}
-				<div class="resource-name text-left m-0 p-0" style="text-align: left">&nbsp;</div>
-			{% endif %}
-		</td>
-		<td class="m-0 p-0">
-			<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
-		</td>
-	</tr>
-</table>
+	<table class="inner my-auto">
+		<tr style="vertical-align: top">
+			<td colspan="2" class="m-0 p-0">
+				{% if temp_event.Batch_id %}
+					<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
+				{% else %}
+					<div class="batch-name w-100" style="text-align: left">&nbsp;</div>
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" class="m-0 p-0">
+				<div class="event-name w-100" style="margin: 0 auto">{{temp_event.Subject_event_id.Subject_id}}</div>
+			</td>
+		</tr>
+		<tr style="vertical-align: bottom">
+			<td class="m-0 p-0">
+				{% if temp_event.Resource_id %}
+					<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
+				{% else %}
+					<div class="resource-name text-left m-0 p-0" style="text-align: left">&nbsp;</div>
+				{% endif %}
+			</td>
+			<td class="m-0 p-0">
+				<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
+			</td>
+		</tr>
+	</table>
 {%- endmacro -%}
 <!DOCTYPE html>
 <html>
@@ -47,19 +47,99 @@
 		height: 100%;
 		padding: 0;
 		margin: 0;
-}
+	}
+	.main_table {
+		/*width: 50%;*/
+		table-layout: fixed;
+	}
+	.event_td {
+		vertical-align:middle;
+		height:100%;
+	}
+	.inner {
+		width: 100%;
+		height : 100%;
+		vertical-align: middle;
+	}
+
+	.inner,
+	.inner td,
+	.inner th {
+		border: none !important;
+	}
+
+	.main_table,
+	.main_table th,
+	.main_table td {
+		border: 1px solid black;
+		border-collapse: collapse;
+		/*height: 60px;*/
+	}
+
+	.main_table th,
+	.inner_table th .main_table td,
+	.inner_table td {
+		/* margin: 0 auto;
+		padding: .2rem 
+		vertical-align: middle;
+		font-size: 1rem;
+		/*max-height : 5vh*/
+	}
+	.batch-name, .faculty-name,.resource-name {
+		font-size: smaller
+	}
+	.resource-name,.batch-name{
+		padding-left:2px !important
+	}
+	.faculty-name {
+		padding-right:2px !important;
+	}
+	.prac_td .event-name {
+		/*writing-mode: vertical-rl;*/
+		/*height: 6rem;
+		text-orientation: upright;
+		letter-spacing: -2px;*/
+		/*vertical-align: middle;*/
+	}
+
+		.event-name {
+		word-break: break-word;
+		text-align: center;
+		font-weight: bold;
+	}
+
+	.prac_td .batch-name {
+		/*height: 15%;*/
+	}
+	/*.prac_td .col-4:not(:last-of-type){
+		border-right: 1px solid black;
+	}*/
+
+	@page {
+		size: a4 landscape;
+		margin: 0cm;
+	}
+	@media print {
+		.btn {
+			display: none;
+		}
+	}
+	@media screen, print{
+		/*html, body {
+			width: 297mm;
+			height: 210mm;
+			}*/
 		.main_table {
-			/*width: 50%;*/
+			width: 100%;
 			table-layout: fixed;
 		}
 		.event_td {
-			vertical-align:middle;
+			/*vertical-align:middle;*/
 			height:100%;
 		}
 		.inner {
 			width: 100%;
 			height : 100%;
-			vertical-align: middle;
 		}
 
 		.inner,
@@ -71,7 +151,7 @@
 		.main_table,
 		.main_table th,
 		.main_table td {
-			border: 1px solid black;
+			
 			border-collapse: collapse;
 			/*height: 60px;*/
 		}
@@ -81,19 +161,11 @@
 		.inner_table td {
 			/* margin: 0 auto;
 			padding: .2rem 
-			vertical-align: middle;
+			vertical-align: middle;*/
 			font-size: 1rem;
 			/*max-height : 5vh*/
 		}
-		.batch-name, .faculty-name,.resource-name {
-			font-size: smaller
-		}
-		.resource-name,.batch-name{
-			padding-left:2px !important
-		}
-		.faculty-name {
-			padding-right:2px !important;
-		}
+
 		.prac_td .event-name {
 			/*writing-mode: vertical-rl;*/
 			/*height: 6rem;
@@ -102,221 +174,152 @@
 			/*vertical-align: middle;*/
 		}
 
-		 .event-name {
+			.event-name {
 			word-break: break-word;
-			text-align: center;
-			font-weight: bold;
+		}
+		.resource-name{
+			padding-left:2px
+		}
+		.faculty-name {
+			padding-right:2px;
 		}
 
 		.prac_td .batch-name {
 			/*height: 15%;*/
 		}
-		/*.prac_td .col-4:not(:last-of-type){
-			border-right: 1px solid black;
-		}*/
 
-		@page {
-			size: a4 landscape;
-			margin: 0cm;
-		}
-		@media print {
-			.btn {
-				display: none;
-			}
-		}
-		@media screen, print{
-			/*html, body {
-				width: 297mm;
-				height: 210mm;
-			  }*/
-			.main_table {
-				width: 100%;
-				table-layout: fixed;
-			}
-			.event_td {
-				/*vertical-align:middle;*/
-				height:100%;
-			}
-			.inner {
-				width: 100%;
-				height : 100%;
-			}
-	
-			.inner,
-			.inner td,
-			.inner th {
-				border: none !important;
-			}
-	
-			.main_table,
-			.main_table th,
-			.main_table td {
-				
-				border-collapse: collapse;
-				/*height: 60px;*/
-			}
-	
-			.main_table th,
-			.inner_table th .main_table td,
-			.inner_table td {
-				/* margin: 0 auto;
-				padding: .2rem 
-				vertical-align: middle;*/
-				font-size: 1rem;
-				/*max-height : 5vh*/
-			}
-	
-			.prac_td .event-name {
-				/*writing-mode: vertical-rl;*/
-				/*height: 6rem;
-				text-orientation: upright;
-				letter-spacing: -2px;*/
-				/*vertical-align: middle;*/
-			}
-	
-			 .event-name {
-				word-break: break-word;
-			}
-			.resource-name{
-				padding-left:2px
-			}
-			.faculty-name {
-				padding-right:2px;
-			}
-	
-			.prac_td .batch-name {
-				/*height: 15%;*/
-			}
-
-		}
+	}
 	</style>
 </head>
 <body class="container-fluid" style="position:relative">
-<table id="t1" class=" main_table" style="position: relative;page-break-inside: avoid;">
-	<thead>
-		<tr>
-			{% set len = days|length %}
-			<th colspan="{{unit_col*len + unit_col}}" >
-				<h3 class="text-center">
-					{{file_name}}
-				</h3>
-			</th>
-		</tr>
-		<tr>
-		<th colspan="{{unit_col}}" class="m-0 p-0 text-center">Time</th>
-		{% for day in days %}
-			<th colspan="{{unit_col}}" class="m-0 p-0 text-center">{{day.Days_id}}</th>
-		{% endfor %}
-		</tr>
-	</thead>
-	<tbody>
-		{%set slot_2_arr=[]%}
-		{% for timing in timings %}
-			<!--for all time periods in database-->
+	<div id = "page_activator" activate-page="{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.b"></div>
+	<table id="t1" class=" main_table" style="position: relative;page-break-inside: avoid;">
+		<thead>
 			<tr>
-			{% if timing.is_break %}
-				<th class="text-center my-auto" colspan="{{unit_col}}">
-					{{timing.name}}<br />
-					[{{timing.return_time()}}]
+				{% set len = days|length %}
+				<th colspan="{{unit_col*len + unit_col}}" >
+					<h3 class="text-center">
+						{{file_name}}
+					</h3>
 				</th>
-				<th  colspan="{{unit_col*len}}" class="isBreak my-auto text-center p-0" break_id="{{timing.id}}">
-					<span class="h4 text-center">{{timing.name}}</span>
-				</th>
-			{% else %}
-				<th class="text-center m-0 p-0" colspan="{{unit_col}}">
-					{{timing.name}}<br />
-					[{{timing.return_time()}}]
-				</th>
-				{% for day in days %} 
-					{% if day not in slot_2_arr %} 
-						{% set slot_events = [] %}
-						{%set slot_events = events.filter(Slot_id__day = day,Slot_id__Timing_id = timing) %}
-						{% if slot_events %}
-							<!-- if there is an event-->
-							{% if slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
-								<!-- if there is batch practical event-->
-									{% set _ = slot_2_arr.append(day) %}
-								{% for batch in prac_batches %}
-									<td colspan="{{prac_batch_col}}" class="event_td  m-0 p-0" rowspan="2">
-										{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
-										{% if temp_event %}
-											<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-											{{td_table(temp_event)}}
-										{% endif %}
-									</td>
-								{% endfor %}
-
-							{% elif slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
-								<!-- if there is class practical event-->
-								<td colspan="{{unit_col}}" class="event_td m-0 p-0" rowspan="2" >
-									{% set temp_event = slot_events.first() %}
-									{% if temp_event %}
-										<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-										{{td_table(temp_event)}}
-									{% endif %}
-								</td>
-							{% elif not slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
-								<!-- if there is batch lecture event-->
-								{% for batch in lect_batches %}
-									<td colspan="{{lect_batch_col}}" class="event_td m-0 p-0" >
-										{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
-										{% if temp_event %}
-											<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-											{{td_table(temp_event)}}
-										{% endif %}
-									</td>
-								{% endfor %}
-							{% elif not slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
-								<!-- if there is class lecture event-->
-								<td colspan="{{unit_col}}" class=" m-0 p-0">
-									{% set temp_event = slot_events.first() %}
-									{% if temp_event %}
-										<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-										{{td_table(temp_event)}}
-									{% endif %}
-								</td>
-							{% endif %}
-						{% else %}
-							<!-- if there is no event-->
-							<td colspan="{{unit_col}}" class="m-0 p-0">
-								<table class="inner my-auto">
-									<tr style="vertical-align: top">
-										<td colspan="2" class="m-0 p-0">
-												<div class="batch-name w-100" style="text-align: left">&nbsp;</div>
-										</td>
-									</tr>
-									<tr>
-										<td colspan="2" class="m-0 p-0">
-											<div class="event-name w-100 text-center" style="margin: 0 auto">&nbsp;</div>
-										</td>
-									</tr>
-									<tr style="vertical-align: bottom">
-										<td class="m-0 p-0">
-												<div class="resource-name text-left m-0 p-0" style="text-align: left">&nbsp;</div>
-										</td>
-										<td class="m-0 p-0">
-											<div class="faculty-name text-right m-0 p-0" style="text-align: right">&nbsp;</div>
-										</td>
-									</tr>
-								</table>
-							</td>
-						{% endif %} 
-					{% else %} 
-						{% set _ = slot_2_arr.pop(slot_2_arr.index(day))%} 
-					{% endif %} 
-				{% endfor %} 
-			{% endif %}
 			</tr>
-		{% endfor %}
-	</tbody>
-	<tfoot>
-		<tr style="">
-			<td colspan="{{unit_col*len + unit_col}}" style="font-size:x-small;text-align: left;border:none">WEF () - Made By Horarium </td>
-		</tr>
-	</tfoot>
-</table>
-<div class="container-fluid text-center">
-	<button class="btn btn-primary mt-2 w-75" onclick="document.title='asd';window.print();return false">Print</button>
-</div>
+			<tr>
+			<th colspan="{{unit_col}}" class="m-0 p-0 text-center">Time</th>
+			{% for day in days %}
+				<th colspan="{{unit_col}}" class="m-0 p-0 text-center">{{day.Days_id}}</th>
+			{% endfor %}
+			</tr>
+		</thead>
+		<tbody>
+			{%set slot_2_arr=[]%}
+			{% for timing in timings %}
+				<!--for all time periods in database-->
+				<tr>
+					{% if timing.is_break %}
+						<th class="text-center my-auto" colspan="{{unit_col}}">
+							{{timing.name}}<br />
+							[{{timing.return_time()}}]
+						</th>
+						<th  colspan="{{unit_col*len}}" class="isBreak my-auto text-center p-0" break_id="{{timing.id}}">
+							<span class="h4 text-center">{{timing.name}}</span>
+						</th>
+					{% else %}
+						<th class="text-center m-0 p-0" colspan="{{unit_col}}">
+							{{timing.name}}<br />
+							[{{timing.return_time()}}]
+						</th>
+						{% for day in days %} 
+							{% if day not in slot_2_arr %} 
+								{% set slot_events = [] %}
+								{%set slot_events = events.filter(Slot_id__day = day,Slot_id__Timing_id = timing) %}
+								{% if slot_events %}
+									<!-- if there is an event-->
+									{% if slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
+										<!-- if there is batch practical event-->
+											{% set _ = slot_2_arr.append(day) %}
+										{% for batch in prac_batches %}
+											<td colspan="{{prac_batch_col}}" class="event_td  m-0 p-0" rowspan="2">
+												{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
+												{% if temp_event %}
+													<!-- {{temp_event.Subject_event_id.Subject_id}} -->
+													{{td_table(temp_event)}}
+												{% endif %}
+											</td>
+										{% endfor %}
+
+									{% elif slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
+										<!-- if there is class practical event-->
+										<td colspan="{{unit_col}}" class="event_td m-0 p-0" rowspan="2" >
+											{% set temp_event = slot_events.first() %}
+											{% if temp_event %}
+												<!-- {{temp_event.Subject_event_id.Subject_id}} -->
+												{{td_table(temp_event)}}
+											{% endif %}
+										</td>
+									{% elif not slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
+										<!-- if there is batch lecture event-->
+										{% for batch in lect_batches %}
+											<td colspan="{{lect_batch_col}}" class="event_td m-0 p-0" >
+												{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
+												{% if temp_event %}
+													<!-- {{temp_event.Subject_event_id.Subject_id}} -->
+													{{td_table(temp_event)}}
+												{% endif %}
+											</td>
+										{% endfor %}
+									{% elif not slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
+										<!-- if there is class lecture event-->
+										<td colspan="{{unit_col}}" class=" m-0 p-0">
+											{% set temp_event = slot_events.first() %}
+											{% if temp_event %}
+												<!-- {{temp_event.Subject_event_id.Subject_id}} -->
+												{{td_table(temp_event)}}
+											{% endif %}
+										</td>
+									{% endif %}
+								{% else %}
+									<!-- if there is no event-->
+									<td colspan="{{unit_col}}" class="m-0 p-0">
+										<table class="inner my-auto">
+											<tr style="vertical-align: top">
+												<td colspan="2" class="m-0 p-0">
+														<div class="batch-name w-100" style="text-align: left">&nbsp;</div>
+												</td>
+											</tr>
+											<tr>
+												<td colspan="2" class="m-0 p-0">
+													<div class="event-name w-100 text-center" style="margin: 0 auto">&nbsp;</div>
+												</td>
+											</tr>
+											<tr style="vertical-align: bottom">
+												<td class="m-0 p-0">
+														<div class="resource-name text-left m-0 p-0" style="text-align: left">&nbsp;</div>
+												</td>
+												<td class="m-0 p-0">
+													<div class="faculty-name text-right m-0 p-0" style="text-align: right">&nbsp;</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								{% endif %} 
+							{% else %} 
+								{% set _ = slot_2_arr.pop(slot_2_arr.index(day))%} 
+							{% endif %} 
+						{% endfor %} 
+					{% endif %}
+				</tr>
+			{% endfor %}
+		</tbody>
+		<tfoot>
+			<tr style="">
+				<td colspan="{{unit_col*len + unit_col}}" style="font-size:x-small;text-align: left;border:none">
+					WEF ({{my_division.Semester_id.WEF_id.get_range()}}) - Made By Horarium 
+				</td>
+			</tr>
+		</tfoot>
+	</table>
+	<div class="container-fluid text-center">
+		<button class="btn btn-primary mt-2 w-75" onclick="document.title='asd';window.print();return false">Print</button>
+	</div>
 </body>
 </html>

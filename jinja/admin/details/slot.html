@@ -74,7 +74,7 @@
                                 <button id="add_row" class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
                                     data-bs-target="#slot_form_accordion" aria-expanded="false"
                                     aria-controls="slot_form_accordion">
-                                    <h5><span id="add_or_update">Add</span> Slot</h5>
+                                    <h5><span id="add_or_update_form_heading">Add</span> Slot</h5>
                                 </button>
                             </h2>
                             <div id="slot_form_accordion" class="accordion-collapse collapse"
@@ -87,15 +87,15 @@
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
                                                     <input type="text" class="form-control myinputs" placeholder="-"
-                                                        name="name" maxlength="20" required id="id_name" />
-                                                    <label for="id_name">Slot Name</label>
+                                                        name="name" maxlength="20" required id="slot_name" />
+                                                    <label for="slot_name">Slot Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
                                                     <input type="time" class="form-control myinputs" placeholder="-"
                                                         name="start_time" id="start_time" disabled />
-                                                    <label for="id_name">Start Time</label>
+                                                    <label for="start_time">Start Time</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
@@ -108,19 +108,21 @@
                                             <div class="col-lg-12 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
                                                     <div class="form-check" id="is_break">
-                                                        <input class="form-check-input" type="checkbox" id="id_is_break">
-                                                        <label for="id_is_break" class="mt-1 ml-2" >Is a Break</label>
+                                                        <input class="form-check-input" type="checkbox" id="is_break_input">
+                                                        <label for="is_break_input" class="mt-1 ml-2" >Is a Break</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="submit_button_container">
-                                                <button type="button" id="Go" class="btn btn-outline-success">Go</button>
                                                 <button type="button" id="Go_here" class="btn btn-outline-success">Go Here</button>
-                                                <button type="button" id="edit" class="btn btn-outline-success">Edit</button>
                                             </div>
                                             <div class="container mt-4" style="width:80%;">
-                                                <button type="submit" class="btn btn-outline-success"
-                                                    style="width:100%">Submit</button>
+                                                <button type="button" id="submit_slot" class="btn btn-outline-success" style="width:100%">
+													Submit Slot
+												</button>
+                                                <button type="button" id="edit_submit" class="btn btn-outline-success" style="width:100%">
+													Edit
+												</button>
                                             </div>
                                         </div>
                                     </div>
@@ -153,7 +155,7 @@
         </div>
         <div class="submit_button_container container text-center">
             <!-- <button type="submit" name="button" class="submit_button">Submit</button> -->
-            <button class="submit_button btn btn-outline-success" onclick='submited()' style="width:50%"> Submit</button>
+            <button class="submit_button btn btn-outline-success" onclick='submited()' style="width:50%">Save Current State</button>
         </div>
         <div class="container-fluid p-2 table_container">
             <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem;">

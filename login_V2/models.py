@@ -97,7 +97,24 @@ def user_logged_out_callback(sender, request, user, **kwargs):
         user_id = user
     )
 
-
+@receiver(user_login_failed)
+def user_login_failed_callback(sender, credentials, **kwargs):
+	request=kwargs['request']
+	fail_str = "Login Attempt failed!"
+	forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
+	ip = request.META.get('REMOTE_ADDR')
+	print(type(credentials))
+	email_id = credentials.get('username') if credentials.get('username') else credentials.get('email')
+	AuditEntry.objects.create(
+		action=fail_str,
+		forwarded_ip=forwarded_ip,
+		ip=ip,
+		email_used=email_id,
+		user_agent=request.META.get('HTTP_USER_AGENT'),
+	)
+    # log.warning('login failed for: {credentials}'.format(
+    #     credentials=credentials,
+    # ))
 # @receiver(user_login_failed)
 # def user_login_failed_callback(sender, credentials, **kwargs):
 #     pass

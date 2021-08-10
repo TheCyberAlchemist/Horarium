@@ -82,6 +82,7 @@ $(document).ready(function () {
 		var formData = new FormData();
 		formData.append("file",my_file);
 		formData.append('csv_input',csv_type);
+		console.log(formData);
 		$.ajax({
 			url: "../../csv/",
 			type: "POST",

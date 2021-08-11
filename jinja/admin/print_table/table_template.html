@@ -205,13 +205,13 @@
 			<i class="fas fa-home"></i>  
 		  </a></li>
 		  <li class="breadcrumb-item active" aria-current="page">
-			<a href="">
+			<a href="{{url ('show_table',args=[my_division.id]) }}">
 				<span class="h6 fw-bold">Create Table</span> 
 			</a>
 		  </li>
 		  <li class="breadcrumb-item active" aria-current="page">
-			<a>
-				<span class="h6 fw-bold">Print Table</span> 
+			<a href="{{url ('select_batch',args=[my_division.id]) }}">
+				<span class="h6 fw-bold">Select Batch</span> 
 			</a>
 		  </li>
 		</ol>

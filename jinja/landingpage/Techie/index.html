@@ -798,7 +798,7 @@
 						</div>
 					</div>
 					<div class="col-lg-6">
-						<form action="" method="post" role="form" class="php-email-form">
+						<form method="post" id="contact_us_form" role="form" class="php-email-form">
 							<div class="row">
 								<div class="col-md-6 form-group">
 									<input type="text" name="name" class="form-control" id="name"
@@ -818,11 +818,11 @@
 									required></textarea>
 							</div>
 							<div class="my-3">
-								<div class="loading">Loading</div>
+								<div class="loading">Sending</div>
 								<div class="error-message"></div>
 								<div class="sent-message">Your message has been sent. Thank you!</div>
 							</div>
-							<div class="text-center"><button type="submit">Send Message</button></div>
+							<div class="text-center"><button type="submit" id="send_message">Send Message</button></div>
 						</form>
 					</div>
 
@@ -915,11 +915,12 @@
 
 	<!-- Vendor JS Files -->
 	<script type="application/javascript" src="{{static ('landingpage/js/homepage_navbar.js')}}"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" referrerpolicy="no-referrer"></script>
+	<script type="application/javascript" src="{{static ('cookie.min.js')}}"></script>
 	<script src="{{static ('landingpage/vendor/aos/aos.js')}}"></script>
 	<script src="{{static ('landingpage/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
 	<script src="{{static ('landingpage/vendor/glightbox/js/glightbox.min.js')}}"></script>
 	<script src="{{static ('landingpage/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
-	<script src="{{static ('landingpage/vendor/php-email-form/validate.js')}}"></script>
 	<script src="{{static ('landingpage/vendor/purecounter/purecounter.js')}}"></script>
 	<script src="{{static ('landingpage/vendor/swiper/swiper-bundle.min.js')}}"></script>
 	<script type="application/javascript" src="https://kit.fontawesome.com/64d58efce2.js"

@@ -360,22 +360,23 @@ global_time = new time(10,54,56);
 jQuery(function () {
 
 	//#region  ////////////// Browser Agent //////////////
-
-	let userAgentString = navigator.userAgent;
-	// Detect Chrome
-	let chromeAgent = userAgentString.indexOf("Chrome") > -1;
-	// Detect Safari
-	let safariAgent = userAgentString.indexOf("Safari") > -1;
-	//Detect Firefox
-	let firefoxAgent = userAgentString.indexOf("Firefox") > -1;
-	
-	console.log("firefox : " +firefoxAgent+" Chrome : " +chromeAgent+" Safari : " +safariAgent)
-	// Discard Safari since it also matches Chrome
-	if ((chromeAgent) && (safariAgent)) safariAgent = false;
-	if(firefoxAgent) {
-		$("body").addClass("safari");
+	function userAgent() {
+		let userAgentString = navigator.userAgent;
+		// Detect Chrome
+		let chromeAgent = userAgentString.indexOf("Chrome") > -1;
+		// Detect Safari
+		let safariAgent = userAgentString.indexOf("Safari") > -1;
+		//Detect Firefox
+		let firefoxAgent = userAgentString.indexOf("Firefox") > -1;
+		
+		console.log("firefox : " +firefoxAgent+" Chrome : " +chromeAgent+" Safari : " +safariAgent)
+		// Discard Safari since it also matches Chrome
+		if ((chromeAgent) && (safariAgent)) safariAgent = false;
+		if(firefoxAgent) {
+			$("body").addClass("safari");
+		}
+		console.log(firefoxAgent,chromeAgent,safariAgent)
 	}
-	console.log(firefoxAgent,chromeAgent,safariAgent)
 	//#endregion
 	
 	//#region  ////////////// pop-up allowance //////////////
@@ -687,11 +688,6 @@ jQuery(function () {
 				for(var j = 0;j < i ; j++){
 					get_cell(events[j]).addClass("td_gone");
 				}
-				if($("body").hasClass("safari")) {
-					$("#text").removeClass("glow-safari");
-				}else {
-					$("#text").removeClass("glow");
-				}
 				// console.log(events[i]);
 				clearInterval(interval);
 				$("#text").html("No upcoming lectures ... ");
@@ -701,11 +697,6 @@ jQuery(function () {
 	}
 	if (events.length){		
 		interval = setInterval(main, 1000);
-		if($("body").hasClass("safari")) {
-			$("#text").addClass("glow-safari");
-		}else {
-			$("#text").addClass("glow");
-		}
 		main();
 		first_main_call = false;
 	}

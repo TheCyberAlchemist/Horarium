@@ -135,6 +135,10 @@
 			width: 297mm;
 			height: 210mm;
 			}*/
+
+		/* .event-name,th, .isBreak span, .faculty-name, .batch-name {
+			font-size: 5px !important;
+		} */
 		.main_table {
 			width: 100%;
 			table-layout: fixed;
@@ -199,7 +203,7 @@
 </head>
 <body class="container-fluid" style="position:relative">
 	<div id = "page_activator" activate-page="{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.b"></div>
-	<nav aria-label="breadcrumb" class="breadcrumb_nav">
+	<nav aria-label="breadcrumb" class="breadcrumb_nav mt-3">
 		<ol class="breadcrumb">
 		  <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
 			<i class="fas fa-home"></i>  

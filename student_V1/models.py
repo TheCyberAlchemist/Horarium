@@ -32,8 +32,18 @@ class Sticky_notes(models.Model):
 
 	def __str__(self):
 		return f"{str(self.Student_id)} -> {str(self.title)}"
+	
 	class Meta:
 		verbose_name_plural = "Sticky Notes"
+
+	def save(self, *args, **kwargs):
+		import cryptocode
+		encode = lambda x: cryptocode.encrypt(x,f"{self.Student_id}_{self.Student_id.pk}")
+		self.title = encode(self.title)
+		self.body = encode(self.body)
+		# print(encoded)
+		super(Sticky_notes, self).save(*args, **kwargs)
+
 class Student_logs(models.Model):
 	user_id = models.ForeignKey(get_user_model(),default=None,null=True,on_delete = models.SET_NULL)
 	action = models.CharField(max_length=64)

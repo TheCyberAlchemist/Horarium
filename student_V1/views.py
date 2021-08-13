@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.http import JsonResponse,Http404
+from django.http import JsonResponse,Http404,HttpResponse
 from django.core import serializers
 import json
 import datetime
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
+import cryptocode
+from django.utils.html import escape
 
 from student_V1.forms import * 
 from student_V1.models import *
@@ -248,12 +250,13 @@ def delete_sticky_notes(request):
 		if note:
 			note.delete()
 	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
+	decode = lambda x: cryptocode.decrypt(x,f"{student}_{student.pk}")
 	notes_arr = []
 	for note in my_notes:
 		notes_arr.append({
 			'pk': note.pk,
-			'title': note.title,
-			'body': note.body,
+			'title': escape(decode(note.title)),
+			'body': escape(decode(note.body)),
 		})
 	print(my_notes)
 	return JsonResponse(notes_arr, safe=False)
@@ -271,18 +274,18 @@ def get_put_sticky_notes(request):
 			note.Student_id = student
 			note.save()
 
-		# return JsonResponse(notes_arr, safe=False)
-	# if request.method == 'GET':
+	decode = lambda x: cryptocode.decrypt(x,f"{student}_{student.pk}")
 	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
 	notes_arr = []
 	for note in my_notes:
+		print(decode(note.title))
 		notes_arr.append({
 			'pk': note.pk,
-			'title': note.title,
-			'body': note.body,
+			'title': escape(decode(note.title)),
+			'body': escape(decode(note.body)),
 		})
-	print(my_notes)
-	return JsonResponse(notes_arr, safe=False)
+	return HttpResponse(json.dumps(notes_arr),content_type='application/json')
+	# return JsonResponse(notes_arr,safe=False)
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Student'])	

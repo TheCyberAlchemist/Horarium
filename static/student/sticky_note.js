@@ -145,6 +145,7 @@ jQuery(function () {
 			},
 		});
 	})
+	console.log("all_notes")
 	$.ajax({
 		method: "GET",
 		url: "./get_put_sticky_notes",
@@ -152,6 +153,8 @@ jQuery(function () {
 		// 	'id' :type['id'],
 		// },
 		success: function (all_notes) {
+			// all_notes = JSON.parse(all_notes);
+			console.log(all_notes)
 			populate_notes_body(all_notes);
 		},
 		error: function (error_data) {

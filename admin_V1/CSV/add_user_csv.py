@@ -59,7 +59,7 @@ def check_student_headers(df):
 		error_json['error_name'] = "Proper headers not Found!"
 		error_json['error_body'] = ['The header of the file need to follow the format as mentioned :',
 									'E-mail','Password','First name','Last name','Roll_no','Department','Semester','Branch','Division','Practical Batch','Lecture Batch']
-
+		error_json["table"] = "-"
 	return error_json
 
 def check_student_details(df):
@@ -186,7 +186,7 @@ def check_faculty_headers(df):
 		error_json['error_name'] = "Proper headers not Found!"
 		error_json['error_body'] = ['The header of the file need to follow the format as mentioned :',
 									'E-mail','Password','First name','Last name','Short','Department','Shift','Designation','Load','Can Teach']
-
+		error_json["table"] = "-"
 	return error_json
 
 def check_faculty_details(df):
@@ -369,7 +369,7 @@ def check_email_for_duplication_external(df):
 
 #region //////////////////// Main validation functions //////////////////
 import traceback
-def validate_student_csv(df,request):
+def validate_student_add_csv(df,request):
 	'runs all the steps of validation and returns the error_json and details_df'
 	error_list = []
 	details = None
@@ -388,7 +388,6 @@ def validate_student_csv(df,request):
 		print("Something went wrong in user details function ")
 		print(e)
 	
-
 	# check student details cells
 	try:
 		app(check_student_details(df))
@@ -423,7 +422,7 @@ def validate_student_csv(df,request):
 	
 	return error_list,details
 
-def validate_faculty_csv(df,request):
+def validate_faculty_add_csv(df,request):
 	'runs all the steps of validation and returns the error_json and details_df'
 	error_list = []
 	details = None
@@ -472,96 +471,128 @@ def validate_faculty_csv(df,request):
 		print("Something went wrong in faculty details function ")
 		print(e)
 	return error_list,details
+
+def validate_student_update_csv(df,request):
+	
+	pass
+
+def validate_faculty_update_csv(df,request):
+	pass
 #endregion
+
+
+def add_user_main(request,df,csv_type):
+	if csv_type == "student":
+		print("Add Student csv found, refining ... ")
+		error_list,details = validate_student_add_csv(df,request)
+		all_saved_pks = []
+		if not error_list:
+			group = Group.objects.get(name='Student')
+			for i,row in details.iterrows():
+				print(".",end="")
+				student_form = add_student_details(row)
+				if student_form.is_valid():
+					user = row["User_id"]
+					# user.save()
+					candidate = student_form.save(commit=False)
+					candidate.User_id = user
+					try:
+						user.save()
+						user.groups.add(group)
+						all_saved_pks.append(user.pk)
+						candidate.save()
+						# print("done safely, self destructing .. ",user.email)
+						# user.delete()
+						pass
+					except Exception as e:
+						print("Something went wrong deleting all .. ",e)
+						print(all_saved_pks)
+						for j in all_saved_pks:
+							CustomUser.objects.filter(pk=j).delete()
+						pass
+				# print(all_saved_pks)			
+	elif csv_type == "faculty":
+		print("Add Faculty csv found, refining ... ")
+		error_list,details = validate_faculty_add_csv(df,request)		
+		all_saved_pks = []
+		if not error_list:
+			group = Group.objects.get(name='Faculty')
+			for i,row in details.iterrows():
+				print(".",end="")
+				faculty_form = faculty_details_csv(row)
+				faculty_load_form = faculty_load(row)
+				if faculty_form.is_valid() and faculty_load_form.is_valid():
+					user = row["User_id"]
+					# user.save()
+					faculty_details = faculty_form.save(commit=False)
+					faculty_details.User_id = user
+					faculty_load_candidate = faculty_load_form.save(commit=False)
+					faculty_load_candidate.Faculty_id = faculty_details
+					try:
+						user.save()
+						user.groups.add(group)
+						all_saved_pks.append(user.pk)
+						faculty_details.save()
+						faculty_load_candidate.save()
+						for subjects in row['my_subjects']:
+							Can_teach.objects.create(Faculty_id=faculty_details,Subject_id=subjects)
+						# print("done safely, self destructing .. ",user.email)
+						# user.delete()
+						pass
+					except Exception as e:
+						print("Something went wrong deleting all .. ",e)
+						print(all_saved_pks)
+						for j in all_saved_pks:
+							CustomUser.objects.filter(pk=j).delete()
+						pass
+				# print(all_saved_pks)
+
+	context = {"error_list": error_list}
+
+	return context
+
+def update_user_main(reuqest,df,csv_type):
+	print("here at update")
+	if csv_type == "student":
+		print("Add Student csv found, refining ... ")
+		error_list,details = validate_student_update_csv(df,request)
+		all_saved_pks = []
+	elif csv_type == "faculty":
+		pass
+	# context = {"error_list": error_list}
+
+	# return context
 
 class csv_check_api(APIView):
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
 	permission_classes = [IsAuthenticated]
 	def post(self, request):
 		error_list = []
-		csv_file = request.FILES['file']
+		# csv_file = request.FILES['file']
+		# csv_type = request.POST['csv_input']
+		# add_or_update = request.POST['add_or_update']
 
-		csv_type = request.POST['csv_input']
-		if not csv_file.name.endswith('.csv'):
-			messages.error(request, 'THIS IS NOT A CSV FILE')
-			error_list.append({"error_name":"The file must be csv"})
-			return Response(context)
-		df = pd.read_csv(csv_file, na_filter= True)
+		# if not csv_file.name.endswith('.csv'):
+		# 	messages.error(request, 'THIS IS NOT A CSV FILE')
+		# 	error_list.append({"error_name":"The file must be csv"})
+		# 	return Response(context)
+		# df = pd.read_csv(csv_file, na_filter= True)
 
-		# df = pd.read_csv("admin_V1\student_details.csv", na_filter= True)
-		# df = pd.read_csv("admin_V1\\faculty_details.csv", na_filter= True)
+		csv_type = "student"
+		add_or_update = "update"
+		df = pd.read_csv("admin_V1\\CSV\\student_details_errors.csv", na_filter= True)
+		# df = pd.read_csv("admin_V1\\CSV\\student_details.csv", na_filter= True)
+		# df = pd.read_csv("admin_V1\\CSV\\faculty_details.csv", na_filter= True)
 		
 		# clear empty rows
 		df = clear_empty_rows(df)
 		df = clear_duplicate_rows(df)
+		if add_or_update == "add":
+			context = add_user_main(request,df,csv_type)
+		elif add_or_update == "update":
+			context = update_user_main(request,df,csv_type)
 		
-		if csv_type == "student":
-			error_list,details = validate_student_csv(df,request)
-			all_saved_pks = []
-			if not error_list:
-				group = Group.objects.get(name='Student')
-				for i,row in details.iterrows():
-					print(".",end="")
-					student_form = add_student_details(row)
-					if student_form.is_valid():
-						user = row["User_id"]
-						# user.save()
-						candidate = student_form.save(commit=False)
-						candidate.User_id = user
-						try:
-							user.save()
-							user.groups.add(group)
-							all_saved_pks.append(user.pk)
-							candidate.save()
-							# print("done safely, self destructing .. ",user.email)
-							# user.delete()
-							pass
-						except Exception as e:
-							print("Something went wrong deleting all .. ",e)
-							print(all_saved_pks)
-							for j in all_saved_pks:
-								CustomUser.objects.filter(pk=j).delete()
-							pass
-					# print(all_saved_pks)
-			
-		elif csv_type == "faculty":
-			print("faculty csv found refining ")
-			error_list,details = validate_faculty_csv(df,request)
-			print(error_list)
-			all_saved_pks = []
-			if not error_list:
-				group = Group.objects.get(name='Faculty')
-				for i,row in details.iterrows():
-					print(".",end="")
-					faculty_form = faculty_details_csv(row)
-					faculty_load_form = faculty_load(row)
-					if faculty_form.is_valid() and faculty_load_form.is_valid():
-						user = row["User_id"]
-						# user.save()
-						faculty_details = faculty_form.save(commit=False)
-						faculty_details.User_id = user
-						faculty_load_candidate = faculty_load_form.save(commit=False)
-						faculty_load_candidate.Faculty_id = faculty_details
-						try:
-							user.save()
-							user.groups.add(group)
-							all_saved_pks.append(user.pk)
-							faculty_details.save()
-							faculty_load_candidate.save()
-							for subjects in row['my_subjects']:
-								Can_teach.objects.create(Faculty_id=faculty_details,Subject_id=subjects)
-							# print("done safely, self destructing .. ",user.email)
-							# user.delete()
-							pass
-						except Exception as e:
-							print("Something went wrong deleting all .. ",e)
-							print(all_saved_pks)
-							for j in all_saved_pks:
-								CustomUser.objects.filter(pk=j).delete()
-							pass
-					# print(all_saved_pks)
-		
-		context = {"error_list": error_list}
+		# print(context)
 
 		return Response(context)
 

@@ -3,7 +3,7 @@ from django.urls import path,re_path
 from . import views
 from .PDF import PDF
 from .algos import algo3
-from .CSV import user_csv
+from .CSV import add_user_csv
 from .user_dash import user_dash,add_update_users
 
 import faculty_V1.views as faculty_view
@@ -24,8 +24,8 @@ urlpatterns = [
 	re_path(r'^user_dash/(?P<Department_id>\d+)/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	re_path(r'^user_dash/(?P<Department_id>\d+)/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
 
-	re_path(r'^csv_upload/(?P<Department_id>\d+)/$',user_csv.csv_view_func,name = 'csv_upload'),
-	re_path(r'^csv/$',user_csv.csv_check_api.as_view(),name = 'csv'),
+	re_path(r'^csv_upload/(?P<Department_id>\d+)/$',add_user_csv.csv_view_func,name = 'csv_upload'),
+	re_path(r'^csv/$',add_user_csv.csv_check_api.as_view(),name = 'csv'),
 
 	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
     re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),

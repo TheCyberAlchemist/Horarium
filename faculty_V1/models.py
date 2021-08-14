@@ -57,6 +57,7 @@ class Faculty_load(models.Model):
 	class Meta:
 		verbose_name_plural = "Faculty load"
 
+
 class Can_teach(models.Model):
 	Faculty_id = models.ForeignKey(Faculty_details,on_delete=models.CASCADE)
 	Subject_id = models.ForeignKey(Subject_details,on_delete=models.CASCADE)

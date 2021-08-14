@@ -24,25 +24,27 @@ class Student_details(models.Model):
 	class Meta:
 		verbose_name_plural = "Student Details"
 
-class Sticky_notes(models.Model):
-	Student_id = models.ForeignKey(Student_details,on_delete=models.CASCADE)
+
+class User_notes(models.Model):
+	User_id = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,)
+
 	title = models.TextField()
 	body = models.TextField()
 	timestamp = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
 	def __str__(self):
-		return f"{str(self.Student_id)} -> {str(self.title)}"
+		return f"{str(self.User_id)} -> {str(self.title)}"
 	
 	class Meta:
-		verbose_name_plural = "Sticky Notes"
+		verbose_name_plural = "User Notes"
 
 	def save(self, *args, **kwargs):
 		import cryptocode
-		encode = lambda x: cryptocode.encrypt(x,f"{self.Student_id}_{self.Student_id.pk}")
+		key_str = f"{self.User_id}_{self.User_id.pk}"
+		encode = lambda x: cryptocode.encrypt(x,key_str)
 		self.title = encode(self.title)
 		self.body = encode(self.body)
-		# print(encoded)
-		super(Sticky_notes, self).save(*args, **kwargs)
+		super(User_notes, self).save(*args, **kwargs)
 
 class Student_logs(models.Model):
 	user_id = models.ForeignKey(get_user_model(),default=None,null=True,on_delete = models.SET_NULL)

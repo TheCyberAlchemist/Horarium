@@ -35,7 +35,8 @@ def get_events_json(qs):
 			# d["link"] = this.Division_id.link
 		d["link"] = this.link
 		# print(d["link"])
-		d["faculty_short"] = str(this.Subject_event_id.Faculty_id)
+		print(this.Subject_event_id)
+		d["faculty_short"] = str(this.Subject_event_id.get_faculty_name())
 		d["resource"] = str(this.Resource_id)
 		d['color'] = this.Subject_event_id.Subject_id.color
 		del d['model'],d['fields']
@@ -242,15 +243,15 @@ def get_all_subjects_of_feedback_type(request):
 	return JsonResponse(data, safe=False)
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['Student'])
+@allowed_users(allowed_roles=['Student','Faculty'])
 def delete_sticky_notes(request):
-	student = request.user.student_details
+	# student = request.user.student_details
 	if request.method == 'POST':
-		note = Sticky_notes.objects.all().filter(Student_id=student,pk=request.POST.get('pk'))
+		note = User_notes.objects.all().filter(User_id=request.user,pk=request.POST.get('pk'))
 		if note:
 			note.delete()
-	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
-	decode = lambda x: cryptocode.decrypt(x,f"{student}_{student.pk}")
+	my_notes = User_notes.objects.all().filter(User_id=request.user)
+	decode = lambda x: cryptocode.decrypt(x,f"{request.user}_{request.user.pk}")
 	notes_arr = []
 	for note in my_notes:
 		notes_arr.append({
@@ -262,20 +263,20 @@ def delete_sticky_notes(request):
 	return JsonResponse(notes_arr, safe=False)
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['Student'])
+@allowed_users(allowed_roles=['Student','Faculty'])
 def get_put_sticky_notes(request):
-	student = request.user.student_details
+	# student = request.user.student_details
 	if request.method == 'POST':
 		print(request.POST)
 		form = add_sticky_note(request.POST)
 		if form.is_valid():
 			print("Sticky_note form is valid ✅")
 			note = form.save(commit=False)
-			note.Student_id = student
+			note.User_id = request.user
 			note.save()
 
-	decode = lambda x: cryptocode.decrypt(x,f"{student}_{student.pk}")
-	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
+	decode = lambda x: cryptocode.decrypt(x,f"{request.user}_{request.user.pk}")
+	my_notes = User_notes.objects.all().filter(User_id=request.user)
 	notes_arr = []
 	for note in my_notes:
 		print(decode(note.title))

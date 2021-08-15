@@ -98,7 +98,7 @@
 
                 <div class="row">
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                    <span>{{temp_event.a.Subject_event_id.get_faculty_name()}}</span>
                   </div>
                   {%if temp_event.a.Resource_id %}
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
@@ -115,7 +115,7 @@
                 <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">{{temp_event.a.Subject_event_id.Subject_id}}</button>
                 <div class="row">
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                    <span>{{temp_event.a.Subject_event_id.get_faculty_name()}}</span>
                   </div>
                   {%if temp_event.a.Resource_id %}
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">

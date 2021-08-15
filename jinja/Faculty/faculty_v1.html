@@ -10,14 +10,14 @@
 {% endblock %}
 {% block content %}
 <div class="container-fluid pt-4 mt-5">
-    <div id="myProgress" class="container text-center" data-aos="fade-in" data-aos-duration="1000">
-    <div id="ct"></div>
-    <div id="myBar"></div>
-  </div>
-    <div class="container text-center p-2 h5" id="text" id="text" data-aos="fade-in" data-aos-duration="1500">
-    </div>
-    <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000">
-    </div>
+	<div class="timeline_and_text">
+		<div id="myProgress" class="container text-center" data-aos="fade-in" data-aos-duration="1000">
+			<div id="ct"></div>
+			<div id="myBar"></div>
+		</div>
+		<div class="container text-center p-2 h5" id="text" id="text" data-aos="fade-in" data-aos-duration="1500"></div>
+		<div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000"></div>
+	</div>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 pt-3 mx-auto" data-aos="fade-down" data-aos-duration="2500">
       <table id="t1" class="mx-auto mb-3" style="width: 90%;color:white">
@@ -75,14 +75,14 @@
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">
-                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                        <span>{{temp_event.a.Division_id}}</span>
-                      </div>
                       {%if temp_event.a.Resource_id %}
                         <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                           <span>{{temp_event.a.Resource_id}}</span>
                         </div>
                       {%endif%}
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
+                        <span>{{temp_event.a.Division_id}}</span>
+                      </div>
                     </div>
                   </div>
                 </td>

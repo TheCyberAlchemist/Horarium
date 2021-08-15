@@ -35,7 +35,7 @@ def get_events_json(qs):
 			# d["link"] = this.Division_id.link
 		d["link"] = this.link
 		# print(d["link"])
-		print(this.Subject_event_id)
+		
 		d["faculty_short"] = str(this.Subject_event_id.get_faculty_name())
 		d["resource"] = str(this.Resource_id)
 		d['color'] = this.Subject_event_id.Subject_id.color

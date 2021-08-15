@@ -1,6 +1,6 @@
 #region //////////////////// Debug switches //////////////////
 SORTING_DEBUG = False
-MAIN_DEBUG = 1
+MAIN_DEBUG = 0
 #endregion
 
 
@@ -643,13 +643,7 @@ class main(APIView):
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
 	permission_classes = [IsAuthenticated]
 	def post(self, request, Division_id=None):
-		total_infinite_condition =1
-		if total_infinite_condition:
-			data = {
-				'error':"The algo could not find any solution for the current state of lectures."
-			}
-			return JsonResponse(data, status=500)
-
+		
 		import timeit
 		starttime = timeit.default_timer()
 		if not Division_id:
@@ -809,7 +803,6 @@ class main(APIView):
 		if MAIN_DEBUG:
 			print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Points"],tablefmt="grid"))
 		
-		total_infinite_condition =1
 		if total_infinite_condition:
 			data = {
 				'error':"The algo could not find any solution for the current state of lectures."

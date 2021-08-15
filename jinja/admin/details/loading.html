@@ -2,8 +2,10 @@
 function toggle_loading(){
 	if ($(".image-container").is(":visible")){
 		$(".main_content").css("filter","blur(0px)");
+		// $("body").css("user-select","all");
 	}else{
 		$(".main_content").css("filter","blur(4px)");
+		// $("body").css("user-select","none");
 	}
 	$(".image-container").toggle();
 	// $(".svg").toggle();

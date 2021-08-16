@@ -279,7 +279,6 @@ def get_put_sticky_notes(request):
 	my_notes = User_notes.objects.all().filter(User_id=request.user)
 	notes_arr = []
 	for note in my_notes:
-		print(decode(note.title))
 		notes_arr.append({
 			'pk': note.pk,
 			'title': escape(decode(note.title)),

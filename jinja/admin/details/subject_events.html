@@ -267,7 +267,7 @@
                                 <tr>
                                     <td clas="fw-bold">{{loop.index}}</td>
                                     <td class="fw-bold">{{event.Faculty_id.short}}</td>
-                                    <td class="fw-bold">{{event.Co_faculty_id.short}}</td>
+                                    <td class="fw-bold"> {%if event.Co_faculty_id.short%} {{event.Co_faculty_id.short}} {%else%} - {%endif%}</td>
                                     <td class="fw-bold">{{event.prac_carried}}</td>
                                     <td class="fw-bold">{{event.lect_carried}}</td>
                                     <td class="fw-bold">{{event.total_load_carried()}} Hrs.</td>

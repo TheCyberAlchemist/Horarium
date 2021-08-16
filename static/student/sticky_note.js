@@ -12,7 +12,6 @@ function replaceURLs(message) {
 }
 function get_sticky_note(pk,title,body){
 	var txt3 = document.createElement("div");  // Create with DOM
-	console.log(pk)
 	txt3.classList.add(`note_id_${pk}`);
 	txt3.classList.add(`sticky_note`);
   	txt3.innerHTML = `	
@@ -53,7 +52,7 @@ function append_sticky_note(note_obj){
 }
 
 function populate_notes_body(all_notes){
-	console.log(all_notes);
+	// console.log(all_notes);
 	$("#sticky_note_form").trigger('reset');
 	clear_all_notes()
 	for (d of all_notes){
@@ -145,7 +144,7 @@ jQuery(function () {
 			},
 		});
 	})
-	console.log("all_notes")
+	// console.log("all_notes")
 	$.ajax({
 		method: "GET",
 		url: "./get_put_sticky_notes",
@@ -153,8 +152,7 @@ jQuery(function () {
 		// 	'id' :type['id'],
 		// },
 		success: function (all_notes) {
-			// all_notes = JSON.parse(all_notes);
-			console.log(all_notes)
+			// all_notes = JSON.parse(all_notes)			
 			populate_notes_body(all_notes);
 		},
 		error: function (error_data) {

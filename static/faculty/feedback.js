@@ -79,8 +79,20 @@ $(document).ready(function () {
 				'id' :a['id'],
 			},
 			success: function (data) {
-				// console.log(data),
-				draw_radar_graph(data,"progress__"+a['id'])
+				console.log(data);
+				let temp_data = {}
+				Object.assign(temp_data, data)
+				temp_data.chartdata = [];
+				temp_data.labels = [];
+				for (i in data.chartdata) {
+					if (data.chartdata[i] > 0){
+						temp_data.chartdata.push(data.chartdata[i])
+						temp_data.labels.push(data.labels[i])
+					}
+				}
+				console.log(temp_data);
+				draw_radar_graph(temp_data,"progress__"+a['id'])
+
 				let temp_dict = [];
 				for (i = 0; i < data.chartdata.length; i++) {
 					temp_dict.push({"label":data.labels[i],"rating":data.chartdata[i]})
@@ -206,7 +218,7 @@ $(document).ready(function () {
 		var labels = data.labels;
 		var chartLabel = data.chartLabel;
 		var chartdata = data.chartdata; 
-		console.log(data.chartdata)
+		// console.log(data.chartdata)
 		if (recursive) {
 			my_charts[event_id].destroy();
 		}

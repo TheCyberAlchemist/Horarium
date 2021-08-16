@@ -1,7 +1,7 @@
 {%block navbar_starts%} {%endblock%}  
 <!-- content here -->
 <div class="nav_container">
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
         <div class="container-fluid">
           <a href="{{url ('faculty_home')}}" class="navbar-brand" style="font-family:'Poppins',sans-serif">
             Horarium
@@ -11,8 +11,13 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+				<li class="nav-item my-auto">
+					<div class="container sidebar_container">
+					  <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="30px" width="30px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
+					</div>
+				  </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url ('faculty_feedback')}}">Feedbacks</a>
+                    <a class="nav-link s" href="{{url ('faculty_feedback')}}">Feedbacks</a>
                 </li>
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

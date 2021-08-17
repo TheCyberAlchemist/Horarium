@@ -116,6 +116,12 @@ function get_subject_event(id) {
 	}
 }
 
+function get_subject_by_subject_event(subject_event){
+	// returns the subject object related to the subject_event object
+
+	return subjects.filter((e)=> e.fields.short==subject_event.subject_name)[0]
+}
+
 function get_respective_lect_prac_batch(subject_event_id, is_prac = false) {
 	// if the subject has batch it returns the practical or lecture batches
 	// only for change to lect and prac td
@@ -241,14 +247,14 @@ function put_json_in_table(json_data) {
 					if (!td.html()) {
 						change_to_prac_td(td, get_respective_lect_prac_batch(obj.Subject_event_id, true));
 					}
-					put_prac(td, obj.Subject_event_id, obj.Batch_id, resource);
+					put_prac(td, obj.Subject_event_id, obj.Batch_id, resource,obj.link);
 				}
 			} else {
 				if (push_event(temp_event)) {
 					if (!td.html()) {
 						change_to_lect_td(td, get_respective_lect_prac_batch(obj.Subject_event_id, false));
 					}
-					put_lect(td, obj.Subject_event_id, resource, obj.Batch_id);
+					put_lect(td, obj.Subject_event_id, resource, obj.Batch_id, obj.link);
 				}
 			}
 			if (obj.locked) {
@@ -288,14 +294,14 @@ function put_json_in_table(json_data) {
 					if (!td.html()) {
 						change_to_prac_td(td, get_respective_lect_prac_batch(obj.Subject_event_id, true));
 					}
-					put_prac(td, obj.Subject_event_id, obj.Batch_id, resource);
+					put_prac(td, obj.Subject_event_id, obj.Batch_id, resource, obj.link);
 				}
 			} else {
 				if (push_event(temp_event)) {
 					if (!td.html()) {
 						change_to_lect_td(td, get_respective_lect_prac_batch(obj.Subject_event_id, false));
 					}
-					put_lect(td, obj.Subject_event_id, resource, obj.Batch_id);
+					put_lect(td, obj.Subject_event_id, resource, obj.Batch_id, obj.link);
 				}
 			}
 			if (obj.locked) {
@@ -349,14 +355,14 @@ function put_event_in_td(my_event, td) {
 		if (!td.html()) {
 			change_to_prac_td(td, subject_batch);
 		}
-		put_prac(td, my_event.Subject_event_id, my_event.Batch_id, my_event.Resource_id);
+		put_prac(td, my_event.Subject_event_id, my_event.Batch_id, my_event.Resource_id, my_event.link);
 	} else {
 		// if lect
 		let subject_batch = get_respective_lect_prac_batch(my_event.Subject_event_id, (is_prac = false));
 		if (!td.html()) {
 			change_to_lect_td(td, subject_batch);
 		}
-		put_lect(td, my_event.Subject_event_id, my_event.Resource_id, my_event.Batch_id);
+		put_lect(td, my_event.Subject_event_id, my_event.Resource_id, my_event.Batch_id, my_event.link);
 	}
 }
 
@@ -504,6 +510,7 @@ function open_menu_in_event_div(event_div, e) {
 				top: top + "px",
 				left: left + "px",
 			});
+		console.log(get_slot_by_td(td_div))
 		$("#clear_td").attr("slot_id", get_slot_by_td(td_div).id);
 		$("#clear_td").attr("batch_id", batch_id ? batch_id : false);
 		// $(this).addClass("right_click_selected"); //
@@ -844,19 +851,18 @@ function change_to_lect_td(td, subject_batch) {
 		string += `<div class="row my-auto text-center" >`;
 		for (let i in subject_batch) {
 			string +=
-				`<div class="event_divs col-` +
-				colspan +
-				`" batch_for=` +
-				subject_batch[i].pk +
-				` data-toggle="tooltip" data-placement="bottom" title="" >
-				<button class="btn event_name lect_mycol mt-2 lect_batches" style="width:20px;height:55px;color:white"></button>
+			 `<div class="event_divs mt-2 col-`+colspan+`" batch_for=`+subject_batch[i].pk+` >
+				<button class="btn event_name lect_mycol mt-2 lect_batches" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+				 style="width:20px;height:55px;color:white"></button>
 			</div>`;
 		}
 		string += `</div></div>`;
-	} else {
-		string += `<div class='event_divs' batch_for = "class" row p-2'>
+	}else{
+		string +=
+		`<div class='event_divs mt-2' batch_for = "class" row p-2'>
 			<div class='col-12'>
-				<button class='event_name btn mt-1 mb-1' style = 'color:white;'></button>
+				<button class='event_name btn mt-1 mb-1' data-bs-toggle="tooltip" data-bs-placement="bottom" 
+				 style = 'color:white;'></button>
 			</div>
 			<div class='col-6 text-left faculty_name'></div>
 			<div class='col-6 text-right resource_name'></div>
@@ -866,18 +872,21 @@ function change_to_lect_td(td, subject_batch) {
 	td.addClass("filled");
 }
 
-function put_lect(td, subject_event_id, resource_id, batch = null) {
+function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 	// change lecture ondrop
 	let subject_event = get_subject_event(subject_event_id);
 	let resource_name = get_resource_name_by_id(resource_id);
+	let subject = get_subject_by_subject_event(subject_event)
+	let title_resource = resource_name?resource_name:"---"
 	if (Boolean(batch)) {
 		batch_element = td.find("[batch_for=" + batch + "]");
 		button = batch_element.find(".event_name");
 		// console.log(button);
 		// faculty_div = batch_element.find(".faculty_name");
 		// resource_div = batch_element.find(".resource_name");
-
+		let title_resource = resource_name?resource_name:"---"
 		button.html(subject_event.subject_name);
+		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		// faculty_div.html(subject_event.faculty_name);
@@ -889,6 +898,7 @@ function put_lect(td, subject_event_id, resource_id, batch = null) {
 		resource_div = td.find(".resource_name");
 
 		button.html(subject_event.subject_name);
+		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		faculty_div.html(subject_event.faculty_name);
@@ -912,33 +922,30 @@ function change_to_prac_td(td, subject_batch) {
 		string += `<div class="row text-center">`;
 		for (i in subject_batch) {
 			string +=
-				`
-			<div class="event_divs col-` +
-				colspan +
-				`"batch_for=` +
-				subject_batch[i].pk +
-				`>
-				<!--<div class="row" >
-				</div>-->
-				<div class="row">
-                	<div class="col mt-1">
-                        <div class="col p-0 pt-1 prac_texts batch_name pl-` +
-				colspan +
-				`">` +
-				batches[i].fields.name +
-				`</div>
-						<button class="btn-sm prac_mycol event_name border-0" style="color:white;background-color:transparent"></button>
-                        <div class="row ml-0 text-center prac_below_texts">
-							<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
-							<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
-                    	</div>
+			`
+				<div class="event_divs col-` +
+					colspan +
+					`"batch_for=` +
+					subject_batch[i].pk +
+					`>
+					<!--<div class="row" >
+					</div>-->
+					<div class="row">
+						<div class="col mt-1">
+							<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
+							<button class="btn-sm prac_mycol event_name border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+							style="color:white;background-color:transparent"></button>
+							<div class="row ml-0 text-center prac_below_texts">
+								<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+								<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+							</div>
+						</div>
 					</div>
+					<!--<div class="row ml-0 text-center prac_below_texts">
+						<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
+						<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
+					</div>-->
 				</div>
-				<!--<div class="row ml-0 text-center prac_below_texts">
-					<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
-					<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
-				</div>-->
-			</div>
 			`;
 		}
 	} else {
@@ -953,7 +960,8 @@ function change_to_prac_td(td, subject_batch) {
 				<div class="row" style="width:100%;padding-right:0px !important;">
 					<div class="col mt-2" style="width: 100%;">
 						<div class="col p-0 pt-1 prac_texts batch_name"> &nbsp;</div>
-						<button class="btn-sm prac_mycol event_name border-0" style="width:auto;padding:10px !important;color:white;background-color:transparent"></button>
+						<button class="btn-sm prac_mycol event_name border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+						style="width:auto;padding:10px !important;color:white;background-color:transparent"></button>
 						<div class="ml-0 text-center prac_below_texts">
 							<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
 							<div class="col-12 p-0 pl-1 prac_texts resource_name"></div>
@@ -978,26 +986,33 @@ function change_to_prac_td(td, subject_batch) {
 	pair[1].addClass("filled");
 }
 
-function put_prac(td, subject_event_id, batch, resource_id) {
+function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 	let subject_event = get_subject_event(subject_event_id);
 	let resource_name = get_resource_name_by_id(resource_id);
-	// console.log(resource_name);
+	let subject = get_subject_by_subject_event(subject_event)
 	pair = get_prac_pair(td);
 	batch = batch ? batch : "class";
 
 	div_above = pair[0].find("[batch_for=" + batch + "]");
 	div_below = pair[1].find("[batch_for=" + batch + "]");
 
-	button = div_above.find(".event_name");
 	faculty_div = div_above.find(".faculty_name");
 	resource_div = div_above.find(".resource_name");
 
-	asd = subject_event.subject_name.split("").join("<br>");
-	button.html(asd);
-	button.css("background-color", subject_event.color);
-
 	faculty_div.html(subject_event.faculty_name);
 	resource_div.html(resource_name);
+
+	button = div_above.find(".event_name");
+
+	title_resource = resource_name?resource_name:"---"
+
+	asd = subject_event.subject_name.split("").join("<br>");
+	button.html(asd);
+	
+	button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+	button.css("background-color", subject_event.color);
+	button.css("white-space", "pre-line");
+
 }
 //#endregion
 
@@ -1087,7 +1102,8 @@ $(document).ready(function () {
 		// console.log("here");
 		const slot_id = $("#clear_td").attr("slot_id");
 		let batch_id = $("#clear_td").attr("batch_id");
-		if (batch_id === "false") {
+		console.log(batch_id,slot_id)
+		if (batch_id === "false" || batch_id === "class") {
 			batch_id = null;
 		}
 		const this_event = events.filter((e) => e.Slot_id == slot_id && e.Batch_id == batch_id);
@@ -1106,9 +1122,15 @@ $(document).ready(function () {
 
 			let Resource_id = this_event[0].Resource_id ? String(this_event[0].Resource_id) : "-1";
 			$("#resources").val(Resource_id).trigger("change");
-			// $("#resources option[value=-1]").prop('disabled', 'disabled');
-			let link = this_event[0].link ? this_event[0].link : "-1";
-			$("#links").val(link).trigger("change");
+			let link = this_event[0].link || "-1";
+			if ($(`#links option[value='${link}']`).length > 0){
+				// if the link already exists
+				$("#links").val(link).trigger("change");
+			}else{
+				let newOption = new Option(link, link, true, true);
+				// Append it to the select
+				$('#links').append(newOption).trigger('change');
+			}
 			global_var = [link, Resource_id];
 			let rect = get_cell(slot_id)[0].getBoundingClientRect();
 			var left,
@@ -1134,13 +1156,15 @@ $(document).ready(function () {
 				});
 			$("#edit_submit").parent().show();
 			$("#aform").parent().hide();
-		} else console.log("No event found 😢");
+		} else {
+			console.log("No event found 😢");
+		}
 	});
 
 	$("#edit_submit").click(function () {
 		const slot_id = $("#clear_td").attr("slot_id");
 		let batch_id = $("#clear_td").attr("batch_id");
-		if (batch_id === "false") {
+		if (batch_id === "false" || batch_id === "class") {
 			batch_id = null;
 		}
 		const this_event = events.filter((e) => e.Slot_id == slot_id && e.Batch_id == batch_id);
@@ -1316,6 +1340,7 @@ $(document).ready(function () {
 
 				// console.log(td[0].getBoundingClientRect());
 				// Show contextmenu
+				$("#edit_submit").parent().hide();
 				$("#event_form")
 					.toggle(100)
 					.css({
@@ -1359,7 +1384,7 @@ $(document).ready(function () {
 							if (!td.html()) {
 								change_to_prac_td(td, type_batch);
 							}
-							put_prac(td, subject_event_id, batch, resource_id);
+							put_prac(td, subject_event_id, batch, resource_id, link);
 						}
 						temp_event = new event_class();
 					}
@@ -1376,7 +1401,7 @@ $(document).ready(function () {
 						if (!td.html()) {
 							change_to_prac_td(td, []);
 						}
-						put_prac(td, subject_event_id, null, resource_id);
+						put_prac(td, subject_event_id, null, resource_id,link);
 					}
 				}
 			} else if (!is_prac) {
@@ -1393,7 +1418,7 @@ $(document).ready(function () {
 							if (!td.html()) {
 								change_to_lect_td(td, type_batch);
 							}
-							put_lect(td, subject_event_id, resource_id, batch);
+							put_lect(td, subject_event_id, resource_id, batch, link);
 						}
 						temp_event = new event_class();
 					}
@@ -1411,7 +1436,7 @@ $(document).ready(function () {
 						if (!td.html()) {
 							change_to_lect_td(td, null);
 						}
-						put_lect(td, subject_event_id, resource_id, null);
+						put_lect(td, subject_event_id, resource_id, null, link);
 					}
 				}
 			} else return;

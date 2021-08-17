@@ -6,18 +6,10 @@
 <link rel="stylesheet" type="text/css" href="{{static ('admin/navtree.css')}}">
 <link type="text/css" type="text/css" href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
 <style> 
-  a {
-    outline: none;
-    border: none;
-    text-decoration: none;
-    color: white;
-  }
-  a:hover {
-    color : white; 
-  }
+
 </style>
 <div class="nav_container">
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark" style="background-color:#101820FF">
+<nav class="navbar admin_nav navbar-expand-lg fixed-top navbar-dark" style="background-color:#101820FF">
     <div class="container-fluid">
       <a href="{{url ('admin_home')}}" class="navbar-brand" style="font-family:'Poppins',sans-serif">
         Horarium
@@ -26,7 +18,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto mb-2 mb-lg-0 me-2">
+        <ul class="navbar-nav ml-auto mb-2 mb-lg-0 me-4">
             <li class="nav-item me">
                 <a class="active nav-link s">Nav Tree</a>
             </li>

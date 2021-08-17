@@ -323,6 +323,9 @@ $(document).ready(function () {
 				responsive: true,
 				maintainAspectRatio: false,
 				responsiveAnimationDuration: 0,
+                animation : {
+                    easing: "easeInOutBack"
+                },
 				onClick: function (evt, i) {
 					e = i[0];
 					if (ids && e) {

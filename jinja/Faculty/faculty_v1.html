@@ -19,8 +19,8 @@
 		<div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000"></div>
 	</div>
   <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 pt-3 mx-auto" data-aos="fade-down" data-aos-duration="2500">
-      <table id="t1" class="mx-auto mb-3" style="width: 90%;color:white">
+    <div class="col-lg-12 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
+      <table id="t1" class="table">
         <thead>
           <tr>
             <th>Time</th>
@@ -37,7 +37,7 @@
           <!--for all time periods in database-->
           <tr>
             {% if timing.is_break %}
-            <th>
+            <th class="align-middle">
               {{timing.name}}<br>
               [{{timing.return_time()}}]
             </th>
@@ -46,7 +46,7 @@
               <span class="h4">{{timing.name}}</span>
             </th>
             {% else %}
-            <th>
+            <th class="align-middle">
               {{timing.name}}<br>
               [{{timing.return_time()}}]
             </th>
@@ -65,9 +65,9 @@
                 {% set _ = before.append(day) %}
                 <td class= "td_gone align-middle" rowspan="2" event_id = "{{temp_event.a.id}}">
                   <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
-                    <div class="col-12 text-left">
-                      <span>{{temp_event.a.Batch_id}}</span>
-                    </div>
+						<div class="col-12" style="text-align:left">
+							<span>{{temp_event.a.Batch_id}}</span>
+						</div>
                     <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
                       onclick = "window.open('{{temp_event.a.link}}', '_blank')"
@@ -75,6 +75,9 @@
                       {{temp_event.a.Subject_event_id.Subject_id}}
                     </button>
                     <div class="row">
+                      <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12"style="text-align:left">
+                        <span>{{temp_event.a.Division_id}}</span>
+                      </div>
                       {%if temp_event.a.Resource_id %}
                         <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
                           <span>{{temp_event.a.Resource_id}}</span>
@@ -90,6 +93,9 @@
                 <!-- if there is lecture event-->
                 <td class = "td_gone align-middle" event_id = "{{temp_event.a.id}}">
                   <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
+					<div class="col-12" style="text-align:left">
+						<span>Batch</span>
+					</div>
                     <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
                       style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}"
                       onclick = "window.open('{{temp_event.a.link}}', '_blank')">
@@ -121,200 +127,6 @@
 
 
           {% endfor %}
-          <!-- <tr>
-            <td>9:00-10:00</td>
-            <td class="td_active">
-              <div class="card p-1">
-                <span class="text-left">Batch-31</span>
-                <button class="btn m-2" style="background-color: #7377a5">
-                  AEM
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>DRD</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #fdcb33">
-                  DBMS
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #00b3b3">
-                  AC-2
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="td_active">
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #ff8080">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #ff81a0">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span class="h6">301</span>
-                  </div>
-                  <div class="col-6">
-                    <span class="h6">URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #66cc66">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr> -->
-          <!--<tr>
-            <td>9:00-10:00</td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #33cccc">
-                  AEM
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #5252fc">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #ff4141">
-                  gg
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #7377a5">
-                  DS
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-
-                <button class="btn m-2" style="background-color: #fdcb33">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td>
-              <div class="card p-1">
-                <button class="btn m-2" style="background-color: #00b3b3">
-                  AC-3
-                </button>
-                <div class="row">
-                  <div class="col-6">
-                    <span>301</span>
-                  </div>
-                  <div class="col-6">
-                    <span>URT</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr> -->
         </tbody>
       </table>
     </div>
@@ -342,5 +154,50 @@
     </div> -->
   </div>
 
+  <div class="offcanvas feedback_panel offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
+    <div class="offcanvas-header">
+      <h5 id="offcanvasRightLabel">
+        <nav class="for-feedback-and-sticky">
+          <div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<span class="span nav-link active mr-1" id="sticky_notes-tab" data-bs-toggle="tab" data-bs-target="#sticky_note" type="button" role="tab" aria-controls="nav-home" >Notes <span class="badge bg-primary new">New</span></span>
+          </div>
+        </nav>
+      </h5>
+      <button type="button" id="closer" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="tab-content" id="nav-tabContent"  style="overflow-y: auto;">
+		<div class="tab-pane fade show active" id="sticky_note" role="tabpanel" aria-labelledby="sticky_notes-tab">
+			<div class="offcanvas-body" >
+				<!-- cards go here -->
+				<form id="sticky_note_form" method = "get" >
+					<div class="row">
+						<div class="col-lg-12 col-md-12 col-sm-12 mt-2">
+							<div class="form-floating mb-3">
+								<input type="text" class="form-control myinputs" id="title_input" placeholder="-" name="title_input">
+								<label for="title_input" >Title</label>
+							</div>
+						</div>
+						<div class="col-lg-12 col-md-12 col-sm-12">
+							<!-- <div class="form-floating mb-3">
+								<input type="text" class="form-control myinputs" id="body_input" placeholder="-" name="body_input">
+								<label for="body_input" >Body</label>
+							</div> -->
+							<div class="form-floating mb-3">
+								<textarea class="form-control textarea" style="height: 80%" placeholder="Leave your note here" id="body_input" name="body_input"></textarea>
+								<label for="body_input">Leave your note here</label>
+							  </div>
+						</div>
+						<div class="container text-center">
+							<button type="submit" class="btn btn-success w-75">Save Note</button>
+						</div>
+					</div>
+				</form>
+				<div id="sticky_notes_body" class="sticky_notes_body">
+
+				</div>
+			</div>
+		</div>
+    </div>
+  </div>
   
 {% endblock %}

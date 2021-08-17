@@ -117,6 +117,9 @@
 	/*.prac_td .col-4:not(:last-of-type){
 		border-right: 1px solid black;
 	}*/
+	.container__wrapper {
+			display: none;
+		}
 
 	@page {
 		size: a4 landscape;
@@ -129,6 +132,38 @@
 		nav.breadcrumb_nav {
 			display: none;
 		}
+		.container__wrapper {
+		/* Center the content */
+		align-items: center;
+		display: flex;
+		justify-content: center;
+
+		/* Absolute position */
+		left: 0px;
+		position: absolute;
+		top: 0px;
+
+		/* Take full size */
+		height: 100%;
+		width: 100%;
+}
+
+.container__watermark {
+    /* Text color */
+    color: rgba(0, 0, 0, 0.2);
+
+    /* Text styles */
+    font-size: 3rem;
+    font-weight: bold;
+	letter-spacing: .5rem;
+    text-transform: uppercase;
+
+    /* Rotate the text */
+    transform: rotate(-45deg);
+
+    /* Disable the selection */
+    user-select: none;
+}
 	}
 	@media screen, print{
 		/*html, body {
@@ -202,6 +237,13 @@
 	</style>
 </head>
 <body class="container-fluid" style="position:relative">
+	<!-- Watermark container -->
+    <div class="container__wrapper">
+        <!-- The watermark -->
+        <div class="container__watermark">
+            Horarium
+        </div>
+    </div>
 	<div id = "page_activator" activate-page="{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.b"></div>
 	<nav aria-label="breadcrumb" class="breadcrumb_nav mt-3">
 		<ol class="breadcrumb">

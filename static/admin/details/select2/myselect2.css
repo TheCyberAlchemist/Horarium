@@ -112,34 +112,8 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations,
-#day1,
-#day2,
-#batches,
-#slot_naming,
-#semesters,
-#resources,
-#batch_for_lect,
-#batch_for_prac,
-#links,
-#division,
-#department,
-#wef_select {
-  width: 300px;
-}
-
-#shifts {
-  width: 300px;
-}
-
-#select_fac,
-#csv_select,
-#csv_select_update,
-#csv_add_update,
-#select_co_fac,
-#prac_batches,
-#lect_batches {
-  width: 500px;
+#links option {
+  font-size: x-small !important;
 }
 
 /* #endregion */
@@ -182,6 +156,7 @@
 }
 
 /* #endregion */
+/* #region Mobile Devices */
 @media screen and (max-width: 600px) {
   #designations,
 #day1,
@@ -196,16 +171,90 @@
 #csv_select,
 #csv_add_update,
 #prac_batches,
-#lect_batches {
+#lect_batches,
+#select_fac,
+#select_co_fac {
     width: 100% !important;
     font-size: x-small;
+  }
+
+  .select2.select2-container.select2-container--default {
+    width: 100% !important;
   }
 
   .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
     width: 100% !important;
   }
 
-  .select2.select2-container.select2-container--default.select2-container--focus {
+  .select2.select2-container.select2-container--default.select2-container--focus,
+.select2.select2-container.select2-container--default.select2-container--below {
     width: 100% !important;
   }
-}/*# sourceMappingURL=myselect2.css.map */
+}
+/* #endregion */
+/* #region  Medium devices */
+@media screen and (max-width: 1366px) and (min-width: 601px) {
+  #designations,
+#day1,
+#day2,
+#batches,
+#slot_naming,
+#semesters,
+#resources,
+#batch_for_lect,
+#batch_for_prac,
+#links,
+#division,
+#department,
+#wef_select {
+    width: 300px !important;
+  }
+
+  #shifts {
+    width: 300px !important;
+  }
+
+  #select_fac,
+#csv_select,
+#csv_select_update,
+#csv_add_update,
+#select_co_fac,
+#prac_batches,
+#lect_batches {
+    width: 300px !important;
+  }
+}
+/* #endregion */
+/* #region  Larger devices > 1025px */
+@media screen and (max-width: 1700px) and (min-width: 1367px) {
+  #designations,
+#day1,
+#day2,
+#batches,
+#slot_naming,
+#semesters,
+#resources,
+#batch_for_lect,
+#batch_for_prac,
+#links,
+#division,
+#department,
+#wef_select {
+    width: 500px;
+  }
+
+  #shifts {
+    width: 500px;
+  }
+
+  #select_fac,
+#csv_select,
+#csv_select_update,
+#csv_add_update,
+#select_co_fac,
+#prac_batches,
+#lect_batches {
+    width: 500px;
+  }
+}
+/* #endregion *//*# sourceMappingURL=myselect2.css.map */

@@ -10,7 +10,7 @@ from django.contrib.auth.models import Group
 from login_V2.models import CustomUser
 from institute_V1.models import *
 from django.db.models import Q
-from admin_V1.forms import add_user
+from admin_V1.forms import add_user,update_user_name_email
 from student_V1.forms import add_student_details
 from faculty_V1.forms import faculty_details_csv,faculty_load
 from faculty_V1.models import *
@@ -121,7 +121,7 @@ def validate_and_make_student_details(df,my_institute):
 				elif not my_semester:
 					error_json["error_body"].append("No Semester named %s in %s" % (row['Semester'],row["Branch"]))
 				elif not my_division:
-					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))				
+					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))
 				error_df = error_df.append(row)
 		else:
 			user = None
@@ -165,6 +165,237 @@ def validate_and_make_student_details(df,my_institute):
 	
 	return student_details,False
 
+def contains_headers(df,headers):
+	'gets the arr of headers to be checked and returns True if all are in the df or False'
+	for header in arr:
+		if not header in df:
+			return False
+	return True
+
+def check_chronology(df):
+	'''
+		Checks the chronology of the given dataset \n
+		`Department > Branch > Semester > Division > Practical Batch > Lecture Batch`
+	'''
+	error_json = {}
+	cols = list(df.head(0))
+	contains = lambda a: a in cols
+	contains_all = lambda a: all(i in cols for i in a)
+
+	error_json["error_name"] = "Data Missing !"
+	if contains('Department'):
+		if not contains_all(['Branch','Semester','Division']):
+			error_json["error_body"] = [
+				"To change the Department You need to provide the following too :- ",
+				"Branch > Semester > Division > Practical Batch > Lecture Batch"
+			]
+	elif contains('Branch'):
+		if not contains_all(['Semester','Division']):
+			error_json["error_body"] = [
+				"To change the Branch You need to provide the following too :- ",
+				"Semester > Division > Practical Batch > Lecture Batch"
+			]
+	elif contains('Semester'):
+		if not contains_all(['Division']):
+			error_json["error_body"] = [
+				"To change the Semester You need to provide the following too :- ",
+				"Division > Practical Batch > Lecture Batch"
+			]
+	if error_json.get("error_body"):
+		return error_json 
+	return False
+
+def validate_and_make_student_details_update(df,my_institute):
+	'validate all the data and create a details table'
+	error_json ={}
+	error_json["error_name"] = "Student Detials invalid! "
+	error_json["error_body"] = []
+	row_list = []
+
+	cols = list(df.head(0))
+	contains = lambda a: a in cols
+
+	error_df = pd.DataFrame(data=None, columns=df.columns)
+	has_lect_batch = 'Lecture Batch' in df
+	has_prac_batch = 'Practical Batch' in df
+	if has_prac_batch:
+		prac_is_null = pd.isna(df['Practical Batch'])
+	if has_lect_batch:
+		lect_is_null = pd.isna(df['Lecture Batch'])
+
+	for i,row in df.iterrows():
+		user_obj = CustomUser.objects.get(email=row['E-mail'])
+		student_details_obj = user_obj.student_details
+		old_prac_batch = student_details_obj.prac_batch
+		old_lect_batch = student_details_obj.lect_batch
+		old_division = student_details_obj.Division_id
+		old_semester = old_division.Semester_id
+		old_branch = old_semester.Branch_id
+		old_department = old_branch.Department_id
+		my_prac_batch = None 
+		my_lect_batch = None
+		if contains('Department'):
+			# if department level changes
+			my_department = Department.objects.all().filter(Q(short = row['Department']) |Q(name = row['Department']),Institute_id=my_institute).first()
+			my_branch = my_department.branch_set.filter(Q(short = row['Branch']) | Q(name = row['Branch'])).first() if my_department else None
+			my_semester = my_branch.semester_set.filter(short = row['Semester']).first() if my_branch else None
+			my_division = my_semester.division_set.filter(name= row['Division']).first() if my_semester else None
+			if not my_division:
+				# if something along the isway is not found
+				if not my_department:
+					# department is None
+					error_json["error_body"].append("No Department named %s" % (row["Department"]))
+				if not my_branch:
+					# if branch is not found
+					error_json["error_body"].append("No Branch named %s in %s" % (row["Branch"],row["Department"]))
+				elif not my_semester:
+					error_json["error_body"].append("No Semester named %s in %s" % (row['Semester'],row["Branch"]))
+				elif not my_division:
+					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))
+				error_df = error_df.append(row)
+			else :
+				if has_prac_batch:
+					my_prac_batch = my_division.batch_set.filter(name = row['Practical Batch'],batch_for="prac").first() if my_division else None
+					if not prac_is_null[i] and not my_prac_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Practical Batch named %s in %s" % (row["Practical Batch"],row['Division']))
+						error_df = error_df.append(row)
+				if has_lect_batch:
+					my_lect_batch = my_division.batch_set.filter(name = row['Lecture Batch'],batch_for="lect").first() if my_division else None
+					if not lect_is_null[i] and not my_lect_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Lecture Batch named %s in %s" % (row["Lecture Batch"],row['Division']))
+						error_df = error_df.append(row)
+		elif contains('Branch'):
+			# if branch level changes
+			my_department = old_department
+			my_branch = my_department.branch_set.filter(Q(short = row['Branch']) | Q(name = row['Branch'])).first() if my_department else None
+			my_semester = my_branch.semester_set.filter(short = row['Semester']).first() if my_branch else None
+			my_division = my_semester.division_set.filter(name= row['Division']).first() if my_semester else None			
+			if not my_division:
+				# if something along the isway is not found
+				if not my_branch:
+					# if branch is not found
+					error_json["error_body"].append("No Branch named %s in %s" % (row["Branch"],my_department))
+				elif not my_semester:
+					error_json["error_body"].append("No Semester named %s in %s" % (row['Semester'],row["Branch"]))
+				elif not my_division:
+					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))
+				error_df = error_df.append(row)
+			else :
+				if has_prac_batch:
+					my_prac_batch = my_division.batch_set.filter(name = row['Practical Batch'],batch_for="prac").first() if my_division else None
+					if not prac_is_null[i] and not my_prac_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Practical Batch named %s in %s" % (row["Practical Batch"],row['Division']))
+						error_df = error_df.append(row)
+				if has_lect_batch:
+					my_lect_batch = my_division.batch_set.filter(name = row['Lecture Batch'],batch_for="lect").first() if my_division else None
+					if not lect_is_null[i] and not my_lect_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Lecture Batch named %s in %s" % (row["Lecture Batch"],row['Division']))
+						error_df = error_df.append(row)
+		elif contains('Semester'):
+			# if Semester level changes
+			my_branch = old_branch
+			my_semester = my_branch.semester_set.filter(short = row['Semester']).first() if my_branch else None
+			my_division = my_semester.division_set.filter(name= row['Division']).first() if my_semester else None
+			if not my_division:
+				# if something along the isway is not found
+				if not my_semester:
+					error_json["error_body"].append("No Semester named %s in %s" % (row['Semester'],my_branch))
+				elif not my_division:
+					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],row['Semester']))
+				error_df = error_df.append(row)
+			else:
+				if has_prac_batch:
+					my_prac_batch = my_division.batch_set.filter(name = row['Practical Batch'],batch_for="prac").first() if my_division else None
+					if not prac_is_null[i] and not my_prac_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Practical Batch named %s in %s" % (row["Practical Batch"],row['Division']))
+						error_df = error_df.append(row)
+				if has_lect_batch:
+					my_lect_batch = my_division.batch_set.filter(name = row['Lecture Batch'],batch_for="lect").first() if my_division else None
+					if not lect_is_null[i] and not my_lect_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Lecture Batch named %s in %s" % (row["Lecture Batch"],row['Division']))
+						error_df = error_df.append(row)
+		elif contains('Division'):
+			# if Division level changes
+			my_semester = old_semester
+			my_division = my_semester.division_set.filter(name= row['Division']).first() if my_semester else None
+			if not my_division:
+				# if something along the isway is not found
+				if not my_division:
+					error_json["error_body"].append("No Division named %s in %s" % (row["Division"],my_semester))
+				error_df = error_df.append(row)
+			else :
+				if has_prac_batch:
+					my_prac_batch = my_division.batch_set.filter(name = row['Practical Batch'],batch_for="prac").first() if my_division else None
+					if not prac_is_null[i] and not my_prac_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Practical Batch named %s in %s" % (row["Practical Batch"],row['Division']))
+						error_df = error_df.append(row)
+				if has_lect_batch:
+					my_lect_batch = my_division.batch_set.filter(name = row['Lecture Batch'],batch_for="lect").first() if my_division else None
+					if not lect_is_null[i] and not my_lect_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Lecture Batch named %s in %s" % (row["Lecture Batch"],row['Division']))
+						error_df = error_df.append(row)
+		elif contains('Practical Batch') or contains('Lecture Batch'):
+			# if Batch level changes
+			my_division = old_division
+			if has_prac_batch:
+				my_prac_batch = my_division.batch_set.filter(name = row['Practical Batch'],batch_for="prac").first() if my_division else None
+				if not prac_is_null[i] and not my_prac_batch:
+					# if filled by default and still empty
+					error_json["error_body"].append("No Practical Batch named %s in %s" % (row["Practical Batch"],row['Division']))
+					error_df = error_df.append(row)
+			if has_lect_batch:
+					my_lect_batch = my_division.batch_set.filter(name = row['Lecture Batch'],batch_for="lect").first() if my_division else None
+					if not lect_is_null[i] and not my_lect_batch:
+						# if filled by default and still empty
+						error_json["error_body"].append("No Lecture Batch named %s in %s" % (row["Lecture Batch"],row['Division']))
+						error_df = error_df.append(row)
+		dict1 = {
+			"User_id" : user_obj,
+			'email': user_obj.email,
+			# 'email': "Dev@root.com",
+			"first_name":row['First name'],
+			"last_name":row['Last name'],
+			"roll_no":student_details_obj.roll_no,
+			"Institute_id" : my_institute,
+			"Division_id" : my_division,
+			"prac_batch" : my_prac_batch,
+			"lect_batch": my_lect_batch
+		}
+		row_list.append(dict1)
+
+	student_details = pd.DataFrame(row_list)
+	if not error_df.empty:
+		error_json["error_body"] = list(dict.fromkeys(error_json["error_body"]))
+		error_df = error_df.drop_duplicates()
+		error_json["table"] = error_df.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
+		return student_details,error_json
+	return student_details,False
+
+def check_student_header_for_update(df):
+	'Check if the headers in the file are a subset of all the headers'
+	error_json = {}
+	header_set = {
+		'E-mail',
+		'First name','Last name','Roll_no',
+		'Department','Semester',"Branch",'Division',
+		'Practical Batch','Lecture Batch'
+	}
+	if not set(df.head(0)).issubset(header_set):
+		# if the header is not as needed
+		error_json['error_name'] = "Proper headers not Found!"
+		error_json['error_body'] = ['The header of the file can only have the following headers :',
+									'E-mail','First name','Last name','Roll_no','Department','Semester','Branch','Division','Practical Batch','Lecture Batch']
+		error_json["table"] = "-"
+	return error_json
+	
 #endregion
 
 #region //////////////////// Faculty Check Functions //////////////////
@@ -311,6 +542,47 @@ def validate_and_make_faculty_details(df,my_institute):
 #endregion
 
 #region //////////////////// User and email Check Functions //////////////////
+
+def check_user_details_update(df):
+	'check user details like email first name and last name to see if they are not empty'
+	error_json = {}
+	error_json["error_body"] = []
+	a = pd.DataFrame(data=None, columns=df.columns)
+	if 'E-mail' in df:
+		a = df.loc[pd.isna(df["E-mail"])]
+		if not df.loc[pd.isna(df["E-mail"])].empty:
+			error_json["error_body"].append("E-mail field is required.")
+		# if not a.empty:
+	
+	if 'First name' in df:
+		a = a.append(df.loc[pd.isna(df["First name"])])
+		if not df.loc[pd.isna(df["First name"])].empty:
+			error_json["error_body"].append("First name field is required.")
+	
+	if 'Last name' in df:
+		a = a.append(df.loc[pd.isna(df["Last name"])])
+		if not df.loc[pd.isna(df["Last name"])].empty:
+			error_json["error_body"].append("Last name field is required.")
+	
+	if not a.empty:
+		error_json["error_name"] = "User Details is missing!"
+		error_json["error_body"] = list(dict.fromkeys(error_json["error_body"]))
+		a = a.drop_duplicates()
+		error_json["table"] = a.to_html(classes = table_classes,na_rep=NULL_CELL_STR)
+		return error_json
+
+	return False
+
+def check_email_header(df):
+	'Checks if a file has E-mail header'
+	error_json = {}
+	if not 'E-mail' in df:
+		# if the header is not as needed
+		error_json['error_name'] = "E-mail field should be present in the header!"
+		error_json['error_body'] = ['The E-mail field is missing in the CSV file.']
+		error_json["table"] = "-"
+	return error_json
+
 def check_user_details(df):
 	' check user details such as Password, E-mail, First name, Last name for empty cell '
 	error_json = {}
@@ -354,16 +626,32 @@ def check_email_for_duplication_internal(df):
 def check_email_for_duplication_external(df):
 	'Checks if there is same email in the file as in the database '
 	error_json = {}
-	same_email_users = CustomUser.objects.all().filter(email__in=df['E-mail'].tolist())	
+	same_email_users = CustomUser.objects.all().filter(email__in=df['E-mail'].tolist())
 	duplicate_list = list(same_email_users.values_list("email",flat=True))
-	error_json["error_name"] = "Email duplication found in the database! "
-	error_json["error_body"] = ''' Emails of the following rows have been found to be same in the database '''
 	arr = df[df['E-mail'].isin(duplicate_list)]
 	# print(df[df['E-mail'].isin(duplicate_list)].to_json(orient="index"))
 	if not arr.empty:
+		error_json["error_name"] = "Email duplication found in the database! "
+		error_json["error_body"] = ''' Emails of the following rows have been found to be same in the database '''
 		error_json["table"] = arr.to_html(classes=table_classes,na_rep=NULL_CELL_STR)
 		return error_json
 	return False
+
+def check_emails_in_database(df):
+	'Checks if all the emails are in the database'
+	temp = []
+	error_json = {}
+	for eml in df['E-mail']:
+		if not CustomUser.objects.filter(email=eml).exists():
+			temp.append(eml)
+	arr = df[df['E-mail'].isin(temp)]
+	if not arr.empty:
+		error_json["error_name"] = "Email not found in the database! "
+		error_json["error_body"] = ''' Emails of the following rows have not been found in the database '''
+		error_json["table"] = arr.to_html(classes=table_classes,na_rep=NULL_CELL_STR)
+		return error_json
+	return False
+	
 
 #endregion
 
@@ -394,7 +682,7 @@ def validate_student_add_csv(df,request):
 	except Exception as e:
 		print("Something went wrong in student details function ")
 		print(e)
-	#region try_catch
+
 	# check if the emails are duplicated in df 
 	try:
 		app(check_email_for_duplication_internal(df))
@@ -418,7 +706,6 @@ def validate_student_add_csv(df,request):
 		print("Something went wrong in student details function ")
 		traceback.print_exc()
 		print(e)
-	#endregion
 	
 	return error_list,details
 
@@ -473,8 +760,54 @@ def validate_faculty_add_csv(df,request):
 	return error_list,details
 
 def validate_student_update_csv(df,request):
+	error_list = []
+	details = None
+	app = lambda new: error_list.append(new) if new else None
+	# check if all header are valid
+	try:
+		app(check_student_header_for_update(df))
+	except Exception as e:
+		print("Something went wrong in all header checking function")
+		print(e)
+
+	# check if there is email header in the file
+	try:
+		app(check_email_header(df))
+	except Exception as e:
+		print("Something went wrong in email checking function")
+		print(e)
 	
-	pass
+	# check if the emails are present in the database
+	try:
+		app(check_emails_in_database(df))
+	except Exception as e:
+		print("Something went wrong in email compairing function")
+		print(e)
+
+	# check if the first name and last name are correct
+	try:
+		app(check_user_details_update(df))
+	except Exception as e:
+		print("Something went wrong in name checking function")
+		print(e)
+
+	# check the chronology of dataset
+	try:
+		app(check_chronology(df))
+	except Exception as e:
+		print("Something went wrong in check chronology function")
+		print(e)
+	# check all the other fields and return details
+	try:
+		details,json = validate_and_make_student_details_update(df,request.user.admin_details.Institute_id)
+		app(json)
+	except Exception as e:
+		print("Something went wrong in student details function ")
+		traceback.print_exc()
+		print(e)
+	
+
+	return error_list,details
 
 def validate_faculty_update_csv(df,request):
 	pass
@@ -551,17 +884,36 @@ def add_user_main(request,df,csv_type):
 
 	return context
 
-def update_user_main(reuqest,df,csv_type):
-	print("here at update")
+def update_user_main(request,df,csv_type):
 	if csv_type == "student":
-		print("Add Student csv found, refining ... ")
+		print("Update Student csv found, refining ... ")
 		error_list,details = validate_student_update_csv(df,request)
 		all_saved_pks = []
+		if not error_list:
+			objects = []
+			for i,row in details.iterrows():
+				print(".",end="")
+				user_form = update_user_name_email(row,instance=row['User_id'])
+				student_form = add_student_details(row,instance=row['User_id'].student_details)
+				if not user_form.is_valid() or not student_form.is_valid():
+					# if any form in not valid 
+					break
+				objects.append({
+					'user_form':user_form,
+					"student_form":student_form
+				})
+				
+			else:
+				# if all good and no errors in any one 
+				for forms in objects:
+					forms['user_form'].save()
+					forms['student_form'].save()
+
 	elif csv_type == "faculty":
 		pass
-	# context = {"error_list": error_list}
+	context = {"error_list": error_list}
 
-	# return context
+	return context
 
 class csv_check_api(APIView):
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
@@ -580,7 +932,8 @@ class csv_check_api(APIView):
 
 		csv_type = "student"
 		add_or_update = "update"
-		df = pd.read_csv("admin_V1\\CSV\\student_details_errors.csv", na_filter= True)
+		df = pd.read_csv("admin_V1\\CSV\\student_update.csv", na_filter= True)
+		# df = pd.read_csv("admin_V1\\CSV\\student_details_errors.csv", na_filter= True)
 		# df = pd.read_csv("admin_V1\\CSV\\student_details.csv", na_filter= True)
 		# df = pd.read_csv("admin_V1\\CSV\\faculty_details.csv", na_filter= True)
 		

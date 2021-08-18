@@ -251,7 +251,7 @@ def delete_sticky_notes(request):
 		if note:
 			note.delete()
 	my_notes = User_notes.objects.all().filter(User_id=request.user)
-	decode = lambda x: cryptocode.decrypt(x,f"{request.user}_{request.user.pk}")
+	decode = lambda x: cryptocode.decrypt(x,f"9ezXqxqL_{request.user.pk}")
 	notes_arr = []
 	for note in my_notes:
 		notes_arr.append({
@@ -275,7 +275,7 @@ def get_put_sticky_notes(request):
 			note.User_id = request.user
 			note.save()
 
-	decode = lambda x: cryptocode.decrypt(x,f"{request.user}_{request.user.pk}")
+	decode = lambda x: cryptocode.decrypt(x,f"9ezXqxqL_{request.user.pk}")
 	my_notes = User_notes.objects.all().filter(User_id=request.user)
 	notes_arr = []
 	for note in my_notes:
@@ -307,7 +307,7 @@ def fill_mandatory_feedback(request):
 			else:
 				print(invalid)
 	return JsonResponse({})
-		
+
 
 # get_all_subjects_of_student()
 

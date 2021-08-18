@@ -20,7 +20,7 @@ class Student_details(models.Model):
 	lect_batch = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True,related_name="lecture_batch+")
 	# objects = WEF()
 	def __str__(self):
-		return self.User_id.first_name
+		return str(self.User_id)
 	class Meta:
 		verbose_name_plural = "Student Details"
 
@@ -40,7 +40,7 @@ class User_notes(models.Model):
 
 	def save(self, *args, **kwargs):
 		import cryptocode
-		key_str = f"{self.User_id}_{self.User_id.pk}"
+		key_str = f"9ezXqxqL_{self.User_id.pk}"
 		encode = lambda x: cryptocode.encrypt(x,key_str)
 		self.title = encode(self.title)
 		self.body = encode(self.body)

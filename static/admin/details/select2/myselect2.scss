@@ -126,8 +126,9 @@ $font_size1: 1em;
   border-color: transparent transparent #888 transparent;
   border-width: 0 8px 9px 8px;
 }
-#links option {  //font-size of links in create table should be smaller
-	font-size: x-small !important;
+#links option {
+  //font-size of links in create table should be smaller
+  font-size: x-small !important;
 }
 /* #endregion */
 
@@ -188,59 +189,26 @@ $font_size1: 1em;
   #lect_batches,
   #select_fac,
   #select_co_fac {
-	width: 100% !important;
-	font-size: x-small;
-	// margin: 0em 0em 0em 10em;
+    width: 100% !important;
+    font-size: x-small;
+    // margin: 0em 0em 0em 10em;
   }
   .select2.select2-container.select2-container--default {
-	width: 100% !important;
+    width: 100% !important;
   }
   .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
-	//The first span tag in select tag
-	width: 100% !important;
+    //The first span tag in select tag
+    width: 100% !important;
   }
   .select2.select2-container.select2-container--default.select2-container--focus,
   .select2.select2-container.select2-container--default.select2-container--below {
-	width: 100% !important;
+    width: 100% !important;
   }
 }
 /* #endregion */
 
 /* #region  Medium devices */
-@media screen and (max-width: 1366px) and (min-width: 601px){
-#designations,
-#day1,
-#day2,
-#batches,
-#slot_naming,
-#semesters,
-#resources,
-#batch_for_lect,
-#batch_for_prac,
-#links,
-#division,
-#department,
-#wef_select {
-  width: 300px !important;
-  // margin: 0em 0em 0em 10em;
-}
-#shifts {
-  width: 300px !important;
-}
-#select_fac,
-#csv_select,
-#csv_select_update,
-#csv_add_update,
-#select_co_fac,
-#prac_batches,
-#lect_batches {
-  width: 300px !important;
-}
-}
-/* #endregion */
-
-/* #region  Larger devices > 1025px */
-@media screen and (max-width: 1700px) and (min-width: 1367px) {
+@media screen and (max-width: 1366px) and (min-width: 601px) {
   #designations,
   #day1,
   #day2,
@@ -254,11 +222,11 @@ $font_size1: 1em;
   #division,
   #department,
   #wef_select {
-	width: 500px;
-	// margin: 0em 0em 0em 10em;
+    width: 300px !important;
+    // margin: 0em 0em 0em 10em;
   }
   #shifts {
-	width: 500px;
+    width: 300px !important;
   }
   #select_fac,
   #csv_select,
@@ -267,7 +235,37 @@ $font_size1: 1em;
   #select_co_fac,
   #prac_batches,
   #lect_batches {
-	width: 500px;
+    width: 300px !important;
+  }
+}
+/* #endregion */
+
+/* #region  Larger devices > 1025px */
+@media screen and (max-width: 1700px) and (min-width: 1367px) {
+  #designations,
+  #batches,
+  #slot_naming,
+  #semesters,
+  #resources,
+  #batch_for_lect,
+  #batch_for_prac,
+  #links,
+  #division,
+  #department,
+  #wef_select,
+  #shifts,
+  #select_fac,
+  #csv_select,
+  #csv_select_update,
+  #csv_add_update,
+  #select_co_fac,
+  #prac_batches,
+  #lect_batches {
+    width: 500px !important;
+    // margin: 0em 0em 0em 10em;
+  }
+  #day1,#day2{
+	  width: 300px !important;
   }
 }
 /* #endregion */

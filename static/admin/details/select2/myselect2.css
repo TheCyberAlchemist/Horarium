@@ -228,8 +228,6 @@
 /* #region  Larger devices > 1025px */
 @media screen and (max-width: 1700px) and (min-width: 1367px) {
   #designations,
-#day1,
-#day2,
 #batches,
 #slot_naming,
 #semesters,
@@ -239,22 +237,20 @@
 #links,
 #division,
 #department,
-#wef_select {
-    width: 500px;
-  }
-
-  #shifts {
-    width: 500px;
-  }
-
-  #select_fac,
+#wef_select,
+#shifts,
+#select_fac,
 #csv_select,
 #csv_select_update,
 #csv_add_update,
 #select_co_fac,
 #prac_batches,
 #lect_batches {
-    width: 500px;
+    width: 500px !important;
+  }
+
+  #day1, #day2 {
+    width: 300px !important;
   }
 }
 /* #endregion *//*# sourceMappingURL=myselect2.css.map */

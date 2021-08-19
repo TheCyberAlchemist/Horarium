@@ -24341,7 +24341,7 @@ label {
 }
 
 .breadcrumb-item, .breadcrumb-item a {
-    color: #4B5563;
+    /* color: #4B5563; */
     font-weight: 400;
     font-size: 0.75rem;
 }

@@ -16,18 +16,17 @@ function get_sticky_note(pk,title,body){
 	txt3.classList.add(`note_id_${pk}`);
 	txt3.classList.add(`sticky_note`);
   	txt3.innerHTML = `	
-    <div class="card mb-3 feedback_form_card">
+    <div class="card mb-3 sticky_card">
+		<h5 class="card-title text-center mt-1" style="font-weight: bold">${title}</h5>
         <div class="card-body">
-        <h5 class="card-title text-center">
-		<button class="delete_note"  pk = "${pk}" style="background-color:red">
-			delete
-		</button></h5>
-		<button class="btn" style="background-color:#066">
-			${title}
-		</button></h5>
-        <p class="card-text">${replaceURLs(body)}</p>
-        <!--<p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>-->
-        </div>
+			<div class="container-fluid text-center mb-3">
+				<p class="card-text">${replaceURLs(body)}</p>
+			</div>
+		<div class="row no-gutters text-center">
+			<div class="col-6 text-muted my-auto"style="text-align: left"><!-- Added at --></div>
+			<div class="col-6"><button class="delete_note btn btn-danger w-100" pk = "${pk}">Move to trash</button></div>
+			
+		</div>
     </div>`
 	return txt3;
 }
@@ -52,35 +51,67 @@ function append_sticky_note(note_obj){
 	});
 	
 }
+
+function populate_notes_body(all_notes){
+	console.log(all_notes);
+	$("#sticky_note_form").trigger('reset');
+	clear_all_notes()
+	for (d of all_notes){
+		append_sticky_note(d)
+	}
+	if (!all_notes.length){
+		append_sticky_note({'title':'Your Note','body':'You can write your text in here. Also append any links like www.google.com','pk':-1})
+	}
+}
+
 function delete_note(asd){
 	var delete_button = jQuery(asd);
 	// console.log()
 	let pk = delete_button.attr('pk')
-	$.ajax({
-		method: "POST",
-		url: "./delete_sticky_notes/",
-		data : {
-			'pk':pk
-		},
-		success: function (all_notes) {
-			console.log(all_notes);
-			clear_all_notes()
-			for (note of all_notes){
-				append_sticky_note(note)
-			}
-		},
-		error: function (error_data) {
-			console.log(error_data);
-		},
-	});
+	Swal.fire({
+			title: 'Are you sure?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#2e851d',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, delete it!'
+		}).then((result) => {
+		if (result.isConfirmed) {
+			$.ajax({
+				method: "POST",
+				url: "./delete_sticky_notes/",
+				data : {
+					'pk':pk
+				},
+				success: function (all_notes) {
+					populate_notes_body(all_notes);
+				},
+				error: function (error_data) {
+					console.log(error_data);
+				},
+			});
+			Swal.fire({
+				title:'Deleted!',
+				html: 'Your note has been deleted.',
+				icon: 'success',
+				showConfirmButton: false,
+				timer: 1000
+			})
+		}
+	})
+	
+		
 	// let card = delete_button.parents('.sticky_note');
 	// console.log(card)
 	
 	
 }
+
 function clear_all_notes(){
 	$("#sticky_notes_body").html("");
 }
+
 jQuery(function () {
 	var csrftoken = Cookies.get('csrftoken');
 	function csrfSafeMethod(method) {
@@ -107,12 +138,7 @@ jQuery(function () {
 				'body':body
 			},
 			success: function (all_notes) {
-				console.log(all_notes);
-				$("#sticky_note_form").trigger('reset');
-				clear_all_notes()
-				for (note of all_notes){
-					append_sticky_note(note)
-				}
+				populate_notes_body(all_notes);
 			},
 			error: function (error_data) {
 				console.log(error_data);
@@ -125,11 +151,8 @@ jQuery(function () {
 		// data : {
 		// 	'id' :type['id'],
 		// },
-		success: function (data) {
-			console.log(data)
-			for (d of data){
-				append_sticky_note(d)
-			}
+		success: function (all_notes) {
+			populate_notes_body(all_notes);
 		},
 		error: function (error_data) {
 			console.log(error_data);

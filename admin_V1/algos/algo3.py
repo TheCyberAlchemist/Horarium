@@ -597,9 +597,9 @@ def get_point_for_lect_batch(subject_event,all_events,batch_list):
 				points += temp_points
 			else:		# if something is wrong in the above loop
 				raise Exception("There is an exception here in lecture batch")
-			if subject_event.Subject_id.short == "BDA" and slot.day.Days_id.name == "Thursday":
-				print("here at lect_batc")
-				print(lect_event_on_slot,batch_list)
+			# if subject_event.Subject_id.short == "BDA" and slot.day.Days_id.name == "Thursday":
+			# 	print("here at lect_batc")
+			# 	print(lect_event_on_slot,batch_list)
 			points += check_prac_on_prac(lect_event_on_slot,batch_list)
 		if is_better_slot(points,best_pair,slot):	# if it is better slot
 			best_pair[0] = points

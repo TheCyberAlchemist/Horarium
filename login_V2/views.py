@@ -50,7 +50,7 @@ def login_page(request):
 		user = authenticate(request, email=email, password=password)
 		if user is not None:
 			page = get_home_page(user)
-			print(page)
+			print("Page to redirect :: ",page)
 			if page:
 				print("---------------------------------------")
 				print(user, " -- Logged in")

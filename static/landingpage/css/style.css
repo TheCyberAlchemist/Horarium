@@ -549,7 +549,8 @@ body {
   .features .icon-box i {
 	font-size: 48px;
 	float: left;
-	color: #5846f9;
+	/* color: #5846f9; */
+	color :#2A9D8F;
   }
   
   .features .icon-box p {

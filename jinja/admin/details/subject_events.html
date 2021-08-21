@@ -121,13 +121,11 @@
 												<div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
                                                         <input type="text" class="form-control myinputs" id="co_faculty_name"
-                                                            placeholder="-" name="co_faculty_name" required autocomplete="off" disabled value = "">
+                                                            placeholder="-" name="co_faculty_name" required autocomplete="off" disabled value = "{{update.Co_faculty_id.User_id}}">
                                                         <label for="co_faculty_name">Co-Faculty Name</label>
                                                     </div>
                                                 </div>                                            
                                             {% endif %}
-											
-
                                             {%if not update%}
                                                 <div class="col-lg-6 col-md-12 col-sm-12 text-center">
                                                     <select name="Faculty_id" id="select_fac" >
@@ -141,24 +139,6 @@
                                                         {% endif %}
                                                     </select>
                                                 </div>
-												
-                                            {% endif %}         
-
-											{%if update %}
-                                                <div class="col-lg-6 col-md-12 col-sm-12">
-                                                    <div class="form-floating mb-3">
-                                                        <input type="text" class="form-control myinputs" id="name"
-                                                            placeholder="-" name="name" required autocomplete="off" disabled 
-															{% if update.Co_Faculty_id %}
-																value = "{{update.Co_Faculty_id.User_id}}"
-															{%endif%}
-
-															>
-                                                        <label for="name">Co-Faculty Name</label>
-                                                    </div>
-                                                </div>                                            
-                                            {% endif %}
-                                            {%if not update%}
                                                 <div class="col-lg-6 col-md-12 col-sm-12 text-center">
                                                     <select name="Co_faculty_id" id="select_co_fac">
                                                         <option value="a" disabled selected>Select Co-Faculty </option>
@@ -267,7 +247,13 @@
                                 <tr>
                                     <td clas="fw-bold">{{loop.index}}</td>
                                     <td class="fw-bold">{{event.Faculty_id.short}}</td>
-                                    <td class="fw-bold">{{event.Co_faculty_id.short}}</td>
+                                    <td class="fw-bold">
+										{%if event.Co_faculty_id.short %}
+											{{event.Co_faculty_id.short}}
+										{% else %}
+											- 
+										{% endif %}
+									</td>
                                     <td class="fw-bold">{{event.prac_carried}}</td>
                                     <td class="fw-bold">{{event.lect_carried}}</td>
                                     <td class="fw-bold">{{event.total_load_carried()}} Hrs.</td>

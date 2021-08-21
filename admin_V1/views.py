@@ -1237,6 +1237,8 @@ class GeneratePdf(View):
 			#rendering the template
 		return HttpResponse(pdf, content_type='application/pdf')
 
+def text_editor(request) :
+	return render(request,'admin/text_editor/text_editor.html')
 ##################### scripts #####################
 # var = []
 	# import random

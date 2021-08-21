@@ -535,8 +535,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
     margin: 0 0.9em;
     -ms-writing-mode: tb-rl !important;
         writing-mode: vertical-rl !important;
-    -webkit-text-orientation: upright !important;
-            text-orientation: upright !important;
+    text-orientation: upright !important;
   }
 
   #t1 .btn {

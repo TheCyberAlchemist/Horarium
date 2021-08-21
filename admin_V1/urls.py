@@ -3,7 +3,7 @@ from django.urls import path,re_path
 from . import views
 from .PDF import PDF
 from .algos import algo3
-from .CSV import user_csv
+from .CSV import add_user_csv
 from .user_dash import user_dash,add_update_users
 
 import faculty_V1.views as faculty_view
@@ -24,8 +24,8 @@ urlpatterns = [
 	re_path(r'^user_dash/(?P<Department_id>\d+)/get_student_user_ajax/$',user_dash.student_user_table.as_view(),name = 'student_user_display'),
 	re_path(r'^user_dash/(?P<Department_id>\d+)/get_faculty_user_ajax/$',user_dash.faculty_user_table.as_view(),name = 'faculty_user_display'),
 
-	re_path(r'^csv_upload/(?P<Department_id>\d+)/$',user_csv.csv_view_func,name = 'csv_upload'),
-	re_path(r'^csv/$',user_csv.csv_check_api.as_view(),name = 'csv'),
+	re_path(r'^csv_upload/(?P<Department_id>\d+)/$',add_user_csv.csv_view_func,name = 'csv_upload'),
+	re_path(r'^csv/$',add_user_csv.csv_check_api.as_view(),name = 'csv'),
 
 	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
     re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
@@ -56,7 +56,6 @@ urlpatterns = [
 	re_path(r'^batch/(?P<Division_id>\d+)/$',views.show_batch,name = 'show_batch'),
 	re_path(r'^batch/(?P<Division_id>\d+)/(?P<Batch_id>\d+)/$',views.show_batch,name = 'update_batch'),
 	
-	re_path(r'^table/(?P<Division_id>\d+)/$',views.show_table,name = 'show_table'),
 	re_path(r'^not_avail/(?P<Faculty_id>\d+)/$',views.show_not_avail,name = 'show_not_avail'),
 
 	re_path(r'^shift/(?P<Department_id>\d+)/$',views.show_shift,name = 'show_shift'),
@@ -76,6 +75,7 @@ urlpatterns = [
 	re_path(r'^sub_event/(?P<Subject_id>\d+)/$',views.show_sub_event,name = 'show_sub_event'),
 	re_path(r'^sub_event/(?P<Subject_id>\d+)/(?P<Faculty_id>\d+)/$',views.show_sub_event,name = 'update_sub_event'),
 
+	re_path(r'^table/(?P<Division_id>\d+)/$',views.show_table,name = 'show_table'),
 	re_path(r'^table/(?P<Division_id>\d+)/algo/$',views.algo_v1,name = 'algo'),
 	re_path(r'^table/(?P<Division_id>\d+)/algo3/$',algo3.main.as_view(),name = 'algo3'),
 
@@ -88,6 +88,8 @@ urlpatterns = [
 
 	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_pdf,name = 'select_batch'),
 	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table/$',PDF.table_template,name = 'print_table3'),
+
+    re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
 
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('sub/',views.show_sub_det,name = 'show_sub_det'),

@@ -481,3 +481,6 @@ class feedback(APIView):
 		}
 		###################### on click ######################
 		return Response([data,'day_rating__%s'%(request.GET['id'])])
+
+def attendance(request):
+	return render(request,"Faculty/Attendance/attendance.html")

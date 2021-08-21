@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.hashers import make_password
@@ -13,7 +13,6 @@ from .models import AuditEntry,CustomUser
 from django.contrib.auth.views import PasswordContextMixin, PasswordResetForm
 from django.urls import reverse_lazy
 from django.views.generic.edit import FormView
-from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
@@ -51,7 +50,7 @@ def login_page(request):
 		user = authenticate(request, email=email, password=password)
 		if user is not None:
 			page = get_home_page(user)
-			print(page)
+			print("Page to redirect :: ",page)
 			if page:
 				print("---------------------------------------")
 				print(user, " -- Logged in")
@@ -61,23 +60,6 @@ def login_page(request):
 			else:
 				message = "Something is wrong with your account.."
 				context['message'] = message
-		else:
-			message = "Email or Password is Incorrect."
-			context['message'] = message
-			forwarded_ip = request.META.get('HTTP_X_FORWARDED_FOR')
-			ip = request.META.get('REMOTE_ADDR')
-			if CustomUser.objects.filter(email=email).first():
-				fail_str = "Password Wrong!"
-			else:
-				fail_str = "E-mail Wrong!"
-			AuditEntry.objects.create(
-			    action=fail_str,
-			    forwarded_ip=forwarded_ip,
-			    ip=ip,
-			    email_used=email,
-			    user_agent= request.META['HTTP_USER_AGENT'],
-				password_used = make_password(password)
-			)
 	return render(request, 'login_V2/login/login.html', context)
 
 def reset_user_password(request):
@@ -119,8 +101,31 @@ def register_page(request):
 def about(request) :
 	return render(request,'about/about.html')
 
+from django.core.mail import send_mail
 def landing(request) :
+	if request.method == "POST" and request.is_ajax():
+		try:
+			name_of_client = request.POST['name']
+
+			subject = f"Contact from {name_of_client} saying '{request.POST['subject']}' "
+			
+			from_email = request.POST['email']
+			message = f"This email address of the client is :: {from_email} \n '{request.POST['message']}'"
+			# from_email = "yogeshrathod19@gnu.ac.in"
+			# message = request.POST['message']
+
+			send_mail(
+				subject, #subject
+				message, #message
+				from_email, # from email 
+				['horarium@tecrave.in'] # to email
+			)
+			return JsonResponse({"success":"We have heard you. Thank You 😊."})
+		except Exception as e:
+			return JsonResponse({},status=500)
+		
 	return render(request,'landingpage/Techie/index.html')
+
 # for i in Institute.objects.using("horarium").all():
 #     i.save(using="default")
 

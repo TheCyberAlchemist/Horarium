@@ -20,20 +20,32 @@ class Student_details(models.Model):
 	lect_batch = models.ForeignKey(Batch,on_delete=models.CASCADE,null=True,blank=True,related_name="lecture_batch+")
 	# objects = WEF()
 	def __str__(self):
-		return self.User_id.first_name
+		return str(self.User_id)
 	class Meta:
 		verbose_name_plural = "Student Details"
 
-class Sticky_notes(models.Model):
-	Student_id = models.ForeignKey(Student_details,on_delete=models.CASCADE)
+
+class User_notes(models.Model):
+	User_id = models.ForeignKey(get_user_model(),on_delete=models.CASCADE,)
+
 	title = models.TextField()
 	body = models.TextField()
 	timestamp = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 
 	def __str__(self):
-		return f"{str(self.Student_id)} -> {str(self.title)}"
+		return f"{str(self.User_id)} -> {str(self.title)}"
+	
 	class Meta:
-		verbose_name_plural = "Sticky Notes"
+		verbose_name_plural = "User Notes"
+
+	def save(self, *args, **kwargs):
+		import cryptocode
+		key_str = f"9ezXqxqL_{self.User_id.pk}"
+		encode = lambda x: cryptocode.encrypt(x,key_str)
+		self.title = encode(self.title)
+		self.body = encode(self.body)
+		super(User_notes, self).save(*args, **kwargs)
+
 class Student_logs(models.Model):
 	user_id = models.ForeignKey(get_user_model(),default=None,null=True,on_delete = models.SET_NULL)
 	action = models.CharField(max_length=64)

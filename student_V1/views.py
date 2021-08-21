@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from django.http import JsonResponse,Http404
+from django.http import JsonResponse,Http404,HttpResponse
 from django.core import serializers
 import json
 import datetime
 from django.db.models import Q
 from django.core.mail import send_mail
 from django.contrib.auth.hashers import check_password
+import cryptocode
+from django.utils.html import escape
 
 from student_V1.forms import * 
 from student_V1.models import *
@@ -33,7 +35,8 @@ def get_events_json(qs):
 			# d["link"] = this.Division_id.link
 		d["link"] = this.link
 		# print(d["link"])
-		d["faculty_short"] = str(this.Subject_event_id.Faculty_id)
+		
+		d["faculty_short"] = str(this.Subject_event_id.get_faculty_name())
 		d["resource"] = str(this.Resource_id)
 		d['color'] = this.Subject_event_id.Subject_id.color
 		del d['model'],d['fields']
@@ -161,9 +164,9 @@ def student_home(request):
 # @login_required(login_url="login")
 # @allowed_users(allowed_roles=['Student'])
 def student_settings(request) :
-	# user = request.user
-	from login_V2.models import CustomUser
-	user = CustomUser.objects.get(id=15)
+	user = request.user
+	# from login_V2.models import CustomUser
+	# user = CustomUser.objects.get(id=15)
 	student = user.student_details
 	my_division = student.Division_id
 	context = {
@@ -240,49 +243,49 @@ def get_all_subjects_of_feedback_type(request):
 	return JsonResponse(data, safe=False)
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['Student'])
+@allowed_users(allowed_roles=['Student','Faculty'])
 def delete_sticky_notes(request):
-	student = request.user.student_details
+	# student = request.user.student_details
 	if request.method == 'POST':
-		note = Sticky_notes.objects.all().filter(Student_id=student,pk=request.POST.get('pk'))
+		note = User_notes.objects.all().filter(User_id=request.user,pk=request.POST.get('pk'))
 		if note:
 			note.delete()
-	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
+	my_notes = User_notes.objects.all().filter(User_id=request.user)
+	decode = lambda x: cryptocode.decrypt(x,f"9ezXqxqL_{request.user.pk}")
 	notes_arr = []
 	for note in my_notes:
 		notes_arr.append({
 			'pk': note.pk,
-			'title': note.title,
-			'body': note.body,
+			'title': escape(decode(note.title)),
+			'body': escape(decode(note.body)),
 		})
 	print(my_notes)
 	return JsonResponse(notes_arr, safe=False)
 
 @login_required(login_url="login")
-@allowed_users(allowed_roles=['Student'])
+@allowed_users(allowed_roles=['Student','Faculty'])
 def get_put_sticky_notes(request):
-	student = request.user.student_details
+	# student = request.user.student_details
 	if request.method == 'POST':
 		print(request.POST)
 		form = add_sticky_note(request.POST)
 		if form.is_valid():
 			print("Sticky_note form is valid ✅")
 			note = form.save(commit=False)
-			note.Student_id = student
+			note.User_id = request.user
 			note.save()
 
-		# return JsonResponse(notes_arr, safe=False)
-	# if request.method == 'GET':
-	my_notes = Sticky_notes.objects.all().filter(Student_id=student)
+	decode = lambda x: cryptocode.decrypt(x,f"9ezXqxqL_{request.user.pk}")
+	my_notes = User_notes.objects.all().filter(User_id=request.user)
 	notes_arr = []
 	for note in my_notes:
 		notes_arr.append({
 			'pk': note.pk,
-			'title': note.title,
-			'body': note.body,
+			'title': escape(decode(note.title)),
+			'body': escape(decode(note.body)),
 		})
-	print(my_notes)
-	return JsonResponse(notes_arr, safe=False)
+	return HttpResponse(json.dumps(notes_arr),content_type='application/json')
+	# return JsonResponse(notes_arr,safe=False)
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Student'])	
@@ -304,7 +307,7 @@ def fill_mandatory_feedback(request):
 			else:
 				print(invalid)
 	return JsonResponse({})
-		
+
 
 # get_all_subjects_of_student()
 

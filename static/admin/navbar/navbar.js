@@ -10,6 +10,7 @@ $(document).ready(function(){
   $(".me").click(function(){
     // $("#whole_container_id").css({"height":"0%","width":"0%","transition":".3s"});
     $(".main_content").css({"height":"0%","width":"0%","transition":".3s"});
+	$("body").css({"overflow-y":"hidden"})
       // $('.navtree_wrapper').animate({
       //       scrollTop: offset.top,
       //       scrollLeft: offset.left/1.5,

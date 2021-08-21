@@ -47,6 +47,7 @@ from admin_V1.views import return_context
 def select_batch_for_pdf(request,Division_id):
 	context = return_context(request)
 	batch_list = Batch.objects.all().filter(Division_id_id=Division_id)
+	context['my_division'] = Division.objects.get(pk=Division_id)
 	context['my_prac_batches'] = batch_list.filter(batch_for="prac")
 	context['my_lect_batches'] = batch_list.filter(batch_for="lect")
 	post_result = {
@@ -58,22 +59,6 @@ def select_batch_for_pdf(request,Division_id):
 	# 	print(request.POST)
 
 	return render(request,"admin/create_table/select_batch.html",context)
-
-#endregion
-
-#region //////////////////// weasy_print //////////////////
-
-def lcm(x, y):
-	# choose the greater number
-	x = 1 if not x else x
-	y = 1 if not y else y
-	greater = max(x,y)
-	while(True):
-		if greater % x == 0 and greater % y == 0:
-			ans = greater
-			break
-		greater += 1
-	return ans
 
 def table_template(request,Division_id):
 	template = "admin/print_table/table_template.html"
@@ -115,16 +100,33 @@ def table_template(request,Division_id):
 		return export_pdf(template,f"{Division_id.name} ({prac_str}) ({lect_str})",context)
 	return render(request,template,context)
 
-# from django.template.loader import render_to_string
-# # from weasyprint import HTML
-# import pdfkit
-# import tempfile
-# from os import path,remove
-# from django.conf import settings
-# def export_pdf(template_name,file_name,context):
-# 	path_to_admin_pdf = path.join(settings.BASE_DIR,"admin_V1","PDF")
-# 	config = pdfkit.configuration(wkhtmltopdf=path.join(path_to_admin_pdf,"wkhtmltopdf","bin","wkhtmltopdf.exe"))
-# 	html_string = render_to_string(template_name,context)
+
+#endregion
+
+#region //////////////////// weasy_print //////////////////
+from django.template.loader import render_to_string
+# from weasyprint import HTML
+import pdfkit
+import tempfile
+from os import path,remove
+from django.conf import settings
+def lcm(x, y):
+	# choose the greater number
+	x = 1 if not x else x
+	y = 1 if not y else y
+	greater = max(x,y)
+	while(True):
+		if greater % x == 0 and greater % y == 0:
+			ans = greater
+			break
+		greater += 1
+	return ans
+
+
+def export_pdf(template_name,file_name,context):
+	path_to_admin_pdf = path.join(settings.BASE_DIR,"admin_V1","PDF")
+	config = pdfkit.configuration(wkhtmltopdf=path.join(path_to_admin_pdf,"wkhtmltopdf","bin","wkhtmltopdf.exe"))
+	html_string = render_to_string(template_name,context)
 	
 # 	temp_file_path = path.join(path_to_admin_pdf,'temp.pdf')
 # 	css = [path.join(settings.STATIC_ROOT,"Bootstrap","bootstrap.min.css")]

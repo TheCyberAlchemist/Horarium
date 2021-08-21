@@ -27,12 +27,9 @@
       });
       //#endregion
 </script>
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script type="application/javascript" src="{{static ('cookie.min.js')}}"></script>
 {% endblock %} {% block content %}
 
-<div class="container-fluid pt-4 mt-5" translate="no">
+<div class="container-fluid pt-4 mt-5 student" translate="no">
   <div class="mandatory_feedback_event text-center" style="display: none">
     <span class="h5" style="font-family: Poppins, sans-serif"> Remaining Feedbacks are <span id="sub_fraction"> </span> </span>
     <span class="h5" style="font-family: Poppins, sans-serif; margin-left: 10px">
@@ -41,21 +38,23 @@
       <!-- </button> -->
     </span>
   </div>
-  <div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
-    <div id="ct" style="white-space: nowrap"></div>
-    <div id="myBar"></div>
-  </div>
-  <!-- <div class="row container-fluid pl-5 pr-5" style="background-color: red;">
-    <div class="col-6 text-left" style="background-color: green;">
-      9:00:00
-    </div>
-    <div class="col-6 text-right" style="background-color: grey;">
-      4:00:00
-    </div>
-  </div> -->
+  <div class="timeline_and_text">
+	<div id="myProgress" class="container text-center" data-aos="fade-up" data-aos-duration="1000">
+		<div id="ct" style="white-space: nowrap"></div>
+		<div id="myBar"></div>
+	</div>
+	<!-- <div class="row container-fluid pl-5 pr-5" style="background-color: red;">
+		<div class="col-6 text-left" style="background-color: green;">
+		9:00:00
+		</div>
+		<div class="col-6 text-right" style="background-color: grey;">
+		4:00:00
+		</div>
+	</div> -->
 
-  <div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500"></div>
-  <div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000"></div>
+	<div class="container text-center p-2 h5" id="text" data-aos="fade-up" data-aos-duration="1500"></div>
+	<div class="container text-center p-2 h5" id="text2" data-aos="fade-up" data-aos-duration="2000"></div>
+  </div>
   <div class="row">
     <div class="col-lg-12 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
       <table id="t1" class="table">
@@ -92,11 +91,16 @@
             {% set _ = slot_2_arr.append(day) %}
             <td class="td_gone align-middle" rowspan="2" event_id="{{temp_event.a.id}}">
               <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
-                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Batch_id.link}}{% endif %}', '_blank')">{{temp_event.a.Subject_event_id.Subject_id}}</button>
+                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+					style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" 
+					onclick="open_pop_up('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}',{{temp_event.a.id}},true)"
+				>
+					{{temp_event.a.Subject_event_id.Subject_id}}
+				</button>
 
                 <div class="row">
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                    <span>{{temp_event.a.Subject_event_id.get_faculty_name()}}</span>
                   </div>
                   {%if temp_event.a.Resource_id %}
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
@@ -110,10 +114,15 @@
             <!-- if there is lecture event-->
             <td class="td_gone" event_id="{{temp_event.a.id}}">
               <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
-                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" onclick="window.open('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}', '_blank');">{{temp_event.a.Subject_event_id.Subject_id}}</button>
+                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" 
+					style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" 
+					onclick="open_pop_up('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}',{{temp_event.a.id}},true)"
+				>
+				{{temp_event.a.Subject_event_id.Subject_id}}
+				</button>
                 <div class="row">
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
-                    <span>{{temp_event.a.Subject_event_id.Faculty_id}}</span>
+                    <span>{{temp_event.a.Subject_event_id.get_faculty_name()}}</span>
                   </div>
                   {%if temp_event.a.Resource_id %}
                   <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12">
@@ -212,9 +221,9 @@
       <h5 id="offcanvasRightLabel">
         <nav class="for-feedback-and-sticky">
           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<span class="nav-link active mr-1" id="sticky_notes-tab" data-bs-toggle="tab" data-bs-target="#sticky_note" type="button" role="tab" aria-controls="nav-home" >Notes</span>
-			<span class="nav-link mr-1" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="nav-home" >Feedback</span>
-            <span class="nav-link" id="mand-tab" data-bs-toggle="tab" data-bs-target="#mand" type="button" role="tab" aria-controls="nav-mand" aria-selected="false" style="display:none;">Mandatory</span>
+			<span class="span nav-link active mr-1" id="sticky_notes-tab" data-bs-toggle="tab" data-bs-target="#sticky_note" type="button" role="tab" aria-controls="nav-home" >Notes <span class="badge bg-primary new">New</span></span>
+			<span class="span nav-link mr-1" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="nav-home" >Feedback</span>
+            <span class="span nav-link" id="mand-tab" data-bs-toggle="tab" data-bs-target="#mand" type="button" role="tab" aria-controls="nav-mand" aria-selected="false" style="display:none;">Mandatory</span>
           </div>
         </nav>
       </h5>

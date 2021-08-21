@@ -1,6 +1,8 @@
 //API_URL = "../user_dash/1/faculty_edit_called/"
 // API_URL = "../user_dash/1/add_update_faculty/"
-API_URL = "../table/2/algo3/"
+// API_URL = "../table/2/algo3/"
+
+API_URL = "../csv/"
 function get_form_json(){
 	unique = []
 	obj = {}
@@ -23,6 +25,7 @@ function get_form_json(){
 	return JSON.stringify(obj)	
 }
 function send_ajax(){
+	//#region /// no need to look
 	var csrftoken = Cookies.get('csrftoken');
 	function csrfSafeMethod(method) {
 		// these HTTP methods do not require CSRF protection
@@ -36,33 +39,9 @@ function send_ajax(){
 			}
 		}
 	});
+	//#endregion
 	JSON_DATA = {
-		"locked_events" :JSON.stringify([
-			{
-				"Slot_id": "2",
-				"Subject_event_id": "28",
-				"Batch_id": null,
-				"Resource_id": "1",
-				"Slot_id_2": null,
-				"locked": true,
-				"link": "asd"
-			},
-			{
-				"Slot_id": "7",
-				"Subject_event_id": "29",
-				"Batch_id": null,
-				"Resource_id": "1",
-				"Slot_id_2": null,
-				"locked": true,
-				"link": "None"
-			}
-		], undefined, 2),
-		"merging_events":get_form_json()
-	}	
-	//console.log({
-	//		"locked_events":JSON.stringify(locked),
-	//		"merging_events":{"asd":"asd"},
-	//	})
+	}
 	$.ajax({
 		url:API_URL,
 		type: "post",
@@ -72,8 +51,9 @@ function send_ajax(){
 		}
 	});
 	document.getElementsByClassName("sent")[0].textContent = [
-		'locked_events',JSON_DATA['locked_events'],"\n",
-		'merging_events',JSON_DATA['merging_events']
+		// 'locked_events',JSON_DATA['locked_events'],"\n",
+		// 'merging_events',JSON_DATA['merging_events']
+		JSON_DATA
 	]
 }
 // document.getElementsByClassName("sent")[0].textContent = JSON.stringify(JSON_DATA, undefined, 2);
@@ -87,6 +67,29 @@ hotkeys('space', function (event, handler){
 });
 
 //#region dummy data here
+// JSON_DATA = {
+// 		"locked_events" :JSON.stringify([
+// 			{
+// 				"Slot_id": "2",
+// 				"Subject_event_id": "28",
+// 				"Batch_id": null,
+// 				"Resource_id": "1",
+// 				"Slot_id_2": null,
+// 				"locked": true,
+// 				"link": "asd"
+// 			},
+// 			{
+// 				"Slot_id": "7",
+// 				"Subject_event_id": "29",
+// 				"Batch_id": null,
+// 				"Resource_id": "1",
+// 				"Slot_id_2": null,
+// 				"locked": true,
+// 				"link": "None"
+// 			}
+// 		], undefined, 2),
+// 		"merging_events":get_form_json()
+// 	}	
 		// {
 		// 	"Slot_id": "2",
 		// 	"Subject_event_id": "28",

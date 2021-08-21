@@ -112,22 +112,28 @@ DATABASES = {
    },
 }
 # DATABASES = {
-#     'default': {
+#    'default': {
 #          'ENGINE': 'django.db.backends.mysql',
-#          'NAME': 'mysqlhorarium',
+#          'NAME': 't2',
 #          'HOST': '127.0.0.1',
 #          'PORT': '3306',
 #          'USER': 'root',
-#          'PASSWORD': '',
-#     },
-#     'horarium': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'horarium',
-#         'HOST': '127.0.0.1',
-#         'PORT': '3306',
-#         'USER': 'root',
-#         'PASSWORD': '',
-#      }
+#          'PASSWORD': 'root',
+#    },
+# }
+# DATABASES = {
+# 	'default': {
+# 		'ENGINE': 'django.db.backends.sqlite3',
+# 		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# 	},
+# 	'horarium': {
+# 		'ENGINE': 'django.db.backends.mysql',
+# 		'NAME': 't2',
+# 		'HOST': '127.0.0.1',
+# 		'PORT': '3306',
+# 		'USER': 'root',
+# 		'PASSWORD': 'root',
+# 	}
 # }
 
 # Password validation
@@ -207,3 +213,31 @@ EMAIL_HOST_PASSWORD = '{hintuteslaClock'
 # from django.core.mail import send_mail
 
 # send_mail('subject', 'body of the message', 'Horarium <horarium@tecrave.in>', ['horarium1@gmail.com'])
+
+# import django.apps
+# al = django.apps.apps.get_models(include_auto_created=True)
+# while al:
+# 	model = al.pop(0)
+# 	print("\nTrying -- ",model)
+# 	for i in model.objects.all():
+# 		try:
+# 			i.save(using="horarium")
+# 			print(".",end="")
+# 		except Exception as e:
+# 			print("Failed -- ",model)
+# 			al.append(model)
+# 			break
+# 	print("\n------\n")
+# to run the above code please comment the lines of institute_V1.models.Batch.save(){
+# 	for loop whole 
+# }
+# to deleta all records
+# while al:
+# 	model = al.pop(0)
+# 	print("\nDeleting -- ",model)
+# 	try:
+# 		model.objects.using('horarium').all().delete()
+# 	except Exception as e:
+# 		print("Failed -- ",model)
+# 		al.append(model)
+# 	print("------\n")

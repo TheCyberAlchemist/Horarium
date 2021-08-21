@@ -4,7 +4,7 @@ from login_V2.admin import Show_unique_users
 # Register your models here.
 
 admin.site.register(Student_details)
-admin.site.register(Sticky_notes)
+admin.site.register(User_notes)
 
 @admin.register(Student_logs)
 class AuditEntryAdmin(admin.ModelAdmin):

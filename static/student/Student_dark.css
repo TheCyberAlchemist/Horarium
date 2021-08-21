@@ -7,8 +7,7 @@
 }
  
 html {
-  background-color: #09090e;
-  /* background-color: #13131a; */
+  background-color: #131a24;
 }
 
 body {
@@ -63,6 +62,10 @@ b a:hover {
   padding: 0 7px;
 }
 
+.faculty table tbody tr {
+  height: 20px !important;
+}
+
 #t1 td:nth-of-type(1),
 th:nth-of-type(1) {
   /*For first column of the table*/
@@ -95,6 +98,18 @@ th:nth-of-type(1) {
 
 .td_active {
   background-color: #0a101a !important;
+}
+
+.faculty .batch-name {
+  text-align: left !important;
+}
+
+.faculty .resource-name {
+  text-align: right !important;
+}
+
+.faculty .division-name {
+  text-align: left !important;
 }
 
 /* #endregion */
@@ -338,10 +353,15 @@ nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
 
-nav.for-feedback-and-sticky .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs .span {
   background-color: transparent !important;
   border: none !important;
   color: white !important;
+}
+
+nav.for-feedback-and-sticky .nav-tabs .badge.new {
+  font-size: 0.55em;
+  vertical-align: middle;
 }
 
 nav.for-feedback-and-sticky .nav-tabs span:hover {
@@ -525,7 +545,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
   }
 
   #lect .btn {
-    margin: 10px auto 0 auto;
+    margin: 7px 0.5em 0 0.5em;
     padding: 5px 2px;
   }
 
@@ -535,12 +555,23 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
     margin: 0 0.9em;
     -ms-writing-mode: tb-rl !important;
         writing-mode: vertical-rl !important;
-    -webkit-text-orientation: upright !important;
-            text-orientation: upright !important;
+    text-orientation: upright !important;
   }
 
   #t1 .btn {
     font-size: 11px;
+  }
+
+  .faculty .batch-name {
+    text-align: center !important;
+  }
+
+  .faculty .resource-name {
+    text-align: center !important;
+  }
+
+  .faculty .division-name {
+    text-align: center !important;
   }
 
   /* #endregion */
@@ -651,4 +682,36 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
   }
 }
 /* #endregion */
+/* #endregion */
+/* #region  Medium Screen Devices */
+@media screen and (max-width: 1366px) and (min-width: 601px) {
+  .faculty table tbody tr {
+    height: 90px !important;
+  }
+
+  .faculty #prac .btn {
+    height: 90px !important;
+    padding: 0;
+    margin: 0 0.1em;
+  }
+}
+/* #endregion */
+/* #region  Bigger Monitors (> 1366px) */
+@media screen and (max-width: 1700px) and (min-width: 1367px) {
+  .student #prac .btn {
+    height: 130px !important;
+    padding: 0;
+    margin: 0 0.1em;
+  }
+
+  .faculty #prac .btn {
+    height: 110px !important;
+    padding: 0;
+    margin: 0 0.1em;
+  }
+
+  .faculty table tbody tr {
+    height: 89px !important;
+  }
+}
 /* #endregion *//*# sourceMappingURL=Student_dark.css.map */

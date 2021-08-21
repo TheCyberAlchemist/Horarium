@@ -1,9 +1,9 @@
-{% extends 'student/base.html' %} {% block title%} Profile Settings {% endblock %} {% block css%}
+{% extends 'Student/base.html' %} {% block title%} Profile Settings {% endblock %} {% block css%}
 <link type="text/css" rel="stylesheet" href="{{static ('AccountSettings/user_settings.css')}}" />
-<style type="text/css"></style>
+
 {%endblock%} {%block scripts%} {%endblock%} {%block content%}
 <div class="main_content">
-  <div class="container-fluid">
+  <div class="container-fluid"> 
     <div class="row gutters">
       <div class="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 my-auto">
         <div class="card">
@@ -17,15 +17,13 @@
                 <h6 class="user-email">{{request.user.email}}</h6>
               </div>
               <div class="about">
-                <!-- <h5 class="mb-2 text-primary">About</h5>
-                                <p>I'm Yuki. Full Stack Designer I enjoy creating user-centric, delightful and human experiences.</p> -->
                 <img src="{{static ('AccountSettings/settings.svg') }}" class="" style="height: 100%; width: 100%" alt="Settings" />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
+      <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12 ">
         <div class="card h-100">
           <div class="card-body">
             <form action="{{url ('reset_password')}}"  method="POST">
@@ -84,24 +82,6 @@
                     <label for="profile-img">Upload Profile Image</label>
                   </div>
                 </div> -->
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="form-floating mb-3">
-                      <input type="password" class="form-control myinputs" id="currentpass" name="current_password" placeholder="-" />
-                      <label for="currentpass">Current Password</label>
-                    </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div class="form-floating mb-3">
-                    <input type="password" class="form-control myinputs" id="pass" name="password1" placeholder="-"/>
-                    <label for="pass">New Password</label>
-                  </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div class="form-floating mb-3">
-                    <input type="password" class="form-control myinputs" id="cpass" name="password2"placeholder="-"/>
-                    <label for="cpass">Confirm Password</label>
-                  </div>
-                </div>
               </div>
 
               <div class="row gutters">

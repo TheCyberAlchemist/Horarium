@@ -95,7 +95,7 @@ $(document).ready (function () {
 			temp_event = new event_class(get_slot($(this)),subject_event_id);
 			events.push(temp_event);
 			// console.log(temp_event);
-			td.css({"background-color":"red"})
+			td.css({"background-color":"#842029","opacity" : ".3"})
 		}
 	});
 	}
@@ -106,7 +106,7 @@ $(document).ready (function () {
 			// console.log(events_json[i]);
 			var td = get_cell(events_json[i])
 			td.find("input[type='checkbox']").removeAttr("name");
-			td.css({"backgroundColor" : "blue","opacity" : ".5"})
+			td.css({"backgroundColor" : "#084298","opacity" : ".5"})
 		}
 		for(i in not_available_json){	// all the not_available are checked
 			get_cell(not_available_json[i]).find("input[type='checkbox']").prop("checked", true);

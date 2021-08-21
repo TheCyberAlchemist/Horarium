@@ -1,6 +1,6 @@
 #region //////////////////// Debug switches //////////////////
 SORTING_DEBUG = False
-MAIN_DEBUG = 1
+MAIN_DEBUG = 0
 #endregion
 
 
@@ -597,9 +597,9 @@ def get_point_for_lect_batch(subject_event,all_events,batch_list):
 				points += temp_points
 			else:		# if something is wrong in the above loop
 				raise Exception("There is an exception here in lecture batch")
-			if subject_event.Subject_id.short == "BDA" and slot.day.Days_id.name == "Thursday":
-				print("here at lect_batc")
-				print(lect_event_on_slot,batch_list)
+			# if subject_event.Subject_id.short == "BDA" and slot.day.Days_id.name == "Thursday":
+			# 	print("here at lect_batc")
+			# 	print(lect_event_on_slot,batch_list)
 			points += check_prac_on_prac(lect_event_on_slot,batch_list)
 		if is_better_slot(points,best_pair,slot):	# if it is better slot
 			best_pair[0] = points
@@ -643,13 +643,7 @@ class main(APIView):
 	authentication_classes = [SessionAuthentication, BasicAuthentication]
 	permission_classes = [IsAuthenticated]
 	def post(self, request, Division_id=None):
-		total_infinite_condition =1
-		if total_infinite_condition:
-			data = {
-				'error':"The algo could not find any solution for the current state of lectures."
-			}
-			return JsonResponse(data, status=500)
-
+		
 		import timeit
 		starttime = timeit.default_timer()
 		if not Division_id:
@@ -809,7 +803,6 @@ class main(APIView):
 		if MAIN_DEBUG:
 			print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Points"],tablefmt="grid"))
 		
-		total_infinite_condition =1
 		if total_infinite_condition:
 			data = {
 				'error':"The algo could not find any solution for the current state of lectures."

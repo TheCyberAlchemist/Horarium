@@ -5,7 +5,7 @@ from faculty_V1.models import Feedback
 
 class add_sticky_note(ModelForm):
 	class Meta:
-		model = Sticky_notes
+		model = User_notes
 		fields = ["title","body"]
 		
 class add_student_form(ModelForm):

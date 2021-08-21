@@ -2,9 +2,9 @@
 <script>
   function toggle_loading() {
     if ($(".loading_animation_container").is(":visible")) {
-      $(".main_content").css("filter", "blur(0px)");
+	  $(".main_content").css({"filter":"blur(0px)","user-select":"all","pointer-events":"all"});
     } else {
-      $(".main_content").css("filter", "blur(4px)");
+	  $(".main_content").css({"filter":"blur(4px)","user-select":"none","pointer-events":"none"});
     }
     $(".loading_animation_container").toggle();
     // $(".svg").toggle();

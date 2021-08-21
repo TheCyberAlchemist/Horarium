@@ -113,28 +113,38 @@ WSGI_APPLICATION = 'Horarium.wsgi.application'
 # }
 # DATABASES = {
 #    'default': {
-#          'ENGINE': 'django.db.backends.mysql',
-#          'NAME': 't2',
-#          'HOST': '127.0.0.1',
-#          'PORT': '3306',
-#          'USER': 'root',
-#          'PASSWORD': 'root',
+# 		'ENGINE': 'django.db.backends.mysql',
+# 		'NAME': 't1',
+# 		'HOST': 'ubuntu@3.109.47.159:22',
+# 		'PORT': '3306',
+# 		'USER': 'horarium',
+# 		'PASSWORD': '{hintuteslaCl0ck',
 #    },
 # }
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-	},
-	'horarium': {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 't2',
 		'HOST': '127.0.0.1',
 		'PORT': '3306',
 		'USER': 'root',
 		'PASSWORD': 'root',
-	}
+   },
 }
+# DATABASES = {
+# 	'default': {
+# 		'ENGINE': 'django.db.backends.sqlite3',
+# 		'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+# 	},
+# 	'horarium': {
+# 		'ENGINE': 'django.db.backends.mysql',
+# 		'NAME': 't1',
+# 		'HOST': '3.109.47.159',
+# 		'PORT': '3306',
+# 		'USER': 'root',
+# 		'PASSWORD': 'root',
+# 	}
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators

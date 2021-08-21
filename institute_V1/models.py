@@ -217,6 +217,7 @@ class Division(models.Model):
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
 	objects = Division_WEF_manager()
+	
 	def __str__(self):
 		return "%s (%s)" % (self.name,str(self.Semester_id))
 	

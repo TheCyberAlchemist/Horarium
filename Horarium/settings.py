@@ -113,12 +113,22 @@ DATABASES = {
 }
 # DATABASES = {
 #    'default': {
-#          'ENGINE': 'django.db.backends.mysql',
-#          'NAME': 't2',
-#          'HOST': '127.0.0.1',
-#          'PORT': '3306',
-#          'USER': 'root',
-#          'PASSWORD': 'root',
+# 		'ENGINE': 'django.db.backends.mysql',
+# 		'NAME': 't1',
+# 		'HOST': 'ubuntu@3.109.47.159:22',
+# 		'PORT': '3306',
+# 		'USER': 'horarium',
+# 		'PASSWORD': '{hintuteslaCl0ck',
+#    },
+# }
+# DATABASES = {
+# 	'default': {
+# 		'ENGINE': 'django.db.backends.mysql',
+# 		'NAME': 't2',
+# 		'HOST': '127.0.0.1',
+# 		'PORT': '3306',
+# 		'USER': 'root',
+# 		'PASSWORD': 'root',
 #    },
 # }
 # DATABASES = {
@@ -128,8 +138,8 @@ DATABASES = {
 # 	},
 # 	'horarium': {
 # 		'ENGINE': 'django.db.backends.mysql',
-# 		'NAME': 't2',
-# 		'HOST': '127.0.0.1',
+# 		'NAME': 't1',
+# 		'HOST': '3.109.47.159',
 # 		'PORT': '3306',
 # 		'USER': 'root',
 # 		'PASSWORD': 'root',

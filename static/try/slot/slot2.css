@@ -1,7 +1,8 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 .mytbody {
@@ -32,16 +33,18 @@ label {
 }
 
 .slot_input_container {
-  border-bottom: 0.15em solid #b9b9b9;
-  border-width: 0.15em;
+  border-bottom: .15em solid #b9b9b9;
+  border-width: .15em;
   margin: 0 auto 1.7em auto;
   position: relative;
-  transition: 0.3s;
+  -webkit-transition: .3s;
+  transition: .3s;
 }
 
 .slot_input_container:hover {
-  border-bottom: 0.15em solid #ffffff;
-  transition: 0.1s;
+  border-bottom: .15em solid #ffffff;
+  -webkit-transition: .1s;
+  transition: .1s;
 }
 
 .slot_form .slot_input_container input {
@@ -54,9 +57,10 @@ label {
 
 .slot_form_container input:focus + .form_input_label .text,
 .slot_form_container input:valid + .form_input_label .text {
-  top: -0.7em;
-  left: 0.5px;
-  transition: 0.2s;
+  top: -.7em;
+  left: .5px;
+  -webkit-transition: .2s;
+  transition: .2s;
   font-size: 16px;
   color: #b9b8b8;
 }
@@ -78,4 +82,5 @@ label {
 
 .slot_input_container_double_2 {
   width: 30%;
-}/*# sourceMappingURL=slot2.css.map */
+}
+/*# sourceMappingURL=slot2.css.map */

@@ -1,10 +1,12 @@
 html {
-  font-family: "Poppins", sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .fas.fa-angle-double-right, .fas.fa-home {
-  transform: translateY(-1px) !important;
-  transform: translateX(3px) !important;
+  -webkit-transform: translateY(-1px) !important;
+          transform: translateY(-1px) !important;
+  -webkit-transform: translateX(3px) !important;
+          transform: translateX(3px) !important;
   font-size: 17px !important;
   color: #333;
 }
@@ -17,4 +19,5 @@ html {
 
 .user_dash .card .nav-pills .nav-link:hover {
   color: blue !important;
-}/*# sourceMappingURL=base2.css.map */
+}
+/*# sourceMappingURL=base2.css.map */

@@ -40,6 +40,7 @@ html {
   outline: none !important;
   box-shadow: none !important;
   transition: 0.1s;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .form-control.myinputs:focus {
@@ -128,7 +129,7 @@ div.dataTables_wrapper div.dataTables_length select {
   transform: translateY(-30px);
 }
 
-.breadcrumb-item.active a {
+.breadcrumb-item.active a span {
   color: #0d6efd !important;
 }
 

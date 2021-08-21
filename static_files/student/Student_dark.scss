@@ -10,8 +10,8 @@ $font-white: white !important;
 }
 
 html {
-  background-color: #09090e;
-  /* background-color: #13131a; */
+//   background-color: #09090e;
+  background-color: #131a24;
 }
 
 body {
@@ -36,7 +36,7 @@ b a:hover {
 
 /* #region  Navbar */
 .navbar {
-//   background-color: rgb(1, 1, 2) !important;
+  //   background-color: rgb(1, 1, 2) !important;
   background-color: #131a24 !important;
 }
 /* #endregion */
@@ -64,7 +64,9 @@ b a:hover {
   width: auto;
   padding: 0 7px;
 }
-
+.faculty table tbody tr {
+  height: 20px !important;
+}
 #t1 td:nth-of-type(1),
 th:nth-of-type(1) {
   /*For first column of the table*/
@@ -100,7 +102,15 @@ th:nth-of-type(1) {
 .td_active {
   background-color: #0a101a !important;
 }
-
+.faculty .batch-name {
+  text-align: left !important;
+}
+.faculty .resource-name {
+  text-align: right !important;
+}
+.faculty .division-name {
+  text-align: left !important;
+}
 /* #endregion */
 
 /* #region  Progress Bar */
@@ -115,11 +125,10 @@ th:nth-of-type(1) {
   border-radius: 5px;
 }
 .glow-safari {
-	-webkit-animation: glow 1s ease-in-out infinite alternate;
-	animation: glow 1s ease-in-out infinite alternate;
-	border-radius: 5px;
-  }
-
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+  border-radius: 5px;
+}
 .container#text {
   padding-bottom: 0;
   margin-top: 3em;
@@ -137,15 +146,15 @@ th:nth-of-type(1) {
 }
 
 @-webkit-keyframes glow-safari {
-	from {
-	  background-color: rgb(255, 0, 0);
-	  color: $font-white;
-	}
-	to {
-	  background-color: #f80b0b;
-	  color: $font-white;
-	}
+  from {
+    background-color: rgb(255, 0, 0);
+    color: $font-white;
   }
+  to {
+    background-color: #f80b0b;
+    color: $font-white;
+  }
+}
 
 /* #endregion */
 
@@ -273,18 +282,22 @@ th:nth-of-type(1) {
   background-color: #797979 !important;
   border-radius: 3px !important;
 }
-nav.for-feedback .nav-tabs {
+nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
-nav.for-feedback .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs .span {
   background-color: transparent !important;
   border: none !important;
   color: $font-white;
 }
-nav.for-feedback .nav-tabs span:hover {
+nav.for-feedback-and-sticky .nav-tabs .badge.new {
+  font-size: 0.55em;
+  vertical-align: middle;
+}
+nav.for-feedback-and-sticky .nav-tabs span:hover {
   border: none !important;
 }
-nav.for-feedback .nav-tabs span.active {
+nav.for-feedback-and-sticky .nav-tabs span.active {
   border-bottom: 1px solid rgb(71, 71, 255) !important;
   color: rgb(71, 71, 255) !important;
 }
@@ -306,7 +319,8 @@ nav.for-feedback .nav-tabs span.active {
   transition: 0.3s;
 }
 #feedback_body .feedback_form_card,
-#mandatory_panel .feedback_form_card {
+#mandatory_panel .feedback_form_card,
+#sticky_note .sticky_card {
   transition: 0.3s;
   color: $font-white;
   background-color: transparent;
@@ -319,7 +333,8 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card:hover,
-#mandatory_panel .feedback_form_card:hover {
+#mandatory_panel .feedback_form_card:hover,
+#sticky_note .sticky_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
@@ -330,6 +345,24 @@ nav.for-feedback .nav-tabs span.active {
   color: $font-white;
 }
 /* #endregion  Feedback Panel & Offcanvas*/
+
+/* #region  Sticky note  */
+#sticky_note .sticky_card:first-of-type {
+  margin-top: 1em;
+}
+#sticky_note #sticky_note_form .myinputs,
+#sticky_note #sticky_note_form .textarea {
+  background-color: transparent !important;
+  color: $font-white;
+}
+/* #endregion */
+
+/* #region  Swal buttons  */
+.swal2-confirm.swal2-styled.swal2-default-outline {
+  //Swal confirm button
+  background-color: #2dce89 !important;
+}
+/* #endregion */
 
 /* #region  Feedback Modal Radio button */
 
@@ -431,8 +464,7 @@ nav.for-feedback .nav-tabs span.active {
   }
 
   #lect .btn {
-    // margin: 7px 0.5em 0 0.5em;
-    margin: 10px auto 0 auto;
+    margin: 7px 0.5em 0 0.5em;
     padding: 5px 2px;
   }
   #prac .btn {
@@ -444,6 +476,15 @@ nav.for-feedback .nav-tabs span.active {
   }
   #t1 .btn {
     font-size: 11px;
+  }
+  .faculty .batch-name {
+    text-align: center !important;
+  }
+  .faculty .resource-name {
+    text-align: center !important;
+  }
+  .faculty .division-name {
+    text-align: center !important;
   }
   /* #endregion */
 
@@ -538,4 +579,38 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 /* #endregion */
+
+/* #endregion */
+
+/* #region  Medium Screen Devices */
+@media screen and (max-width: 1366px) and (min-width: 601px) {
+  .faculty table tbody tr {
+    height: 90px !important;
+  }
+  .faculty #prac .btn {
+    height: 90px !important;
+    padding: 0;
+    margin: 0 0.1em;
+  }
+}
+/* #endregion */
+
+/* #region  Bigger Monitors (> 1366px) */
+@media screen and (max-width: 1700px) and (min-width: 1367px) {
+  .student #prac .btn {
+    height: 130px !important;
+    padding: 0;
+    margin: 0 0.1em;
+  }
+  .faculty #prac .btn {
+    height: 110px !important;
+    padding: 0;
+    margin: 0 0.1em;
+  }
+  .faculty table thead tr {
+  }
+  .faculty table tbody tr {
+    height: 89px !important;
+  }
+}
 /* #endregion */

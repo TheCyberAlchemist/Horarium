@@ -102,13 +102,13 @@ th:nth-of-type(1) {
 .td_active {
   background-color: #0a101a !important;
 }
-.faculty .batch-name {
+.faculty .batch-name,.student .batch-name {
   text-align: left !important;
 }
-.faculty .resource-name {
+.faculty .resource-name,.student .resource-name {
   text-align: right !important;
 }
-.faculty .division-name {
+.faculty .division-name,.student .faculty-name {
   text-align: left !important;
 }
 /* #endregion */
@@ -477,14 +477,14 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
   #t1 .btn {
     font-size: 11px;
   }
-  .faculty .batch-name {
-    text-align: center !important;
+  .faculty .batch-name,.student .batch-name {
+	text-align: left !important;
   }
-  .faculty .resource-name {
-    text-align: center !important;
+  .faculty .resource-name,.student .resource-name {
+	text-align: right !important;
   }
-  .faculty .division-name {
-    text-align: center !important;
+  .faculty .division-name,.student .faculty-name {
+	text-align: left !important;
   }
   /* #endregion */
 

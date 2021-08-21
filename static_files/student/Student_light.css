@@ -225,15 +225,18 @@ th:nth-of-type(1) {
   }
 }
 
-.faculty .batch-name {
+.faculty .batch-name,
+.student .batch-name {
   text-align: left !important;
 }
 
-.faculty .resource-name {
+.faculty .resource-name,
+.student .resource-name {
   text-align: right !important;
 }
 
-.faculty .division-name {
+.faculty .division-name,
+.student .faculty-name {
   text-align: left !important;
 }
 
@@ -507,13 +510,13 @@ th:nth-of-type(1) {
   #t1 .btn {
     font-size: 11px;
   }
-  .faculty .batch-name {
+  .faculty .batch-name, .student .batch-name {
     text-align: center !important;
   }
-  .faculty .resource-name {
+  .faculty .resource-name, .student .resource-name {
     text-align: center !important;
   }
-  .faculty .division-name {
+  .faculty .division-name, .student .faculty-name {
     text-align: center !important;
   }
   #agenda_panel {

@@ -26,9 +26,8 @@ body {
 }
 
 .prac_mycol {
-  -webkit-writing-mode: vertical-rl;
-      -ms-writing-mode: tb-rl;
-          writing-mode: vertical-rl;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
   text-orientation: upright;
   font-size: smaller !important;
   height: 110px !important;
@@ -201,9 +200,8 @@ p.h6 {
 }
 
 .lect_mycol {
-  -webkit-writing-mode: vertical-rl;
-      -ms-writing-mode: tb-rl;
-          writing-mode: vertical-rl;
+  -ms-writing-mode: tb-rl;
+      writing-mode: vertical-rl;
   text-orientation: upright;
 }
 

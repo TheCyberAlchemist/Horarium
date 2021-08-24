@@ -182,11 +182,14 @@ $font_size1: 1em;
   #resources,
   #select_fac,
   #shifts,
+  #resource,
+  #is_lab,
   #wef_select,
   #csv_select,
   #csv_add_update,
   #prac_batches,
   #lect_batches,
+  #faculty_home_class,
   #select_fac,
   #select_co_fac {
     width: 100% !important;
@@ -221,20 +224,18 @@ $font_size1: 1em;
   #links,
   #division,
   #department,
-  #wef_select {
-    width: 300px !important;
-    // margin: 0em 0em 0em 10em;
-  }
-  #shifts {
-    width: 300px !important;
-  }
+  #wef_select,
+  #shifts,
+  #resource,
+  #is_lab,
   #select_fac,
   #csv_select,
   #csv_select_update,
   #csv_add_update,
   #select_co_fac,
   #prac_batches,
-  #lect_batches {
+  #lect_batches,
+  #faculty_home_class {
     width: 300px !important;
   }
 }
@@ -254,13 +255,16 @@ $font_size1: 1em;
   #department,
   #wef_select,
   #shifts,
+  #resource,
+  #is_lab,
   #select_fac,
   #csv_select,
   #csv_select_update,
   #csv_add_update,
   #select_co_fac,
   #prac_batches,
-  #lect_batches {
+  #lect_batches,
+  #faculty_home_class {
     width: 500px !important;
     // margin: 0em 0em 0em 10em;
   }

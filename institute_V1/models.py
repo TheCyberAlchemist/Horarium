@@ -23,11 +23,38 @@ class Institute(models.Model):
 
 class Resource(models.Model):
 	name = models.CharField(max_length = N_len)
-	block = models.CharField(max_length = N_len)
-
+	block = models.CharField(max_length = N_len, null=True, blank=True)
+	is_lab = models.BooleanField(default=False)
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
+
+	def get_type_by_shift(self,Shift_id):
+		'return if the resource is attached to a class or a faculty '
+		pass
+	
+	def is_free(self,Slot_id):
+		'returns True if the resource is free on the slot else returns False'
+		from Table_V2.models import Event
+		qs = Event.objects.all().filter((Q(Slot_id_2=Slot_id) | Q(Slot_id=Slot_id)) & Q(Resource_id = self))
+		# print(qs)
+		if len(qs): 
+			# if there is an event having the resource on the slot
+			return False
+		return True
+
+
+	@staticmethod
+	def get_unattached_resources_for_shift(Shift_id):
+		from faculty_V1.models import Faculty_details
+		'Returns a qs of all the resources that are not attached to a class or faculty'
+		arr = list(Division.objects.active().filter(Shift_id=Shift_id).values_list("Resource_id",flat=True))
+		arr1 = list(Faculty_details.objects.filter(Shift_id=Shift_id).values_list("Resource_id",flat=True))
+		temp = [i for i in arr + arr1 if i]	# remove None from the array
+		all_free_resources = Resource.objects.all().exclude(pk__in=temp)
+		return all_free_resources
+	
 	def __str__(self):
 		return self.name
+	
 	class Meta:
 		verbose_name_plural = "Resource"
 		constraints = [
@@ -217,7 +244,9 @@ class Division(models.Model):
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
 	objects = Division_WEF_manager()
+	Resource_id = models.ForeignKey(Resource,default=None,on_delete = models.SET_NULL, null=True, blank=True)
 	
+
 	def __str__(self):
 		return "%s (%s)" % (self.name,str(self.Semester_id))
 	

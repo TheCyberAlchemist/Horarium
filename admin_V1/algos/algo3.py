@@ -32,7 +32,7 @@ PRAC_ON_PRAC = 2
 my_division = None
 WORKING_DAYS = 0
 usable_slots = []
-
+DIVISION_CLASSROOM = None
 
 #region //////////////////// view_functions //////////////////
 from django.shortcuts import render,redirect
@@ -328,11 +328,13 @@ def append_event_list(all_events,event,events_template):
 
 def fill_global_vars(Division_id):
 	'gets the division_id and adds the related info to the file to use'
-	global WORKING_DAYS,usable_slots,l,my_division
+	global WORKING_DAYS,usable_slots,l,my_division,DIVISION_CLASSROOM
 	division = Division.objects.all().filter(pk = Division_id).first()
 	# print(Division_id,Division.objects.all())
 	my_division = division
 	WORKING_DAYS = Working_days.objects.filter(Shift_id=division.Shift_id).count()
+	DIVISION_CLASSROOM = my_division.Resource_id
+	# print(DIVISION_CLASSROOM)
 	all_slots = Slots.objects.filter(Timing_id__Shift_id = division.Shift_id).order_by("day")
 	usable_slots = all_slots.exclude(Timing_id__is_break = True)
 	l = []
@@ -466,6 +468,31 @@ def check_prac_on_prac(events_on_slot,batch_list):
 				return OTHER_EVENT_SLOT
 		return PRAC_ON_PRAC
 	return 0
+
+def check_resource_for_slot(slot,subject_event,is_prac = False):
+	'Returns if the given slot has resource empty and if so also the resource object'
+	def get_faculty_home_classes(Shift_id):
+		arr = list(Faculty_details.objects.filter(Shift_id=Shift_id).values_list("Resource_id",flat=True))
+		# temp = [i for i in arr if i]	# remove None from the array
+		print(arr)
+		return Resource.objects.all().filter(pk__in=arr)
+	
+	print(subject_event)
+	Shift_id = my_division.Shift_id
+	# if DIVISION_CLASSROOM.is_lab == is_prac and DIVISION_CLASSROOM.is_free(slot):
+	# # check if the division has classroom
+	# 	return True,DIVISION_CLASSROOM
+	# faculty_room = subject_event.Faculty_id.Resource_id
+	# if faculty_room.is_lab == is_prac and faculty_room.is_free(slot):
+	# # check if the faculty has home classroom
+	# 	return True,faculty_room
+	# for unattached in Resource.get_unattached_resources_for_shift(Shift_id):
+	# # check all the unattached resources
+	# 	if unattached.is_lab == is_prac and unattached.is_free(slot):
+	# 		return True,unattached
+	print(get_faculty_home_classes(Shift_id))
+	# if :
+	raise SystemExit()
 
 def is_better_slot(points,best_pair,this_slot):
 	'returns if this_slot is better or not'
@@ -610,6 +637,7 @@ def get_point_for_lect_batch(subject_event,all_events,batch_list):
 
 
 def get_point_for_lect_class(subject_event,all_events):
+	# also check if the event is practical or lecture
 	day = None
 	best_pair = [-math.inf,""]
 	tab = []
@@ -625,12 +653,12 @@ def get_point_for_lect_class(subject_event,all_events):
 			points += check_repetation(day_events,subject_event)
 			points += check_load_distribution(day_events,subject_event)
 			points += check_other_events_for_faculty(slot,all_events,subject_event)
-			points += check_other_events_for_slot(all_events,slot,subject_event)			
+			points += check_other_events_for_slot(all_events,slot,subject_event)
 		
 		if is_better_slot(points,best_pair,slot):	# if it is better slot
+			check_resource_for_slot(slot,subject_event,is_prac=False)
 			best_pair[0] = points
 			best_pair[1] = slot
-
 
 		# tab.append([slot,points])
 	# print(tabulate(tab,headers=["slot","point"],tablefmt="grid"))
@@ -646,15 +674,19 @@ class main(APIView):
 		
 		import timeit
 		starttime = timeit.default_timer()
+		
 		if not Division_id:
 			Division_id = 2
 		fill_global_vars(Division_id)
 
 		my_division = Division.objects.get(pk = Division_id)
 		_,my_sub_events = get_division_subjects_and_events(my_division)
-		
-		locked_events_json = json.loads(request.POST.get("locked_events"))
-		mearging_obj = json.loads(request.POST.get("merging_events"))
+		locked,merging = request.POST.get("locked_events"),request.POST.get("merging_events")
+		locked_events_json,mearging_obj = None,None
+		if locked:
+			locked_events_json = json.loads(locked)
+		if merging:
+			mearging_obj = json.loads(merging)
 		# we can use mearging subs also for sorted_sub_events
 		# print(mearging_obj)
 		# return Response()
@@ -681,7 +713,10 @@ class main(APIView):
 				subject_event = template.Subject_event_id
 
 				batch_list = [template.Batch_id] if template.Batch_id else None
-				mearging_batches = mearging_obj.get(str(subject_event.Subject_id_id))
+				mearging_batches = []
+				if mearging_obj:
+					mearging_batches = mearging_obj.get(str(subject_event.Subject_id_id))
+
 				batch_list = get_batch_list(batch_list,mearging_batches,is_prac)
 								
 				if is_prac:		# if the subject_event is practical
@@ -720,7 +755,7 @@ class main(APIView):
 						points,best_slot,slot_2 = get_point_for_prac_class(subject_event,all_events)
 						if points != -math.inf:
 							all_events.append(
-								Event(	
+								Event(
 									Slot_id = best_slot,
 									Slot_id_2 = slot_2,
 									Batch_id=batch_list,

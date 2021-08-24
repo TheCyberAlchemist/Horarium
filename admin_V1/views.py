@@ -19,6 +19,13 @@ from faculty_V1.models import *
 from Table_V2.models import Event
 import login_V2.models as login_V2
 from faculty_V1.models import Feedback
+
+
+# Shift = Shift.objects.all()[3]
+# # print(Resource().get_free_resources_for_shift(Shift.objects.all()[3]))
+# # print(Resource.objects.all()[2])
+# print(Resource.objects.all()[2].is_free(Slots.objects.all().filter(Timing_id__Shift_id=Shift)[9]))
+
 # pip install django-ajax-datatable
 # pip install pillow
 # change the a-b-c method in navtree

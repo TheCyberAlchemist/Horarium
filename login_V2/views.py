@@ -102,6 +102,7 @@ def about(request) :
 	return render(request,'about/about.html')
 
 from django.core.mail import send_mail
+@unauthenticated_user
 def landing(request) :
 	if request.method == "POST" and request.is_ajax():
 		try:
@@ -122,6 +123,7 @@ def landing(request) :
 			)
 			return JsonResponse({"success":"We have heard you. Thank You 😊."})
 		except Exception as e:
+			print(e)
 			return JsonResponse({},status=500)
 		
 	return render(request,'landingpage/Techie/index.html')

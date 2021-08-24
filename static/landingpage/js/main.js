@@ -297,18 +297,19 @@ $(document).ready (function () {
 		}, 4000);
 		$('.sent-message').hide();
 		form[0].querySelector('.loading').classList.add('d-block');
-
 		$.ajax({
 			type: "post",
 			data: form.serialize(),
 			success: function (){
 				console.log("success");
-				form[0].querySelector('.loading').classList.remove('d-block');
 				$('.sent-message').show();
 				form.trigger("reset");
+				$(".error-message").removeClass("d-block")
+				$(".loading").removeClass("d-block")
+
 			},
 			error:function(){			
-				console.log("error");
+				console.log("error :: ",form.serialize());
 				displayError("An error occurred. Please try again.")
 				function displayError(error) {
 					form[0].querySelector('.loading').classList.remove('d-block');

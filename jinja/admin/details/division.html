@@ -22,6 +22,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $("#shifts").select2();
+            $("#resource").select2();
             {% if update %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
@@ -118,7 +119,7 @@
                                             
                                         </div>
                                         <div class="row mb-3 mx-lg-5 mx-sm-0">
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="select2_container single_select2">
                                                     <select name="Shift_id" id="shifts">
                                                       <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
@@ -127,6 +128,14 @@
                                                           {{shift}}
                                                         </option>
                                                       {%endfor%}
+                                                    </select>
+                                                  </div>
+                                            </div>
+											<div class="col-lg-6 col-md-12 col-sm-12">
+                                                <div class="select2_container single_select2">
+                                                    <select name="resource" id="resource">
+                                                      <option disabled {% if not update %}selected{% endif %}>Select Resource</option>
+                                                        <option value=""></option>
                                                     </select>
                                                   </div>
                                             </div>
@@ -195,7 +204,7 @@
                                         <td class="border-0">
                                             <a href = "{{url ('update_division' ,args=[my_semester.id,division.id])}}">
                                                 <i class="fas fa-edit"></i>
-                                            </a>
+                                            <a>
                                         </td>
                                         <td class="border-0">
                                             <div class="form-check" onclick="checkSelected()">

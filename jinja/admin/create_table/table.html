@@ -428,7 +428,7 @@ if (header){
   
   <!-- Generate Modal -->
   <div class="modal fade" id="generate_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="generate_modal_label" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="generate_modal_label">Select Batches to merge</h5>
@@ -486,6 +486,12 @@ if (header){
       </div>
             <div class="modal-footer">
                 <div class="row" style="width: 100%;">
+					<div class="col-lg-12 col-sm-12 col-md-12 mb-3">
+                        <div class="form-check form-check-inline">
+							<input 	class="form-check-input" type="checkbox" id="resource_allocation" name="resource_allocation" value="">
+							<label class="form-check-label" for="resource_allocation">Do resource allocation</label>
+						</div>
+                    </div>
                     <div class="col-lg-6 col-sm-12 col-md-12">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>

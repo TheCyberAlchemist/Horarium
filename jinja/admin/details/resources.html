@@ -7,7 +7,6 @@
 
 <link rel="stylesheet" href="{{static ('form/form2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
-
 <style>
     td,th {
         font-size: .9rem !important;
@@ -17,11 +16,13 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+<script type="application/javascript" src="{{static ('select2.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
             {% if update %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
+            $("#is_lab").select2();
             let table = $('#example').DataTable({
                 "columnDefs" : [{
                     "targets" : [3,4],
@@ -79,7 +80,7 @@
               {%endif%}
             </ol>
           </nav>
-        <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
+        <div class="col-12 mb-4 form_container">
             <div class="card shadow-sm components-section" style="border-radius: 1rem;">
                 <!-- <div class="card-tite pl-3 pt-3">
                     <h1 class="h3 legend">Add Department </h1>
@@ -115,6 +116,15 @@
                                                         placeholder="-" name="block" {% if update %}value = "{{update.block}}"{% endif %} class="form_input short_names" required maxlength = "20">
                                                     <label for="block">Block Name</label>
                                                 </div>
+                                            </div>
+											<div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="select2_container single_select2">
+                                                    <select name="is_lab" id="is_lab">
+                                                      <option disabled {% if not update %}selected{% endif %}>Lab or Lecture</option>
+                                                        <option value="Lab">Lab</option>
+                                                        <option value="Lecture">Lecture</option>
+                                                    </select>
+                                                  </div>
                                             </div>
                                             <div class="container mt-4" style="width:80%;">
                                                 <button type="submit" class="btn btn-outline-success"
@@ -199,4 +209,5 @@
             </div>
         </div>
     </div>
+</div>
     {% endblock %}

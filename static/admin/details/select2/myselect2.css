@@ -167,11 +167,14 @@
 #resources,
 #select_fac,
 #shifts,
+#resource,
+#is_lab,
 #wef_select,
 #csv_select,
 #csv_add_update,
 #prac_batches,
 #lect_batches,
+#faculty_home_class,
 #select_fac,
 #select_co_fac {
     width: 100% !important;
@@ -206,21 +209,18 @@
 #links,
 #division,
 #department,
-#wef_select {
-    width: 300px !important;
-  }
-
-  #shifts {
-    width: 300px !important;
-  }
-
-  #select_fac,
+#wef_select,
+#shifts,
+#resource,
+#is_lab,
+#select_fac,
 #csv_select,
 #csv_select_update,
 #csv_add_update,
 #select_co_fac,
 #prac_batches,
-#lect_batches {
+#lect_batches,
+#faculty_home_class {
     width: 300px !important;
   }
 }
@@ -239,13 +239,16 @@
 #department,
 #wef_select,
 #shifts,
+#resource,
+#is_lab,
 #select_fac,
 #csv_select,
 #csv_select_update,
 #csv_add_update,
 #select_co_fac,
 #prac_batches,
-#lect_batches {
+#lect_batches,
+#faculty_home_class {
     width: 500px !important;
   }
 

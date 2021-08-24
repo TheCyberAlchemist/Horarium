@@ -57,7 +57,7 @@
 /* #region  Delete entries button image styling */
 .input_icons {
   position: absolute;
-  top: 0%;
+  top: 5%;
   left: 95%;
   height: 35px;
   width: 35px;
@@ -164,6 +164,14 @@
 
   .row.d-flex.align-items-center {
     margin-left: 10px !important;
+  }
+
+  .input_icons {
+    position: absolute;
+    top: 5%;
+    left: 87%;
+    height: 30px;
+    width: 30px;
   }
 }
 /* #endregion *//*# sourceMappingURL=dbtable2.css.map */

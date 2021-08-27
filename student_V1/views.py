@@ -283,7 +283,9 @@ def get_put_sticky_notes(request):
 			'pk': note.pk,
 			'title': escape(decode(note.title)),
 			'body': escape(decode(note.body)),
+			'created_at': note.created_at_str(),
 		})
+	print(my_notes[0].created_at_str())
 	return HttpResponse(json.dumps(notes_arr),content_type='application/json')
 	# return JsonResponse(notes_arr,safe=False)
 

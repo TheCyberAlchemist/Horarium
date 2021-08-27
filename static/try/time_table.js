@@ -592,7 +592,7 @@ function undo() {
 		return false;
 	// my_event is an array
 	let my_events = last_action.event;
-	console.assert(Array.isArray(my_events), "The event is not array here ", console.stack);
+	console.assert(Array.isArray(my_events), "The event is not array here ❌❌ :: ", console.stack);
 	let temp_events;
 	switch (last_action.type) {
 		case "removed":
@@ -1432,7 +1432,7 @@ $(document).ready(function () {
 					temp_event.put_link_locked(link);
 
 					if (push_event(temp_event)) {
-						push_into_action(new event_action("added", temp_event));
+						push_into_action(new event_action("added", [temp_event]));
 						if (!td.html()) {
 							change_to_lect_td(td, null);
 						}
@@ -1481,7 +1481,8 @@ function functABC() {
 			url: "./algo3/",
 			data: {
 				locked_events: JSON.stringify(get_all_locked_events()),
-				merging_events: get_form_json(),
+				merging_events: get_mearging_batches(),
+				resource_allocation: $("#resource_allocation").prop("checked"),
 			},
 
 			success: function (data) {
@@ -1526,7 +1527,7 @@ function call_algo() {
 
 	//#endregion
 }
-function get_form_json() {
+function get_mearging_batches() {
 	unique = [];
 	obj = {};
 	$.each($("#batch_mearging input:checkbox"), function () {

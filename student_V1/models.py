@@ -37,7 +37,44 @@ class User_notes(models.Model):
 	
 	class Meta:
 		verbose_name_plural = "User Notes"
+	
+	def created_at_str(self):
+		'returns when the note was created'
+		from datetime import datetime
+		from calendar import monthrange
+		date_1 = str(self.timestamp)
+		date_2 = str(datetime.today())
+		date_format_str = '%Y-%m-%d %H:%M:%S.%f'
 
+		start = datetime.strptime(date_1, date_format_str)
+		end =  datetime.strptime(date_2, date_format_str)
+
+		# Get interval between two timstamps as timedelta object
+		diff = end - start
+		# Get interval between two timstamps in hours
+		diff_in_hours = diff.total_seconds() / 3600
+
+		date = date_1.split(' ')[0]   ### gives date without time
+		current_date = int(date.split('-')[0])  ## gives the current date 
+		year = int(date.split('-')[2])  
+		month = int(date.split('-')[1])
+
+		if diff_in_hours <=24 :
+			return "Created Today" 
+
+		elif (diff_in_hours > 24 and diff_in_hours < 48) :
+			return f"Created 1 day ago"
+
+		elif (diff_in_hours >= 48 and diff_in_hours <  720):
+			created = int(diff_in_hours/24)
+			return f"Created {created} days ago at {current_date}/{month}"
+
+		elif (diff_in_hours >=720) : 
+			total_days_in_month = monthrange(year,month)[1]
+			created = int(diff_in_hours/24/total_days_in_month)
+			if created <= 1 :
+				return(f"Created {created} month ago at {date}")
+			return(f"Created {created} months ago at {date}")
 	def save(self, *args, **kwargs):
 		import cryptocode
 		key_str = f"9ezXqxqL_{self.User_id.pk}"

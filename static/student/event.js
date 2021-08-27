@@ -343,20 +343,23 @@ function open_page_link(link=null,event_id,on_click=false){
 		also sets the cookie for the event_id
 	*/
 	if (link){
-		popUp = window.open(link, '_blank');
-		if (popUp == null || typeof(popUp)=='undefined') { 	
-			if (!getWithExpiry("link not opened pop-up allow")){	
-				pop_up_warning();
-				setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+		if (!getWithExpiry("opened-"+event_id) || on_click){
+			// if not already opened or if clicked
+			let popUp = window.open(link, '_blank');
+			if (popUp == null || typeof(popUp)=='undefined') { 	
+				if (!getWithExpiry("link not opened pop-up allow")){	
+					pop_up_warning();
+					setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+				}
 			}
-		}
-		if (on_click){	
-			// if link is clicked then it will not open automatically for 2:10 hours
-			setWithExpiry("opened-"+event_id,true,(2*HOUR_VALUE)+10);
-		}else{
-			// if opened automatically then 6 
-			console.log(event_id);
-			setWithExpiry("opened-"+event_id,true,6*HOUR_VALUE);
+			else if (on_click){	
+				// if link is clicked then it will not open automatically for 2:10 hours
+				setWithExpiry("opened-"+event_id,true,(2*HOUR_VALUE)+10);
+			}else{
+				// if opened automatically then 6 
+				console.log(event_id);
+				setWithExpiry("opened-"+event_id,true,6*HOUR_VALUE);
+			}
 		}
 	}
 }

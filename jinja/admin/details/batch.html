@@ -26,7 +26,7 @@
         $(document).ready(function() {
 		$("#mul").select2();
 
-            {% if update %}
+            {% if update or errors or integrityErrors %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
             let table = $('#example').DataTable({
@@ -109,9 +109,9 @@
                                             <!--////////////////Form Goes here///////////-->
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control myinputs" id="bname"
+                                                    <input type="text" class="form-control myinputs" id="bname" autocomplete="off"
                                                         placeholder="-" name="name" required maxlength="50" {% if update %}value="{{update.name}}"{% endif %} />
-                                                    <label for="bname" >Batch Name</label>
+                                                    <label for="bname">Batch Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">

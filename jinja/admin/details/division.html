@@ -19,46 +19,47 @@
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $("#shifts").select2();
-            $("#resource").select2();
-            {% if update %}
-                $('#flush-collapseOne').collapse("show");
-            {% endif %}
-            let table = $('#example').DataTable({
-                "columnDefs" : [{
-                    "targets" : [2,3],
-                    "orderable" : false,
-                    },
-                    {responsivePriority: 1, targets: 2},
-                    {responsivePriority: 2, targets: 1},
-                    {
-                        targets : [2,3],
-                        className : "all",
-                    }
-                ],
-                "lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                responsive: true,
-                "dom": "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" +
-                "<'row'<'col-sm-12'tr>>" +
-                "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-            });
-            $('.search_div').html(`<div id="example_filter" class="dataTables_filter">
-                    <div class="input-group">
-                        <input type="search" placeholder="What're you searching for?"
-                            aria-describedby="button-addon1" class="form-control border-0 bg-light" id="search_box" style="box-shadow:none;outline:none">
-                        <div class="input-group-append">
-                            <button id="button-addon1" type="submit" style="box-shadow:none;outline:none" class="btn btn-link text-primary"><i
-                                    class="fa fa-search"></i></button>
-                        </div>
-                    </div>
-                </div>`);
-            $('#search_box').keyup(function(){
-                table.search($(this).val()).draw() ;
-          })
-        });
-    </script>
+<script type="application/javascript" src="{{static ('admin/details/get_unattached_resources.js') }}" charset="utf-8"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#shifts").select2();
+		$("#resource").select2();
+		{% if update or errors or integrityErrors%}
+			$('#flush-collapseOne').collapse("show");
+		{% endif %}
+		let table = $('#example').DataTable({
+			"columnDefs" : [{
+				"targets" : [2,3],
+				"orderable" : false,
+				},
+				{responsivePriority: 1, targets: 2},
+				{responsivePriority: 2, targets: 1},
+				{
+					targets : [2,3],
+					className : "all",
+				}
+			],
+			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			responsive: true,
+			"dom": "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" +
+			"<'row'<'col-sm-12'tr>>" +
+			"<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
+		});
+		$('.search_div').html(`<div id="example_filter" class="dataTables_filter">
+				<div class="input-group">
+					<input type="search" placeholder="What're you searching for?"
+						aria-describedby="button-addon1" class="form-control border-0 bg-light" id="search_box" style="box-shadow:none;outline:none">
+					<div class="input-group-append">
+						<button id="button-addon1" type="submit" style="box-shadow:none;outline:none" class="btn btn-link text-primary"><i
+								class="fa fa-search"></i></button>
+					</div>
+				</div>
+			</div>`);
+		$('#search_box').keyup(function(){
+			table.search($(this).val()).draw() ;
+		})
+	});
+</script>
 {% endblock %}
 
 {% block content %}
@@ -104,14 +105,14 @@
                                             <!--////////////////Form Goes here///////////-->
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control myinputs" id="dname"
+                                                    <input type="text" class="form-control myinputs" id="dname" autocomplete="off"
                                                         placeholder="-" name="name" required maxlength="50" {% if update %}value = "{{update.name}}"{% endif %}/>
                                                     <label for="dname">Division Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="url" class="form-control myinputs" id="link"
+                                                    <input type="url" class="form-control myinputs" id="link" autocomplete="off"
                                                         placeholder="-" name="link" autocomplete="off" {% if update and update.link%}value = "{{update.link}}"{% endif %}>
                                                     <label for="link">Meeting Link (if any)</label>
                                                 </div>
@@ -122,7 +123,7 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="select2_container single_select2">
                                                     <select name="Shift_id" id="shifts">
-                                                      <option disabled {% if not update %}selected{% endif %}>Select Shift</option>
+                                                      <option disabled value="-1" {% if not update %}selected{% endif %}>Select Shift</option>
                                                       {% for shift in my_shifts %}
                                                         <option value="{{shift.id}}" {% if update and shift == update.Shift_id%}selected{% endif %}>
                                                           {{shift}}
@@ -133,9 +134,13 @@
                                             </div>
 											<div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="select2_container single_select2">
-                                                    <select name="resource" id="resource">
-                                                      <option disabled {% if not update %}selected{% endif %}>Select Resource</option>
-                                                        <option value=""></option>
+                                                    <select name="Resource_id" id="resource">
+                                                      <option disabled value="-1" {% if not update %}selected{% endif %}>Select Resource</option>
+													  {% if update and update.Resource_id %}
+													  	<option value="update.Resource_id">
+														  {{update.Resource_id.get_name()}}
+														</option>
+													  {% endif %}
                                                     </select>
                                                   </div>
                                             </div>
@@ -187,6 +192,7 @@
                                 <tr>
                                     <th class="border-0"><i class="fas fa-hashtag"></i></th>
                                     <th class="border-0">Division Name</th>
+									<th class="border-0">Home Room</th>
                                     <th class="border-0">Edit</th>
                                     <th class="border-0 text-center">
                                         <div class="form-check" onclick="checkAll();">
@@ -201,6 +207,7 @@
                                     <tr>
                                         <td class="border-0 fw-bold">{{loop.index}}</td>
                                         <td class="border-0 fw-bold">{{division.name}}</td>
+										<td class="border-0 fw-bold">{% if division.Resource_id %}{{division.Resource_id.name}}{% else %}--{% endif %}</td>
                                         <td class="border-0">
                                             <a href = "{{url ('update_division' ,args=[my_semester.id,division.id])}}">
                                                 <i class="fas fa-edit"></i>

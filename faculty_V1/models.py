@@ -159,7 +159,7 @@ class Feedback_manager(models.Manager):
 		return super().get_queryset().filter(Subject_event_id__isnull=True)
 
 class Feedback(models.Model):
-	timestamp = models.DateTimeField(auto_now=True)
+	timestamp = models.DateTimeField(auto_now_add=True)
 	Given_by = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
 
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.SET_NULL,null=True,blank=True)

@@ -3,17 +3,31 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db.models import Q
-
-from Table_V2.models import *
-from institute_V1.models import *
-
-#region //////////////////// view_functions //////////////////
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.views.generic import View
  
+from Table_V2.models import *
+from institute_V1.models import *
 from admin_V1.views import return_context
-def select_batch_for_pdf(request,Division_id):
+
+#region //////////////////// other_functions //////////////////
+def lcm(x, y):
+	# choose the greater number
+	x = 1 if not x else x
+	y = 1 if not y else y
+	greater = max(x,y)
+	while(True):
+		if greater % x == 0 and greater % y == 0:
+			ans = greater
+			break
+		greater += 1
+	return ans
+
+#endregion
+#region //////////////////// Division Print //////////////////
+
+def select_batch_for_division(request,Division_id):
 	context = return_context(request)
 	batch_list = Batch.objects.all().filter(Division_id_id=Division_id)
 	context['my_division'] = Division.objects.get(pk=Division_id)
@@ -28,6 +42,7 @@ def select_batch_for_pdf(request,Division_id):
 	# 	print(request.POST)
 
 	return render(request,"admin/create_table/select_batch.html",context)
+
 
 def division_print(request,Division_id):
 	template = "admin/print_table/division_print.html"
@@ -68,17 +83,24 @@ def division_print(request,Division_id):
 		context['print'] = True
 		return export_pdf(template,f"{Division_id.name} ({prac_str}) ({lect_str})",context)
 	return render(request,template,context)
+#endregion
+
+#region //////////////////// Resource Print //////////////////
+def select_shift_for_resource(request,Division_id):
+	context = return_context(request)
+	batch_list = Batch.objects.all().filter(Division_id_id=Division_id)
+	context['my_division'] = Division.objects.get(pk=Division_id)
+	context['my_prac_batches'] = batch_list.filter(batch_for="prac")
+	context['my_lect_batches'] = batch_list.filter(batch_for="lect")
+	post_result = {
+		'lect_batch': ['53', '55'],
+		'prac_batch': ['59', '60']
+	}
+	
+	# if request.method == 'POST':
+	# 	print(request.POST)
+
+	return render(request,"admin/create_table/select_batch.html",context)
 
 
 #endregion
-def lcm(x, y):
-	# choose the greater number
-	x = 1 if not x else x
-	y = 1 if not y else y
-	greater = max(x,y)
-	while(True):
-		if greater % x == 0 and greater % y == 0:
-			ans = greater
-			break
-		greater += 1
-	return ans

@@ -192,6 +192,9 @@ class faculty_user_table(AjaxDatatableView):
 			'Department':faculty_details.Department_id,
 			"Shift":faculty_details.Shift_id,
 		}
+		if faculty_details.Resource_id:
+			fields["Home Class"] = faculty_details.Resource_id.get_name()
+		
 
 		html = '<table class="row-details">'
 		for key in fields:
@@ -199,10 +202,11 @@ class faculty_user_table(AjaxDatatableView):
 		html += '<tr><td class="fw-bold">Feedback</td><td class="fw-bold"><ul>'
 		html += ''' <a href="%s"><i class="fas fa-chart-line" style="font-size:25px"></i></a>'''%(reverse('faculty_feedback',args=[obj.pk]))
 		html+='</ul></td></tr>'
-		html += '<tr><td class="fw-bold">Subject Events</td><td class="fw-bold"><ul>'
-		for event in sub_events:
-			html += '<li stlye="font-weight:600">%s (%s)</li>' % (event[0],event[1])
-		html+='</ul></td></tr>'
+		if sub_events:
+			html += '<tr><td class="fw-bold">Subject Events</td><td class="fw-bold"><ul>'
+			for event in sub_events:
+				html += '<li stlye="font-weight:600">%s (%s)</li>' % (event[0],event[1])
+			html+='</ul></td></tr>'
 		html += '</table>'
 		return html
 	

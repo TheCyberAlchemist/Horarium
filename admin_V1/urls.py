@@ -82,7 +82,7 @@ urlpatterns = [
 
 	re_path(r'^try/algo3/$',algo3.view_func,name = 'view_algo3'),
 
-	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_pdf,name = 'select_batch'),
+	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_division,name = 'select_batch'),
 	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table/$',PDF.division_print,name = 'print_table3'),
 
     re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),

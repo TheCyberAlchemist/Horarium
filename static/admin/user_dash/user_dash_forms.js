@@ -5,17 +5,28 @@ function faculty_edit_called(id) {
 		data: {"pk": id},
 		url: "./faculty_edit_called/",
 		success: function (data) {
+			$("#faculty_form_status").html("Update");
 			for(field in data){
 				$(`#faculty_form [name='${field}']`).val(data[field]);
+				console.log("here");
 			}
 			$("#faculty_form").find(".select2_input").each(function(){
 				$(this).trigger("change");
 			});
+
+			resource = data['Resource_id']
+			$("#faculty_home_class option").remove().trigger("change");
+			if (resource.name){
+				newOption = new Option(resource.name, resource.id, true, true);
+				console.log("there")
+				$("#faculty_home_class").append(newOption).trigger('change');
+			}
+			$("#faculty_home_class").prop("disabled", true).trigger("change");
+
 			$("#faculty_form").find(".password").each(function(){
 				$(this).removeAttr('required');
 				$(this).attr('disabled', 'disabled');
 			});
-			$("#faculty_form_status").html("Update");
 			$("#faculty_form_accordian").collapse("show");
 		},
 	});

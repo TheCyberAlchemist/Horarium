@@ -188,7 +188,7 @@
                                     <tr>
                                         <td class="border-0 fw-bold">{{loop.index}}</td>
                                         <td class="border-0 fw-bold">{{resource.name}}</td>
-                                        <td class="border-0 fw-bold">{{resource.block}}</td>
+                                        <td class="border-0 fw-bold">{% if resource.block %}{{resource.block}} {% else %} -- {% endif %}</td>
                                         <td class="border-0">
                                             <a href = "{{url ('update_resource' ,args=[resource.id])}}">
                                                 <i class="fas fa-edit"></i>

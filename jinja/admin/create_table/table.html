@@ -103,8 +103,20 @@ if (header){
         <div class="select2_container single_select2 mb-3">
             <select id="resources">
                 <option disabled selected value=-1>Select the room </option>
+				<option value="">--------------------</option>
+				{% if my_division.Resource_id %}
+					<option value="{{my_division.Resource_id.id}}">{{my_division.Resource_id}} (
+								{% if my_division.Resource_id.is_lab %}Lab{% else %}Class{% endif %}
+							) Home-class
+						</option>
+				{% endif %}
                 {% for resource in resources %}
-                    <option value="{{resource.id}}">{{resource}}</option>
+					{% if my_division.Resource_id != resource%}
+						<option value="{{resource.id}}">{{resource}} (
+								{% if resource.is_lab %}Lab{% else %}Class{% endif %}
+							)
+						</option>
+					{%endif%}
                 {% endfor %}
             </select>
         </div>
@@ -262,14 +274,7 @@ if (header){
                         </div>
                         {% endfor %}
                     </div>
-                    <!-- <div class="card" style="background-color: #ff3333;">
-                    <div class="card-body p-0">
-                        <h4 class="card-title text-left">DBMS prac</h4>
-                        <h6 class="card-text text-right mr-2">By URT</h6>
-                    </div>
-                </div> -->
-                    
-                    
+
                 </div>
             </div>
             <!-- #endregion Card Container-->
@@ -308,101 +313,6 @@ if (header){
                     {% endif %}
                 </div>
                 {%endfor%}
-                <!-- <div class="row my_row">
-                    <div class="col my_col lect">10:00</div>
-                    <div class="col my_col prac prac_above">
-                        <div class="container text-center">
-                            <div class="row text-center" style="overflow-x: auto;">
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col mt-1">
-                                            <button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:red">DBMS</button>
-                                        </div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                </div>
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                        </div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col my_col prac prac_below">
-                        <div class="container text-center">
-                            <div class="row">
-                                <div class="col-4 batch_contents">
-                                    <div class="row">
-                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                                    </div>
-                                </div>
-                                <div class="col-4 batch_contents">
-                                    <div class="row">
-                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                                    </div>
-                                </div>
-                                <div class="col-4 batch_contents">
-                                    <div class="row">
-                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col my_col lect"></div>
-                    <div class="col my_col lect try_button"></div>
-                    <div class="col my_col prac">
-                        <div class="row p-2">
-                            <div class="col-12">
-                                <button class="btn btn-primary mt-1">Hello</button>
-                            </div>
-                            <div class="col-6 text-left">URT</div>
-                            <div class="col-6 text-right">305</div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             <!-- #endregion Table Container-->
         </div>
@@ -489,7 +399,7 @@ if (header){
 					<div class="col-lg-12 col-sm-12 col-md-12 mb-3">
                         <div class="form-check form-check-inline">
 							<input 	class="form-check-input" type="checkbox" id="resource_allocation" name="resource_allocation" value="">
-							<label class="form-check-label" for="resource_allocation">Do resource allocation</label>
+							<label class="form-check-label" for="resource_allocation">Allocate Resources?</label>
 						</div>
                     </div>
                     <div class="col-lg-6 col-sm-12 col-md-12">

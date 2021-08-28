@@ -125,7 +125,7 @@ def delete_entries(qs,data):
 		if i:
 			i.delete()
 
-def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False):
+def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False,Institute_id=None):
 	data = serializers.serialize("json", qs)
 	data = json.loads(data)
 	for d in data:
@@ -134,7 +134,7 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 		elif time_table_event:
 			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
 			# print(Event.objects.filter(Slot_id_id=d['pk']).values_list("id",flat=True))
-			d['fields']['resources_filled'] = list(Event.objects.active().filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
+			d['fields']['resources_filled'] = list(Resource.get_all_filled_for_slot(Slots.objects.get(pk=d['pk']),Institute_id=Institute_id,Division_id=my_division).values_list("pk",flat=True))
 		elif time_table:
 			d['fields']['Subject_color'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.color
 			d['fields']['Faculty_name'] = qs.filter(pk = d['pk'])[0].get_faculty_name()
@@ -290,6 +290,18 @@ def show_semester(request,Branch_id,Semester_id = None):
 	else:
 		raise redirect(get_home_page(request.user))
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
+def get_unattached_resources_for_shift(request):
+	Shift_id = request.GET.get("Shift_id")
+	Shift_id = Shift.objects.filter(pk=Shift_id).first()
+	resources = Resource.get_unattached_resources_for_shift(Shift_id).values("id","name","is_lab")
+	# # posts = (Post.objects.filter(owner=authenticated_user).values('id', 'title', 'summary'))
+
+	json_posts = json.dumps(list(resources))
+	# print(json_posts)
+	return JsonResponse(json_posts,safe=False)
+	
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
@@ -306,6 +318,7 @@ def show_division(request,Semester_id,Division_id = None):
 			context['update'] = form.instance
 		context['my_divisions'] = divisions
 		context['my_semester'] = my_semester
+		# context['my_resources'] = my_resources
 		if request.method == 'POST':
 			if request.is_ajax():	# if delete is called
 				data = json.loads(request.body)
@@ -986,7 +999,7 @@ def show_table(request,Division_id):
 	
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
-	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id,Institute_id=context["institute"])
 	context['events_json'] = {"my_events":serializer.serialize(Event.objects.active().filter(Division_id=Division_id))}
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches

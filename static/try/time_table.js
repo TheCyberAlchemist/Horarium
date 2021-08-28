@@ -202,13 +202,16 @@ function get_all_locked_events() {
 
 function get_resource_name_by_id(resource_id) {
 	let resource = "";
+	if (!resource_id){
+		return ""
+	}
 	$("#resources option").each(function () {
 		if ($(this).val() == resource_id) {
 			resource = $(this).html();
 			// console.log(resource);
 		}
 	});
-	return resource;
+	return resource.split('(')[0];
 }
 
 function get_all_filled_td() {
@@ -861,8 +864,7 @@ function change_to_lect_td(td, subject_batch) {
 		string +=
 		`<div class='event_divs mt-2' batch_for = "class" row p-2'>
 			<div class='col-12'>
-				<button class='event_name btn mt-1 mb-1' data-bs-toggle="tooltip" data-bs-placement="bottom" 
-				 style = 'color:white;'></button>
+				<button class='event_name btn mt-1 mb-1' data-bs-toggle="tooltip" data-bs-placement="bottom" style = 'color:white;'></button>
 			</div>
 			<div class='col-6 text-left faculty_name'></div>
 			<div class='col-6 text-right resource_name'></div>
@@ -878,6 +880,8 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 	let resource_name = get_resource_name_by_id(resource_id);
 	let subject = get_subject_by_subject_event(subject_event)
 	let title_resource = resource_name?resource_name:"---"
+	link = link?link:"---"
+	console.log(Boolean(link));
 	if (Boolean(batch)) {
 		batch_element = td.find("[batch_for=" + batch + "]");
 		button = batch_element.find(".event_name");
@@ -1019,6 +1023,7 @@ function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 //#region  ////////////// ready function /////////////////////////
 global_var = 0;
 $(document).ready(function () {
+	$("[rel='tooltip']").tooltip();
 	update_all_cards();
 	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get("csrftoken");
@@ -1359,7 +1364,7 @@ $(document).ready(function () {
 		const td = get_cell(slot_id);
 		const resource = $("#resources").val();
 		let temp = $("#resources").find(":selected").val();
-		const resource_id = temp == -1 ? null : temp;
+		const resource_id = temp == -1 ? null : temp.split('(')[0];
 
 		const subject_batch = get_batches_for_subject_event(subject_event_id, is_prac);
 		const type_batch = get_respective_lect_prac_batch(subject_event_id, is_prac);

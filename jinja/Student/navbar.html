@@ -14,7 +14,7 @@
 <div class="nav_container">
   <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
     <div class="container-fluid">
-      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif"> Horarium </a>
+      <a class="navbar-brand" style="font-family: 'Poppins', sans-serif" href="{{url('student_home')}}"> Horarium </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -50,8 +50,8 @@
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li>
-                <a class="dropdown-item text-center">{{request.user}}</a>
-                <!-- <a class="dropdown-item" href="{{url ("student_settings")}}" >{{request.user}}</a> -->
+                <!-- <a class="dropdown-item text-center">{{request.user}}</a> -->
+                <a class="dropdown-item text-center" href="{{url ("student_settings")}}" >{{request.user}}</a>
               </li>
               <li><hr class="dropdown-divider" /></li>
               <li><a href="{{url ('logout')}}" class="dropdown-item text-center">Log Out</a></li>

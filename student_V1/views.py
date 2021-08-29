@@ -161,8 +161,8 @@ def student_home(request):
 	)
 	return render(request,"Student/student_v1.html",context)
 
-# @login_required(login_url="login")
-# @allowed_users(allowed_roles=['Student'])
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
 def student_settings(request) :
 	user = request.user
 	# from login_V2.models import CustomUser

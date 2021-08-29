@@ -50,6 +50,10 @@ urlpatterns = [
     re_path(r'api/\Z', fv.feedback.as_view()),
     re_path(r'mandatory/\Z', fv.mandatory_feedbacks.as_view()),
     re_path(r'ave_all/\Z', fv.average_all_questions.as_view()),
+
+	re_path(r'get_put_sticky_notes/\Z',sv.get_put_sticky_notes,name="get_put_sticky_notes"),
+	re_path(r'delete_sticky_notes/\Z',sv.delete_sticky_notes,name="delete_sticky_notes"),
+
     ##### system #####
     path('admin/', admin.site.urls),
     re_path(r'^favicon\.ico$',RedirectView.as_view(url='/static/site_logo.ico')),

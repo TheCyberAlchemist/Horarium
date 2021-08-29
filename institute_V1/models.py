@@ -63,21 +63,22 @@ class Resource(models.Model):
 		from Table_V2.models import Event
 		st = Slot_id.Timing_id.start_time
 		et = Slot_id.Timing_id.end_time
-		# Institute_events = Event.objects.active().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
-		Institute_events = Event.objects.all().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		Institute_events = Event.objects.active().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		# Institute_events = Event.objects.all().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
 		same_day_events = Institute_events.filter(Slot_id__day__Days_id = Slot_id.day.Days_id).exclude(Division_id=Division_id)
 		# remove the events from the same division as they should not be considered
 		resources_in_use = same_day_events.filter(start_time__lt=et,end_time__gte = st).values_list("Resource_id",flat=True)
 		temp = [i for i in list(resources_in_use) if i]	# remove None from the array
 		return Resource.objects.all().filter(Institute_id=Institute_id).exclude(pk__in=temp)
+	
 	@staticmethod
 	def get_all_filled_for_slot(Slot_id,Institute_id,Division_id=None):
 		'returns all the filled resources during the slot'
 		from Table_V2.models import Event
 		st = Slot_id.Timing_id.start_time
 		et = Slot_id.Timing_id.end_time
-		# Institute_events = Event.objects.active().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
-		Institute_events = Event.objects.all().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		Institute_events = Event.objects.active().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		# Institute_events = Event.objects.all().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
 		same_day_events = Institute_events.filter(Slot_id__day__Days_id = Slot_id.day.Days_id).exclude(Division_id=Division_id)
 		# remove the events from the same division as they should not be considered
 		resources_in_use = same_day_events.filter(start_time__lt=et,end_time__gte = st).values_list("Resource_id",flat=True)

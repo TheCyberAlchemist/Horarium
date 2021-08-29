@@ -929,7 +929,6 @@ def show_resource(request,Resource_id = None):
 				else:
 					context['errors'] = form.errors.as_ul()
 					print(context['errors'])
-		print(context['my_resources'])
 		return render(request,"admin/details/resources.html",context)
 	else:
 		return redirect(get_home_page(request.user))
@@ -1239,23 +1238,6 @@ def print_table(request) :
 def print4(request) :
     # return render(request,'admin/print_table/print_table.html')
 	return render(request,'try/html2pdf/time_table_sample.html')
-
-from django.http import HttpResponse
-from django.views.generic import View
- 
-#importing get_template from loader
-from django.template.loader import get_template
- 
-#import render_to_pdf from util.py 
-# from .utils import render_to_pdf 
- 
-#Creating our view, it is a class based view
-class GeneratePdf(View):
-	def get(self, request, *args, **kwargs):
-		#getting the template
-		pdf = render_to_pdf('try/html2pdf/time_table_sample.html',{"asd":"data"})
-			#rendering the template
-		return HttpResponse(pdf, content_type='application/pdf')
 
 def text_editor(request) :
 	return render(request,'admin/text_editor/text_editor.html')

@@ -9,6 +9,7 @@ from django.views.generic import View
  
 from Table_V2.models import *
 from institute_V1.models import *
+from faculty_V1.models import *
 from admin_V1.views import return_context
 
 #region //////////////////// other_functions //////////////////
@@ -86,21 +87,51 @@ def division_print(request,Division_id):
 #endregion
 
 #region //////////////////// Resource Print //////////////////
-def select_shift_for_resource(request,Division_id):
+def select_shift_for_resource(request,Resource_id):
 	context = return_context(request)
-	batch_list = Batch.objects.all().filter(Division_id_id=Division_id)
-	context['my_division'] = Division.objects.get(pk=Division_id)
-	context['my_prac_batches'] = batch_list.filter(batch_for="prac")
-	context['my_lect_batches'] = batch_list.filter(batch_for="lect")
-	post_result = {
-		'lect_batch': ['53', '55'],
-		'prac_batch': ['59', '60']
-	}
-	
+	# batch_list = Batch.objects.all().filter(Division_id_id=Division_id)
+	context['my_resource'] = Resource.objects.get(pk=Resource_id)
+	context['my_shifts'] = Shift.objects.filter(Department_id__Institute_id=context['institute'])
+	print(context['my_shifts'])
 	# if request.method == 'POST':
 	# 	print(request.POST)
 
-	return render(request,"admin/create_table/select_batch.html",context)
+	return render(request,"admin/create_table/select_shift.html",context)
 
+def resource_print(request,Resource_id):
+	template = "admin/print_table/resource_print.html"
+	Resource_id = Resource.objects.get(pk=Resource_id)
+
+	Shift_id=request.GET.get("shift")
+	Shift_id = Shift.objects.get(pk=Shift_id)
+	all_resource_events = Event.objects.active().filter(Resource_id=Resource_id,Division_id__Shift_id=Shift_id)
+	context = {
+		'Resource_id' : Resource_id,
+		'days' : Working_days.objects.filter(Shift_id=Shift_id),
+		'events' : all_resource_events,
+		'timings' : Timings.objects.filter(Shift_id = Shift_id),
+		'file_name' : f"{Resource_id.name} ({Shift_id})",
+	}
+	return render(request,template,context)
+
+#endregion
+
+#region //////////////////// Resource Print //////////////////
+def faculty_print(request,Faculty_id):
+	template = "admin/print_table/faculty_print.html"
+	Faculty_id = Faculty_details.objects.get(pk=Faculty_id)
+
+	Shift_id=Faculty_id.Shift_id
+	
+	all_resource_events = Event.objects.filter_faculty(Faculty_id)
+
+	context = {
+		'Faculty_id' : Faculty_id,
+		'days' : Working_days.objects.filter(Shift_id=Shift_id),
+		'events' : all_resource_events,
+		'timings' : Timings.objects.filter(Shift_id = Shift_id),
+		'file_name' : f"{Faculty_id.Designation_id} {Faculty_id.User_id}",
+	}
+	return render(request,template,context)
 
 #endregion

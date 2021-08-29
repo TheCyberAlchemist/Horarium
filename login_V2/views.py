@@ -60,6 +60,9 @@ def login_page(request):
 			else:
 				message = "Something is wrong with your account.."
 				context['message'] = message
+		else:
+			message = "Email or Password is Incorrect."
+			context['message'] = message
 	return render(request, 'login_V2/login/login.html', context)
 
 def reset_user_password(request):

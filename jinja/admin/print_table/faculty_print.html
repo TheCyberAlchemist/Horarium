@@ -2,11 +2,13 @@
 	<table class="inner my-auto">
 		<tr style="vertical-align: top">
 			<td colspan="2" class="m-0 p-0">
-				{% if temp_event.Batch_id %}
-					<div class="batch-name w-100" style="text-align: left">{{temp_event.Batch_id}}</div>
+				<!--for division-->
+				{% if temp_event.Division_id %}
+					<span class="batch-name w-100" style="text-align: left">{{temp_event.Division_id}}</span>
 				{% else %}
-					<div class="batch-name w-100" style="text-align: left">&nbsp;</div>
+					<span class="batch-name w-100" style="text-align: left">&nbsp;</span>
 				{% endif %}
+				
 			</td>
 		</tr>
 		<tr>
@@ -16,14 +18,20 @@
 		</tr>
 		<tr style="vertical-align: bottom">
 			<td class="m-0 p-0">
-				{% if temp_event.Resource_id %}
-					<div class="resource-name text-left m-0 p-0" style="text-align: left">{{ temp_event.Resource_id}}</div>
+				<!--for batch-->
+				{% if temp_event.Batch_id %}
+					<div class="resource-name text-left m-0 p-0" style="text-align: left">{{temp_event.Batch_id}}</div>
 				{% else %}
 					<div class="resource-name text-left m-0 p-0" style="text-align: left">&nbsp;</div>
 				{% endif %}
 			</td>
 			<td class="m-0 p-0">
-				<div class="faculty-name text-right m-0 p-0" style="text-align: right">{{temp_event.Subject_event_id.Faculty_id}}</div>
+				{% if temp_event.Resource_id %}
+					<div class="batch-name text-right m-0 p-0" style="text-align: right">{{ temp_event.Resource_id}}</div>
+				{% else %}
+					<div class="batch-name text-right m-0 p-0" style="text-align: right">&nbsp;</div>
+				{% endif %}
+				
 			</td>
 		</tr>
 	</table>
@@ -39,7 +47,7 @@
 
 	<meta name="pdfkit-page-size" content="Legal" />
 	<meta name="pdfkit-orientation" content="Landscape" />
-	<title>Print Table | Horarium</title>
+	<title>Faculty Table | Horarium</title>
 <style>
 	html, body {
 		width: 297mm;
@@ -244,38 +252,34 @@
             Horarium
         </div>
     </div>
-	<div id = "page_activator" activate-page="{{my_division.Semester_id.Branch_id.Department_id}}.{{my_division.Semester_id.Branch_id}}.{{my_division.Semester_id}}.{{my_division}}.b"></div>
 	<nav aria-label="breadcrumb" class="breadcrumb_nav mt-3">
 		<ol class="breadcrumb">
-		  <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
-			<i class="fas fa-home"></i>  
-		  </a></li>
-		  <li class="breadcrumb-item active" aria-current="page">
-			<a href="{{url ('show_table',args=[my_division.id]) }}">
-				<span class="h6 fw-bold">Create Table</span> 
-			</a>
-		  </li>
-		  <li class="breadcrumb-item active" aria-current="page">
-			<a href="{{url ('select_batch',args=[my_division.id]) }}">
-				<span class="h6 fw-bold">Select Batch</span> 
-			</a>
-		  </li>
+			<li class="breadcrumb-item">
+				<a href="{{url ('admin_home')}}">
+					<i class="fas fa-home"></i>
+				</a>
+			</li>
+			<li class="breadcrumb-item active" aria-current="page">
+				<a href="{{url ('user_dash',args=[Faculty_id.Department_id.id]) }}">
+					<span class="h6 fw-bold">User Dash</span> 
+				</a>
+			</li>
 		</ol>
 	  </nav>
 	<table id="t1" class=" main_table" style="position: relative;page-break-inside: avoid;">
 		<thead>
 			<tr>
 				{% set len = days|length %}
-				<th colspan="{{unit_col*len + unit_col}}" >
+				<th colspan="{{len+1}}" >
 					<h3 class="text-center">
 						{{file_name}}
 					</h3>
 				</th>
 			</tr>
 			<tr>
-			<th colspan="{{unit_col}}" class="m-0 p-0 text-center">Time</th>
+			<th class="m-0 p-0 text-center">Time</th>
 			{% for day in days %}
-				<th colspan="{{unit_col}}" class="m-0 p-0 text-center">{{day.Days_id}}</th>
+				<th class="m-0 p-0 text-center">{{day.Days_id}}</th>
 			{% endfor %}
 			</tr>
 		</thead>
@@ -285,15 +289,15 @@
 				<!--for all time periods in database-->
 				<tr>
 					{% if timing.is_break %}
-						<th class="text-center my-auto" colspan="{{unit_col}}">
+						<th class="text-center my-auto">
 							{{timing.name}}<br />
 							[{{timing.return_time()}}]
 						</th>
-						<th  colspan="{{unit_col*len}}" class="isBreak my-auto text-center p-0" break_id="{{timing.id}}">
+						<th colspan="{{len}}" class="isBreak my-auto text-center p-0" break_id="{{timing.id}}">
 							<span class="h4 text-center">{{timing.name}}</span>
 						</th>
 					{% else %}
-						<th class="text-center m-0 p-0" colspan="{{unit_col}}">
+						<th class="text-center m-0 p-0">
 							{{timing.name}}<br />
 							[{{timing.return_time()}}]
 						</th>
@@ -305,20 +309,17 @@
 									<!-- if there is an event-->
 									{% if slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
 										<!-- if there is batch practical event-->
-											{% set _ = slot_2_arr.append(day) %}
-										{% for batch in prac_batches %}
-											<td colspan="{{prac_batch_col}}" class="event_td  m-0 p-0" rowspan="2">
-												{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
-												{% if temp_event %}
-													<!-- {{temp_event.Subject_event_id.Subject_id}} -->
-													{{td_table(temp_event)}}
-												{% endif %}
-											</td>
-										{% endfor %}
-
+										{% set _ = slot_2_arr.append(day) %}
+										<td class="event_td  m-0 p-0" rowspan="2">
+											{% set temp_event = slot_events.first() %}
+											{% if temp_event %}
+												<!-- {{temp_event.Subject_event_id.Subject_id}} -->
+												{{td_table(temp_event)}}
+											{% endif %}
+										</td>
 									{% elif slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
 										<!-- if there is class practical event-->
-										<td colspan="{{unit_col}}" class="event_td m-0 p-0" rowspan="2" >
+										<td class="event_td m-0 p-0" rowspan="2" >
 											{% set temp_event = slot_events.first() %}
 											{% if temp_event %}
 												<!-- {{temp_event.Subject_event_id.Subject_id}} -->
@@ -328,7 +329,7 @@
 									{% elif not slot_events[0].Slot_id_2 and slot_events[0].Batch_id %}
 										<!-- if there is batch lecture event-->
 										{% for batch in lect_batches %}
-											<td colspan="{{lect_batch_col}}" class="event_td m-0 p-0" >
+											<td class="event_td m-0 p-0" >
 												{% set temp_event = slot_events.filter(Batch_id=batch).first() %}
 												{% if temp_event %}
 													<!-- {{temp_event.Subject_event_id.Subject_id}} -->
@@ -338,7 +339,7 @@
 										{% endfor %}
 									{% elif not slot_events[0].Slot_id_2 and not slot_events[0].Batch_id %}
 										<!-- if there is class lecture event-->
-										<td colspan="{{unit_col}}" class=" m-0 p-0">
+										<td class=" m-0 p-0">
 											{% set temp_event = slot_events.first() %}
 											{% if temp_event %}
 												<!-- {{temp_event.Subject_event_id.Subject_id}} -->
@@ -348,7 +349,7 @@
 									{% endif %}
 								{% else %}
 									<!-- if there is no event-->
-									<td colspan="{{unit_col}}" class="m-0 p-0">
+									<td class="m-0 p-0">
 										<table class="inner my-auto">
 											<tr style="vertical-align: top">
 												<td colspan="2" class="m-0 p-0">
@@ -381,8 +382,8 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td colspan="{{unit_col*len + unit_col}}" style="font-size:x-small;text-align: left;border:none">
-					WEF ({{my_division.Semester_id.WEF_id.get_range()}}) - Made By Horarium 
+				<td colspan="{{len}}" style="font-size:x-small;text-align: left;border:none">
+					Made By Horarium 
 				</td>
 			</tr>
 		</tfoot>

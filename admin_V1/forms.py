@@ -75,7 +75,7 @@ class update_user_name_email(ModelForm):
 class add_resource(ModelForm):
 	class Meta:
 		model = Resource
-		fields = ["name","block"]
+		fields = ["name","block","is_lab"]
 
 
 class add_subject_details(ModelForm):

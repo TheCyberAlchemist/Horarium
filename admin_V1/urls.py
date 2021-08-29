@@ -30,7 +30,6 @@ urlpatterns = [
 	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
     re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
 
-
     re_path(r'^home2/$',views.home,name = 'home2'),
 	re_path(r'^home/satisfaction$',views.student_satisfaction.as_view(),name = 'student_satisfaction'),
 
@@ -85,7 +84,12 @@ urlpatterns = [
 	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_division,name = 'select_batch'),
 	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table/$',PDF.division_print,name = 'print_table3'),
 
-    re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
+	re_path(r'^select_shift/(?P<Resource_id>\d+)/$',PDF.select_shift_for_resource,name = 'select_shift'),
+	re_path(r'^select_shift/(?P<Resource_id>\d+)/print_table/$',PDF.resource_print,name = 'print_resource'),
+	
+	re_path(r'^print_faculty/(?P<Faculty_id>\d+)/$',PDF.faculty_print,name = 'print_faculty'),
+    
+	re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
 
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('500/',views.error_500_view,name = '500'),

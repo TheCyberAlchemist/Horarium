@@ -1,8 +1,8 @@
 //API_URL = "../user_dash/1/faculty_edit_called/"
 // API_URL = "../user_dash/1/add_update_faculty/"
-// API_URL = "../table/2/algo3/"
+API_URL = "../table/7/algo3/"
 
-API_URL = "../csv/"
+// API_URL = "../csv/"
 function get_form_json(){
 	unique = []
 	obj = {}
@@ -41,7 +41,9 @@ function send_ajax(){
 	});
 	//#endregion
 	JSON_DATA = {
-	}
+		"locked_events" :{},
+		"merging_events":{}
+	}	
 	$.ajax({
 		url:API_URL,
 		type: "post",

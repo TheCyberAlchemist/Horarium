@@ -30,6 +30,7 @@ def faculty_edit_called(request,Department_id):
 		if not faculty_det.Department_id_id == int(Department_id):
 			# Check if the user is in the same institute
 			return HttpResponse(status=500)
+		resource = faculty_det.Resource_id
 		update_data = {
 			'pk':faculty.pk,
 			'first_name':faculty.first_name,
@@ -38,6 +39,10 @@ def faculty_edit_called(request,Department_id):
 			"short":faculty_det.short,
 			"Designation_id":faculty_det.Designation_id_id,
 			"Shift_id":faculty_det.Shift_id_id,
+			"Resource_id":{
+				"id":resource.pk if resource else None,
+				"name":resource.get_name() if resource else None,
+			},
 			"total_load":faculty_load.total_load,
 			"can_teach":can_teach_subject_ids,
 		}

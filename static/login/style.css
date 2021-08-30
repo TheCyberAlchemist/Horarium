@@ -138,7 +138,8 @@ form.sign-in-form {
 .login_btn {
   /* width: 150px; */
   padding: 0 20px;
-  background-color: #3d83fd;
+  /* background-color: #3d83fd; */
+  background: linear-gradient(45deg, #2A9D8F 0%, #004d4d 100%);
   /* background-color: #099; */
   border: none;
   outline: none;

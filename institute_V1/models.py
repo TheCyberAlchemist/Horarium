@@ -23,11 +23,81 @@ class Institute(models.Model):
 
 class Resource(models.Model):
 	name = models.CharField(max_length = N_len)
-	block = models.CharField(max_length = N_len)
-
+	block = models.CharField(max_length = N_len, null=True, blank=True)
+	is_lab = models.BooleanField(default=False)
 	Institute_id = models.ForeignKey(Institute,on_delete=models.CASCADE)
+
+	def get_type_by_shift(self,Shift_id):
+		'return if the resource is attached to a class or a faculty '
+		pass
+	
+	def is_free(self,Slot_id):
+		'returns True if the resource is free on the slot else returns False'
+		# is free must check for the the start time and end time rather then the slot itself
+		from Table_V2.models import Event
+		all_events_for_resource = Event.objects.all().filter(Resource_id = self)
+		qs = all_events_for_resource.filter(Q(Slot_id_2=Slot_id) | Q(Slot_id=Slot_id))	
+		if len(qs): 
+			# if there is an event having the resource on the slot
+			return False
+		st = Slot_id.Timing_id.start_time
+		et = Slot_id.Timing_id.end_time
+		same_day_events = all_events_for_resource.filter(Slot_id__day__Days_id = Slot_id.day.Days_id)
+		if same_day_events.filter(start_time__lt=et,end_time__gte = st):
+			# (start_time1 < end_time2) and (start_time2 < end_time1) 
+			# => (start_time1 < end_time2) and (end_time1 >= start_time2)
+			# if other slots time overlaps except the end points
+			return False
+		return True
+
+	def get_name(self):
+		type = "Lab" if self.is_lab else "Classroom"
+		return f"{self.name} -- {type}"
+	# from institute_V1.models import *
+	# from Table_V2.models import *
+	# Slot_id=Slots.objects.all().order_by("Timing_id__start_time")[10]
+	# Institute_id = Institute.objects.get(pk=1)
+	@staticmethod
+	def get_all_free_for_slot_in_division(Slot_id,Institute_id,Division_id=None):
+		'Returns the QS of all the resources that are free for a slot in the institute that are not in the same division'
+		from Table_V2.models import Event
+		st = Slot_id.Timing_id.start_time
+		et = Slot_id.Timing_id.end_time
+		Institute_events = Event.objects.active().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		# Institute_events = Event.objects.all().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		same_day_events = Institute_events.filter(Slot_id__day__Days_id = Slot_id.day.Days_id).exclude(Division_id=Division_id)
+		# remove the events from the same division as they should not be considered
+		resources_in_use = same_day_events.filter(start_time__lt=et,end_time__gte = st).values_list("Resource_id",flat=True)
+		temp = [i for i in list(resources_in_use) if i]	# remove None from the array
+		return Resource.objects.all().filter(Institute_id=Institute_id).exclude(pk__in=temp)
+	
+	@staticmethod
+	def get_all_filled_for_slot(Slot_id,Institute_id,Division_id=None):
+		'returns all the filled resources during the slot'
+		from Table_V2.models import Event
+		st = Slot_id.Timing_id.start_time
+		et = Slot_id.Timing_id.end_time
+		Institute_events = Event.objects.active().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		# Institute_events = Event.objects.all().filter(Division_id__Semester_id__Branch_id__Department_id__Institute_id=Institute_id)
+		same_day_events = Institute_events.filter(Slot_id__day__Days_id = Slot_id.day.Days_id).exclude(Division_id=Division_id)
+		# remove the events from the same division as they should not be considered
+		resources_in_use = same_day_events.filter(start_time__lt=et,end_time__gte = st).values_list("Resource_id",flat=True)
+		temp = [i for i in list(resources_in_use) if i]	# remove None from the array
+		return Resource.objects.all().filter(Institute_id=Institute_id,pk__in=temp)
+
+	@staticmethod
+	def get_unattached_resources_for_shift(Shift_id):
+		from faculty_V1.models import Faculty_details
+		'Returns a qs of all the resources that are not attached to a class or faculty'
+		arr = list(Division.objects.active().filter(Shift_id=Shift_id).values_list("Resource_id",flat=True))
+		arr1 = list(Faculty_details.objects.filter(Shift_id=Shift_id).values_list("Resource_id",flat=True))
+		temp = [i for i in arr + arr1 if i]	# remove None from the array
+		all_free_resources = Resource.objects.all().filter(Institute_id = Shift_id.Department_id.Institute_id).exclude(pk__in=temp)
+		return all_free_resources
+	
 	def __str__(self):
-		return self.name
+		return f"{self.name}"
+	
 	class Meta:
 		verbose_name_plural = "Resource"
 		constraints = [
@@ -217,7 +287,9 @@ class Division(models.Model):
 	Shift_id = models.ForeignKey(Shift,default=None,on_delete = models.CASCADE)
 	link = models.URLField(max_length=200, null=True, blank=True)
 	objects = Division_WEF_manager()
+	Resource_id = models.ForeignKey(Resource,default=None,on_delete = models.SET_NULL, null=True, blank=True)
 	
+
 	def __str__(self):
 		return "%s (%s)" % (self.name,str(self.Semester_id))
 	

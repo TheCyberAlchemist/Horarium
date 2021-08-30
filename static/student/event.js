@@ -71,7 +71,7 @@ class event_class{
 		}
 		return false;
 	}
-	upcoming(ct){	//	returns if the lecture starts in next after not
+	upcoming(ct){
 		if (!this.is_break){
 			let s = this.start.delta(ct).tis;
 			let e = this.end.delta(ct).tis;
@@ -192,7 +192,7 @@ function toggle_theme() {
     } 
 }
 
-function pop_up_form(event=null,subject=null){
+function pop_up_feedback_form(event=null,subject=null){
 	$("#offcanvasRight").removeClass("show");
 	if (event){
 		$(".questions input").each(function(){
@@ -263,7 +263,7 @@ function append_card(event){
 	});
 	card.getElementsByTagName("button")[0].addEventListener("click",function(){
 		// console.log($("#event_id").val() , event.pk);
-		pop_up_form(event);
+		pop_up_feedback_form(event);
 		remove_card(event.pk);
 	});
 	// console.log(card,typeof(card));
@@ -299,7 +299,7 @@ function append_mandatory_cards(sub){
 	});
 	card.getElementsByTagName("button")[0].addEventListener("click",function(){
 		// console.log($("#event_id").val() , event.pk);
-		pop_up_form(null,sub);
+		pop_up_feedback_form(null,sub);
 		remove_card(null,sub.id);
 	});
 
@@ -343,20 +343,23 @@ function open_page_link(link=null,event_id,on_click=false){
 		also sets the cookie for the event_id
 	*/
 	if (link){
-		popUp = window.open(link, '_blank');
-		if (popUp == null || typeof(popUp)=='undefined') { 	
-			if (!getWithExpiry("link not opened pop-up allow")){	
-				pop_up_warning();
-				setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+		if (!getWithExpiry("opened-"+event_id) || on_click){
+			// if not already opened or if clicked
+			let popUp = window.open(link, '_blank');
+			if (popUp == null || typeof(popUp)=='undefined') { 	
+				if (!getWithExpiry("link not opened pop-up allow")){	
+					pop_up_warning();
+					setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+				}
 			}
-		}
-		if (on_click){	
-			// if link is clicked then it will not open automatically for 2:10 hours
-			setWithExpiry("opened-"+event_id,true,(2*HOUR_VALUE)+10);
-		}else{
-			// if opened automatically then 6 
-			console.log(event_id);
-			setWithExpiry("opened-"+event_id,true,6*HOUR_VALUE);
+			else if (on_click){	
+				// if link is clicked then it will not open automatically for 2:10 hours
+				setWithExpiry("opened-"+event_id,true,(2*HOUR_VALUE)+10);
+			}else{
+				// if opened automatically then 6 
+				console.log(event_id);
+				setWithExpiry("opened-"+event_id,true,6*HOUR_VALUE);
+			}
 		}
 	}
 }
@@ -368,7 +371,7 @@ function pop_up_warning(){
 	)
 }
 var sec = 55;
-global_time = new time(8,10,56);
+global_time = new time(8,10,sec);
 jQuery(function () {
 
 	//#region  ////////////// Browser Agent //////////////
@@ -522,6 +525,20 @@ jQuery(function () {
 	//#endregion
 	
 	//#region  ////////////// time-related stuff //////////////
+	runAtMidnight(window.location.reload);
+	function runAtMidnight(fn){
+		var midnight = new Date();
+		function getRandomInt(min, max) {
+			min = Math.ceil(min);
+			max = Math.floor(max);
+			return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+		}
+		let refresh_mins = getRandomInt(0,10)
+		let refresh_secs = getRandomInt(0,59)
+		midnight.setHours(24, refresh_mins, refresh_secs, 0);
+		var timeUntilMidnight = midnight.getTime() - Date.now();
+		setTimeout(fn, timeUntilMidnight);
+	}
 	function put_events_on_timeline(){
 		// for (let i in events){
 		// 	events[i].start_time
@@ -630,15 +647,17 @@ jQuery(function () {
 			}
 			
 		}
-		sec++;
+		// sec++;
 		/////////////////// main code /////////////////////////////		
 		// console.log(events,ct);
 		for(let i in events){
 			// console.log(events[i],1);
 			get_cell(events[i]).removeClass("td_gone");
 		}
+		console.log("here");
 		for(i in events){
 			if (events[i].ongoing(ct)){		// is an event is ongoing
+				$(".timeline_and_text").show();
 				for(var j = 0;j < i ; j++){
 					// for all events that have been completed
 					get_cell(events[j])
@@ -680,7 +699,7 @@ jQuery(function () {
 					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
 						// console.log(events[i].end.delta(ct).tis);
 						// if the event feedback form is not popped 
-						pop_up_form(events[i]);
+						pop_up_feedback_form(events[i]);
 						last_popped_event = events[i];
 					}
 					next = events[parseInt(i)+1];
@@ -701,6 +720,8 @@ jQuery(function () {
 				}
 				break;
 			}else if (events[i].upcoming(ct)){		// is an event is upcoming
+				$(".timeline_and_text").show();
+				console.log("here upcoming");
 				for(var j = 0;j < i ; j++){
 					get_cell(events[j]).addClass("td_gone");
 				}
@@ -715,17 +736,17 @@ jQuery(function () {
 				// console.log(events[i]);
 				clearInterval(interval);
 				$("#text").html("No upcoming lectures ... ");
+				$(".timeline_and_text").hide();
 				// console.log("No upcoming lecture .");
 			}
 		}
 	}
-	if (events.length){		
+	if (events.length){
 		interval = setInterval(main, 1000);
 		main();
 		first_main_call = false;
 	}
 	//#endregion
-	
 });
 
 function setWithExpiry(key, value, ttl) {

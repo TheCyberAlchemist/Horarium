@@ -1,6 +1,5 @@
 {% extends 'Student/base.html' %} {% block title %} Student {% endblock %} {% block scripts %}
 <script type="application/javascript" src="{{static ('student/event.js')}}"></script>
-<script type="application/javascript" src="{{static ('student/sticky_note.js')}}"></script>
 <script>
   put_events({{ events_json | safe}}, {{ break_json | safe}});
     //#region CSS when the feedback popup opens and closes
@@ -93,7 +92,7 @@
               <div class="card p-lg-1 p-sm-0 p-md-0" id="prac">
                 <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
 					style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" 
-					onclick="open_pop_up('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}',{{temp_event.a.id}},true)"
+					onclick="{% if temp_event.a.link %}open_page_link('{{temp_event.a.link}}',{{temp_event.a.id}},true){% endif %}"
 				>
 					{{temp_event.a.Subject_event_id.Subject_id}}
 				</button>
@@ -116,7 +115,7 @@
               <div class="card p-lg-1 p-sm-0 p-md-0" id="lect">
                 <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" 
 					style="background-color: {{temp_event.a.Subject_event_id.Subject_id.color}}" 
-					onclick="open_pop_up('{% if temp_event.a.link %}{{temp_event.a.link}}{% else %}{{temp_event.a.Division_id.link}}{% endif %}',{{temp_event.a.id}},true)"
+					onclick="{% if temp_event.a.link %}open_page_link('{{temp_event.a.link}}',{{temp_event.a.id}},true){% endif %}"
 				>
 				{{temp_event.a.Subject_event_id.Subject_id}}
 				</button>
@@ -216,62 +215,5 @@
     </div>
   </div>
 
-  <div class="offcanvas feedback_panel offcanvas-end" tabindex="-1" id="offcanvasRight" aria-labelledby="offcanvasRightLabel">
-    <div class="offcanvas-header">
-      <h5 id="offcanvasRightLabel">
-        <nav class="for-feedback-and-sticky">
-          <div class="nav nav-tabs" id="nav-tab" role="tablist">
-			<span class="span nav-link active mr-1" id="sticky_notes-tab" data-bs-toggle="tab" data-bs-target="#sticky_note" type="button" role="tab" aria-controls="nav-home" >Notes <span class="badge bg-primary new">New</span></span>
-			<span class="span nav-link mr-1" id="feedback-tab" data-bs-toggle="tab" data-bs-target="#feedback" type="button" role="tab" aria-controls="nav-home" >Feedback</span>
-            <span class="span nav-link" id="mand-tab" data-bs-toggle="tab" data-bs-target="#mand" type="button" role="tab" aria-controls="nav-mand" aria-selected="false" style="display:none;">Mandatory</span>
-          </div>
-        </nav>
-      </h5>
-      <button type="button" id="closer" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="tab-content" id="nav-tabContent"  style="overflow-y: auto;">
-		<div class="tab-pane fade show active" id="sticky_note" role="tabpanel" aria-labelledby="sticky_notes-tab">
-			<div class="offcanvas-body" >
-				<!-- cards go here -->
-				<form id="sticky_note_form" method = "get" >
-					<div class="row">
-						<div class="col-lg-12 col-md-12 col-sm-12 mt-2">
-							<div class="form-floating mb-3">
-								<input type="text" class="form-control myinputs" id="title_input" placeholder="-" name="title_input">
-								<label for="title_input" >Title</label>
-							</div>
-						</div>
-						<div class="col-lg-12 col-md-12 col-sm-12">
-							<!-- <div class="form-floating mb-3">
-								<input type="text" class="form-control myinputs" id="body_input" placeholder="-" name="body_input">
-								<label for="body_input" >Body</label>
-							</div> -->
-							<div class="form-floating mb-3">
-								<textarea class="form-control textarea" style="height: 80%" placeholder="Leave your note here" id="body_input" name="body_input"></textarea>
-								<label for="body_input">Leave your note here</label>
-							  </div>
-						</div>
-						<div class="container text-center">
-							<button type="submit" class="btn btn-success w-75">Save Note</button>
-						</div>
-					</div>
-				</form>
-				<div id="sticky_notes_body" class="sticky_notes_body">
-
-				</div>
-			</div>
-		</div>
-      <div class="tab-pane fade" id="feedback" role="tabpanel" aria-labelledby="feedback-tab">
-        <div class="offcanvas-body feedback_body" id="feedback_body">
-          <!-- cards go here -->
-        </div>
-      </div>
-      <div class="tab-pane fade" id="mand" role="tabpanel" aria-labelledby="nav-profile-tab">
-        <div class="offcanvas-body mandatory_panel" id="mandatory_panel">
-          <!-- cards go here -->
-        </div>
-      </div>
-    </div>
-  </div>
   {% endblock %}
 </div>

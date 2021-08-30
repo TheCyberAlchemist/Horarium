@@ -36,8 +36,7 @@ class create_semester(ModelForm):
 class create_division(ModelForm):
 	class Meta:
 		model = Division
-		fields = ['name','Shift_id','link']
-
+		fields = ['name','Shift_id','link','Resource_id']
 
 class create_batch(ModelForm):
 	class Meta:
@@ -48,7 +47,7 @@ class create_batch(ModelForm):
 class faculty_details(ModelForm):
 	class Meta:
 		model = Faculty_details
-		fields = ['short','Shift_id','Designation_id']
+		fields = ['short','Shift_id','Designation_id','Resource_id']
 
 class faculty_details_csv(ModelForm):
 	class Meta:
@@ -76,7 +75,7 @@ class update_user_name_email(ModelForm):
 class add_resource(ModelForm):
 	class Meta:
 		model = Resource
-		fields = ["name","block"]
+		fields = ["name","block","is_lab"]
 
 
 class add_subject_details(ModelForm):

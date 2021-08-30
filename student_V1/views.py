@@ -161,8 +161,8 @@ def student_home(request):
 	)
 	return render(request,"Student/student_v1.html",context)
 
-# @login_required(login_url="login")
-# @allowed_users(allowed_roles=['Student'])
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Student'])
 def student_settings(request) :
 	user = request.user
 	# from login_V2.models import CustomUser
@@ -283,7 +283,9 @@ def get_put_sticky_notes(request):
 			'pk': note.pk,
 			'title': escape(decode(note.title)),
 			'body': escape(decode(note.body)),
+			'created_at': note.created_at_str(),
 		})
+	print(my_notes[0].created_at_str())
 	return HttpResponse(json.dumps(notes_arr),content_type='application/json')
 	# return JsonResponse(notes_arr,safe=False)
 

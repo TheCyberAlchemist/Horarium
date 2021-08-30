@@ -30,7 +30,6 @@ urlpatterns = [
 	re_path(r'^home/faculty_feedback/(?P<Faculty_id>\d+)$',faculty_view.faculty_feedback,name = 'faculty_feedback'),
     re_path(r'^all_feedbacks/$',views.all_feedbacks,name = 'all_feedbacks'),
 
-
     re_path(r'^home2/$',views.home,name = 'home2'),
 	re_path(r'^home/satisfaction$',views.student_satisfaction.as_view(),name = 'student_satisfaction'),
 
@@ -40,6 +39,7 @@ urlpatterns = [
 
 	re_path(r'^resource/$',views.show_resource,name = 'show_resource'),
 	re_path(r'^resource/(?P<Resource_id>\d+)/$',views.show_resource,name = 'update_resource'),
+	re_path(r"get_shift_resources/\Z",views.get_unattached_resources_for_shift,name = 'get_unattached_resource'),
 
 	re_path(r'^branch/(?P<Department_id>\d+)/$',views.show_branch,name = 'show_branch'),
 	re_path(r'^branch/(?P<Department_id>\d+)/(?P<Branch_id>\d+)/$',views.show_branch,name = 'update_branch'),
@@ -52,7 +52,7 @@ urlpatterns = [
 	
 	re_path(r'^division/(?P<Semester_id>\d+)/$',views.show_division,name = 'show_division'),
 	re_path(r'^division/(?P<Semester_id>\d+)/(?P<Division_id>\d+)/$',views.show_division,name = 'update_division'),
-	
+
 	re_path(r'^batch/(?P<Division_id>\d+)/$',views.show_batch,name = 'show_batch'),
 	re_path(r'^batch/(?P<Division_id>\d+)/(?P<Batch_id>\d+)/$',views.show_batch,name = 'update_batch'),
 	
@@ -81,18 +81,16 @@ urlpatterns = [
 
 	re_path(r'^try/algo3/$',algo3.view_func,name = 'view_algo3'),
 
-	path("table_template",PDF.table_template,name="table_template"),
-    re_path(r'^print_table/$',PDF.export_pdf,name = 'print_table'),
-    re_path(r'^print4/$',views.print4,name = 'print4'),
-	re_path(r'^print_table2/$',views.GeneratePdf.as_view(),name = 'print_table2'),
+	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_division,name = 'select_batch'),
+	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table/$',PDF.division_print,name = 'print_table3'),
 
-	re_path(r'^select_batches/(?P<Division_id>\d+)/$',PDF.select_batch_for_pdf,name = 'select_batch'),
-	re_path(r'^select_batches/(?P<Division_id>\d+)/print_table/$',PDF.table_template,name = 'print_table3'),
-
-    re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
+	re_path(r'^select_shift/(?P<Resource_id>\d+)/$',PDF.select_shift_for_resource,name = 'select_shift'),
+	re_path(r'^select_shift/(?P<Resource_id>\d+)/print_table/$',PDF.resource_print,name = 'print_resource'),
+	
+	re_path(r'^print_faculty/(?P<Faculty_id>\d+)/$',PDF.faculty_print,name = 'print_faculty'),
+    
+	re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
 
 	# re_path("/algo",views.algo_v1,name = "algo"),
-	# path('sub/',views.show_sub_det,name = 'show_sub_det'),
-	# path('sube/',views.show_subject_events, name = 'show_subject_events')
 	# path('500/',views.error_500_view,name = '500'),
 ]

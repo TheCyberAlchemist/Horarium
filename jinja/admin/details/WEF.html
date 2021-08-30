@@ -53,7 +53,7 @@
 			$(this).val('');
 		});
         
-        {% if update %}
+        {% if update or errors or integrityErrors %}
 		    $("#flush-collapseOne").collapse("show");
         {% endif %}
         let table = $('#example').DataTable({

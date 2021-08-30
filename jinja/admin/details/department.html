@@ -19,7 +19,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             //console.log("department")
-            {% if u_name %}
+            {% if u_name or errors or integrityErrors %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
             let table = $('#example').DataTable({
@@ -113,15 +113,15 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
 
-                                                    <input type="text" class="form-control myinputs" id="name"
+                                                    <input type="text" class="form-control myinputs" id="name" autocomplete="off"
                                                         placeholder="-" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" required maxlength="50" >
                                                     <label for="name" >Department Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control myinputs" id="short"
-                                                        placeholder="-" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input short_names" required maxlength = "20">
+                                                    <input type="text" class="form-control myinputs" id="short" autocomplete="off"
+                                                        placeholder="-" name="short" {% if u_short %}value = "{{u_short}}"{% endif %} class="form_input short_names" required maxlength = "10">
                                                     <label for="short">Short Name</label>
                                                 </div>
                                             </div>

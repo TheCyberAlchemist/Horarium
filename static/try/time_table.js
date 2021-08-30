@@ -862,7 +862,7 @@ function change_to_lect_td(td, subject_batch) {
 		string += `</div></div>`;
 	}else{
 		string +=
-		`<div class='event_divs mt-2' batch_for = "class" row p-2'>
+		`<div class='event_divs mt-2 row p-2' batch_for = "class">
 			<div class='col-12'>
 				<button class='event_name btn mt-1 mb-1' data-bs-toggle="tooltip" data-bs-placement="bottom" style = 'color:white;'></button>
 			</div>

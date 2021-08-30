@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ValidationError
 
 from institute_V1.models import *
 from faculty_V1.models import *
@@ -88,7 +89,16 @@ class add_sub_event(ModelForm):
 	class Meta:
 		model = Subject_event
 		fields = ["Faculty_id","Co_faculty_id","lect_carried", "prac_carried"]
-
+	def clean(self):
+		cleaned_data = super().clean()
+		Co_faculty_id = cleaned_data.get('Co_faculty_id')
+		Faculty_id = cleaned_data.get('Faculty_id')
+		print(Faculty_id,Co_faculty_id)
+		if Faculty_id and Co_faculty_id:
+			if Co_faculty_id == Faculty_id:
+				raise ValidationError("Same faculty in both fields.")
+			elif Co_faculty_id.Shift_id != Faculty_id.Shift_id:
+				raise ValidationError("Both faculties have different shifts.")
 class update_sub_event(ModelForm):
 	class Meta:
 		model = Subject_event

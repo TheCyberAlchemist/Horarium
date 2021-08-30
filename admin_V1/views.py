@@ -885,7 +885,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 			if form.is_valid():
 				candidate = form.save(commit=False)
 				candidate.Subject_id = my_subject
-				print("it is true :: ",candidate)
+				print("Form is true :: ",candidate)
 				try:	# unique contraint added
 					candidate.save()
 					context['form'] = add_sub_event()     				#Form Renewed
@@ -1035,7 +1035,7 @@ def get_division_subjects_and_events(Division_id):
 				my_subjects.append(i)
 			continue
 	
-	subject_events = Subject_event.objects.active().all().filter(Subject_id__in = my_subjects)
+	subject_events = Subject_event.objects.active().all().filter(Subject_id__in = my_subjects,Faculty_id__Shift_id=my_division.Shift_id)
 
 	return my_subjects,subject_events
 

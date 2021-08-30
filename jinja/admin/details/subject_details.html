@@ -94,13 +94,13 @@
 											<!--////////////////Form Goes here///////////-->
 											<div class="col-lg-6 col-md-12 col-sm-12">
 												<div class="form-floating mb-3">
-													<input type="text" class="form-control myinputs" id="name" placeholder="-" name="name" required autocomplete="off" {% if update %}value="{{update.name}}" {% endif %} />
+													<input type="text" class="form-control myinputs" id="name" placeholder="-" name="name" required autocomplete="off" {% if update %}value="{{update.name}}" {% endif %} maxlength="50"/>
 													<label for="name">Subject Name</label>
 												</div>
 											</div>
 											<div class="col-lg-6 col-md-12 col-sm-12">
 												<div class="form-floating mb-3">
-													<input type="text" class="form-control myinputs" id="short" placeholder="-" name="short" required autocomplete="off" {% if update%}value="{{update.short}}" {% endif %} />
+													<input type="text" class="form-control myinputs" id="short" placeholder="-" name="short" required autocomplete="off" {% if update%}value="{{update.short}}" {% endif %} maxlength="10"/>
 													<label for="short">Short Name</label>
 												</div>
 											</div>

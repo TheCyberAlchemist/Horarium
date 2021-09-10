@@ -9,7 +9,9 @@
 .show_parent, .row {
   margin: 0 auto;
   text-align: center;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   vertical-align: middle;
 }
 
@@ -41,13 +43,12 @@
   .charts_container {
     padding: 0 !important;
   }
-
   .col-sm-12 {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
-
   .carousel-item .card-title .col-sm-12 {
-    margin-bottom: 0.5rem !important;
+    margin-bottom: .5rem !important;
   }
-}/*# sourceMappingURL=feedback.css.map */
+}
+/*# sourceMappingURL=feedback.css.map */

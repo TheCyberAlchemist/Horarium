@@ -2,7 +2,8 @@
   margin: 0;
   color: white;
   padding: 0;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   top: 0;
   letter-spacing: 2px;
   font-weight: bold;
@@ -19,7 +20,7 @@ input:focus {
 
 .can_container ul > li {
   margin-left: 1.3em;
-  margin-top: 0.2em;
+  margin-top: .2em;
 }
 
 ul {
@@ -28,11 +29,11 @@ ul {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
-  padding: 0.1em;
+  padding: .1em;
 }
 
 li {
-  padding: 0.1em;
+  padding: .1em;
 }
 
 body {
@@ -61,6 +62,7 @@ a:hover {
   margin: 0 auto;
   border: none;
   border-radius: 10px;
+  -webkit-box-shadow: -3px -1px 41px -13px black;
   box-shadow: -3px -1px 41px -13px black;
 }
 
@@ -104,13 +106,16 @@ i {
 
 :required {
   outline: none;
-  box-shadow: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
 }
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px #f0f0f0 inset !important;
   box-shadow: 0 0 0 30px #f0f0f0 inset !important;
   -webkit-text-fill-color: black !important;
-}/*# sourceMappingURL=base.css.map */
+}
+/*# sourceMappingURL=base.css.map */

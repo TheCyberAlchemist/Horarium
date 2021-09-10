@@ -1,5 +1,6 @@
 .select2-container {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -12,12 +13,14 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
+  -webkit-transition: 0s;
   transition: 0s;
 }
 
 .select2-container .select2-selection--single {
   border-radius: 40px;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   cursor: pointer;
   display: block;
   height: 40px;
@@ -26,6 +29,7 @@
    -ms-user-select: none;
        user-select: none;
   -webkit-user-select: none;
+  -webkit-transition: 0s;
   transition: 0s;
 }
 
@@ -44,13 +48,15 @@
 
 .select2-dropdown {
   border-radius: 4px;
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   display: block;
   font-size: smaller;
   position: absolute;
   background-color: #ffffff;
   border: 1px solid #ced4da;
   z-index: 1061;
+  -webkit-transition: 0s;
   transition: 0s;
 }
 
@@ -148,6 +154,7 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
+  -webkit-transition: 0s;
   transition: 0s;
 }
 
@@ -184,28 +191,27 @@
 /* #endregion */
 @media screen and (max-width: 600px) {
   #designations,
-#day1,
-#day2,
-#batches,
-#slot_naming,
-#semesters,
-#resources,
-#select_fac,
-#shifts,
-#wef_select,
-#csv_select,
-#csv_add_update,
-#prac_batches,
-#lect_batches {
+  #day1,
+  #day2,
+  #batches,
+  #slot_naming,
+  #semesters,
+  #resources,
+  #select_fac,
+  #shifts,
+  #wef_select,
+  #csv_select,
+  #csv_add_update,
+  #prac_batches,
+  #lect_batches {
     width: 100% !important;
     font-size: x-small;
   }
-
   .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
     width: 100% !important;
   }
-
   .select2.select2-container.select2-container--default.select2-container--focus {
     width: 100% !important;
   }
-}/*# sourceMappingURL=myselect2.css.map */
+}
+/*# sourceMappingURL=myselect2.css.map */

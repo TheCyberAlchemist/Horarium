@@ -4,14 +4,17 @@
 .fas.fa-sign-in-alt,
 .table_container .fas.fa-print {
   font-size: 22px !important;
-  transform: translateY(4px);
+  -webkit-transform: translateY(4px);
+          transform: translateY(4px);
   color: grey !important;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
 .fas.fa-edit:hover,
 .table_container .fas.fa-print:hover {
   color: #6767ff !important;
+  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
@@ -46,7 +49,8 @@ table.dataTable > thead .sorting_asc_disabled::before,
 table.dataTable > thead .sorting_desc_disabled::before {
   right: 1em;
   content: "↑";
-  transform: translateY(-7px) !important;
+  -webkit-transform: translateY(-7px) !important;
+          transform: translateY(-7px) !important;
 }
 
 table.dataTable > thead .sorting::after,
@@ -56,7 +60,8 @@ table.dataTable > thead .sorting_asc_disabled::after,
 table.dataTable > thead .sorting_desc_disabled::after {
   right: 0.5em;
   content: "↓";
-  transform: translateY(-7px);
+  -webkit-transform: translateY(-7px);
+          transform: translateY(-7px);
 }
 
 /* #endregion */
@@ -81,13 +86,15 @@ table.dataTable > thead .sorting_desc_disabled::after {
 /* #endregion */
 /* #region  Searchbox in DataTable */
 .search_box .form-control:focus {
-  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
   outline: none !important;
   border: none !important;
 }
 
 .search_box .form-control {
-  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
   border: 0 !important;
   height: 30px !important;
   margin-top: 5px !important;
@@ -100,13 +107,19 @@ table.dataTable > thead .sorting_desc_disabled::after {
   padding-left: 0;
 }
 
-.search_box .form-control::-moz-placeholder {
+.search_box .form-control::-webkit-input-placeholder {
   font-size: 0.95rem;
   color: #aaa;
   font-style: italic;
 }
 
 .search_box .form-control:-ms-input-placeholder {
+  font-size: 0.95rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.search_box .form-control::-ms-input-placeholder {
   font-size: 0.95rem;
   color: #aaa;
   font-style: italic;
@@ -127,7 +140,8 @@ table.dataTable > thead .sorting_desc_disabled::after {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
   outline: none !important;
-  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+          box-shadow: none !important;
 }
 
 /* #endregion */
@@ -166,11 +180,10 @@ table.dataTable > thead .sorting_desc_disabled::after {
 /* #region  Large screen devices */
 @media screen and (max-width: 1700px) and (min-width: 1367px) {
   #student_details .row-details,
-#faculty_details .row-details {
+  #faculty_details .row-details {
     margin: 0 auto !important;
     width: 100% !important;
   }
-
   /* #region  Delete entries button image styling */
   .input_icons {
     position: absolute;
@@ -179,26 +192,24 @@ table.dataTable > thead .sorting_desc_disabled::after {
     height: 35px;
     width: 35px;
   }
-
   /* #endregion */
   /* #region Inner Table in Datatable Styling */
   #student_details .row-details tbody tr td,
-#faculty_details .row-details tbody tr td {
+  #faculty_details .row-details tbody tr td {
     border: 1px solid #b9b9b9;
     padding: 0.8em 10em !important;
   }
-
   /* #endregion */
 }
+
 /* #endregion */
 /* #region  Medium screen devices */
 @media screen and (max-width: 1366px) and (min-width: 601px) {
   #student_details .row-details,
-#faculty_details .row-details {
+  #faculty_details .row-details {
     margin: 0 auto !important;
     width: 100% !important;
   }
-
   /* #region  Delete entries button image styling */
   .input_icons {
     position: absolute;
@@ -207,45 +218,38 @@ table.dataTable > thead .sorting_desc_disabled::after {
     height: 30px;
     width: 30px;
   }
-
   /* #endregion */
   /* #region Inner Table in Datatable Styling */
   #student_details .row-details tbody tr td,
-#faculty_details .row-details tbody tr td {
+  #faculty_details .row-details tbody tr td {
     border: 1px solid #b9b9b9;
     padding: 0.8em 5em !important;
   }
-
   /* #endregion */
 }
+
 /* #endregion */
 /* #region  Mobile Devices */
 @media screen and (max-width: 600px) {
   .main_content .table_container {
     width: 100% !important;
   }
-
   .main_content.user_dash .table_container {
     width: 100% !important;
   }
-
   table.dataTable > tbody > tr.child span.dtr-title {
     min-width: auto !important;
   }
-
   .table.responsive {
     table-layout: fixed !important;
   }
-
   td.child {
     word-wrap: break-word !important;
     white-space: normal !important;
   }
-
   .row.d-flex.align-items-center {
     margin-left: 10px !important;
   }
-
   /* #region Delete entries button image styling */
   .input_icons {
     position: absolute;
@@ -254,15 +258,15 @@ table.dataTable > thead .sorting_desc_disabled::after {
     height: 30px;
     width: 30px;
   }
-
   /* #endregion */
   /* #region Inner Table in Datatable Styling */
   #student_details .row-details tbody tr td,
-#faculty_details .row-details tbody tr td {
+  #faculty_details .row-details tbody tr td {
     border: 1px solid #b9b9b9;
     padding: auto !important;
   }
-
   /* #endregion */
 }
-/* #endregion *//*# sourceMappingURL=dbtable2.css.map */
+
+/* #endregion */
+/*# sourceMappingURL=dbtable2.css.map */

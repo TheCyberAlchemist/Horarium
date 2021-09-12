@@ -855,8 +855,8 @@ function change_to_lect_td(td, subject_batch) {
 		for (let i in subject_batch) {
 			string +=
 			 `<div class="event_divs mt-2 col-`+colspan+`" batch_for=`+subject_batch[i].pk+` >
-				<button class="btn event_name lect_mycol mt-2 lect_batches" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-				 style="width:20px;height:55px;color:white"></button>
+				<button class="btn event_name lect_mycol mt-2 lect_batches" 
+				style="width:20px;height:55px;color:white"></button>
 			</div>`;
 		}
 		string += `</div></div>`;
@@ -864,7 +864,7 @@ function change_to_lect_td(td, subject_batch) {
 		string +=
 		`<div class='event_divs mt-2' batch_for = "class" row p-2'>
 			<div class='col-12'>
-				<button class='event_name btn mt-1 mb-1' data-bs-toggle="tooltip" data-bs-placement="bottom" style = 'color:white;'></button>
+				<button class='event_name btn mt-1 mb-1'style = 'color:white;'></button>
 			</div>
 			<div class='col-6 text-left faculty_name'></div>
 			<div class='col-6 text-right resource_name'></div>
@@ -890,7 +890,7 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 		// resource_div = batch_element.find(".resource_name");
 		let title_resource = resource_name?resource_name:"---"
 		button.html(subject_event.subject_name);
-		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		// faculty_div.html(subject_event.faculty_name);
@@ -902,7 +902,7 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 		resource_div = td.find(".resource_name");
 
 		button.html(subject_event.subject_name);
-		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		faculty_div.html(subject_event.faculty_name);
@@ -937,7 +937,7 @@ function change_to_prac_td(td, subject_batch) {
 					<div class="row">
 						<div class="col mt-1">
 							<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
-							<button class="btn-sm prac_mycol event_name border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+							<button class="btn-sm prac_mycol event_name border-0" 
 							style="color:white;background-color:transparent"></button>
 							<div class="row ml-0 text-center prac_below_texts">
 								<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
@@ -964,7 +964,7 @@ function change_to_prac_td(td, subject_batch) {
 				<div class="row" style="width:100%;padding-right:0px !important;">
 					<div class="col mt-2" style="width: 100%;">
 						<div class="col p-0 pt-1 prac_texts batch_name"> &nbsp;</div>
-						<button class="btn-sm prac_mycol event_name border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+						<button class="btn-sm prac_mycol event_name border-0" 
 						style="width:auto;padding:10px !important;color:white;background-color:transparent"></button>
 						<div class="ml-0 text-center prac_below_texts">
 							<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
@@ -1013,7 +1013,7 @@ function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 	asd = subject_event.subject_name.split("").join("<br>");
 	button.html(asd);
 	
-	button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+	button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
 	button.css("background-color", subject_event.color);
 	button.css("white-space", "pre-line");
 
@@ -1023,7 +1023,9 @@ function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 //#region  ////////////// ready function /////////////////////////
 global_var = 0;
 $(document).ready(function () {
-	$("[rel='tooltip']").tooltip();
+	
+	// $("[rel='tooltip']").tooltip();
+
 	update_all_cards();
 	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get("csrftoken");

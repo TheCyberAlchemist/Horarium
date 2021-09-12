@@ -46,6 +46,12 @@
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{static ('try/time_table.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<!-- #region Tippy Tooltip -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+<!-- #endregion -->
+
 <script>
     console.log({{ events_json| safe}});
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
@@ -55,6 +61,12 @@
         $("#links").select2({
             tags: true
         });
+		/* Tippy Configurations */
+		tippy('.event_divs button',{
+			allowHTML: true,
+			placement : "bottom"
+		});
+		/* Tippy Configurations Ends */
     })
 
 var header = document.getElementById("myHeader");
@@ -168,50 +180,49 @@ if (header){
               <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0">
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-bs-toggle="tooltip" 
-                    data-bs-placement="bottom" title="Undo">
+                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-tippy-content="Undo">
                         <i class="fas fa-undo-alt ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Redo" onclick="redo()">
+                    <button class="btn btn-outline-success nav-link" 
+                    data-tippy-content="Redo" onclick="redo()">
                         <i class="fas fa-redo ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Lock All" onclick="lock_all_events()" >
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Lock All" onclick="lock_all_events()" >
                     <i class="fas fa-lock ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Unlock All" onclick="unlock_all_events()" >
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Unlock All" onclick="unlock_all_events()" >
                     <i class="fas fa-unlock ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Clear" id = "clear_all_unlocked" onclick="clear_all_unlocked_td()">
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Clear" id = "clear_all_unlocked" onclick="clear_all_unlocked_td()">
                         <i class="fas fa-eraser ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Print"> 
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Print"> 
 					<a href="{{url('select_batch',args=[my_division.id])}}"><i class="fas fa-print ml-2 mr-3"></i> </a>
 				</button> 
                   </li>
                   <li class="nav-item">
                     <!-- Button trigger generate modal -->
-                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="modal" data-bs-placement="bottom" 
-                    data-bs-target="#generate_modal" title="Generate">Generate</button>
+                    <button class="btn btn-outline-success nav-link pr-3"
+                    data-bs-target="#generate_modal" data-tippy-content="Generate">Generate</button>
 
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Submit" onclick="submited()">Submit</button>
+                    <button class="btn btn-outline-success nav-link pr-3"
+                    data-tippy-content="Submit" onclick="submited()">Submit</button>
                   </li>
                   
                 </ul>

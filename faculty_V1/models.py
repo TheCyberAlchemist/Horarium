@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 ################################################
 
 from institute_V1.models import Department,WEF,Semester
-from institute_V1.models import Shift,Institute,Slots
+from institute_V1.models import Shift,Institute,Slots,Resource
 from subject_V1.models import Subject_details,Subject_event
 from Table_V2.models import Event
 ################################################
@@ -31,6 +31,7 @@ class Faculty_details(models.Model):
 	Designation_id = models.ForeignKey(Faculty_designation,on_delete=models.RESTRICT)
 	Shift_id = models.ForeignKey(Shift,on_delete=models.RESTRICT)
 	Department_id = models.ForeignKey(Department,on_delete=models.CASCADE)
+	Resource_id = models.ForeignKey(Resource,default=None,on_delete = models.SET_NULL, null=True, blank=True)
 	def __str__(self):
 		return self.short
 	class Meta:
@@ -158,7 +159,7 @@ class Feedback_manager(models.Manager):
 		return super().get_queryset().filter(Subject_event_id__isnull=True)
 
 class Feedback(models.Model):
-	timestamp = models.DateTimeField(auto_now=True)
+	timestamp = models.DateTimeField(auto_now_add=True)
 	Given_by = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
 
 	Subject_event_id = models.ForeignKey(Subject_event,on_delete=models.SET_NULL,null=True,blank=True)

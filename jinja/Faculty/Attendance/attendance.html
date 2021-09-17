@@ -1,96 +1,50 @@
 {% extends 'Faculty/base.html' %} {% block title %} Attendance {% endblock %}
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/keytable/2.6.2/css/keyTable.bootstrap5.min.css"/>
 {% block scripts %}
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/keytable/2.6.2/js/dataTables.keyTable.min.js"></script>
 <script>
-  jQuery(function () {
-    let table = $("#example").DataTable({
-      columnDefs: [
-        {
-          targets: [3, 4],
-          orderable: false,
-        },
-        // {responsivePriority: 1, targets: 2},
-        // {responsivePriority: 2, targets: 1},
-        // {
-        //     targets : [3,4],
-        //     className : "all",
-        // }
-      ],
-      lengthMenu: [
-        [10, 25, 50, -1],
-        [10, 25, 50, "All"],
-      ],
-      responsive: true,
-      dom: "<'row'<'col-sm-12 col-md-8'l><'col-sm-12 col-md-4 p-1 bg-light rounded rounded-pill shadow-sm mb-4 search_div'>>" + "<'row'<'col-sm-12'tr>>" + "<'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-    });
-    $(".search_div").html(`<div id="example_filter" class="dataTables_filter">
-					<div class="input-group">
-						<input type="search" placeholder="What're you searching for?"
-							aria-describedby="button-addon1" class="form-control border-0 bg-light" id="search_box" style="box-shadow:none;outline:none">
-							<div class="input-group-append">
-								<button id="button-addon1" type="submit" class="btn btn-link text-primary" style="box-shadow:none;outline:none;padding:0;z-index:20"><i class="fa fa-search" style="transform:translateX(-10px)"></i></button>
-							</div>
-					</div>
-				</div>`);
-    $("#search_box").keyup(function () {
-      table.search($(this).val()).draw();
-    });
-  });
+	jQuery(function () {
+		let table = $("#example").DataTable({keys : true});
+	});
 </script>
 {% endblock %} {% block content %}
 <div class="container-fluid pt-4 mt-5">
-  <div class="container-fluid p-2 table_container">
-    <div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem">
-      <div class="card-body" style="border-radius: 1rem">
-        <div class="row text-center">
-          <div class="col-lg-12 col-sm-12">
-            <div class="h3 text-center">Attendance</div>
-            <a style="display: none" id="del" onclick="delete_entries()">
-              <img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete" />
-            </a>
-          </div>
-        </div>
-        <div class="table">
-          <table class="table nowrap responsive compact mb-0 rounded text-center" id="example">
-            <thead class="thead-light">
-              <tr>
-                <th class="border-0"><i class="fas fa-hashtag"></i></th>
-                <th class="border-0">Student</th>
-                <th class="border-0 fw-bold">Event-1</th>
-                <th class="border-0 fw-bold">Event-2</th>
-                <th class="border-0">Edit</th>
-                <th class="border-0 text-center">
-                  <div class="form-check" onclick="checkAll();">
-                    <input class="form-check-input" type="checkbox" value="parent" id="parent" name="parent" />
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="border-0 fw-bold">1</td>
-                <td class="border-0 fw-bold"><a href="">Yogesh</a></td>
-                <td class="border-0 fw-bold">input</td>
-                <td class="border-0 fw-bold"></td>
-                <td class="border-0">
-                  <a href="">
-                    <i class="fas fa-edit"></i>
-                  </a>
-                </td>
-                <td class="border-0 text-center">
-                  <div class="form-check" onclick="checkSelected()">
-                    <input class="form-check-input del_input" type="checkbox" id="" name="del" value="" input_name="" />
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="container-fluid p-2 table_container">
+		<div class="card shadow-sm mb-4 p-2 components-section" style="border-radius: 1rem">
+			<div class="card-body" style="border-radius: 1rem">
+				<div class="row text-center">
+					<div class="col-lg-12 col-sm-12">
+						<div class="h3 text-center">Attendance</div>
+						<a style="display: none" id="del" onclick="delete_entries()">
+							<img class="input_icons" src="{{static ('admin/details/img/trash.png')}}" alt="Delete" />
+						</a>
+					</div>
+				</div>
+				<div class="table">
+					<table class="table nowrap responsive compact mb-0 rounded text-center" id="example">
+						<thead class="thead-light">
+							<tr>
+								<th class="border-0"><i class="fas fa-hashtag"></i></th>
+								<th class="border-0">Student</th>
+								<th class="border-0 fw-bold">Event-1</th>
+								<th class="border-0 fw-bold">Event-2</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="border-0 fw-bold">1</td>
+								<td class="border-0 fw-bold"><a href="">Yogesh</a></td>
+								<td class="border-0 fw-bold">input</td>
+								<td class="border-0 fw-bold"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 {% endblock %}

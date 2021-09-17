@@ -34,19 +34,21 @@
 {%endblock%}
 {% block scripts %}
 
-<script src="{{static ('Popper/popper.min.js') }}"></script>
 <script src="{{static ('hotkeys.js') }}"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
-    integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
-    crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"
+
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"
     integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA=="
     crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script src="{{static ('try/time_table.js') }}"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<!-- #region Tippy Tooltip -->
+<script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+<script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+<!-- #endregion -->
+
 <script>
     console.log({{ events_json| safe}});
     put_data({{ slots_json| safe}}, {{ subject_events_json| safe}}, {{ batches_json| safe}}, {{ events_json| safe}}, {{ subjects_json| safe}});
@@ -56,6 +58,12 @@
         $("#links").select2({
             tags: true
         });
+		/* Tippy Configurations */
+		tippy('.event_divs button',{
+			allowHTML: true,
+			placement : "bottom"
+		});
+		/* Tippy Configurations Ends */
     })
 
 var header = document.getElementById("myHeader");
@@ -103,8 +111,20 @@ if (header){
         <div class="select2_container single_select2 mb-3">
             <select id="resources">
                 <option disabled selected value=-1>Select the room </option>
+				<option value="">--------------------</option>
+				{% if my_division.Resource_id %}
+					<option value="{{my_division.Resource_id.id}}">{{my_division.Resource_id}} (
+								{% if my_division.Resource_id.is_lab %}Lab{% else %}Class{% endif %}
+							) Home-class
+						</option>
+				{% endif %}
                 {% for resource in resources %}
-                    <option value="{{resource.id}}">{{resource}}</option>
+					{% if my_division.Resource_id != resource%}
+						<option value="{{resource.id}}">{{resource}} (
+								{% if resource.is_lab %}Lab{% else %}Class{% endif %}
+							)
+						</option>
+					{%endif%}
                 {% endfor %}
             </select>
         </div>
@@ -148,7 +168,7 @@ if (header){
 </div>
 
 
-<div class="main_content" style="margin-top:-20px;">
+<div class="main_content" style="margin-top:0px;">
     <div class="container-fluid toolbar p-1" >
         <!-- #region Toolbar Buttons -->
         <nav class="navbar navbar-expand-lg navbar-expand-md navbar-expand-sm p-0">
@@ -157,50 +177,49 @@ if (header){
               <div class="collapse navbar-collapse" id="navbarScroll">
                 <ul class="navbar-nav me-auto my-2 my-lg-0">
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-bs-toggle="tooltip" 
-                    data-bs-placement="bottom" title="Undo">
+                    <button class="btn btn-outline-success nav-link" onclick="undo()" data-tippy-content="Undo">
                         <i class="fas fa-undo-alt ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Redo" onclick="redo()">
+                    <button class="btn btn-outline-success nav-link" 
+                    data-tippy-content="Redo" onclick="redo()">
                         <i class="fas fa-redo ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Lock All" onclick="lock_all_events()" >
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Lock All" onclick="lock_all_events()" >
                     <i class="fas fa-lock ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Unlock All" onclick="unlock_all_events()" >
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Unlock All" onclick="unlock_all_events()" >
                     <i class="fas fa-unlock ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Clear" id = "clear_all_unlocked" onclick="clear_all_unlocked_td()">
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Clear" id = "clear_all_unlocked" onclick="clear_all_unlocked_td()">
                         <i class="fas fa-eraser ml-2 mr-3"></i>
                     </button>
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Print"> 
+                    <button class="btn btn-outline-success nav-link"
+                    data-tippy-content="Print"> 
 					<a href="{{url('select_batch',args=[my_division.id])}}"><i class="fas fa-print ml-2 mr-3"></i> </a>
 				</button> 
                   </li>
                   <li class="nav-item">
                     <!-- Button trigger generate modal -->
-                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="modal" data-bs-placement="bottom" 
-                    data-bs-target="#generate_modal" title="Generate">Generate</button>
+                    <button class="btn btn-outline-success nav-link pr-3"
+                    data-bs-target="#generate_modal" data-tippy-content="Generate">Generate</button>
 
                   </li>
                   <li class="nav-item">
-                    <button class="btn btn-outline-success nav-link pr-3" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-                    title="Submit" onclick="submited()">Submit</button>
+                    <button class="btn btn-outline-success nav-link pr-3"
+                    data-tippy-content="Submit" onclick="submited()">Submit</button>
                   </li>
                   
                 </ul>
@@ -262,14 +281,7 @@ if (header){
                         </div>
                         {% endfor %}
                     </div>
-                    <!-- <div class="card" style="background-color: #ff3333;">
-                    <div class="card-body p-0">
-                        <h4 class="card-title text-left">DBMS prac</h4>
-                        <h6 class="card-text text-right mr-2">By URT</h6>
-                    </div>
-                </div> -->
-                    
-                    
+
                 </div>
             </div>
             <!-- #endregion Card Container-->
@@ -308,101 +320,6 @@ if (header){
                     {% endif %}
                 </div>
                 {%endfor%}
-                <!-- <div class="row my_row">
-                    <div class="col my_col lect">10:00</div>
-                    <div class="col my_col prac prac_above">
-                        <div class="container text-center">
-                            <div class="row text-center" style="overflow-x: auto;">
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col mt-1">
-                                            <button class="btn-sm prac_mycol event_name border-0"  style="color:white;background-color:red">DBMS</button>
-                                        </div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                </div>
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col" style="margin-right:5px">
-                                    <div class="row">
-                                        <div class="col p-0 prac_texts batch_name pl-2">Batch-31</div>
-                                        
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn-sm btn-primary prac_mycol event_name">DBMS</button>
-                                        </div>
-                                        <div class="col p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col p-0 pl-4 prac_texts resource_name">405</div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col my_col prac prac_below">
-                        <div class="container text-center">
-                            <div class="row">
-                                <div class="col-4 batch_contents">
-                                    <div class="row">
-                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                                    </div>
-                                </div>
-                                <div class="col-4 batch_contents">
-                                    <div class="row">
-                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                                    </div>
-                                </div>
-                                <div class="col-4 batch_contents">
-                                    <div class="row">
-                                        <div class="col-12 p-0 pl-4 prac_texts faculty_name">URT</div>
-                                        <div class="col-12 p-0 pl-4 prac_texts resource_name">GG</div>
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col my_col lect"></div>
-                    <div class="col my_col lect try_button"></div>
-                    <div class="col my_col prac">
-                        <div class="row p-2">
-                            <div class="col-12">
-                                <button class="btn btn-primary mt-1">Hello</button>
-                            </div>
-                            <div class="col-6 text-left">URT</div>
-                            <div class="col-6 text-right">305</div>
-                        </div>
-                    </div>
-                </div> -->
             </div>
             <!-- #endregion Table Container-->
         </div>
@@ -428,7 +345,7 @@ if (header){
   
   <!-- Generate Modal -->
   <div class="modal fade" id="generate_modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="generate_modal_label" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="generate_modal_label">Select Batches to merge</h5>
@@ -486,6 +403,12 @@ if (header){
       </div>
             <div class="modal-footer">
                 <div class="row" style="width: 100%;">
+					<div class="col-lg-12 col-sm-12 col-md-12 mb-3">
+                        <div class="form-check form-check-inline">
+							<input 	class="form-check-input" type="checkbox" id="resource_allocation" name="resource_allocation" value="">
+							<label class="form-check-label" for="resource_allocation">Allocate Resources?</label>
+						</div>
+                    </div>
                     <div class="col-lg-6 col-sm-12 col-md-12">
                         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
                     </div>

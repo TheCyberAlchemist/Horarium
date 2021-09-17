@@ -2,7 +2,7 @@
 .main_content,
 html {
   background-color: #f1f4f6 !important;
-  padding-top: 60px !important;
+//   padding-top: 60px !important;
 }
 a {
   text-decoration: none !important;
@@ -440,6 +440,16 @@ ul,
 
 #myUL .active {
   display: block;
+}
+
+/* #endregion */
+
+/* #region  Medium Screen Devices */
+@media screen and (max-width: 1366px) and (min-width: 601px) {
+	.main_content,html {
+	background-color: #f1f4f6 !important;
+	padding-top: 30px !important;
+	}
 }
 
 /* #endregion */

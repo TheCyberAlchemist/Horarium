@@ -113,8 +113,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card,
-#mandatory_panel .feedback_form_card,
-#sticky_note .sticky_card {
+#mandatory_panel .feedback_form_card {
   -webkit-transition: 0.3s;
   transition: 0.3s;
   color: black !important;
@@ -128,8 +127,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card:hover,
-#mandatory_panel .feedback_form_card:hover,
-#sticky_note .sticky_card:hover {
+#mandatory_panel .feedback_form_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
@@ -223,21 +221,6 @@ th:nth-of-type(1) {
   to {
     background-color: white;
   }
-}
-
-.faculty .batch-name,
-.student .batch-name {
-  text-align: left !important;
-}
-
-.faculty .resource-name,
-.student .resource-name {
-  text-align: right !important;
-}
-
-.faculty .division-name,
-.student .faculty-name {
-  text-align: left !important;
 }
 
 /* #endregion */
@@ -510,15 +493,6 @@ th:nth-of-type(1) {
   #t1 .btn {
     font-size: 11px;
   }
-  .faculty .batch-name, .student .batch-name {
-    text-align: center !important;
-  }
-  .faculty .resource-name, .student .resource-name {
-    text-align: center !important;
-  }
-  .faculty .division-name, .student .faculty-name {
-    text-align: center !important;
-  }
   #agenda_panel {
     font-size: 12px;
   }
@@ -562,37 +536,6 @@ th:nth-of-type(1) {
   }
   .table > :not(caption) > * > * {
     padding: 0 !important;
-  }
-}
-
-/* #endregion */
-/* #region  Medium Screen Devices */
-@media screen and (max-width: 1366px) and (min-width: 601px) {
-  .faculty table tbody tr {
-    height: 90px !important;
-  }
-  .faculty #prac .btn {
-    height: 90px !important;
-    padding: 0;
-    margin: 0 0.1em;
-  }
-}
-
-/* #endregion */
-/* #region  Bigger Monitors (> 1366px) */
-@media screen and (max-width: 1700px) and (min-width: 1367px) {
-  .student #prac .btn {
-    height: 130px !important;
-    padding: 0;
-    margin: 0 0.1em;
-  }
-  .faculty #prac .btn {
-    height: 110px !important;
-    padding: 0;
-    margin: 0 0.1em;
-  }
-  .faculty table tbody tr {
-    height: 89px !important;
   }
 }
 

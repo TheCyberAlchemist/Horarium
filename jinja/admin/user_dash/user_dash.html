@@ -65,7 +65,7 @@
 
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
 <script type="application/javascript" src="{{static ('form/faculty_details.js') }}" charset="utf-8"></script>
-
+<script type="application/javascript" src="{{static ('admin/details/get_unattached_resources.js') }}" charset="utf-8"></script>
 <script type="application/javascript">
 	$(document).ready(function () {
 		$("#pills-faculty-tab").css({ "border-bottom": "1px solid blue", });
@@ -83,6 +83,7 @@
 			tags: true
 		});
 		$("#shifts").select2();
+		$("#faculty_home_class").select2();
 		$("#batch_for_lect").select2({ placeholder: "Select a Lecture batch" });
 		$("#batch_for_prac").select2({ placeholder: "Select a Practical batch" });
 		$("#department").select2();

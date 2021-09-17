@@ -2,7 +2,6 @@
 .main_content,
 html {
   background-color: #f1f4f6 !important;
-  padding-top: 60px !important;
 }
 
 a {
@@ -41,7 +40,7 @@ html {
           box-shadow: none !important;
   -webkit-transition: 0.1s;
   transition: 0.1s;
-  font-family: "Poppins", sans-serif !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .form-control.myinputs:focus {
@@ -401,6 +400,15 @@ ul,
 
 #myUL .active {
   display: block;
+}
+
+/* #endregion */
+/* #region  Medium Screen Devices */
+@media screen and (max-width: 1366px) and (min-width: 601px) {
+  .main_content, html {
+    background-color: #f1f4f6 !important;
+    padding-top: 30px !important;
+  }
 }
 
 /* #endregion */

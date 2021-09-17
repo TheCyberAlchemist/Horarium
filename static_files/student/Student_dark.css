@@ -151,17 +151,6 @@ th:nth-of-type(1) {
   }
 }
 
-@-webkit-keyframes glow-safari {
-  from {
-    background-color: red;
-    color: white !important;
-  }
-  to {
-    background-color: #f80b0b;
-    color: white !important;
-  }
-}
-
 /* #endregion */
 .radio-inline {
   padding-right: 20px;
@@ -426,8 +415,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card,
-#mandatory_panel .feedback_form_card,
-#sticky_note .sticky_card {
+#mandatory_panel .feedback_form_card {
   -webkit-transition: 0.3s;
   transition: 0.3s;
   color: white !important;
@@ -441,8 +429,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 }
 
 #feedback_body .feedback_form_card:hover,
-#mandatory_panel .feedback_form_card:hover,
-#sticky_note .sticky_card:hover {
+#mandatory_panel .feedback_form_card:hover {
   -webkit-transform: scale(1.03);
   transform: scale(1.03);
   -webkit-transition: 0.3s;
@@ -591,21 +578,13 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
     height: 80px;
     padding: 0;
     margin: 0 0.9em;
-    -ms-writing-mode: tb-rl !important;
-        writing-mode: vertical-rl !important;
+    -webkit-writing-mode: vertical-rl !important;
+        -ms-writing-mode: tb-rl !important;
+            writing-mode: vertical-rl !important;
     text-orientation: upright !important;
   }
   #t1 .btn {
     font-size: 11px;
-  }
-  .faculty .batch-name {
-    text-align: center !important;
-  }
-  .faculty .resource-name {
-    text-align: center !important;
-  }
-  .faculty .division-name {
-    text-align: center !important;
   }
   /* #endregion */
   #agenda_panel {
@@ -695,36 +674,5 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 }
 
 /* #endregion */
-/* #endregion */
-/* #region  Medium Screen Devices */
-@media screen and (max-width: 1366px) and (min-width: 601px) {
-  .faculty table tbody tr {
-    height: 90px !important;
-  }
-  .faculty #prac .btn {
-    height: 90px !important;
-    padding: 0;
-    margin: 0 0.1em;
-  }
-}
-
-/* #endregion */
-/* #region  Bigger Monitors (> 1366px) */
-@media screen and (max-width: 1700px) and (min-width: 1367px) {
-  .student #prac .btn {
-    height: 130px !important;
-    padding: 0;
-    margin: 0 0.1em;
-  }
-  .faculty #prac .btn {
-    height: 110px !important;
-    padding: 0;
-    margin: 0 0.1em;
-  }
-  .faculty table tbody tr {
-    height: 89px !important;
-  }
-}
-
 /* #endregion */
 /*# sourceMappingURL=Student_dark.css.map */

@@ -10,7 +10,7 @@ function replaceURLs(message) {
     return '<a href="' + hyperlink + '" target="_blank" rel="noopener noreferrer">' + url + '</a>'
   });
 }
-function get_sticky_note(pk,title,body){
+function get_sticky_note(pk,title,body,created_at){
 	var txt3 = document.createElement("div");  // Create with DOM
 	txt3.classList.add(`note_id_${pk}`);
 	txt3.classList.add(`sticky_note`);
@@ -22,9 +22,8 @@ function get_sticky_note(pk,title,body){
 				<p class="card-text">${replaceURLs(body)}</p>
 			</div>
 		<div class="row no-gutters text-center">
-			<div class="col-6 text-muted my-auto"style="text-align: left"><!-- Added at --></div>
+			<div class="col-6 text-muted my-auto"style="text-align: left">${created_at}</div>
 			<div class="col-6"><button class="delete_note btn btn-danger w-100" pk = "${pk}">Move to trash</button></div>
-			
 		</div>
     </div>`
 	return txt3;
@@ -34,10 +33,12 @@ function append_sticky_note(note_obj){
 	let title = note_obj['title']
 	let body = note_obj['body']
 	let pk = note_obj['pk']
+	let created_at = note_obj['created_at']
+
 	if (!title || !body || !pk)
 		return false;
 
-	card = get_sticky_note(pk,title,body);
+	card = get_sticky_note(pk,title,body,created_at);
 
 	$("#sticky_notes_body").append(card);
 
@@ -59,7 +60,12 @@ function populate_notes_body(all_notes){
 		append_sticky_note(d)
 	}
 	if (!all_notes.length){
-		append_sticky_note({'title':'Your Note','body':'You can write your text in here. Also append any links like www.google.com','pk':-1})
+		append_sticky_note({
+			'title':'Your Note',
+			'body':'You can write your text in here. Also append any links like www.google.com',
+			'pk':-1,
+			'created_at':'Created Today'
+		})
 	}
 }
 

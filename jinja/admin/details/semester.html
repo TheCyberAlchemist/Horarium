@@ -18,7 +18,7 @@
 <script type="application/javascript" src="{{static ('select2.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            {% if u_short %}
+            {% if u_short or errors or integrityErrors%}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
             let table = $('#example').DataTable({
@@ -99,7 +99,7 @@
                                             <!--////////////////Form Goes here///////////-->
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control myinputs" id="short"
+                                                    <input type="text" class="form-control myinputs" id="short" autocomplete="off"
                                                         placeholder="-" name="short" {% if u_short %}value = "{{u_short.short}}"{% endif %} class ="form_input"  required maxlength="20"/>
                                                     <label for="short">Semester Name</label>
                                                 </div>

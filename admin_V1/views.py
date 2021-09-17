@@ -19,6 +19,13 @@ from faculty_V1.models import *
 from Table_V2.models import Event
 import login_V2.models as login_V2
 from faculty_V1.models import Feedback
+
+
+# Shift = Shift.objects.all()[3]
+# # print(Resource().get_free_resources_for_shift(Shift.objects.all()[3]))
+# # print(Resource.objects.all()[2])
+# print(Resource.objects.all()[2].is_free(Slots.objects.all().filter(Timing_id__Shift_id=Shift)[9]))
+
 # pip install django-ajax-datatable
 # pip install pillow
 # change the a-b-c method in navtree
@@ -118,7 +125,7 @@ def delete_entries(qs,data):
 		if i:
 			i.delete()
 
-def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False):
+def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time_table_event = False,Institute_id=None):
 	data = serializers.serialize("json", qs)
 	data = json.loads(data)
 	for d in data:
@@ -127,7 +134,7 @@ def get_json(qs,keep_pk=True,event = False,time_table = False,my_division=0,time
 		elif time_table_event:
 			d['fields']['day'] = qs.filter(day = d['fields']['day'])[0].day.Days_id_id
 			# print(Event.objects.filter(Slot_id_id=d['pk']).values_list("id",flat=True))
-			d['fields']['resources_filled'] = list(Event.objects.active().filter(Slot_id_id=d['pk']).values_list("Resource_id",flat=True).exclude(Division_id=my_division))
+			d['fields']['resources_filled'] = list(Resource.get_all_filled_for_slot(Slots.objects.get(pk=d['pk']),Institute_id=Institute_id,Division_id=my_division).values_list("pk",flat=True))
 		elif time_table:
 			d['fields']['Subject_color'] = qs.filter(Subject_id=d['fields']['Subject_id'])[0].Subject_id.color
 			d['fields']['Faculty_name'] = qs.filter(pk = d['pk'])[0].get_faculty_name()
@@ -283,6 +290,18 @@ def show_semester(request,Branch_id,Semester_id = None):
 	else:
 		raise redirect(get_home_page(request.user))
 
+@login_required(login_url="login")
+@allowed_users(allowed_roles=['Admin'])
+def get_unattached_resources_for_shift(request):
+	Shift_id = request.GET.get("Shift_id")
+	Shift_id = Shift.objects.filter(pk=Shift_id).first()
+	resources = Resource.get_unattached_resources_for_shift(Shift_id).values("id","name","is_lab")
+	# # posts = (Post.objects.filter(owner=authenticated_user).values('id', 'title', 'summary'))
+
+	json_posts = json.dumps(list(resources))
+	# print(json_posts)
+	return JsonResponse(json_posts,safe=False)
+	
 
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
@@ -299,6 +318,7 @@ def show_division(request,Semester_id,Division_id = None):
 			context['update'] = form.instance
 		context['my_divisions'] = divisions
 		context['my_semester'] = my_semester
+		# context['my_resources'] = my_resources
 		if request.method == 'POST':
 			if request.is_ajax():	# if delete is called
 				data = json.loads(request.body)
@@ -865,7 +885,7 @@ def show_sub_event(request,Subject_id,Faculty_id=None):
 			if form.is_valid():
 				candidate = form.save(commit=False)
 				candidate.Subject_id = my_subject
-				print("it is true :: ",candidate)
+				print("Form is true :: ",candidate)
 				try:	# unique contraint added
 					candidate.save()
 					context['form'] = add_sub_event()     				#Form Renewed
@@ -909,7 +929,6 @@ def show_resource(request,Resource_id = None):
 				else:
 					context['errors'] = form.errors.as_ul()
 					print(context['errors'])
-		print(context['my_resources'])
 		return render(request,"admin/details/resources.html",context)
 	else:
 		return redirect(get_home_page(request.user))
@@ -979,7 +998,7 @@ def show_table(request,Division_id):
 	
 	context['working_days'] = Working_days.objects.filter(Shift_id = Shift_id)
 	context['timings'] = timings
-	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id)
+	context['slots_json'] = get_json(Slots.objects.filter( Timing_id__in = timings),time_table_event=True,my_division=Division_id,Institute_id=context["institute"])
 	context['events_json'] = {"my_events":serializer.serialize(Event.objects.active().filter(Division_id=Division_id))}
 	context['resources'] = Resource.objects.filter(Institute_id=my_division.Shift_id.Department_id.Institute_id)
 	context['my_batches'] = my_batches
@@ -1016,7 +1035,7 @@ def get_division_subjects_and_events(Division_id):
 				my_subjects.append(i)
 			continue
 	
-	subject_events = Subject_event.objects.active().all().filter(Subject_id__in = my_subjects)
+	subject_events = Subject_event.objects.active().all().filter(Subject_id__in = my_subjects,Faculty_id__Shift_id=my_division.Shift_id)
 
 	return my_subjects,subject_events
 
@@ -1219,23 +1238,6 @@ def print_table(request) :
 def print4(request) :
     # return render(request,'admin/print_table/print_table.html')
 	return render(request,'try/html2pdf/time_table_sample.html')
-
-from django.http import HttpResponse
-from django.views.generic import View
- 
-#importing get_template from loader
-from django.template.loader import get_template
- 
-#import render_to_pdf from util.py 
-# from .utils import render_to_pdf 
- 
-#Creating our view, it is a class based view
-class GeneratePdf(View):
-	def get(self, request, *args, **kwargs):
-		#getting the template
-		pdf = render_to_pdf('try/html2pdf/time_table_sample.html',{"asd":"data"})
-			#rendering the template
-		return HttpResponse(pdf, content_type='application/pdf')
 
 def text_editor(request) :
 	return render(request,'admin/text_editor/text_editor.html')

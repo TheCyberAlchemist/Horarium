@@ -18,7 +18,7 @@
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            {% if u_name %}
+            {% if u_name or errors or integrityErrors %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
             let table = $('#example').DataTable({
@@ -99,7 +99,7 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
 
-                                                    <input type="text" class="form-control myinputs" id="name"
+                                                    <input type="text" class="form-control myinputs" id="name" autocomplete="off"
                                                         placeholder="-" name="name" {% if u_name %}value = "{{u_name}}"{% endif %} class ="form_input" required maxlength="50" >
                                                     <label for="name" >Shift Name</label>
                                                 </div>

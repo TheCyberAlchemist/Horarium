@@ -189,21 +189,28 @@ div.dataTables_wrapper div.dataTables_length select {
   border-radius: 3px !important;
 }
 
-.can_container label {
-  -webkit-transform: translate(5px, 5px);
-          transform: translate(5px, 5px);
+.can_container .form-check {
+  -webkit-transform: translateY(-3px);
+          transform: translateY(-3px);
 }
 
-.can_container ul, #branches {
-  list-style-type: none;
+.can_container .form-check-input {
+  height: 20px !important;
+  width: 20px !important;
+  -webkit-transform: translateX(-10px);
+          transform: translateX(-10px);
 }
 
-.can_container .subjects li .form-check-input {
-  margin-left: 3px;
+.can_container .form-check label {
+  -webkit-transform: translateX(-10px);
+          transform: translateX(-10px);
 }
 
-.can_container .subjects li .form-check label {
-  margin-left: 25px;
+.can_container ul {
+  border-left: 1px solid red;
+  margin-left: 7px;
+  -webkit-transform: translateY(-15px);
+          transform: translateY(-15px);
 }
 
 .can_container #branches {

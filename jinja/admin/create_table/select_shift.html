@@ -1,0 +1,138 @@
+{% extends 'admin/base2.html' %}
+{% block title %}Create Table{% endblock title %}
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{{static ('admin/details/timetable.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('admin/time_table/grid_table.css') }}">
+<link rel="stylesheet" type="text/css" href="{{static ('Bootstrap/bootstrap.min.css') }}">
+<link rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}">
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}">
+<style>
+    .not_available_td {
+        background-color: red;
+    }
+    .available_td {
+        background-color: green;
+    }
+    .here {
+        background-color: blue;
+    }
+    .select2-container--default .select2-results__option--disabled{
+        display: none;
+    }
+    body { 
+        user-select : none !important;
+    }
+    .fas {
+        color : black !important;
+    }
+	.items:not(:first-child) {
+
+	}
+</style>
+{%endblock%}
+{% block scripts %}
+
+<script src="{{static ('Popper/popper.min.js') }}"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"
+    integrity="sha512-uto9mlQzrs59VwILcLiRYeLKPPbS/bT71da/OEBYEwcdNUk8jYIy+D176RYoop1Da+f9mvkYrmj5MCLZWEtQuA=="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.6.0/umd/popper.min.js"
+    integrity="sha512-BmM0/BQlqh02wuK5Gz9yrbe7VyIVwOzD1o40yi1IsTjriX/NGF37NyXHfmFzIlMmoSIBXgqDiG1VNU6kB5dBbA=="
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="{{static ('Bootstrap/bootstrap.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
+<script> 
+$(document).ready(function (){
+	$("#shift").select2();	
+})
+</script>
+{%endblock%}
+{% block content %}
+<div class="main_content">
+	<div class="row p-2">
+		<nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{{url ('admin_home')}}">
+                <i class="fas fa-home"></i>  
+              </a></li>
+			  <li class="breadcrumb-item active" aria-current="page">
+				<a href="{{url ('show_resource') }}">
+					<span class="h6 fw-bold">Resource</span> 
+				</a>
+			</li>
+            </ol>
+          </nav>
+		  <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
+            <div class="card shadow-sm components-section" style="border-radius: 1rem;">
+                <div class="card-body" style="border-radius: 1rem;">
+                    <div class="accordion accordion-flush">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button"
+                                    aria-expanded="true">
+                                    <h5>Select Shift for {{my_resource}}</h5>
+                                </button>
+                            </h2>
+                            <div id="flush-collapseOne" class="accordion-collapse">
+                                <div class="accordion-body">
+									<form method="get" action="./print_table/">
+										<div class="row no-gutters text-center">
+											<div class="col-lg-12 col-md-12 col-sm-12">
+												<div class="select2_container" style="margin-top: 1em;">
+													<select id="shift" name ="shift">
+													<option disabled selected value=-1>Select Shift</option>
+													{% for shift in my_shifts %}
+														<option value="{{shift.id}}">{{shift}}</option>
+													{% endfor %}
+													</select>
+												</div>
+											</div>
+										</div>
+										<div class="container-fluid mt-3 text-center">
+											<button class="btn btn-outline-success" type="submit">Submit</button>
+										</div>		
+									</form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+		</div>
+		  <!--<div class="container-fluid">
+			<h3 class="container-fluid">Print Table</h3>
+			<form method="get" action="./print_table/">
+				<div class="row no-gutters text-center">
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<div class="select2_container" style="margin-top: 1em;">
+							<select id="prac_batches" multiple="multiple" name ="prac_batch">
+							<option disabled selected value=-1>Select practical batches </option>
+							{% for batch in my_prac_batches %}
+								<option value="{{batch.id}}">{{batch}}</option>
+							{% endfor %}
+							</select>
+						</div>
+					</div>
+					<div class="col-lg-6 col-md-12 col-sm-12">
+						<div class="select2_container single_select2" style="margin-top: 1em;">
+							<select id="lect_batches" multiple="multiple" name ="lect_batch">
+								<option disabled selected value=-1>Select lecture batches </option>
+								{% for batch in my_lect_batches %}
+								<option value="{{batch.id}}">{{batch}}</option>
+								{% endfor %}
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="container-fluid mt-3 text-center">
+					<button class="btn btn-outline-success" type="submit">Submit</button>
+				</div>		
+			</form>
+		</div>-->
+	</div>
+</div>
+
+{%endblock%}

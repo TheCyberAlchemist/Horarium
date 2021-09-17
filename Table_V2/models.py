@@ -27,6 +27,15 @@ class Event(models.Model):
 	Resource_id = models.ForeignKey(Resource,on_delete=models.CASCADE,null=True,blank=True)
 	link = models.CharField(max_length=200, null=True, blank=True)
 	objects = active_manager()
+	start_time = models.TimeField(auto_now=False, auto_now_add=False)
+	end_time = models.TimeField(auto_now=False, auto_now_add=False)
+	def save(self, *args, **kwargs):
+		self.start_time = self.Slot_id.Timing_id.start_time
+		self.end_time = self.Slot_id_2.Timing_id.end_time if self.Slot_id_2 else self.Slot_id.Timing_id.end_time
+		if self.end_time > self.start_time:
+			super(Event, self).save(*args, **kwargs)
+		else :
+			raise BaseException("End time must be greater then start time")
 	def __str__(self):
 		try:
 			if self.Slot_id_2 and self.Slot_id_2_id != -1:

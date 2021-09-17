@@ -19,7 +19,7 @@
 <script type="text/javascript">
 	$(document).ready(function () {
         $("#semesters").select2();
-        {% if update %}
+        {% if update or errors or integrityErrors %}
 		    $("#flush-collapseOne").collapse("show");
         {% endif %}
         let table = $('#example').DataTable({
@@ -94,13 +94,13 @@
 											<!--////////////////Form Goes here///////////-->
 											<div class="col-lg-6 col-md-12 col-sm-12">
 												<div class="form-floating mb-3">
-													<input type="text" class="form-control myinputs" id="name" placeholder="-" name="name" required autocomplete="off" {% if update %}value="{{update.name}}" {% endif %} />
+													<input type="text" class="form-control myinputs" id="name" placeholder="-" name="name" required autocomplete="off" {% if update %}value="{{update.name}}" {% endif %} maxlength="50"/>
 													<label for="name">Subject Name</label>
 												</div>
 											</div>
 											<div class="col-lg-6 col-md-12 col-sm-12">
 												<div class="form-floating mb-3">
-													<input type="text" class="form-control myinputs" id="short" placeholder="-" name="short" required autocomplete="off" {% if update%}value="{{update.short}}" {% endif %} />
+													<input type="text" class="form-control myinputs" id="short" placeholder="-" name="short" required autocomplete="off" {% if update%}value="{{update.short}}" {% endif %} maxlength="10"/>
 													<label for="short">Short Name</label>
 												</div>
 											</div>
@@ -217,7 +217,7 @@
 										>
 											<td class="fw-bold">{{loop.index}}</td>
 											<td class="sub_event_go fw-bold">
-												<a href="{{url ('show_sub_event' ,args=[subject.id])}}"> {{subject.name}}</a>
+												<a href="{{url ('show_sub_event' ,args=[subject.id])}}" target="_blank">{{subject.name}}</a>
 											</td>
 											<td class="fw-bold">{{subject.short}}</td>
 											<td class="fw-bold">{{subject.Semester_id}}</td>

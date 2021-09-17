@@ -7,15 +7,27 @@
   margin-top: 1em;
   margin-bottom: 2em;
 }
-
+#myBar {
+	width: 1%;
+	height: 5px;
+	background-color: #0084ff;
+	border-radius: 10px;
+	-webkit-transition: 0.3s;
+	transition: 0.3s;
+}
 #ct {
   text-align: right;
   top: -30px;
   left: 18px;
   position: absolute;
 }
+#round_ct {
+	text-align: right;
+	top: -30px;
+	position: absolute;
+}
 
-#ct::after {
+#round_ct::after {
   content: "";
   position: absolute;
   height: 20px;
@@ -112,14 +124,7 @@
   position: absolute;
 }
 
-#myBar {
-  width: 1%;
-  height: 5px;
-  background-color: #0084ff;
-  border-radius: 10px;
-  -webkit-transition: 0.3s;
-  transition: 0.3s;
-}
+
 
 #myProgress::before {
   content: "";

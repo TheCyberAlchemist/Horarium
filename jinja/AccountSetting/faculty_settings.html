@@ -1,4 +1,4 @@
-{% extends 'admin/base2.html' %} {% block title%} Profile Settings {% endblock %} {% block css%}
+{% extends 'Faculty/base.html' %} {% block title%} Profile Settings {% endblock %} {% block css%}
 <link type="text/css" rel="stylesheet" href="{{static ('AccountSettings/user_settings.css')}}">
 <style type="text/css">
     
@@ -30,6 +30,7 @@
       <div class="col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12">
         <div class="card h-100">
           <div class="card-body">
+		  {%set faculty = request.user.faculty_details%}
             <form action="{{url ('reset_password')}}" method="POST" class="user_settings_form">
                 {{csrf_input}}
               <div class="row gutters">
@@ -38,25 +39,25 @@
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="institute" value="CSE" name="institute" disabled />
+                    <input type="text" class="form-control myinputs" id="institute" value="{{faculty.Department_id.Institute_id}}" name="institute" disabled />
                     <label for="institute">Institute</label>
                   </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="dept" value="CSE" name="dept" disabled />
+                    <input type="text" class="form-control myinputs" id="dept" value="{{faculty.Department_id}}" name="dept" disabled />
                     <label for="dept">Department</label>
                   </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="email" value="yogesh@gmail.com" name="email" disabled />
+                    <input type="text" class="form-control myinputs" id="email" value="{{request.user.email}}" name="email" disabled />
                     <label for="email">Email</label>
                   </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="role" value="HOD" name="role" disabled />
+                    <input type="text" class="form-control myinputs" id="role" value="{{faculty.Designation_id}}" name="role" disabled />
                     <label for="role">Designation</label>
                   </div>
                 </div>
@@ -67,20 +68,14 @@
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="can_teach" value="Sub1, Sub2, Sub3" name="can_teach" disabled />
+                    <input type="text" class="form-control myinputs" id="can_teach" value="{{my_subjects}}" name="can_teach" disabled />
                     <label for="can_teach">Can Teach</label>
                   </div>
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="can_teach" value="20" name="can_teach" disabled />
+                    <input type="text" class="form-control myinputs" id="can_teach" value="{{faculty.faculty_load.total_load}}" name="can_teach" disabled />
                     <label for="can_teach">Total Load Carried</label>
-                  </div>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                  <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="availibility" value="Monday, Tuesday" name="availibility" disabled />
-                    <label for="availibility">Not Available On</label>
                   </div>
                 </div>
                 <!-- <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 container text-center">

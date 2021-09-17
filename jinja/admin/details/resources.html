@@ -7,7 +7,6 @@
 
 <link rel="stylesheet" href="{{static ('form/form2.css')}}">
 <link rel="stylesheet" href="{{static ('admin/details/dbtable2.css')}}">
-
 <style>
     td,th {
         font-size: .9rem !important;
@@ -17,20 +16,22 @@
 
 {%block scripts%}
 <script type="application/javascript" src="{{static ('admin/details/dbtable.js') }}" charset="utf-8"></script>
+<script type="application/javascript" src="{{static ('select2.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
-            {% if update %}
+            {% if update or errors or integrityErrors %}
                 $('#flush-collapseOne').collapse("show");
             {% endif %}
+            $("#is_lab").select2();
             let table = $('#example').DataTable({
                 "columnDefs" : [{
-                    "targets" : [3,4],
+                    "targets" : [6,5],
                     "orderable" : false,
                     },
                     {responsivePriority: 1, targets: 1},
                     {responsivePriority: 2, targets: 2},
                     {
-                        targets : [3,4],
+                        targets : [6,5],
                         className : "all",
                     }
                 ],
@@ -79,7 +80,7 @@
               {%endif%}
             </ol>
           </nav>
-        <div class="col-12 mb-4" style="width:80%;margin: 0 auto;">
+        <div class="col-12 mb-4 form_container">
             <div class="card shadow-sm components-section" style="border-radius: 1rem;">
                 <!-- <div class="card-tite pl-3 pt-3">
                     <h1 class="h3 legend">Add Department </h1>
@@ -104,17 +105,26 @@
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
 
-                                                    <input type="text" class="form-control myinputs" id="cname"
+                                                    <input type="text" class="form-control myinputs" id="cname" autocomplete="off"
                                                         placeholder="-" name="name" {% if update %}value = "{{update.name}}"{% endif %} class ="form_input" required maxlength="50"/>
                                                     <label for="cname" >Class Name</label>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 col-sm-12">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control myinputs" id="block"
+                                                    <input type="text" class="form-control myinputs" id="block" autocomplete="off"
                                                         placeholder="-" name="block" {% if update %}value = "{{update.block}}"{% endif %} class="form_input short_names" required maxlength = "20">
                                                     <label for="block">Block Name</label>
                                                 </div>
+                                            </div>
+											<div class="col-lg-12 col-md-12 col-sm-12">
+                                                <div class="select2_container single_select2">
+                                                    <select name="is_lab" id="is_lab">
+                                                      <option disabled {% if not update %}selected{% endif %}>Lab or Lecture</option>
+                                                        <option value="true" {% if update and update.is_lab %} selected{% endif %}>Lab</option>
+                                                        <option value="" {% if update and not update.is_lab %} selected{% endif %}>Lecture</option>
+                                                    </select>
+                                                  </div>
                                             </div>
                                             <div class="container mt-4" style="width:80%;">
                                                 <button type="submit" class="btn btn-outline-success"
@@ -164,6 +174,8 @@
                                     <th class="border-0"><i class="fas fa-hashtag"></i></th>
                                     <th class="border-0">Class Name</th>
                                     <th class="border-0 fw-bold">Block/Building</th>
+									<th class="border-0">Print</th>
+									<th class="border-0">Type</th>
                                     <th class="border-0">Edit</th>
                                     <th class="border-0 text-center">
                                         <div class="form-check" onclick="checkAll();">
@@ -178,7 +190,13 @@
                                     <tr>
                                         <td class="border-0 fw-bold">{{loop.index}}</td>
                                         <td class="border-0 fw-bold">{{resource.name}}</td>
-                                        <td class="border-0 fw-bold">{{resource.block}}</td>
+                                        <td class="border-0 fw-bold">{% if resource.block %}{{resource.block}} {% else %} -- {% endif %}</td>
+										<td class="border-0 fw-bold">
+											<a href = "{{url ('select_shift' ,args=[resource.id])}}">
+												P
+											</a>
+										</td>
+										<td class="border-0 fw-bold">{% if resource.is_lab %}Lab{% else %} Class {% endif %}</td>
                                         <td class="border-0">
                                             <a href = "{{url ('update_resource' ,args=[resource.id])}}">
                                                 <i class="fas fa-edit"></i>
@@ -199,4 +217,5 @@
             </div>
         </div>
     </div>
+</div>
     {% endblock %}

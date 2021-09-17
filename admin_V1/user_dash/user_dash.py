@@ -89,7 +89,7 @@ class student_user_table(AjaxDatatableView):
 		fields['Semester'] = fields['Division'].Semester_id
 		fields['Branch'] = fields['Semester'].Branch_id
 		# print(student_details.Division_id.Semester_id)
-		html = '<table class="row-details" style="width:100%">'
+		html = '<table class="row-details">'
 		for key in fields:
 		    html += '<tr><td class="fw-bold">%s</td><td class="fw-bold">%s</td></tr>' % (key, fields[key])
 
@@ -226,7 +226,7 @@ class faculty_user_table(AjaxDatatableView):
 			obj.id
 		)
 		# row["Load"] = Faculty_load.objects.get(Faculty_id=obj.faculty_details).total_load
-		row['Print'] = ''' <a href="%s"><i class="fas fa-print" style="font-size:25px"></i></a>'''%(reverse('print_faculty',args=[obj.faculty_details.pk]))
+		row['Print'] = ''' <a href="%s"><i class="fas fa-print"></i></a>'''%(reverse('print_faculty',args=[obj.faculty_details.pk]))
 
 		row['Delete_faculty'] ='''<div class="form-check" onclick="checkSelected('del1')">
 							<input class="form-check-input del1_input" type="checkbox"

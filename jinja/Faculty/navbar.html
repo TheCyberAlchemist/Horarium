@@ -1,5 +1,16 @@
 {%block navbar_starts%} {%endblock%}  
 <!-- content here -->
+<style>
+	.gixi {
+	  display: inline-block;
+	  background-repeat: no-repeat;
+	  background-position: center center;
+	  margin: 0px 5%;
+	  width: 20px;
+	  height: 20px;
+	}
+  </style>
+  
 <div class="nav_container">
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #101820ff">
         <div class="container-fluid">
@@ -34,13 +45,13 @@
 					</li>
 					<li><hr class="dropdown-divider"></li>
                   <li>
-                    <a href = "{{url ("faculty_settings")}}" class="dropdown-item">{{request.user}}</a>
+                    <a href="{{url ("faculty_settings")}}" class="dropdown-item">{{request.user}}</a>
                   </li>
 					<li><hr class="dropdown-divider"></li>
-                  <li><a href="{{url ('logout')}}" class="dropdown-item" >Log Out</a></li>
+                  <li><a href="{{url ('logout')}}" class="dropdown-item text-center" >Log Out</a></li>
                 </ul>
               </li>
-              <li class="nav-item ml-1">
+              <li class="nav-item mr-3">
                 <span class="gixi user_icon" data-gixisize="20" data-gixiseed="{{request.user}}_{{request.user.pk}}"></span>
               </li>
             </ul>

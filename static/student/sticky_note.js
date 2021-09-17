@@ -60,7 +60,12 @@ function populate_notes_body(all_notes){
 		append_sticky_note(d)
 	}
 	if (!all_notes.length){
-		append_sticky_note({'title':'Your Note','body':'You can write your text in here. Also append any links like www.google.com','pk':-1})
+		append_sticky_note({
+			'title':'Your Note',
+			'body':'You can write your text in here. Also append any links like www.google.com',
+			'pk':-1,
+			'created_at':'Created Today'
+		})
 	}
 }
 

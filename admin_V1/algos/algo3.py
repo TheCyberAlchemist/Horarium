@@ -918,7 +918,7 @@ class main(APIView):
 		data ={
 			"my_events":all_events.get_json(),
 		}
-		print("The context time :", timeit.default_timer() - starttime)
+		print("Algo3 took time :", timeit.default_timer() - starttime)
 		return Response(data)
 
 

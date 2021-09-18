@@ -44,26 +44,32 @@ b a:hover {
 }
 
 /* #region  Feedback Panel */
-nav.for-feedback .nav-tabs {
+nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
 
-nav.for-feedback .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs .span {
   background-color: transparent !important;
   border: none !important;
   color: black !important;
 }
 
-nav.for-feedback .nav-tabs span:hover {
+nav.for-feedback-and-sticky .nav-tabs .badge.new {
+  font-size: 0.55em;
+  vertical-align: middle;
+}
+
+nav.for-feedback-and-sticky .nav-tabs span:hover {
   border: none !important;
 }
 
-nav.for-feedback .nav-tabs span.active {
+nav.for-feedback-and-sticky .nav-tabs span.active {
   border-bottom: 1px solid #4747ff !important;
   color: #4747ff !important;
 }
 
-#feedback_body {
+#feedback_body,
+.sticky_notes_body {
   scrollbar-width: thin;
   /* "auto" or "thin" */
   scrollbar-color: #abacad #f1f4f6;
@@ -129,6 +135,18 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 /* #endregion */
+/* #region  Sticky note  */
+#sticky_note .sticky_card:first-of-type {
+  margin-top: 1em;
+}
+
+/* #endregion */
+/* #region  Swal buttons  */
+.swal2-confirm.swal2-styled.swal2-default-outline {
+  background-color: #2dce89 !important;
+}
+
+/* #endregion */
 /* #region  Table Styling */
 #t1 {
   text-align: center;
@@ -147,6 +165,10 @@ nav.for-feedback .nav-tabs span.active {
   border: 1px solid black;
   width: auto;
   padding: 0 7px;
+}
+
+.faculty table tbody tr {
+  height: 20px !important;
 }
 
 #t1 td:nth-of-type(1),

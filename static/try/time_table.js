@@ -902,6 +902,7 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 		resource_div = td.find(".resource_name");
 
 		button.html(subject_event.subject_name);
+		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
 		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
 		button.css("background-color", subject_event.color);
 

@@ -41,6 +41,7 @@ html {
           box-shadow: none !important;
   -webkit-transition: 0.1s;
   transition: 0.1s;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .form-control.myinputs:focus {
@@ -137,7 +138,7 @@ div.dataTables_wrapper div.dataTables_length select {
           transform: translateY(-30px);
 }
 
-.breadcrumb-item.active a {
+.breadcrumb-item.active a span {
   color: #0d6efd !important;
 }
 
@@ -213,36 +214,42 @@ div.dataTables_wrapper div.dataTables_length select {
 }
 
 .can_container #branches {
-  border-left: none;
+  margin: 0;
+  padding: 0;
 }
 
-.can_container .branch {
-  margin-top: -15px;
+.can_container .caret {
+  cursor: pointer;
+  -webkit-user-select: none;
+  /* Safari 3.1+ */
+  -moz-user-select: none;
+  /* Firefox 2+ */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
 }
 
-.can_container #branches .branch::before {
-  content: "";
-  position: absolute;
-  background-color: black;
-  width: 0px;
-  height: 0px;
-  top: 15px;
-  left: -50px;
+.can_container .caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 24px;
+  -webkit-transform: translateY(3px);
+          transform: translateY(3px);
 }
 
-.can_container ul li {
-  position: relative;
-  list-style: none !important;
-}
-
-.can_container ul li::before {
-  content: "";
-  position: absolute;
-  background-color: black !important;
-  width: 33px;
-  height: 2px;
+.can_container .caret-down::before {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
   top: 10px;
-  left: -34px;
+}
+
+.can_container .nested {
+  display: none;
+}
+
+.can_container .active {
+  display: block;
 }
 
 /* #endregion */

@@ -8,8 +8,7 @@
 }
 
 html {
-  background-color: #09090e;
-  /* background-color: #13131a; */
+  background-color: #131a24;
 }
 
 body {
@@ -36,7 +35,7 @@ b a:hover {
 /* #endregion */
 /* #region  Navbar */
 .navbar {
-  background-color: #010102 !important;
+  background-color: #131a24 !important;
 }
 
 /* #endregion */
@@ -62,6 +61,10 @@ b a:hover {
   border: 1px solid white;
   width: auto;
   padding: 0 7px;
+}
+
+.faculty table tbody tr {
+  height: 20px !important;
 }
 
 #t1 td:nth-of-type(1),
@@ -101,6 +104,18 @@ th:nth-of-type(1) {
   background-color: #0a101a !important;
 }
 
+.faculty .batch-name {
+  text-align: left !important;
+}
+
+.faculty .resource-name {
+  text-align: right !important;
+}
+
+.faculty .division-name {
+  text-align: left !important;
+}
+
 /* #endregion */
 /* #region  Progress Bar */
 #myProgress,
@@ -109,6 +124,12 @@ th:nth-of-type(1) {
 }
 
 .glow {
+  -webkit-animation: glow 1s ease-in-out infinite alternate;
+  animation: glow 1s ease-in-out infinite alternate;
+  border-radius: 5px;
+}
+
+.glow-safari {
   -webkit-animation: glow 1s ease-in-out infinite alternate;
   animation: glow 1s ease-in-out infinite alternate;
   border-radius: 5px;
@@ -352,21 +373,26 @@ th:nth-of-type(1) {
   border-radius: 3px !important;
 }
 
-nav.for-feedback .nav-tabs {
+nav.for-feedback-and-sticky .nav-tabs {
   border-bottom: none !important;
 }
 
-nav.for-feedback .nav-tabs span {
+nav.for-feedback-and-sticky .nav-tabs .span {
   background-color: transparent !important;
   border: none !important;
   color: white !important;
 }
 
-nav.for-feedback .nav-tabs span:hover {
+nav.for-feedback-and-sticky .nav-tabs .badge.new {
+  font-size: 0.55em;
+  vertical-align: middle;
+}
+
+nav.for-feedback-and-sticky .nav-tabs span:hover {
   border: none !important;
 }
 
-nav.for-feedback .nav-tabs span.active {
+nav.for-feedback-and-sticky .nav-tabs span.active {
   border-bottom: 1px solid #4747ff !important;
   color: #4747ff !important;
 }
@@ -415,6 +441,24 @@ nav.for-feedback .nav-tabs span.active {
 }
 
 /* #endregion  Feedback Panel & Offcanvas*/
+/* #region  Sticky note  */
+#sticky_note .sticky_card:first-of-type {
+  margin-top: 1em;
+}
+
+#sticky_note #sticky_note_form .myinputs,
+#sticky_note #sticky_note_form .textarea {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+/* #endregion */
+/* #region  Swal buttons  */
+.swal2-confirm.swal2-styled.swal2-default-outline {
+  background-color: #2dce89 !important;
+}
+
+/* #endregion */
 /* #region  Feedback Modal Radio button */
 #querybox {
   background-color: #18181d;
@@ -527,7 +571,7 @@ nav.for-feedback .nav-tabs span.active {
     padding: 5px 2px;
   }
   #lect .btn {
-    margin: 10px auto 0 auto;
+    margin: 7px 0.5em 0 0.5em;
     padding: 5px 2px;
   }
   #prac .btn {

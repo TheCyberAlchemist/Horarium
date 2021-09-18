@@ -1,3 +1,11 @@
+body {
+	background-color: #fff !important;
+}
+.main_content > .container-fluid {
+	height:100vh;
+	display:grid;
+	align-items:center
+}
 .account-settings {
     font-family: "Poppins", sans-serif !important;
   }
@@ -26,7 +34,6 @@
     text-align: center;
   }
   .card {
-    background: #272e48;
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     border-radius: 5px;
@@ -34,13 +41,9 @@
     margin-bottom: 1rem;
   }
   .form-control {
-    border: 1px solid #596280;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
-    font-size: 0.825rem;
-    background: #1a233a;
-    color: #bcd0f7;
   }
   .form-floating > .form-control:focus ~ label,
   .form-floating > .form-control:not(:placeholder-shown) ~ label,

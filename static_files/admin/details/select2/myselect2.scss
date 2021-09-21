@@ -126,76 +126,52 @@ $font_size1: 1em;
   border-color: transparent transparent #888 transparent;
   border-width: 0 8px 9px 8px;
 }
-#designations,
-#day1,
-#day2,
-#batches,
-#slot_naming,
-#semesters,
-#resources,
-#batch_for_lect,
-#batch_for_prac,
-#links,
-#division,
-#department,
-#wef_select {
-  width: 300px;
-  // margin: 0em 0em 0em 10em;
-}
-#shifts {
-  width: 300px;
-}
-#select_fac,
-#csv_select,
-#csv_select_update,
-#csv_add_update,
-#select_co_fac,
-#prac_batches,
-#lect_batches {
-  width: 500px;
+#links option {
+  //font-size of links in create table should be smaller
+  font-size: x-small !important;
 }
 /* #endregion */
 
 /* #region  Multiple Select2  */
 .myform .select2_container.multiple_select2 {
-    border-width: 1px;
-    // border: 1px solid #ced4da;
-    width: 100%;
-    text-align: center;
-    transition: 0s;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__choice__display {
-	  //for the selected options shown in input box
-	cursor: default;
-	padding-left: 22px;
-	padding-right: 5px
+  border-width: 1px;
+  // border: 1px solid #ced4da;
+  width: 100%;
+  text-align: center;
+  transition: 0s;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+  //for the selected options shown in input box
+  cursor: default;
+  padding-left: 22px;
+  padding-right: 5px;
 }
 .select2-container--default.select2-container--focus.select2-selection--multiple {
-	border : 1px solid #ced4da !important
-
+  border: 1px solid #ced4da !important;
 }
-  .select2-search.select2-search--inline,
-  .select2-search.select2-search--inline input {
-    //search input box styling for multiple select
-    display: inline-block;
-    // width: 100% !important;
-  }
-  .select2-search.select2-search--inline input:focus {
-      border : 1px none !important;
-  }
-  .select2-container--default .select2-selection--multiple .select2-selection__choice {
-    //multiple choice <li> items styling
-    background-color: transparent !important;
-    border: 1px solid #ced4da !important;
-    border-radius: 4px !important;
-  }
-  .multiple_select2 .select2-selection__rendered {
-    //ul styling of selected options
-    border: none !important;
-    width: 100% !important;
-  }
-  /* #endregion */
-  
+.select2-search.select2-search--inline,
+.select2-search.select2-search--inline input {
+  //search input box styling for multiple select
+  display: inline-block;
+  // width: 100% !important;
+}
+.select2-search.select2-search--inline input:focus {
+  border: 1px none !important;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  //multiple choice <li> items styling
+  background-color: transparent !important;
+  border: 1px solid #ced4da !important;
+  border-radius: 4px !important;
+}
+.multiple_select2 .select2-selection__rendered {
+  //ul styling of selected options
+  border: none !important;
+  width: 100% !important;
+}
+/* #endregion */
+
+/* #region Mobile Devices */
 @media screen and (max-width: 600px) {
   #designations,
   #day1,
@@ -210,16 +186,86 @@ $font_size1: 1em;
   #csv_select,
   #csv_add_update,
   #prac_batches,
-  #lect_batches {
+  #lect_batches,
+  #select_fac,
+  #select_co_fac {
     width: 100% !important;
     font-size: x-small;
     // margin: 0em 0em 0em 10em;
   }
+  .select2.select2-container.select2-container--default {
+    width: 100% !important;
+  }
   .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
-	  //The first span tag in select tag
-	width: 100% !important;
+    //The first span tag in select tag
+    width: 100% !important;
+  }
+  .select2.select2-container.select2-container--default.select2-container--focus,
+  .select2.select2-container.select2-container--default.select2-container--below {
+    width: 100% !important;
+  }
 }
-.select2.select2-container.select2-container--default.select2-container--focus {
-	width: 100% !important;
+/* #endregion */
+
+/* #region  Medium devices */
+@media screen and (max-width: 1366px) and (min-width: 601px) {
+  #designations,
+  #day1,
+  #day2,
+  #batches,
+  #slot_naming,
+  #semesters,
+  #resources,
+  #batch_for_lect,
+  #batch_for_prac,
+  #links,
+  #division,
+  #department,
+  #wef_select {
+    width: 300px !important;
+    // margin: 0em 0em 0em 10em;
+  }
+  #shifts {
+    width: 300px !important;
+  }
+  #select_fac,
+  #csv_select,
+  #csv_select_update,
+  #csv_add_update,
+  #select_co_fac,
+  #prac_batches,
+  #lect_batches {
+    width: 300px !important;
+  }
 }
+/* #endregion */
+
+/* #region  Larger devices > 1025px */
+@media screen and (max-width: 1700px) and (min-width: 1367px) {
+  #designations,
+  #batches,
+  #slot_naming,
+  #semesters,
+  #resources,
+  #batch_for_lect,
+  #batch_for_prac,
+  #links,
+  #division,
+  #department,
+  #wef_select,
+  #shifts,
+  #select_fac,
+  #csv_select,
+  #csv_select_update,
+  #csv_add_update,
+  #select_co_fac,
+  #prac_batches,
+  #lect_batches {
+    width: 500px !important;
+    // margin: 0em 0em 0em 10em;
+  }
+  #day1,#day2{
+	  width: 300px !important;
+  }
 }
+/* #endregion */

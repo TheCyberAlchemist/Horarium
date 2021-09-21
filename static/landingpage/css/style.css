@@ -28,7 +28,10 @@ body {
   h1, h2, h3, h4, h5, h6 {
 	font-family: "Poppins", sans-serif;
   }
-  
+  :root {
+	scrollbar-color: #2A9D8F transparent !important;
+	scrollbar-width: thin !important;
+  }
   /*--------------------------------------------------------------
   # Back to top button
   --------------------------------------------------------------*/

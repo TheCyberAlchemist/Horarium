@@ -288,6 +288,15 @@ form.sign-in-form {
   pointer-events: all;
 }
 
+.errors_container li {
+  list-style: none !important;
+}
+
+.errors_container ol, .errors_container ul {
+  padding-left: 1em !important;
+  margin-bottom: 0em !important;
+}
+
 @media (max-width: 870px) {
   .login_container {
     min-height: 800px;

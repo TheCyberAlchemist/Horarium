@@ -112,34 +112,8 @@
   border-width: 0 8px 9px 8px;
 }
 
-#designations,
-#day1,
-#day2,
-#batches,
-#slot_naming,
-#semesters,
-#resources,
-#batch_for_lect,
-#batch_for_prac,
-#links,
-#division,
-#department,
-#wef_select {
-  width: 300px;
-}
-
-#shifts {
-  width: 300px;
-}
-
-#select_fac,
-#csv_select,
-#csv_select_update,
-#csv_add_update,
-#select_co_fac,
-#prac_batches,
-#lect_batches {
-  width: 500px;
+#links option {
+  font-size: x-small !important;
 }
 
 /* #endregion */
@@ -182,6 +156,7 @@
 }
 
 /* #endregion */
+/* #region Mobile Devices */
 @media screen and (max-width: 600px) {
   #designations,
 #day1,
@@ -208,4 +183,9 @@
   .select2.select2-container.select2-container--default.select2-container--focus {
     width: 100% !important;
   }
+<<<<<<< HEAD
 }/*# sourceMappingURL=myselect2.css.map */
+=======
+}
+/*# sourceMappingURL=myselect2.css.map */
+>>>>>>> dbb8707dcb41da647e0995e4047efc84b759ea5b

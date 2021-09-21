@@ -4,7 +4,6 @@
   width: 60%;
   margin: 3em auto;
   border-radius: 10px;
-  -webkit-box-shadow: -3px -1px 41px -13px black;
   box-shadow: -3px -1px 41px -13px black;
   color: white;
   padding-top: 3em;
@@ -21,13 +20,9 @@
 }
 
 .day_selector {
-  display: -ms-grid;
   display: grid;
-  -ms-grid-columns: (200px)[auto-fit];
-      grid-template-columns: repeat(auto-fit, 200px);
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  grid-template-columns: repeat(auto-fit, 200px);
+  justify-content: center;
   text-align: center;
   padding-bottom: 1em;
   padding-top: 1em;
@@ -54,8 +49,6 @@
       -ms-user-select: none;
           user-select: none;
   pointer-events: none;
-  opacity: .7;
-  -webkit-filter: blur(8px);
-          filter: blur(8px);
-}
-/*# sourceMappingURL=slot.css.map */
+  opacity: 0.7;
+  filter: blur(8px);
+}/*# sourceMappingURL=slot.css.map */

@@ -477,7 +477,7 @@ function main(){
 						e = events[j];
 				}
 				w = (ct.delta(st).tis/et.delta(st).tis)*100;
-				console.log(w);
+				// console.log(w);
 				$("#ct").html(ct.time[0] + " : " + ct.time[1]);
 				// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
 				if (w >= 100) {

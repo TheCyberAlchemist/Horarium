@@ -749,7 +749,7 @@ jQuery(function () {
 
 	if (events.length){
 		interval = setInterval(main, 1000);
-		// main();
+		main();
 		first_main_call = false;
 	}
 	//#endregion

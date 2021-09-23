@@ -62,14 +62,14 @@ class User_notes(models.Model):
 		if diff_in_hours <=24 :
 			return "Created Today" 
 
-		elif (diff_in_hours > 24 and diff_in_hours < 48) :
+		elif 24 < diff_in_hours < 48:
 			return f"Created 1 day ago"
 
-		elif (diff_in_hours >= 48 and diff_in_hours <  720):
+		elif 48 <= diff_in_hours <  720:
 			created = int(diff_in_hours/24)
-			return f"Created {created} days ago at {current_date}/{month}"
+			return f"Created {created} days ago at {month}/{current_date}"
 
-		elif (diff_in_hours >=720) : 
+		elif diff_in_hours >= 720 : 
 			total_days_in_month = monthrange(year,month)[1]
 			created = int(diff_in_hours/24/total_days_in_month)
 			if created <= 1 :

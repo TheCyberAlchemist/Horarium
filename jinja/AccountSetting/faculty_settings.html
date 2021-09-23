@@ -68,7 +68,7 @@
                 </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                   <div class="form-floating mb-3">
-                    <input type="text" class="form-control myinputs" id="can_teach" value="{% for subject in faculty.can_teach_set.all() %}{{subject.Subject_id}},{% endfor %}" name="can_teach" disabled />
+                    <input type="text" class="form-control myinputs" id="can_teach" value="{{my_subjects}}" name="can_teach" disabled />
                     <label for="can_teach">Can Teach</label>
                   </div>
                 </div>

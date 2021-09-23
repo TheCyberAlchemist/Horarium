@@ -91,7 +91,7 @@ def faculty_settings(request) :
 	if len(subj_str) > 2 :
 		subj_str = subj_str[0:-1]
 	context["my_subjects"] = subj_str
-	return render(request,'AccountSetting/faculty_settings.html')	
+	return render(request,'AccountSetting/faculty_settings.html',context)
 
 def faculty_feedback(request,Faculty_id = None) :
 	subject_events_list = []

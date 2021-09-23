@@ -27,8 +27,7 @@ th {
 .event_name {
   height: 40%;
   text-align: center;
-  -webkit-transform: translateY(15%);
-          transform: translateY(15%);
+  transform: translateY(15%);
   left: 50%;
 }
 
@@ -46,8 +45,7 @@ th {
   position: absolute;
   left: 50%;
   top: 5%;
-  -webkit-transform: translate(-50%, -5%);
-          transform: translate(-50%, -5%);
+  transform: translate(-50%, -5%);
 }
 
 .batch_name span {
@@ -79,5 +77,4 @@ th {
 
 .faculty span, .batch span, .event span {
   vertical-align: middle;
-}
-/*# sourceMappingURL=print_table.css.map */
+}/*# sourceMappingURL=print_table.css.map */

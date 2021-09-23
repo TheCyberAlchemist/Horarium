@@ -78,10 +78,13 @@ $(document).ready(function () {
 	e.preventDefault();
 	let csv_type = $("#csv_select").val()
 	let my_file = $("#csv")[0].files[0]
+	let add_or_update = $("#csv_add_update").val()
 	if (Boolean(csv_type) && Boolean($("#csv")[0].value)){ // if csv_type is selected and file uploaded
 		var formData = new FormData();
 		formData.append("file",my_file);
 		formData.append('csv_input',csv_type);
+		formData.append('add_or_update',add_or_update);
+		// console.log(formData);
 		$.ajax({
 			url: "../../csv/",
 			type: "POST",

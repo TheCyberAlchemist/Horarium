@@ -18,7 +18,7 @@ from login_V2.decorators import allowed_users,unauthenticated_user,get_home_page
 from django.contrib.auth.decorators import login_required
 from subject_V1.models import Subject_event
 from Table_V2.models import Event
-
+from student_V1.models import Student_logs
 # Create your views here.
 
 def get_events_json(qs):
@@ -71,6 +71,12 @@ def faculty_home(request):
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=date.today().strftime("%A")))
 		context['break_json'] = get_break_json(Slots.objects.filter(Timing_id__Shift_id=my_shift,Timing_id__is_break = True,day__Days_id__name=date.today().strftime("%A")))	
 	
+	ip = request.META.get('REMOTE_ADDR')
+	Student_logs.objects.create(
+		user_id = request.user,
+		action='Faculty Details called',
+		ip=ip,
+	)
 	return render(request,"Faculty/faculty_v1.html",context)
 
 @login_required(login_url="login")
@@ -91,7 +97,7 @@ def faculty_settings(request) :
 	if len(subj_str) > 2 :
 		subj_str = subj_str[0:-1]
 	context["my_subjects"] = subj_str
-	return render(request,'AccountSetting/faculty_settings.html',context)
+	return render(request,'AccountSetting/faculty_settings.html',context)	
 
 def faculty_feedback(request,Faculty_id = None) :
 	subject_events_list = []

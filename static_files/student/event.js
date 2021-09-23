@@ -71,7 +71,7 @@ class event_class{
 		}
 		return false;
 	}
-	upcoming(ct){	//	returns if the lecture starts in next 4 hrs
+	upcoming(ct){	//	returns if the lecture starts in next after not
 		if (!this.is_break){
 			let s = this.start.delta(ct).tis;
 			let e = this.end.delta(ct).tis;
@@ -135,6 +135,9 @@ function put_events(e,b){
 		}else{
 			break;
 		}
+	}
+	if (!events.length){ // if no event today
+		$(".timeline_and_text").hide();
 	}
 	// console.table(events);
 }
@@ -334,15 +337,27 @@ let mandatory_subjects,meta_data;
 function remove_mandatory_subject(subject_id){
 	mandatory_subjects = mandatory_subjects.filter(s=>s.id !=subject_id);
 }
-
-function open_pop_up(link){
-	popUp = window.open(link, '_blank');
-	if (popUp == null || typeof(popUp)=='undefined') { 	
-		if (!getWithExpiry("link not opened pop-up allow")){	
-			pop_up_warning();
-			setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+function open_page_link(link=null,event_id,on_click=false){
+	/**
+		opens the link if pop-up is allowed else shows error
+		also sets the cookie for the event_id
+	*/
+	if (link){
+		popUp = window.open(link, '_blank');
+		if (popUp == null || typeof(popUp)=='undefined') { 	
+			if (!getWithExpiry("link not opened pop-up allow")){	
+				pop_up_warning();
+				setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+			}
 		}
-		//alert('Please disable your pop-up blocker and click the "Open" link again.');
+		if (on_click){	
+			// if link is clicked then it will not open automatically for 2:10 hours
+			setWithExpiry("opened-"+event_id,true,(2*HOUR_VALUE)+10);
+		}else{
+			// if opened automatically then 6 
+			console.log(event_id);
+			setWithExpiry("opened-"+event_id,true,6*HOUR_VALUE);
+		}
 	}
 }
 function pop_up_warning(){
@@ -353,26 +368,27 @@ function pop_up_warning(){
 	)
 }
 var sec = 55;
-global_time = new time(10,54,56);
+global_time = new time(8,10,56);
 jQuery(function () {
 
 	//#region  ////////////// Browser Agent //////////////
-
-	let userAgentString = navigator.userAgent;
-	// Detect Chrome
-	let chromeAgent = userAgentString.indexOf("Chrome") > -1;
-	// Detect Safari
-	let safariAgent = userAgentString.indexOf("Safari") > -1;
-	//Detect Firefox
-	let firefoxAgent = userAgentString.indexOf("Firefox") > -1;
-	
-	console.log("firefox : " +firefoxAgent+" Chrome : " +chromeAgent+" Safari : " +safariAgent)
-	// Discard Safari since it also matches Chrome
-	if ((chromeAgent) && (safariAgent)) safariAgent = false;
-	if(firefoxAgent) {
-		$("body").addClass("safari");
+	function userAgent() {
+		let userAgentString = navigator.userAgent;
+		// Detect Chrome
+		let chromeAgent = userAgentString.indexOf("Chrome") > -1;
+		// Detect Safari
+		let safariAgent = userAgentString.indexOf("Safari") > -1;
+		//Detect Firefox
+		let firefoxAgent = userAgentString.indexOf("Firefox") > -1;
+		
+		console.log("firefox : " +firefoxAgent+" Chrome : " +chromeAgent+" Safari : " +safariAgent)
+		// Discard Safari since it also matches Chrome
+		if ((chromeAgent) && (safariAgent)) safariAgent = false;
+		if(firefoxAgent) {
+			$("body").addClass("safari");
+		}
+		console.log(firefoxAgent,chromeAgent,safariAgent)
 	}
-	console.log(firefoxAgent,chromeAgent,safariAgent)
 	//#endregion
 	
 	//#region  ////////////// pop-up allowance //////////////
@@ -642,17 +658,28 @@ jQuery(function () {
 				if (events[i].is_break){	// if a break is ongoing 
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
 					next = events[parseInt(i)+1];
-					if (next && !(next.is_break || events[i].end.delta(next.start).tis))	// if up next
-						$("#text").append("<br>Up Next - "+ next.name );
+					if (next){
+						if(!(next.is_break || events[i].end.delta(next.start).tis)){	
+							// if not a break and next event is perfectly after this 
+							$("#text").append("<br>Up Next - "+ next.name );
+							if (next.ongoing(ct) && !next.opened){
+								console.log("link open called",next)
+								open_page_link(next.link,next.pk);
+								next.opened = true;
+							}
+						}
+
+					}
 					// console.log("The break is :: ",get_cell(events[i]));
 					// console.log( events[i].name + " ends in :: ",get_counter(events[i],ct));
 
 				}else{						// if a class is ongoing 
+					// console.log(events[i])
 					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
 
 					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
-						// if the event feedback form is not popped 
 						// console.log(events[i].end.delta(ct).tis);
+						// if the event feedback form is not popped 
 						pop_up_form(events[i]);
 						last_popped_event = events[i];
 					}
@@ -661,11 +688,12 @@ jQuery(function () {
 						$("#text").append("<br>Up Next - "+ next.name );
 					get_cell(events[i]).addClass("td_active");
 					if (!events[i].opened){
-						if(parseInt(i) == 0 || (parseInt(i) != 0 && (events[parseInt(i)-1].link != events[i].link || (events[parseInt(i)-1].link == events[i].link && !(events[parseInt(i)-1].opened)) ))){
-							// window.open(events[i].link, '_blank')
-							open_pop_up(events[i].link);
+						if(parseInt(i) == 0 || (parseInt(i) != 0 && (events[parseInt(i)-1].link != events[i].link || (events[parseInt(i)-1].link == events[i].link && !(events[parseInt(i)-1].opened))))){
+							// if first event OR
+							// if last events link is not same as this one OR
+							// if same but this last one is not opened
+							open_page_link(events[i].link,events[i].pk);
 							events[i].opened = true;
-							setWithExpiry("opened-"+events[i].pk,true,6*HOUR_VALUE);
 						}
 					}
 					// console.log("This lecture is :: ",get_cell(events[i]));
@@ -684,11 +712,6 @@ jQuery(function () {
 				for(var j = 0;j < i ; j++){
 					get_cell(events[j]).addClass("td_gone");
 				}
-				if($("body").hasClass("safari")) {
-					$("#text").removeClass("glow-safari");
-				}else {
-					$("#text").removeClass("glow");
-				}
 				// console.log(events[i]);
 				clearInterval(interval);
 				$("#text").html("No upcoming lectures ... ");
@@ -698,11 +721,6 @@ jQuery(function () {
 	}
 	if (events.length){		
 		interval = setInterval(main, 1000);
-		if($("body").hasClass("safari")) {
-			$("#text").addClass("glow-safari");
-		}else {
-			$("#text").addClass("glow");
-		}
 		main();
 		first_main_call = false;
 	}

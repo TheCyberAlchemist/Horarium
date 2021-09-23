@@ -36,6 +36,7 @@ html {
   outline: none !important;
   box-shadow: none !important;
   transition: 0.1s;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .form-control.myinputs:focus {
@@ -139,7 +140,7 @@ div.dataTables_wrapper div.dataTables_length select {
   margin-left: 40px !important;
   transform: translateY(-30px);
 }
-.breadcrumb-item.active a {
+.breadcrumb-item.active a span {
   color: #0d6efd !important;
 }
 /* #endregion */
@@ -183,53 +184,104 @@ div.dataTables_wrapper div.dataTables_length select {
   border-radius: 3px !important;
 }
 
-.can_container .form-check {
-  transform: translateY(-3px);
+// .can_container .form-check {
+//   transform: translateY(-3px);
+// }
+// .can_container .form-check-input {
+//   height: 20px !important;
+//   width: 20px !important;
+//   transform: translateX(-10px);
+// }
+// .can_container .form-check label {
+//   transform: translateX(-10px);
+// }
+// .can_container ul {
+//   border-left: 1px solid rgb(255, 0, 0);
+//   margin-left: 7px;
+//   transform: translateY(-15px);
+// }
+// .can_container #branches {
+//   border-left: none;
+// }
+// .can_container .branch {
+//   margin-top: -15px;
+// }
+// .can_container .dir {
+//   // margin-top: -15px;
+// }
+// .can_container #branches .branch::before {
+//   content: "";
+//   position: absolute;
+//   background-color: black;
+//   width: 0px;
+//   height: 0px;
+//   top: 15px;
+//   left: -50px;
+// }
+// .can_container ul li {
+//   position: relative;
+//   list-style: none !important;
+// }
+// .can_container ul li::before {
+//   content: "";
+//   position: absolute;
+//   background-color: black !important;
+//   width: 33px;
+//   height: 2px;
+//   top: 10px;
+//   left: -34px;
+// }
+.can_container label{
+	transform : translate(5px,5px)
 }
-.can_container .form-check-input {
-  height: 20px !important;
-  width: 20px !important;
-  transform: translateX(-10px);
+.can_container ul,#branches {
+	list-style-type: none;
 }
-.can_container .form-check label {
-  transform: translateX(-10px);
+.can_container .subjects li .form-check-input{
+	margin-left: 3px;
 }
-.can_container ul {
-  border-left: 1px solid rgb(255, 0, 0);
-  margin-left: 7px;
-  transform: translateY(-15px);
+.can_container .subjects li .form-check label {
+	margin-left : 25px
 }
 .can_container #branches {
-  border-left: none;
+	margin: 0;
+	padding: 0;
 }
-.can_container .branch {
-  margin-top: -15px;
+
+.can_container .caret {
+	cursor: pointer;
+	-webkit-user-select: none;
+	/* Safari 3.1+ */
+	-moz-user-select: none;
+	/* Firefox 2+ */
+	-ms-user-select: none;
+	/* IE 10+ */
+	user-select: none;
 }
-.can_container .dir {
-  // margin-top: -15px;
+
+.can_container .caret::before {
+	content: "\25B6";
+	color: black;
+	display: inline-block;
+	margin-right: 24px;
+	transform:translateY(3px)
 }
-.can_container #branches .branch::before {
-  content: "";
-  position: absolute;
-  background-color: black;
-  width: 0px;
-  height: 0px;
-  top: 15px;
-  left: -50px;
+
+.can_container .caret-down::before {
+	transform: rotate(90deg);
+	top : 10px
 }
-.can_container ul li {
-  position: relative;
-  list-style: none !important;
+
+.can_container .nested {
+	display: none;
 }
-.can_container ul li::before {
-  content: "";
-  position: absolute;
-  background-color: black !important;
-  width: 33px;
-  height: 2px;
-  top: 10px;
-  left: -34px;
+
+.can_container .active {
+	display: block;
 }
+
+
+
 /* #endregion */
 
 /* #region  For bootstrap Popover info button arrow  */

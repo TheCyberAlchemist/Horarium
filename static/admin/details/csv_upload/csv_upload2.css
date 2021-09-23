@@ -14,8 +14,7 @@
   padding: 10px;
   border-radius: 4px;
   border-bottom: 4px solid #15824B;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   outline: none;
   text-transform: uppercase;
   font-weight: 700;
@@ -24,15 +23,13 @@
 .dropbox-container .file-upload-btn:hover {
   background: #1AA059;
   color: #ffffff;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .dropbox-container .file-upload-btn:active {
   border: 0;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .dropbox-container .file-upload-content {
@@ -95,8 +92,7 @@
   padding: 10px;
   border-radius: 4px;
   border-bottom: 4px solid #b02818;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   outline: none;
   text-transform: uppercase;
   font-weight: 700;
@@ -105,15 +101,13 @@
 .dropbox-container .remove-image:hover {
   background: #c13b2a;
   color: #ffffff;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   cursor: pointer;
 }
 
 .dropbox-container .remove-image:active {
   border: 0;
-  -webkit-transition: all .2s ease;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 @media screen and (max-width: 600px) {
@@ -123,5 +117,4 @@
     margin: 0 auto;
     padding: 20px;
   }
-}
-/*# sourceMappingURL=csv_upload2.css.map */
+}/*# sourceMappingURL=csv_upload2.css.map */

@@ -2,7 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
-
+from django.conf import settings
 
 class Migration(migrations.Migration):
 
@@ -12,13 +12,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Sticky_notes',
+            name='User_notes',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.TextField()),
                 ('body', models.TextField()),
                 ('timestamp', models.DateTimeField(auto_now_add=True, null=True)),
-                ('Student_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='student_V1.student_details')),
+                ('User_id', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+
             ],
         ),
     ]

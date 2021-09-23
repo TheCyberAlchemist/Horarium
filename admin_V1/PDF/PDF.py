@@ -116,7 +116,7 @@ def resource_print(request,Resource_id):
 
 #endregion
 
-#region //////////////////// Resource Print //////////////////
+#region //////////////////// Faculty Print //////////////////
 def faculty_print(request,Faculty_id):
 	template = "admin/print_table/faculty_print.html"
 	Faculty_id = Faculty_details.objects.get(pk=Faculty_id)

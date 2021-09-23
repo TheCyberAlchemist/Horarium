@@ -1,6 +1,5 @@
 .select2-container {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: inline-block;
   position: relative;
   vertical-align: middle;
@@ -13,14 +12,12 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
-  -webkit-transition: 0s;
   transition: 0s;
 }
 
 .select2-container .select2-selection--single {
   border-radius: 40px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   cursor: pointer;
   display: block;
   height: 40px;
@@ -29,7 +26,6 @@
    -ms-user-select: none;
        user-select: none;
   -webkit-user-select: none;
-  -webkit-transition: 0s;
   transition: 0s;
 }
 
@@ -48,15 +44,13 @@
 
 .select2-dropdown {
   border-radius: 4px;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   display: block;
   font-size: smaller;
   position: absolute;
   background-color: #ffffff;
   border: 1px solid #ced4da;
   z-index: 1061;
-  -webkit-transition: 0s;
   transition: 0s;
 }
 
@@ -128,7 +122,6 @@
   border-width: 1px;
   width: 100%;
   text-align: center;
-  -webkit-transition: 0s;
   transition: 0s;
 }
 
@@ -166,101 +159,107 @@
 /* #region Mobile Devices */
 @media screen and (max-width: 600px) {
   #designations,
-  #day1,
-  #day2,
-  #batches,
-  #slot_naming,
-  #semesters,
-  #resources,
-  #select_fac,
-  #shifts,
-  #resource,
-  #is_lab,
-  #wef_select,
-  #csv_select,
-  #csv_add_update,
-  #prac_batches,
-  #lect_batches,
-  #faculty_home_class,
-  #select_fac,
-  #select_co_fac {
+#day1,
+#day2,
+#batches,
+#slot_naming,
+#semesters,
+#resources,
+#select_fac,
+#shifts,
+#resource,
+#is_lab,
+#wef_select,
+#csv_select,
+#csv_add_update,
+#prac_batches,
+#lect_batches,
+#faculty_home_class,
+#select_fac,
+#select_co_fac {
     width: 100% !important;
     font-size: x-small;
   }
+
   .select2.select2-container.select2-container--default {
     width: 100% !important;
   }
+
   .select2.select2-container.select2-container--default.select2-container--below.select2-container--focus {
     width: 100% !important;
   }
+
   .select2.select2-container.select2-container--default.select2-container--focus,
-  .select2.select2-container.select2-container--default.select2-container--below {
+.select2.select2-container.select2-container--default.select2-container--below {
     width: 100% !important;
   }
 }
-
 /* #endregion */
 /* #region  Medium devices */
 @media screen and (max-width: 1366px) and (min-width: 601px) {
   #designations,
-  #day1,
-  #day2,
-  #batches,
-  #slot_naming,
-  #semesters,
-  #resources,
-  #batch_for_lect,
-  #batch_for_prac,
-  #links,
-  #division,
-  #department,
-  #wef_select,
-  #shifts,
-  #resource,
-  #is_lab,
-  #select_fac,
-  #csv_select,
-  #csv_select_update,
-  #csv_add_update,
-  #select_co_fac,
-  #prac_batches,
-  #lect_batches,
-  #faculty_home_class {
+#day1,
+#day2,
+#batches,
+#slot_naming,
+#semesters,
+#resources,
+#batch_for_lect,
+#batch_for_prac,
+#links,
+#division,
+#department,
+#wef_select,
+#shifts,
+#resource,
+#is_lab,
+#select_fac,
+#csv_select,
+#csv_select_update,
+#csv_add_update,
+#select_co_fac,
+#prac_batches,
+#lect_batches,
+#faculty_home_class {
     width: 300px !important;
   }
 }
-
 /* #endregion */
 /* #region  Larger devices > 1025px */
 @media screen and (max-width: 1700px) and (min-width: 1367px) {
   #designations,
-  #batches,
-  #slot_naming,
-  #semesters,
-  #resources,
-  #batch_for_lect,
-  #batch_for_prac,
-  #links,
-  #division,
-  #department,
-  #wef_select,
-  #shifts,
-  #resource,
-  #is_lab,
-  #select_fac,
-  #csv_select,
-  #csv_select_update,
-  #csv_add_update,
-  #select_co_fac,
-  #prac_batches,
-  #lect_batches,
-  #faculty_home_class {
+#batches,
+#slot_naming,
+#semesters,
+#resources,
+#batch_for_lect,
+#batch_for_prac,
+#links,
+#division,
+#department,
+#wef_select,
+#shifts,
+#resource,
+#is_lab,
+#select_fac,
+#csv_select,
+#csv_select_update,
+#csv_add_update,
+#select_co_fac,
+#prac_batches,
+#lect_batches,
+#faculty_home_class {
     width: 500px !important;
   }
-  #day1, #day2 {
+
+  #day1, #day2, #change_resource {
     width: 300px !important;
   }
 }
+<<<<<<< HEAD
+/* #endregion *//*# sourceMappingURL=myselect2.css.map */
+=======
 
 /* #endregion */
 /*# sourceMappingURL=myselect2.css.map */
+>>>>>>> dbb8707dcb41da647e0995e4047efc84b759ea5b

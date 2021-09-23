@@ -10,5 +10,5 @@ admin.site.register(User_notes)
 class AuditEntryAdmin(admin.ModelAdmin):
 	search_fields=('user_id__first_name','user_id__last_name')
 	list_display = ['user_id','Division_id','ip']
-	list_filter = ["timestamp",Show_unique_users]
+	list_filter = ["timestamp",Show_unique_users,'action']
 	readonly_fields = ('timestamp',)

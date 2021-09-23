@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* #region  Main content containing FORM and TABLE */
 .main_content,
 html {
@@ -37,10 +38,9 @@ html {
   border-bottom: 1px solid #ced4da !important;
   border-radius: 0 !important;
   outline: none !important;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
-  -webkit-transition: 0.1s;
+  box-shadow: none !important;
   transition: 0.1s;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .form-control.myinputs:focus {
@@ -49,12 +49,11 @@ html {
 
 .form-control.myinputs:focus + label {
   color: #0d6efd !important;
-  -webkit-transition: 0.1s;
   transition: 0.1s;
 }
 
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
   appearance: none !important;
@@ -65,8 +64,7 @@ input[type="number"]::-webkit-outer-spin-button {
   border: none !important;
   border-radius: 0 !important;
   outline: none !important;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .form-control.myinputs:focus {
@@ -77,11 +75,10 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 1.5em !important;
   height: 1.56em !important;
   outline: none !important;
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
 
-.form-floating input[type="time"] {
+.form-floating input[type=time] {
   width: 100% !important;
 }
 
@@ -99,7 +96,6 @@ div.dataTables_wrapper div.dataTables_length select {
   height: 50px;
   width: 50px;
   border-radius: 7px;
-  -webkit-transition: 0.1s;
   transition: 0.1s;
   margin-bottom: 0.6em;
   margin-right: 10px;
@@ -107,9 +103,7 @@ div.dataTables_wrapper div.dataTables_length select {
 }
 
 .colors:hover {
-  -webkit-transform: scale(1.3);
-          transform: scale(1.3);
-  -webkit-transition: 0.1s;
+  transform: scale(1.3);
   transition: 0.1s;
   opacity: 0.8;
   border-radius: 30px;
@@ -125,19 +119,17 @@ div.dataTables_wrapper div.dataTables_length select {
 /* #endregion */
 /* #region  Faculty Detail Page Pagination */
 .myform .pagination_container nav {
-  -webkit-transform: translateX(45%);
-          transform: translateX(45%);
+  transform: translateX(45%);
 }
 
 /* #endregion */
 /* #region  Breadcrumbs */
 .container.navigate {
   margin-left: 40px !important;
-  -webkit-transform: translateY(-30px);
-          transform: translateY(-30px);
+  transform: translateY(-30px);
 }
 
-.breadcrumb-item.active a {
+.breadcrumb-item.active a span {
   color: #0d6efd !important;
 }
 
@@ -189,60 +181,62 @@ div.dataTables_wrapper div.dataTables_length select {
 }
 
 .can_container .form-check {
-  -webkit-transform: translateY(-3px);
-          transform: translateY(-3px);
+  transform: translateY(-3px);
 }
 
 .can_container .form-check-input {
   height: 20px !important;
   width: 20px !important;
-  -webkit-transform: translateX(-10px);
-          transform: translateX(-10px);
+  transform: translateX(-10px);
 }
 
 .can_container .form-check label {
-  -webkit-transform: translateX(-10px);
-          transform: translateX(-10px);
+  transform: translateX(-10px);
 }
 
 .can_container ul {
   border-left: 1px solid red;
   margin-left: 7px;
-  -webkit-transform: translateY(-15px);
-          transform: translateY(-15px);
+  transform: translateY(-15px);
 }
 
 .can_container #branches {
-  border-left: none;
+  margin: 0;
+  padding: 0;
 }
 
-.can_container .branch {
-  margin-top: -15px;
+.can_container .caret {
+  cursor: pointer;
+  -webkit-user-select: none;
+  /* Safari 3.1+ */
+  -moz-user-select: none;
+  /* Firefox 2+ */
+  -ms-user-select: none;
+  /* IE 10+ */
+  user-select: none;
 }
 
-.can_container #branches .branch::before {
-  content: "";
-  position: absolute;
-  background-color: black;
-  width: 0px;
-  height: 0px;
-  top: 15px;
-  left: -50px;
+.can_container .caret::before {
+  content: "\25B6";
+  color: black;
+  display: inline-block;
+  margin-right: 24px;
+  -webkit-transform: translateY(3px);
+          transform: translateY(3px);
 }
 
-.can_container ul li {
-  position: relative;
-  list-style: none !important;
-}
-
-.can_container ul li::before {
-  content: "";
-  position: absolute;
-  background-color: black !important;
-  width: 33px;
-  height: 2px;
+.can_container .caret-down::before {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
   top: 10px;
-  left: -34px;
+}
+
+.can_container .nested {
+  display: none;
+}
+
+.can_container .active {
+  display: block;
 }
 
 /* #endregion */
@@ -264,13 +258,11 @@ div.dataTables_wrapper div.dataTables_length select {
 
 .accordion-button.collapsed::after {
   background-image: url("../admin/details/img/plus2.png") !important;
-  -webkit-transform: scale(1.7) !important;
-          transform: scale(1.7) !important;
+  transform: scale(1.7) !important;
 }
 
 .accordion-button:not(.collapsed) {
-  -webkit-box-shadow: none !important;
-          box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 /* #endregion */
@@ -299,8 +291,7 @@ div.dataTables_wrapper div.dataTables_length select {
   content: "";
   position: absolute;
   height: 1px;
-  -webkit-transform: translate(-18px, 18px);
-          transform: translate(-18px, 18px);
+  transform: translate(-18px, 18px);
   width: 85px;
   background-color: black;
 }
@@ -309,17 +300,19 @@ div.dataTables_wrapper div.dataTables_length select {
   #slotModal .modal-dialog {
     max-width: 900px !important;
   }
+
   #slotModal .modal-footer {
     border-top: none !important;
   }
+
   #slotModal .modal-header {
     border-bottom: none !important;
   }
+
   #day1 {
     margin-bottom: 20px;
   }
 }
-
 /* #endregion */
 /* #region  Mobile Device */
 @media screen and (max-width: 600px) {
@@ -327,37 +320,40 @@ div.dataTables_wrapper div.dataTables_length select {
     width: 100%;
     margin: 0 auto;
   }
+
   .input_icons {
     left: 88%;
     height: 30px !important;
     width: 30px !important;
   }
+
   .form-check {
     width: 10px;
-    -webkit-transform: translateX(10px);
-            transform: translateX(10px);
+    transform: translateX(10px);
   }
+
   tr.child {
     text-align: left;
   }
+
   .fas.fa-hashtag {
     font-size: 15px !important;
   }
+
   .myform {
     font-size: smaller;
   }
+
   .myform .pagination_container nav {
-    -webkit-transform: translateX(25%);
-            transform: translateX(25%);
+    transform: translateX(25%);
   }
+
   .popover-arrow {
     position: absolute;
     left: 0px;
-    -webkit-transform: translate3d(143px, 0px, 0px) !important;
-            transform: translate3d(143px, 0px, 0px) !important;
+    transform: translate3d(143px, 0px, 0px) !important;
   }
 }
-
 /* #endregion */
 /* #region  Collapsible Can Teach TRY */
 ul,
@@ -382,7 +378,7 @@ ul,
 }
 
 #myUL .caret::before {
-  content: "\25B6";
+  content: "▶";
   color: black;
   display: inline-block;
   margin-right: 6px;
@@ -390,7 +386,6 @@ ul,
 
 #myUL .caret-down::before {
   /* IE 9 */
-  -webkit-transform: rotate(90deg);
   /* Safari */
   transform: rotate(90deg);
 }
@@ -403,5 +398,4 @@ ul,
   display: block;
 }
 
-/* #endregion */
-/*# sourceMappingURL=form2.css.map */
+/* #endregion *//*# sourceMappingURL=form2.css.map */

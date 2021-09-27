@@ -180,24 +180,20 @@ div.dataTables_wrapper div.dataTables_length select {
   border-radius: 3px !important;
 }
 
-.can_container .form-check {
-  transform: translateY(-3px);
+.can_container label {
+  transform: translate(5px, 5px);
 }
 
-.can_container .form-check-input {
-  height: 20px !important;
-  width: 20px !important;
-  transform: translateX(-10px);
+.can_container ul, #branches {
+  list-style-type: none;
 }
 
-.can_container .form-check label {
-  transform: translateX(-10px);
+.can_container .subjects li .form-check-input {
+  margin-left: 3px;
 }
 
-.can_container ul {
-  border-left: 1px solid red;
-  margin-left: 7px;
-  transform: translateY(-15px);
+.can_container .subjects li .form-check label {
+  margin-left: 25px;
 }
 
 .can_container #branches {
@@ -217,17 +213,15 @@ div.dataTables_wrapper div.dataTables_length select {
 }
 
 .can_container .caret::before {
-  content: "\25B6";
+  content: "▶";
   color: black;
   display: inline-block;
   margin-right: 24px;
-  -webkit-transform: translateY(3px);
-          transform: translateY(3px);
+  transform: translateY(3px);
 }
 
 .can_container .caret-down::before {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+  transform: rotate(90deg);
   top: 10px;
 }
 

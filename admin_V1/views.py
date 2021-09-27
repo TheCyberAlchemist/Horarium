@@ -1241,6 +1241,12 @@ def print4(request) :
 
 def text_editor(request) :
 	return render(request,'admin/text_editor/text_editor.html')
+
+def exam_table(request) :
+	return render(request,'admin/exam_table/exam_table.html')
+
+def exam(request) :
+	return render(request,'admin/exam_table/exam.html')
 ##################### scripts #####################
 # var = []
 	# import random

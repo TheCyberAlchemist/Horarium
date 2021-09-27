@@ -191,7 +191,9 @@ $font_size1: 1em;
   #lect_batches,
   #faculty_home_class,
   #select_fac,
-  #select_co_fac {
+  #select_co_fac,
+  #exam_type,
+  #select_exam_subject {
     width: 100% !important;
     font-size: x-small;
     // margin: 0em 0em 0em 10em;
@@ -235,7 +237,9 @@ $font_size1: 1em;
   #select_co_fac,
   #prac_batches,
   #lect_batches,
-  #faculty_home_class {
+  #faculty_home_class,
+  #exam_type,
+  #select_exam_subject {
     width: 300px !important;
   }
 }
@@ -264,7 +268,9 @@ $font_size1: 1em;
   #select_co_fac,
   #prac_batches,
   #lect_batches,
-  #faculty_home_class{
+  #faculty_home_class,
+  #exam_type,
+  #select_exam_subject{
     width: 500px !important;
     // margin: 0em 0em 0em 10em;
   }

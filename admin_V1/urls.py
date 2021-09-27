@@ -91,6 +91,9 @@ urlpatterns = [
     
 	re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
 
+	re_path(r'^exam_table/',views.exam_table,name = 'exam_table'),
+	re_path(r'^exam/',views.exam,name = 'exam'),
+
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('500/',views.error_500_view,name = '500'),
 ]

@@ -108,7 +108,7 @@ th:nth-of-type(1) {
 .faculty .resource-name,.student .resource-name {
   text-align: right !important;
 }
-.faculty .division-name,.student .faculty-name {
+.faculty .division-name,.student .faculty-name, .student .subject-code {
   text-align: left !important;
 }
 /* #endregion */
@@ -483,7 +483,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
   .faculty .resource-name,.student .resource-name {
 	text-align: right !important;
   }
-  .faculty .division-name,.student .faculty-name {
+  .faculty .division-name,.student .faculty-name, .student .subject-code {
 	text-align: left !important;
   }
   /* #endregion */

@@ -225,7 +225,8 @@ th:nth-of-type(1) {
 }
 
 .faculty .division-name,
-.student .faculty-name {
+.student .faculty-name,
+.student .subject-code {
   text-align: left !important;
 }
 
@@ -478,7 +479,7 @@ th:nth-of-type(1) {
     text-align: center !important;
   }
 
-  .faculty .division-name, .student .faculty-name {
+  .faculty .division-name, .student .faculty-name, .student .subject-code {
     text-align: center !important;
   }
 

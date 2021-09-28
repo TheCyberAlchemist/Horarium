@@ -224,7 +224,8 @@ th:nth-of-type(1) {
   text-align: right !important;
 }
 .faculty .division-name,
-.student .faculty-name {
+.student .faculty-name,
+.student .subject-code {
   text-align: left !important;
 }
 /* #endregion */
@@ -440,7 +441,7 @@ th:nth-of-type(1) {
   .faculty .resource-name,.student .resource-name {
 	text-align: center !important;
   }
-  .faculty .division-name,.student .faculty-name {
+  .faculty .division-name,.student .faculty-name, .student .subject-code {
 	text-align: center !important;
   }
   #agenda_panel {

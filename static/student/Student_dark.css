@@ -108,7 +108,7 @@ th:nth-of-type(1) {
   text-align: right !important;
 }
 
-.faculty .division-name, .student .faculty-name {
+.faculty .division-name, .student .faculty-name, .student .subject-code {
   text-align: left !important;
 }
 
@@ -569,7 +569,7 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
     text-align: right !important;
   }
 
-  .faculty .division-name, .student .faculty-name {
+  .faculty .division-name, .student .faculty-name, .student .subject-code {
     text-align: left !important;
   }
 

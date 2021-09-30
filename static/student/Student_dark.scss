@@ -10,7 +10,7 @@ $font-white: white !important;
 }
 
 html {
-//   background-color: #09090e;
+  //   background-color: #09090e;
   background-color: #131a24;
 }
 
@@ -32,6 +32,7 @@ b a:hover {
 .h4 {
   font-family: "Poppins", sans-serif;
 }
+
 /* #endregion */
 
 /* #region  Navbar */
@@ -102,13 +103,17 @@ th:nth-of-type(1) {
 .td_active {
   background-color: #0a101a !important;
 }
-.faculty .batch-name,.student .batch-name {
+.faculty .batch-name,
+.student .batch-name {
   text-align: left !important;
 }
-.faculty .resource-name,.student .resource-name {
+.faculty .resource-name,
+.student .resource-name {
   text-align: right !important;
 }
-.faculty .division-name,.student .faculty-name, .student .subject-code {
+.faculty .division-name,
+.student .faculty-name,
+.student .subject-code {
   text-align: left !important;
 }
 /* #endregion */
@@ -452,6 +457,31 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 }
 /* #endregion */
 
+/* #region  Exam-Timetable cards section */
+.exams_list {
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  display: block ruby !important;
+}
+
+.exam {
+  width: auto !important;
+  opacity: 0.7;
+}
+.exam .btn-sm {
+  background-color: transparent !important;
+}
+.exam .btn-sm:hover {
+  background-color: #198754 !important;
+}
+.exam.focused {
+  opacity: 1;
+}
+.exam_cards_section .h4 {
+  color: $font-white;
+}
+/* #endregion */
+
 /* #region  Mobile Devices */
 @media screen and (max-width: 600px) {
   /* #region  Timetable */
@@ -477,14 +507,18 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
   #t1 .btn {
     font-size: 11px;
   }
-  .faculty .batch-name,.student .batch-name {
-	text-align: left !important;
+  .faculty .batch-name,
+  .student .batch-name {
+    text-align: left !important;
   }
-  .faculty .resource-name,.student .resource-name {
-	text-align: right !important;
+  .faculty .resource-name,
+  .student .resource-name {
+    text-align: right !important;
   }
-  .faculty .division-name,.student .faculty-name, .student .subject-code {
-	text-align: left !important;
+  .faculty .division-name,
+  .student .faculty-name,
+  .student .subject-code {
+    text-align: left !important;
   }
   /* #endregion */
 

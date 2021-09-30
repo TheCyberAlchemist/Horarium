@@ -1,144 +1,190 @@
 {% extends 'Student/base.html' %} {% block title %} Exam {% endblock %} {% block scripts %}
+<script type="application/javascript" src="{{static ('student/event.js')}}"></script>
 <script>
-  //#region CSS when the feedback popup opens and closes
-  $(document).ready(function () {
-    AOS.init({
-      offset: 150,
-    });
-    $("#sidebar, #closer").click(function () {
-      if ($(".offcanvas").hasClass("show")) {
-        $(".main_content").css({ opacity: 0.4 });
-      } else if (!$(".offcanvas").hasClass("show")) {
-        $(".main_content").css({ opacity: 1 });
-      }
-    });
-    $(document).mouseup(function (e) {
-      if (!$(".offcanvas").is(e.target) && $(".offcanvas").has(e.target).length === 0) {
-        $(".main_content").css({ opacity: 1, transition: ".3s" });
-      }
-    });
-  });
+	//#region CSS when the feedback popup opens and closes
+	$(document).ready(function () {
+		AOS.init({
+			offset: 150,
+		});
+		$("#sidebar, #closer").click(function () {
+			if ($(".offcanvas").hasClass("show")) {
+				$(".main_content").css({ opacity: 0.4 });
+			} else if (!$(".offcanvas").hasClass("show")) {
+				$(".main_content").css({ opacity: 1 });
+			}
+		});
+		$(document).mouseup(function (e) {
+			if (!$(".offcanvas").is(e.target) && $(".offcanvas").has(e.target).length === 0) {
+				$(".main_content").css({ opacity: 1, transition: ".3s" });
+			}
+		});
+	});
   //#endregion
 </script>
 {% endblock %} {% block content %}
 
 <div class="student container-fluid pt-4 mt-5 student" translate="no">
-  <div class="row">
-    <div class="col-lg-12 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
-      <table id="t1" class="table">
-        <thead>
-			<tr>
-				<td colspan="5" class="p-3 align-middle h5">Exam TimeTable for Semester-5 (20/10/2021 to 30/10/2021)</td>
-			</tr>
-          <tr>
-            <th>Date</th>
-            <th>Time</th>
-            {% for batch in batches %}
-            <th>{{batch}}</th>
-            {% endfor %}
-          </tr>
-        </thead>
-        <tbody>
-          {% for day in days %}
-          <tr>
-            <th class="align-middle date">{{date}}<br />{{day}}</th>
-            <th class="align-middle time" rowspan="1">8:00 to 9:00 AM</th>
-            <td class="td_gone">
-              <div class="card p-lg-1 p-sm-0 p-md-0">
-                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: rgb(30, 95, 192)" onclick="">CN</button>
-                <div class="row">
-                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 subject-code">
-                    <span>2CSE505</span>
-                  </div>
-                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 resource-name">
-                    <span>222</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="td_gone">
-              <div class="card p-lg-1 p-sm-0 p-md-0">
-                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: rgb(163, 163, 25)" onclick="">AAD</button>
-                <div class="row">
-                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 subject-code">
-                    <span>2CSE503</span>
-                  </div>
-                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 resource-name">
-                    <span>315</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-            <td class="td_gone">
-              <div class="card p-lg-1 p-sm-0 p-md-0">
-                <button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0" style="background-color: rgb(47, 248, 255)" onclick="">AAD</button>
-                <div class="row">
-                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 subject-code">
-                    <span>2CSE503</span>
-                  </div>
-                  <div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 resource-name">
-                    <span>315</span>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+	<div class="row no-gutters">
+		<div class="col-12 exam_cards_section" data-aos="fade-down" data-aos-duration="1500">
+					<p class="h4">Upcoming Exams</p>
+					<div class="exams_list row no-gutters pb-4">
+						<div class="exam focused d-flex">
+							<div class="row">
+								<div class="col-12">
+									<div class="exam_name h5 text-left text-muted">Mid Sem-1</div>
+									<div class="exam_date text-left">
+										<button class="btn-sm btn-outline-success my-auto">29/10/2021 </button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="exam d-flex">
+							<div class="row">
+								<div class="col-12">
+									<div class="exam_name h5 text-muted">Mid Sem-2</div>
+									<div class="exam_date text-left">
+										<button class="btn-sm btn-outline-success my-auto">10/12/2021</button>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="exam d-flex">
+							<div class="row">
+								<div class="col-12">
+									<div class="exam_name h5 text-muted">Final Practical Exam-2021</div>
+									<div class="exam_date text-left">
+										<button class="btn-sm btn-outline-success my-auto">20/12/2021</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+		</div>
+		<div class="col-lg-12 col-md-12 col-sm-12 pt-3" data-aos="fade-down" data-aos-duration="2500">
+			<table id="t1" class="table">
+				<thead>
+					<tr>
+						<td colspan="5" class="p-3 align-middle h5">Exam TimeTable for Semester-5 (20/10/2021 to
+							30/10/2021)</td>
+					</tr>
+					<tr>
+						<th>Date</th>
+						<th>Time</th>
+						{% for batch in batches %}
+						<th>{{batch}}</th>
+						{% endfor %}
+					</tr>
+				</thead>
+				<tbody>
+					{% for day in days %}
+					<tr>
+						<th class="align-middle date">{{date}}<br />{{day}}</th>
+						<th class="align-middle time" rowspan="1">8:00 to 9:00 AM</th>
+						<td class="td_gone">
+							<div class="card p-lg-1 p-sm-0 p-md-0">
+								<button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+									style="background-color: rgb(30, 95, 192)" onclick="">CN</button>
+								<div class="row">
+									<div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 subject-code">
+										<span>2CSE505</span>
+									</div>
+									<div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 resource-name">
+										<span>222</span>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td class="td_gone">
+							<div class="card p-lg-1 p-sm-0 p-md-0">
+								<button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+									style="background-color: rgb(163, 163, 25)" onclick="">AAD</button>
+								<div class="row">
+									<div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 subject-code">
+										<span>2CSE503</span>
+									</div>
+									<div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 resource-name">
+										<span>315</span>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td class="td_gone">
+							<div class="card p-lg-1 p-sm-0 p-md-0">
+								<button class="btn mr-lg-2 ml-lg-2 mt-lg-1 mb-lg-1 mr-sm-1 ml-sm-2 mt-sm-1 mb-sm-0"
+									style="background-color: rgb(47, 248, 255)" onclick="">AAD</button>
+								<div class="row">
+									<div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 subject-code">
+										<span>2CSE503</span>
+									</div>
+									<div class="col-lg-6 col-xs-12 col-sm-12 col-md-12 resource-name">
+										<span>315</span>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
 
-    <!-- Modal -->
+		<!-- Modal -->
 
-    <div class="modal fade gx-0" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg gx-0" role="document">
-        <div class="modal-content">
-          <div class="modal-header border-0">
-            <h5 class="modal-title h4" id="exampleModalLabel">Feedback for <span id="popped_event"></span></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="color: white">
-              <span aria-hidden="true"></span>
-            </button>
-          </div>
-          <div class="modal-body feedback-modal ml-4">
-            <form method="post" id="feedback_form">
-              {{csrf_input}}
-              <input type="hidden" id="event_id" name="Event_id" />
-              <input type="hidden" id="subject_id" name="Subject_id" />
-              <input type="hidden" id="feedback_type" name="Feedback_type" />
-              <div class="questions">
-                {%for ques in questions %}
-                <div class="h5" style="font-weight: bold">{{loop.index}}. {{ques}}. <span class="required_star">*</span></div>
-                <div class="mt-3 mb-3 pl-4 text-center">
-                  <input type="radio" id="5{{ques}}" value="5" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" tabindex="1" for="5{{ques}}"> &nbsp;Strongly Agree </label>
+		<div class="modal fade gx-0" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+			aria-hidden="true">
+			<div class="modal-dialog modal-lg gx-0" role="document">
+				<div class="modal-content">
+					<div class="modal-header border-0">
+						<h5 class="modal-title h4" id="exampleModalLabel">Feedback for <span id="popped_event"></span>
+						</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+							style="color: white">
+							<span aria-hidden="true"></span>
+						</button>
+					</div>
+					<div class="modal-body feedback-modal ml-4">
+						<form method="post" id="feedback_form">
+							{{csrf_input}}
+							<input type="hidden" id="event_id" name="Event_id" />
+							<input type="hidden" id="subject_id" name="Subject_id" />
+							<input type="hidden" id="feedback_type" name="Feedback_type" />
+							<div class="questions">
+								{%for ques in questions %}
+								<div class="h5" style="font-weight: bold">{{loop.index}}. {{ques}}. <span
+										class="required_star">*</span></div>
+								<div class="mt-3 mb-3 pl-4 text-center">
+									<input type="radio" id="5{{ques}}" value="5" name="Q{{loop.index}}" />
+									<label class="radio-inline btn" tabindex="1" for="5{{ques}}"> &nbsp;Strongly Agree
+									</label>
 
-                  <input type="radio" value="4" id="4{{ques}}" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" for="4{{ques}}"> &nbsp;Agree </label>
+									<input type="radio" value="4" id="4{{ques}}" name="Q{{loop.index}}" />
+									<label class="radio-inline btn" for="4{{ques}}"> &nbsp;Agree </label>
 
-                  <input type="radio" value="3" id="3{{ques}}" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" for="3{{ques}}"> &nbsp;Neutral </label>
+									<input type="radio" value="3" id="3{{ques}}" name="Q{{loop.index}}" />
+									<label class="radio-inline btn" for="3{{ques}}"> &nbsp;Neutral </label>
 
-                  <input type="radio" id="2{{ques}}" value="2" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" for="2{{ques}}"> &nbsp;Disagree </label>
+									<input type="radio" id="2{{ques}}" value="2" name="Q{{loop.index}}" />
+									<label class="radio-inline btn" for="2{{ques}}"> &nbsp;Disagree </label>
 
-                  <input type="radio" value="1" id="1{{ques}}" name="Q{{loop.index}}" />
-                  <label class="radio-inline btn" for="1{{ques}}"> &nbsp;Strongly Disagree </label>
-                </div>
-                {%endfor%}
-              </div>
-              <div class="mt-5 mb-2">
-                <textarea class="form-control" id="querybox" name="query" placeholder="If you have any queries write here..." rows="3"></textarea>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                <input type="submit" value="Submit" class="modal_btn btn" />
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+									<input type="radio" value="1" id="1{{ques}}" name="Q{{loop.index}}" />
+									<label class="radio-inline btn" for="1{{ques}}"> &nbsp;Strongly Disagree </label>
+								</div>
+								{%endfor%}
+							</div>
+							<div class="mt-5 mb-2">
+								<textarea class="form-control" id="querybox" name="query"
+									placeholder="If you have any queries write here..." rows="3"></textarea>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+								<input type="submit" value="Submit" class="modal_btn btn" />
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
-  {% endblock %}
+	{% endblock %}
 </div>

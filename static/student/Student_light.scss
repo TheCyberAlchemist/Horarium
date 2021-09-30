@@ -406,6 +406,32 @@ th:nth-of-type(1) {
 
 /* #endregion */
 
+/* #region  Exam-Timetable cards section */
+.exams_list {
+	overflow-x: auto !important;
+	white-space: nowrap !important;
+	display: block ruby !important;
+  }
+  
+  .exam {
+	width: auto !important;
+	opacity: 0.7;
+  }
+  .exam .btn-sm {
+	background-color: transparent !important;
+  }
+  .exam .btn-sm:hover {
+	background-color: #198754 !important;
+  }
+  .exam.focused {
+	opacity: 1;
+  }
+  .exam_cards_section .h4 {
+	color: $font-black;
+  }
+  /* #endregion */
+  
+
 /* #region  Mobile Device */
 @media screen and (max-width: 600px) {
   .charts_container .card-title,

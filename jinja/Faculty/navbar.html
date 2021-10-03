@@ -9,6 +9,9 @@
 	  width: 20px;
 	  height: 20px;
 	}
+	#feedback-nav{
+		display:none;
+	}
   </style>
   
 <div class="nav_container">
@@ -27,7 +30,7 @@
 					  <img src="{{static ('student/survey.svg')}}" class="sidebar" id="sidebar" height="30px" width="30px" data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight" aria-controls="offcanvasRight" data-bs-keyboard="false" data-bs-backdrop="true" />
 					</div>
 				  </li>
-                <li class="nav-item">
+                <li class="nav-item" id="feedback-nav">
                     <a class="nav-link s" href="{{url ('faculty_feedback')}}">Feedbacks</a>
                 </li>
               <li class="nav-item dropdown">

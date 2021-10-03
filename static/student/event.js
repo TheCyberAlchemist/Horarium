@@ -204,7 +204,7 @@ function pop_up_feedback_form(event=null,subject=null){
 			$("#feedback_form").trigger("reset");
 		}
 		$('#popped_event').html(event.name);
-		$('#exampleModal').modal("show");
+		// $('#exampleModal').modal("show");
 		$("#event_id").val(event.pk);
 		$("#subject_id").val(null);
 	}

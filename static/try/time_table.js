@@ -1014,7 +1014,7 @@ function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 	asd = subject_event.subject_name.split("").join("<br>");
 	button.html(asd);
 	
-	button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+	button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource} <br>Faculty : ${subject_event.faculty_name} \nLink : ${link}`);
 	button.css("background-color", subject_event.color);
 	button.css("white-space", "pre-line");
 

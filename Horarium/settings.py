@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'subject_V1',
     'admin_V1',
 	'exam_V1',
-    'django_extensions', # for model images
+    # 'django_extensions', # for model images
 ]
 
 MIDDLEWARE = [

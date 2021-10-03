@@ -7,6 +7,7 @@ from .CSV import add_user_csv
 from .user_dash import user_dash,add_update_users
 
 import faculty_V1.views as faculty_view
+from exam_V1.views import *
 urlpatterns = [
 	re_path(r'^try/$',views.api_try,name = 'try'),
 

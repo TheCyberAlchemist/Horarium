@@ -4,17 +4,14 @@
 .fas.fa-sign-in-alt,
 .table_container .fas.fa-print {
   font-size: 22px !important;
-  -webkit-transform: translateY(4px);
-          transform: translateY(4px);
+  transform: translateY(4px);
   color: grey !important;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
 .fas.fa-edit:hover,
 .table_container .fas.fa-print:hover {
   color: #6767ff !important;
-  -webkit-transition: 0.3s;
   transition: 0.3s;
 }
 
@@ -49,8 +46,7 @@ table.dataTable > thead .sorting_asc_disabled::before,
 table.dataTable > thead .sorting_desc_disabled::before {
   right: 1em;
   content: "↑";
-  -webkit-transform: translateY(-7px) !important;
-          transform: translateY(-7px) !important;
+  transform: translateY(-7px) !important;
 }
 
 table.dataTable > thead .sorting::after,
@@ -60,8 +56,7 @@ table.dataTable > thead .sorting_asc_disabled::after,
 table.dataTable > thead .sorting_desc_disabled::after {
   right: 0.5em;
   content: "↓";
-  -webkit-transform: translateY(-7px);
-          transform: translateY(-7px);
+  transform: translateY(-7px);
 }
 
 /* #endregion */
@@ -84,42 +79,6 @@ table.dataTable > thead .sorting_desc_disabled::after {
 }
 
 /* #endregion */
-<<<<<<< HEAD
-/* #region  FontAwesome Fonts styling */
-.fas.fa-edit,
-.fas.fa-sign-in-alt {
-  font-size: 22px !important;
-  transform: translateY(4px);
-  color: grey !important;
-  transition: 0.3s;
-}
-
-.fas.fa-edit:hover {
-  color: #6767ff !important;
-  transition: 0.3s;
-}
-
-.fas.fa-chart-line {
-  color: grey !important;
-}
-
-.fas.fa-hashtag {
-  color: black !important;
-}
-
-/* #endregion */
-/* #region  Delete entries button image styling */
-.input_icons {
-  position: absolute;
-  top: 0%;
-  left: 95%;
-  height: 35px;
-  width: 35px;
-}
-
-/* #endregion */
-=======
->>>>>>> dbb8707dcb41da647e0995e4047efc84b759ea5b
 /* #region  Searchbox in DataTable */
 .search_box .form-control:focus {
   box-shadow: none !important;
@@ -207,10 +166,11 @@ table.dataTable > thead .sorting_desc_disabled::after {
 /* #region  Large screen devices */
 @media screen and (max-width: 1700px) and (min-width: 1367px) {
   #student_details .row-details,
-  #faculty_details .row-details {
+#faculty_details .row-details {
     margin: 0 auto !important;
     width: 100% !important;
   }
+
   /* #region  Delete entries button image styling */
   .input_icons {
     position: absolute;
@@ -219,24 +179,26 @@ table.dataTable > thead .sorting_desc_disabled::after {
     height: 35px;
     width: 35px;
   }
+
   /* #endregion */
   /* #region Inner Table in Datatable Styling */
   #student_details .row-details tbody tr td,
-  #faculty_details .row-details tbody tr td {
+#faculty_details .row-details tbody tr td {
     border: 1px solid #b9b9b9;
     padding: 0.8em 10em !important;
   }
+
   /* #endregion */
 }
-
 /* #endregion */
 /* #region  Medium screen devices */
 @media screen and (max-width: 1366px) and (min-width: 601px) {
   #student_details .row-details,
-  #faculty_details .row-details {
+#faculty_details .row-details {
     margin: 0 auto !important;
     width: 100% !important;
   }
+
   /* #region  Delete entries button image styling */
   .input_icons {
     position: absolute;
@@ -245,16 +207,17 @@ table.dataTable > thead .sorting_desc_disabled::after {
     height: 30px;
     width: 30px;
   }
+
   /* #endregion */
   /* #region Inner Table in Datatable Styling */
   #student_details .row-details tbody tr td,
-  #faculty_details .row-details tbody tr td {
+#faculty_details .row-details tbody tr td {
     border: 1px solid #b9b9b9;
     padding: 0.8em 5em !important;
   }
+
   /* #endregion */
 }
-
 /* #endregion */
 /* #region  Mobile Devices */
 @media screen and (max-width: 600px) {
@@ -282,6 +245,7 @@ table.dataTable > thead .sorting_desc_disabled::after {
   .row.d-flex.align-items-center {
     margin-left: 10px !important;
   }
+
   /* #region Delete entries button image styling */
   .input_icons {
     position: absolute;
@@ -290,13 +254,15 @@ table.dataTable > thead .sorting_desc_disabled::after {
     height: 30px;
     width: 30px;
   }
+
   /* #endregion */
   /* #region Inner Table in Datatable Styling */
   #student_details .row-details tbody tr td,
-  #faculty_details .row-details tbody tr td {
+#faculty_details .row-details tbody tr td {
     border: 1px solid #b9b9b9;
     padding: auto !important;
   }
+
   /* #endregion */
 }
 /* #endregion *//*# sourceMappingURL=dbtable2.css.map */

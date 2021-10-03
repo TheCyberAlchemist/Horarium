@@ -345,3 +345,12 @@ def add_student(request):
 			# print("here")
 		
 	return render(request,'/try/asd.html',{'form':form})
+
+def exam_timetable(request) :
+	context = {
+		'days' : ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+		'date' : datetime.datetime.today().date(),
+		'batches' : ['CS','CBA','BDA'],
+		'time' : '8 to 9'
+	}
+	return render(request,'/Student/exam_timetable.html',context)

@@ -100,15 +100,19 @@ th:nth-of-type(1) {
   background-color: #0a101a !important;
 }
 
-.faculty .batch-name, .student .batch-name {
+.faculty .batch-name,
+.student .batch-name {
   text-align: left !important;
 }
 
-.faculty .resource-name, .student .resource-name {
+.faculty .resource-name,
+.student .resource-name {
   text-align: right !important;
 }
 
-.faculty .division-name, .student .faculty-name {
+.faculty .division-name,
+.student .faculty-name,
+.student .subject-code {
   text-align: left !important;
 }
 
@@ -531,6 +535,35 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
 }
 
 /* #endregion */
+/* #region  Exam-Timetable cards section */
+.exams_list {
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  display: block ruby !important;
+}
+
+.exam {
+  width: auto !important;
+  opacity: 0.7;
+}
+
+.exam .btn-sm {
+  background-color: transparent !important;
+}
+
+.exam .btn-sm:hover {
+  background-color: #198754 !important;
+}
+
+.exam.focused {
+  opacity: 1;
+}
+
+.exam_cards_section .h4 {
+  color: white !important;
+}
+
+/* #endregion */
 /* #region  Mobile Devices */
 @media screen and (max-width: 600px) {
   /* #region  Timetable */
@@ -561,15 +594,19 @@ nav.for-feedback-and-sticky .nav-tabs span.active {
     font-size: 11px;
   }
 
-  .faculty .batch-name, .student .batch-name {
+  .faculty .batch-name,
+.student .batch-name {
     text-align: left !important;
   }
 
-  .faculty .resource-name, .student .resource-name {
+  .faculty .resource-name,
+.student .resource-name {
     text-align: right !important;
   }
 
-  .faculty .division-name, .student .faculty-name {
+  .faculty .division-name,
+.student .faculty-name,
+.student .subject-code {
     text-align: left !important;
   }
 

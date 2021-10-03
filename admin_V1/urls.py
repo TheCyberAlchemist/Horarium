@@ -56,7 +56,7 @@ urlpatterns = [
 
 	re_path(r'^batch/(?P<Division_id>\d+)/$',views.show_batch,name = 'show_batch'),
 	re_path(r'^batch/(?P<Division_id>\d+)/(?P<Batch_id>\d+)/$',views.show_batch,name = 'update_batch'),
-	
+
 	re_path(r'^not_avail/(?P<Faculty_id>\d+)/$',views.show_not_avail,name = 'show_not_avail'),
 
 	re_path(r'^shift/(?P<Department_id>\d+)/$',views.show_shift,name = 'show_shift'),
@@ -88,7 +88,6 @@ urlpatterns = [
 	re_path(r'^select_shift/(?P<Resource_id>\d+)/$',PDF.select_shift_for_resource,name = 'select_shift'),
 	re_path(r'^select_shift/(?P<Resource_id>\d+)/print_table/$',PDF.resource_print,name = 'print_resource'),
 	
-	re_path(r'^print_faculty/(?P<Faculty_id>\d+)/$',PDF.faculty_print,name = 'print_faculty'),
     
 	re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
 

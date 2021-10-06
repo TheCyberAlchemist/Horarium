@@ -63,6 +63,7 @@ def faculty_home(request):
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
 		'timings' : Timings.objects.filter(Shift_id = my_shift),
+		'faculty_detail':faculty,
 	}
 	if day:
 		context['events_json'] = get_events_json(my_events.filter(Slot_id__day__Days_id__name=day))

@@ -1,10 +1,21 @@
 {% extends 'Faculty/base.html' %}
 {% block title %} Faculty {% endblock %}
 
+{% block css %}
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/select2.css')}}" />
+<link type="text/css" rel="stylesheet" href="{{static ('admin/details/select2/myselect2.css')}}" />
+{% endblock css %}
 {% block scripts %}
 <script type="application/javascript" src="{{static ('faculty/event.js')}}"></script>
+<script type="application/javascript" src="{{static ('select2.js')}}"></script>
+
 <script>
   put_events({{ events_json | safe}}, {{ break_json | safe}});
+
+  $(document).ready(function () {
+});
+
+
 </script>
 {% endblock %}
 {% block content %}
@@ -131,6 +142,11 @@
           {% endfor %}
         </tbody>
       </table>
+	<div class="container-fluid text-center">
+		<button class="btn btn-primary mt-2 w-75" onclick="window.open('print_faculty/{{faculty_detail.pk}}/','_self')">
+			Print Table
+		</button>
+	</div>
     </div>
     <!-- <div class="col-lg-3 col-md-12 col-sm-12 pt-3" data-aos="fade-left" data-aos-duration="1000">
       <div class="card" id="agenda_panel">
@@ -154,5 +170,45 @@
         </div>
       </div>
     </div> -->
+
+	
+</div>
+<!-- #region Context-menu on right click -->
+<ul class="dropdown-menu custom-menu">
+  <li><a class="dropdown-item second" href="#" data-bs-toggle="modal" data-bs-target="#change_event_settings_modal">Change Settings</a></li>
+</ul>
+<!-- #endregion -->
+
+  <!-- #region Modal for Changing Link -->
+  <div class="modal fade" id="change_event_settings_modal" tabindex="-1" aria-labelledby="change_event_settings_modal" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h6 class="modal-title" id="change_modal_label">Event Settings</h6>
+		  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		</div>
+		<div class="modal-body">
+			<div class="form-floating mb-3">
+				<input type="text" class="form-control" id="change_link" name="change_link" placeholder="https://www.google.com">
+				<label for="change_link">Link</label>
+			</div>
+			<div class="container text-center">
+			<div class="select2_container single_select2 mt-4">
+				<select name="change_resource" id="change_resource" required>
+					<option disabled selected>Change Resource</option>
+					<option value=405"">405</option>
+					<option value="306">306</option>
+				</select>
+			</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Save changes</button>
+		</div>
+	  </div>
+	</div>
   </div>
+  <!-- #endregion -->
+  
 {% endblock %}

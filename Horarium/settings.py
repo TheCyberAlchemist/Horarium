@@ -31,9 +31,10 @@ ALLOWED_HOSTS = ['*',"65.2.33.205"]
 
 # for graph
 GRAPH_MODELS = {
+    # python ./manage.py graph_models --arrow-shape normal -o all_models.png
 #   'all_applications': True,
-#   'group_models': True,
-    'app_labels': ["institute_V1", "subject_V1", "Table_V2"],
+    'group_models': True,
+    'app_labels': ['Table_V2','login_V2','institute_V1','faculty_V1','student_V1','subject_V1','admin_V1','exam_V1',],
 }
 
 
@@ -54,7 +55,7 @@ INSTALLED_APPS = [
     'student_V1',
     'subject_V1',
     'admin_V1',
-
+	'exam_V1',
     # 'django_extensions', # for model images
 ]
 

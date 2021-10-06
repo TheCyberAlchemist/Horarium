@@ -20,4 +20,10 @@ html {
 .user_dash .card .nav-pills .nav-link:hover {
   color: blue !important;
 }
+
+@media screen and (max-width: 1700px) and (min-width: 1367px) {
+  .main_content {
+    margin-top: 2rem;
+  }
+}
 /*# sourceMappingURL=base2.css.map */

@@ -601,6 +601,7 @@ def show_branch(request,Department_id,Branch_id=None):
 	else:
 		return redirect(get_home_page(request.user))
 
+
 @login_required(login_url="login")
 @allowed_users(allowed_roles=['Admin'])
 def show_wef(request,Department_id,WEF_id=None):
@@ -668,6 +669,7 @@ def show_wef(request,Department_id,WEF_id=None):
 		start_date = datetime.datetime.strptime(date_range[0],'%d/%m/%Y').date()
 		end_date = datetime.datetime.strptime(date_range[1],'%d/%m/%Y').date()
 		wef = WEF(name=request.POST['name'],Department_id_id = Department_id,start_date=start_date,end_date=end_date)
+		type1,type2 = None,None
 		if request.POST['mandatory1']:
 			# check all dates for any errors
 			mandatory1 = datetime.datetime.strptime(request.POST['mandatory1'], '%Y-%m-%d').date()
@@ -695,7 +697,6 @@ def show_wef(request,Department_id,WEF_id=None):
 
 	# print(context['my_wefs'])
 	return render(request,'admin/details/WEF.html',context)
-
 
 
 @login_required(login_url="login")
@@ -1203,7 +1204,7 @@ class student_satisfaction(APIView):
 	permission_classes = [IsAuthenticated]
 	def get(self, request, format = None):
 		satisfaction_data = []
-		all_active_feedbacks = Feedback.objects.active().order_by("timestamp")
+		all_active_feedbacks = Feedback.objects.active().filter(Given_by__student_details__Institute_id=request.user.admin_details.Institute_id).order_by("timestamp")
 		date = None
 		count = 0
 		# print(all_active_feedbacks[0[]])

@@ -850,11 +850,11 @@ function change_to_lect_td(td, subject_batch) {
 	if (has_batch) {
 		// if lect_batch
 		colspan = parseInt(12 / subject_batch.length);
-		string += `<div class="container-fluid lect_batch_container">`;
-		string += `<div class="row my-auto text-center" >`;
+		// string += `<div class="container-fluid lect_batch_container">`;
+		string += `<div class="row no-gutters d-flex flex-row flex-nowrap overflow-auto text-center mt-1" style="scrollbar-width: thin;">`;
 		for (let i in subject_batch) {
 			string +=
-			 `<div class="event_divs mt-2 col-`+colspan+`" batch_for=`+subject_batch[i].pk+` >
+			 `<div class="event_divs col-`+colspan+`" batch_for=`+subject_batch[i].pk+` >
 				<button class="btn event_name lect_mycol mt-2 lect_batches" 
 				style="width:20px;height:55px;color:white"></button>
 			</div>`;
@@ -890,7 +890,7 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 		// resource_div = batch_element.find(".resource_name");
 		let title_resource = resource_name?resource_name:"---"
 		button.html(subject_event.subject_name);
-		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource}<br>Faculty : ${subject_event.faculty_name} <br>Link : ${link}`);
+		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br/>Resource : ${title_resource}<br/>Faculty : ${subject_event.faculty_name} <br/>Link : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		// faculty_div.html(subject_event.faculty_name);
@@ -902,8 +902,8 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 		resource_div = td.find(".resource_name");
 
 		button.html(subject_event.subject_name);
-		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
-		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource}<br>Faculty : ${subject_event.faculty_name}<br>Link : ${link}`);
+		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}<br/>Faculty : ${subject_event.faculty_name}<br/>Link : ${link}`);
+		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br/>Resource : ${title_resource}<br/>Faculty : ${subject_event.faculty_name}<br/>Link : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		faculty_div.html(subject_event.faculty_name);
@@ -921,10 +921,10 @@ function change_to_prac_td(td, subject_batch) {
 	has_batch = Boolean(subject_batch.length);
 	if (has_batch) colspan = parseInt(12 / subject_batch.length);
 	else colspan = 12;
-	let string = `<div class="container text-center mt-1">`;
+	let string = `<div class="row no-gutters d-flex flex-row flex-nowrap overflow-auto text-center mt-1" style="scrollbar-width: thin;">`;
 
 	if (has_batch) {
-		string += `<div class="row text-center">`;
+		// string += `<div class="row text-center">`;
 		for (i in subject_batch) {
 			string +=
 			`
@@ -933,8 +933,6 @@ function change_to_prac_td(td, subject_batch) {
 					`"batch_for=` +
 					subject_batch[i].pk +
 					`>
-					<!--<div class="row" >
-					</div>-->
 					<div class="row">
 						<div class="col mt-1">
 							<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
@@ -980,7 +978,7 @@ function change_to_prac_td(td, subject_batch) {
 			</div>
 			`;
 	}
-	string += `</div></div>`;
+	string += `</div>`;
 	pair[0].html(string);
 
 	/////////////////////////////// pair [1] - prac_below ////////////////////////////
@@ -1011,10 +1009,10 @@ function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 
 	title_resource = resource_name?resource_name:"---"
 
-	asd = subject_event.subject_name.split("").join("<br>");
+	asd = subject_event.subject_name.split("").join("<br/>");
 	button.html(asd);
 	
-	button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br>Resource : ${title_resource} <br>Faculty : ${subject_event.faculty_name} \nLink : ${link}`);
+	button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br/>Resource : ${title_resource} <br/>Faculty : ${subject_event.faculty_name} \nLink : ${link}`);
 	button.css("background-color", subject_event.color);
 	button.css("white-space", "pre-line");
 

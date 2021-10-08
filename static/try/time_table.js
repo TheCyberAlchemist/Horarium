@@ -851,7 +851,7 @@ function change_to_lect_td(td, subject_batch) {
 		// if lect_batch
 		colspan = parseInt(12 / subject_batch.length);
 		// string += `<div class="container-fluid lect_batch_container">`;
-		string += `<div class="row no-gutters d-flex flex-row flex-nowrap overflow-auto text-center mt-1" style="scrollbar-width: thin;">`;
+		string += `<div class="row no-gutters d-flex flex-row flex-nowrap text-center mt-1" style="scrollbar-width: thin;">`;
 		for (let i in subject_batch) {
 			string +=
 			 `<div class="event_divs col-`+colspan+`" batch_for=`+subject_batch[i].pk+` >

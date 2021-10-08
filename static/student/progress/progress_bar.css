@@ -204,6 +204,17 @@
             transform: translateX(-16px);
     top: 16px;
   }
+  #round_ct::after {
+    content: "";
+    position: absolute;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    background-color: #0084ff;
+    -webkit-transform: translateX(-16px);
+            transform: translateX(-16px);
+    top: 16px;
+  }
   #myProgress {
     font-size: 10px;
     height: 2px;
@@ -256,5 +267,12 @@
     left: 14px;
     position: absolute;
   }
+  #round_ct {
+    text-align: right;
+    top: -20px;
+    left: 14px;
+    position: absolute;
+  }
+  
 }
 /*# sourceMappingURL=progress_bar.css.map */

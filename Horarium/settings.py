@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'n9#2^qt+=6^+xf2dl2*87t_gw$sz!87hx6*-#7y62q^*z4^low'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # ALLOWED_HOSTS = ["192.168.0.102","127.0.0.1","192.168.29.210","178.22.67.206","31.171.245.100","horarium1.herokuapp.com","horarium.pythonanywhere.com"]
 ALLOWED_HOSTS = ['*',"65.2.33.205"]
@@ -31,9 +31,10 @@ ALLOWED_HOSTS = ['*',"65.2.33.205"]
 
 # for graph
 GRAPH_MODELS = {
+    # python ./manage.py graph_models --arrow-shape normal -o all_models.png
 #   'all_applications': True,
-#   'group_models': True,
-    'app_labels': ["institute_V1", "subject_V1", "Table_V2"],
+    'group_models': True,
+    'app_labels': ['Table_V2','login_V2','institute_V1','faculty_V1','student_V1','subject_V1','admin_V1','exam_V1',],
 }
 
 
@@ -54,7 +55,7 @@ INSTALLED_APPS = [
     'student_V1',
     'subject_V1',
     'admin_V1',
-
+	'exam_V1',
     # 'django_extensions', # for model images
 ]
 

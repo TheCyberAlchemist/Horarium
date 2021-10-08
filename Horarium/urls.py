@@ -26,6 +26,7 @@ import institute_V1.views as iv
 import student_V1.views as sv
 import faculty_V1.views as fv
 import login_V2.views as lv
+from admin_V1.PDF import PDF
 from django.conf.urls import handler404, handler500
 
 from django.contrib.auth import views as auth_views
@@ -35,6 +36,7 @@ urlpatterns = [
     path('script/', v.run_script,name = 'run_script'),
     path('try/',sv.add_student,name='try'),
     path('tryopen/',iv.open_try,name='open_try'),
+
     ##### defaults #####
     path('',include('login_V2.urls')),
     path('Admin/',include('admin_V1.urls')),
@@ -46,10 +48,12 @@ urlpatterns = [
     path('reset_password_sent',auth_views.PasswordResetDoneView.as_view(template_name="login_V2/ForgotPassword/forgot_email_sent.html"), name="password_reset_done"),
     path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name="login_V2/ForgotPassword/forgot_password.html"), name="password_reset_confirm"),
     path('reset_password_complete',auth_views.PasswordResetCompleteView.as_view(template_name="login_V2/ForgotPassword/password_reset_complete.html"), name="password_reset_complete"),
+
     ##### feedback apis #####
     re_path(r'api/\Z', fv.feedback.as_view()),
     re_path(r'mandatory/\Z', fv.mandatory_feedbacks.as_view()),
     re_path(r'ave_all/\Z', fv.average_all_questions.as_view()),
+	re_path(r'print_faculty/(?P<Faculty_id>\d+)/\Z',PDF.faculty_print,name = 'print_faculty'),
 
 	re_path(r'get_put_sticky_notes/\Z',sv.get_put_sticky_notes,name="get_put_sticky_notes"),
 	re_path(r'delete_sticky_notes/\Z',sv.delete_sticky_notes,name="delete_sticky_notes"),

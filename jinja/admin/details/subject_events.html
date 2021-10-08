@@ -121,7 +121,8 @@
 												<div class="col-lg-6 col-md-12 col-sm-12">
                                                     <div class="form-floating mb-3">
                                                         <input type="text" class="form-control myinputs" id="co_faculty_name"
-                                                            placeholder="-" name="co_faculty_name" required autocomplete="off" disabled value = "{{update.Co_faculty_id.User_id}}">
+                                                            placeholder="-" name="co_faculty_name" required autocomplete="off" disabled 
+															{%if update.Co_faculty_id%}value = "{{update.Co_faculty_id.User_id}}"{%endif%}>
                                                         <label for="co_faculty_name">Co-Faculty Name</label>
                                                     </div>
                                                 </div>                                            

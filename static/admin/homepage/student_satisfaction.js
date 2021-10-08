@@ -58,7 +58,12 @@ $(document).ready(function (){
             },
           options: {
               responsive: true,
-              tension: 0.3,
+              elements: {
+				line: {
+					tension: 0.2 // disables bezier curves
+				}
+			},
+			  bezierCurve : false,
               maintainAspectRatio: false,
               animation: {
                 easing: "easeInOutBack"

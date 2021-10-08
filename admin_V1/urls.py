@@ -7,6 +7,7 @@ from .CSV import add_user_csv
 from .user_dash import user_dash,add_update_users
 
 import faculty_V1.views as faculty_view
+from exam_V1.views import *
 urlpatterns = [
 	re_path(r'^try/$',views.api_try,name = 'try'),
 
@@ -87,11 +88,11 @@ urlpatterns = [
 	re_path(r'^select_shift/(?P<Resource_id>\d+)/$',PDF.select_shift_for_resource,name = 'select_shift'),
 	re_path(r'^select_shift/(?P<Resource_id>\d+)/print_table/$',PDF.resource_print,name = 'print_resource'),
 	
-	re_path(r'^print_faculty/(?P<Faculty_id>\d+)/$',PDF.faculty_print,name = 'print_faculty'),
     
 	re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
 
-    re_path(r'^text_editor/',views.text_editor,name = 'text_editor'),
+	# re_path(r'^exam_table/',views.exam_table,name = 'exam_table'),
+	# re_path(r'^exam/',views.exam,name = 'exam'),
 
 	# re_path("/algo",views.algo_v1,name = "algo"),
 	# path('500/',views.error_500_view,name = '500'),

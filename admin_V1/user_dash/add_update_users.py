@@ -241,8 +241,8 @@ def user_dash(request,Department_id):
 	context = return_context(request)
 	# region Student form context
 	my_divisions = Division.objects.active().filter(Semester_id__Branch_id__Department_id = Department_id).order_by("Semester_id__Branch_id")
-	my_prac_batches = Batch.objects.all().filter(batch_for="prac",Division_id__in = my_divisions).order_by("Division_id__Semester_id__Branch_id")
-	my_lect_batches = Batch.objects.all().filter(batch_for="lect",Division_id__in = my_divisions).order_by("Division_id__Semester_id__Branch_id")
+	my_prac_batches = list(Batch.objects.all().filter(batch_for="prac",Division_id__in = my_divisions).order_by("Division_id__Semester_id__Branch_id"))
+	my_lect_batches = list(Batch.objects.all().filter(batch_for="lect",Division_id__in = my_divisions).order_by("Division_id__Semester_id__Branch_id"))
 	# pprint(list(my_prac_batches))
 	context['my_divisions'] = my_divisions
 	context['my_prac_batches'] = my_prac_batches

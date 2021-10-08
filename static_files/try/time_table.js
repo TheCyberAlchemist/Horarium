@@ -202,13 +202,16 @@ function get_all_locked_events() {
 
 function get_resource_name_by_id(resource_id) {
 	let resource = "";
+	if (!resource_id){
+		return ""
+	}
 	$("#resources option").each(function () {
 		if ($(this).val() == resource_id) {
 			resource = $(this).html();
 			// console.log(resource);
 		}
 	});
-	return resource;
+	return resource.split('(')[0];
 }
 
 function get_all_filled_td() {
@@ -592,7 +595,7 @@ function undo() {
 		return false;
 	// my_event is an array
 	let my_events = last_action.event;
-	console.assert(Array.isArray(my_events), "The event is not array here ", console.stack);
+	console.assert(Array.isArray(my_events), "The event is not array here ❌❌ :: ", console.stack);
 	let temp_events;
 	switch (last_action.type) {
 		case "removed":
@@ -847,22 +850,21 @@ function change_to_lect_td(td, subject_batch) {
 	if (has_batch) {
 		// if lect_batch
 		colspan = parseInt(12 / subject_batch.length);
-		string += `<div class="container-fluid lect_batch_container">`;
-		string += `<div class="row my-auto text-center" >`;
+		// string += `<div class="container-fluid lect_batch_container">`;
+		string += `<div class="row no-gutters d-flex flex-row flex-nowrap overflow-auto text-center mt-1" style="scrollbar-width: thin;">`;
 		for (let i in subject_batch) {
 			string +=
-			 `<div class="event_divs mt-2 col-`+colspan+`" batch_for=`+subject_batch[i].pk+` >
-				<button class="btn event_name lect_mycol mt-2 lect_batches" data-bs-toggle="tooltip" data-bs-placement="bottom" 
-				 style="width:20px;height:55px;color:white"></button>
+			 `<div class="event_divs col-`+colspan+`" batch_for=`+subject_batch[i].pk+` >
+				<button class="btn event_name lect_mycol mt-2 lect_batches" 
+				style="width:20px;height:55px;color:white"></button>
 			</div>`;
 		}
 		string += `</div></div>`;
 	}else{
 		string +=
-		`<div class='event_divs mt-2' batch_for = "class" row p-2'>
+		`<div class='event_divs mt-2 row p-2' batch_for = "class">
 			<div class='col-12'>
-				<button class='event_name btn mt-1 mb-1' data-bs-toggle="tooltip" data-bs-placement="bottom" 
-				 style = 'color:white;'></button>
+				<button class='event_name btn mt-1 mb-1'style = 'color:white;'></button>
 			</div>
 			<div class='col-6 text-left faculty_name'></div>
 			<div class='col-6 text-right resource_name'></div>
@@ -878,6 +880,8 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 	let resource_name = get_resource_name_by_id(resource_id);
 	let subject = get_subject_by_subject_event(subject_event)
 	let title_resource = resource_name?resource_name:"---"
+	link = link?link:"---"
+	console.log(Boolean(link));
 	if (Boolean(batch)) {
 		batch_element = td.find("[batch_for=" + batch + "]");
 		button = batch_element.find(".event_name");
@@ -886,7 +890,7 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 		// resource_div = batch_element.find(".resource_name");
 		let title_resource = resource_name?resource_name:"---"
 		button.html(subject_event.subject_name);
-		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br/>Resource : ${title_resource}<br/>Faculty : ${subject_event.faculty_name} <br/>Link : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		// faculty_div.html(subject_event.faculty_name);
@@ -898,7 +902,8 @@ function put_lect(td, subject_event_id, resource_id, batch = null, link="---") {
 		resource_div = td.find(".resource_name");
 
 		button.html(subject_event.subject_name);
-		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+		button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}<br/>Faculty : ${subject_event.faculty_name}<br/>Link : ${link}`);
+		button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br/>Resource : ${title_resource}<br/>Faculty : ${subject_event.faculty_name}<br/>Link : ${link}`);
 		button.css("background-color", subject_event.color);
 
 		faculty_div.html(subject_event.faculty_name);
@@ -916,10 +921,10 @@ function change_to_prac_td(td, subject_batch) {
 	has_batch = Boolean(subject_batch.length);
 	if (has_batch) colspan = parseInt(12 / subject_batch.length);
 	else colspan = 12;
-	let string = `<div class="container text-center mt-1">`;
+	let string = `<div class="row no-gutters d-flex flex-row flex-nowrap overflow-auto text-center mt-1" style="scrollbar-width: thin;">`;
 
 	if (has_batch) {
-		string += `<div class="row text-center">`;
+		// string += `<div class="row text-center">`;
 		for (i in subject_batch) {
 			string +=
 			`
@@ -928,12 +933,10 @@ function change_to_prac_td(td, subject_batch) {
 					`"batch_for=` +
 					subject_batch[i].pk +
 					`>
-					<!--<div class="row" >
-					</div>-->
 					<div class="row">
 						<div class="col mt-1">
 							<div class="col p-0 pt-1 prac_texts batch_name pl-`+ colspan+`">`+ batches[i].fields.name +`</div>
-							<button class="btn-sm prac_mycol event_name border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+							<button class="btn-sm prac_mycol event_name border-0" 
 							style="color:white;background-color:transparent"></button>
 							<div class="row ml-0 text-center prac_below_texts">
 								<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
@@ -960,7 +963,7 @@ function change_to_prac_td(td, subject_batch) {
 				<div class="row" style="width:100%;padding-right:0px !important;">
 					<div class="col mt-2" style="width: 100%;">
 						<div class="col p-0 pt-1 prac_texts batch_name"> &nbsp;</div>
-						<button class="btn-sm prac_mycol event_name border-0" data-bs-toggle="tooltip" data-bs-placement="bottom" 
+						<button class="btn-sm prac_mycol event_name border-0" 
 						style="width:auto;padding:10px !important;color:white;background-color:transparent"></button>
 						<div class="ml-0 text-center prac_below_texts">
 							<div class="col-12 p-0 pl-1 prac_texts faculty_name"></div>
@@ -975,7 +978,7 @@ function change_to_prac_td(td, subject_batch) {
 			</div>
 			`;
 	}
-	string += `</div></div>`;
+	string += `</div>`;
 	pair[0].html(string);
 
 	/////////////////////////////// pair [1] - prac_below ////////////////////////////
@@ -1006,10 +1009,10 @@ function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 
 	title_resource = resource_name?resource_name:"---"
 
-	asd = subject_event.subject_name.split("").join("<br>");
+	asd = subject_event.subject_name.split("").join("<br/>");
 	button.html(asd);
 	
-	button.attr("title",`Subject Name : ${subject.fields.name} \nResource : ${title_resource}\nFaculty : ${subject_event.faculty_name} \nLink : ${link}`);
+	button.attr("data-tippy-content",`Subject Name : ${subject.fields.name} <br/>Resource : ${title_resource} <br/>Faculty : ${subject_event.faculty_name} \nLink : ${link}`);
 	button.css("background-color", subject_event.color);
 	button.css("white-space", "pre-line");
 
@@ -1019,6 +1022,9 @@ function put_prac(td, subject_event_id, batch, resource_id,link = "---") {
 //#region  ////////////// ready function /////////////////////////
 global_var = 0;
 $(document).ready(function () {
+	
+	// $("[rel='tooltip']").tooltip();
+
 	update_all_cards();
 	///////////////////////////// AJAX setup ///////////////////////
 	var csrftoken = Cookies.get("csrftoken");
@@ -1359,7 +1365,7 @@ $(document).ready(function () {
 		const td = get_cell(slot_id);
 		const resource = $("#resources").val();
 		let temp = $("#resources").find(":selected").val();
-		const resource_id = temp == -1 ? null : temp;
+		const resource_id = temp ? null : temp.split('(')[0];
 
 		const subject_batch = get_batches_for_subject_event(subject_event_id, is_prac);
 		const type_batch = get_respective_lect_prac_batch(subject_event_id, is_prac);
@@ -1432,7 +1438,7 @@ $(document).ready(function () {
 					temp_event.put_link_locked(link);
 
 					if (push_event(temp_event)) {
-						push_into_action(new event_action("added", temp_event));
+						push_into_action(new event_action("added", [temp_event]));
 						if (!td.html()) {
 							change_to_lect_td(td, null);
 						}
@@ -1481,7 +1487,8 @@ function functABC() {
 			url: "./algo3/",
 			data: {
 				locked_events: JSON.stringify(get_all_locked_events()),
-				merging_events: get_form_json(),
+				merging_events: get_mearging_batches(),
+				resource_allocation: $("#resource_allocation").prop("checked"),
 			},
 
 			success: function (data) {
@@ -1526,7 +1533,7 @@ function call_algo() {
 
 	//#endregion
 }
-function get_form_json() {
+function get_mearging_batches() {
 	unique = [];
 	obj = {};
 	$.each($("#batch_mearging input:checkbox"), function () {

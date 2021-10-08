@@ -71,7 +71,7 @@ class event_class{
 		}
 		return false;
 	}
-	upcoming(ct){	//	returns if the lecture starts in next after not
+	upcoming(ct){
 		if (!this.is_break){
 			let s = this.start.delta(ct).tis;
 			let e = this.end.delta(ct).tis;
@@ -192,7 +192,7 @@ function toggle_theme() {
     } 
 }
 
-function pop_up_form(event=null,subject=null){
+function pop_up_feedback_form(event=null,subject=null){
 	$("#offcanvasRight").removeClass("show");
 	if (event){
 		$(".questions input").each(function(){
@@ -252,7 +252,7 @@ function get_card(event){
 
 
 g = 0;
-function append_card(event){
+function append_feedback_card(event){
 	card = get_card(event);
 	// card.effect("highlight", {}, 3000);
 	$("#feedback_body").append(card);
@@ -263,7 +263,7 @@ function append_card(event){
 	});
 	card.getElementsByTagName("button")[0].addEventListener("click",function(){
 		// console.log($("#event_id").val() , event.pk);
-		pop_up_form(event);
+		pop_up_feedback_form(event);
 		remove_card(event.pk);
 	});
 	// console.log(card,typeof(card));
@@ -299,7 +299,7 @@ function append_mandatory_cards(sub){
 	});
 	card.getElementsByTagName("button")[0].addEventListener("click",function(){
 		// console.log($("#event_id").val() , event.pk);
-		pop_up_form(null,sub);
+		pop_up_feedback_form(null,sub);
 		remove_card(null,sub.id);
 	});
 
@@ -343,20 +343,23 @@ function open_page_link(link=null,event_id,on_click=false){
 		also sets the cookie for the event_id
 	*/
 	if (link){
-		popUp = window.open(link, '_blank');
-		if (popUp == null || typeof(popUp)=='undefined') { 	
-			if (!getWithExpiry("link not opened pop-up allow")){	
-				pop_up_warning();
-				setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+		if (!getWithExpiry("opened-"+event_id) || on_click){
+			// if not already opened or if clicked
+			let popUp = window.open(link, '_blank');
+			if (popUp == null || typeof(popUp)=='undefined') { 	
+				if (!getWithExpiry("link not opened pop-up allow")){	
+					pop_up_warning();
+					setWithExpiry("link not opened pop-up allow",true,3 * HOUR_VALUE);
+				}
 			}
-		}
-		if (on_click){	
-			// if link is clicked then it will not open automatically for 2:10 hours
-			setWithExpiry("opened-"+event_id,true,(2*HOUR_VALUE)+10);
-		}else{
-			// if opened automatically then 6 
-			console.log(event_id);
-			setWithExpiry("opened-"+event_id,true,6*HOUR_VALUE);
+			else if (on_click){	
+				// if link is clicked then it will not open automatically for 2:10 hours
+				setWithExpiry("opened-"+event_id,true,(2*HOUR_VALUE)+10);
+			}else{
+				// if opened automatically then 6 
+				console.log(event_id);
+				setWithExpiry("opened-"+event_id,true,6*HOUR_VALUE);
+			}
 		}
 	}
 }
@@ -368,7 +371,226 @@ function pop_up_warning(){
 	)
 }
 var sec = 55;
-global_time = new time(8,10,56);
+global_time = new time(8,20,sec);
+//#region  ////////////// time-related functions //////////////
+function runAtMidnight(fn){
+	var midnight = new Date();
+	function getRandomInt(min, max) {
+		min = Math.ceil(min);
+		max = Math.floor(max);
+		return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+	}
+	let refresh_mins = getRandomInt(0,10)
+	let refresh_secs = getRandomInt(0,59)
+	midnight.setHours(24, refresh_mins, refresh_secs, 0);
+	var timeUntilMidnight = midnight.getTime() - Date.now();
+	setTimeout(fn, timeUntilMidnight);
+}
+function put_events_on_timeline(){
+	// for (let i in events){
+	// 	events[i].start_time
+	// }
+	// console.table(events);
+	for (let i in events){
+		if (!events[i].is_break){
+			$("#myProgress").append(
+				`<div id="timeBar_left">
+				<span class="text-left">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+				</div>`
+			);
+			st = events[i].start;
+			break;
+		}
+	}
+	for (let i=events.length-1;i>=0;i--){
+		if (!events[i].is_break){
+			$("#myProgress").append(
+				`<div id="timeBar_right">
+				<span class="text-right">`+events[i].end.hrs+":"+events[i].end.min+`</span>
+				</div>`
+			);
+			et = events[i].end;
+			break;
+		}
+	}
+	for (let i in events){
+		let w;
+		if (events[i].start == st && events[i].end != et){		// if the first element is here
+			w = (events[i].end.delta(st).tis/et.delta(st).tis)*100;
+			temp_st_end = events[i].end.tis;
+			$("#myProgress").append(
+				`<div id="timeBar" style="width:`+w+`%">
+				<span class="text">`+events[i].end.hrs+":"+events[i].end.min+`</span>
+				<div class="circles"></div>
+				</div>`
+				);
+			// console.log(events[parseInt(i)+1].start.delta(st).tis);
+		}else if (events[i].end == et && events[i].start != st){	// if last event is here
+			w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
+			$("#myProgress").append(
+				`<div id="timeBar" style="width:`+w+`%">
+				<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+				<div class="circles"></div>
+				</div>`
+			);
+			break;
+		}else if(events[i].start.delta(st).tis > 0 && events[i].start.tis != temp_st_end){
+			w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
+			// console.log(w,events[i].start,temp_st_end);
+			$("#myProgress").append(
+				`<div id="timeBar" style="width:`+w+`%">
+				<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
+				<div class="circles"></div>
+				</div>`
+			);
+		}
+	}
+	// console.log(events[0].start);
+}
+var progress_bar_counter = 0
+var last_popped_event;
+let first_main_call = true;
+function main(){
+	var d = new Date();
+	ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+	// ct = new time(10,12,sec);
+	// ct = global_time;
+	/////////////////// progress-bar /////////////////////////////
+	if (progress_bar_counter % 60 == 0){
+		myvar = 0;
+		if (myvar == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
+			// console.log("hi");
+			myvar = 1;
+			var elem = document.getElementById("myBar");
+			var elem1 = document.getElementById("ct");
+			var elem2 = document.getElementById("round_ct");			
+			frame()
+			function frame() {
+				// var d = new Date();
+				// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+				// st = new time(9,15,0);
+				// ct = new time(9,45,0);
+				// et = new time(17,00,0);
+				let e = false;
+				for(let j in events){
+					if (ct.delta(events[j].end).tis < 0 && ct.delta(events[j].start).tis > 0)
+						e = events[j];
+				}
+				w = (ct.delta(st).tis/et.delta(st).tis)*100;
+				console.log(w);
+				$("#ct").html(ct.time[0] + " : " + ct.time[1]);
+				// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
+				if (w >= 100) {
+					clearInterval(id);
+					myvar = 0;
+				} else {
+					elem.style.width = w + "%";
+					elem1.style.width = w + "%";
+					elem2.style.width = w + "%";					
+				}
+			}
+		}else{
+			document.getElementById("myBar").style.width = 0 + "%";
+			// $("#myProgress").hide();
+		}
+		
+	}
+	// sec++;
+	/////////////////// main code /////////////////////////////		
+	// console.log(events,ct);
+	for(let i in events){
+		// console.log(events[i],1);
+		get_cell(events[i]).removeClass("td_gone");
+	}
+	// console.log("here");
+	for(i in events){
+		if (events[i].ongoing(ct)){		// is an event is ongoing
+			$(".timeline_and_text").show();
+			for(var j = 0;j < i ; j++){
+				// for all events that have been completed
+				get_cell(events[j])
+				.addClass("td_gone")
+				.removeClass("td_active");
+				// console.log(events[j]);
+				if(!getWithExpiry(`feedback_done-${events[j].pk}`)){
+					if(first_main_call && !events[j].is_break){
+						// get_card(events[j]);
+						append_feedback_card(events[j]);
+					}
+				}
+				// $("#myModal").on("hidden.bs.modal", function () {
+				// 	// put your default event here
+				// });
+			}
+			if (events[i].is_break){	// if a break is ongoing 
+				$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
+				next = events[parseInt(i)+1];
+				if (next){
+					if(!(next.is_break || events[i].end.delta(next.start).tis)){	
+						// if not a break and next event is perfectly after this 
+						$("#text").append("<br>Up Next - "+ next.name );
+						if (next.ongoing(ct) && !next.opened){
+							console.log("link open called",next)
+							open_page_link(next.link,next.pk);
+							next.opened = true;
+						}
+					}
+
+				}
+				// console.log("The break is :: ",get_cell(events[i]));
+				// console.log( events[i].name + " ends in :: ",get_counter(events[i],ct));
+
+			}else{						// if a class is ongoing 
+				// console.log(events[i])
+				$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
+
+				if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
+					// console.log(events[i].end.delta(ct).tis);
+					// if the event feedback form is not popped 
+					pop_up_feedback_form(events[i]);
+					last_popped_event = events[i];
+				}
+				next = events[parseInt(i)+1];
+				if (next && !(next.is_break || events[i].end.delta(next.start).tis))	// if up next
+					$("#text").append("<br>Up Next - "+ next.name );
+				get_cell(events[i]).addClass("td_active");
+				if (!events[i].opened){
+					if(parseInt(i) == 0 || (parseInt(i) != 0 && (events[parseInt(i)-1].link != events[i].link || (events[parseInt(i)-1].link == events[i].link && !(events[parseInt(i)-1].opened))))){
+						// if first event OR
+						// if last events link is not same as this one OR
+						// if same but this last one is not opened
+						open_page_link(events[i].link,events[i].pk);
+						events[i].opened = true;
+					}
+				}
+				// console.log("This lecture is :: ",get_cell(events[i]));
+				// console.log(events[i].name + " ends in :: ",get_counter(events[i],ct));
+			}
+			break;
+		}else if (events[i].upcoming(ct)){		// is an event is upcoming
+			$(".timeline_and_text").show();
+			console.log("here upcoming");
+			for(var j = 0;j < i ; j++){
+				get_cell(events[j]).addClass("td_gone");
+			}
+			$("#text").html(events[i].name + " starts in - " + get_counter(events[i],ct,true));
+			// console.log("This lecture is :: ",get_cell(events[i]));
+			// console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
+			break;
+		}else if (events[i].gone(ct) && i == events.length-1){
+			for(var j = 0;j < i ; j++){
+				get_cell(events[j]).addClass("td_gone");
+			}
+			// console.log(events[i]);
+			clearInterval(interval);
+			$("#text").html("No upcoming lectures ... ");
+			$(".timeline_and_text").hide();
+			// console.log("No upcoming lecture .");
+		}
+	}
+}
+
+//#endregion
 jQuery(function () {
 
 	//#region  ////////////// Browser Agent //////////////
@@ -417,7 +639,7 @@ jQuery(function () {
 		// on simple feedback modal close
 		// $("#feedback_form").trigger("reset");
 		if ($("#event_id").val())
-			append_card(get_event_by_id($("#feedback_form #event_id").val()));
+			append_feedback_card(get_event_by_id($("#feedback_form #event_id").val()));
 		if ($("#subject_id").val())
 			append_mandatory_cards(get_subject_by_id($("#subject_id").val()));
 		// console.log("modal hidden!",e);
@@ -469,7 +691,7 @@ jQuery(function () {
 				},
 				error:function(){
 					if (event_id){
-						append_card(get_event_by_id(event_id))
+						append_feedback_card(get_event_by_id(event_id))
 						$("#event_id").val(event_id);
 						// add event_id so that it can be made as it was
 					}
@@ -514,7 +736,7 @@ jQuery(function () {
 			if(!getWithExpiry(`feedback_done-${event.pk}`)){
 				if(!event.is_break){
 					// get_card(events[j]);
-					append_card(event);
+					append_feedback_card(event);
 				}
 			}
 		}
@@ -522,210 +744,15 @@ jQuery(function () {
 	//#endregion
 	
 	//#region  ////////////// time-related stuff //////////////
-	function put_events_on_timeline(){
-		// for (let i in events){
-		// 	events[i].start_time
-		// }
-		console.table(events);
-		for (let i in events){
-			if (!events[i].is_break){
-				$("#myProgress").append(
-					`<div id="timeBar_left">
-					<span class="text-left">`+events[i].start.hrs+":"+events[i].start.min+`</span>
-					</div>`
-				);
-				st = events[i].start;
-				break;
-			}
-		}
-		for (let i=events.length-1;i>=0;i--){
-			if (!events[i].is_break){
-				$("#myProgress").append(
-					`<div id="timeBar_right">
-					<span class="text-right">`+events[i].end.hrs+":"+events[i].end.min+`</span>
-					</div>`
-				);
-				et = events[i].end;
-				break;
-			}
-		}
-		for (let i in events){
-			let w;
-			if (events[i].start == st && events[i].end != et){		// if the first element is here
-				w = (events[i].end.delta(st).tis/et.delta(st).tis)*100;
-				temp_st_end = events[i].end.tis;
-				$("#myProgress").append(
-					`<div id="timeBar" style="width:`+w+`%">
-					<span class="text">`+events[i].end.hrs+":"+events[i].end.min+`</span>
-					<div class="circles"></div>
-					</div>`
-					);
-				// console.log(events[parseInt(i)+1].start.delta(st).tis);
-			}else if (events[i].end == et && events[i].start != st){	// if last event is here
-				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
-				$("#myProgress").append(
-					`<div id="timeBar" style="width:`+w+`%">
-					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
-					<div class="circles"></div>
-					</div>`
-				);
-				break;
-			}else if(events[i].start.delta(st).tis > 0 && events[i].start.tis != temp_st_end){
-				w = (events[i].start.delta(st).tis/et.delta(st).tis)*100;
-				// console.log(w,events[i].start,temp_st_end);
-				$("#myProgress").append(
-					`<div id="timeBar" style="width:`+w+`%">
-					<span class="text">`+events[i].start.hrs+":"+events[i].start.min+`</span>
-					<div class="circles"></div>
-					</div>`
-				);
-			}
-		}
-		// console.log(events[0].start);
-	}
+	runAtMidnight(window.location.reload);
 	put_events_on_timeline();
-	var progress_bar_counter = 0
-	var last_popped_event;
-	let first_main_call = true;
-	function main(){
-		var d = new Date();
-		ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-		// ct = new time(10,12,sec);
-		// ct = global_time;
-		/////////////////// progress-bar /////////////////////////////
-		if (progress_bar_counter % 60 == 0){
-			myvar = 0;
-			if (myvar == 0 && ct.delta(et).tis < 0 && ct.delta(st).tis > 0) {
-				// console.log("hi");
-				myvar = 1;
-				var elem = document.getElementById("myBar");
-				var elem1 = document.getElementById("ct");
-				var id = setInterval(frame, 1000);
-				function frame() {
-					// var d = new Date();
-					// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-					// st = new time(9,15,0);
-					// ct = new time(9,45,0);
-					// et = new time(17,00,0);
-					let e = false;
-					for(let j in events){
-						if (ct.delta(events[j].end).tis < 0 && ct.delta(events[j].start).tis > 0)
-							e = events[j];
-					}
-					w = (ct.delta(st).tis/et.delta(st).tis)*100;
-					// console.log(w);
-					$("#ct").html(ct.time[0] + " : " + ct.time[1]);
-					// $("#ct").html(ct.time[0] + " : " + ct.time[1] + "<br>" + e.name);
-					if (w >= 100) {
-						clearInterval(id);
-						myvar = 0;
-					} else {
-						elem.style.width = w + "%";
-						elem1.style.width = w + "%";
-					}
-				}
-			}else{
-				document.getElementById("myBar").style.width = 0 + "%";
-				// $("#myProgress").hide();
-			}
-			
-		}
-		sec++;
-		/////////////////// main code /////////////////////////////		
-		// console.log(events,ct);
-		for(let i in events){
-			// console.log(events[i],1);
-			get_cell(events[i]).removeClass("td_gone");
-		}
-		for(i in events){
-			if (events[i].ongoing(ct)){		// is an event is ongoing
-				for(var j = 0;j < i ; j++){
-					// for all events that have been completed
-					get_cell(events[j])
-					.addClass("td_gone")
-					.removeClass("td_active");
-					// console.log(events[j]);
-					if(!getWithExpiry(`feedback_done-${events[j].pk}`)){
-						if(first_main_call && !events[j].is_break){
-							// get_card(events[j]);
-							append_card(events[j]);
-						}
-					}
-					// $("#myModal").on("hidden.bs.modal", function () {
-					// 	// put your default event here
-					// });
-				}
-				if (events[i].is_break){	// if a break is ongoing 
-					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
-					next = events[parseInt(i)+1];
-					if (next){
-						if(!(next.is_break || events[i].end.delta(next.start).tis)){	
-							// if not a break and next event is perfectly after this 
-							$("#text").append("<br>Up Next - "+ next.name );
-							if (next.ongoing(ct) && !next.opened){
-								console.log("link open called",next)
-								open_page_link(next.link,next.pk);
-								next.opened = true;
-							}
-						}
 
-					}
-					// console.log("The break is :: ",get_cell(events[i]));
-					// console.log( events[i].name + " ends in :: ",get_counter(events[i],ct));
-
-				}else{						// if a class is ongoing 
-					// console.log(events[i])
-					$("#text").html(events[i].name + " ends in - " + get_counter(events[i],ct));
-
-					if (events[i] != last_popped_event && events[i].end.delta(ct).tis <= 120){
-						// console.log(events[i].end.delta(ct).tis);
-						// if the event feedback form is not popped 
-						pop_up_form(events[i]);
-						last_popped_event = events[i];
-					}
-					next = events[parseInt(i)+1];
-					if (next && !(next.is_break || events[i].end.delta(next.start).tis))	// if up next
-						$("#text").append("<br>Up Next - "+ next.name );
-					get_cell(events[i]).addClass("td_active");
-					if (!events[i].opened){
-						if(parseInt(i) == 0 || (parseInt(i) != 0 && (events[parseInt(i)-1].link != events[i].link || (events[parseInt(i)-1].link == events[i].link && !(events[parseInt(i)-1].opened))))){
-							// if first event OR
-							// if last events link is not same as this one OR
-							// if same but this last one is not opened
-							open_page_link(events[i].link,events[i].pk);
-							events[i].opened = true;
-						}
-					}
-					// console.log("This lecture is :: ",get_cell(events[i]));
-					// console.log(events[i].name + " ends in :: ",get_counter(events[i],ct));
-				}
-				break;
-			}else if (events[i].upcoming(ct)){		// is an event is upcoming
-				for(var j = 0;j < i ; j++){
-					get_cell(events[j]).addClass("td_gone");
-				}
-				$("#text").html(events[i].name + " starts in - " + get_counter(events[i],ct,true));
-				// console.log("This lecture is :: ",get_cell(events[i]));
-				// console.log(events[i].name + " starts in :: ",get_counter(events[i],ct,true));
-				break;
-			}else if (events[i].gone(ct) && i == events.length-1){
-				for(var j = 0;j < i ; j++){
-					get_cell(events[j]).addClass("td_gone");
-				}
-				// console.log(events[i]);
-				clearInterval(interval);
-				$("#text").html("No upcoming lectures ... ");
-				// console.log("No upcoming lecture .");
-			}
-		}
-	}
-	if (events.length){		
+	if (events.length){
 		interval = setInterval(main, 1000);
 		main();
 		first_main_call = false;
 	}
 	//#endregion
-	
 });
 
 function setWithExpiry(key, value, ttl) {

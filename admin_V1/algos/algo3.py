@@ -1,5 +1,5 @@
 #region //////////////////// Debug switches //////////////////
-SORTING_DEBUG = False
+SORTING_DEBUG = 0
 MAIN_DEBUG = 0
 #endregion
 
@@ -348,7 +348,7 @@ def fill_global_vars(Division_id,resource_allocation_req):
 def append_priority_list(priority_list,event):
 	'returns `False` if total infinite condition else returns `appended priority list`'
 	if event in priority_list:
-		if priority_list[-1] == event: # total infinite condition
+		if priority_list[0] == event: # total infinite condition
 			return False
 		priority_list.remove(event)
 	priority_list.append(event)
@@ -619,7 +619,7 @@ def get_point_for_prac_batch(subject_event,all_events,batch_list):
 
 def get_point_for_prac_class(subject_event,all_events):
 	day = None
-	best_pair = [-math.inf,"",""]
+	best_pair = [-math.inf,"","",""]
 	tab = []
 	for slot in usable_slots:
 		next_slot_point = points = -math.inf
@@ -644,7 +644,7 @@ def get_point_for_prac_class(subject_event,all_events):
 				next_slot_point += check_load_distribution(day_events,subject_event,True)
 				next_slot_point += check_other_events_for_faculty(slot_below,all_events,subject_event,True)
 				next_slot_resource_point,resource = check_resource_for_slot(all_events,slot,subject_event,is_prac=False,resource_point = [resource,resource_point])
-				next_slot_points += next_slot_resource_point
+				next_slot_point += next_slot_resource_point
 			points = min(points,next_slot_point)
 			
 			tab.append([slot,points])
@@ -895,17 +895,25 @@ class main(APIView):
 			else:	# if the all events are placed
 					# if break is not called
 				infinite = False
+			
 			if infinite:
+				print("in infinite")
 				if total_infinite_condition: 	# total infinite condition
 					print("---------------------")
 					print("❌❌❌ Total Infinite condition has been reached ♾♾ ❌❌❌")
 					print("---------------------")
+					type = "Practical" if is_prac else "Lecture"
+					print(f" Subject_event :: {subject_event} ({type})\n Slot_id :: {best_slot}\n Resource :: {resource}\n Point :: {points}\n -----------------------------")
 					break
 				else:							# simple infinite condition
 					print("---------------------")
 					print("❌❌❌ Infinite condition reached ♾♾ ❌❌❌")
 					print(f"\nPriority List is -- {priority_list}")
 					print("---------------------")
+					type = "Practical" if is_prac else "Lecture"
+					print(f" Subject_event :: {subject_event} ({type})\n Slot_id :: {best_slot}\n Resource :: {resource}\n Point :: {points}\n -----------------------------")
+					print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Resource","Points"],tablefmt="grid"))
+		
 		if MAIN_DEBUG:
 			print(tabulate(results_list,headers=["Subject_event","Batch","type","Slot_1","Slot_2","Resource","Points"],tablefmt="grid"))
 		

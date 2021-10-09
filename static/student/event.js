@@ -249,8 +249,6 @@ function get_card(event){
 	return txt3;
 }
 
-
-
 g = 0;
 function append_feedback_card(event){
 	card = get_card(event);
@@ -452,8 +450,8 @@ var last_popped_event;
 let first_main_call = true;
 function main(){
 	var d = new Date();
-	ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
-	// ct = new time(10,12,sec);
+	// ct = new time(d.getHours(),d.getMinutes(),d.getSeconds());
+	ct = new time(10,12,sec);
 	// ct = global_time;
 	/////////////////// progress-bar /////////////////////////////
 	if (progress_bar_counter % 60 == 0){
@@ -495,7 +493,7 @@ function main(){
 		}
 		
 	}
-	// sec++;
+	sec++;
 	/////////////////// main code /////////////////////////////		
 	// console.log(events,ct);
 	for(let i in events){

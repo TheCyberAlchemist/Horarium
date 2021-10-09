@@ -116,8 +116,8 @@ def student_home(request):
 	my_division = student.Division_id
 	my_shift = my_division.Shift_id
 	my_events = Event.objects.active().filter(Q(Batch_id=student.prac_batch)|Q(Batch_id=student.lect_batch)| Q(Batch_id=None),Division_id=my_division)
-	# day = "Monday"
-	day = None
+	day = "Monday"
+	# day = None
 	context = {
 		'days' : Working_days.objects.filter(Shift_id=my_shift),
 		'events' : my_events,
